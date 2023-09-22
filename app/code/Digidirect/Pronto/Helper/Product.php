@@ -129,22 +129,33 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -529,22 +540,33 @@ class Product extends AbstractHelper
                 }
                 $product->setAttributeSetId(4);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -930,22 +952,33 @@ class Product extends AbstractHelper
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -1302,22 +1335,33 @@ class Product extends AbstractHelper
                 }
                 $product->setAttributeSetId(4);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -1701,22 +1745,33 @@ class Product extends AbstractHelper
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2106,22 +2161,33 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2489,22 +2555,33 @@ class Product extends AbstractHelper
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2905,22 +2982,33 @@ class Product extends AbstractHelper
                 $product->setMetaTitle($prodname);
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($prod['prc-tax-rate']);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $tax = floatval($prod['prc-tax-rate']);
+                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
