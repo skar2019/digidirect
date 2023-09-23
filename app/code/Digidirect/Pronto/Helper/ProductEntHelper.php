@@ -495,17 +495,17 @@ class ProductEntHelper extends AbstractHelper
 
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
+        ->addStoreFilter(1)
         ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->setStoreId(1);
         return $collection;
 
         //redeploy
 
 //        $collection = $this->_productCollectionFactory->create();
 //        $collection->addAttributeToSelect('*')
+//            ->addStoreFilter(1)
 //            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//        $collection->setStoreId(1);
-//        $collection->setPageSize(5000); // fetching only 5000 products
+//        $collection->setPageSize(200); // fetching only 5000 products
 //        return $collection;
 
     }
