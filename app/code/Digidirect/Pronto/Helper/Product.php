@@ -63,7 +63,7 @@ class Product extends AbstractHelper
 
     public function productSync()
     {
-        set_time_limit(600);
+        //set_time_limit(600);
         $startItem = 0;
         $lastCode = 0;
 
