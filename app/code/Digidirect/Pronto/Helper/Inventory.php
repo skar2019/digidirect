@@ -110,8 +110,14 @@ class Inventory extends AbstractHelper
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $oldprice = $prod->getPrice();
+                        if($oldprice != $retail)
+                        {
+                            $prod->setCustomAttribute('wiser_price', '0');
+                        }
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
+
 
                     }
 
@@ -244,6 +250,11 @@ class Inventory extends AbstractHelper
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $oldprice = $prod->getPrice();
+                        if($oldprice != $retail)
+                        {
+                            $prod->setCustomAttribute('wiser_price', '0');
+                        }
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
 
