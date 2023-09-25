@@ -34,7 +34,7 @@ class Shipping {
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                if ($sourceItem->getSourceCode() == 'SWHS') {
+                if ($sourceItem->getSourceCode() == 'SWHS' || $sourceItem->getSourceCode() == 'MELB') {
                     $qty = $qty * $sourceItem->getQuantity();
                 }
             }
