@@ -14,17 +14,21 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
     
     protected $jsonSerializer;
     
+    protected $logger;
+    
     public function __construct(
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\Client\Curl $curl,
-        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Psr\Log\LoggerInterface $logger
     ) 
     {
         $this->customerSession = $customerSession;
         $this->customerRepository = $customerRepository;
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->logger = $logger;
     }
     
     public function execute(Observer $observer)
@@ -60,7 +64,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
         $webSignUpParams = ["email"=>$email,"source"=>"Web"];
         
-        echo $this->console_log("getTokenJson['access_token']: " . $getTokenJson['access_token']);
+        $this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
 
         /*$this->curl->addHeader("Content-Type", "application/JSON");
         $this->curl->addHeader("Authorization", "Bearer " . $getTokenJson['access_token']);
@@ -69,14 +73,5 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $webSignUpResult = $this->curl->getBody();
         $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);*/
         
-    }
-    
-    function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-            ');';
-        if ($with_script_tags) {
-            $js_code = '<script>' . $js_code . '</script>';
-        }
-        echo $js_code;
     }
 }
