@@ -63,7 +63,7 @@ class Product extends AbstractHelper
 
     public function productSync()
     {
-        set_time_limit(600);
+        //set_time_limit(600);
         $startItem = 0;
         $lastCode = 0;
 
@@ -107,44 +107,57 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-            $price = 0;
+
             try {
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
+                $product->setStockStatus($prod['stk-stock-status']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
+                $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setStockStatus($prod['stk-stock-status']);
-                $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -514,37 +527,51 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $product->setAttributeSetId(4);
+
                 $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setAttributeSetId(4);
 
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -910,42 +937,56 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-            $price = 0;
             try {
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
+                $product->setStockStatus($prod['stk-stock-status']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
+                $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setStockStatus($prod['stk-stock-status']);
-                $cost = 0;
+
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -1287,37 +1328,51 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $product->setAttributeSetId(4);
                 $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setAttributeSetId(4);
 
-                $cost = 0;
+
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -1687,36 +1742,50 @@ class Product extends AbstractHelper
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
                 $price = 0;
+                $product->setStockStatus($prod['stk-stock-status']);
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = 0;
+
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2090,38 +2159,52 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-                $price = 0;
+                $product->setAttributeSetId(4);
+                $product->setMetaTitle($prodname);
+
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setAttributeSetId(4);
-                $product->setMetaTitle($prodname);
 
-                $cost = 0;
+
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2473,38 +2556,51 @@ class Product extends AbstractHelper
                 //set name, price, stock status
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
+                $product->setStockStatus($prod['stk-stock-status']);
 //                $product->setName($prodname);
-                $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-                $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = 0;
+
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }
@@ -2886,41 +2982,53 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $product->setAttributeSetId(4);
+                $product->setMetaTitle($prodname);
+                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 $price = 0;
+                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
 
-                $product->setAttributeSetId(4);
-                $product->setMetaTitle($prodname);
-                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-
-                $cost = 0;
+                $pricetocost = floatval($price);
+                $tax = floatval($tax);
+                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                 if(isset($prod['stk-replacement-cost']))
                 {
+
                     $cost = $prod['stk-replacement-cost'];
                     if($cost == '0' || $cost == '')
                     {
-                        $cost = $prod['stk-current-buy'];
-                        if($cost == '0' || $cost == '')
+                        if(isset($prod['stk-current-buy']))
                         {
-                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                            if($cost == '0' || $cost == '')
+                            $cost = $prod['stk-current-buy'];
+                            if ($cost == '0' || $cost == '')
                             {
-                                $price = floatval($price);
-                                $tax = floatval($prod['prc-tax-rate']);
-                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                if(isset($prod['whse-avg-cost-swhs']))
+                                {
+                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+
+                                    if ($cost == '0' || $cost == '')
+                                    {
+                                        $pricetocost = floatval($price);
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                    }
+                                }
+
+
                             }
                         }
                     }

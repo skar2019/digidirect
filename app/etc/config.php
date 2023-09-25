@@ -78,7 +78,7 @@ return [
                 ],
                 'js' => [
                     'merge_files' => '0',
-                    'minify_files' => '1',
+                    'minify_files' => '0',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/',
                         'authorizenet_acceptjs' => '\\.authorize\\.net/v1/Accept'
@@ -629,11 +629,11 @@ return [
         'Fastly_Cdn' => 1,
         'Itoris_Core' => 1,
         'Itoris_PriceMatch' => 1,
-        'Klarna_Base' => 1,
-        'Klarna_Backend' => 1,
+        'Klarna_Base' => 0,
+        'Klarna_Backend' => 0,
         'Klarna_Kco' => 0,
         'Klarna_Keb' => 0,
-        'Klarna_Kp' => 1,
+        'Klarna_Kp' => 0,
         'Klarna_KpGraphQl' => 0,
         'Klarna_Kss' => 0,
         'Klarna_Logger' => 0,
@@ -671,6 +671,7 @@ return [
         'Studio19_Variants' => 1,
         'Swissup_Attributepages' => 1,
         'Swissup_Core' => 1,
+        'Swissup_Marketplace' => 1,
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
         'WeSupply_Toolbox' => 1,

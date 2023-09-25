@@ -26,6 +26,7 @@
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
         "swissup/attributepages": "^1.5",
+        "swissup/module-marketplace": "^1.10",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"
     },
@@ -62,12 +63,16 @@
         }
     },
     "minimum-stability": "stable",
-    "repositories": [
-        {
+    "repositories": {
+        "magento": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        "0": {
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
-    ],
+    },
     "extra": {
         "magento-force": "override",
         "magento-deploystrategy": "copy"

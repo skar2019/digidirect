@@ -303,21 +303,47 @@ class Product
 
     protected function getOffer(ProductModel $product) {
         $availability = $product->isAvailable() ? 'InStock' : 'OutOfStock';
-
-        $data = [
-            "@type" => "Offer",
-            "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
-            "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
-            "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-            "availability" => "http://schema.org/$availability",
-            "itemCondition" => "http://schema.org/NewCondition",
-            "priceSpecification" => [
-                "@type" => "UnitPriceSpecification",
+        $preorder = $product->getPreorder();
+        if($preorder == 1)
+        {
+            $availability = "preorder";
+            $dateInTwoWeeks = strtotime('+2 weeks');
+            $availabilityDate = date("Y-m-dTh:mZ",$dateInTwoWeeks);
+            $data = [
+                "@type" => "Offer",
+                "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
                 "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
                 "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded())
-            ]
-        ];
+                "availability" => "http://schema.org/$availability",
+                "availabilityStarts" =>$availabilityDate,
+                "itemCondition" => "http://schema.org/NewCondition",
+                "priceSpecification" => [
+                    "@type" => "UnitPriceSpecification",
+                    "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
+                    "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+                    "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded())
+                ]
+            ];
+        }
+        else
+        {
+            $data = [
+                "@type" => "Offer",
+                "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
+                "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
+                "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+                "availability" => "http://schema.org/$availability",
+                "itemCondition" => "http://schema.org/NewCondition",
+                "priceSpecification" => [
+                    "@type" => "UnitPriceSpecification",
+                    "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
+                    "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+                    "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded())
+                ]
+            ];
+        }
+
+
 
         if ($product->getFinalPrice() < $product->getPrice() && $product->getSpecialToDate()) {
             $priceToDate = date_create($product->getSpecialToDate());

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b32b1ca2e6b95e16966fda0274d516e5",
+    "content-hash": "276bfa5232b6bee41e5864af0a5da4f9",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -24748,11 +24748,11 @@
         },
         {
             "name": "swissup/module-core",
-            "version": "1.12.17",
+            "version": "1.12.18",
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/swissup/module-core/swissup-module-core-1.12.17.0.zip",
-                "shasum": "609d64fc8c1fde0a639f50f018b2411a22404a7e"
+                "url": "https://repo.magento.com/archives/swissup/module-core/swissup-module-core-1.12.18.0.zip",
+                "shasum": "07ce9e0525b843dc349c65c88bfcef8c3e8c8b45"
             },
             "type": "magento2-module",
             "autoload": {
@@ -24767,6 +24767,60 @@
                 "OSL-3.0"
             ],
             "description": "Swissup core module. It's purpose is to add Swissup menu and config entries"
+        },
+        {
+            "name": "swissup/module-marketplace",
+            "version": "1.10.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swissup/module-marketplace.git",
+                "reference": "fe5803c6c16bfea5efb33e202e8dcd7bc91b25e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swissup/module-marketplace/zipball/fe5803c6c16bfea5efb33e202e8dcd7bc91b25e4",
+                "reference": "fe5803c6c16bfea5efb33e202e8dcd7bc91b25e4",
+                "shasum": ""
+            },
+            "require": {
+                "composer/composer": "*",
+                "magento/framework": ">=101.0",
+                "magento/module-backend": ">=100.2",
+                "magento/module-catalog": "*",
+                "magento/module-cms": "*",
+                "magento/module-deploy": ">=100.0",
+                "magento/module-theme": "*",
+                "magento/module-ui": ">=101.0",
+                "monolog/monolog": "*",
+                "psr/log": "*",
+                "symfony/console": "*"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Swissup\\Marketplace\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "One-Click modules and themes downloader/installer",
+            "keywords": [
+                "Module Manager",
+                "installer",
+                "magento marketplace",
+                "marketplace",
+                "theme manager"
+            ],
+            "support": {
+                "issues": "https://github.com/swissup/module-marketplace/issues",
+                "source": "https://github.com/swissup/module-marketplace/tree/1.10.2"
+            },
+            "time": "2023-05-26T09:20:48+00:00"
         },
         {
             "name": "swissup/module-swiper",
@@ -28072,5 +28126,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

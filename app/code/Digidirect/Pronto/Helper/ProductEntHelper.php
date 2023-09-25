@@ -248,14 +248,7 @@ class ProductEntHelper extends AbstractHelper
                 {
 
                 }
-                else
-                {
-                    $bc2 = $barcode2->getValue();
-                    if(is_numeric($bc2))
-                    {
-                        $gtin = $bc2;
-                    }
-                }
+
             }
             else
             {
@@ -266,18 +259,14 @@ class ProductEntHelper extends AbstractHelper
                 }
                 else
                 {
-                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
                     if(is_null($barcode2))
                     {
 
                     }
                     else
                     {
-                        $bc2 = $barcode2->getValue();
-                        if(is_numeric($bc2))
-                        {
-                            $gtin = $bc2;
-                        }
+
                     }
 
                 }
@@ -289,31 +278,39 @@ class ProductEntHelper extends AbstractHelper
             $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
             $cost = $product->getCustomAttribute('cost');
-            if(isset($cost))
+            if(is_null($cost))
+            {
+                $actualcost = $regular_price / 1.1;
+            }
+            else
             {
                 $actualcost = $cost->getValue();
+                if($actualcost == 0)
+                {
+                    $actualcost = $regular_price / 1.1;
+                }
             }
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
 
+            $stockC = "Other";
             $stockcondition = $product->getCustomAttribute('stock_condition');
-            if(empty($stockcondition))
-            {
-                $stockcondition = "Other";
-            }
-            elseif($stockcondition == "179")
-            {
-                $stockcondition = "0";
-            }
-            elseif($stockcondition == "181")
-            {
-                $stockcondition = "T";
-            }
-            else
-            {
-                $stockcondition = "Other";
-            }
 
+            if(is_null($stockcondition))
+            {
+                $stockC = "Other";
+            }
+            else {
+                $stockC = $stockcondition->getValue();
+
+                if ($stockC == 179) {
+                    $stockC = "0";
+                } elseif ($stockC == 181) {
+                    $stockC = "T";
+                } else {
+                    $stockC = "Other";
+                }
+            }
 
             $data[] = $brandname;
             $data[] = $description;
@@ -328,7 +325,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $regular_price;
             $data[] = $actualcost;
             $data[] = $final_price;
-            $data[] = $stockcondition;
+            $data[] = $stockC;
 
             $stream->writeCsv($data);
         }
@@ -495,17 +492,21 @@ class ProductEntHelper extends AbstractHelper
 
     public function getProductCollection()
     {
-//        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//        ->addFieldToFilter('entity_id', array('gteq' => 0));
-//        $collection->setPageSize(100); // fetching only 5000 products
-//        return $collection;
 
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
+        ->addStoreFilter(1)
         ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->setStoreId(1);
         return $collection;
+
+        //redeploy
+
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//            ->addStoreFilter(1)
+//            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//        $collection->setPageSize(200); // fetching only 5000 products
+//        return $collection;
 
     }
 
