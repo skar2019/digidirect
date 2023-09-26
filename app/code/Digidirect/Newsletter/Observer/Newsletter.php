@@ -72,8 +72,8 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $this->curl->post($webSignUpUrl, $webSignUpParams);
         
         $webSignUpResult = $this->curl->getBody();
-        //$getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
-        $this->logger->info("Response: " . $webSignUpResult); 
+        $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
+        $this->logger->info("Response: " . $getSignUpResultJson); 
         
     }
 }
