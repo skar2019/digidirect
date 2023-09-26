@@ -6,10 +6,14 @@ use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 class Shipping {
     
+    protected $logger;
+    
     public function __construct(
-        GetSourceItemsBySku $getSourceItemsBySku
+        GetSourceItemsBySku $getSourceItemsBySku,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->logger = $logger;
     }
        
     public function aroundCollectCarrierRates(
@@ -57,6 +61,11 @@ class Shipping {
                 }
             }
         }
+        
+        $this->logger->info("isSwhs: " . $isSwhs); 
+        $this->logger->info("isMelb: " . $isMelb); 
+        $this->logger->info("swhsQty: " . $swhsQty); 
+        $this->logger->info("melbQty: " . $melbQty); 
         
         if (($isSwhs == 1 && $carrierCode == 'nextdaydelivery' && $swhsQty <= 0) || 
                 ($isMelb == 1 && $carrierCode == 'nextdaydelivery' && $melbQty <= 0)) {
