@@ -64,17 +64,16 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         
         $this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
         
-        /*$webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
+        $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
         $webSignUpParams = ["email"=>$email,"source"=>"Web"];
         
-        $this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
-
         $this->curl->addHeader("Content-Type", "application/JSON");
         $this->curl->addHeader("Authorization", "Bearer " . $getTokenJson['access_token']);
         $this->curl->post($webSignUpUrl, $webSignUpParams);
         
         $webSignUpResult = $this->curl->getBody();
-        $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);*/
+        $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
+        $this->logger->info("Response: " . $webSignUpResult); 
         
     }
 }
