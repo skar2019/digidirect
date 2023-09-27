@@ -7,6 +7,17 @@
 // @codingStandardsIgnoreFile
 /** @var \Magento\Contact\Block\ContactForm $block */
 ?>
+
+<style>
+    .cms-bg-block .bg-cms {
+        display: none !important;
+    }
+
+    .page-main.cms-bg-block .page-title {
+        color: #222 !important;
+    }
+</style>
+
 <form class="form contact contact-form"
       action="<?= $block->escapeUrl($block->getFormAction()) ?>"
       id="contact-form"
