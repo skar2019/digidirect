@@ -62,15 +62,21 @@ class Shipping {
             }
         }
         
-        $this->logger->info("isSwhs: " . $isSwhs); 
-        $this->logger->info("isMelb: " . $isMelb); 
-        $this->logger->info("swhsQty: " . $swhsQty); 
-        $this->logger->info("melbQty: " . $melbQty); 
+        if ($carrierCode == 'nextdaydelivery') {
+            if (($isSwhs == 1 && $swhsQty <= 0)) {
+                $this->logger->info("SWHS Next Day Delivery");
+                return false;
+            }
+            if (($isMelb == 1 && $melbQty <= 0)) {
+                $this->logger->info("Melbourne Next Day Delivery");
+                return false;
+            }
+        }
         
-        if (($isSwhs == 1 && $carrierCode == 'nextdaydelivery' && $swhsQty <= 0) || 
+        /*if (($isSwhs == 1 && $carrierCode == 'nextdaydelivery' && $swhsQty <= 0) || 
                 ($isMelb == 1 && $carrierCode == 'nextdaydelivery' && $melbQty <= 0)) {
             return false;
-        }
+        }*/
         
         return $proceed($carrierCode, $request);
         
