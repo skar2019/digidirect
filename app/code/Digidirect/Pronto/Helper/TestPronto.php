@@ -1248,6 +1248,15 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
 
+            $customerRep = $this->customerRepository->getById($order->getCustomerId());
+            $customerGroupId = $customerRep->getGroupId();
+            if($customerGroupId == 10)
+            {
+                $data['sales-order']['header']['custom-data']['data'][4]['key'] = 'marketing-flag';
+                $data['sales-order']['header']['custom-data']['data'][4]['value'] = 'CLUB';
+            }
+
+
             //for coupon
             $coupon = $order->getCouponCode();
             $couponDiscount = ((double) $order->getBaseDiscountAmount());
@@ -1445,6 +1454,9 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+
+
+
 
             if($test)
             {

@@ -930,6 +930,14 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
 
+            $customerRep = $this->customerRepository->getById($order->getCustomerId());
+            $customerGroupId = $customerRep->getGroupId();
+            if($customerGroupId == 10)
+            {
+                $data['sales-order']['header']['custom-data']['data'][4]['key'] = 'marketing-flag';
+                $data['sales-order']['header']['custom-data']['data'][4]['value'] = 'CLUB';
+            }
+
             //for coupon
             $coupon = $order->getCouponCode();
             $couponDiscount = ((double) $order->getBaseDiscountAmount());
