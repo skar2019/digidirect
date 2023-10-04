@@ -551,7 +551,13 @@ class Order extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            if($grandTotal < 200)
+                            $delivery = $order->getShippingDescription();
+                            if($delivery == "Next Day Delivery")
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            elseif($grandTotal < 200)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
