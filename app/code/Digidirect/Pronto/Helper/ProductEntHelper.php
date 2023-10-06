@@ -174,7 +174,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition'];
+            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -312,6 +312,14 @@ class ProductEntHelper extends AbstractHelper
                 }
             }
 
+            $sckGrp = "";
+            $stockgroup = $product->getCustomAttribute('stock_group');
+            if(!is_null($stockgroup))
+            {
+                $sckGrp = $stockgroup->getValue();
+            }
+            echo $sckGrp."<br/>";
+
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
@@ -326,6 +334,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $actualcost;
             $data[] = $final_price;
             $data[] = $stockC;
+            $data[] = $sckGrp;
 
             $stream->writeCsv($data);
         }
@@ -493,20 +502,20 @@ class ProductEntHelper extends AbstractHelper
     public function getProductCollection()
     {
 
-        $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*')
-        ->addStoreFilter(1)
-        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        return $collection;
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//        ->addStoreFilter(1)
+//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//        return $collection;
 
         //redeploy
 
-//        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//            ->addStoreFilter(1)
-//            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//        $collection->setPageSize(200); // fetching only 5000 products
-//        return $collection;
+        $collection = $this->_productCollectionFactory->create();
+        $collection->addAttributeToSelect('*')
+            ->addStoreFilter(1)
+            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->setPageSize(200); // fetching only 5000 products
+        return $collection;
 
     }
 
