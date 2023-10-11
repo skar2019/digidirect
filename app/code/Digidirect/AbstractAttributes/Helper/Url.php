@@ -23,7 +23,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
  */
 class Url extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const URL_SUFFIX_CONFIG = 'digidirect_aa_config/general/url_suffix';
+    const URL_SUFFIX_CONFIG = 'general';
 
     /**
      * @var AbstractAttributeRepositoryInterface
