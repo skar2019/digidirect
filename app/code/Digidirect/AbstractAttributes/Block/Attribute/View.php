@@ -201,7 +201,7 @@ class View extends \Magento\Framework\View\Element\Template
             $metaTitle = $abstractAttribute->getAttributeLabel();
         }
 
-        $this->pageConfig->getTitle()->set($metaTitle);
+        $this->pageConfig->getTitle()->set("Brands");
         $this->pageConfig->setDescription($this->helper->prepareMetaDescription($abstractAttribute->getMetaDesc()));
 
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
