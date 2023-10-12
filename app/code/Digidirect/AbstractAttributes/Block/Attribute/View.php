@@ -165,7 +165,8 @@ class View extends \Magento\Framework\View\Element\Template
             ->addFieldToFilter(OptionInterface::ATTRIBUTE_ID, $this->getAbstractAttribute()->getAttributeId())
             ->addFieldToFilter(OptionInterface::STATUS, OptionInterface::STATUS_ENABLED)
             ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->setOrder(OptionInterface::SORT_ORDER, Collection::SORT_ORDER_ASC);
+            ->setOrder(OptionInterface::SORT_ORDER, Collection::SORT_ORDER_ASC)
+            ->getSelect()->group('entity_id');
 
         return $collection;
     }
