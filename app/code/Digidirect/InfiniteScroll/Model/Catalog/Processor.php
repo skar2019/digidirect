@@ -28,6 +28,8 @@ class Processor implements ProcessorInterface
      * @var LayoutInterface
      */
     protected $_layout;
+    
+    protected $logger;
 
     /**
      * Processor constructor.
@@ -35,13 +37,19 @@ class Processor implements ProcessorInterface
      * @param LayoutInterface $layout
      * @param array $data
      */
-    public function __construct(InfiniteScrollHelper $helper, LayoutInterface $layout, $data, BrandModel $brandModel)
+    public function __construct(
+        InfiniteScrollHelper $helper, 
+        LayoutInterface $layout, 
+        $data, 
+        BrandModel $brandModel,
+        \Psr\Log\LoggerInterface $logger
+    )
     {
         $this->_selector = $data['selector'];
         $this->_helper = $helper;
         $this->_layout = $layout;
-
         $this->_brandModel = $brandModel;
+        $this->logger = $logger;
     }
 
     /**
@@ -121,7 +129,7 @@ class Processor implements ProcessorInterface
                 $brand_id = $this->_brandModel->getCurrentOption();
             }
             
-            //if($brand_id > 0){
+            if($brand_id > 0){
                 $page = "p=" . $toolbar->nextPageCount();
 
                 $limit = "&_is=" .$this->getLimit();
@@ -131,9 +139,11 @@ class Processor implements ProcessorInterface
                 if (strpos($url, $limit) === false) {
                     $url = $url . $limit;
                 }
-            //}else{
-            //    $url = htmlspecialchars_decode($pager->getNextPageUrl());
-            //}
+            }else{
+                $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            }
+            
+            $this->logger->info('Infinite Scroll URL - '. $url);
 
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
