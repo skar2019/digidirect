@@ -15,6 +15,9 @@
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
                 </arguments>
             </block>
+            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="Magento_Catalog::product/list/toolbar.phtml">
+                <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager"/>
+            </block>
         </referenceBlock>
 
         <move element="breadcrumbs" destination="content" before="-"/>
