@@ -129,6 +129,8 @@ class Processor implements ProcessorInterface
                 $brand_id = $this->_brandModel->getCurrentOption();
             }
             
+            $this->logger->info('Infinite Scroll Brand ID - '. $brand_id);
+            
             if($brand_id > 0){
                 $page = "p=" . $toolbar->nextPageCount();
 
