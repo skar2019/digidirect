@@ -121,7 +121,7 @@ class Processor implements ProcessorInterface
                 $brand_id = $this->_brandModel->getCurrentOption();
             }
             
-            if($brand_id > 0){
+            //if($brand_id > 0){
                 $page = "p=" . $toolbar->nextPageCount();
 
                 $limit = "&_is=" .$this->getLimit();
@@ -131,9 +131,9 @@ class Processor implements ProcessorInterface
                 if (strpos($url, $limit) === false) {
                     $url = $url . $limit;
                 }
-            }else{
-                $url = htmlspecialchars_decode($pager->getNextPageUrl());
-            }
+            //}else{
+            //    $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            //}
 
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
