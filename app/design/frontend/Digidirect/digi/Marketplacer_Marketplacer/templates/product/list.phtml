@@ -121,7 +121,7 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $productUrl = $_product->getProductUrl();
                 
-                /*if ($currentPage == "eaa_attribute_option_index") {
+                if ($currentPage == "eaa_attribute_option_index") {
                     $explode1 = explode("/catalog/product/view/id", $productUrl);
                     $baseUrl = $explode1[0];
                     $explode2 = explode("/s/", $productUrl);
@@ -129,7 +129,7 @@ if ($currentPage != "catalogsearch_result_index") {
                     $explode3 = explode("/category/2", $explode2[1]);
                     $seoUrl = $explode3[0];
                     $productUrl = $baseUrl . "/" . $seoUrl;
-                }*/
+                }
 
                 ?>
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
