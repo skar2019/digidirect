@@ -15,9 +15,29 @@
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
     <fieldset class="fieldset">
+        <div class="field field-name-firstname required">
+            <label class="label" for="<?= $block->escapeHtmlAttr($block->getFieldId('firstname')) ?>"><span><?= $block->escapeHtml($block->getStoreLabel('firstname')) ?></span></label>
+            <div class="control">
+                <input type="text" id="<?= $block->escapeHtmlAttr($block->getFieldId('firstname')) ?>"
+                       name="<?= $block->escapeHtmlAttr($block->getFieldName('firstname')) ?>"
+                       value="<?= $block->escapeHtmlAttr($block->getObject()->getFirstname()) ?>"
+                       title="<?= $block->escapeHtmlAttr($block->getStoreLabel('firstname')) ?>"
+                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('firstname')) ?>" <?= ($block->getAttributeValidationClass('firstname') == 'required-entry') ? ' data-validate="{required:true}"' : '' ?>>
+            </div>
+        </div>
+        <div class="field field-name-lastname required">
+            <label class="label" for="<?= $block->escapeHtmlAttr($block->getFieldId('lastname')) ?>"><span><?= $block->escapeHtml($block->getStoreLabel('lastname')) ?></span></label>
+            <div class="control">
+                <input type="text" id="<?= $block->escapeHtmlAttr($block->getFieldId('lastname')) ?>"
+                       name="<?= $block->escapeHtmlAttr($block->getFieldName('lastname')) ?>"
+                       value="<?= $block->escapeHtmlAttr($block->getObject()->getLastname()) ?>"
+                       title="<?= $block->escapeHtmlAttr($block->getStoreLabel('lastname')) ?>"
+                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('lastname')) ?>" <?= ($block->getAttributeValidationClass('lastname') == 'required-entry') ? ' data-validate="{required:true}"' : '' ?>>
+            </div>
+        </div>
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="digiclub-description">
-            <div style="margin-bottom: 10px;">By checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
+            <div style="margin-bottom: 10px;">By verifying your details ang checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
             <li>Early Access to our Sale Events</li>
             <li>Exclusive Rewards</li>
             <li>Special Discounts</li>
