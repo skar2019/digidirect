@@ -60,7 +60,7 @@
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customer->getContactNumber() ?>"
+                       value="<?= $customer->getCustomAttribute('contact_number') ?>"
                        title="Contact Number"
                        class="input-text" required/>
             </div>
