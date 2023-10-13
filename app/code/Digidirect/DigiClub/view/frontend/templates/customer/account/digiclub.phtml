@@ -22,7 +22,7 @@
             <div class="control">
                 <input type="text" id="digiclub-firstname"
                        name="digiclub-firstname"
-                       value="<?= $customerSession->getCustomer()->getFirstName() ?>"
+                       value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
                        title="First Name"
                        class="input-text" />
             </div>
@@ -32,7 +32,7 @@
             <div class="control">
                 <input type="text" id="digiclub-lastname"
                        name="digiclub-lastname"
-                       value="<?= $customerSession->getCustomer()->getLastName() ?>"
+                       value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
                        title="Last Name"
                        class="input-text" />
             </div>
@@ -51,7 +51,7 @@
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerSession->getCustomAttribute('contact_number') ?>"
+                       value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
                        title="Email"
                        class="input-text"
                        />
