@@ -11,10 +11,14 @@
             $isChecked = "checked";
         }
     
-        $customerContactNumber;
-        if($contactNumber = $customerSession->getCustomer()->getCustomAttribute('contact_number')) {
-            $customerContactNumber = $contactNumber->getValue();
-        }
+        $address = $objectManager->get(\Magento\Customer\Api\AddressRepositoryInterface::class);
+        $customer = $customerSession->getCustomer();
+        
+        $billingAddressId = $customer->getDefaultBilling();
+        $shippingAddressId = $customer->getDefaultShipping();
+        
+        $billingAddress = $address->getById($billingAddressId);
+        $telephone = $billingAddress->getTelephone();
     }
 ?>
 
@@ -62,7 +66,7 @@
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerContactNumber ?>"
+                       value="<?= $telephone ?>"
                        title="Contact Number"
                        class="input-text" required/>
             </div>
