@@ -12,7 +12,7 @@
         }
     }
     
-    $name = $objectManager->create('Magento\Customer\Block\Widget\Name');
+    $contactNumber = $customerSession->getCustomer()->getCustomAttribute("contact_number");
 ?>
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
@@ -59,7 +59,7 @@
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerSession->getCustomer()->getCustomAttribute("contact_number")->getValue() ?>"
+                       value="<?= $contactNumber->getValue() ?>"
                        title="Email"
                        class="input-text" required/>
             </div>
