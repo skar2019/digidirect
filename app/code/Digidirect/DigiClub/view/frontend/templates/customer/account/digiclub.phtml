@@ -17,6 +17,14 @@
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
     <fieldset class="fieldset">
+        <div class="block-title"><span>Subscription Option</span></div><br> 
+        <div class="digiclub-description">
+            <div style="margin-bottom: 10px;">By verifying your details ang checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
+            <li>Early Access to our Sale Events</li>
+            <li>Exclusive Rewards</li>
+            <li>Special Discounts</li>
+            <li>More…</li>
+        </div>
         <div class="field field-name-firstname required">
             <label class="label" for="digiclub-firstname"><span>First Name</span></label>
             <div class="control">
@@ -24,7 +32,7 @@
                        name="digiclub-firstname"
                        value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
                        title="First Name"
-                       class="input-text" />
+                       class="input-text" required/>
             </div>
         </div>
         <div class="field field-name-lastname required">
@@ -34,7 +42,7 @@
                        name="digiclub-lastname"
                        value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
                        title="Last Name"
-                       class="input-text" />
+                       class="input-text" required/>
             </div>
         </div>
         <div class="field email required" data-container="change-email">
@@ -44,27 +52,17 @@
                        value="<?= $customerSession->getCustomer()->getEmail() ?>"
                        title="Email"
                        class="input-text"
-                       data-validate="{required:true, 'validate-email':true}" />
+                       data-validate="{required:true, 'validate-email':true}" required/>
             </div>
         </div>
-        <div class="field field-contact_number">
+        <div class="field field-contact_number required">
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
+                       value="<?= $customerSession->getCustomer()->getCustomAttribute("contact_number") ?>"
                        title="Email"
-                       class="input-text"
-                       />
+                       class="input-text" required/>
             </div>
-        </div>
-        
-        <div class="block-title"><span>Subscription Option</span></div><br> 
-        <div class="digiclub-description">
-            <div style="margin-bottom: 10px;">By verifying your details ang checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
-            <li>Early Access to our Sale Events</li>
-            <li>Exclusive Rewards</li>
-            <li>Special Discounts</li>
-            <li>More…</li>
         </div>
         <div class="field choice">
             <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
