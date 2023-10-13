@@ -62,11 +62,11 @@
                        data-validate="{required:true, 'validate-email':true}" required/>
             </div>
         </div>
-        <div class="field field-contact_number required">
-            <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
+        <div class="field contact-number required">
+            <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
             <div class="control">
-                <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerSession->getCustomer()->getEmail() ?>"
+                <input type="text" id="digiclub-contact-number" name="digiclub-contact-number" 
+                       value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
                        title="Contact Number"
                        class="input-text" required/>
             </div>
