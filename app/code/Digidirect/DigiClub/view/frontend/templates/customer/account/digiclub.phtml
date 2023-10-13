@@ -11,8 +11,9 @@
             $isChecked = "checked";
         }
     }
-    
-    $contactNumber = $customerSession->getCustomer()->getCustomAttribute("contact_number");
+    $customerId = $customerSession->getCustomer()->getId();
+    $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
+    $customer = $customerFactory->load($customerId);
 ?>
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
@@ -59,8 +60,8 @@
             <label class="label" for="digiclub-contact_number"><span>Contact Number</span></label> 
             <div class="control">
                 <input type="text" id="digiclub-contact_number" name="digiclub-contact_number" value="" class="input-text" 
-                       value="<?= $customerSession->getCustomer()->getContactNumber() ?>"
-                       title="Email"
+                       value="<?= $customer->getContactNumber() ?>"
+                       title="Contact Number"
                        class="input-text" required/>
             </div>
         </div>
