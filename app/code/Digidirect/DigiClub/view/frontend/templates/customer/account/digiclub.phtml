@@ -10,11 +10,11 @@
             $isDigiClub = 1;
             $isChecked = "checked";
         }
-    }
     
-    $customerContactNumber;
-    if($contactNumber = $customerSession->getCustomer()->getCustomAttribute('contact_number')) {
-        $customerContactNumber = $contactNumber->getValue();
+        $customerContactNumber;
+        if($contactNumber = $customerSession->getCustomer()->getCustomAttribute('contact_number')) {
+            $customerContactNumber = $contactNumber->getValue();
+        }
     }
 ?>
 
