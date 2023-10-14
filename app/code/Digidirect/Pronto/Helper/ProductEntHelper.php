@@ -294,9 +294,9 @@ class ProductEntHelper extends AbstractHelper
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
             $final_price2 = $product->getFinalPrice();
             $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
-            echo "final price ".$final_price."<br/>";
-            echo "final price2 ".$final_price2."<br/>";
-            echo $product->getSku()." final price3 ".$final_price3."<br/>";
+//            echo "final price ".$final_price."<br/>";
+//            echo "final price2 ".$final_price2."<br/>";
+//            echo $product->getSku()." final price3 ".$final_price3."<br/>";
             $stockC = "Other";
             $stockcondition = $product->getCustomAttribute('stock_condition');
 
@@ -506,20 +506,20 @@ class ProductEntHelper extends AbstractHelper
     public function getProductCollection()
     {
 
-//        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//        ->addStoreFilter(1)
-//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//        return $collection;
+        $collection = $this->_productCollectionFactory->create();
+        $collection->addAttributeToSelect('*')
+        ->addStoreFilter(1)
+        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        return $collection;
 
         //redeploy
 
-        $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*')
-            ->addStoreFilter(1)
-            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->setPageSize(500); // fetching only 5000 products
-        return $collection;
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//            ->addStoreFilter(1)
+//            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//        $collection->setPageSize(500); // fetching only 5000 products
+//        return $collection;
 
     }
 

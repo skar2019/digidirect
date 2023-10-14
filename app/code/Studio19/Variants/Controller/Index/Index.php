@@ -203,7 +203,9 @@ class Index extends Action {
     protected function prepareProductForResponse(ProductInterface $product)
     {
         $productData = $product->getData();
-        $productData['final_price_with_tax'] = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();//$product->getFinalPrice();
+        $final_price2 = $product->getFinalPrice();
+        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $productData['final_price_with_tax'] = $final_price3;//$product->getFinalPrice();
         $productData['image_url'] = $this->imageHelper->init($product, 'product_base_image')->constrainOnly(false)->keepAspectRatio(true)->keepFrame(false)->resize(500, 500)->getUrl();
         $productData['url'] = $product->getProductUrl();
         $productData['manufacturer_value'] = array_key_exists('manufacturer', $productData) ? $product->getAttributeText('manufacturer') : null;
