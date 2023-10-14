@@ -81,6 +81,11 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerGroupId = $customer->getGroupId();
                 
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
+                $customerFirstName = $this->getRequest()->getParam('firstname');
+                $customerLastName = $this->getRequest()->getParam('lastname');
+                $customerEmail = $this->getRequest()->getParam('email');
+                $customerContactNumber = $this->getRequest()->getParam('contact_number');
+                
                 $this->setIgnoreValidationFlag($customer);
                 
                 if ($isDigiClubParam) {
@@ -88,6 +93,11 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 } else {
                     $customer->setGroupId(self::GENERAL_GROUP_ID);
                 }
+                
+                $customer->setData('firstname', $customerFirstName);
+                $customer->setData('lastname', $customerLastName);
+                $customer->setData('email', $customerEmail);
+                $customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
                 $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
