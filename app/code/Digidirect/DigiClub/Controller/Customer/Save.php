@@ -34,6 +34,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $customerRepository;
     
     protected $customerSession;
+    
+    protected $logger;
 
     /**
      * Initialize dependencies.
@@ -50,12 +52,14 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger,
         CustomerRepository $customerRepository
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -85,6 +89,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
                 $customerEmail = $this->getRequest()->getParam('digiclub-email');
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
+                
+                $this->logger->info('$customerContactNumber: ' . $customerContactNumber);
                 
                 $this->setIgnoreValidationFlag($customer);
                 
