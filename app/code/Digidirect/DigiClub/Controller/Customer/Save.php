@@ -81,10 +81,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerGroupId = $customer->getGroupId();
                 
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
-                $customerFirstName = $this->getRequest()->getParam('firstname');
-                $customerLastName = $this->getRequest()->getParam('lastname');
-                $customerEmail = $this->getRequest()->getParam('email');
-                $customerContactNumber = $this->getRequest()->getParam('contact_number');
+                $customerFirstName = $this->getRequest()->getParam('digiclub-firstname');
+                $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
+                $customerEmail = $this->getRequest()->getParam('digiclub-email');
+                $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
                 
                 $this->setIgnoreValidationFlag($customer);
                 
