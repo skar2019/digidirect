@@ -203,7 +203,10 @@ class Index extends Action {
     protected function prepareProductForResponse(ProductInterface $product)
     {
         $productData = $product->getData();
-        $productData['final_price_with_tax'] = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $final_price2 = $product->getFinalPrice();
+        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $productData['final_price_with_tax'] = $final_price3;//$product->getFinalPrice();
         $productData['image_url'] = $this->imageHelper->init($product, 'product_base_image')->constrainOnly(false)->keepAspectRatio(true)->keepFrame(false)->resize(500, 500)->getUrl();
         $productData['url'] = $product->getProductUrl();
         $productData['manufacturer_value'] = array_key_exists('manufacturer', $productData) ? $product->getAttributeText('manufacturer') : null;
@@ -284,6 +287,9 @@ class Index extends Action {
                         $skip = true;
                 }
 
+                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $final_price2 = $product->getFinalPrice();
+                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 if (!$skip) {
                     array_push($productData['variants'], (object)[
                             'id' => $variantData['entity_id'],
@@ -292,7 +298,7 @@ class Index extends Action {
                             'description' => array_key_exists('description', $variantData) ? $variantData['description'] :
                                             (array_key_exists('short_description', $variantData) ? $variantData['short_description'] : null),
                             'attributes' => $attributeValues,
-                            'price' => $variant->getFinalPrice(),
+                            'price' => $final_price3,
                         ]);
                 }
             }
