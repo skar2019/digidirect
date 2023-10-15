@@ -106,7 +106,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customer->setData('firstname', $customerFirstName);
                 $customer->setData('lastname', $customerLastName);
                 $customer->setData('email', $customerEmail);
-                $customer->setData('contact_number', $customerContactNumber);
+                $customer->setCustomAttribute('contact_number', $customerContactNumber);
+                //$customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
                 $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
