@@ -28,7 +28,7 @@
             <div class="control">
                 <input type="text" id="digiclub-firstname"
                        name="digiclub-firstname"
-                       value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
+                       value="<?= $customerSession->getCustomer()->getFirstName() ?>"
                        title="First Name"
                        class="input-text" required/>
             </div>
@@ -38,7 +38,7 @@
             <div class="control">
                 <input type="text" id="digiclub-lastname"
                        name="digiclub-lastname"
-                       value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
+                       value="<?= $customerSession->getCustomer()->getLastName() ?>"
                        title="Last Name"
                        class="input-text" required/>
             </div>
@@ -58,7 +58,7 @@
             <div class="control">
                 <input type="text" id="digiclub-contact-number" 
                        name="digiclub-contact-number" 
-                       value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
+                       value="<?= $customerSession->getCustomer()->getContactNumber() ?>"
                        title="Contact Number"
                        class="input-text" required/>
             </div>
