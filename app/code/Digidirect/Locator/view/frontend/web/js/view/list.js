@@ -20,7 +20,8 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
-            //this.toggleStoreListDisplay();
+            this.toggleStoreListDisplay();
+            console.log("Click & Collect initialize!");
         },
         renderItems: function () {
             if (this.isPaginationEnable) {
@@ -32,6 +33,7 @@ define([
                 };
                 this.locationsList = locations.items;
             }
+            console.log("Click & Collect renderItems()!");
             
         },
         toggleStoreListDisplay: function () {
@@ -45,7 +47,7 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
-            
+            console.log("Click & Collect toggleStoreListDisplay()!");
         },
         testDataBind: function () {
             $(document.getElementsByClassName('mCustomScrollBox')[0]).ready(function(){
