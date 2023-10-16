@@ -20,10 +20,10 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
-            this.toggleStoreListDisplay();
+            //this.toggleStoreListDisplay();
         },
         renderItems: function () {
-            /*if (this.isPaginationEnable) {
+            if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
             } else {
@@ -31,11 +31,7 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-            }*/
-            this.perPage = function () {
-                return this.defaultPerPage;
-            };
-            this.locationsList = locations.items;
+            }
             
         },
         toggleStoreListDisplay: function () {
