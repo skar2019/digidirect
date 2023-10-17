@@ -47,7 +47,7 @@ class Block extends Action
         $resultPage = $this->resultPageFactory->create();
 
         $layout = $resultPage->addHandle('digidirect_collect_locator_block')->getLayout();
-        $block = $layout->getBlock('storelocator.list')->toHtml();
+        $block = $layout->getBlock('storelocator.wrapper')->toHtml();
 
         $result->setData(['output' => $block]);
         return $result;
