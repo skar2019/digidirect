@@ -7,7 +7,7 @@
         <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
         <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span> We will endeavour to send you this email between <b style="color: #ff3c00;">1-4 hours</b>.</p>
     </div>
-    <div class="collectlocator-wrapper">
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == true -->
@@ -32,7 +32,7 @@
         <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
         <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span></p>
     </div>
-    <div class="collectlocator-wrapper">
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == false -->
@@ -44,8 +44,20 @@
     </div>
 </div>
 
+<div data-bind="afterRender: testDataBind"></div>
+
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
     <div class="message info empty"><span data-bind="i18n: 'Nothing was found on your request. Please, check your address.'"></span></div>
 <!-- /ko -->
+
+<!-- ko if: isPaginationEnable && pager().length && pager().length > 1 -->
+    <!-- ko foreach: getRegion('locator_pagination') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('locator_after') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
 
