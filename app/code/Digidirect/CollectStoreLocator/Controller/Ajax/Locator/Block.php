@@ -12,6 +12,7 @@ use Magento\Framework\View\Result\PageFactory;
  */
 class Block extends Action
 {
+    protected $logger;
     /**
      * @var PageFactory
      */
@@ -29,10 +30,12 @@ class Block extends Action
      * @param JsonFactory $resultJsonFactory
      */
     public function __construct(
+        \Psr\Log\LoggerInterface $logger,
         Context $context,
         PageFactory $resultPageFactory,
         JsonFactory $resultJsonFactory
     ) {
+        $this->$logger = $logger;
         $this->resultPageFactory = $resultPageFactory;
         $this->resultJsonFactory = $resultJsonFactory;
         parent::__construct($context);
@@ -43,6 +46,7 @@ class Block extends Action
      */
     public function execute()
     {
+        $this->logger->info('Click & Collect Block Executed!');
         $result = $this->resultJsonFactory->create();
         $resultPage = $this->resultPageFactory->create();
 
