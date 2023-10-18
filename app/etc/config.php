@@ -620,7 +620,7 @@ return [
         'Digidirect_SocialSharing' => 1,
         'Digidirect_StoreLocator' => 1,
         'Digidirect_CollectStoreLocator' => 1,
-        'Digidirect_StoreLocatorInfiniteScroll' => 1,
+        'Digidirect_StoreLocatorInfiniteScroll' => 0,
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 1,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
