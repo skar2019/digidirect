@@ -7,7 +7,7 @@
         <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
         <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span> We will endeavour to send you this email between <b style="color: #ff3c00;">1-4 hours</b>.</p>
     </div>
-    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+    <div class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == true -->
@@ -32,7 +32,7 @@
         <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
         <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span></p>
     </div>
-    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+    <div class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == false -->
@@ -43,8 +43,6 @@
         </div>
     </div>
 </div>
-
-<div data-bind="afterRender: testDataBind"></div>
 
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
