@@ -26,6 +26,11 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
             }
         }
     </script>
+    <script type="text/javascript">
+        require(['jquery', 'clickAndCollect'], function($, initialize) {
+            initialize();
+        });
+    </script>
     <script>
         window.checkoutConfig = <?= /* @escapeNotVerified */ $block->getSerializedCheckoutConfig() ?>;
         // Create aliases for customer.js model from customer module
