@@ -7,7 +7,7 @@ var config = {
                 'Digidirect_Collect/js/view/block-mixin': true
             },
             'Magento_Checkout/js/view/shipping': {
-                'Digidirect_Collect/js/view/shipping-mixin': false
+                'Digidirect_Collect/js/view/shipping-mixin': true
             }
         }
     }
