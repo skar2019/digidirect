@@ -3,9 +3,9 @@
     <preference for="Magento\Checkout\Model\Session" type="Digidirect\Checkout\Model\Session" />
     <preference for="Magento\Checkout\Block\Onepage\Success" type="Digidirect\Checkout\Block\Onepage\Success" />
     <type name="Magento\Checkout\CustomerData\AbstractItem">
-        <plugin name="Digidirect_Checkout_DefaultItemPlugin" type="Digidirect\Checkout\Plugin\DefaultItemPlugin" sortOrder="10"  disabled="true" />
+        <plugin name="Digidirect_Checkout_DefaultItemPlugin" type="Digidirect\Checkout\Plugin\DefaultItemPlugin" sortOrder="10"  disabled="false" />
     </type>
     <type name="Magento\Shipping\Model\Shipping">
-        <plugin name="digidirect_disable_shipping_method" sortOrder="10" type="Digidirect\Checkout\Plugin\Model\Shipping" disabled="true" />
+        <plugin name="digidirect_disable_shipping_method" sortOrder="10" type="Digidirect\Checkout\Plugin\Model\Shipping" disabled="false" />
     </type>
 </config>
