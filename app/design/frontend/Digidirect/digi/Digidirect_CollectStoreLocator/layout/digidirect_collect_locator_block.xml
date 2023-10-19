@@ -5,7 +5,7 @@
         <referenceBlock name="storelocator.list" template="Digidirect_StoreLocator::list/items.phtml">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">
-                    <item name="types" xsi:type="array"></item>
+                    <item name="types" xsi:type="array"/>
                     <item name="components" xsi:type="array">
                         <item name="locator_list" xsi:type="array">
                             <item name="component" xsi:type="string">Digidirect_Locator/js/view/list</item>
