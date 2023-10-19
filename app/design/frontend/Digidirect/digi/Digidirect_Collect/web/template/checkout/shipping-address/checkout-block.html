@@ -84,6 +84,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
             <div data-bind="i18n: 'No store selected'"></div>
         </div>
     </div>
+
     <!-- /ko -->
     <!-- /ko -->
 </div>
@@ -91,4 +92,10 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 
 <div id="collect-block-modal-checkout" data-bind="visible: false">
     <!-- ko template: collectFormTemplate --><!-- /ko -->
+</div>
+
+<div class="store-locator-wrapper">
+    <div data-role="locator-list" class="locator-list" data-bind="scope: 'locator_list'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
 </div>
