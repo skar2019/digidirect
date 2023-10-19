@@ -21,7 +21,7 @@ var config = {
                 'Digidirect_Collect/js/model/shipping-save-processor/default-mixin': true
             },
             'Magento_Checkout/js/view/shipping': {
-                'Digidirect_Collect/js/view/shipping-mixin': false
+                'Digidirect_Collect/js/view/shipping-mixin': true
             },
             'Magento_Checkout/js/view/shipping-information': {
                 'Digidirect_Collect/js/view/shipping-information-mixin': true
