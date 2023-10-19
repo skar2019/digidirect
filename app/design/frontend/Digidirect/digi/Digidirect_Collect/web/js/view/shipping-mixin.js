@@ -21,7 +21,7 @@ define([
                 this._super();
 
                 this.hideAddressFormWhatever();
-                //this.bindAddressFormWhatever();
+                this.bindAddressFormWhatever();
 
                 return this;
             },
