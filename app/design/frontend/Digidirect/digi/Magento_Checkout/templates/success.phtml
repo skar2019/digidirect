@@ -3,7 +3,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
 $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
-
+$googleConversion = $this->helper('Digidirect\Digi\Helper\GoogleConversion');
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
@@ -60,4 +60,8 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
     ga('ecommerce:addTransaction', <?php echo $googleAnalytic->getPurchaseData() ?> );
 
     ga('ecommerce:send');
+</script>
+<!-- clint 10-20-23 -->
+<script>
+    dataLayer.push( <?php echo $googleConversion->getPurchaseData() ?>);
 </script>
