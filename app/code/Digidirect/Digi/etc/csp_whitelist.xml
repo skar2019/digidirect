@@ -28,7 +28,6 @@
                 <value id="adsrvr" type="host">*.adsrvr.org</value>
                 <value id="studio19" type="host">*.studio19.com.au</value>
                 <value id="particularaudience" type="host">*.particularaudience.com</value>
-                <value id="wisepops" type="host">*.wisepops.com</value>
                 <value id="stackadapt" type="host">*.srv.stackadapt.com</value>
                 <value id="newrelic" type="host">*.newrelic.com</value>
                 <value id="bamcell" type="host">*.nr-data.net</value>
@@ -112,7 +111,6 @@
                 <value id="facebookimg" type="host">*.facebook.net</value>
                 <value id="googleadsimg" type="host">googleads.g.doubleclick.net</value>
                 <value id="doubleclickimg" type="host">*.doubleclick.net</value>
-                <value id="wisepopsimg" type="host">*.wisepops.com</value>
                 <value id="kwimg" type="host">*.kayweb.com.au</value>
                 <value id="paimg" type="host">p-a.io</value>
                 <value id="particularaudienceimg" type="host">*.particularaudience.com</value>
@@ -141,7 +139,6 @@
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
                 <value id="paconnect2" type="host">*.particularaudience.com</value>
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
-                <value id="popwiseconnect" type="host">*.wisepops.com</value>
                 <value id="gaconnect" type="host">*.google-analytics.com</value>
                 <value id="tagssvrconnect" type="host">tags.srv.stackadapt.com</value>
                 <value id="studio19connect" type="host">secure.studio19.com.au</value>
