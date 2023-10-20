@@ -1,7 +1,6 @@
 <?php
 namespace Digidirect\CollectStoreLocator\Controller\Ajax\Locator;
 
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\View\Result\PageFactory;
@@ -10,7 +9,7 @@ use Magento\Framework\View\Result\PageFactory;
  * Class Block
  * @package Digidirect\CollectStoreLocator\Controller\Ajax\Locator
  */
-class Block extends Action
+class Block extends Magento\Framework\App\ActionInterface
 {
     /**
      * @var PageFactory
