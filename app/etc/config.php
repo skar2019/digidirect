@@ -676,8 +676,8 @@ return [
         'Temando_ShippingRemover' => 1,
         'WeSupply_Toolbox' => 1,
         'WebPanda_SalesProductImage' => 1,
-        'WeltPixel_Backend' => 0,
-        'WeltPixel_GA4' => 0,
+        'WeltPixel_Backend' => 1,
+        'WeltPixel_GA4' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],
