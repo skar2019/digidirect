@@ -26,16 +26,21 @@ $ php bin/magento setup:upgrade
 
 ###Release Notes  
 
-Version 1.12.6, April 20, 2023
+Version 1.12.7, September 6, 2023  
+-New Feature: Improved the logging process to ensure enough debug information is written into the wesupply.log file when an error occurs during the order import/update process.  
+-Fixed an error that would sometimes be thrown when using specific payment methods that capture orders after authorization.  
+-Fixed an issue that prevented the extension from correctly reading DB tables that have prefixes.  
 
--Added compatibility for stores that serve product images from external locations, such as Adobe's Remote Storage or Amazon's S3. Previously, product images would only render correctly if served from the Magento 2 instance.
--Added functionality to ensure an order update is triggered when a customer updates their email address from within their store account.
--Added functionality to send Customer Group and Customer Group Description to WeSupply for use with Return Logic Conditions.
--Fixed a bug that would occasionally prevent certain frontend notification messages from being displayed.
--Fixed a bug that would result in a console warning related to properly nested and closed HTML tags.
+Version 1.12.6, April 20, 2023  
+-Added compatibility for stores that serve product images from external locations, such as Adobe's Remote Storage or Amazon's S3. Previously, product images would only render correctly if served from the Magento 2 instance.  
+-Added functionality to ensure an order update is triggered when a customer updates their email address from within their store account.  
+-Added functionality to send Customer Group and Customer Group Description to WeSupply for use with Return Logic Conditions.  
+-Fixed a bug that would occasionally prevent certain frontend notification messages from being displayed.  
+-Fixed a bug that would result in a console warning related to properly nested and closed HTML tags.  
+-Confirmed compatibility with Magento 2.4.6, 2.4.5-p2 and PHP 8.2.  
 
-Version 1.12.5, November 18, 2022
--Optimized the Magento Order Import process by increasing the XML file size limit
+Version 1.12.5, November 18, 2022  
+-Optimized the Magento Order Import process by increasing the XML file size limit.  
 
 Version 1.12.4, July 14, 2022  
 -New Feature: Added the possibility of displaying Gift Messages in WeSupply Email templates via variables. This applies to Gift Messages added to the whole order, as well as those added to individual items.  

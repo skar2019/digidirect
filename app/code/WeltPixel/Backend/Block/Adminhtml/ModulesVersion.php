@@ -47,7 +47,6 @@ class ModulesVersion extends \Magento\Backend\Block\Template
         $this->deploymentConfig = $deploymentConfig;
         $this->readFactory = $readFactory;
         $this->componentRegistrar = $componentRegistrar;
-        $this->latestVersions = $this->getModulesLatestVersions();
         parent::__construct($context, $data);
     }
 
@@ -60,6 +59,8 @@ class ModulesVersion extends \Magento\Backend\Block\Template
 
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 3);
         $response = curl_exec($curl);
 
         $latestVersions = json_decode($response, true);
@@ -72,7 +73,7 @@ class ModulesVersion extends \Magento\Backend\Block\Template
      */
     public function getModuleVersions()
     {
-        $this->getModulesLatestVersions();
+        $this->latestVersions = $this->getModulesLatestVersions();
         $modules = $this->deploymentConfig->get('modules');
 
         $moduleDetails = [];

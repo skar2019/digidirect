@@ -3,9 +3,13 @@
 ?>
 <?php
 $_helper = $this->helper('WeltPixel\GA4\Helper\Data');
+$parentOrChildUsage = $_helper->getParentOrChildIdUsage();
+$isVariantEnabled = $_helper->isVariantEnabled();
 ?>
 <?php if ($_helper->isEnabled()) : ?>
     <script>
+        window.ga4ParentVsChild = '<?php echo $parentOrChildUsage ?>';
+        window.ga4VariantEnabled = '<?php echo $isVariantEnabled ?>';
         require(['jquery','weltpixel_ga4_persistentLayer','weltpixel_ga4_gtm', 'Magento_Customer/js/customer-data'],
             function ($, wpGa4PersDl ,wpGa4gtm, customerData) {
                 $( document ).ajaxComplete(function( event, xhr, settings ) {

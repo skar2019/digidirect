@@ -596,6 +596,8 @@ class License extends \Magento\Framework\Model\AbstractModel
 
             curl_setopt($curl, CURLOPT_HEADER, 0);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 3);
             try {
                 $response = curl_exec($curl);
                 $modulesList = json_decode($response, true);
@@ -615,7 +617,11 @@ class License extends \Magento\Framework\Model\AbstractModel
                 $this->modulesList = [];
                 $this->modulesUserFriendlyNames = [];
             }
+        }
 
+        if ($this->_attempt == 2) {
+            $this->backendSession->setWeltPixelExtensions(['WeltPixel_Backend']);
+            $this->backendSession->setWeltPixelExtensionsUserFriendlyNames(['WeltPixel_Backend']);
         }
 
         return $this->modulesList;

@@ -40,6 +40,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $storeCategories;
 
     /**
+     * @var int
+     */
+    protected $rootCategoryId;
+
+    /**
      * @var \Magento\Catalog\Model\ResourceModel\Category
      */
     protected $resourceCategory;
@@ -213,11 +218,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return;
         }
 
-        $rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
+        $this->rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
         $storeId = $this->storeManager->getStore()->getStoreId();
 
         $isWpGA4CacheEnabled = $this->cacheState->isEnabled(\WeltPixel\GA4\Model\Cache\Type::TYPE_IDENTIFIER);
-        $cacheKey = self::CACHE_ID_CATEGORIES . '-' . $rootCategoryId . '-' . $storeId;
+        $cacheKey = self::CACHE_ID_CATEGORIES . '-' . $this->rootCategoryId . '-' . $storeId;
         if ($isWpGA4CacheEnabled) {
             $this->_eventManager->dispatch('weltpixel_ga4_cachekey_after', ['cache_key' => $cacheKey]);
 
@@ -230,7 +235,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $categories = $this->categoryCollectionFactory->create()
             ->setStoreId($storeId)
-            ->addAttributeToFilter('path', ['like' => "1/{$rootCategoryId}%"])
+            ->addAttributeToFilter('path', ['like' => "1/{$this->rootCategoryId}%"])
             ->addAttributeToSelect('name');
 
         foreach ($categories as $categ) {
@@ -881,13 +886,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $buyRequest = $buyRequest->getData();
         }
 
+        $itemName = html_entity_decode($product->getName() ?? '');
+
         if ( ($displayOption == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && ($product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)) {
             $canditatesRequest = $this->objectFactory->create($buyRequest);
             $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($canditatesRequest, $product);
 
-            foreach ($cartCandidates as $candidate) {
-                if ($candidate->getParentProductId())  {
-                    $productId = $this->getGtmProductId($candidate);
+            if (is_array($cartCandidates) || is_object($cartCandidates)) {
+                foreach ($cartCandidates as $candidate) {
+                    if ($candidate->getParentProductId()) {
+                        $productId = $this->getGtmProductId($candidate);
+                        $itemName = html_entity_decode($product->getName() ?? '');
+                    }
                 }
             }
         }
@@ -897,7 +907,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $productId;
         if ($this->checkoutSession->getGA4LastProductPrice()) {
@@ -1118,7 +1128,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_populateStoreCategories();
         }
 
-        $categoryId = $categoryIds[0];
+        $categoryIds = $this->_filterStoreCategories($categoryIds);
+        $categoryId = $categoryIds[0] ?? $this->rootCategoryId;
 
         $categoryPath = '';
         if (isset($this->storeCategories[$categoryId])) {
@@ -1126,6 +1137,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return str_replace('{#}', '/', $this->_buildCategoryPath($categoryPath));
+    }
+
+    /**
+     * @param array $categoryIds
+     * @return array
+     */
+    private function _filterStoreCategories($categoryIds)
+    {
+        $filteredCategoryIds = [];
+        foreach ($categoryIds as $categoryId) {
+            if (isset($this->storeCategories[$categoryId])) {
+                $filteredCategoryIds[] = $categoryId;
+            }
+        }
+
+        if (count($categoryIds) > 1) {
+            $filteredCategoryIds = array_diff_assoc($filteredCategoryIds, [$this->rootCategoryId]);
+            $filteredCategoryIds = array_values($filteredCategoryIds);
+        }
+
+        return $filteredCategoryIds;
     }
 
     /**
@@ -1163,6 +1195,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result = [];
 
         $productId = $this->getGtmProductId($product);
+        $itemName = html_entity_decode($product->getName() ?? '');
 
         $displayOption = $this->getParentOrChildIdUsage();
         if ( ($displayOption == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && ($product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)) {
@@ -1170,6 +1203,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 foreach ($quoteItem->getChildren() as $child) {
                     $childProduct = $child->getProduct();
                     $productId = $this->getGtmProductId($childProduct);
+                    $itemName = html_entity_decode($childProduct->getName() ?? '');
                 }
             }
         }
@@ -1179,7 +1213,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $productId;
         $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($quoteItem->getPrice()), 2, '.', ''));
@@ -1595,7 +1629,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_populateStoreCategories();
         }
 
-        $categoryId = $categoryIds[0];
+        $categoryIds = $this->_filterStoreCategories($categoryIds);
+        $categoryId = $categoryIds[0] ?? $this->rootCategoryId;
 
         $categoryPath = '';
         if (isset($this->storeCategories[$categoryId])) {
@@ -1679,7 +1714,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        return $attributeValue;
+        return $attributeValue ?? '';
     }
 
     /**
@@ -1704,5 +1739,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function invalidateGA4CheckoutPaymentData()
     {
         $this->checkoutSession->setGA4CheckoutPaymentData(null);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDatalayerPreviewEnabled()
+    {
+        return $this->_gtmOptions['general']['enable_datalayer_preview'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSmileElasticSuiteEnabled()
+    {
+        return $this->_moduleManager->isEnabled('Smile_ElasticsuiteCore');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLoadListingBlockEnabled()
+    {
+        return $this->_gtmOptions['general']['loadlistingblock'];
     }
 }

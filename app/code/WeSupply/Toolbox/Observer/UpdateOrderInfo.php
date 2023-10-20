@@ -162,7 +162,14 @@ class UpdateOrderInfo implements ObserverInterface
 
             $this->weSupplyOrderRepository->save($weSupplyOrder);
         } catch (\Exception $ex) {
-            $this->logger->error("WeSupply Error: " . $ex->getMessage());
+            $this->logger->error(
+                "WeSupply Error for order: "
+                . $order->getIncrementId()
+                . " (" . $order->getId() . ") "
+                . $ex->getMessage()
+                . ' :: Order data :: '
+                . $this->json->serialize($order->getData())
+            );
         }
 
         return $this;

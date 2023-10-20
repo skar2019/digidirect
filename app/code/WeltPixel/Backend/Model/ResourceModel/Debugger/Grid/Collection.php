@@ -43,13 +43,11 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
         \Magento\Backend\Model\Session $backendSession,
         \WeltPixel\Backend\Model\Scanner $scanner,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
-        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
-
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
     )
     {
         parent::__construct(
-            $entityFactory,
-
+            $entityFactory
         );
 
         $this->_dataObjectFactory = $dataObjectFactory;

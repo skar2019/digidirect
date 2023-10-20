@@ -102,7 +102,7 @@ class Logs extends Action
     {
         $logDirectory = $this->file->getDirectoryWrite(DirectoryList::VAR_DIR);
         $logPath = 'wesupply';
-        $fileName = $logPath . DS . $this->logType . '.log';
+        $fileName = $logPath . DIRECTORY_SEPARATOR . $this->logType . '.log';
 
         try {
             $logDirectory->create($logPath);

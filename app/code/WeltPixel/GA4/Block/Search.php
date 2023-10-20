@@ -23,6 +23,9 @@ class Search extends \WeltPixel\GA4\Block\Category
             return [];
         }
 
+        if ($this->helper->isSmileElasticSuiteEnabled() || $this->helper->isLoadListingBlockEnabled()) {
+            $searchResultListBlock->toHtml();
+        }
         $collection = $searchResultListBlock->getLoadedProductCollection();
 
         $blockName = $searchResultListBlock->getToolbarBlockName();

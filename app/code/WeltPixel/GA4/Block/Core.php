@@ -201,6 +201,7 @@ class Core extends \Magento\Framework\View\Element\Template
         $options = $this->_splitImpressions($options);
         $additionalDataLayerData = $this->storage->getData('additional_datalayer_option');
 
+
         if ($additionalDataLayerData) {
             foreach ($additionalDataLayerData as $dataOptions) {
                 $dataOptions = $this->_splitImpressions($dataOptions);
@@ -245,7 +246,10 @@ class Core extends \Magento\Framework\View\Element\Template
                     $originalImpressions = $impressions['items'];
                     $impressionsCount = count($originalImpressions);
                     if ($impressionsCount <= $chunkLimit) {
-                        $result[] = $options;
+                        if ($options) {
+                            $result[] = $options;
+                            $options = null;
+                        }
                         $result[] = [
                             'ecommerce' => $impressions,
                             'event' => 'view_item_list'
@@ -254,7 +258,11 @@ class Core extends \Magento\Framework\View\Element\Template
                     }
 
                     $impressionChunks = array_chunk($originalImpressions, $chunkLimit);
-                    $result[] = $options;
+
+                    if ($options) {
+                        $result[] = $options;
+                        $options = null;
+                    }
 
                     $chunkCount = count($impressionChunks);
                     for ($i = 0; $i<$chunkCount; $i++ ) {

@@ -41,6 +41,8 @@ class CheckoutCartAddProductObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $this->_checkoutSession->setAddProductTrigger(false);
+
         if (!$this->helper->isEnabled()) {
             return $this;
         }

@@ -30,16 +30,24 @@ class CookieManagement
     /**
      * @param \Magento\Framework\App\FrontController $subject
      * @param $result
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDispatch(
         \Magento\Framework\App\FrontController $subject,
-        $result
+        $result,
+        \Magento\Framework\App\RequestInterface $request
     ) {
         if (!$this->helper->isEnabled()) {
             return $result;
         }
+
+        /** Elasticsuite Tracker Headers Already Sent Error Compatibility */
+        if  (($request->getModuleName() == 'elasticsuite')&& ($request->getActionName() == 'hit'))  {
+            return $result;
+        }
+        /** Elasticsuite Tracker Headers Already Sent Error Compatibility */
 
         $this->cookieManager->setGA4Cookies();
         return $result;

@@ -81,7 +81,7 @@ class UpdateTrack extends CronBase
         }
         $ordersUpdated = [];
         $connection  = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(self::SHIPMENT_TRACK_TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(self::SHIPMENT_TRACK_TABLE_NAME);
 
         $sql = "SELECT entity_id, order_id FROM " . $tableName . " WHERE
             `wesupply_order_update` != 1

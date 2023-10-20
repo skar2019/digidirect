@@ -41,6 +41,13 @@ class SalesQuoteRemoveItemObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $addProductTrigger = $this->_checkoutSession->getAddProductTrigger();
+        $this->_checkoutSession->setAddProductTrigger(false);
+
+        if ($addProductTrigger) {
+            return $this;
+        }
+
         if (!$this->helper->isEnabled()) {
             return $this;
         }

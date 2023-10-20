@@ -31,6 +31,14 @@
                         <field id="enable">1</field>
                     </depends>
                 </field>
+                <field id="enable_datalayer_preview" translate="label" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable dataLayer frontend Preview/Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <comment>Set this option to Yes to enable a button which can be used to trigger a preview window on the frontend which shows the current values of the dataLayer and is updated as the dataLayer is updated</comment>
+                </field>
                 <field id="impression_chunk_size" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Impression Chunks Size</label>
                     <depends>
@@ -175,6 +183,15 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                         <field id="enable">1</field>
                     </depends>
                     <comment>Send the cookies as secure ones. Should only be used if your whole site is on HTTPS.</comment>
+                </field>
+                <field id="loadlistingblock" translate="label comment" type="select" sortOrder="108" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Load Product List Block</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>Setting for compatibility with 3rd party Search Engines - may decrease performance</tooltip>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <comment>Set this option to Yes only if you're having issues on Category/Search Pages, such as ignored product limit per page settings or incorrect sorting after enabling the extension. This is usually only required if you're using a 3rd party Search Engine or have modifications/customizations applied to the default product listing on Category/Search Pages.</comment>
                 </field>
                 <field id="separator_user_dimensions" translate="button_label" type="text" sortOrder="109" showInDefault="1" showInWebsite="1" showInStore="1">
                     <frontend_model>WeltPixel\GA4\Block\Adminhtml\System\Config\SeparatorElement</frontend_model>
@@ -440,6 +457,7 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
             </group>
             <group id="api" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>GTM API Configuration</label>
+                <comment>Retrigger the Variables, Triggers and Tags Setup if you make changes here.</comment>
                 <field id="account_id" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Account ID</label>
                     <validate>required</validate>
@@ -457,26 +475,28 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                 </field>
             </group>
             <group id="adwords_conversion_tracking" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Google Ads conversion tracking</label>
+                <label>Google Ads Conversion Tracking</label>
+                <comment>Retrigger the Variables, Triggers and Tags Setup if you make changes here.</comment>
                 <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable / Disable Google Ads Conversion Tracking - When enabled, a Google Ads Conversion Tracking Tag is generated via the container JSON. If you're enabling this feature after the initial configuration, you'll need to regenerate and reimport the container JSON into Google Tag Manager.]]></comment>
                 </field>
                 <field id="google_conversion_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Google Conversion Id</label>
+                    <label>Google Ads Conversion ID</label>
                     <validate>required</validate>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
-                    <comment><![CDATA[<b>Ex:</b> 12324325 ]]></comment>
+                    <comment><![CDATA[The Google Ads Conversion ID. This ID is found in your Google Ads account. More details on how to find it in the <a href="https://support.google.com/tagmanager/answer/6105160?hl=en" target="_blank">Google Documentation</a>]]></comment>
                 </field>
                 <field id="google_conversion_label" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Google Conversion Label</label>
+                    <label>Google Ads Conversion Label</label>
                     <validate>required</validate>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
-                    <comment><![CDATA[<b>Ex:</b> Label value ]]></comment>
+                    <comment><![CDATA[The Google Ads Conversion Label. This Label is found in your Google Ads account. More details on how to find it in the <a href="https://support.google.com/tagmanager/answer/6105160?hl=en" target="_blank">Google Documentation</a>]]></comment>
                 </field>
                 <field id="google_conversion_currency_code" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Google Conversion Currency Code</label>
@@ -484,7 +504,7 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                     <depends>
                         <field id="enable">1</field>
                     </depends>
-                    <comment><![CDATA[<b>Ex:</b> usd ]]></comment>
+                    <comment><![CDATA[The currency code you want to use for your Google Ads Conversions. <b>Ex:</b> USD ]]></comment>
                 </field>
                 <field id="exclude_free_purchase" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Exclude Orders with 0 value</label>
@@ -492,28 +512,30 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                     <depends>
                         <field id="enable">1</field>
                     </depends>
-                    <comment>Orders with value 0.00 can be excluded from conversion tracking if you set this option to Yes</comment>
+                    <comment>Orders with value 0.00 can be excluded from Conversion Tracking if you set this option to Yes</comment>
                 </field>
             </group>
             <group id="adwords_remarketing" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Google Ads Remarketing</label>
+                <comment>Retrigger the Variables, Triggers and Tags Setup if you make changes here.</comment>
                 <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="conversion_code" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Conversion Code</label>
+                    <label>Google Ads Conversion ID</label>
                     <validate>required</validate>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
+                    <comment><![CDATA[The Google Ads Conversion ID. This ID is found in your Google Ads account. More details on how to find it in the <a href="https://support.google.com/tagmanager/answer/6105160?hl=en" target="_blank">Google Documentation</a>]]></comment>
                 </field>
                 <field id="conversion_label" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Conversion Label</label>
-                    <comment>You can leave the Conversion Label field blank if there is no google_conversion_label in the code box.</comment>
+                    <label>Google Ads Conversion Label</label>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
+                    <comment><![CDATA[The Google Ads Conversion Label. This Label is found in your Google Ads account. More details on how to find it in the <a href="https://support.google.com/tagmanager/answer/6105160?hl=en" target="_blank">Google Documentation</a>]]></comment>
                 </field>
                 <field id="exclude_free_purchase" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Exclude Orders with 0 value</label>
@@ -521,7 +543,7 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                     <depends>
                         <field id="enable">1</field>
                     </depends>
-                    <comment>Orders with value 0.00 can be excluded from adwords remarketing if you set this option to Yes</comment>
+                    <comment>Orders with value 0.00 can be excluded from Google Ads Remarketing if you set this option to Yes</comment>
                 </field>
             </group>
             <group id="json_export" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">

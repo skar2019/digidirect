@@ -91,7 +91,7 @@ class MassDelete extends CronBase
         );
 
         $connection  = $this->resourceConnection->getConnection();
-        $tableName = $connection->getTableName(self::WS_TABLE_NAME);
+        $tableName = $this->resourceConnection->getTableName(self::WS_TABLE_NAME);
 
         $query = "DELETE FROM " . $tableName .
             " WHERE " . $connection->quoteInto('updated_at < ?', $endDate) .

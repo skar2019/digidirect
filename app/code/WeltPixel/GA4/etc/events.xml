@@ -15,4 +15,7 @@
     <event name="customer_login">
         <observer name="weltpixel_ga4_login_event" instance="WeltPixel\GA4\Observer\ServerSide\Events\LoginObserver" />
     </event>
+    <event name="checkout_cart_product_add_before">
+        <observer name="weltpixel_ga4_cart_product_add_before" instance="WeltPixel\GA4\Observer\AddToCartBeforeObserver" />
+    </event>
 </config>

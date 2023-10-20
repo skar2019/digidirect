@@ -128,10 +128,12 @@ class Orders extends Template
      */
     private function setSearchParams($auth)
     {
-        reset($auth);
-        // always set only the first key/value pair
-        $this->searchByKey = key($auth);
-        $this->searchByVal = !is_null($this->searchByKey) ? $auth[$this->searchByKey] : null;
+        if (!is_null($auth)) {
+            reset($auth);
+            // always set only the first key/value pair
+            $this->searchByKey = key($auth);
+            $this->searchByVal = !is_null($this->searchByKey) ? $auth[$this->searchByKey] : null;
+        }
     }
 
     /**

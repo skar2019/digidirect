@@ -7,6 +7,7 @@
                 <value id="weltpixel_ga4_gtm" type="host">https://www.googletagmanager.com</value>
                 <value id="weltpixel_ga4_gtmdebug" type="host">tagmanager.google.com</value>
                 <value id="weltpixel_ga4_analytics_google" type="host">analytics.google.com</value>
+                <value id="unpkg_com" type="host">unpkg.com</value>
             </values>
         </policy>
         <policy id="style-src">

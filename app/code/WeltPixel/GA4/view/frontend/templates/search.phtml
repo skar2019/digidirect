@@ -25,6 +25,13 @@
             <?php $categoryProducts[] = $categoryProduct; ?>
             <?php $i++ ; ?>
         <?php endforeach; ?>
+        <?php
+        $this->setImpressionData([
+            'items' => $categoryProducts,
+            'item_list_id' => str_replace(' ', '_', strtolower($listValue)),
+            'item_list_name' => $listValue
+        ]);
+        ?>
         <?php $this->setEcommerceData('items', $categoryProducts); ?>
         <?php $this->setDataLayerOption('event', 'view_item_list'); ?>
     <?php endif; ?>

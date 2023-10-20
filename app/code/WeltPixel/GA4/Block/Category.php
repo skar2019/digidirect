@@ -19,7 +19,11 @@ class Category extends \WeltPixel\GA4\Block\Core
         }
 
         $currentCategory = $this->getCurrentCategory();
-        if ($currentCategory && $currentCategory->getData('display_mode') == \Magento\Catalog\Model\Category::DM_PAGE) {
+        $displayMode = $currentCategory->getData('weltpixel_sc_layout') ?? '';
+        if ($currentCategory &&
+            ( $currentCategory->getData('display_mode') == \Magento\Catalog\Model\Category::DM_PAGE
+                || $displayMode == 'subcategories_images')
+        ) {
             return [];
         }
 
@@ -30,6 +34,9 @@ class Category extends \WeltPixel\GA4\Block\Core
             return [];
         }
 
+        if ($this->helper->isSmileElasticSuiteEnabled() || $this->helper->isLoadListingBlockEnabled()) {
+            $categoryProductListBlock->toHtml();
+        }
         // Fetch the current collection from the block and set pagination
         $collection = clone $categoryProductListBlock->getLoadedProductCollection();
         $collection->setCurPage($this->getCurrentPage())->setPageSize($this->getLimit());
