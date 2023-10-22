@@ -42,8 +42,7 @@ class Index extends \Magento\Framework\App\Action\Action
         StoreManagerInterface $storeManager,
         CategoryFactory $categoryFactory,
         CategoryResource $categoryResource,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Psr\Log\LoggerInterface $logger
+        \Magento\Catalog\Model\ProductFactory $productFactory
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
@@ -51,7 +50,6 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->categoryResource = $categoryResource;
         $this->storeManager = $storeManager;
         $this->_productFactory = $productFactory;
-        $this->$logger = $logger;
     }
 
     public function execute()
