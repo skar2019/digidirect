@@ -56,16 +56,12 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        
         $product = $this->_productFactory->create()->load(3793);
         // Get the category ID of the new product.
         $categoryIds = $product->getCategoryIds();
-        $this->$logger->info(print_r($categoryIds,true));
         // Get the new product position.
         $newPosition = 5;
-
         // Change the product position.
-        $this->$logger->info('Product Position');
         $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
@@ -73,14 +69,11 @@ class Index extends \Magento\Framework\App\Action\Action
     {
        foreach($categoryIds as $categoryId)
        {
-        $this->$logger->info(print_r($categoryId,true));
         $category = $this->categoryFactory->create()->load($categoryId);
         $products = $category->getProductsPosition();
         $products[$productId] = $newPosition;
         $category->setPostedProducts($products);
-
         $category->save();
        }
-        
     }
 }
