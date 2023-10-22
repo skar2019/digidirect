@@ -33,13 +33,17 @@ class Index extends \Magento\Framework\App\Action\Action
     
     protected $_productFactory;
     
+    
+    protected $logger;
+    
 
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,  
         StoreManagerInterface $storeManager,
         CategoryFactory $categoryFactory,
         CategoryResource $categoryResource,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Psr\Log\LoggerInterface $logger
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
@@ -47,6 +51,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->categoryResource = $categoryResource;
         $this->storeManager = $storeManager;
         $this->_productFactory = $productFactory;
+        $this->$logger = $logger;
     }
 
     public function execute()
@@ -55,14 +60,12 @@ class Index extends \Magento\Framework\App\Action\Action
         $product = $this->_productFactory->create()->load(3793);
         // Get the category ID of the new product.
         $categoryIds = $product->getCategoryIds();
-        MagentoFrameworkAppObjectManager::getInstance()
-        ->get(PsrLogLoggerInterface::class)->info(print_r($categoryIds,true));
+        $this->$logger->info(print_r($categoryIds,true));
         // Get the new product position.
         $newPosition = 5;
 
         // Change the product position.
-        MagentoFrameworkAppObjectManager::getInstance()
-        ->get(PsrLogLoggerInterface::class)->info('Product Position');
+        $this->$logger->info('Product Position');
         $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
@@ -70,8 +73,7 @@ class Index extends \Magento\Framework\App\Action\Action
     {
        foreach($categoryIds as $categoryId)
        {
-        MagentoFrameworkAppObjectManager::getInstance()
-        ->get(PsrLogLoggerInterface::class)->info(print_r($categoryId,true));
+        $this->$logger->info(print_r($categoryId,true));
         $category = $this->categoryFactory->create()->load($categoryId);
         $products = $category->getProductsPosition();
         $products[$productId] = $newPosition;
