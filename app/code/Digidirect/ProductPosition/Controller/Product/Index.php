@@ -2,11 +2,11 @@
 
 namespace Digidirect\ProductPosition\Controller\Product;
 
-use MagentoCatalogModelProduct;
-use MagentoCatalogModelResourceModelProductCollectionFactory as ProductCollectionFactory;
-use MagentoStoreModelStoreManagerInterface;
-use MagentoCatalogModelCategoryFactory;
-use MagentoCatalogModelResourceModelCategory as CategoryResource;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ResourceModel\ProductCollectionFactory as ProductCollectionFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\Category\Factory;
+use Magento\Catalog\Model\ResourceModel\Category as CategoryResource;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
