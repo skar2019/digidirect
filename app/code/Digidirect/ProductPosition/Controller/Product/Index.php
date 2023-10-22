@@ -1,0 +1,84 @@
+<?php
+
+namespace Digidirect\ProductPosition\Controller\Product;
+
+use MagentoCatalogModelProduct;
+use MagentoCatalogModelResourceModelProductCollectionFactory as ProductCollectionFactory;
+use MagentoStoreModelStoreManagerInterface;
+use MagentoCatalogModelCategoryFactory;
+use MagentoCatalogModelResourceModelCategory as CategoryResource;
+
+class Index extends \Magento\Framework\App\Action\Action
+{
+    /**
+     * @var ProductCollectionFactory
+     */
+    private $productCollectionFactory;
+     /**
+     * @var StoreManagerInterface
+     */
+    
+    protected $storeManager;
+
+    /**
+     * @var CategoryFactory
+     */
+    protected $categoryFactory;
+
+    /**
+     * @var CategoryResource
+     */
+    protected $categoryResource;
+    
+    
+    protected $_productFactory;
+    
+
+    public function __construct(
+        ProductCollectionFactory $productCollectionFactory,  
+        StoreManagerInterface $storeManager,
+        CategoryFactory $categoryFactory,
+        CategoryResource $categoryResource,
+        \Magento\Catalog\Model\ProductFactory $productFactory
+    )
+    {
+        $this->productCollectionFactory = $productCollectionFactory;
+        $this->categoryFactory = $categoryFactory;
+        $this->categoryResource = $categoryResource;
+        $this->storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
+    }
+
+    public function execute()
+    {
+        
+        $product = $this->_productFactory->create()->load(3793);
+        // Get the category ID of the new product.
+        $categoryIds = $product->getCategoryIds();
+        MagentoFrameworkAppObjectManager::getInstance()
+        ->get(PsrLogLoggerInterface::class)->info(print_r($categoryIds,true));
+        // Get the new product position.
+        $newPosition = 5;
+
+        // Change the product position.
+        MagentoFrameworkAppObjectManager::getInstance()
+        ->get(PsrLogLoggerInterface::class)->info('Product Position');
+        $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
+    }
+    
+    private function changeProductPosition($categoryIds, $productId, $newPosition)
+    {
+       foreach($categoryIds as $categoryId)
+       {
+        MagentoFrameworkAppObjectManager::getInstance()
+        ->get(PsrLogLoggerInterface::class)->info(print_r($categoryId,true));
+        $category = $this->categoryFactory->create()->load($categoryId);
+        $products = $category->getProductsPosition();
+        $products[$productId] = $newPosition;
+        $category->setPostedProducts($products);
+
+        $category->save();
+       }
+        
+    }
+}
