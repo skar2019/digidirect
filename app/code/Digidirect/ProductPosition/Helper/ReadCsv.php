@@ -24,13 +24,11 @@ class ReadCsv extends AbstractHelper
     protected $file;
  
     public function __construct(
-        Context $context,
         DirectoryList $directoryList,
         Csv $csv,
         File $file
     )
     {
-        parent::__construct($context);
         $this->directoryList = $directoryList;
         $this->csv = $csv;
         $this->file = $file;
