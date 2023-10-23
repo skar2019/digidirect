@@ -74,7 +74,7 @@ class Index extends \Magento\Framework\App\Action\Action
         //$this->logger->info("Product ID: " . $product->getId());
         //$this->logger->info("Category IDs: " . json_encode($categoryIds));
         //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
-        $this->helper->readCsv('product_position');
+        $this->helper->readCsv('product_position.csv');
     }
     
     private function changeProductPosition($categoryIds, $productId, $newPosition)
