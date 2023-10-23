@@ -38,14 +38,14 @@ class Index extends \Magento\Framework\App\Action\Action
     
 
     public function __construct(
-        ProductCollectionFactory $productCollectionFactory,  
+        //ProductCollectionFactory $productCollectionFactory,  
         //StoreManagerInterface $storeManager,
         //CategoryFactory $categoryFactory,
         //CategoryResource $categoryResource,
         //\Magento\Catalog\Model\ProductFactory $productFactory
     )
     {
-        $this->productCollectionFactory = $productCollectionFactory;
+        //$this->productCollectionFactory = $productCollectionFactory;
         //$this->storeManager = $storeManager;
         //$this->categoryFactory = $categoryFactory;
         //$this->categoryResource = $categoryResource;
