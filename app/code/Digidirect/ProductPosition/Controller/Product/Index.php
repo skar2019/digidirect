@@ -65,7 +65,7 @@ class Index extends \Magento\Framework\App\Action\Action
         // Get the new product position.
         $newPosition = 5;
         // Change the product position.
-        $this->$logger->info("Product ID: " . $product->getId());
+        $this->$logger->info("newPosition: " . $newPosition);
         $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
