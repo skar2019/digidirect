@@ -2,11 +2,11 @@
 
 namespace Digidirect\ProductPosition\Controller\Product;
 
-//use Magento\Catalog\Model\Product;
-//use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
-//use Magento\Store\Model\StoreManagerInterface;
-//use Magento\Catalog\Model\CategoryFactory;
-//use Magento\Catalog\Model\ResourceModel\Category as CategoryResource;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\ResourceModel\Category as CategoryResource;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -38,32 +38,34 @@ class Index extends \Magento\Framework\App\Action\Action
     
 
     public function __construct(
-        //ProductCollectionFactory $productCollectionFactory,  
-        //StoreManagerInterface $storeManager,
-        //CategoryFactory $categoryFactory,
-        //CategoryResource $categoryResource,
-        //\Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Framework\App\Action\Context $context,
+        ProductCollectionFactory $productCollectionFactory,  
+        StoreManagerInterface $storeManager,
+        CategoryFactory $categoryFactory,
+        CategoryResource $categoryResource,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     )
     {
-        //$this->productCollectionFactory = $productCollectionFactory;
-        //$this->storeManager = $storeManager;
-        //$this->categoryFactory = $categoryFactory;
-        //$this->categoryResource = $categoryResource;
-        //$this->_productFactory = $productFactory;
+        $this->productCollectionFactory = $productCollectionFactory;
+        $this->storeManager = $storeManager;
+        $this->categoryFactory = $categoryFactory;
+        $this->categoryResource = $categoryResource;
+        $this->_productFactory = $productFactory;
+        return parent::__construct($context);
     }
 
     public function execute()
     {
-        //$product = $this->_productFactory->create()->load(3793);
+        $product = $this->_productFactory->create()->load(3793);
         // Get the category ID of the new product.
-        //$categoryIds = $product->getCategoryIds();
+        $categoryIds = $product->getCategoryIds();
         // Get the new product position.
-        //$newPosition = 5;
+        $newPosition = 5;
         // Change the product position.
-        //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
+        $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
-    /*private function changeProductPosition($categoryIds, $productId, $newPosition)
+    private function changeProductPosition($categoryIds, $productId, $newPosition)
     {
         foreach($categoryIds as $categoryId)
         {
@@ -73,5 +75,5 @@ class Index extends \Magento\Framework\App\Action\Action
              $category->setPostedProducts($products);
              $category->save();
         }
-    }*/
+    }
 }
