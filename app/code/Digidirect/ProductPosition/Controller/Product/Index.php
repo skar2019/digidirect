@@ -51,7 +51,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->storeManager = $storeManager;
         $this->categoryFactory = $categoryFactory;
         $this->categoryResource = $categoryResource;
-        $this->$logger = $logger;
+        $this->logger = $logger;
         $this->_productFactory = $productFactory;
         return parent::__construct($context);
     }
@@ -65,7 +65,7 @@ class Index extends \Magento\Framework\App\Action\Action
         // Get the new product position.
         $newPosition = 5;
         // Change the product position.
-        $this->$logger->info("newPosition: " . $newPosition);
+        $this->logger->info("Product ID: " . $product->getId());
         $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
