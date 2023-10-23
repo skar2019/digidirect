@@ -7,6 +7,11 @@ use Magento\Framework\File\Csv;
 use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\ResourceModel\Category as CategoryResource;
  
 class ReadCsv extends AbstractHelper
 {
@@ -31,13 +36,24 @@ class ReadCsv extends AbstractHelper
         DirectoryList $directoryList,
         Csv $csv,
         File $file,
-        \Psr\Log\LoggerInterface $logger
+        \Magento\Framework\App\Action\Context $context,
+        ProductCollectionFactory $productCollectionFactory,  
+        StoreManagerInterface $storeManager,
+        CategoryFactory $categoryFactory,
+        CategoryResource $categoryResource,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
     )
     {
         $this->directoryList = $directoryList;
         $this->csv = $csv;
         $this->file = $file;
+        $this->productCollectionFactory = $productCollectionFactory;
+        $this->storeManager = $storeManager;
+        $this->categoryFactory = $categoryFactory;
+        $this->categoryResource = $categoryResource;
         $this->_logger = $logger;
+        $this->_productFactory = $productFactory;
     }
  
     public function readCsv($csvFilePath)
@@ -54,11 +70,13 @@ class ReadCsv extends AbstractHelper
                 if (!empty($data)) {
                     // ignore first header column and read data
                     foreach ($data as $key => $value) {
-                        $columnFirst = trim($value['0']);
-                        $columnSecond = trim($value['1']);
+                        $productPosition = trim($value['0']);
+                        $productId = trim($value['1']);
                         //and so on.
-                        $this->_logger->info("Position: " . $columnFirst);
-                        $this->_logger->info("Value: " . $columnSecond);
+                        $this->_logger->info("Position: " . $productPosition);
+                        $this->_logger->info("Value: " . $productId);
+                        
+                        $this->changeProductPosition($productId, $productPosition);
                     }
                 }
             } else {
@@ -68,5 +86,33 @@ class ReadCsv extends AbstractHelper
         } catch (FileSystemException $e) {
             $this->_logger->info($e->getMessage());
         }
+    }
+    
+    private function changeProductPosition($productId, $newPosition)
+    {
+        $product = $this->_productFactory->create()->load($productId); //SKU:END-ADU-EGS
+        // Get the category ID of the new product.
+        $categoryIds = $product->getCategoryIds();
+        
+        $categoryId = 65; //Special Effects Lens;
+        
+        $this->logger->info("Category ID: " . $categoryId);
+        $category = $this->categoryFactory->create()->load($categoryId);
+        $products = $category->getProductsPosition();
+        //$this->logger->info("Products Position: " . json_encode($products));
+        $products[$productId] = $newPosition;
+        $category->setPostedProducts($products);
+        $category->save();
+        
+        /*foreach($categoryIds as $categoryId)
+        {
+            $this->logger->info("Category ID: " . $categoryId);
+            $category = $this->categoryFactory->create()->load($categoryId);
+            $products = $category->getProductsPosition();
+            //$this->logger->info("Products Position: " . json_encode($products));
+            $products[$productId] = $newPosition;
+            $category->setPostedProducts($products);
+            $category->save();
+        }*/
     }
 }

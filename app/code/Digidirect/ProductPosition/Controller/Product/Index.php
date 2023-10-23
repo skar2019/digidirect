@@ -64,30 +64,16 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        /*$product = $this->_productFactory->create()->load(3793);
-        // Get the category ID of the new product.
-        $categoryIds = $product->getCategoryIds();
-        //$this->$logger->info($product->getCategoryIds());
-        // Get the new product position.
-        $newPosition = 5;*/
-        // Change the product position.
-        //$this->logger->info("Product ID: " . $product->getId());
-        //$this->logger->info("Category IDs: " . json_encode($categoryIds));
-        //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
-        $this->helper->readCsv('product_position.csv');
-    }
-    
-    private function changeProductPosition($categoryIds, $productId, $newPosition)
-    {
-        foreach($categoryIds as $categoryId)
-        {
-            $this->logger->info("Category ID: " . $categoryId);
-            $category = $this->categoryFactory->create()->load($categoryId);
-            $products = $category->getProductsPosition();
-            //$this->logger->info("Products Position: " . json_encode($products));
-            $products[$productId] = $newPosition;
-            $category->setPostedProducts($products);
-            $category->save();
+        //Set default position
+        $categoryId = 65; //Special Effects Lens
+        $category = $this->categoryFactory->create()->load($categoryId);
+        $products = $category->getProductsPosition();
+        foreach ($products as $id=>$value){
+            $products[$id] = 50;
         }
+        $category->setPostedProducts($products);
+        $category->save();
+        
+        $this->helper->readCsv('product_position.csv');
     }
 }
