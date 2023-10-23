@@ -42,14 +42,14 @@ class Index extends \Magento\Framework\App\Action\Action
         StoreManagerInterface $storeManager,
         CategoryFactory $categoryFactory,
         CategoryResource $categoryResource,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        //\Magento\Catalog\Model\ProductFactory $productFactory
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
+        $this->storeManager = $storeManager;
         $this->categoryFactory = $categoryFactory;
         $this->categoryResource = $categoryResource;
-        $this->storeManager = $storeManager;
-        $this->_productFactory = $productFactory;
+        //$this->_productFactory = $productFactory;
     }
 
     public function execute()
@@ -63,7 +63,7 @@ class Index extends \Magento\Framework\App\Action\Action
         //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
-    private function changeProductPosition($categoryIds, $productId, $newPosition)
+    /*private function changeProductPosition($categoryIds, $productId, $newPosition)
     {
         foreach($categoryIds as $categoryId)
         {
@@ -73,5 +73,5 @@ class Index extends \Magento\Framework\App\Action\Action
              $category->setPostedProducts($products);
              $category->save();
         }
-    }
+    }*/
 }
