@@ -13,7 +13,7 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * @var ProductCollectionFactory
      */
-    private $productCollectionFactory;
+    protected $productCollectionFactory;
      /**
      * @var StoreManagerInterface
      */
