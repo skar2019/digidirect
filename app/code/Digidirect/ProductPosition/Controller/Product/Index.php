@@ -66,7 +66,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $newPosition = 5;
         // Change the product position.
         $this->logger->info("Product ID: " . $product->getId());
-        $this->logger->info("Category IDs: " . $categoryIds);
+        $this->logger->info("Category IDs: " . json_encode($categoryIds));
         $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
     
@@ -74,11 +74,12 @@ class Index extends \Magento\Framework\App\Action\Action
     {
         foreach($categoryIds as $categoryId)
         {
-             $category = $this->categoryFactory->create()->load($categoryId);
-             $products = $category->getProductsPosition();
-             $products[$productId] = $newPosition;
-             $category->setPostedProducts($products);
-             $category->save();
+            $this->logger->info("Category ID: " . $categoryId);
+            $category = $this->categoryFactory->create()->load($categoryId);
+            $products = $category->getProductsPosition();
+            $products[$productId] = $newPosition;
+            $category->setPostedProducts($products);
+            $category->save();
         }
     }
 }
