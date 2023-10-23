@@ -54,11 +54,11 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $product = $this->_productFactory->create()->load(3793);
+        //$product = $this->_productFactory->create()->load(3793);
         // Get the category ID of the new product.
-        $categoryIds = $product->getCategoryIds();
+        //$categoryIds = $product->getCategoryIds();
         // Get the new product position.
-        $newPosition = 5;
+        //$newPosition = 5;
         // Change the product position.
         //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
     }
