@@ -22,16 +22,22 @@ class ReadCsv extends AbstractHelper
      * @var File
      */
     protected $file;
+    
+    
+    protected $_logger;
+    
  
     public function __construct(
         DirectoryList $directoryList,
         Csv $csv,
-        File $file
+        File $file,
+        \Psr\Log\LoggerInterface $logger
     )
     {
         $this->directoryList = $directoryList;
         $this->csv = $csv;
         $this->file = $file;
+        $this->_logger = $logger;
     }
  
     public function readCsv($csvFilePath)
