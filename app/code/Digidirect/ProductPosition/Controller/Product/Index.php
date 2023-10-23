@@ -7,6 +7,7 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductColl
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\ResourceModel\Category as CategoryResource;
+use Digidirect\ProductPosition\Helper\ReadCsv;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -36,6 +37,9 @@ class Index extends \Magento\Framework\App\Action\Action
     
     protected $logger;
     
+    
+    protected $helper;
+    
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -44,7 +48,8 @@ class Index extends \Magento\Framework\App\Action\Action
         CategoryFactory $categoryFactory,
         CategoryResource $categoryResource,
         \Psr\Log\LoggerInterface $logger,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ReadCsv $helper
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
@@ -53,21 +58,23 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->categoryResource = $categoryResource;
         $this->logger = $logger;
         $this->_productFactory = $productFactory;
+        $this->helper = $helper;
         return parent::__construct($context);
     }
 
     public function execute()
     {
-        $product = $this->_productFactory->create()->load(3793);
+        /*$product = $this->_productFactory->create()->load(3793);
         // Get the category ID of the new product.
         $categoryIds = $product->getCategoryIds();
         //$this->$logger->info($product->getCategoryIds());
         // Get the new product position.
-        $newPosition = 5;
+        $newPosition = 5;*/
         // Change the product position.
-        $this->logger->info("Product ID: " . $product->getId());
-        $this->logger->info("Category IDs: " . json_encode($categoryIds));
-        $this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
+        //$this->logger->info("Product ID: " . $product->getId());
+        //$this->logger->info("Category IDs: " . json_encode($categoryIds));
+        //$this->changeProductPosition($categoryIds, $product->getId(), $newPosition);
+        $this->helper->readCsv('product_position');
     }
     
     private function changeProductPosition($categoryIds, $productId, $newPosition)
@@ -77,7 +84,7 @@ class Index extends \Magento\Framework\App\Action\Action
             $this->logger->info("Category ID: " . $categoryId);
             $category = $this->categoryFactory->create()->load($categoryId);
             $products = $category->getProductsPosition();
-            $this->logger->info("Products Position: " . json_encode($products));
+            //$this->logger->info("Products Position: " . json_encode($products));
             $products[$productId] = $newPosition;
             $category->setPostedProducts($products);
             $category->save();
