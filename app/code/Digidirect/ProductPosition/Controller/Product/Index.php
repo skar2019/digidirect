@@ -69,6 +69,9 @@ class Index extends \Magento\Framework\App\Action\Action
         $category = $this->categoryFactory->create()->load($categoryId);
         $products = $category->getProductsPosition();
         foreach ($products as $id=>$value){
+            $products[$id] = 0;
+        }
+        foreach ($products as $id=>$value){
             $products[$id] = 50;
         }
         $category->setPostedProducts($products);

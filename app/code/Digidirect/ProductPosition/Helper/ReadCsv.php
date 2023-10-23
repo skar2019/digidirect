@@ -96,20 +96,20 @@ class ReadCsv extends AbstractHelper
         
         $categoryId = 65; //Special Effects Lens;
         
-        $this->logger->info("Category ID: " . $categoryId);
+        $this->_logger->info("Category ID: " . $categoryId);
         $category = $this->categoryFactory->create()->load($categoryId);
         $products = $category->getProductsPosition();
-        //$this->logger->info("Products Position: " . json_encode($products));
+        $this->_logger->info("Products Position: " . json_encode($products));
         $products[$productId] = $newPosition;
         $category->setPostedProducts($products);
         $category->save();
         
         /*foreach($categoryIds as $categoryId)
         {
-            $this->logger->info("Category ID: " . $categoryId);
+            $this->_logger->info("Category ID: " . $categoryId);
             $category = $this->categoryFactory->create()->load($categoryId);
             $products = $category->getProductsPosition();
-            //$this->logger->info("Products Position: " . json_encode($products));
+            //$this->_logger->info("Products Position: " . json_encode($products));
             $products[$productId] = $newPosition;
             $category->setPostedProducts($products);
             $category->save();
