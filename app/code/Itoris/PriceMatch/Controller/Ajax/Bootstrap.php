@@ -68,9 +68,13 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $product = $this->productRepository->getById($productId,false, $storeId);
 
         $resultJson = $this->resultJsonFactory->create();
+        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $final_price2 = $product->getFinalPrice();
+        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+
         $response = [
             'product_name' => $product->getName(),
-            'final_price' => $product->getFinalPrice(),
+            'final_price' => $final_price3,//$product->getFinalPrice(),
             'check_render_link' => 1,//($this->calculateRenderLink()) ? 1 : '',
         ];
 
