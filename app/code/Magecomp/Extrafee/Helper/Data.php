@@ -14,16 +14,16 @@ class Data extends AbstractHelper
     const CONFIG_FEE_LABEL = 'Extrafee/Extrafee/name';
     const CONFIG_MINIMUM_ORDER_AMOUNT = 'Extrafee/Extrafee/minimum_order_amount';
     
-    protected $cart;
+    protected $session;
     
     protected $logger;
     
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Checkout\Model\Session $session,
         \Psr\Log\LoggerInterface $logger
     ){
-        $this->cart = $cart;
+        $this->session = $session;
         $this->logger = $logger;
         parent::__construct($context);
     }
@@ -44,10 +44,13 @@ class Data extends AbstractHelper
      */
     public function getExtrafee()
     {
-        $items = $this->cart->getQuote()->getAllItems();
+        $items = $this->session->getQuote()->getAllVisibleItems();
+        //$this->logger->info('getAllItems');
         foreach($items as $item) {
             $this->logger->info('getData: ' . $item->getData('marketplacer_seller'));
             $this->logger->info('getMarketplacerSeller: ' . $item->getMarketplacerSeller());
+            $this->logger->info('getSku: ' . $item->getSku());
+            $this->logger->info('getName: ' . $item->getName());
         }
         
         return 15;
