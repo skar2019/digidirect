@@ -33,7 +33,7 @@ class Data extends AbstractHelper
     {
 
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_IS_ENABLED, $storeScope);
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/status', $storeScope);
     }
 
     /**
@@ -48,8 +48,10 @@ class Data extends AbstractHelper
             $this->logger->info('Seller: ' . $item->getAttributeText('marketplacer_seller'));
         }
         
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);
+        return 15;
+        
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        //return $this->scopeConfig->getValue('Extrafee/Extrafee/Extrafee_amount', $storeScope);
     }
 
     /**
@@ -60,7 +62,7 @@ class Data extends AbstractHelper
     public function getFeeLabel()
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_FEE_LABEL, $storeScope);
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/name', $storeScope);
     }
 
     /**
@@ -69,6 +71,6 @@ class Data extends AbstractHelper
     public function getMinimumOrderAmount()
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_MINIMUM_ORDER_AMOUNT, $storeScope);
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/minimum_order_amount', $storeScope);
     }
 }
