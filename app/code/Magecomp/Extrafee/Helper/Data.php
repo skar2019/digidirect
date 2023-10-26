@@ -48,6 +48,8 @@ class Data extends AbstractHelper
         //$this->logger->info('getAllItems');
         foreach($items as $item) {
             $this->logger->info('getAttributeText: ' . $item->getAttributeText('marketplacer_seller'));
+            $this->logger->info('getData: ' . $item->getData('marketplacer_seller'));
+            $this->logger->info('getMarketplacerSeller: ' . $item->getMarketplacerSeller());
             $this->logger->info('getSku: ' . $item->getSku());
             $this->logger->info('getName: ' . $item->getName());
         }
