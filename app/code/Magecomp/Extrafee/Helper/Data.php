@@ -20,7 +20,7 @@ class Data extends AbstractHelper
     
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
-        \Psr\Log\LoggerInterface $logger,
+        \Psr\Log\LoggerInterface $logger
     ){
         $this->cart = $cart;
         $this->logger = $logger;
@@ -31,9 +31,8 @@ class Data extends AbstractHelper
      */
     public function isModuleEnabled()
     {
-
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('Extrafee/Extrafee/status', $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/status', 'store');
     }
 
     /**
@@ -61,8 +60,8 @@ class Data extends AbstractHelper
      */
     public function getFeeLabel()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('Extrafee/Extrafee/name', $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/name', 'store');
     }
 
     /**
@@ -70,7 +69,7 @@ class Data extends AbstractHelper
      */
     public function getMinimumOrderAmount()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('Extrafee/Extrafee/minimum_order_amount', $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/minimum_order_amount', 'store');
     }
 }
