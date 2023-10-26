@@ -52,7 +52,7 @@ class Data extends AbstractHelper
         //$this->logger->info('getAllItems');
         foreach($items as $item) {
             $this->logger->info('getProductId: ' . $item->getProductId());
-            $product = $this->productFactory->create()->load($product->getProductId());
+            $product = $this->productFactory->create()->load($item->getProductId());
             $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
             $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
             $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
