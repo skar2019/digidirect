@@ -11,6 +11,7 @@ define([
     var fee_label = window.checkoutConfig.fee_label;
     var custom_fee_amount = window.checkoutConfig.custom_fee_amount;
     var custom_in_fee_amount = window.checkoutConfig.custom_fee_amount_inc;
+    var has_marketplacer_seller = window.checkoutConfig.quoteData.has_marketplacer_seller;
 
     return Component.extend({
 
@@ -20,6 +21,7 @@ define([
         getFeeLabel:ko.observable(fee_label),
         getInFeeLabel:ko.observable(window.checkoutConfig.inclTaxPostfix),
         getExFeeLabel:ko.observable(window.checkoutConfig.exclTaxPostfix),
+        hasMarketplacerSeller: ko.observable(has_marketplacer_seller),
 
         isDisplayed: function () {
             return this.getValue() != 0;
