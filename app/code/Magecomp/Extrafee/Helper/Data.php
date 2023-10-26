@@ -13,6 +13,18 @@ class Data extends AbstractHelper
     const CONFIG_CUSTOM_FEE = 'Extrafee/Extrafee/Extrafee_amount';
     const CONFIG_FEE_LABEL = 'Extrafee/Extrafee/name';
     const CONFIG_MINIMUM_ORDER_AMOUNT = 'Extrafee/Extrafee/minimum_order_amount';
+    
+    protected $cart;
+    
+    protected $logger;
+    
+    public function __construct(
+        \Magento\Checkout\Model\Cart $cart,
+        \Psr\Log\LoggerInterface $logger,
+    ){
+        $this->cart = $cart;
+        $this->logger = $logger;
+    }
 
     /**
      * @return mixed
@@ -31,8 +43,15 @@ class Data extends AbstractHelper
      */
     public function getExtrafee()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);
+        /*$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);*/
+        $items = $this->cart->getQuote()->getAllItems();
+        
+        foreach($items as $item) {
+            $this->logger->info('Seller: ' . $item->getAttributeText('marketplacer_seller'));
+        }
+        
+        return 15;
     }
 
     /**
