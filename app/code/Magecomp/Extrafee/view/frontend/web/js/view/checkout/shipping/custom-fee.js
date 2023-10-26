@@ -9,6 +9,7 @@ define([
         var show_hide_Extrafee_blockConfig = window.checkoutConfig.show_hide_Extrafee_shipblock;
         var fee_label = window.checkoutConfig.fee_label;         
         var custom_fee_amount = window.checkoutConfig.custom_fee_amount;
+        var has_marketplacer_seller = window.checkoutConfig.quoteData.has_marketplacer_seller;
         
         return Component.extend({
             defaults: {
@@ -16,6 +17,7 @@ define([
             },
             canVisibleExtrafeeBlock: show_hide_Extrafee_blockConfig,
             getFormattedPrice: ko.observable(priceUtils.formatPrice(custom_fee_amount, quote.getPriceFormat())),
-            getFeeLabel:ko.observable(fee_label)
+            getFeeLabel:ko.observable(fee_label),
+            hasMarketplacerSeller: has_marketplacer_seller
         });
     });
