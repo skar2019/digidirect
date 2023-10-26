@@ -18,13 +18,15 @@ class Data extends AbstractHelper
     
     protected $logger;
     
-    /*public function __construct(
+    public function __construct(
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Checkout\Model\Cart $cart,
         \Psr\Log\LoggerInterface $logger
     ){
         $this->cart = $cart;
         $this->logger = $logger;
-    }*/
+        parent::__construct($context);
+    }
 
     /**
      * @return mixed
@@ -42,10 +44,10 @@ class Data extends AbstractHelper
      */
     public function getExtrafee()
     {
-        /*$items = $this->cart->getQuote()->getAllItems();
+        $items = $this->cart->getQuote()->getAllItems();
         foreach($items as $item) {
             $this->logger->info('Seller: ' . $item->getAttributeText('marketplacer_seller'));
-        }*/
+        }
         
         return 15;
         
