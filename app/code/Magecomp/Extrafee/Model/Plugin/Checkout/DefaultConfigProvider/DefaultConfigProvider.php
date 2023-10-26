@@ -27,6 +27,7 @@ class DefaultConfigProvider
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
+    
     public function afterGetConfig(
         \Magento\Checkout\Model\DefaultConfigProvider $subject,
         $result
