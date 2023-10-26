@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\Collect\Model\Plugin\Checkout;
+namespace Magecomp\Extrafee\Model\Plugin\Checkout;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
