@@ -43,15 +43,13 @@ class Data extends AbstractHelper
      */
     public function getExtrafee()
     {
-        /*$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);*/
         $items = $this->cart->getQuote()->getAllItems();
-        
         foreach($items as $item) {
             $this->logger->info('Seller: ' . $item->getAttributeText('marketplacer_seller'));
         }
         
-        return 15;
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);
     }
 
     /**
