@@ -18,13 +18,17 @@ class Data extends AbstractHelper
     
     protected $logger;
     
+    protected $productFactory;
+    
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Checkout\Model\Session $session,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ){
         $this->session = $session;
         $this->logger = $logger;
+        $this->productFactory = $productFactory;
         parent::__construct($context);
     }
 
@@ -47,11 +51,15 @@ class Data extends AbstractHelper
         $items = $this->session->getQuote()->getAllVisibleItems();
         //$this->logger->info('getAllItems');
         foreach($items as $item) {
-            $this->logger->info('getAttributeText: ' . $item->getAttributeText('marketplacer_seller'));
-            $this->logger->info('getData: ' . $item->getData('marketplacer_seller'));
-            $this->logger->info('getMarketplacerSeller: ' . $item->getMarketplacerSeller());
-            $this->logger->info('getSku: ' . $item->getSku());
-            $this->logger->info('getName: ' . $item->getName());
+            $this->logger->info('getProductId: ' . $item->getProductId());
+            $product = $this->productFactory->create()->load($product->getProductId());
+            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            $this->logger->info('getSku: ' . $product->getSku());
+            $this->logger->info('getName: ' . $product->getName());
+            //$this->logger->info('getProductId: ' . $product->getId());
+            
         }
         
         return 15;
