@@ -46,7 +46,8 @@ class Data extends AbstractHelper
     {
         $items = $this->cart->getQuote()->getAllItems();
         foreach($items as $item) {
-            $this->logger->info('Seller: ' . $item->getAttributeText('marketplacer_seller'));
+            $this->logger->info('getData: ' . $item->getData('marketplacer_seller'));
+            $this->logger->info('getMarketplacerSeller: ' . $item->getMarketplacerSeller());
         }
         
         return 15;
