@@ -48,8 +48,12 @@ class Data extends AbstractHelper
      */
     public function getExtrafee()
     {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $baseShipping = $this->scopeConfig->getValue('Extrafee/Extrafee/Extrafee_amount', $storeScope);
+        
         $items = $this->session->getQuote()->getAllVisibleItems();
         //$this->logger->info('getAllItems');
+        $sellers = [];
         foreach($items as $item) {
             $this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
@@ -58,14 +62,20 @@ class Data extends AbstractHelper
             $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
             $this->logger->info('getSku: ' . $product->getSku());
             $this->logger->info('getName: ' . $product->getName());
-            //$this->logger->info('getProductId: ' . $product->getId());
             
+            $seller = $product->getAttributeText('marketplacer_seller');
+            
+            if (($seller != "General Seller") && (!in_array($seller, $sellers)))  {
+                array_push($sellers, $seller);
+            }
+            //$this->logger->info('getProductId: ' . $product->getId());
         }
         
-        return 15;
+        $sellerCount = count($sellers);
+        $sellerTotalShipping = $sellerCount * $baseShipping;
         
-        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        //return $this->scopeConfig->getValue('Extrafee/Extrafee/Extrafee_amount', $storeScope);
+        return $sellerTotalShipping;
+        
     }
 
     /**
