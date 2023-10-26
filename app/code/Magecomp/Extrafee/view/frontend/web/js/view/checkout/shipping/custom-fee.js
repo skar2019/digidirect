@@ -18,6 +18,6 @@ define([
             canVisibleExtrafeeBlock: show_hide_Extrafee_blockConfig,
             getFormattedPrice: ko.observable(priceUtils.formatPrice(custom_fee_amount, quote.getPriceFormat())),
             getFeeLabel:ko.observable(fee_label),
-            hasMarketplacerSeller: has_marketplacer_seller
+            hasMarketplacerSeller: ko.observable(has_marketplacer_seller || false)
         });
     });
