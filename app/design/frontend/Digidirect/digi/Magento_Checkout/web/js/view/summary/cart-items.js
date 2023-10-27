@@ -70,7 +70,7 @@ define([
             console.log("Override cart-items.js!");
             
             _.each(window.checkoutConfig.quoteData.marketplacer_sellers, function (item) {
-                console.log(item[0]);
+                console.log(item);
             });
         },
 
