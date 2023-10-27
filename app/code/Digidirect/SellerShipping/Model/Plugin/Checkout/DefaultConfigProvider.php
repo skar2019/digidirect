@@ -35,6 +35,7 @@ class DefaultConfigProvider
         
         if ($this->helperData->getSellerShipping()) {
             $result['quoteData']['has_marketplacer_seller'] = true;
+            $result['quoteData']['marketplacer_sellers'] = $this->helperData->getSellers();
         } else {
             $result['quoteData']['has_marketplacer_seller'] = false;
         }

@@ -77,6 +77,25 @@ class Data extends AbstractHelper
         return $sellerTotalShipping;
         
     }
+    
+    public function getSellers()
+    {
+        $items = $this->session->getQuote()->getAllVisibleItems();
+        //$this->logger->info('getAllItems');
+        $sellers = [];
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            $seller = $product->getMarketplacerSeller();
+            
+            if (($product->getAttributeText('marketplacer_seller') != "General Seller") && (!in_array($seller, $sellers)))  {
+                array_push($sellers, $seller);
+            }
+            //$this->logger->info('getProductId: ' . $product->getId());
+        }
+        
+        return $sellers;
+        
+    }
 
     /**
      * Get custom fee
