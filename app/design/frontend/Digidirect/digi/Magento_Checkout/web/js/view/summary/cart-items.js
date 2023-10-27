@@ -88,9 +88,10 @@ define([
             console.log("items: " + JSON.stringify(items));
             console.log("seller: " + JSON.stringify(sellers));
             
-            _.each(sellers, function (seller) {
-                this.items(items);
+            _.each(items, function (item) {
+                this.items(item);
             });
+            
         },
 
         /**
