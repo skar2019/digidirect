@@ -68,9 +68,9 @@ define([
                 this.setItems(totals.getItems()(), seller);
             
                 // Subscribe for items data changes and refresh items in view
-                totals.getItems().subscribe(function (items) {
+                /*totals.getItems().subscribe(function (items) {
                     this.setItems(items, seller);
-                }.bind(this));
+                }.bind(this));*/
             });
             
         },
