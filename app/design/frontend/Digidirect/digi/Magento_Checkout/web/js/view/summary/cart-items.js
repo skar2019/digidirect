@@ -65,7 +65,7 @@ define([
             // Set initial items to observable field
             _.each(window.checkoutConfig.quoteData.marketplacer_sellers, function (seller) {
                 console.log(seller);
-                this.setItems(totals.getItems(), seller);
+                this.setItems(totals.getItems()());
             });
             
             // Subscribe for items data changes and refresh items in view
@@ -80,7 +80,7 @@ define([
          *
          * @param {Object} items
          */
-        setItems: function (items, seller) {
+        setItems: function (items) {
             if (items && items.length > 0) {
                 items = items.slice(parseInt(-this.maxCartItemsToDisplay, 10));
             }
