@@ -13,7 +13,7 @@
                                     <item name="sortOrder" xsi:type="string">20</item>
                                     <item name="config" xsi:type="array">
                                          <item name="template" xsi:type="string">Digidirect_SellerShipping/checkout/cart/totals/fee</item>
-                                        <item name="title" xsi:type="string" translate="true">Extra Fee</item>
+                                        <item name="title" xsi:type="string" translate="true">Seller Shipping</item>
                                     </item>
                                 </item>
 

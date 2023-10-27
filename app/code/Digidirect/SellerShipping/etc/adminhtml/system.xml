@@ -8,13 +8,13 @@
 		<section id="SellerShipping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
                  showInStore="1">
             <class>separator-top</class>
-            <label>Extra Fee</label>
+            <label>Seller Shipping</label>
             <tab>digidirect</tab>
             <resource>Digidirect_SellerShipping::config_sellershipping</resource>
 			<group id="SellerShipping" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuration</label>
                 <field id="status" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Extra Fee</label>
+                    <label>Seller Shipping</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
                 <field id="name" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -24,7 +24,7 @@
                     </depends>
                 </field>
                 <field id="SellerShipping_amount" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Extra Fee Amount</label>
+                    <label>Seller Shipping Amount</label>
                     <validate>validate-number validate-zero-or-greater required</validate>
 					 <comment><![CDATA[Applies as Fixed Amount]]></comment>
                     <depends>
@@ -32,7 +32,7 @@
                     </depends>
                 </field>
                 <field id="minimum_order_amount" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Minimum Order Amount To Display Extra Fee</label>
+                    <label>Minimum Order Amount To Display Seller Shipping</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                     <depends>
                         <field id="SellerShipping/SellerShipping/status">1</field>
@@ -40,10 +40,10 @@
                 </field>
             </group>
             <group id="tax" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Extra Fee Tax</label>
+                <label>Seller Shipping Tax</label>
                 <depends><field id="*/general/enable">1</field></depends>
                 <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Calculate Tax On Extra Fee</label>
+                    <label>Calculate Tax On Seller Shipping</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="tax_class" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -52,7 +52,7 @@
                     <depends><field id="*/*/enable">1</field></depends>
                 </field>
                 <field id="display" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Extra Fee</label>
+                    <label>Seller Shipping</label>
                     <source_model>Magento\Tax\Model\System\Config\Source\Tax\Display\Type</source_model>
                     <depends><field id="*/*/enable">1</field></depends>
                 </field>
