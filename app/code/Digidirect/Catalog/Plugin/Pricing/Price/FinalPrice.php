@@ -8,7 +8,7 @@ class FinalPrice
     {
         $product = $subject->getProduct();
         $price = $product->getData('final_price');
-        $wiserPrice = $product->getData('wiser_price');
+        $wiserPrice = number_format((float)$product->getData('wiser_price'), 2, '.', '');
         
         if ($product) {
             if ($wiserPrice > 1 && !empty($wiserPrice)) {

@@ -34,6 +34,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $customerRepository;
     
     protected $customerSession;
+    
+    protected $logger;
 
     /**
      * Initialize dependencies.
@@ -50,12 +52,14 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger,
         CustomerRepository $customerRepository
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -74,13 +78,23 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         if ($customerId === null) {
             $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         } else {
-            try {
+            //try {
                 $customer = $this->customerRepository->getById($customerId);
                 $storeId = (int)$this->storeManager->getStore()->getId();
                 $customer->setStoreId($storeId);
                 $customerGroupId = $customer->getGroupId();
                 
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
+                $customerFirstName = $this->getRequest()->getParam('digiclub-firstname');
+                $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
+                $customerEmail = $this->getRequest()->getParam('digiclub-email');
+                $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
+                
+                $this->logger->info('$customerFirstName: ' . $customerFirstName);
+                $this->logger->info('$customerLastName: ' . $customerLastName);
+                $this->logger->info('$customerEmail: ' . $customerEmail);
+                $this->logger->info('$customerContactNumber: ' . $customerContactNumber);
+                
                 $this->setIgnoreValidationFlag($customer);
                 
                 if ($isDigiClubParam) {
@@ -89,12 +103,18 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                     $customer->setGroupId(self::GENERAL_GROUP_ID);
                 }
                 
+                $customer->setData('firstname', $customerFirstName);
+                $customer->setData('lastname', $customerLastName);
+                $customer->setData('email', $customerEmail);
+                $customer->setCustomAttribute('contact_number', $customerContactNumber);
+                //$customer->setData('contact_number', $customerContactNumber);
+                
                 $this->customerRepository->save($customer);
                 $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
                 
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
-            }
+            //} catch (\Exception $e) {
+            //    $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
+            //}
         }
         return $this->_redirect('customer/account/');
     }

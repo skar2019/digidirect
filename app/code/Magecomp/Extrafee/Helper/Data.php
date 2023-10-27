@@ -13,15 +13,32 @@ class Data extends AbstractHelper
     const CONFIG_CUSTOM_FEE = 'Extrafee/Extrafee/Extrafee_amount';
     const CONFIG_FEE_LABEL = 'Extrafee/Extrafee/name';
     const CONFIG_MINIMUM_ORDER_AMOUNT = 'Extrafee/Extrafee/minimum_order_amount';
+    
+    protected $session;
+    
+    protected $logger;
+    
+    protected $productFactory;
+    
+    public function __construct(
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Checkout\Model\Session $session,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\ProductFactory $productFactory
+    ){
+        $this->session = $session;
+        $this->logger = $logger;
+        $this->productFactory = $productFactory;
+        parent::__construct($context);
+    }
 
     /**
      * @return mixed
      */
     public function isModuleEnabled()
     {
-
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_IS_ENABLED, $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/status', 'store');
     }
 
     /**
@@ -32,7 +49,33 @@ class Data extends AbstractHelper
     public function getExtrafee()
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_CUSTOM_FEE, $storeScope);
+        $baseShipping = $this->scopeConfig->getValue('Extrafee/Extrafee/Extrafee_amount', $storeScope);
+        
+        $items = $this->session->getQuote()->getAllVisibleItems();
+        //$this->logger->info('getAllItems');
+        $sellers = [];
+        foreach($items as $item) {
+            $this->logger->info('getProductId: ' . $item->getProductId());
+            $product = $this->productFactory->create()->load($item->getProductId());
+            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            $this->logger->info('getSku: ' . $product->getSku());
+            $this->logger->info('getName: ' . $product->getName());
+            
+            $seller = $product->getAttributeText('marketplacer_seller');
+            
+            if (($seller != "General Seller") && (!in_array($seller, $sellers)))  {
+                array_push($sellers, $seller);
+            }
+            //$this->logger->info('getProductId: ' . $product->getId());
+        }
+        
+        $sellerCount = count($sellers);
+        $sellerTotalShipping = $sellerCount * $baseShipping;
+        
+        return $sellerTotalShipping;
+        
     }
 
     /**
@@ -42,8 +85,8 @@ class Data extends AbstractHelper
      */
     public function getFeeLabel()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_FEE_LABEL, $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/name', 'store');
     }
 
     /**
@@ -51,7 +94,7 @@ class Data extends AbstractHelper
      */
     public function getMinimumOrderAmount()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::CONFIG_MINIMUM_ORDER_AMOUNT, $storeScope);
+        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue('Extrafee/Extrafee/minimum_order_amount', 'store');
     }
 }

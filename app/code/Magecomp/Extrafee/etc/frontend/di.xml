@@ -7,4 +7,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="digidirect_seller_shipping_default_config_provider" type="Magecomp\Extrafee\Model\Plugin\Checkout\DefaultConfigProvider" sortOrder="120" disabled="false"/>
+    </type>
 </config>

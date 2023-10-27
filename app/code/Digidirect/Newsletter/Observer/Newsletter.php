@@ -14,17 +14,21 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
     
     protected $jsonSerializer;
     
+    protected $logger;
+    
     public function __construct(
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\Client\Curl $curl,
-        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Psr\Log\LoggerInterface $logger
     ) 
     {
         $this->customerSession = $customerSession;
         $this->customerRepository = $customerRepository;
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->logger = $logger;
     }
     
     public function execute(Observer $observer)
@@ -46,28 +50,30 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
                 $this->customerRepository->save($customer);
             }
         }
+        $this->logger->info("customerID: " . $customerID); 
         
         $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
         $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
         
-        $getTokenCurl = $this->curl;
-        $getTokenCurl->addHeader("Content-Type", "application/x-www-form-urlencoded");
-        $getTokenCurl->post($getTokenUrl, $getTokenParams);
+        $this->curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $this->curl->post($getTokenUrl, $getTokenParams);
 
-        $getTokenResult = $getTokenCurl->getBody();
+        $getTokenResult = $this->curl->getBody();
 
         $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
         
-        $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
-        $webSignUpParams = ["email"=>$email,"source"=>"Web"];
-
-        $webSignUpCurl = $this->curl;
-        $webSignUpCurl->addHeader("Content-Type", "application/JSON");
-        $webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['access_token']);
-        $webSignUpCurl->post($webSignUpUrl, $webSignUpParams);
+        $this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
         
-        $webSignUpResult = $webSignUpCurl->getBody();
+        $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
+        $webSignUpParams = json_encode(["email"=>$email,"source"=>"Web"]);
+        
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Authorization", "Bearer " . $getTokenJson['access_token']);
+        $this->curl->post($webSignUpUrl, $webSignUpParams);
+        
+        $webSignUpResult = $this->curl->getBody();
         $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
+        $this->logger->info("Response: " . $webSignUpResult); 
         
     }
 }
