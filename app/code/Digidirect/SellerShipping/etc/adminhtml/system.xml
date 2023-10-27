@@ -2,14 +2,14 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="magecomp" translate="label" sortOrder="100" class="magecomp-logo">
+        <tab id="digidirect" translate="label" sortOrder="100">
             <label><![CDATA[]]></label>
         </tab>
 		<section id="SellerShipping" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
                  showInStore="1">
             <class>separator-top</class>
             <label>Extra Fee</label>
-            <tab>magecomp</tab>
+            <tab>digidirect</tab>
             <resource>Digidirect_SellerShipping::config_sellershipping</resource>
 			<group id="SellerShipping" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuration</label>

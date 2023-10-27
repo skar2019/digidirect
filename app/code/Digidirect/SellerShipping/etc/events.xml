@@ -6,6 +6,6 @@
         <observer name="sellershipping_add_fee_to_order" instance="Digidirect\SellerShipping\Observer\AddFeeToOrderObserver" />
     </event>
     <event name="payment_cart_collect_items_and_amounts">
-        <observer name="magecomp_sellershipping_payment_collect_total" instance="Digidirect\SellerShipping\Observer\Addfeetopaypal" />
+        <observer name="digidirect_sellershipping_payment_collect_total" instance="Digidirect\SellerShipping\Observer\Addfeetopaypal" />
     </event>
 </config>
