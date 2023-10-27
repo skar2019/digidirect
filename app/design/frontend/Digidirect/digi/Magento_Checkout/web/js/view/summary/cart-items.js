@@ -60,18 +60,19 @@ define([
          */
         initialize: function () {
             this._super();
+            console.log("Override cart-items.js!");
+            
             // Set initial items to observable field
-            this.setItems(totals.getItems()());
+            _.each(window.checkoutConfig.quoteData.marketplacer_sellers, function (seller) {
+                console.log(seller);
+                this.setItems(totals.getItems()(), seller);
+            });
+            
             // Subscribe for items data changes and refresh items in view
             totals.getItems().subscribe(function (items) {
                 this.setItems(items);
             }.bind(this));
             
-            console.log("Override cart-items.js!");
-            
-            _.each(window.checkoutConfig.quoteData.marketplacer_sellers, function (item) {
-                console.log(item);
-            });
         },
 
         /**
@@ -79,10 +80,11 @@ define([
          *
          * @param {Object} items
          */
-        setItems: function (items) {
+        setItems: function (items, seller) {
             if (items && items.length > 0) {
                 items = items.slice(parseInt(-this.maxCartItemsToDisplay, 10));
             }
+            console.log(items);
             this.items(items);
         },
 
