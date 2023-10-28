@@ -54,6 +54,10 @@ define([
         getCartSummaryItemsCount: function () {
             return useQty ? this.getItemsQty() : this.getCartLineItemsCount();
         },
+        
+        getSellers: function () {
+            return window.checkoutConfig.quoteData.marketplacer_sellers;
+        },
 
         /**
          * @inheritdoc
