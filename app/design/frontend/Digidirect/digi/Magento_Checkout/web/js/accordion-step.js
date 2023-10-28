@@ -16,6 +16,18 @@ define([
 
             $("#" + stepElement).fadeToggle("slow");
         });
+        
+        console.log("Jquery for seller!");
+        $('.items-in-cart .product-item .seller-name').each(function(){
+            var sellerPerItem = this;
+            $('.items-in-cart .seller-container .seller').each(function(){
+                var seller = this;
+                if (sellerPerItem == seller) {
+                    $(sellerPerItem).closest('.product-item').insertAfter(seller);
+                }
+            });
+        });
+ 
     }
 });
 
