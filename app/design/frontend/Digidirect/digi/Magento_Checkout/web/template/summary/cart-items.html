@@ -20,13 +20,13 @@
                 <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
                     <!-- ko text: seller --><!-- /ko -->
                 <!-- /ko -->
-                <each args="items()">
+                <!-- ko foreach: { data: items(), as: 'item' } -->
                     <li class="product-item">
                         <div class="product">
                             <each args="$parent.elems()" render=""></each>
                         </div>
                     </li>
-                </each>
+                <!-- /ko -->
             </ol>
         </div>
     </div>
