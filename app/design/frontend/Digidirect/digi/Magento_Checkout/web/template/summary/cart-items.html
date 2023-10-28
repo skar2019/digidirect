@@ -19,17 +19,17 @@
             <ol class="minicart-items">
                 <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
                     <!-- ko text: seller --><!-- /ko -->
-                <!-- /ko -->
-                <!-- ko foreach: { data: items(), as: 'item' } -->
-                    <li class="product-item">
-                        <div class="product">
-                            <each args="$parent.elems()" render=""></each>
-                        </div>
-                        <!-- ko text: item.entity_id --><!-- /ko -->
-                        <!-- ko text: item.item_id --><!-- /ko -->
-                        <!-- ko text: item.name --><!-- /ko -->
-                        <!-- ko text: item.marketplacer_seller --><!-- /ko -->
-                    </li>
+                    <!-- ko foreach: { data: items(), as: 'item' } -->
+                        <li class="product-item">
+                            <div class="product">
+                                <each args="$parent.elems()" render=""></each>
+                            </div>
+                            <!-- ko text: item.entity_id --><!-- /ko -->
+                            <!-- ko text: item.item_id --><!-- /ko -->
+                            <!-- ko text: item.name --><!-- /ko -->
+                            <!-- ko text: item.marketplacer_seller --><!-- /ko -->
+                        </li>
+                    <!-- /ko -->
                 <!-- /ko -->
             </ol>
         </div>
