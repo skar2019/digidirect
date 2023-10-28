@@ -18,14 +18,16 @@
         <div class="minicart-items-wrapper overflowed">
             <ol class="minicart-items">
                 <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
-                    <!-- ko text: seller --><!-- /ko -->
-                <!-- /ko -->
-                <!-- ko foreach: { data: items(), as: 'item' } -->
-                    <li class="product-item">
-                        <div class="product">
-                            <each args="$parent.elems()" render=""></each>
-                        </div>
-                    </li>
+                    Shipped By: <!-- ko text: seller --><!-- /ko -->
+                    <!-- ko foreach: { data: items(), as: 'item' } -->
+                        <!-- ko if: item.marketplacer_seller == seller -->
+                            <li class="product-item">
+                                <div class="product">
+                                    <each args="$parent.elems()" render=""></each>
+                                </div>
+                            </li>
+                        <!-- /ko -->
+                    <!-- /ko -->
                 <!-- /ko -->
             </ol>
         </div>
