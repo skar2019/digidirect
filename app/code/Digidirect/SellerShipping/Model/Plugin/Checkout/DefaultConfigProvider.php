@@ -49,7 +49,7 @@ class DefaultConfigProvider
             $productId = $quote->getProductId();
             $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
             $productSeller = $product->getResource()->getAttribute('marketplacer_seller')->getFrontend()->getValue($product);       
-            $items[$i]['flavor'] = $productFlavours;
+            $items[$i]['marketplacer_seller'] = $productSeller;
         }
         $result['totalsData']['items'] = $items;
         
