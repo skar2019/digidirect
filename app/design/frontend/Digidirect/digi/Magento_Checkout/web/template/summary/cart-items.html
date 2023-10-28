@@ -16,19 +16,16 @@
     </div>
     <div class="content minicart-items" data-role="content">
         <div class="minicart-items-wrapper overflowed">
-            <ol data-bind="foreach: getSellers()">
-                <span data-bind="text: $data"></span>
-            </ol>
             <ol data-bind="foreach: getSellers()" class="minicart-items">
-                <!-- ko text: $data --><!-- /ko -->
-                <each args="items()">
-                    <li class="product-item">
-                        <div class="product">
-                            <each args="$parent.elems()" render=""></each>
-                        </div>
-                    </li>
-                </each>
+                <div data-bind="text: $data" class="seller"></div>
             </ol>
+            <!-- ko foreach: { data: items(), as: 'item' } -->
+                <li class="product-item" seller="text: item.marketplacer_seller">
+                    <div class="product">
+                        <each args="$parent.elems()" render=""></each>
+                    </div>
+                </li>
+            <!-- /ko -->
         </div>
     </div>
     <div class="actions-toolbar" if="maxCartItemsToDisplay < getCartLineItemsCount()">
