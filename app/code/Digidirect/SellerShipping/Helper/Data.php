@@ -85,7 +85,7 @@ class Data extends AbstractHelper
         $sellers = [];
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            $seller = $product->getMarketplacerSeller();
+            $seller = $product->getAttributeText('marketplacer_seller');
             
             if (($product->getAttributeText('marketplacer_seller') != "General Seller") && (!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
