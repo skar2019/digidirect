@@ -17,7 +17,7 @@
     <div class="content minicart-items" data-role="content">
         <div class="minicart-items-wrapper overflowed">
             <ol class="minicart-items">
-                <!-- ko foreach: { data: getSellers, as: 'seller' } -->
+                <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
                     <!-- ko text: seller --><!-- /ko -->
                 <!-- /ko -->
                 <each args="items()">
