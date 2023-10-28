@@ -40,6 +40,19 @@ class DefaultConfigProvider
             $result['quoteData']['has_marketplacer_seller'] = false;
         }
         
+        $items = $result['totalsData']['items'];
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        for($i=0; $i < count($items); $i++){
+            $quoteId = $items[$i]['item_id'];
+            $quote = $objectManager->create('\Magento\Quote\Model\Quote\Item')->load($quoteId);
+            $productId = $quote->getProductId();
+            $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
+            $productSeller = $product->getResource()->getAttribute('marketplacer_seller')->getFrontend()->getValue($product);       
+            $items[$i]['flavor'] = $productFlavours;
+        }
+        $result['totalsData']['items'] = $items;
+        
         return $result;
     }
 
