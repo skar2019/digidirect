@@ -20,7 +20,8 @@
                 <div data-bind="text: $data" class="seller"></div>
             </ol>
             <!-- ko foreach: { data: items(), as: 'item' } -->
-                <li class="product-item" seller="text: item.marketplacer_seller">
+                <li class="product-item">
+                    <div class="seller-name"><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
                     <div class="product">
                         <each args="$parent.elems()" render=""></each>
                     </div>
