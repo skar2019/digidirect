@@ -19,10 +19,8 @@
             <ol data-bind="foreach: getSellers()">
                 <span data-bind="text: $data"></span>
             </ol>
-            <ol class="minicart-items">
-                <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
-                    <!-- ko text: seller --><!-- /ko -->
-                <!-- /ko -->
+            <ol data-bind="foreach: getSellers()" class="minicart-items">
+                <!-- ko text: $data --><!-- /ko -->
                 <!-- ko foreach: { data: items(), as: 'item' } -->
                     <li class="product-item">
                         <div class="product">
