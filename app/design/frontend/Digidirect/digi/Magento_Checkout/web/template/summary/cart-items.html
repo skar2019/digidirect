@@ -20,13 +20,15 @@
                 <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
                     Shipped By: <!-- ko text: seller --><!-- /ko -->
                     <!-- ko foreach: { data: items(), as: 'item' } -->
-                        <!-- ko if: item.marketplacer_seller == seller -->
-                            <li class="product-item">
-                                <div class="product">
-                                    <each args="$parent.elems()" render=""></each>
-                                </div>
-                            </li>
-                        <!-- /ko -->
+                        <li class="product-item">
+                            <div class="product">
+                                <each args="$parent.elems()" render=""></each>
+                            </div>
+                        </li>
+                        <!-- ko text: item.entity_id --><!-- /ko -->
+                        <!-- ko text: item.item_id --><!-- /ko -->
+                        <!-- ko text: item.name --><!-- /ko -->
+                        <!-- ko text: item.marketplacer_seller --><!-- /ko -->
                     <!-- /ko -->
                 <!-- /ko -->
             </ol>
