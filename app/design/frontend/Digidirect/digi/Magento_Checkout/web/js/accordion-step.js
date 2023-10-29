@@ -17,9 +17,6 @@ define([
             $("#" + stepElement).fadeToggle("slow");
         });
         
-        console.log('seller-name count: ' + $('.items-in-cart .product-item .seller-name').length);
-        console.log('seller count: ' + $('.items-in-cart .seller').length);
-        
         $(window).on('load', function(){
             
             /*$('.items-in-cart .product-item .seller-name').each(function(){
