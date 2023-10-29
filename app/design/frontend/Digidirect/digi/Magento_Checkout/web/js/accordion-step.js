@@ -20,15 +20,15 @@ define([
         $(window).on('load', function(){
             console.log("Jquery for seller!");
             $('.items-in-cart .product-item .seller-name').each(function(){
-                var sellerPerItem = this.innerHTML;
+                var sellerPerItem = this.html();
                 console.log("sellerPerItem: " + sellerPerItem);
-                /*$('.items-in-cart .seller-container .seller').each(function(){
-                    var seller = this.innerHTML;
+                $('.items-in-cart .seller-container .seller').each(function(){
+                    var seller = this.html();
                     console.log("seller: " + seller);
                     if (sellerPerItem == seller) {
                         $(sellerPerItem).closest('.product-item').insertAfter(seller);
                     }
-                });*/
+                });
             });
         });
  
