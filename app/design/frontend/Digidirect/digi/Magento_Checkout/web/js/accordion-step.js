@@ -19,16 +19,17 @@ define([
         
         $(window).on('load', function(){
             console.log("Jquery for seller!");
-            $('.items-in-cart .product-item .seller-name').each(function(){
-                var sellerPerItem = $(this).contents();
+            $('.seller-name').each(function(){
+                console.log("sellerPerItem");
+                var sellerPerItem = $(this).html();
                 console.log("sellerPerItem: " + sellerPerItem);
-                $('.items-in-cart .seller-container .seller').each(function(){
+                /*$('.items-in-cart .seller-container .seller').each(function(){
                     var seller = $(this).contents();
                     console.log("seller: " + seller);
                     if (sellerPerItem == seller) {
                         $(sellerPerItem).closest('.product-item').insertAfter(seller);
                     }
-                });
+                });*/
             });
         });
  
