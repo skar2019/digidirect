@@ -20,10 +20,10 @@ define([
         $(window).on('load', function(){
             console.log("Jquery for seller!");
             $('.items-in-cart .product-item .seller-name').each(function(){
-                var sellerPerItem = $(this).html();
+                var sellerPerItem = $(this).contents();
                 console.log("sellerPerItem: " + sellerPerItem);
                 $('.items-in-cart .seller-container .seller').each(function(){
-                    var seller = $(this).html();
+                    var seller = $(this).contents();
                     console.log("seller: " + seller);
                     if (sellerPerItem == seller) {
                         $(sellerPerItem).closest('.product-item').insertAfter(seller);
