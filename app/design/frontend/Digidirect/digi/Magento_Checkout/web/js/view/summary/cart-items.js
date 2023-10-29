@@ -79,6 +79,7 @@ define([
                 this.setItems(items);
             }.bind(this));
             
+            console.log($('.items-in-cart .product-item .seller-name').length);
             $('.items-in-cart .product-item .seller-name').each(function(){
                 console.log("Test each seller!");
             });
