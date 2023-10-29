@@ -5,11 +5,12 @@
 
 define([
     'ko',
+    'jquery',
     'Magento_Checkout/js/model/totals',
     'uiComponent',
     'Magento_Checkout/js/model/step-navigator',
     'Magento_Checkout/js/model/quote'
-], function (ko, totals, Component, stepNavigator, quote) {
+], function (ko, $, totals, Component, stepNavigator, quote) {
     'use strict';
 
     var useQty = window.checkoutConfig.useQty;
