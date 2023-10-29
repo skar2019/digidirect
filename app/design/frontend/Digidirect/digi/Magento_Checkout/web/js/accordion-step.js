@@ -21,15 +21,8 @@ define([
             console.log("Jquery for seller!");
             $('.seller-name').each(function(){
                 console.log("sellerPerItem");
-                var sellerPerItem = $(this).html();
+                var sellerPerItem = $(this);
                 console.log("sellerPerItem: " + sellerPerItem);
-                /*$('.items-in-cart .seller-container .seller').each(function(){
-                    var seller = $(this).contents();
-                    console.log("seller: " + seller);
-                    if (sellerPerItem == seller) {
-                        $(sellerPerItem).closest('.product-item').insertAfter(seller);
-                    }
-                });*/
             });
         });
  
