@@ -19,6 +19,9 @@
             
             <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
                 <!-- ko text: seller --><!-- /ko -->
+                <!-- ko foreach: { data: items(), as: 'item' } -->
+                    <!-- ko text: item.marketplacer_seller --><!-- /ko -->
+                <!-- /ko -->
             <!-- /ko -->
             
             <!-- ko foreach: { data: items(), as: 'item' } -->
