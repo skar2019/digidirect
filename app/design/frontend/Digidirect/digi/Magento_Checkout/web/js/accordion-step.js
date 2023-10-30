@@ -16,15 +16,6 @@ define([
 
             $("#" + stepElement).fadeToggle("slow");
         });
-        
-        $('.minicart-items-wrapper').on('load', function(){
-            console.log("seller-name: " + $('.items-in-cart .product-item .seller-name').length);
-        });
-        
-        $('.minicart-items').on('load', function(){
-            console.log("seller-name: " + $('.items-in-cart .seller').length);
-        });
-
     }
 });
 
