@@ -20,17 +20,7 @@
                 <div class="seller-container">
                     <div data-bind="text: $data" class="seller"></div>
                 </div>
-                <ol data-bind="foreach: items()" class="marketplacer_seller" style="display: none;">
-                    <div class="seller">
-                        <div data-bind="text: $data.marketplacer_seller"></div>
-                    </div>
-                </ol>
             </ol>
-            
-            <!-- ko foreach: { data: getSellers(), as: 'seller' } -->
-                <!-- ko text: seller --><!-- /ko -->
-            <!-- /ko -->
-            
             <!-- ko foreach: { data: items(), as: 'item' } -->
                 <li class="product-item">
                     <div class="seller-name"><span>Shipped By: </span><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
