@@ -20,7 +20,8 @@ define([
                 $('.opc-sidebar .items-in-cart .seller').each(function(){
                     var seller = $(this).html();
                     console.log("seller: " + seller);
-                    if (sellerPerItem == seller) {
+                    if (sellerPerItem === seller) {
+                        console.log("sellerPerItem === seller");
                         $(sellerPerItem).closest('.product-item').insertAfter(seller);
                     }
                 });
