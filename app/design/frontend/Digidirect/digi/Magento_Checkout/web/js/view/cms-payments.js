@@ -24,7 +24,7 @@ define([
                     console.log("seller: " + seller);
                     if (sellerPerItem === seller) {
                         console.log("sellerPerItem === seller");
-                        $(thisSellerPerItem).closest('.product-item').insertAfter(thisSeller);
+                        $(thisSellerPerItem).parent().insertAfter(thisSeller);
                     }
                 });
             });
