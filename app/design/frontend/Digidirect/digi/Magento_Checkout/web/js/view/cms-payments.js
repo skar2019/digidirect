@@ -15,14 +15,16 @@ define([
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
             $('.opc-sidebar .items-in-cart .product-item .seller-name').each(function(){
+                var thisSellerPerItem = $(this);
                 var sellerPerItem = $(this).html();
                 console.log("sellerPerItem: " + sellerPerItem);
                 $('.opc-sidebar .items-in-cart .seller').each(function(){
+                    var thisSeller = $(this).html();
                     var seller = $(this).html();
                     console.log("seller: " + seller);
                     if (sellerPerItem === seller) {
                         console.log("sellerPerItem === seller");
-                        $(sellerPerItem).closest('.product-item').insertAfter(seller);
+                        $(thisSellerPerItem).closest('.product-item').insertAfter(thisSeller);
                     }
                 });
             });
