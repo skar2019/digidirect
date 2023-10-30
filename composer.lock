@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "276bfa5232b6bee41e5864af0a5da4f9",
+    "content-hash": "757bead60f0f904c08d9ce5bdcb955d0",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -24697,6 +24697,23 @@
             "description": "Create attribute-based pages like Brands Page, Authors Page and others."
         },
         {
+            "name": "swissup/delete-orders",
+            "version": "1.2.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/swissup/delete-orders/swissup-delete-orders-1.2.2.0.zip",
+                "shasum": "fb0d9580f74047263af93592db31e6911725b1cb"
+            },
+            "require": {
+                "swissup/module-delete-orders": "^1.2.2"
+            },
+            "type": "metapackage",
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Delete checked orders from your store"
+        },
+        {
             "name": "swissup/module-attributepages",
             "version": "1.6.1",
             "dist": {
@@ -24767,6 +24784,42 @@
                 "OSL-3.0"
             ],
             "description": "Swissup core module. It's purpose is to add Swissup menu and config entries"
+        },
+        {
+            "name": "swissup/module-delete-orders",
+            "version": "1.2.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/swissup/module-delete-orders/swissup-module-delete-orders-1.2.2.0.zip",
+                "shasum": "bba2af061c65a403c78d6324a626e3af39911d5f"
+            },
+            "require": {
+                "swissup/module-core": "^1.12.11"
+            },
+            "type": "magento2-module",
+            "extra": {
+                "marketplace": {
+                    "gallery": [
+                        "https://docs.swissuplabs.com/images/marketplace/module-delete-orders.png"
+                    ],
+                    "links": {
+                        "docs": "https://docs.swissuplabs.com/m2/extensions/delete-orders/",
+                        "changelog": "https://docs.swissuplabs.com/m2/extensions/delete-orders/changelog/"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Swissup\\DeleteOrders\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Delete checked orders from your store"
         },
         {
             "name": "swissup/module-marketplace",
@@ -28126,5 +28179,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
