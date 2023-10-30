@@ -19,16 +19,16 @@
             <ol data-bind="foreach: getSellers()" class="minicart-items" style="display: none;">
                 <div class="seller-container">
                     <div data-bind="text: $data" class="seller"></div>
+                    <!-- ko foreach: { data: items(), as: 'item' } -->
+                        <li class="product-item">
+                            <div class="seller-name"><span>Shipped By: </span></div>
+                            <div class="product">
+                                <each args="$parent.elems()" render=""></each>
+                            </div>
+                        </li>
+                    <!-- /ko -->
                 </div>
             </ol>
-            <!-- ko foreach: { data: items(), as: 'item' } -->
-                <li class="product-item">
-                    <div class="seller-name"><span>Shipped By: </span></div>
-                    <div class="product">
-                        <each args="$parent.elems()" render=""></each>
-                    </div>
-                </li>
-            <!-- /ko -->
         </div>
     </div>
     <div class="actions-toolbar" if="maxCartItemsToDisplay < getCartLineItemsCount()">
