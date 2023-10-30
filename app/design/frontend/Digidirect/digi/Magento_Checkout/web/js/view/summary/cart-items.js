@@ -79,14 +79,6 @@ define([
                 this.setItems(items);
             }.bind(this));
             
-            $(window).on('load', function(){
-                console.log($('.items-in-cart .product-item .seller-name').length);
-            
-                $('.items-in-cart .product-item .seller-name').each(function(){
-                    console.log("Test each seller!");
-                });
-            });
-            
             /*console.log("JS for seller!");
             var elements = document.getElementsByClassName("seller-name");
             var elementsArr = Array.from(elements);
@@ -108,6 +100,7 @@ define([
             if (items && items.length > 0) {
                 items = items.slice(parseInt(-this.maxCartItemsToDisplay, 10));
             }
+            items.push(sellers);
             console.log("items: " + JSON.stringify(items));
             console.log("seller: " + JSON.stringify(sellers));
             
