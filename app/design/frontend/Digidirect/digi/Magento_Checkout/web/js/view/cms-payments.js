@@ -10,14 +10,8 @@ define([
         isVisible: function () {
             
             console.log("cms-payments");
-
-            $('.minicart-items-wrapper').on('load', function(){
-                console.log("seller-name: " + $('.items-in-cart .product-item .seller-name').length);
-            });
-
-            $('.minicart-items').on('load', function(){
-                console.log("seller: " + $('.items-in-cart .seller').length);
-            });
+            console.log("seller-name: " + $('.items-in-cart .product-item .seller-name').length);
+            console.log("seller: " + $('.items-in-cart .seller').length);
 
             return cmsPayments;
         }
