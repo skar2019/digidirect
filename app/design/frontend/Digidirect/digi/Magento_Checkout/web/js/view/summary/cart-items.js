@@ -100,7 +100,7 @@ define([
             if (items && items.length > 0) {
                 items = items.slice(parseInt(-this.maxCartItemsToDisplay, 10));
             }
-            items.push(sellers);
+            //items.push(sellers);
             console.log("items: " + JSON.stringify(items));
             console.log("seller: " + JSON.stringify(sellers));
             
