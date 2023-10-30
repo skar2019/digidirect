@@ -18,23 +18,13 @@ define([
         });
         
         $(window).on('load', function(){
-            
-            /*$('.items-in-cart .product-item .seller-name').each(function(){
-                console.log("Test each seller!");
-            });*/
-            
-            /*console.log("JS for seller!");
-            var elements = document.getElementsByClassName("seller-name");
-            var elementsArr = Array.from(elements);
-            console.log("elementsArr: " + JSON.stringify(elementsArr));
-            elementsArr.forEach(myFunction);
+            console.log("seller-name: " + $('.items-in-cart .product-item .seller-name').length);
 
-            function myFunction(currentValue, index) {
-                console.log(currentValue.innerHTML);
-            }*/
-            
+            $('.items-in-cart .product-item .seller-name').each(function(){
+                console.log("Test each seller!");
+            });
         });
- 
+
     }
 });
 
