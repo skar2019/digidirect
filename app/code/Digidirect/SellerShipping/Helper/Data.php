@@ -62,12 +62,15 @@ class Data extends AbstractHelper
             $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
             $this->logger->info('getSku: ' . $product->getSku());
             $this->logger->info('getName: ' . $product->getName());
+            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            $this->logger->info('getAttributeTextFinalPrice: ' . $product->getAttributeText('final_price'));
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
             if (($seller != "General Seller") && (!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
+            
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
@@ -87,7 +90,7 @@ class Data extends AbstractHelper
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
             
-            if (($product->getAttributeText('marketplacer_seller') != "General Seller") && (!in_array($seller, $sellers)))  {
+            if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());

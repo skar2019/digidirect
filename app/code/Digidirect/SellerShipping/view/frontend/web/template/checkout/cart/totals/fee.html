@@ -2,13 +2,13 @@
 <!-- ko if: isDisplayed() -->
 <!-- ko if: isTaxEnabled() -->
 <!-- ko if: isDisplayBoth() -->
-<tr class="totals fee excl" >
+<tr class="totals fee excl" style="display: none;">
     <th class="mark" colspan="1" scope="row" data-bind="text: getFeeLabel() + ' ' + getExFeeLabel()"></th>
     <td class="amount">
         <span class="price" data-bind="text: getFormattedPrice()"></span>
     </td>
 </tr>
-<tr class="totals fee incl">
+<tr class="totals fee incl" style="display: none;">
     <th class="mark" colspan="1" scope="row" data-bind="text: getFeeLabel() + ' ' + getInFeeLabel()"></th>
     <td class="amount">
         <span class="price" data-bind="text: getInFormattedPrice()"></span>
@@ -17,7 +17,7 @@
 <!-- /ko -->
 <!-- ko ifnot: isDisplayBoth() -->
 <!-- ko if: displayExclTax() -->
-<tr class="totals fee excl" >
+<tr class="totals fee excl" style="display: none;">
     <th class="mark" colspan="1" scope="row" data-bind="text: getFeeLabel()"></th>
     <td class="amount">
         <span class="price" data-bind="text: getFormattedPrice()"></span>
@@ -25,7 +25,7 @@
 </tr>
 <!-- /ko -->
 <!-- ko if: displayInclTax() -->
-<tr class="totals fee incl">
+<tr class="totals fee incl" style="display: none;">
     <th class="mark" colspan="1" scope="row" data-bind="text: getFeeLabel()"></th>
     <td class="amount">
         <span class="price" data-bind="text: getInFormattedPrice()"></span>
@@ -35,7 +35,7 @@
 <!-- /ko -->
 <!-- /ko -->
 <!-- ko ifnot: isTaxEnabled() -->
-<tr class="totals fee excl" >
+<tr class="totals fee excl" style="display: none;">
     <th class="mark" colspan="1" scope="row" data-bind="text: getFeeLabel()"></th>
     <td class="amount">
         <span class="price" data-bind="text: getFormattedPrice()"></span>
