@@ -8,7 +8,7 @@ use Magento\Quote\Model\Quote\Address\Rate;
 use Magento\Quote\Model\Quote\Address\RateResult\AbstractResult;
 use Magento\Quote\Model\Quote\Address\RateResult\Method;
 
-class RatePlugin
+class Rate
 {
     public function afterImportShippingRate(
         Rate $subject,
