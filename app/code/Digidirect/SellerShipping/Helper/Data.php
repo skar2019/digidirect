@@ -63,7 +63,6 @@ class Data extends AbstractHelper
             $this->logger->info('getSku: ' . $product->getSku());
             $this->logger->info('getName: ' . $product->getName());
             $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
-            $this->logger->info('getAttributeTextFinalPrice: ' . $product->getAttributeText('final_price'));
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
