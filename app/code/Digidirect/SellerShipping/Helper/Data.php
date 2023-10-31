@@ -73,6 +73,30 @@ class Data extends AbstractHelper
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
+        $sellerTotalShipping = 0;
+        
+        foreach($sellers as $seller) {
+            $sellerShipping = 0;
+            $sellerTotal = 0;
+            foreach($items as $item) {
+                $product = $this->productFactory->create()->load($item->getProductId());
+                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                $finalPrice = $product->getFinalPrice();
+                $itemSeller = $product->getAttributeText('marketplacer_seller');
+                
+                if ($seller == $itemSeller) {
+                    $sellerTotal += $finalPrice;
+                }
+            }
+            $this->logger->info($seller . ': ' . $sellerTotal);
+            
+            if ($sellerTotal < 99) {
+                $sellerShipping = 10;
+            }
+            
+            $sellerTotalShipping += $sellerShipping;
+        }
+        
         $sellerCount = count($sellers);
         $sellerTotalShipping = $sellerCount * $baseShipping;
         
