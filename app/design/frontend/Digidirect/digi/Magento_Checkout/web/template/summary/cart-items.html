@@ -19,7 +19,10 @@
             <ol data-bind="foreach: getSellers()" class="minicart-items">
                 <div class="seller-container">
                     <div>Delivery # </div>
-                    <div class="shipped-by" style="display: flex;"><div>Shipped By: </div><div data-bind="text: $data" class="seller"></div></div>
+                    <div class="shipped-by" style="display: flex;">
+                        <div>Shipped By: </div>
+                        <div data-bind="text: $data" class="seller"></div>
+                    </div>
                 </div>
             </ol>
             <ol data-bind="foreach: items()" class="minicart-items">
