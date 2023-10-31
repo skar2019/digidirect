@@ -4,6 +4,6 @@
         <plugin name="save_custom_fee_in_quote" type="Digidirect\SellerShipping\Plugin\Checkout\Model\ShippingInformationManagement" sortOrder="1"/>
     </type>
     <type name="Magento\Quote\Model\Quote\Address\Rate">
-        <plugin name="add_seller_shipping_to_shipping_total" type="Digidirect\SellerShipping\Plugin\Quote\Model\Quote\Address\Rate" sortOrder="10"/>
+        <plugin name="add_seller_shipping_to_shipping_total" type="Digidirect\SellerShipping\Plugin\Quote\Model\Quote\Address\RatePlugin" sortOrder="10"/>
     </type>
 </config>
