@@ -149,7 +149,7 @@ class Data extends AbstractHelper
             }
         }
         
-        $this->logger->info('sellersArray: ' . $sellersArray);
+        $this->logger->info('sellersArray: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
