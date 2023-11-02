@@ -151,7 +151,7 @@ class Data extends AbstractHelper
             
             if (!in_array($seller, $sellersArray))  {
                 //array_push($sellersArray, [$seller,$sellerTotalShipping]);
-                array_push($sellersArray, $sellerArray);
+                array_push($sellersArray, $seller);
             }
         }
         
