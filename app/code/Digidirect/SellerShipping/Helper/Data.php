@@ -101,7 +101,7 @@ class Data extends AbstractHelper
         
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
-        $this->logger->info('sellerTotalShipping' . $sellerTotalShipping);
+        $this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
         return $sellerTotalShipping;
         
     }
@@ -114,14 +114,44 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
-            
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
-        return $sellers;
+        $sellerTotalShipping = 0;
+        $sellersArray = [];
+        
+        foreach($sellers as $seller) {
+            $sellerShipping = 0;
+            $sellerTotal = 0;
+            foreach($items as $item) {
+                $product = $this->productFactory->create()->load($item->getProductId());
+                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                $finalPrice = $product->getFinalPrice();
+                $itemSeller = $product->getAttributeText('marketplacer_seller');
+                
+                if ($seller == $itemSeller) {
+                    $sellerTotal += $finalPrice;
+                }
+            }
+            $this->logger->info($seller . ': ' . $sellerTotal);
+            
+            if ($sellerTotal < 99) {
+                $sellerShipping = 10;
+            }
+            
+            $sellerTotalShipping += $sellerShipping;
+            
+            if (!in_array($seller, $sellersArray))  {
+                array_push($sellersArray, [$seller,$sellerTotalShipping]);
+            }
+        }
+        
+        $this->logger->info('sellersArray: ' . $sellersArray);
+        
+        return $sellersArray;
         
     }
 
