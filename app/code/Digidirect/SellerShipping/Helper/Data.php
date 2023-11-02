@@ -124,8 +124,10 @@ class Data extends AbstractHelper
         $sellersArray = [];
         
         foreach($sellers as $seller) {
+            
             $sellerShipping = 0;
             $sellerTotal = 0;
+            
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
@@ -142,10 +144,10 @@ class Data extends AbstractHelper
                 $sellerShipping = 10;
             }
             
-            $sellerTotalShipping += $sellerShipping;
+            //$sellerTotalShipping += $sellerShipping;
             
             if (!in_array($seller, $sellersArray))  {
-                array_push($sellersArray, [$seller,$sellerTotalShipping]);
+                array_push($sellersArray, [$seller,$sellerShipping]);
             }
         }
         
