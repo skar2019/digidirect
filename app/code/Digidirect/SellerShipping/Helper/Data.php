@@ -117,6 +117,7 @@ class Data extends AbstractHelper
             }
             //$this->logger->info('getProductId: ' . $product->getId());
         }
+        $this->logger->info($sellers);
         
         $sellerTotalShipping = 0;
         $sellersArray = [];
