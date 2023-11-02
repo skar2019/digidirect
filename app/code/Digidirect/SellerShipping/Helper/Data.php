@@ -125,7 +125,7 @@ class Data extends AbstractHelper
         $sellerTotalShipping = 0;
         $sellersArray = [];
         
-        foreach($sellers as $seller) {
+        /*foreach($sellers as $seller) {
             
             $sellerShipping = 0;
             $sellerTotal = 0;
@@ -160,11 +160,11 @@ class Data extends AbstractHelper
                 //array_push($sellersArray, [$seller,$sellerTotalShipping]);
                 array_push($sellersArray, $seller);
             }
-        }
+        }*/
         
         //$this->logger->info('sellers: ' . json_encode($sellersArray));
         
-        return $sellersArray;
+        return $sellers;
         
     }
 
