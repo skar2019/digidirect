@@ -89,11 +89,13 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
                 $customerEmail = $this->getRequest()->getParam('digiclub-email');
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
+                $customerDob = $this->getRequest()->getParam('digiclub-dob');
                 
                 $this->logger->info('$customerFirstName: ' . $customerFirstName);
                 $this->logger->info('$customerLastName: ' . $customerLastName);
                 $this->logger->info('$customerEmail: ' . $customerEmail);
                 $this->logger->info('$customerContactNumber: ' . $customerContactNumber);
+                $this->logger->info('$customerDob: ' . $customerDob);
                 
                 $this->setIgnoreValidationFlag($customer);
                 
@@ -107,6 +109,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customer->setData('lastname', $customerLastName);
                 $customer->setData('email', $customerEmail);
                 $customer->setCustomAttribute('contact_number', $customerContactNumber);
+                $customer->setData('dob', $customerDob);
                 //$customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
@@ -114,8 +117,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
-            }
         }
+    }
         return $this->_redirect('customer/account/edit/');
     }
 
