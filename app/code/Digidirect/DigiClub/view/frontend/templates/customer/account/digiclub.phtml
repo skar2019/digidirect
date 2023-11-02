@@ -71,7 +71,7 @@
             <div class="control">
                 <input type="date" id="digiclub-dob" 
                        name="digiclub-dob" 
-                       value="<?= $customerData->getData("dob") ?>"
+                       value="<?= $customerSession->getCustomer()->getData("dob") ?>"
                        title="Date of Birth"
                        class="input-text"
                        style="padding: 22px 12px !important;"/>
