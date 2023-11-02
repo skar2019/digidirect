@@ -64,6 +64,16 @@
                        class="input-text" required/>
             </div>
         </div>
+        <div class="field dob required">
+            <label class="label" for="digiclub-dob"><span>Date of Birth</span><span>(Enter to receive a $20 birthday coupon)</span></label> 
+            <div class="control">
+                <input type="date" id="digiclub-dob" 
+                       name="digiclub-dob" 
+                       value="<?= $customerData->getData("dob") ?>"
+                       title="Date of Birth"
+                       class="input-text"/>
+            </div>
+        </div>
         <div class="field choice">
             <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
             <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
