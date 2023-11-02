@@ -57,12 +57,12 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
-            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
-            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
-            $this->logger->info('getSku: ' . $product->getSku());
-            $this->logger->info('getName: ' . $product->getName());
-            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            //$this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            //$this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            //$this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            //$this->logger->info('getSku: ' . $product->getSku());
+            //$this->logger->info('getName: ' . $product->getName());
+            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
@@ -74,6 +74,56 @@ class Data extends AbstractHelper
         }
         
         $sellerTotalShipping = 0;
+        
+        foreach($sellers as $seller) {
+            $sellerShipping = 0;
+            $sellerTotal = 0;
+            foreach($items as $item) {
+                $product = $this->productFactory->create()->load($item->getProductId());
+                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                $finalPrice = $product->getFinalPrice();
+                $itemSeller = $product->getAttributeText('marketplacer_seller');
+                
+                if ($seller == $itemSeller) {
+                    $sellerTotal += $finalPrice;
+                }
+            }
+            $this->logger->info($seller . ': ' . $sellerTotal);
+            
+            if ($sellerTotal < 99) {
+                $sellerShipping = 10;
+            }
+            
+            $sellerTotalShipping += $sellerShipping;
+            
+            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
+        }
+        
+        //$sellerCount = count($sellers);
+        //$sellerTotalShipping = $sellerCount * $baseShipping;
+        
+        return $sellerTotalShipping;
+        
+    }
+    
+    public function getSellers()
+    {
+        $items = $this->session->getQuote()->getAllVisibleItems();
+        //$this->logger->info('getAllItems');
+        $sellers = [];
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            $seller = $product->getAttributeText('marketplacer_seller');
+            
+            if (!in_array($seller, $sellers))  {
+                array_push($sellers, $seller);
+            }
+            //$this->logger->info('getProductId: ' . $product->getId());
+        }
+        $this->logger->info($sellers);
+        
+        $sellerTotalShipping = 0;
+        $sellersArray = [];
         
         foreach($sellers as $seller) {
             $sellerShipping = 0;
@@ -95,31 +145,15 @@ class Data extends AbstractHelper
             }
             
             $sellerTotalShipping += $sellerShipping;
-        }
-        
-        $sellerCount = count($sellers);
-        $sellerTotalShipping = $sellerCount * $baseShipping;
-        
-        return $sellerTotalShipping;
-        
-    }
-    
-    public function getSellers()
-    {
-        $items = $this->session->getQuote()->getAllVisibleItems();
-        //$this->logger->info('getAllItems');
-        $sellers = [];
-        foreach($items as $item) {
-            $product = $this->productFactory->create()->load($item->getProductId());
-            $seller = $product->getAttributeText('marketplacer_seller');
             
-            if (!in_array($seller, $sellers))  {
-                array_push($sellers, $seller);
+            if (!in_array($seller, $sellersArray))  {
+                array_push($sellersArray, $seller);
             }
-            //$this->logger->info('getProductId: ' . $product->getId());
         }
         
-        return $sellers;
+        $this->logger->info('sellers: ' . $sellersArray);
+        
+        return $sellersArray;
         
     }
 
