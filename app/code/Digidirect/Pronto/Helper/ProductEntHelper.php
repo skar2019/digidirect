@@ -15,6 +15,7 @@ use Magento\InventoryApi\Api\Data\SourceItemInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 class ProductEntHelper extends AbstractHelper
 {
@@ -28,6 +29,7 @@ class ProductEntHelper extends AbstractHelper
     protected $_catalogLayer;
     protected $searchCriteriaBuilder;
     protected $categoryCollectionFactory;
+    protected $sourceItemRepository;
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
@@ -41,7 +43,8 @@ class ProductEntHelper extends AbstractHelper
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SourceItemRepositoryInterface $sourceItemRepository,
-        CategoryCollectionFactory $categoryCollectionFactory
+        CategoryCollectionFactory $categoryCollectionFactory,
+        GetSourceItemsBySku $getSourceItemsBySku
     ) {
 
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
@@ -57,6 +60,7 @@ class ProductEntHelper extends AbstractHelper
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sourceItemRepository = $sourceItemRepository;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
 
     public function execute()
@@ -174,7 +178,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group'];
+            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -322,8 +326,16 @@ class ProductEntHelper extends AbstractHelper
             {
                 $sckGrp = $stockgroup->getValue();
             }
-            echo $sckGrp."<br/>";
+            //echo $sckGrp."<br/>";
 
+            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+            $stockonhand = 0;
+            foreach ($sourceItems as $sourceItemId => $sourceItem) {
+
+                $stockonhand += $sourceItem->getQuantity();
+            }
+            //echo $stockonhand."<br/>";
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
@@ -339,6 +351,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $final_price3;
             $data[] = $stockC;
             $data[] = $sckGrp;
+            $data[] = $stockonhand;
 
             $stream->writeCsv($data);
         }
