@@ -57,12 +57,12 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
-            //$this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
-            //$this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
-            //$this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
-            //$this->logger->info('getSku: ' . $product->getSku());
-            //$this->logger->info('getName: ' . $product->getName());
-            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            $this->logger->info('getSku: ' . $product->getSku());
+            $this->logger->info('getName: ' . $product->getName());
+            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
@@ -80,7 +80,7 @@ class Data extends AbstractHelper
             $sellerTotal = 0;
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
                 
@@ -95,12 +95,10 @@ class Data extends AbstractHelper
             }
             
             $sellerTotalShipping += $sellerShipping;
-            
-            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
-        //$sellerCount = count($sellers);
-        //$sellerTotalShipping = $sellerCount * $baseShipping;
+        $sellerCount = count($sellers);
+        $sellerTotalShipping = $sellerCount * $baseShipping;
         
         return $sellerTotalShipping;
         
