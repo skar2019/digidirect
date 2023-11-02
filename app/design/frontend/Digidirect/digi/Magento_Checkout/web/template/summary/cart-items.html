@@ -26,15 +26,13 @@
                     </div>
                 </div>
             </ol>
-            <ol class="minicart-items">
-                <!-- ko foreach: { data: items(), as: 'item' } -->
-                    <li class="product-item">
-                        <div class="seller-name" style="display: none;"><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
-                        <div class="product">
-                            <each args="$parent.elems()" render=""></each>
-                        </div>
-                    </li>
-                <!-- /ko -->
+            <ol data-bind="foreach: items()" class="minicart-items">
+                <li class="product-item">
+                    <div data-bind="text: $data.marketplacer_seller" class="seller-name" style="display: none;"></div>
+                    <div class="product">
+                        <each args="$parent.elems()" render=""></each>
+                    </div>
+                </li>
             </ol>
         </div>
     </div>
