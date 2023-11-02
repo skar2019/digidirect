@@ -21,17 +21,20 @@
                     <div>Delivery # <span data-bind="text : $index() + 1"></span></div>
                     <div class="shipped-by" style="display: flex;">
                         <div style="margin-right: 5px;">Shipped By: </div>
-                        <div data-bind="text: $data[0]" class="seller"></div>
+                        <div data-bind="text: $data[0]" class="seller"></div> for $
+                        <div data-bind="text: $data[1]" class="sellerShipping"></div>
                     </div>
                 </div>
             </ol>
-            <ol data-bind="foreach: items()" class="minicart-items">
-                <li class="product-item">
-                    <div data-bind="text: $data.marketplacer_seller" class="seller-name" style="display: none;"></div>
-                    <div class="product">
-                        <each args="$parent.elems()" render=""></each>
-                    </div>
-                </li>
+            <ol class="minicart-items">
+                <!-- ko foreach: { data: items(), as: 'item' } -->
+                    <li class="product-item">
+                        <div class="seller-name" style="display: none;"><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
+                        <div class="product">
+                            <each args="$parent.elems()" render=""></each>
+                        </div>
+                    </li>
+                <!-- /ko -->
             </ol>
         </div>
     </div>
