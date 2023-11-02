@@ -114,7 +114,6 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
-            
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
@@ -146,12 +145,17 @@ class Data extends AbstractHelper
             
             $sellerTotalShipping += $sellerShipping;
             
+            $sellerArray = [$seller,$sellerTotalShipping];
+            
+            $this->logger->info(json_encode($sellerArray));
+            
             if (!in_array($seller, $sellersArray))  {
-                array_push($sellersArray, $seller);
+                //array_push($sellersArray, [$seller,$sellerTotalShipping]);
+                array_push($sellersArray, $sellerArray);
             }
         }
         
-        $this->logger->info('sellers: ' . $sellersArray);
+        $this->logger->info('sellers: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
