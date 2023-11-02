@@ -114,31 +114,38 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
+            
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());
         }
-        $this->logger->info($sellers);
+        $this->logger->info('getSellers()');
         
         $sellerTotalShipping = 0;
         $sellersArray = [];
         
         foreach($sellers as $seller) {
+            
             $sellerShipping = 0;
             $sellerTotal = 0;
+            
+            $this->logger->info('getSellers() sellers');
+            
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
-                
+                    
                 if ($seller == $itemSeller) {
                     $sellerTotal += $finalPrice;
                 }
+                
+                $this->logger->info('getSellers() items');
             }
             $this->logger->info($seller . ': ' . $sellerTotal);
-            
+
             if ($sellerTotal < 99) {
                 $sellerShipping = 10;
             }
@@ -147,7 +154,7 @@ class Data extends AbstractHelper
             
             $sellerArray = [$seller,$sellerTotalShipping];
             
-            $this->logger->info(json_encode($sellerArray));
+            //$this->logger->info(json_encode($sellerArray));
             
             if (!in_array($seller, $sellersArray))  {
                 //array_push($sellersArray, [$seller,$sellerTotalShipping]);
@@ -155,7 +162,7 @@ class Data extends AbstractHelper
             }
         }
         
-        $this->logger->info('sellers: ' . json_encode($sellersArray));
+        //$this->logger->info('sellers: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
