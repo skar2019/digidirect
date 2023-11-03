@@ -20,8 +20,8 @@
                 <div class="seller-container">
                     <div>Delivery # <span data-bind="text : $index() + 1"></span></div>
                     <div class="shipped-by" style="display: flex;">
-                        <div style="margin-right: 5px;">Shipped By: </div>
-                        <div data-bind="text: $data[0]" class="seller"></div>
+                        <div style="margin-right: 5px;">Shipped By: </div><div data-bind="text: $data[0]" class="seller"></div> 
+                        for $<div data-bind="text: $data[1]" class="sellerShipping"></div>
                     </div>
                 </div>
             </ol>
