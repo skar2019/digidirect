@@ -14,15 +14,6 @@
         $customerData = $customerSession->getCustomer();
     }
     
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $logger = $objectManager->get("Psr\Log\LoggerInterface");
-    $logger->info('account Session ID: ' . $customerSessionManager->getSessionId());
-    $logger->info('account firstname: ' . $customerData->getData("firstname"));
-    $logger->info('account lastname: ' . $customerData->getData("lastname"));
-    $logger->info('account email: ' . $customerData->getEmail());
-    $logger->info('account contact_number: ' . $customerData->getData("contact_number"));
-    $logger->info('account dob: ' . $customerData->getData("dob"));
-    
 ?>
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
