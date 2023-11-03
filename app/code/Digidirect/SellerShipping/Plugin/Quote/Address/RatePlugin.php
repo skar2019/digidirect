@@ -1,12 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Digidirect\SellerShipping\Plugin\Quote\Address;
-
-use Magento\Quote\Model\Quote\Address\Rate;
-use Magento\Quote\Model\Quote\Address\RateResult\AbstractResult;
-use Magento\Quote\Model\Quote\Address\RateResult\Method;
 
 class RatePlugin
 {
@@ -18,9 +12,10 @@ class RatePlugin
         $this->logger = $logger;
     }
     
-    public function afterImportShippingRate(Rate $subject, Rate $result, AbstractResult $rate): Rate {
+    public function afterImportShippingRate(\Magento\Quote\Model\Quote\Address\Rate $subject, $result, $rate)
+    {
         $this->logger->info('afterImportShippingRate');
-        if ($rate instanceof Method) {
+        if ($rate instanceof \Magento\Quote\Model\Quote\Address\RateResult\Method) {
             $result->setPrice($result->getPrice() + 20);
         }
         return $result;
