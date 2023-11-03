@@ -1,8 +1,8 @@
-<?php 
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+<?php
+    $customerBlock = $block->getLayout()->createBlock('Digidirect\Digiclub\Block\Customer');
+    $customerSession = $customerBlock->getCustomerSession();
 
-    if ($customerSession->isLoggedIn()) {
+    if ($customerSession) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
         $isDigiClub = 0;
         $isChecked = "";
@@ -10,6 +10,7 @@
             $isDigiClub = 1;
             $isChecked = "checked";
         }
+        $customerData = $customerSession->getCustomer();
     }
 ?>
 
@@ -28,7 +29,7 @@
             <div class="control">
                 <input type="text" id="digiclub-firstname"
                        name="digiclub-firstname"
-                       value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
+                       value="<?= $customerData->getData("firstname") ?>"
                        title="First Name"
                        class="input-text" required/>
             </div>
@@ -38,7 +39,7 @@
             <div class="control">
                 <input type="text" id="digiclub-lastname"
                        name="digiclub-lastname"
-                       value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
+                       value="<?= $customerData->getData("lastname") ?>"
                        title="Last Name"
                        class="input-text" required/>
             </div>
@@ -47,7 +48,7 @@
             <label class="label" for="digiclub-email"><span>Email</span></label>
             <div class="control">
                 <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                       value="<?= $customerSession->getCustomer()->getEmail() ?>"
+                       value="<?= $customerData->getEmail() ?>"
                        title="Email"
                        class="input-text"
                        data-validate="{required:true, 'validate-email':true}" required/>
@@ -58,7 +59,7 @@
             <div class="control">
                 <input type="number" id="digiclub-contact-number" 
                        name="digiclub-contact-number" 
-                       value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
+                       value="<?= $customerData->getData("contact_number") ?>"
                        title="Contact Number"
                        class="input-text" required/>
             </div>
@@ -71,7 +72,7 @@
             <div class="control">
                 <input type="date" id="digiclub-dob" 
                        name="digiclub-dob" 
-                       value="<?= $customerSession->getCustomer()->getData("dob") ?>"
+                       value="<?= $customerData->getData("dob") ?>"
                        title="Date of Birth"
                        class="input-text"
                        style="padding: 22px 12px !important;"/>
