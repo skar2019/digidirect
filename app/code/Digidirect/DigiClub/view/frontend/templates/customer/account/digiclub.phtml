@@ -1,6 +1,5 @@
-<?php 
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+<?php
+    $customerSession = $block->getCustomer();
 
     if ($customerSession->isLoggedIn()) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
@@ -10,7 +9,7 @@
             $isDigiClub = 1;
             $isChecked = "checked";
         }
-        $customerData = $objectManager->create('Magento\Customer\Model\Customer')->load($customerSession->getCustomer()->getId());
+        $customerData = $block->getCustomer();
     }
 ?>
 
