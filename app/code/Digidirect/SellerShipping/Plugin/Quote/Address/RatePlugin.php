@@ -4,13 +4,19 @@ namespace Digidirect\SellerShipping\Plugin\Quote\Address;
 
 class RatePlugin
 {
+    protected $logger;
     
-    public function afterImportShippingRate(\Magento\Quote\Model\Quote\Address\Rate $subject, $result, $rate)
+    public function __construct(
+        \Psr\Log\LoggerInterface $logger
+    ){
+        $this->logger = $logger;
+    }
+    
+    public function afterImportShippingRate($subject, $result, $rate)
     {
+        $this->logger->info('afterImportShippingRate');
         if ($rate instanceof \Magento\Quote\Model\Quote\Address\RateResult\Method) {
-            if($result->getCode() == 'standard') {
-                $result->setCode('standard')->setPrice(50);
-            }
+            $result->setPrice($result->getPrice() + 20);
         }
         return $result;
     }
