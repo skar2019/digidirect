@@ -74,7 +74,7 @@ class Data extends AbstractHelper
                     $sellerTotal += $finalPrice;
                 }
             }
-            $this->logger->info('getSellerShipping' . $seller . ': ' . $sellerTotal);
+            $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             if ($sellerTotal < 99) {
                 $sellerShipping = 10;
