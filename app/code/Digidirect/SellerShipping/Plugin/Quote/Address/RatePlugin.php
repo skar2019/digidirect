@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\SellerShipping\Plugin;
+namespace Digidirect\SellerShipping\Plugin\Quote\Address;
 
 class RatePlugin
 {
