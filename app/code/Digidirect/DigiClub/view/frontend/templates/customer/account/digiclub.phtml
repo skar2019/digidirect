@@ -1,7 +1,6 @@
 <?php
     $customerBlock = $block->getLayout()->createBlock('Digidirect\Digiclub\Block\Customer');
     $customerSession = $customerBlock->getCustomerSession();
-    $customerSessionManager = $customerBlock->getSessionManager();
 
     if ($customerSession) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();

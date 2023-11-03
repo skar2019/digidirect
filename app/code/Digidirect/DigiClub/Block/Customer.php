@@ -4,30 +4,19 @@ namespace Digidirect\Digiclub\Block;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\Session\SessionManager;
 
 class Customer extends Template {
     
     protected $customerSession;
-    
-    protected $sessionManager;
-    
-    protected $logger;
         
     public function __construct(
-        Session $session,
-        SessionManager $sessionManager
+        Session $session
     ) {        
         $this->customerSession = $session;
-        $this->sessionManager = $sessionManager;
     }
     
     public function getCustomerSession() {
         return $this->customerSession;
-    }
-    
-    public function getSessionManager() {
-        return $this->sessionManager;
     }
     
 }
