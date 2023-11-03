@@ -3,6 +3,7 @@
 namespace Digidirect\SellerShipping\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Checkout\Model\Cart;
 
 class Data extends AbstractHelper
 {
@@ -20,15 +21,19 @@ class Data extends AbstractHelper
     
     protected $productFactory;
     
+    protected $cart;
+    
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Checkout\Model\Session $session,
         \Psr\Log\LoggerInterface $logger,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        Cart $cart
     ){
         $this->session = $session;
         $this->logger = $logger;
         $this->productFactory = $productFactory;
+        $this->cart = $cart;
         parent::__construct($context);
     }
 
@@ -51,8 +56,8 @@ class Data extends AbstractHelper
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $baseShipping = $this->scopeConfig->getValue('SellerShipping/SellerShipping/SellerShipping_amount', $storeScope);
         
-        $items = $this->session->getQuote()->getAllVisibleItems();
-        //$this->logger->info('getAllItems');
+        //$items = $this->session->getQuote()->getAllVisibleItems();
+        $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
             $this->logger->info('getProductId: ' . $item->getProductId());
@@ -108,8 +113,8 @@ class Data extends AbstractHelper
     
     public function getSellers()
     {
-        $items = $this->session->getQuote()->getAllVisibleItems();
-        //$this->logger->info('getAllItems');
+        //$items = $this->session->getQuote()->getAllVisibleItems();
+        $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
