@@ -7,13 +7,6 @@ use Magento\Checkout\Model\Cart;
 
 class Data extends AbstractHelper
 {
-    /**
-     * Custom fee config path
-     */
-    const CONFIG_CUSTOM_IS_ENABLED = 'SellerShipping/SellerShipping/status';
-    const CONFIG_CUSTOM_FEE = 'SellerShipping/SellerShipping/SellerShipping_amount';
-    const CONFIG_FEE_LABEL = 'SellerShipping/SellerShipping/name';
-    const CONFIG_MINIMUM_ORDER_AMOUNT = 'SellerShipping/SellerShipping/minimum_order_amount';
     
     protected $session;
     
@@ -38,24 +31,12 @@ class Data extends AbstractHelper
     }
 
     /**
-     * @return mixed
-     */
-    public function isModuleEnabled()
-    {
-        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('SellerShipping/SellerShipping/status', 'store');
-    }
-
-    /**
      * Get custom fee
      *
      * @return mixed
      */
     public function getSellerShipping()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $baseShipping = $this->scopeConfig->getValue('SellerShipping/SellerShipping/SellerShipping_amount', $storeScope);
-        
         //$items = $this->session->getQuote()->getAllVisibleItems();
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
@@ -160,25 +141,5 @@ class Data extends AbstractHelper
         
         return $sellersArray;
         
-    }
-
-    /**
-     * Get custom fee
-     *
-     * @return mixed
-     */
-    public function getFeeLabel()
-    {
-        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('SellerShipping/SellerShipping/name', 'store');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMinimumOrderAmount()
-    {
-        //$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue('SellerShipping/SellerShipping/minimum_order_amount', 'store');
     }
 }
