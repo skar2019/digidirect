@@ -4,6 +4,6 @@
         <plugin name="digidirect_seller_shipping_default_config_provider" type="Digidirect\SellerShipping\Model\Plugin\Checkout\DefaultConfigProvider" sortOrder="1" disabled="false"/>
     </type>
     <type name="Magento\Quote\Model\Quote\Address\Rate">
-        <plugin name="seller_shipping_price" type="Digidirect\SellerShipping\Plugin\Quote\Address\RatePlugin"/>
+        <plugin name="seller_shipping_price" type="Digidirect\SellerShipping\Plugin\Quote\Address\RatePlugin" sortOrder="10" disabled="false"/>
     </type>
 </config>
