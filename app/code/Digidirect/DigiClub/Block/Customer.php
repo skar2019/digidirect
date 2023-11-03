@@ -4,7 +4,7 @@ namespace Digidirect\Digiclub\Block;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Template;
-use \Magento\Framework\Session\SessionManager;
+use Magento\Framework\Session\SessionManager;
 
 class Customer extends Template {
     
