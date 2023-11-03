@@ -11,11 +11,15 @@ class DefaultConfigProvider
     
     protected $helperData;
     
+    protected $logger;
+    
     
     public function __construct(
-        \Digidirect\SellerShipping\Helper\Data $helperData
+        \Digidirect\SellerShipping\Helper\Data $helperData,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->helperData = $helperData;
+        $this->logger = $logger;
     }
 
     /**
@@ -32,13 +36,9 @@ class DefaultConfigProvider
         \Magento\Checkout\Model\DefaultConfigProvider $subject,
         $result
     ) {
-        
-        if ($this->helperData->getSellerShipping()) {
-            $result['quoteData']['has_marketplacer_seller'] = true;
-            $result['quoteData']['marketplacer_sellers'] = $this->helperData->getSellers();
-        } else {
-            $result['quoteData']['has_marketplacer_seller'] = false;
-        }
+        $this->logger->info('DefaultConfigProvider getSellersShipping(): ' . $this->helperData->getSellerShipping());
+        $result['quoteData']['has_marketplacer_seller'] = true;
+        $result['quoteData']['marketplacer_sellers'] = $this->helperData->getSellers();
         
         $items = $result['totalsData']['items'];
 
