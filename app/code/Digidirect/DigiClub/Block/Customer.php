@@ -27,17 +27,17 @@ class Customer extends Template {
     }
     
     public function getCustomerSession() {
-        $logger->info('account Session ID: ' . $this->customerSession->getSessionId());
-        $logger->info('account firstname: ' . $this->customerSession->getData("firstname"));
-        $logger->info('account lastname: ' . $this->customerSession->getData("lastname"));
-        $logger->info('account email: ' . $this->customerSession->getEmail());
-        $logger->info('account contact_number: ' . $this->customerSession->getData("contact_number"));
-        $logger->info('account dob: ' . $this->customerSession->getData("dob"));
+        $this->logger->info('account Session ID: ' . $this->customerSession->getSessionId());
+        $this->logger->info('account firstname: ' . $this->customerSession->getData("firstname"));
+        $this->logger->info('account lastname: ' . $this->customerSession->getData("lastname"));
+        $this->logger->info('account email: ' . $this->customerSession->getEmail());
+        $this->logger->info('account contact_number: ' . $this->customerSession->getData("contact_number"));
+        $this->logger->info('account dob: ' . $this->customerSession->getData("dob"));
         return $this->customerSession;
     }
     
     public function getSessionManager() {
-        $logger->info('account Session ID: ' . $this->sessionManager->getSessionId());
+        $this->logger->info('account Session ID: ' . $this->sessionManager->getSessionId());
         return $this->sessionManager;
     }
     
