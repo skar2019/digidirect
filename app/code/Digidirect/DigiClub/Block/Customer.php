@@ -3,8 +3,9 @@
 namespace Digidirect\Digiclub\Block;
 
 use Magento\Customer\Model\Session;
+use Magento\Framework\View\Element\Template;
 
-class Customer {
+class Customer extends Template {
     
     protected $customer;
     
