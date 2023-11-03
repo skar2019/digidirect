@@ -8,8 +8,6 @@ use Magento\Framework\Session\SessionManager;
 
 class Customer extends Template {
     
-    protected $customer;
-    
     protected $customerSession;
     
     protected $sessionManager;
@@ -27,7 +25,6 @@ class Customer extends Template {
     }
     
     public function getCustomerSession() {
-        $this->logger->info('account Session ID: ' . $this->customerSession->getSessionId());
         $this->logger->info('account firstname: ' . $this->customerSession->getData("firstname"));
         $this->logger->info('account lastname: ' . $this->customerSession->getData("lastname"));
         $this->logger->info('account email: ' . $this->customerSession->getEmail());
