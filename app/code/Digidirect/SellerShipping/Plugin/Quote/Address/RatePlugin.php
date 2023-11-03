@@ -2,7 +2,7 @@
 
 namespace Digidirect\SellerShipping\Plugin;
 
-class Rate
+class RatePlugin
 {
     
     public function afterImportShippingRate(\Magento\Quote\Model\Quote\Address\Rate $subject, $result, $rate)
