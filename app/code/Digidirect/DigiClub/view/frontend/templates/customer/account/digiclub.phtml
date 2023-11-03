@@ -1,7 +1,7 @@
 <?php
-    $customerSession = $block->getCustomer();
+    $customerSession = $block->getCustomerSession();
 
-    if ($customerSession->isLoggedIn()) {
+    if ($customerSession) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
         $isDigiClub = 0;
         $isChecked = "";
@@ -17,7 +17,7 @@
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="digiclub-description">
-            <div style="margin-bottom: 10px;">By verifying your details ang checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
+            <div style="margin-bottom: 10px;">By verifying your details and checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
             <li>Early Access to our Sale Events</li>
             <li>Exclusive Rewards</li>
             <li>Special Discounts</li>
@@ -56,7 +56,7 @@
         <div class="field contact-number required">
             <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
             <div class="control">
-                <input type="text" id="digiclub-contact-number" 
+                <input type="number" id="digiclub-contact-number" 
                        name="digiclub-contact-number" 
                        value="<?= $customerData->getData("contact_number") ?>"
                        title="Contact Number"
