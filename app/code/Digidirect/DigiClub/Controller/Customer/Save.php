@@ -57,17 +57,13 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
-        CustomerRepository $customerRepository,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+        CustomerRepository $customerRepository
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
         $this->logger = $logger;
-        $this->cacheTypeList = $cacheTypeList;
-        $this->cacheFrontendPool = $cacheFrontendPool;
         parent::__construct($context);
     }
 
@@ -127,28 +123,6 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         }
     }
-    
-        $types = array(
-            'config',
-            'layout',
-            'block_html',
-            'collections',
-            'reflection',
-            'db_ddl',
-            'eav',
-            'config_integration',
-            'config_integration_api',
-            'full_page',
-            'translate',
-            'config_webservice');
-        
-        foreach ($types as $type) {
-            $this->_cacheTypeList->cleanType($type);
-        }
-        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-            $cacheFrontend->getBackend()->clean();
-        }
-    
         return $this->_redirect('customer/account/edit/');
     }
 
