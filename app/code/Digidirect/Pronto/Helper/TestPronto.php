@@ -1302,7 +1302,7 @@ class TestPronto extends AbstractHelper
 
                 $sku = $item->getSku();
                 $sell = $item->getMarketplacerSeller();
-                echo $sell ."<br/>";
+                echo "seller ". $sell ."<br/>";
 
                 if(strpos($sku, 'mp-') !== false)
                 {
