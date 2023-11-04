@@ -21,6 +21,9 @@ class RatePlugin
     {
         $this->logger->info('afterImportShippingRate');
         if ($rate instanceof \Magento\Quote\Model\Quote\Address\RateResult\Method) {
+            if($result->getCode() == 'standard') {
+                $result->setPrice($this->helperData->getDigiShipping());
+            }
             $result->setPrice($result->getPrice() + $this->helperData->getSellerShipping());
         }
         return $result;

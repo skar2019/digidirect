@@ -142,4 +142,34 @@ class Data extends AbstractHelper
         return $sellersArray;
         
     }
+    
+    public function getDigiShipping()
+    {
+        $items = $this->cart->getQuote()->getAllItems();
+        
+        $digiShipping = 0;
+        
+        $digiTotal = 0;
+        
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            $finalPrice = $product->getFinalPrice();
+            $itemSeller = $product->getAttributeText('marketplacer_seller');
+
+            if ($itemSeller == "General Seller") {
+                $digiTotal += $finalPrice;
+            }
+        }
+        $this->logger->info('getDigiShipping: ' . $digiTotal);
+
+        if ($digiTotal < 99) {
+            $digiShipping = 10;
+        }
+
+        $this->logger->info('digiShipping : ' . $digiShipping);
+        
+        return $digiShipping;
+        
+    }
 }
