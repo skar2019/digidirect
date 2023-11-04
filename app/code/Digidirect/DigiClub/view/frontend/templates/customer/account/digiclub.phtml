@@ -23,7 +23,6 @@
             <li>Special Discounts</li>
             <li>More…</li>
         </div>
-        <?= $customerSession->getCustomer()->getData("firstname") ?>
         <div class="field field-name-firstname required">
             <label class="label" for="digiclub-firstname"><span>First Name</span></label>
             <div class="control">
@@ -34,7 +33,6 @@
                        class="input-text" required/>
             </div>
         </div>
-        <?= $customerSession->getCustomer()->getData("lastname") ?>
         <div class="field field-name-lastname required">
             <label class="label" for="digiclub-lastname"><span>Last Name</span></label>
             <div class="control">
@@ -45,7 +43,6 @@
                        class="input-text" required/>
             </div>
         </div>
-        <?= $customerSession->getCustomer()->getEmail() ?>
         <div class="field email required" data-container="change-email">
             <label class="label" for="digiclub-email"><span>Email</span></label>
             <div class="control">
@@ -56,7 +53,6 @@
                        data-validate="{required:true, 'validate-email':true}" required/>
             </div>
         </div>
-        <?= $customerSession->getCustomer()->getData("contact_number") ?>
         <div class="field contact-number required">
             <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
             <div class="control">
@@ -67,7 +63,6 @@
                        class="input-text" required/>
             </div>
         </div>
-        <?= $customerSession->getCustomer()->getData("dob") ?>
         <div class="field dob">
             <label class="label" for="digiclub-dob" style="width: 105%;">
                 <span>Date of Birth</span>
