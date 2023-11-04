@@ -1301,8 +1301,10 @@ class TestPronto extends AbstractHelper
 
 
                 $sku = $item->getSku();
-                $sell = $item->getMarketplacerSeller();
-                echo "seller ". $sell ."<br/>";
+                $productDetails = $this->productFactory->create();
+                //check seller here
+                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                echo $sell ."<br/>";
 
                 if(strpos($sku, 'mp-') !== false)
                 {
@@ -2356,7 +2358,6 @@ class TestPronto extends AbstractHelper
                 echo $sell ."<br/>";
                 if(strpos($sku, 'mp-') !== false)
                 {
-
 
 
                     if($sell == $seller)
