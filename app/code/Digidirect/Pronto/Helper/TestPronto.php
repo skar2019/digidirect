@@ -289,7 +289,7 @@ class TestPronto extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PY';
+                $type = 'PX';
                 break;
             default:
                 break;
@@ -515,18 +515,21 @@ class TestPronto extends AbstractHelper
         settype($size,"integer");
         //get order data
         $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
-
         $counter = 0;
         foreach ($orders as $order)
         {
             $data = array();
             $counter++;
-
+            $state = $order->getState();
             /* @var $order \Magento\Sales\Model\Order */
 
             if(!$test)
             {
                 if ($order->getState() == 'canceled') {
+                    continue;
+                }
+
+                if ($order->getState() == 'pending') {
                     continue;
                 }
             }
@@ -714,27 +717,26 @@ class TestPronto extends AbstractHelper
             $disregardshipping = false;
             $modifygrandtotal = false;
             $surcharge = $order->getPaymentFee();
-            if(!$isMarketPlace)
-            {
-                if($payment_type == 'BT')
-                {
-                    if($surcharge == '0.0000') //manually created orders
-                    {
-                        if($grandTotal <= 99)
-                        {
-                            $grandTotal = $grandTotal - 9.9;
-                            $disregardshipping = true;
-                        }
-                        $surcharge = $grandTotal * 0.0095;
-                        $grandTotal = $grandTotal + $surcharge;
-                        echo "new grandTotal - ".$grandTotal."<br/>";
-                        echo "surcharge - ".$surcharge."<br/>";
-
-                        $modifygrandtotal = true;
-                    }
-                }
-
-            }
+//            if(!$isMarketPlace)
+//            {
+//                if($payment_type == 'BT' || $payment_type == 'PY')
+//                {
+//                    if($surcharge == '0.0000') //manually created orders
+//                    {
+//                        if($grandTotal <= 99)
+//                        {
+//                            $grandTotal = $grandTotal - 9.9;
+//                            $disregardshipping = true;
+//                        }
+//                        $surcharge = $grandTotal * 0.0095;
+//                        $grandTotal = $grandTotal + $surcharge;
+//                        echo "new grandTotal - ".$grandTotal."<br/>";
+//                        echo "surcharge - ".$surcharge."<br/>";
+//
+//                        $modifygrandtotal = true;
+//                    }
+//                }
+//            }
 
 
             if($payment_type == 'BT')
@@ -820,24 +822,26 @@ class TestPronto extends AbstractHelper
                         {
                             if($instockInv == 1)
                             {
-                                if($grandTotal < 200)
-                                {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                    $data['sales-order']['header']['set-on-status'] = "P";
-                                }
-                                else //$grandTotal >= 200
-                                {
-                                    if($is_acce) //greater than 200 and is accessories
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                        $data['sales-order']['header']['set-on-status'] = "P";
-                                    }
-                                    else
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                        $data['sales-order']['header']['set-on-status'] = "H";
-                                    }
-                                }
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+//                                if($grandTotal < 200)
+//                                {
+//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                    $data['sales-order']['header']['set-on-status'] = "P";
+//                                }
+//                                else //$grandTotal >= 200
+//                                {
+//                                    if($is_acce) //greater than 200 and is accessories
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                        $data['sales-order']['header']['set-on-status'] = "P";
+//                                    }
+//                                    else
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                                        $data['sales-order']['header']['set-on-status'] = "H";
+//                                    }
+//                                }
                             }
                             else
                             {
@@ -863,7 +867,13 @@ class TestPronto extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            if($grandTotal < 200)
+                            $delivery = $order->getShippingDescription();
+                            if($delivery == "Next Day Delivery")
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            elseif($grandTotal < 200)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
@@ -890,7 +900,24 @@ class TestPronto extends AbstractHelper
                     }
                 }
 
-                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay" || $method == "banktransfer")
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+
+                if($payment_type == 'LP')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                    if($state == 'pending' && $test)
+                    {
+                        echo "latipay pending";
+                        continue;
+                    }
+                }
+
+                if($payment_type == 'VI')
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
@@ -909,6 +936,10 @@ class TestPronto extends AbstractHelper
             if(is_array($strt))
             {
                 $street = implode(",", $strt);
+            }
+            else
+            {
+                $street = $strt;
             }
             $city = $address->getCity();
             $region = $address->getRegion();
@@ -966,6 +997,16 @@ class TestPronto extends AbstractHelper
                 $shipcompany = 'Click and Collect';
             }
 
+            if($delivery == "Next Day Delivery")
+            {
+                if($payment_type == 'LP' || $payment_type == 'BT')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+
+            }
+
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
@@ -979,12 +1020,60 @@ class TestPronto extends AbstractHelper
 
 
             $payment_reference = $paymentInstance->getLastTransId();
-            echo "payment_reference - " .$payment_reference ."<br>";
-            if (empty($payment_reference) && ($method == 'latipay')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                if (empty($payment_reference)){
+            if($test)
+            {
+                $latdata = $paymentInstance->getAdditionalInformation();
+                var_dump($latdata);
+
+            }
+            if($method == 'latipay')
+            {
+                $tosync = false;
+                $status_history = $order->getStatusHistories();
+                foreach ($status_history as $status) {
+                    //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    $comment = $status->getComment();
+                    if(!empty($comment))
+                    {
+                        $myjson = str_replace("Latipay Response :", "",$comment);
+                        //echo $myjson ."\n";
+                        $myarray = json_decode($myjson, true);
+                        //var_dump($myarray);
+                        if(isset($myarray['status']))
+                        {
+                            $latistatus = $myarray['status'];
+                            if($latistatus == 'paid')
+                            {
+                                $tosync = true;
+                            }
+                            else {
+                                $tosync = false;
+                            }
+                        }
+                        else
+                        {
+                            $tosync = false;
+                        }
+
+                    }
+
+                }
+
+                if(!$tosync)
+                {
                     continue;
                 }
+
+            }
+
+            if (empty($payment_reference) && ($method == 'latipay')) {
+                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //if (empty($payment_reference)){
+                if(!$test)
+                {
+                    continue;
+                }
+                //}
 
             }
 
@@ -1003,9 +1092,20 @@ class TestPronto extends AbstractHelper
             if (($payment_type == 'ZM')) {
 
                 $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-                if($payment_reference == '')
+//               if($payment_reference == '')
+//               {
+//                   $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+//               }
+            }
+
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
                 {
-                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+                    echo "pending paypal <br />";
+                    continue;
                 }
             }
 
@@ -1099,6 +1199,13 @@ class TestPronto extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
+            //pao's order 001313994-1 001313991-1
+            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            {
+                $amount_tendered = 1604.10;
+            }
+
+
             $amount_tendered = round($amount_tendered, 2);
             echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
@@ -1148,6 +1255,17 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
 
+            if (!$order->getCustomerIsGuest()) {
+                $customerRep = $this->customerRepository->getById($order->getCustomerId());
+                $customerGroupId = $customerRep->getGroupId();
+                if($customerGroupId == 10)
+                {
+                    $data['sales-order']['header']['custom-data']['data'][4]['key'] = 'marketing-flag';
+                    $data['sales-order']['header']['custom-data']['data'][4]['value'] = 'CLUB';
+                }
+            }
+
+
             //for coupon
             $coupon = $order->getCouponCode();
             $couponDiscount = ((double) $order->getBaseDiscountAmount());
@@ -1155,7 +1273,8 @@ class TestPronto extends AbstractHelper
             //product lines
             // for redeploy
             $x = 0;
-            foreach ($order->getAllVisibleItems() as $item) {
+            foreach ($order->getAllVisibleItems() as $item)
+            {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
                 $skus = array();
@@ -1165,6 +1284,7 @@ class TestPronto extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                $discperc = 0;
                 if($price > 0)
                 {
                     $discperc = ($discount / $price) * 100;
@@ -1181,10 +1301,16 @@ class TestPronto extends AbstractHelper
 
 
                 $sku = $item->getSku();
+                $sell = $item->getMarketplacerSeller();
+                echo $sell ."<br/>";
+
                 if(strpos($sku, 'mp-') !== false)
                 {
                     $productSku = $sku;
-                    //should coordinate with Michael markeplacer SKU to sync.
+                    $data['sales-order']['header']['set-on-status'] = "B";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
+
+                    //sync to pronto here
                 }
                 else if(strpos($sku, '-') !== false)
                 {
@@ -1214,15 +1340,17 @@ class TestPronto extends AbstractHelper
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
                     echo "digiprotect price ".$digiProtectPrice."<br/>";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 }
                 else
                 {
                     $productSku = $sku;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
 
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                //$data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
@@ -1273,7 +1401,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
                     $x++;
                 }
-            }
+            } //end of product line
 
             //surcharge clint 01-20-23
             if($surcharge != "0.0000")
@@ -1301,6 +1429,1031 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
+
+
+            $shippingprice = (double) $order->getShippingAmount();
+            $shippingDesc = $order->getShippingDescription();
+            if (strpos($shippingDesc, '|') !== false) {
+                $marketplacesShipping = explode('|', $shippingDesc);
+                $shippingDesc = $marketplacesShipping[1];
+            }
+            if($shippingDesc == "Express - (1 to 3 Days)")
+            {
+                $shippingDesc = "Australia Post – express";
+            }
+            else if($shippingDesc == "Standard - (4 to 7 Days)")
+            {
+                $shippingDesc = "Australia Post – eParcel";
+            }
+            else if($rep == 'WESTFIELD')
+            {
+                $shippingDesc = "Click and Collect";
+            }
+            else if($shippingDesc == "AU_ExpressPostParcelSignature")
+            {
+                $shippingDesc = "Australia Post – express";
+            }
+            else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
+            {
+                $shippingDesc = "Australia Post – eParcel";
+            }
+            //shipping details clint Mar 3 23
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
+            $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+            $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+            $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+            $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+            $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+            $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+
+            if($test)
+            {
+                var_dump($data['sales-order']);
+            }
+            //create xml of order data here
+            //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
+
+            //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+
+            //LIVE - port :8084
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+
+
+            if(!$test)
+            {
+                $this->curl->addHeader("Content-Type", "application/xml");
+                $this->curl->addHeader("Accept", "application/json");
+//                $this->curl->addHeader("compcode", "DIG"); //live
+//                $this->curl->addHeader("user", "ewaveapi");
+//                $this->curl->addHeader("token", "904241bdbf10efa9");
+                //
+                $this->curl->addHeader("compcode", "UA1"); //test
+                $this->curl->addHeader("user", "clint.mercado");
+                $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                $this->curl->post($url, $xml);
+
+                $result = $this->curl->getBody();
+
+                $json = $this->jsonSerializer->unserialize($result);
+
+                if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+                {
+                    $msg =  $json['response']['message'];
+                    echo $msg."<br>";
+                    $order->setData('pronto_order_number',$msg);
+                    $order->save();
+                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
+
+                }
+                else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+                    $msg =  $json['sales-orders']['response']['message'];
+                    echo $msg ."<br>";
+                    $order->setData('pronto_order_number',$msg);
+                    $order->save();
+                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
+
+                }
+                else {
+
+                    $pronto = $json['sales-orders']['sales-order']['order-no'];
+                    $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                    $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                    $order->setData('pronto_order_number',$pronto);
+                    $order->setData('pronto_status_code',$prontostatus);
+                    $order->save();
+
+
+                    //$this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+                    var_dump($json['sales-orders']['sales-order']);
+                    $account = $json['sales-orders']['sales-order']['account'];
+                    if (!empty($account) && !$order->getCustomerIsGuest()) {
+                        $customer = $this->customerRepository->getById($order->getCustomerId());
+                        $customer->setData('pronto_account_id', $account);
+                        $customer->setCustomAttribute('pronto_account_id', $account);
+                        $this->customerRepository->save($customer);
+
+                    }
+                    /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+                    $invoice = $order->getInvoiceCollection()->getFirstItem();
+                    $this->incrementIdUpdater->update($invoice, $invoiceno);
+
+                }
+            }
+
+            if($counter >= $size)
+            {
+                return true; //return after 2 orders
+            }
+
+        }
+
+    }
+
+    public function orderPostBySeller($orderId, $date, $size, $page, $test, $seller)
+    {
+
+        settype($test,"integer");
+        settype($size,"integer");
+        //get order data
+        $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
+        $counter = 0;
+        foreach ($orders as $order)
+        {
+            $sellerdata = array();
+            $counter++;
+            $state = $order->getState();
+            /* @var $order \Magento\Sales\Model\Order */
+
+            if(!$test)
+            {
+                if ($order->getState() == 'canceled') {
+                    continue;
+                }
+
+                if ($order->getState() == 'pending') {
+                    continue;
+                }
+            }
+
+
+            $prontoOrderNumber = $order->getData('pronto_order_number');
+            if(is_numeric($prontoOrderNumber))
+            {
+                echo "Has pronto ". $prontoOrderNumber."<br/>";
+                if(!$test)
+                {
+                    continue;
+                }
+
+            }
+
+            $orderId = $order->getIncrementId();
+            $entityId = $order->getId();
+            $this->logger->info('Pronto Order Sync - '.$orderId);
+            $isMarketPlace = false;
+            //Amazon Logic
+            $wrehs = $this->getWarehouse($order);
+            $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                if($wrehs != '')
+                {
+                    $territory = $wrehs;
+                }
+
+            }
+            $accountname = $this->getAccountName($order);
+            $account = $this->getAccount($order);
+            $address = $order->getBillingAddress();
+            $countrycode = $address->getCountryId();
+            $countryName = "";
+            if(isset($countrycode))
+            {
+                $country = $this->countryFactory->create()->loadByCode($countrycode);
+                if ($country) {
+                    $countryName = $country->getName();
+                }
+            }
+
+
+            $amShipping = $order->getShippingDescription();
+            $is_am_order = false;
+            $is_am_fba = false;
+            if (strpos($orderId, 'AM') !== false) {
+                $is_am_order = true;
+            }
+
+            if($is_am_order){
+                $rep = "AMAZON MFN";
+                $account = "AMAZ02";
+                if (strpos($amShipping, 'AFN') !== false) {
+                    $rep = "AMAZON FBA";
+                    $account = "AMAZ00";
+                    if($countrycode == "NZ")
+                    {
+                        $account = "AMAZ01";
+                    }
+
+                    $wrehs = "AWHS";
+                    //$territory = "AWHS";
+                    $is_am_fba = true;
+                }
+
+                $territory = "MRKT";
+                $isMarketPlace = true;
+
+            }
+            else
+            {
+                $rep = $this->getRep($order);
+                if (strpos($orderId, 'EB') !== false) {
+                    $rep ="EBAY";
+                    $account = "EBAY00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'CATCH') !== false) {
+                    $rep ="CATCH";
+                    $account = "CATC00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $rep ="MYDEAL";
+                    $account = "MYDE00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $rep ="WESTFIELD";
+                    $account = "WEST00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'Q') !== false) {
+                    $account = "QANT00";
+                    $rep ="QANTAS";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $rep ="WOOLWORTHS";
+                    $account = "WOOL00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
+
+            }
+
+            echo "Rep ".$rep."<br/>";
+            echo "Is marketplace ".$isMarketPlace."<br/>";
+            $directToWhse = false;
+
+            if($isMarketPlace)
+            {
+                echo "It is marketplace ".$isMarketPlace."<br/>";
+                //check if all product has stock in swhs
+                $skus = $this->getProductsSkus($order);
+                //var_dump($skus);
+                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                    $directToWhse = true;
+                }
+                echo "directToWhse ".$directToWhse."<br/>";
+            }
+
+            $contactname = $accountname;
+            //check pronto if customer has an account.
+            //if not, create customer account to pronto
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
+
+            $customertype = "WG";
+            if (!empty($account) && !$order->getCustomerIsGuest()) {
+                $customertype = "WA";
+            }
+
+            if(!$isMarketPlace)
+            {
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00")
+                {
+                    $account = "";
+                }
+            }
+            //comment to redeploy
+
+            $customerEmail = $order->getCustomerEmail();
+            $sellerdata['sales-order']['header']['accountname'] = $accountname;
+            $sellerdata['sales-order']['header']['account'] = $account;
+            $sellerdata['sales-order']['header']['order-date'] = $orderdate;
+            $sellerdata['sales-order']['header']['warehouse'] = $wrehs;
+            $sellerdata['sales-order']['header']['customer-type'] = $customertype;
+            $sellerdata['sales-order']['header']['so-cust-type'] = $customertype;
+            $sellerdata['sales-order']['header']['territory'] = $territory;
+            $sellerdata['sales-order']['header']['rep'] = $rep;
+            $sellerdata['sales-order']['header']['contactname'] = $contactname;
+            $sellerdata['sales-order']['header']['email'] = $customerEmail;
+            $sellerdata['sales-order']['header']['reference'] = $entityId;
+
+            //changes
+            $paymentInstance = $order->getPayment();
+
+            //payment details
+
+            //$methodInst = $paymentInstance->getMethodInstance();
+            $method = $paymentInstance->getMethod();
+
+            $payment_type = $this->getPaymentType($paymentInstance);
+            echo "Payment type ".$payment_type."<br/>";
+            $cc = "";
+
+            $grandTotal = (double) $order->getBaseGrandTotal();
+            echo "grandTotal - ".$grandTotal."<br/>";
+            $subTotal = (double) $order->getBaseSubtotalInclTax();
+            $tax = (double) $order->getBaseTaxAmount();
+            $shipping = (double) $order->getBaseShippingInclTax();
+
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+//            if(!$isMarketPlace)
+//            {
+//                if($payment_type == 'BT' || $payment_type == 'PY')
+//                {
+//                    if($surcharge == '0.0000') //manually created orders
+//                    {
+//                        if($grandTotal <= 99)
+//                        {
+//                            $grandTotal = $grandTotal - 9.9;
+//                            $disregardshipping = true;
+//                        }
+//                        $surcharge = $grandTotal * 0.0095;
+//                        $grandTotal = $grandTotal + $surcharge;
+//                        echo "new grandTotal - ".$grandTotal."<br/>";
+//                        echo "surcharge - ".$surcharge."<br/>";
+//
+//                        $modifygrandtotal = true;
+//                    }
+//                }
+//            }
+
+
+            if($payment_type == 'BT')
+            {
+                $cc = $paymentInstance->getCcType();
+            }
+
+            if($directToWhse)
+            {
+                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                $sellerdata['sales-order']['header']['set-on-status'] = "P";
+
+                if($is_am_fba)
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                }
+
+            }
+            else
+            {
+                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
+                $sellerdata['sales-order']['header']['set-on-status'] = "H";
+//                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
+                if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                }
+                else
+                {
+
+                    //check for stock
+                    //check for fraud BT
+
+                    $skus = $this->getProductsSkus($order);
+                    $instockInv = 0;
+                    //use warehouse
+                    if ($this->isProductsInStockAll($wrehs, $skus)) {
+                        $instockInv = 1;
+                        echo "instockInv ".$instockInv."<br>";
+                    }
+//                    foreach ($this->invCode as $sourceCode) {
+//                        $instockInv = 0;
+//                        if ($this->isProductsInStockAll($wrehs, $skus)) {
+//                            $instockInv = 1;
+//                            echo "instockInv ".$instockInv."<br>";
+//                            break;
+//                        }
+//                        echo "foreeach invCode ".$instockInv."<br>";
+//                    }
+
+                    //check if accessories group
+                    $is_acce = true;
+                    foreach ($order->getAllVisibleItems() as $item) {
+                        /* @var $item \Magento\Sales\Model\Order\Item */
+
+                        echo $item->getSku()."<br>";
+                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+                        if(is_null($stockgroup))
+                        {
+
+                        }
+                        else
+                        {
+                            $accgroup = $stockgroup->getValue();
+                            if(!in_array($stockgroup,$this->acceGroup)){
+                                $is_acce = false; //order has one that is not accessories
+                                break;
+                            }
+                        }
+
+                    }
+
+                    //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
+                    //check if braintree and fraud
+                    //check if all product has stock
+                    if($payment_type == 'BT')
+                    {
+                        if ($order->getStatus() != 'fraud')
+                        {
+                            if($instockInv == 1)
+                            {
+                                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $sellerdata['sales-order']['header']['set-on-status'] = "H";
+//                                if($grandTotal < 200)
+//                                {
+//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                    $data['sales-order']['header']['set-on-status'] = "P";
+//                                }
+//                                else //$grandTotal >= 200
+//                                {
+//                                    if($is_acce) //greater than 200 and is accessories
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                        $data['sales-order']['header']['set-on-status'] = "P";
+//                                    }
+//                                    else
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                                        $data['sales-order']['header']['set-on-status'] = "H";
+//                                    }
+//                                }
+                            }
+                            else
+                            {
+
+                                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                                $sellerdata['sales-order']['header']['set-on-status'] = "B";
+                            }
+
+                        }
+                        else
+                        {
+                            $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WF";
+                            $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                        }
+
+                    }
+                    elseif($payment_type == 'Y')
+                    {
+                        $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                    }
+                    else
+                    {
+                        if($instockInv == 1)
+                        {
+                            $delivery = $order->getShippingDescription();
+                            if($delivery == "Next Day Delivery")
+                            {
+                                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                                $sellerdata['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            elseif($grandTotal < 200)
+                            {
+                                $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                                $sellerdata['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else
+                            {
+                                if($is_acce) //greater than 200 and is accessories
+                                {
+                                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $sellerdata['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else
+                                {
+                                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $sellerdata['sales-order']['header']['on-hold-reason-code'] = "";
+                            $sellerdata['sales-order']['header']['set-on-status'] = "B";
+                        }
+                    }
+                }
+
+                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay" || $method == "banktransfer")
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                }
+
+                if($payment_type == 'LP')
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                    if($state == 'pending' && $test)
+                    {
+                        echo "latipay pending";
+                        continue;
+                    }
+                }
+
+                if($payment_type == 'VI')
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                }
+
+            }
+
+            $sellerdata['sales-order']['header']['so-part-shipment-allowed'] = "N";
+
+            //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
+
+            $grandTotal = round($grandTotal, 2);
+            $sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
+
+            $strt = $address->getStreet();
+            if(is_array($strt))
+            {
+                $street = implode(",", $strt);
+            }
+            else
+            {
+                $street = $strt;
+            }
+            $city = $address->getCity();
+            $region = $address->getRegion();
+            $postcode = $address->getPostcode();
+            $countrycode = $address->getCountryId();
+            $phone = $address->getTelephone();
+            $mobile = $address->getMobile();
+            $company = $address->getCompany();
+            $unitNumber = $address->getUnitNumber();
+            if(!empty($unitNumber))
+            {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
+            }
+
+            $sellerdata['sales-order']['header']['billing-address']['line-1'] = $company;
+            $sellerdata['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
+            $sellerdata['sales-order']['header']['billing-address']['line-3'] = $city;
+            $sellerdata['sales-order']['header']['billing-address']['line-4'] = $region;
+            $sellerdata['sales-order']['header']['billing-address']['line-6'] = $countryName;
+            $sellerdata['sales-order']['header']['billing-address']['postcode'] = $postcode;
+            $sellerdata['sales-order']['header']['billing-address']['country-code'] = $countrycode;
+            $sellerdata['sales-order']['header']['billing-address']['phone'] = $phone;
+            $sellerdata['sales-order']['header']['billing-address']['mobile'] = $mobile;
+
+            $delivery = $order->getShippingDescription();
+
+            $shipaddress = $order->getShippingAddress();
+            $shipstrt = $shipaddress->getStreet();
+            if(is_array($shipstrt))
+            {
+                $shipstreet = implode(",", $shipstrt);
+
+            }
+
+            $shipcity = $shipaddress->getCity();
+            $shipregion = $shipaddress->getRegion();
+            $shippostcode = $shipaddress->getPostcode();
+            $shipcountrycode = $shipaddress->getCountryId();
+            $shipphone = $shipaddress->getTelephone();
+            $shipmobile = $shipaddress->getMobile();
+            $shipcompany = $shipaddress->getCompany();
+            $shipUnitNumber = $shipaddress->getUnitNumber();
+            if(!empty($shipUnitNumber))
+            {
+                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+            }
+
+            if($delivery == "Pick Up in Store - Click and Collect Shipping")
+            {
+                $shipcompany = 'Click and Collect';
+
+            }
+            else if($rep == "WESTFIELD")
+            {
+                $shipcompany = 'Click and Collect';
+            }
+
+            if($delivery == "Next Day Delivery")
+            {
+                if($payment_type == 'LP' || $payment_type == 'BT')
+                {
+                    $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $sellerdata['sales-order']['header']['set-on-status'] = "H";
+                }
+
+            }
+
+            $sellerdata['sales-order']['header']['delivery-address']['line-1'] = $contactname;
+            $sellerdata['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
+            $sellerdata['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
+            $sellerdata['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
+            $sellerdata['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
+            $sellerdata['sales-order']['header']['delivery-address']['line-6'] = $countryName;
+            $sellerdata['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
+            $sellerdata['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
+            $sellerdata['sales-order']['header']['delivery-address']['phone'] = $shipphone;
+            $sellerdata['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
+
+
+            $payment_reference = $paymentInstance->getLastTransId();
+            if($test)
+            {
+                $latdata = $paymentInstance->getAdditionalInformation();
+                var_dump($latdata);
+
+            }
+            if($method == 'latipay')
+            {
+                $tosync = false;
+                $status_history = $order->getStatusHistories();
+                foreach ($status_history as $status) {
+                    //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    $comment = $status->getComment();
+                    if(!empty($comment))
+                    {
+                        $myjson = str_replace("Latipay Response :", "",$comment);
+                        //echo $myjson ."\n";
+                        $myarray = json_decode($myjson, true);
+                        //var_dump($myarray);
+                        if(isset($myarray['status']))
+                        {
+                            $latistatus = $myarray['status'];
+                            if($latistatus == 'paid')
+                            {
+                                $tosync = true;
+                            }
+                            else {
+                                $tosync = false;
+                            }
+                        }
+                        else
+                        {
+                            $tosync = false;
+                        }
+
+                    }
+
+                }
+
+                if(!$tosync)
+                {
+                    continue;
+                }
+
+            }
+
+            if (empty($payment_reference) && ($method == 'latipay')) {
+                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //if (empty($payment_reference)){
+                if(!$test)
+                {
+                    continue;
+                }
+                //}
+
+            }
+
+            //ebay
+            if (($method == 'm2epropayment')) {
+                if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+                else if (empty($payment_reference))
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+            }
+
+            if (($payment_type == 'ZM')) {
+
+                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+//               if($payment_reference == '')
+//               {
+//                   $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+//               }
+            }
+
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
+                {
+                    echo "pending paypal <br />";
+                    continue;
+                }
+            }
+
+            //work around for IR orders coming as H
+            if($payment_type == 'H')
+            {
+                if (strpos($orderId, 'CATCH') !== false) {
+                    $payment_type ="CA";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $payment_type ="MD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("MYD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'AM') !== false) {
+                    $payment_type ="AM";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $payment_type ="WD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'EB') !== false) {
+                    $payment_type ="EB";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("EB","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $payment_type ="WW";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WW","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+            }
+
+            if(($is_am_order) && ($payment_type == "EB")){
+                $payment_type = "AM";
+            }
+
+            $withpaymentref = true;
+            if(($payment_type == "Y"))
+            {
+                $withpaymentref = false;
+            }
+            if(($payment_type == "H"))
+            {
+                $withpaymentref = false;
+            }
+            if(($payment_type == "VI"))
+            {
+                $withpaymentref = false;
+            }
+            //gift cards
+            $withGC = false;
+            $gift_amount = $order->getGiftCardsAmount();
+            echo "gift_amount ".$gift_amount."<br/>";
+
+            if($gift_amount > 0)
+            {
+                $withGC = true;
+                $gift_amount = round($gift_amount, 2);
+                $gc_data = $order->getGiftCards();
+                $arr = explode(",",$gc_data);
+                $gc_ref = explode(":", $arr[1]);
+                $gc_reference = $gc_ref[1];
+                if($test)
+                {
+                    echo "gc ref " .$gc_reference;
+                }
+
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
+            }
+
+            $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
+            }
+            //pao's order 001313994-1 001313991-1
+            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            {
+                $amount_tendered = 1604.10;
+            }
+
+
+            $amount_tendered = round($amount_tendered, 2);
+            echo "amount_tendered ".$amount_tendered."<br/>";
+            if((!$is_am_fba))
+            {
+                if($withpaymentref)
+                {
+                    if($withGC)
+                    {
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                    }
+                    else
+                    {
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                        $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    }
+                }
+
+            }
+
+            //CUSTOM DATA
+            $qffNumber = $order->getQffNumber();
+            $qffLastname = $order->getQffLastname();
+
+
+            echo "surcharge - " .$surcharge;
+
+            if (!empty($qffNumber) && !empty($qffLastname)) {
+                $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+                $sellerdata['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
+                $sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+                $sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
+            }
+            else
+            {
+                $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+                $sellerdata['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
+                $sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+                $sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
+            }
+
+            $sellerdata['sales-order']['header']['custom-data']['data'][2]['key'] = 'magento-order-number';
+            $sellerdata['sales-order']['header']['custom-data']['data'][2]['value'] = $orderId;
+
+            $sellerdata['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
+            $sellerdata['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
+
+            if (!$order->getCustomerIsGuest()) {
+                $customerRep = $this->customerRepository->getById($order->getCustomerId());
+                $customerGroupId = $customerRep->getGroupId();
+                if($customerGroupId == 10)
+                {
+                    $data['sales-order']['header']['custom-data']['data'][4]['key'] = 'marketing-flag';
+                    $data['sales-order']['header']['custom-data']['data'][4]['value'] = 'CLUB';
+                }
+            }
+
+
+            //for coupon
+            $coupon = $order->getCouponCode();
+            $couponDiscount = ((double) $order->getBaseDiscountAmount());
+
+            //product lines
+            // for redeploy
+            $x = 0;
+            foreach ($order->getAllVisibleItems() as $item)
+            {
+                /* @var $item \Magento\Sales\Model\Order\Item */
+
+                $skus = array();
+                $productSku = "";
+                $digiProtect = "";
+                $price = (double) $item->getBasePriceInclTax();
+                $qty = (double) $item->getQtyOrdered();
+                $discount = (double) $item->getDiscountAmount();
+                $total = ($price * $qty) - $discount;
+                $discperc = 0;
+                if($price > 0)
+                {
+                    $discperc = ($discount / $price) * 100;
+                }
+                if($coupon != "")
+                {
+                    $discount = 0;
+                    $discperc = 0;
+                }
+                $digiProtectPrice = 0;
+                $digiProtectQty = 0;
+                $digiProtectdiscount = 0;
+                $digiProtectTotal = 0;
+
+
+                $sku = $item->getSku();
+                if(strpos($sku, 'mp-') !== false)
+                {
+                    //check seller here
+                    $sell = $item->getMarketplacerSeller();
+                    echo $sell ."<br/>";
+                    if($sell == $seller)
+                    {
+                        $productSku = $sku;
+                        $sellerdata['sales-order']['header']['set-on-status'] = "B";
+                        $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+
+                    //loop thru seller
+                }
+                else //
+                {
+                    continue;
+
+                }
+
+                $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
+
+
+                if($data['sales-order']['header']['set-on-status'] == "B")
+                {
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                }
+                else
+                {
+                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                    }
+                    else
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                    }
+                }
+
+
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                $x++;
+
+                if(!empty($digiProtect))
+                {
+                    $price = (double) $item->getBasePriceInclTax();
+                    $qty = (double) $item->getQtyOrdered();
+                    $discount = (double) $item->getDiscountAmount();
+                    $total = ($price * $qty) - $discount;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                    $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                    $x++;
+                }
+            } //end of product line
+
+            //surcharge clint 01-20-23
+            if($surcharge != "0.0000")
+            {
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                $x++; // for shipping counter
+            }
+
+            if($coupon != "")
+            {
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                $x++; // for shipping counter
+            }
+
 
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
