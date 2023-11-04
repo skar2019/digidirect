@@ -2,15 +2,15 @@
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
 
-    if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
-        $isDigiClub = 0;
-        $isChecked = "";
-        if ($customerGroupId == 10) {
-            $isDigiClub = 1;
-            $isChecked = "checked";
-        }
+    //if ($customerSession->isLoggedIn()) {
+    $customerGroupId = $customerSession->getCustomer()->getGroupId();
+    $isDigiClub = 0;
+    $isChecked = "";
+    if ($customerGroupId == 10) {
+        $isDigiClub = 1;
+        $isChecked = "checked";
     }
+    //}
 ?>
 
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
