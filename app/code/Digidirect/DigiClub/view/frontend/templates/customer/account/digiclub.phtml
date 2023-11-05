@@ -23,7 +23,7 @@
         <fieldset class="fieldset">
             <div class="block-title"><span>What benefits will I receive as a digiClub member?</span></div><br> 
             <div class="digiclub-description">
-                <div style="margin-bottom: 10px;">As a digiClub memnber you will gain access to exclusive deals and rewards.</div>
+                <div style="margin-bottom: 10px;">As a digiClub member you will gain access to exclusive deals and rewards.</div>
                 <li>Upon joining digiClub, you'll receive a warm welcome in the form of a $10 coupon</li>
                 <li>Enjoy a competitive advantage with early access to our sales</li>
                 <li>Exclusive access to the digiClub Member Deals page, updated regularly</li>
@@ -41,14 +41,14 @@
             ">
 
                 <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
-                <div class="field email required" data-container="change-email">
+                <div class="field email _required" data-container="change-email">
                     <label class="label" for="email"><span><?= /* @escapeNotVerified */ __('Email') ?></span></label>
                     <div class="control">
                         <input type="email" autocomplete="email" name="email" id="email" data-input="change-email" value="<?= $block->escapeHtml($block->getCustomer()->getEmail()) ?>" title="<?= /* @escapeNotVerified */ __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
                     </div>
                 </div>
 
-                <div class="field field-contact_number">
+                <div class="field field-contact_number _required">
                     <label class="label" for="contact_number"><span>Contact number</span></label> 
                     <div class="control">
                         <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($block->getCustomer()->getCustomAttribute('contact_number')->getValue()) ?>" class="input-text">
