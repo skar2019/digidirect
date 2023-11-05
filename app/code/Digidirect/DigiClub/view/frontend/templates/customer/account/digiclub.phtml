@@ -1,19 +1,5 @@
-<?php 
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('\Magento\Customer\Helper\Session\CurrentCustomer');
-    
-    //if ($customerSession->isLoggedIn()) {
-    $customerGroupId = $customerSession->getCustomer()->getGroupId();
-    $isDigiClub = 0;
-    $isChecked = "";
-    if ($customerGroupId == 10) {
-        $isDigiClub = 1;
-        $isChecked = "checked";
-    }
-    //}
-?>
 
-<form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
+<form class="form form-digiclub-manage block"<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="digiclub-description">
@@ -39,10 +25,6 @@
         </div>
         <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
         
-        <div class="field choice">
-            <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
-            <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
-        </div> 
     </fieldset>
     <div class="actions-toolbar">
         <div class="primary">
