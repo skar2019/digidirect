@@ -36,6 +36,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $customerSession;
     
     protected $logger;
+    
+    protected $cacheTypeList;
+    
+    protected $cacheFrontendPool;
 
     /**
      * Initialize dependencies.
