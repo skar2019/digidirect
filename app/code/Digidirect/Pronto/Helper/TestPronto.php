@@ -1616,7 +1616,7 @@ class TestPronto extends AbstractHelper
                     $countryName = $country->getName();
                 }
             }
-
+            echo "seller data <br/>";
             $directToWhse = false;
 
             $contactname = $accountname;
@@ -1958,14 +1958,14 @@ class TestPronto extends AbstractHelper
                         $productSku = $sku;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
-                        $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
-                        $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
-                        $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
-                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                        $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
-                        $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                        $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
+                        $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
+                        $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
+                        $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                         $x++;
                         $producttotal += $total;
                     }
@@ -1986,14 +1986,14 @@ class TestPronto extends AbstractHelper
 
             if($coupon != "")
             {
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
 
@@ -2009,22 +2009,22 @@ class TestPronto extends AbstractHelper
                 $shippingDesc = "Free Shipping";
             }
 
-            $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             if($test)
             {
-                var_dump($data['sales-order']);
+                var_dump($sellerdata['sales-order']);
             }
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
-            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
+            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($sellerdata, 'sales-orders');
 
             //TEST
             $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
