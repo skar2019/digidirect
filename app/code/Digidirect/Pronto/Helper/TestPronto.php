@@ -1306,6 +1306,11 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['set-on-status'] = "B";
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                 }
+                else if(strpos($sku, '-1') !== false)
+                {
+                    $productSku = str_replace("-1", "",$sku);
+
+                }
                 else if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
