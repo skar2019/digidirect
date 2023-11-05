@@ -1616,7 +1616,7 @@ class TestPronto extends AbstractHelper
                     $countryName = $country->getName();
                 }
             }
-
+            echo "seller data <br/>";
             $directToWhse = false;
 
             $contactname = $accountname;
