@@ -9,7 +9,7 @@
             </action> 
         </referenceBlock> 
         <referenceContainer name="content"> 
-            <block class="Magento\Framework\View\Element\Template" name="digiclub-tab" template="Digidirect_DigiClub::customer/account/digiclub.phtml" />
+            <block class="Magento\Customer\Block\Form\Edit" name="digiclub-tab" template="Digidirect_DigiClub::customer/account/digiclub.phtml" />
         </referenceContainer> 
     </body> 
 </page>
