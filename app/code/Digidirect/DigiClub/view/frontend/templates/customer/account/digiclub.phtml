@@ -20,7 +20,7 @@
         <div class="field field-contact_number">
             <label class="label" for="contact_number"><span>Contact number</span></label> 
                 <div class="control">
-                    <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($block->getCustomer()->getContactNumber()) ?>" class="input-text">
+                    <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($block->getCustomer()->getData("contact_number")) ?>" class="input-text">
                 </div>
         </div>
         <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
