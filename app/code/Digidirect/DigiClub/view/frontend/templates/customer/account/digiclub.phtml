@@ -10,8 +10,6 @@
         $isDigiClub = 1;
         $isChecked = "checked";
     }
-    
-    $currentCustomer = $customerSession->getCustomer();
     //}
 ?>
 
@@ -25,60 +23,22 @@
             <li>Special Discounts</li>
             <li>More…</li>
         </div>
-        <div class="field field-name-firstname required">
-            <label class="label" for="digiclub-firstname"><span>First Name</span></label>
-            <div class="control">
-                <input type="text" id="digiclub-firstname"
-                       name="digiclub-firstname"
-                       value="<?= $currentCustomer->getData("firstname") ?>"
-                       title="First Name"
-                       class="input-text" required/>
-            </div>
-        </div>
-        <div class="field field-name-lastname required">
-            <label class="label" for="digiclub-lastname"><span>Last Name</span></label>
-            <div class="control">
-                <input type="text" id="digiclub-lastname"
-                       name="digiclub-lastname"
-                       value="<?= $currentCustomer->getData("lastname") ?>"
-                       title="Last Name"
-                       class="input-text" required/>
-            </div>
-        </div>
+        <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
         <div class="field email required" data-container="change-email">
-            <label class="label" for="digiclub-email"><span>Email</span></label>
+            <label class="label" for="email"><span><?= /* @escapeNotVerified */ __('Email') ?></span></label>
             <div class="control">
-                <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                       value="<?= $currentCustomer->getEmail() ?>"
-                       title="Email"
-                       class="input-text"
-                       data-validate="{required:true, 'validate-email':true}" required/>
+                <input type="email" autocomplete="email" name="email" id="email" data-input="change-email" value="<?= $block->escapeHtml($block->getCustomer()->getEmail()) ?>" title="<?= /* @escapeNotVerified */ __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
             </div>
         </div>
-        <div class="field contact-number required">
-            <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
-            <div class="control">
-                <input type="number" id="digiclub-contact-number" 
-                       name="digiclub-contact-number" 
-                       value="<?= $currentCustomer->getData("contact_number") ?>"
-                       title="Contact Number"
-                       class="input-text" required/>
-            </div>
+        
+        <div class="field field-contact_number">
+            <label class="label" for="contact_number"><span>Contact number</span></label> 
+                <div class="control">
+                    <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($block->getCustomer()->getContactNumber()) ?>" class="input-text">
+                </div>
         </div>
-        <div class="field dob">
-            <label class="label" for="digiclub-dob" style="width: 105%;">
-                <span>Date of Birth</span>
-                <span style="font-style: italic;color: #ff3c00;">(Enter to receive a $20 birthday coupon)</span>
-            </label> 
-            <div class="control">
-                <input type="date" id="digiclub-dob" 
-                       name="digiclub-dob" 
-                       value="<?= $currentCustomer->getData("dob") ?>"
-                       title="Date of Birth"
-                       class="input-text"
-                       style="padding: 22px 12px !important;"/>
-            </div>
-        </div>
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        
         <div class="field choice">
             <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
             <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
