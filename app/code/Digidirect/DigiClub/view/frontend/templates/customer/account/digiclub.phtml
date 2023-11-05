@@ -1,22 +1,5 @@
-<?php
-    $customerBlock = $block->getLayout()->createBlock('Digidirect\Digiclub\Block\Customer');
-    $customerSession = $customerBlock->getCustomerSession();
-    $customerSessionManager = $customerBlock->getSessionManager();
 
-    if ($customerSession) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
-        $isDigiClub = 0;
-        $isChecked = "";
-        if ($customerGroupId == 10) {
-            $isDigiClub = 1;
-            $isChecked = "checked";
-        }
-        $customerData = $customerSession->getCustomer();
-    }
-    
-?>
-
-<form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
+<form class="form form-digiclub-manage block"<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="digiclub-description">
@@ -26,64 +9,22 @@
             <li>Special Discounts</li>
             <li>More…</li>
         </div>
-        <div class="field field-name-firstname required">
-            <label class="label" for="digiclub-firstname"><span>First Name</span></label>
-            <div class="control">
-                <input type="text" id="digiclub-firstname"
-                       name="digiclub-firstname"
-                       value="<?= $customerData->getData("firstname") ?>"
-                       title="First Name"
-                       class="input-text" required/>
-            </div>
-        </div>
-        <div class="field field-name-lastname required">
-            <label class="label" for="digiclub-lastname"><span>Last Name</span></label>
-            <div class="control">
-                <input type="text" id="digiclub-lastname"
-                       name="digiclub-lastname"
-                       value="<?= $customerData->getData("lastname") ?>"
-                       title="Last Name"
-                       class="input-text" required/>
-            </div>
-        </div>
+        <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
         <div class="field email required" data-container="change-email">
-            <label class="label" for="digiclub-email"><span>Email</span></label>
+            <label class="label" for="email"><span><?= /* @escapeNotVerified */ __('Email') ?></span></label>
             <div class="control">
-                <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                       value="<?= $customerData->getEmail() ?>"
-                       title="Email"
-                       class="input-text"
-                       data-validate="{required:true, 'validate-email':true}" required/>
+                <input type="email" autocomplete="email" name="email" id="email" data-input="change-email" value="<?= $block->escapeHtml($block->getCustomer()->getEmail()) ?>" title="<?= /* @escapeNotVerified */ __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
             </div>
         </div>
-        <div class="field contact-number required">
-            <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
+        
+        <div class="field field-contact_number">
+            <label class="label" for="contact_number"><span>Contact number</span></label> 
             <div class="control">
-                <input type="number" id="digiclub-contact-number" 
-                       name="digiclub-contact-number" 
-                       value="<?= $customerData->getData("contact_number") ?>"
-                       title="Contact Number"
-                       class="input-text" required/>
+                <input type="text" id="contact_number" name="contact_number" value="" class="input-text">
             </div>
         </div>
-        <div class="field dob">
-            <label class="label" for="digiclub-dob" style="width: 105%;">
-                <span>Date of Birth</span>
-                <span style="font-style: italic;color: #ff3c00;">(Enter to receive a $20 birthday coupon)</span>
-            </label> 
-            <div class="control">
-                <input type="date" id="digiclub-dob" 
-                       name="digiclub-dob" 
-                       value="<?= $customerData->getData("dob") ?>"
-                       title="Date of Birth"
-                       class="input-text"
-                       style="padding: 22px 12px !important;"/>
-            </div>
-        </div>
-        <div class="field choice">
-            <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
-            <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
-        </div> 
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        
     </fieldset>
     <div class="actions-toolbar">
         <div class="primary">
