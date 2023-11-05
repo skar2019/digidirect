@@ -1,5 +1,5 @@
 
-<form class="form form-digiclub-manage block"<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
+<form class="form form-digiclub-manage block" action="<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="digiclub-description">
@@ -20,10 +20,10 @@
         <div class="field field-contact_number">
             <label class="label" for="contact_number"><span>Contact number</span></label> 
             <div class="control">
-                <input type="text" id="contact_number" name="contact_number" value="" class="input-text">
+                <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($block->getCustomer()->getCustomAttribute('contact_number')) ?>" class="input-text">
             </div>
         </div>
-        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        <?php $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob')->setObject($block->getCustomer())->toHtml() ?>
         
     </fieldset>
     <div class="actions-toolbar">
