@@ -1888,16 +1888,28 @@ class TestPronto extends AbstractHelper
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
 
-            $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-            $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-            $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+            if($withpaymentref)
+            {
+                if($withGC)
+                {
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                }
+                else
+                {
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                }
+            }
 
 
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['value'] = $orderId;
 
-            $sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
-            $sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
+            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
+            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
 
             if (!$order->getCustomerIsGuest()) {
                 $customerRep = $this->customerRepository->getById($order->getCustomerId());
