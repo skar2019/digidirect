@@ -25,14 +25,14 @@
                     </div>
                 </div>
             </ol>
-            <ol data-bind="foreach: items()" class="minicart-items">
+            <!-- ko foreach: { data: items(), as: 'item' } -->
                 <li class="product-item">
-                    <div data-bind="text: $data.marketplacer_seller" class="seller-name" style="display: none;"></div>
+                    <div class="seller-name" style="display: none;"><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
                     <div class="product">
                         <each args="$parent.elems()" render=""></each>
                     </div>
                 </li>
-            </ol>
+            <!-- /ko -->
         </div>
     </div>
     <div class="actions-toolbar" if="maxCartItemsToDisplay < getCartLineItemsCount()">
