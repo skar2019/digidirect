@@ -1602,7 +1602,7 @@ class TestPronto extends AbstractHelper
             //Amazon Logic
             $wrehs = 'SWHS';//$this->getWarehouse($order); // or use DIMA too?
             $territory = "DIMA";
-            $rep = $this->getRep($order);
+            $rep = "";//$this->getRep($order);
 
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
