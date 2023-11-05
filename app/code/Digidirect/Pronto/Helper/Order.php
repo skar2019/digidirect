@@ -224,6 +224,7 @@ class Order extends AbstractHelper
                 continue;
             }
 
+
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if($prontoOrderNumber != "")
             {
@@ -341,8 +342,6 @@ class Order extends AbstractHelper
 //                }
 //            }
             //redeploy
-            $counter++;
-
             $directToWhse = false;
             if($isMarketPlace)
             {
@@ -408,20 +407,24 @@ class Order extends AbstractHelper
             $disregardshipping = false;
             $modifygrandtotal = false;
             $surcharge = $order->getPaymentFee();
-            if(!$isMarketPlace)
-            {
-                if($surcharge == '0.0000') //manually created orders
-                {
-                    if($grandTotal <= 99)
-                    {
-                        $grandTotal = $grandTotal - 9.9;
-                        $disregardshipping = true;
-                    }
-                    $surcharge = $grandTotal * 0.0095;
-                    $grandTotal = $grandTotal + $surcharge;
-                    $modifygrandtotal = true;
-                }
-            }
+//            if(!$isMarketPlace)
+//            {
+//                if($payment_type == 'BT' || $payment_type == 'PY')
+//                {
+//                    if($surcharge == '0.0000') //manually created orders
+//                    {
+//                        if($grandTotal <= 99)
+//                        {
+//                            $grandTotal = $grandTotal - 9.9;
+//                            $disregardshipping = true;
+//                        }
+//                        $surcharge = $grandTotal * 0.0095;
+//                        $grandTotal = $grandTotal + $surcharge;
+//
+//                        $modifygrandtotal = true;
+//                    }
+//                }
+//            }
 
 
             if($payment_type == 'BT')
@@ -503,24 +506,26 @@ class Order extends AbstractHelper
                         {
                             if($instockInv == 1)
                             {
-                                if($grandTotal < 200)
-                                {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                    $data['sales-order']['header']['set-on-status'] = "P";
-                                }
-                                else //$grandTotal >= 200
-                                {
-                                    if($is_acce) //greater than 200 and is accessories
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                        $data['sales-order']['header']['set-on-status'] = "P";
-                                    }
-                                    else
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                        $data['sales-order']['header']['set-on-status'] = "H";
-                                    }
-                                }
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+//                                if($grandTotal < 200)
+//                                {
+//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                    $data['sales-order']['header']['set-on-status'] = "P";
+//                                }
+//                                else //$grandTotal >= 200
+//                                {
+//                                    if($is_acce) //greater than 200 and is accessories
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                        $data['sales-order']['header']['set-on-status'] = "P";
+//                                    }
+//                                    else
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                                        $data['sales-order']['header']['set-on-status'] = "H";
+//                                    }
+//                                }
                             }
                             else
                             {
@@ -546,7 +551,13 @@ class Order extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            if($grandTotal < 200)
+                            $delivery = $order->getShippingDescription();
+                            if($delivery == "Next Day Delivery")
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            elseif($grandTotal < 200)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
@@ -572,11 +583,24 @@ class Order extends AbstractHelper
                         }
                     }
 
-                    if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                    if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay" || $method == "banktransfer")
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
+
+                    if($payment_type == 'LP')
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+
+                    if($payment_type == 'VI')
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+
                 }
 
             }
@@ -591,6 +615,10 @@ class Order extends AbstractHelper
             if(is_array($strt))
             {
                 $street = implode(",", $strt);
+            }
+            else
+            {
+                $street = $strt;
             }
             $city = $address->getCity();
             $region = $address->getRegion();
@@ -646,6 +674,15 @@ class Order extends AbstractHelper
                 $shipcompany = 'Click and Collect';
             }
 
+            if($delivery == "Next Day Delivery")
+            {
+                if($payment_type == 'LP' || $payment_type == 'BT')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+            }
+
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
@@ -659,13 +696,59 @@ class Order extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
 
+            if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
+                continue;
+            }
+
             if (empty($payment_reference) && ($method == 'latipay')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                if (empty($payment_reference)){
+                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //if (empty($payment_reference)){
+                continue;
+                //}
+
+            }
+
+            if($method == 'latipay')
+            {
+                $tosync = false;
+                $status_history = $order->getStatusHistories();
+                foreach ($status_history as $status) {
+                    //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    $comment = $status->getComment();
+                    if(!empty($comment))
+                    {
+                        $myjson = str_replace("Latipay Response :", "",$comment);
+                        //echo $myjson ."\n";
+                        $myarray = json_decode($myjson, true);
+                        //var_dump($myarray);
+                        if(isset($myarray['status']))
+                        {
+                            $latistatus = $myarray['status'];
+                            if($latistatus == 'paid')
+                            {
+                                $tosync = true;
+                            }
+                            else {
+                                $tosync = false;
+                            }
+                        }
+                        else
+                        {
+                            $tosync = false;
+                        }
+
+
+                    }
+
+                }
+
+                if(!$tosync)
+                {
                     continue;
                 }
 
             }
+
             //ebay
             if (($method == 'm2epropayment')) {
                 if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
@@ -682,9 +765,19 @@ class Order extends AbstractHelper
             if (($payment_type == 'ZM')) {
 
                 $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-                if($payment_reference == '')
+//                if($payment_reference == '')
+//                {
+//                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+//                }
+            }
+
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
                 {
-                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+                    continue;
                 }
             }
 
@@ -774,6 +867,28 @@ class Order extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
+            //pao order
+            if($orderId == '001327339')
+            {
+                $amount_tendered = 1414.97;
+            }
+            //darry work around
+            if($orderId == '001340389')
+            {
+                $amount_tendered = 94.89;
+            }
+            //glen order :express paypal no surcharge
+            if($orderId == '001343543')
+            {
+                $amount_tendered = 67.15;
+            }
+
+            //angela order
+            if($orderId == '001311984-1')
+            {
+                $amount_tendered = 34.22;
+            }
+
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
@@ -821,6 +936,17 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
 
+            if (!$order->getCustomerIsGuest()) {
+                $customerRep = $this->customerRepository->getById($order->getCustomerId());
+                $customerGroupId = $customerRep->getGroupId();
+                if($customerGroupId == 10)
+                {
+                    $data['sales-order']['header']['custom-data']['data'][4]['key'] = 'marketing-flag';
+                    $data['sales-order']['header']['custom-data']['data'][4]['value'] = 'CLUB';
+                }
+            }
+
+
             //for coupon
             $coupon = $order->getCouponCode();
             $couponDiscount = ((double) $order->getBaseDiscountAmount());
@@ -837,6 +963,7 @@ class Order extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                $discperc = 0;
                 if($price > 0)
                 {
                     $discperc = ($discount / $price) * 100;
@@ -846,6 +973,10 @@ class Order extends AbstractHelper
                 {
                     $discount = 0; //set this to zero since we subtract it to total
                     $discperc = 0;
+                    if(str_contains($coupon, 'PMC-'))
+                    {
+                        $data['sales-order']['header']['rep'] = "PMC";
+                    }
                 }
 
                 $digiProtectPrice = 0;
@@ -854,7 +985,14 @@ class Order extends AbstractHelper
                 $digiProtectTotal = 0;
 
                 $sku = $item->getSku();
-                if(strpos($sku, '-') !== false)
+                if(strpos($sku, 'mp-') !== false)
+                {
+                    $productSku = $sku;
+                    $data['sales-order']['header']['set-on-status'] = "B";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
+
+                }
+                else if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
@@ -882,16 +1020,16 @@ class Order extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
                 else
                 {
                     $productSku = $sku;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
-
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
@@ -974,10 +1112,14 @@ class Order extends AbstractHelper
 
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
-            if (strpos($shippingDesc, '|') !== false) {
-                $marketplacesShipping = explode('|', $shippingDesc);
-                $shippingDesc = $marketplacesShipping[1];
+            if(!empty($shippingDesc))
+            {
+                if (strpos($shippingDesc, '|') !== false) {
+                    $marketplacesShipping = explode('|', $shippingDesc);
+                    $shippingDesc = $marketplacesShipping[1];
+                }
             }
+
             if($shippingDesc == "Express - (1 to 3 Days)")
             {
                 $shippingDesc = "Australia Post – express";
@@ -1018,10 +1160,10 @@ class Order extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
-            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             $islive = true;
@@ -1063,7 +1205,7 @@ class Order extends AbstractHelper
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
                     //echo $msg ."<br>";
-                    if($msg == 'Error on opening batch reference.')
+                    if($msg == 'Error on opening batch reference.') //marketplaces orders.
                     {
                         //do nothing
                     }
@@ -1101,11 +1243,13 @@ class Order extends AbstractHelper
                     $this->incrementIdUpdater->update($invoice, $invoiceno);
 
                 }
+
+                $counter++;
             }
 
-            if($counter >= 2)
+            if($counter >= 3)
             {
-                return true; //return after 2 orders
+                return true; //return after 3 orders
             }
 
         }
@@ -1120,6 +1264,7 @@ class Order extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
+            ->addFieldToFilter('store_id', array('in' => array(1,5)))
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
 
@@ -1185,7 +1330,7 @@ class Order extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PY';
+                $type = 'PX';
                 break;
 
             default:
@@ -1401,4 +1546,5 @@ class Order extends AbstractHelper
 
         return $prontoStatus;
     }
+    //redeploy
 }
