@@ -1,17 +1,43 @@
-<?php 
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
-
-    if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
-        $isDigiClub = 0;
-        $isChecked = "";
-        if ($customerGroupId == 10) {
-            $isDigiClub = 1;
-            $isChecked = "checked";
-        }
-    }
+<?php
+    $form = $block->getLayout()->createBlock('Magento\CustomerCustomAttributes\Block\Form');
 ?>
+
+<form class="form form-digiclub-manage block"<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
+    <fieldset class="fieldset">
+        <div class="block-title"><span>Subscription Option</span></div><br> 
+        <div class="digiclub-description">
+            <div style="margin-bottom: 10px;">By verifying your details and checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
+            <li>Early Access to our Sale Events</li>
+            <li>Exclusive Rewards</li>
+            <li>Special Discounts</li>
+            <li>More…</li>
+        </div>
+        
+        <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($form->getCustomer())->toHtml() ?>
+        
+        <div class="field email required" data-container="change-email">
+            <label class="label" for="email"><span><?= /* @escapeNotVerified */ __('Email') ?></span></label>
+            <div class="control">
+                <input type="email" autocomplete="email" name="email" id="email" data-input="change-email" value="<?= $block->escapeHtml($form->getCustomer()->getEmail()) ?>" title="<?= /* @escapeNotVerified */ __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
+            </div>
+        </div>
+        
+        <div class="field field-contact_number">
+            <label class="label" for="contact_number"><span>Contact number</span></label> 
+                <div class="control">
+                    <input type="text" id="contact_number" name="contact_number" value="<?= $block->escapeHtml($form->getCustomer()->getContactNumber()) ?>" class="input-text">
+                </div>
+        </div>
+        
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="Save" class="action save -responsive"><span>Save</span></button>
+        </div>
+    </div>
+</form>
 
 <script>
     require([
