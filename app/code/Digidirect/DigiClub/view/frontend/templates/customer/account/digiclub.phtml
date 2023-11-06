@@ -13,6 +13,8 @@
     }
 ?>
 
+<div style="font-size: 33px;font-weight: 700;padding: 30px 30px 10px 30px;">digi<span style="color: #ff3c00;">Club</span></div>
+
 <form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
     
     <div style="
@@ -24,13 +26,15 @@
             <div class="block-title"><span>What benefits will I receive as a digiClub member?</span></div><br> 
             <div class="digiclub-description">
                 <div style="margin-bottom: 10px;">As a digiClub member you will gain access to exclusive deals and rewards.</div>
-                <li>Upon joining digiClub, you'll receive a warm welcome in the form of a $10 coupon</li>
-                <li>Enjoy a competitive advantage with early access to our sales</li>
-                <li>Exclusive access to the digiClub Member Deals page, updated regularly</li>
-                <li>You'll get access to exclusive member deals regularly delivered to your inbox</li>
-                <li>elebrate your special day with a delightful $20 birthday coupon</li>
-                <li>As a loyal member, you'll receive an annual $25 in-store print voucher</li>
-                <li>Our membership also grants you a 10% discount on digiDirect events, whether they're photography workshops, seminars, or other enriching experiences</li>
+                <ul>
+                    <li>Upon joining digiClub, you'll receive a warm welcome in the form of a $10 coupon</li>
+                    <li>Enjoy a competitive advantage with early access to our sales</li>
+                    <li>Exclusive access to the digiClub Member Deals page, updated regularly</li>
+                    <li>You'll get access to exclusive member deals regularly delivered to your inbox</li>
+                    <li>elebrate your special day with a delightful $20 birthday coupon</li>
+                    <li>As a loyal member, you'll receive an annual $25 in-store print voucher</li>
+                    <li>Our membership also grants you a 10% discount on digiDirect events, whether they're photography workshops, seminars, or other enriching experiences</li>
+                </ul>
             </div>
             <div style="
                 display: grid;
@@ -41,59 +45,54 @@
             ">
                 
                 <div class="field field-name-firstname _required">
-                    <span style="display: none;"><?= $customerSession->getCustomer()->getData("firstname") ?></span>
                     <label class="label" for="digiclub-firstname"><span>First Name</span></label>
                     <div class="control">
                         <input type="text" id="digiclub-firstname"
                                name="digiclub-firstname"
-                               value=""
+                               value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
                                title="First Name"
                                class="input-text" required/>
                     </div>
                 </div>
                 <div class="field field-name-lastname _required">
-                    <span style="display: none;"><?= $customerSession->getCustomer()->getData("lastname") ?></span>
                     <label class="label" for="digiclub-lastname"><span>Last Name</span></label>
                     <div class="control">
                         <input type="text" id="digiclub-lastname"
                                name="digiclub-lastname"
-                               value=""
+                               value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
                                title="Last Name"
                                class="input-text" required/>
                     </div>
                 </div>
                 <div class="field email _required" data-container="change-email">
-                    <span style="display: none;"><?= $customerSession->getCustomer()->getEmail() ?></span>
                     <label class="label" for="digiclub-email"><span>Email</span></label>
                     <div class="control">
                         <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                               value=""
+                               value="<?= $customerSession->getCustomer()->getEmail() ?>"
                                title="Email"
                                class="input-text"
                                data-validate="{required:true, 'validate-email':true}" required/>
                     </div>
                 </div>
                 <div class="field contact-number _required">
-                    <span style="display: none;"><?= $customerSession->getCustomer()->getData("contact_number") ?></span>
                     <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
                     <div class="control">
                         <input type="number" id="digiclub-contact-number" 
                                name="digiclub-contact-number" 
-                               value=""
+                               value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
                                title="Contact Number"
                                class="input-text" required/>
                     </div>
                 </div>
                 <div class="field dob">
-                    <span style="display: none;"><?= $customerSession->getCustomer()->getData("dob") ?></span>
                     <label class="label" for="digiclub-dob" style="width: 150%; display: block;">
                         <span>Date of Birth</span>
-                        <span style="font-style: italic;color: #ff3c00;">(Enter to receive a $20 birthday coupon)</span>
+                        <span style="font-style: italic;color: #ff3c00; font-weight: 400;">(Enter to receive a $20 birthday coupon)</span>
                     </label> 
                     <div class="control">
                         <input type="date" id="digiclub-dob" 
                                name="digiclub-dob" 
-                               value=""
+                               value="<?= $customerSession->getCustomer()->getData("dob") ?>"
                                title="Date of Birth"
                                class="input-text"
                                style="padding: 22px 12px !important;"/>
@@ -106,14 +105,20 @@
                 <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
                 <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
             </div> 
-            <div>Click SAVE below to acknowledge your agreement to join digiClub in line with our <a href="https://www.digidirect.com.au/terms/">Terms & Conditions</a> and <a href="https://www.digidirect.com.au/privacy">Privacy Policy</a>.</div>
+            <div style="font-size: 12px;">Click SAVE below to acknowledge your agreement to join digiClub in line with our <a href="https://www.digidirect.com.au/terms/">Terms & Conditions</a> and <a href="https://www.digidirect.com.au/privacy">Privacy Policy</a>.</div>
         </fieldset>
         <div><img src="<?= $block->getUrl("media/wysiwyg/digiClub/")?>digiclub-signup-image.png"/></div>
     </div>
     
     <div class="actions-toolbar">
         <div class="primary">
-            <button type="submit" title="Save" class="action save -responsive"><span>Save</span></button>
+            <button type="submit" title="Save" class="action save -responsive" style="
+                font-family: 'Poppins';
+                font-weight: 500;
+                background: #F05A25;
+                border-radius: 5px;
+            "><span>Save</span>
+            </button>
         </div>
     </div>
 </form>
