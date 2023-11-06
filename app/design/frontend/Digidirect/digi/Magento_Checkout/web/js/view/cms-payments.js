@@ -20,7 +20,7 @@ define([
                 console.log("sellerPerItem: " + sellerPerItem);
                 
                 var subStrSpi = sellerPerItem.substring(
-                    sellerPerItem.indexOf("-->") + 1, 
+                    sellerPerItem.indexOf("-->") + 3, 
                     sellerPerItem.lastIndexOf("<!--")
                 );
         
