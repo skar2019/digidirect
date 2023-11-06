@@ -1490,13 +1490,13 @@ class TestPronto extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-//                $this->curl->addHeader("compcode", "DIG"); //live
-//                $this->curl->addHeader("user", "ewaveapi");
-//                $this->curl->addHeader("token", "904241bdbf10efa9");
+                $this->curl->addHeader("compcode", "DIG"); //live
+                $this->curl->addHeader("user", "ewaveapi");
+                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                $this->curl->addHeader("compcode", "UA1"); //test
-                $this->curl->addHeader("user", "clint.mercado");
-                $this->curl->addHeader("token", "849cd5080faff5ce");
+//                $this->curl->addHeader("compcode", "UA1"); //test
+//                $this->curl->addHeader("user", "clint.mercado");
+//                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
@@ -1908,16 +1908,16 @@ class TestPronto extends AbstractHelper
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['value'] = $orderId;
 
-            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
-            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
+            $sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
+            $sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
 
             if (!$order->getCustomerIsGuest()) {
                 $customerRep = $this->customerRepository->getById($order->getCustomerId());
                 $customerGroupId = $customerRep->getGroupId();
                 if($customerGroupId == 10)
                 {
-                    $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'marketing-flag';
-                    $data['sales-order']['header']['custom-data']['data'][2]['value'] = 'CLUB';
+                    $sellerdata['sales-order']['header']['custom-data']['data'][2]['key'] = 'marketing-flag';
+                    $sellerdata['sales-order']['header']['custom-data']['data'][2]['value'] = 'CLUB';
                 }
             }
 
@@ -2049,13 +2049,13 @@ class TestPronto extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-//                $this->curl->addHeader("compcode", "DIG"); //live
-//                $this->curl->addHeader("user", "ewaveapi");
-//                $this->curl->addHeader("token", "904241bdbf10efa9");
+                $this->curl->addHeader("compcode", "DIG"); //live
+                $this->curl->addHeader("user", "ewaveapi");
+                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                $this->curl->addHeader("compcode", "UA1"); //test
-                $this->curl->addHeader("user", "clint.mercado");
-                $this->curl->addHeader("token", "849cd5080faff5ce");
+//                $this->curl->addHeader("compcode", "UA1"); //test
+//                $this->curl->addHeader("user", "clint.mercado");
+//                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
@@ -2084,10 +2084,10 @@ class TestPronto extends AbstractHelper
 
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                     var_dump($json['sales-orders']['sales-order']);
-                    
+
                 }
             }
-            
+
             return;
 
         }
