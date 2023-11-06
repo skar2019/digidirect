@@ -31,7 +31,7 @@ define([
                     var seller = $(this).html();
                     console.log("seller: " + seller);
                     if (subStrSpi === seller) {
-                        $(thisSellerPerItem).parent().insertAfter(thisSeller.parent());
+                        $(thisSellerPerItem).parents().hasClass('opc-sidebar').insertAfter(thisSeller.parent().hasClass('opc-sidebar'));
                     }
                 });
             });
