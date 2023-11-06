@@ -163,7 +163,7 @@ class Data extends AbstractHelper
         }
         $this->logger->info('getDigiShipping: ' . $digiTotal);
 
-        if ($digiTotal < 99) {
+        if (($digiTotal < 99) && ($digiTotal != 0)) {
             $digiShipping = 10;
         }
 
