@@ -13,7 +13,7 @@
     }
 ?>
 
-<form class="form form-digiclub-manage block" action="<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
+<form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
     
     <div style="
         display: grid;
@@ -86,7 +86,7 @@
                 </div>
                 <div class="field dob">
                     <span style="display: none;"><?= $customerSession->getCustomer()->getData("dob") ?></span>
-                    <label class="label" for="digiclub-dob" style="width: 105%;">
+                    <label class="label" for="digiclub-dob" style="width: 150%; display: block;">
                         <span>Date of Birth</span>
                         <span style="font-style: italic;color: #ff3c00;">(Enter to receive a $20 birthday coupon)</span>
                     </label> 
