@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="controller_action_predispatch">
-        <observer name="check_login_persistent" instance="Digidirect\DigiClub\Observer\CheckLoginPersistentObserver" />
+        <observer name="check_login_persistent" instance="Digidirect\DigiClubMember\Observer\CheckLoginPersistentObserver" />
     </event>
     <event name="customer_register_success">
-        <observer name="custom_redirect_register_success" instance="Digidirect\DigiClub\Observer\Register" disabled="false"/>
+        <observer name="custom_redirect_register_success" instance="Digidirect\DigiClubMember\Observer\Register" disabled="false"/>
     </event>
 </config>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\DigiClub\Observer;
+namespace Digidirect\DigiClubMember\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
@@ -35,8 +35,8 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
 
-        if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclub') {
-            $url = $this->urlInterface->getUrl('digiclub/customer/index');
+        if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
+            $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
             $login_url = $this->urlInterface
                 ->getUrl('customer/account/login',
                     array('referer' => base64_encode($url))

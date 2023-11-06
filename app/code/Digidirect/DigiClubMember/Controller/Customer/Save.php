@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Digidirect\DigiClub\Controller\Customer;
+namespace Digidirect\DigiClubMember\Controller\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
 use Magento\Customer\Api\Data\CustomerInterface;
@@ -36,6 +36,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $customerSession;
     
     protected $logger;
+    
+    protected $cacheTypeList;
+    
+    protected $cacheFrontendPool;
 
     /**
      * Initialize dependencies.
@@ -78,7 +82,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         if ($customerId === null) {
             $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         } else {
-            //try {
+            try {
                 $customer = $this->customerRepository->getById($customerId);
                 $storeId = (int)$this->storeManager->getStore()->getId();
                 $customer->setStoreId($storeId);
@@ -115,11 +119,11 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->customerRepository->save($customer);
                 $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
                 
-            //} catch (\Exception $e) {
-            //    $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
-            //}
+            } catch (\Exception $e) {
+                $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         }
-        return $this->_redirect('customer/account/');
+    }
+        return $this->_redirect('customer/account/edit/');
     }
 
     /**

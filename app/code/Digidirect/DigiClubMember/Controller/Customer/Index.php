@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\DigiClub\Controller\Customer;
+namespace Digidirect\DigiClubMember\Controller\Customer;
 
 class Index extends \Magento\Framework\App\Action\Action 
 {
