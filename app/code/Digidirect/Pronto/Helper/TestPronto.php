@@ -1600,9 +1600,9 @@ class TestPronto extends AbstractHelper
             $this->logger->info('Pronto Order Sync - '.$orderId);
             $isMarketPlace = false;
             //Amazon Logic
-            $wrehs = $this->getWarehouse($order); // or use DIMA too?
+            $wrehs = 'SWHS';//$this->getWarehouse($order); // or use DIMA too?
             $territory = "DIMA";
-            $rep = "WEBS";
+            $rep = $this->getRep($order);
 
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
@@ -2030,10 +2030,10 @@ class TestPronto extends AbstractHelper
             $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
-            if($test)
-            {
+            //if($test)
+            //{
                 var_dump($sellerdata['sales-order']);
-            }
+            //}
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($sellerdata, 'sales-orders');
