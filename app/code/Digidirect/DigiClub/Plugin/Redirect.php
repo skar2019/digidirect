@@ -26,7 +26,7 @@ class Redirect
         if ($this->coreRegistry->registry('is_new_account')) {
             /** @var \Magento\Framework\Controller\Result\Redirect $result */
             $result = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            $result->setUrl($this->url->getUrl('digiclub-account/customer/index'));
+            $result->setUrl($this->url->getUrl('digiclubmember/customer/index'));
             return $result;
         }
 
