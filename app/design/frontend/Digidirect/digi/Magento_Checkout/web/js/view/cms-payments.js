@@ -15,8 +15,8 @@ define([
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
             $('.opc-sidebar .seller-name').each(function(){
-                var thisSellerPerItem = $(this);
-                var sellerPerItem = $(this).html();
+                var thisSellerPerItem = $('.opc-sidebar .seller-name');
+                var sellerPerItem = $('.opc-sidebar .seller-name').html();
                 console.log("sellerPerItem: " + sellerPerItem);
                 
                 var subStrSpi = sellerPerItem.substring(
@@ -27,8 +27,8 @@ define([
                 console.log("subStrSpi: " + subStrSpi);
                 
                 $('.opc-sidebar .seller').each(function(){
-                    var thisSeller = $(this);
-                    var seller = $(this).html();
+                    var thisSeller = $('.opc-sidebar .seller');
+                    var seller = $('.opc-sidebar .seller').html();
                     console.log("seller: " + seller);
                     if (subStrSpi === seller) {
                         $(thisSellerPerItem).parent().insertAfter(thisSeller.parent());
