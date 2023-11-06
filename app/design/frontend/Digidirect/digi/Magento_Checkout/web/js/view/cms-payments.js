@@ -18,12 +18,20 @@ define([
                 var thisSellerPerItem = $(this);
                 var sellerPerItem = $(this).html();
                 console.log("sellerPerItem: " + sellerPerItem);
+                
+                var subStrSpi = sellerPerItem.substring(
+                    sellerPerItem.indexOf("-->") + 1, 
+                    sellerPerItem.lastIndexOf("<!--")
+                );
+        
+                console.log("subStrSpi: " + subStrSpi);
+                
                 $('.opc-sidebar').find('.seller').each(function(){
                     var thisSeller = $(this);
                     var seller = $(this).html();
                     console.log("seller: " + seller);
-                    if (sellerPerItem === seller) {
-                        console.log("sellerPerItem === seller");
+                    if (subStrSpi === seller) {
+                        console.log("subStrSpi === seller");
                         $(thisSellerPerItem).parent().insertAfter(thisSeller.parent());
                     }
                 });
