@@ -97,11 +97,11 @@ define([
 
                 // Move items copy to Right Bar on Checkout page
 
-                $(checkoutOffCanvasItems).appendTo(checkoutOffCanvasBar);
+                //$(checkoutOffCanvasItems).appendTo(checkoutOffCanvasBar);
 
                 // Move summary copy to Right Bar on Checkout page
 
-                $(checkoutOffCanvasSummary).appendTo(checkoutOffCanvasBar);
+                //$(checkoutOffCanvasSummary).appendTo(checkoutOffCanvasBar);
 
                 var btn = $('#checkoutOffCanvasBarContent .button.action');
                 btn.on('click',function () {
