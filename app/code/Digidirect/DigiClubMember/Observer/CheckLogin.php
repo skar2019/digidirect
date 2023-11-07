@@ -10,16 +10,22 @@ use Magento\Framework\Event\Observer as EventObserver;
 class CheckLogin implements ObserverInterface
 {
     protected Config $config;
+    
+    protected $request;
+    
 
     public function __construct(
-        Config $config
+        Config $config,
+        \Magento\Framework\App\Request\Http $request
     ){
         $this->config = $config;
+        $this->request = $request;
     }
 
     public function execute(EventObserver $observer){
         $name = $observer->getFullActionName();
-        if($name == "customer_account_login") {
+        $isDigiclubRedirect = $this->request->getParam('digiclub');
+        if(($name == "customer_account_login") && ($isDigiclubRedirect)) {
             $this->config->addBodyClass("digiclub-redirect");
         }
     }
