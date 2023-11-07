@@ -14,12 +14,12 @@ define([
             console.log("seller-name: " + $('.opc-sidebar .items-in-cart .product-item .seller-name').length);
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
-            $('#opc-sidebar .seller').each(function(){
+            $('.opc-block-summary .seller').each(function(){
                     var thisSeller = $(this);
                     var seller = $(this).html();
                     console.log("seller: " + seller);
                     
-                    $('#opc-sidebar .seller-name').each(function(){
+                    $('.opc-block-summary .seller-name').each(function(){
                         var thisSellerPerItem = $(this);
                         var sellerPerItem = $(this).html();
                         console.log("sellerPerItem: " + sellerPerItem);
