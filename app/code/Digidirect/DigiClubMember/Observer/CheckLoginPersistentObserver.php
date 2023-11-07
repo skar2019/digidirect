@@ -19,6 +19,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
     protected $_customerSession;
     
     protected $urlInterface;
+    
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -38,9 +39,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
             $login_url = $this->urlInterface
-                ->getUrl('customer/account/login',
-                    array('referer' => base64_encode($url))
-                );
+                ->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $login_url);
         }
     }
