@@ -6,4 +6,7 @@
     <event name="customer_register_success">
         <observer name="custom_redirect_register_success" instance="Digidirect\DigiClubMember\Observer\Register" disabled="false"/>
     </event>
+    <event name="layout_generate_blocks_after">
+        <observer name="layout_generate_blocks_after_digiclub" instance="Digidirect\DigiClubMember\Observer\CheckLogin" />
+    </event>
 </config>
