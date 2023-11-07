@@ -2,17 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <attribute name="class" value="simple-structure"/>
-        
-        <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="digiclub-login-content" template="Digidirect_Digiclub::customer/account/digiclub-login.phtml" before="customer.login.container"/>
-                <referenceBlock name="customer.new" template="Magento_Customer::newcustomer.phtml">
-                <block class="Magento\Cms\Block\Block" name="newcustomer-benefits">
-                    <arguments>
-                        <argument name="block_id" xsi:type="string">account-benefits</argument>
-                    </arguments>
-                </block>
-            </referenceBlock>
-        </referenceContainer>
-        
+        <referenceBlock name="customer.new" template="Magento_Customer::newcustomer.phtml">
+            <block class="Magento\Cms\Block\Block" name="newcustomer-benefits">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">account-benefits</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
     </body>
 </page>
