@@ -18,15 +18,37 @@ define([
             $('.items-in-cart').each(function(){
                 group += 1;
                 console.log('group: ' + group);
-                $(this).addClass('test-class');
+                $(this).addClass('group-' + group);
             });
             
-            $('.opc-block-summary .seller').each(function(){
+            $('.items-in-cart.active.group-1 .seller').each(function(){
                 var thisSeller = $(this);
                 var seller = $(this).html();
                 console.log("seller: " + seller);
 
-                $('.opc-block-summary .seller-name').each(function(){
+                $('.items-in-cart.active.group-1 .seller-name').each(function(){
+                    var thisSellerPerItem = $(this);
+                    var sellerPerItem = $(this).html();
+                    console.log("sellerPerItem: " + sellerPerItem);
+
+                    var subStrSpi = sellerPerItem.substring(
+                        sellerPerItem.indexOf("-->") + 3, 
+                        sellerPerItem.lastIndexOf("<!--")
+                    );
+                    console.log("subStrSpi: " + subStrSpi);
+
+                    if (subStrSpi === seller) {
+                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    }
+                });
+            });
+            
+            $('.items-in-cart.active.group-2 .seller').each(function(){
+                var thisSeller = $(this);
+                var seller = $(this).html();
+                console.log("seller: " + seller);
+
+                $('.items-in-cart.active.group-2 .seller-name').each(function(){
                     var thisSellerPerItem = $(this);
                     var sellerPerItem = $(this).html();
                     console.log("sellerPerItem: " + sellerPerItem);
