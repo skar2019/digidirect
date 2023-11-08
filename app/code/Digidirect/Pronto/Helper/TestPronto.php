@@ -1471,10 +1471,10 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
-            if($test)
-            {
+            //if($test)
+            //{
                 var_dump($data['sales-order']);
-            }
+            //}
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
@@ -1507,7 +1507,7 @@ class TestPronto extends AbstractHelper
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
-                    echo $msg."<br>";
+                    echo "<br> fail";$msg."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
                     //$this->logger->error('Pronto Order Sync', array('info' => $msg));
@@ -1515,7 +1515,7 @@ class TestPronto extends AbstractHelper
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
-                    echo $msg ."<br>";
+                    echo "<br> fail";$msg."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
                     //$this->logger->error('Pronto Order Sync', array('info' => $msg));
