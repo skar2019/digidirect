@@ -54,6 +54,7 @@ define([
     'use strict';
 
     var popUp = null;
+    var marketplacer_sellers = window.checkoutConfig.quoteData.marketplacer_sellers;
 
     return Component.extend({
         defaults: {
@@ -73,6 +74,7 @@ define([
         isNewAddressAdded: ko.observable(false),
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
+        marketplacerSellers: ko.observable(marketplacer_sellers),
 
         /**
          * @return {exports}
@@ -233,6 +235,11 @@ define([
                 quote.shippingMethod()['carrier_code'] + '_' + quote.shippingMethod()['method_code'] :
                 null;
         }),
+        
+        checkSellers: function () {
+            console.log('marketplacer_sellers.length: ' + marketplacer_sellers.legth);
+            return true;
+        },
 
         /**
          * @param {Object} shippingMethod
