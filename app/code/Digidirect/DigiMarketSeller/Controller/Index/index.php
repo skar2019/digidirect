@@ -23,7 +23,7 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = "from_email_address@example.com";
         $nameFrom = "From Name";
-        $to = "dev4@digidirect.com.au";
+        $to = "jireh@kayweb.com";
         $nameTo = "To Name";
         $body = "
         <div>
