@@ -237,8 +237,12 @@ define([
         }),
         
         checkSellers: function () {
-            console.log('marketplacer_sellers.length: ' + marketplacer_sellers.legth);
-            return true;
+            console.log('marketplacer_sellers.length: ' + marketplacer_sellers.length);
+            if (marketplacer_sellers.length == 1 && marketplacer_sellers[0][0] == 'General Seller') {
+                return false;
+            } else {
+                return true;
+            }
         },
 
         /**
