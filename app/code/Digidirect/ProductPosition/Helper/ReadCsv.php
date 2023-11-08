@@ -58,7 +58,7 @@ class ReadCsv extends AbstractHelper
  
     public function readCsv($csvFilePath)
     {
-        $rootDirectory = $this->directoryList->getPath('etc');
+        $rootDirectory = $this->directoryList->getPath('media');
         $csvFile = $rootDirectory . "/" . $csvFilePath;
         $this->_logger->info($csvFile);
         try {
