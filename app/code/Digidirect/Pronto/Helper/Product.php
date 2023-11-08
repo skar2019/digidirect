@@ -2606,6 +2606,10 @@ class Product extends AbstractHelper
                 }
 
                 echo "cost price ".$cost."<br/>";
+                if($cost > $price)
+                {
+                    $cost = $price;
+                }
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
