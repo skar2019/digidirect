@@ -1490,13 +1490,13 @@ class TestPronto extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
+//                $this->curl->addHeader("compcode", "DIG"); //live
+//                $this->curl->addHeader("user", "ewaveapi");
+//                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-//                $this->curl->addHeader("compcode", "UA1"); //test
-//                $this->curl->addHeader("user", "clint.mercado");
-//                $this->curl->addHeader("token", "849cd5080faff5ce");
+                $this->curl->addHeader("compcode", "UA1"); //test
+                $this->curl->addHeader("user", "clint.mercado");
+                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
@@ -1970,7 +1970,7 @@ class TestPronto extends AbstractHelper
                         $productSku = $sku;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
-                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'Z4SH ';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
@@ -2049,13 +2049,13 @@ class TestPronto extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
+//                $this->curl->addHeader("compcode", "DIG"); //live
+//                $this->curl->addHeader("user", "ewaveapi");
+//                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-//                $this->curl->addHeader("compcode", "UA1"); //test
-//                $this->curl->addHeader("user", "clint.mercado");
-//                $this->curl->addHeader("token", "849cd5080faff5ce");
+                $this->curl->addHeader("compcode", "UA1"); //test
+                $this->curl->addHeader("user", "clint.mercado");
+                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
