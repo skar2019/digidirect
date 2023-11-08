@@ -136,6 +136,8 @@
         var contactNumber = <?= $customerSession->getCustomer()->getData("contact_number") ?>;
         var dob = <?= $customerSession->getCustomer()->getData("dob") ?>;
         
+        console.log("isDigiclub: " + isDigiclub);
+        
         if (isDigiclub) {
             $('.digiclub-save').addClass('subscribed');
             $('.digiclub-save span').text('Subscribed');
@@ -144,12 +146,13 @@
             $('.digiclub-save span').text('Save');
         }
         
-        $('.digiclub-field').change(function () {
+        $('.digiclub-field').on('change', function () {
+            console.log("digiclub-field onchange");
             $('.digiclub-save').removeClass('subscribed');
             $('.digiclub-save span').text('Save');
         });
         
-        $('#digiclub').change(function() {
+        $('#digiclub').on('change', function () {
             console.log("digiClub!");
             if ($('#digiclub').is(":checked")) {
                 $('#digiclub').attr("value", 1);
