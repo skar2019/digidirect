@@ -237,7 +237,6 @@ define([
         }),
         
         checkSellers: function () {
-            JSON.stringify(obj);
             console.log('marketplacer_sellers: ' + JSON.stringify(marketplacer_sellers));
             console.log('marketplacer_sellers.length: ' + marketplacer_sellers.length);
             console.log('marketplacer_sellers[0][0]: ' + marketplacer_sellers[0][0]);
