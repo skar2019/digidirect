@@ -51,7 +51,7 @@
                                name="digiclub-firstname"
                                value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
                                title="First Name"
-                               class="input-text" required/>
+                               class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field field-name-lastname _required">
@@ -61,7 +61,7 @@
                                name="digiclub-lastname"
                                value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
                                title="Last Name"
-                               class="input-text" required/>
+                               class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field email _required" data-container="change-email">
@@ -70,7 +70,7 @@
                         <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
                                value="<?= $customerSession->getCustomer()->getEmail() ?>"
                                title="Email"
-                               class="input-text"
+                               class="input-text digiclub-field"
                                data-validate="{required:true, 'validate-email':true}" required/>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                                name="digiclub-contact-number" 
                                value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
                                title="Contact Number"
-                               class="input-text" required/>
+                               class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field dob">
@@ -94,7 +94,7 @@
                                name="digiclub-dob" 
                                value="<?= $customerSession->getCustomer()->getData("dob") ?>"
                                title="Date of Birth"
-                               class="input-text"
+                               class="input-text digiclub-field"
                                style="padding: 22px 12px !important;"/>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             </div>
 
             <div class="field choice">
-                <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
+                <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox digiclub-field" <?= $isChecked ?>>
                 <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
             </div> 
             <div style="font-size: 12px;">Click SAVE below to acknowledge your agreement to join digiClub in line with our <a href="https://www.digidirect.com.au/terms/">Terms & Conditions</a> and <a href="https://www.digidirect.com.au/privacy">Privacy Policy</a>.</div>
@@ -112,7 +112,7 @@
     
     <div class="actions-toolbar">
         <div class="primary">
-            <button type="submit" title="Save" class="action save -responsive" style="
+            <button type="submit" title="Save" class="action save -responsive digiclub-save" style="
                 font-family: 'Poppins';
                 font-weight: 500;
                 background: #F05A25;
@@ -128,7 +128,12 @@
         'jquery'
     ],
     function ($) {
-        $('#digiclub').change(function() {
+        
+        var isDigiclub = <?php echo $isDigiClub; ?>;
+        
+        console.log("isDigiclub: " + isDigiclub);
+        
+        $('#digiclub').on('change', function () {
             console.log("digiClub!");
             if ($('#digiclub').is(":checked")) {
                 $('#digiclub').attr("value", 1);
@@ -136,6 +141,21 @@
                 $('#digiclub').attr("value", 0);
             }
         });
+        
+        if (isDigiclub) {
+            $('.digiclub-save').addClass('subscribed');
+            $('.digiclub-save span').text('Subscribed');
+        } else {
+            $('.digiclub-save').removeClass('subscribed');
+            $('.digiclub-save span').text('Save');
+        }
+        
+        $('.digiclub-field').on('change', function () {
+            console.log("digiclub-field onchange");
+            $('.digiclub-save').removeClass('subscribed');
+            $('.digiclub-save span').text('Save');
+        });
+        
     });
 </script>
 
