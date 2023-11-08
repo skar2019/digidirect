@@ -1908,16 +1908,16 @@ class TestPronto extends AbstractHelper
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['value'] = $orderId;
 
-            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
-            //$sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
+            $sellerdata['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
+            $sellerdata['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
 
             if (!$order->getCustomerIsGuest()) {
                 $customerRep = $this->customerRepository->getById($order->getCustomerId());
                 $customerGroupId = $customerRep->getGroupId();
                 if($customerGroupId == 10)
                 {
-                    $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'marketing-flag';
-                    $data['sales-order']['header']['custom-data']['data'][2]['value'] = 'CLUB';
+                    $sellerdata['sales-order']['header']['custom-data']['data'][2]['key'] = 'marketing-flag';
+                    $sellerdata['sales-order']['header']['custom-data']['data'][2]['value'] = 'CLUB';
                 }
             }
 
@@ -1970,7 +1970,7 @@ class TestPronto extends AbstractHelper
                         $productSku = $sku;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
-                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'Z4SH ';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
@@ -2084,10 +2084,10 @@ class TestPronto extends AbstractHelper
 
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                     var_dump($json['sales-orders']['sales-order']);
-                    
+
                 }
             }
-            
+
             return;
 
         }
