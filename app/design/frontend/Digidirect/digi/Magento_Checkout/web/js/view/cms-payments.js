@@ -14,26 +14,32 @@ define([
             console.log("seller-name: " + $('.opc-sidebar .items-in-cart .product-item .seller-name').length);
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
+            var group = 0;
+            $('.items-in-cart').each(function(){
+                group += 1;
+                $(this).addClass(group);
+            });
+            
             $('.opc-block-summary .seller').each(function(){
-                    var thisSeller = $(this);
-                    var seller = $(this).html();
-                    console.log("seller: " + seller);
-                    
-                    $('.opc-block-summary .seller-name').each(function(){
-                        var thisSellerPerItem = $(this);
-                        var sellerPerItem = $(this).html();
-                        console.log("sellerPerItem: " + sellerPerItem);
+                var thisSeller = $(this);
+                var seller = $(this).html();
+                console.log("seller: " + seller);
 
-                        var subStrSpi = sellerPerItem.substring(
-                            sellerPerItem.indexOf("-->") + 3, 
-                            sellerPerItem.lastIndexOf("<!--")
-                        );
-                        console.log("subStrSpi: " + subStrSpi);
-                        
-                        if (subStrSpi === seller) {
-                            thisSellerPerItem.parent().insertAfter(thisSeller.parent());
-                        }
-                    });
+                $('.opc-block-summary .seller-name').each(function(){
+                    var thisSellerPerItem = $(this);
+                    var sellerPerItem = $(this).html();
+                    console.log("sellerPerItem: " + sellerPerItem);
+
+                    var subStrSpi = sellerPerItem.substring(
+                        sellerPerItem.indexOf("-->") + 3, 
+                        sellerPerItem.lastIndexOf("<!--")
+                    );
+                    console.log("subStrSpi: " + subStrSpi);
+
+                    if (subStrSpi === seller) {
+                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    }
+                });
             });
 
             return cmsPayments;
