@@ -2082,6 +2082,10 @@ class TestPronto extends AbstractHelper
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                     $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
 
+                    $order->setData('pronto_order_number',$pronto);
+                    $order->setData('pronto_status_code',$prontostatus);
+                    $order->save();
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                     var_dump($json['sales-orders']['sales-order']);
 
