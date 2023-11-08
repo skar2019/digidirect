@@ -17,7 +17,8 @@ define([
             var group = 0;
             $('.items-in-cart').each(function(){
                 group += 1;
-                $(this).addClass(group);
+                console.log('group: ' + group);
+                $(this).addClass('test-class');
             });
             
             $('.opc-block-summary .seller').each(function(){
