@@ -1970,7 +1970,7 @@ class TestPronto extends AbstractHelper
                         $productSku = $sku;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
-                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'Z4SH';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
