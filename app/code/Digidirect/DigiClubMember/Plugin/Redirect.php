@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\DigiClub\Plugin;
+namespace Digidirect\DigiClubMember\Plugin;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Registry;

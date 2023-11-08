@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\DigiClub\Observer;
+namespace Digidirect\DigiClubMember\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Registry;
