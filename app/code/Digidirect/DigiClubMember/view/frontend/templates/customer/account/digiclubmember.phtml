@@ -129,14 +129,18 @@
     ],
     function ($) {
         
-        var isDigiclub = <?= $isDigiClub ?>;
-        var firstName = <?= $customerSession->getCustomer()->getData("firstname") ?>;
-        var lastName = <?= $customerSession->getCustomer()->getData("lastname") ?>;
-        var email = <?= $customerSession->getCustomer()->getEmail() ?>;
-        var contactNumber = <?= $customerSession->getCustomer()->getData("contact_number") ?>;
-        var dob = <?= $customerSession->getCustomer()->getData("dob") ?>;
+        var isDigiclub = <?php echo $isDigiClub; ?>;
         
         console.log("isDigiclub: " + isDigiclub);
+        
+        $('#digiclub').on('change', function () {
+            console.log("digiClub!");
+            if ($('#digiclub').is(":checked")) {
+                $('#digiclub').attr("value", 1);
+            } else {
+                $('#digiclub').attr("value", 0);
+            }
+        });
         
         if (isDigiclub) {
             $('.digiclub-save').addClass('subscribed');
@@ -152,14 +156,6 @@
             $('.digiclub-save span').text('Save');
         });
         
-        $('#digiclub').on('change', function () {
-            console.log("digiClub!");
-            if ($('#digiclub').is(":checked")) {
-                $('#digiclub').attr("value", 1);
-            } else {
-                $('#digiclub').attr("value", 0);
-            }
-        });
     });
 </script>
 
