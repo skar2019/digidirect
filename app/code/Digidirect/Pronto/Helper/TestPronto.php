@@ -1273,6 +1273,7 @@ class TestPronto extends AbstractHelper
             //product lines
             // for redeploy
             $x = 0;
+            $gotDigiProducts = false;
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -1314,6 +1315,7 @@ class TestPronto extends AbstractHelper
                 }
                 else if(strpos($sku, '-') !== false)
                 {
+                    $gotDigiProducts = true;
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
                     $digiProtect = $skus[1];
@@ -1344,28 +1346,20 @@ class TestPronto extends AbstractHelper
                 }
                 else
                 {
+                    $gotDigiProducts = true;
                     $productSku = $sku;
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
-
-                //$data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
-                $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
-
-
-                if($data['sales-order']['header']['set-on-status'] == "B")
+                if($gotDigiProducts)
                 {
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
-                }
-                else
-                {
-                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
-                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                    $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
+
+
+                    if($data['sales-order']['header']['set-on-status'] == "B")
                     {
                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                         $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
@@ -1373,35 +1367,52 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
-                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                        //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                        if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                        {
+                            $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                            $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                        }
+                        else
+                        {
+                            $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                        }
+                    }
+
+
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                    $x++;
+
+                    if(!empty($digiProtect))
+                    {
+                        $price = (double) $item->getBasePriceInclTax();
+                        $qty = (double) $item->getQtyOrdered();
+                        $discount = (double) $item->getDiscountAmount();
+                        $total = ($price * $qty) - $discount;
+                        $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                        $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                        $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                        $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                        $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                        $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                        $x++;
                     }
                 }
 
-
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
-                $x++;
-
-                if(!empty($digiProtect))
-                {
-                    $price = (double) $item->getBasePriceInclTax();
-                    $qty = (double) $item->getQtyOrdered();
-                    $discount = (double) $item->getDiscountAmount();
-                    $total = ($price * $qty) - $discount;
-                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
-                    $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
-                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
-                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
-                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
-                    $x++;
-                }
             } //end of product line
+
+
+            if(!$gotDigiProducts)
+            {
+                exit; //exit if no digiProduct as marketplacer order has been synced above
+            }
 
             //surcharge clint 01-20-23
             if($surcharge != "0.0000")
@@ -2012,12 +2023,12 @@ class TestPronto extends AbstractHelper
             //fixed shipping price as interim
             if($producttotal > 99)
             {
-                $shippingprice = 10;
+                $shippingprice = 0;
                 $shippingDesc = "Standard";
             }
             else
             {
-                $shippingprice = 0;
+                $shippingprice = 10;
                 $shippingDesc = "Free Shipping";
             }
 
