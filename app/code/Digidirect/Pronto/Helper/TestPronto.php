@@ -1507,7 +1507,7 @@ class TestPronto extends AbstractHelper
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
-                    echo "<br> fail";$msg."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
                     //$this->logger->error('Pronto Order Sync', array('info' => $msg));
@@ -1515,7 +1515,7 @@ class TestPronto extends AbstractHelper
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
-                    echo "<br> fail";$msg."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
                     //$this->logger->error('Pronto Order Sync', array('info' => $msg));
@@ -2066,13 +2066,13 @@ class TestPronto extends AbstractHelper
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
-                    echo $msg."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
-                    echo $msg ."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
