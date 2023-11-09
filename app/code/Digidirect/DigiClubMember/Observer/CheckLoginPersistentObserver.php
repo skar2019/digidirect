@@ -3,6 +3,7 @@
 namespace Digidirect\DigiClubMember\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 
 class CheckLoginPersistentObserver implements ObserverInterface
 {
@@ -26,6 +27,10 @@ class CheckLoginPersistentObserver implements ObserverInterface
     
     protected $request;
     
+    protected $storeManager;
+    
+    protected $categoryRepository;
+    
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -33,7 +38,9 @@ class CheckLoginPersistentObserver implements ObserverInterface
         \Magento\Framework\UrlInterface $urlInterface,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\Registry $registry
+        \Magento\Framework\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository
             
     ) {
         $this->_customerSession = $customerSession;
@@ -42,6 +49,8 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $this->logger = $logger;
         $this->request = $request;
         $this->registry = $registry;
+        $this->storeManager = $storeManager;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -60,16 +69,23 @@ class CheckLoginPersistentObserver implements ObserverInterface
         if ($name == "catalog_category_view") {
             
             $category = $this->registry->registry('current_category');
-            $categoryUrl = $category->getUrl();
+            $categoryId = $category->getId();
             
-            $this->logger->info('categoryUrl: ' . $categoryUrl);
+            $this->logger->info('categoryId: ' . $categoryId);
             
-            if (!$this->_customerSession->isLoggedIn() && $categoryUrl == 'digiclub-member-deals') {
+            if (!$this->_customerSession->isLoggedIn() && $this->getCategoryUrl($categoryId) == 'digiclub-member-deals') {
                 $url = $this->urlInterface->getUrl('digiclub-member-deals');
                 $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
                 $this->redirect->redirect($controller->getResponse(), $page_url);
             }
         }
+    }
+    
+    public function getCategoryUrl($categoryId)
+    {
+        $category = $this->categoryRepository->get($categoryId, $this->storeManager->getStore()->getId());
+        $this->logger->info('categoryUrl: ' . $category->getUrl());
+        return $category->getUrl();
     }
 
 }
