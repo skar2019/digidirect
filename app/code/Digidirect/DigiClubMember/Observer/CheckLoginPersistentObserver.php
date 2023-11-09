@@ -3,7 +3,7 @@
 namespace Digidirect\DigiClubMember\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\Data\CategoryInterface;
 
 class CheckLoginPersistentObserver implements ObserverInterface
 {
