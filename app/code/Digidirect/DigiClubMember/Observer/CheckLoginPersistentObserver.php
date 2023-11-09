@@ -20,22 +20,28 @@ class CheckLoginPersistentObserver implements ObserverInterface
     
     protected $urlInterface;
     
+    protected $logger;
+    
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
-        \Magento\Framework\UrlInterface $urlInterface
+        \Magento\Framework\UrlInterface $urlInterface,
+        \Psr\Log\LoggerInterface $logger,
     ) {
         $this->_customerSession = $customerSession;
         $this->redirect = $redirect;
         $this->urlInterface = $urlInterface;
+        $this->logger = $logger;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
-
+        
+        $this->logger->info($routeName);
+        
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
             $login_url = $this->urlInterface
