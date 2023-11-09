@@ -1,0 +1,1230 @@
+
+    <style>
+
+
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+* #digimarketseler_form {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+}
+:root #digimarketseler_form{
+    --primary: #333;
+    --secondary: #333;
+    --errorColor: red;
+    --stepNumber: 6;
+    --containerWidth: 600px;
+    --bgColor: #333;
+    --inputBorderColor: lightgray;
+}
+
+body#digimarketseler_form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--bgColor);
+}
+#digimarketseler_form ::selection {
+    color: #fff;
+    background: var(--primary);
+}
+
+.step p {
+    display: none;
+}
+.container {
+    width: 50%;
+    background: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 50px 35px 10px 35px;
+}
+.container header {
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+}
+.container .form-outer {
+    width: 100%;
+    overflow: hidden;
+}
+.container .form-outer form {
+    display: flex;
+    width: calc(100% * var(--stepNumber));
+}
+.form-outer form .page {
+    width: calc(100% / var(--stepNumber));
+    transition: margin-left 0.3s ease-in-out;
+}
+.form-outer form .page .title {
+    text-align: center;
+    font-size: 14px;
+    /* font-weight: 500; */
+}
+.form-outer form .page .field {
+    width: var(--containerWidth);
+    height: 45px;
+    margin: 45px 0;
+    display: flex;
+    position: relative;
+}
+form .page .field .label {
+    position: absolute;
+    top: -30px;
+    font-weight: 500;
+}
+form .page .field input {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    border: 1px solid var(--inputBorderColor);
+    border-radius: 5px;
+    padding-left: 15px;
+    margin: 0 1px;
+    font-size: 18px;
+    transition: border-color 150ms ease;
+}
+form .page .field input.invalid-input {
+    border-color: var(--errorColor);
+}
+form .page .field select {
+    width: 100%;
+    padding-left: 10px;
+    font-size: 17px;
+    font-weight: 500;
+}
+form .page .field button {
+    width: 100%;
+    height: calc(100% + 5px);
+    border: none;
+    background: var(--secondary);
+    margin-top: -20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+form .page .field button:hover {
+    background: #000;
+}
+form .page .btns button {
+    margin-top: -20px !important;
+}
+form .page .btns button.prev {
+    margin-right: 3px;
+    font-size: 17px;
+}
+form .page .btns button.next {
+    margin-left: 3px;
+}
+.container .progress-bar {
+    display: flex;
+    margin: 40px 0;
+    user-select: none;
+}
+.container .progress-bar .step {
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+.container .progress-bar .step p {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 8px;
+}
+.progress-bar .step .bullet {
+    height: 25px;
+    width: 25px;
+    border: 2px solid #000;
+    display: inline-block;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.2s;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+}
+.progress-bar .step .bullet.active {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+.progress-bar .step .bullet span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.progress-bar .step .bullet.active span {
+    display: none;
+}
+.progress-bar .step .bullet:before,
+.progress-bar .step .bullet:after {
+    position: absolute;
+    content: "";
+    bottom: 11px;
+    right: -210px;
+    height: 3px;
+    width: 210px;
+    background: #262626;
+}
+.progress-bar .step .bullet.active:after {
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: animate 0.3s linear forwards;
+}
+@keyframes animate {
+    100% {
+        transform: scaleX(1);
+    }
+}
+.progress-bar .step:last-child .bullet:before,
+.progress-bar .step:last-child .bullet:after {
+    display: none;
+}
+.progress-bar .step p.active {
+    color: var(--primary);
+    transition: 0.2s linear;
+}
+.progress-bar .step .check {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.progress-bar .step .check.active {
+    display: block;
+    color: #fff;
+}
+
+@media screen and (max-width: 660px) {
+    :root {
+        --containerWidth: 400px;
+    }
+    .progress-bar .step p {
+        display: none;
+    }
+    .progress-bar .step .bullet::after,
+    .progress-bar .step .bullet::before {
+        display: none;
+    }
+    .progress-bar .step .bullet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .progress-bar .step .check {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-size: 15px;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+    .step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 490px) {
+    :root {
+        --containerWidth: 100%;
+    }
+    .container {
+        box-sizing: border-box;
+        border-radius: 0;
+    }
+}
+
+
+
+/* categories */
+
+        .categories-option {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            
+        }
+
+        .categories-list {
+            column-count: 3;
+        }
+
+        .categories-list li {
+            list-style-type: none;
+            text-align: left;
+        }
+
+        .opt-display {
+            column-count: 3;
+        }
+
+        .opt-display li {
+            list-style-type: none;
+            text-align: left;
+        }
+
+
+    </style>
+        <div class="container">
+            <header>digiDirect Marketplace Registration Form</header>
+            <p>Compalete the form below to register your interest. A digiDirect Marketplace specialist will contact you to guide you through the process</p>
+
+            <div class="container-progress">
+                <div class="progress-bar">
+                    <div class="step">
+                        <p>Step One</p>
+                        <div class="bullet">
+                            <span>1</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Two</p>
+                        <div class="bullet">
+                            <span>2</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Three</p>
+                        <div class="bullet">
+                            <span>3</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Four</p>
+                        <div class="bullet">
+                            <span>4</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-outer">
+                <form action="#">
+                    <div class="page slide-page">
+                        <div class="title">
+                           <b><p> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
+                           <p>(Please select all that is appplicable)</p>
+                        </div>
+                        <div class="fields">
+                            <div class="categories-option">
+                                <ul class="categories-list">
+                                    <li><label for="categories_option1"><input type="checkbox" id="categories_option1" onclick="myFunction()"> <span>Audio & Visual</span></label></li>
+                                    <li><label for="categories_option2"><input type="checkbox" id="categories_option2" onclick="myFunction()"> <span>Cameras</span></label></li>
+                                    <li><label for="categories_option3"><input type="checkbox" id="categories_option3" onclick="myFunction()"> <span>Computers & Mobile</span></label></li>
+                                    <li><label for="categories_option4"><input type="checkbox" id="categories_option4" onclick="myFunction()"> <span>Drones</span></label></li>
+                                    <li><label for="categories_option5"><input type="checkbox" id="categories_option5" onclick="myFunction()"> <span>Fitness & Wellbeing</span></label></li>
+                                    <li><label for="categories_option6"><input type="checkbox" id="categories_option6" onclick="myFunction()"> <span>Home Office</span></label></li>
+                                    <li><label for="categories_option7"><input type="checkbox" id="categories_option7" onclick="myFunction()"> <span>In-Car</span></label></li>
+                                    <li><label for="categories_option8"><input type="checkbox" id="categories_option8" onclick="myFunction()"> <span>Instrument</span></label></li>
+                                    <li><label for="categories_option9"><input type="checkbox" id="categories_option9" onclick="myFunction()"> <span>Lenses</span></label></li>
+                                    <li><label for="categories_option10"><input type="checkbox" id="categories_option10" onclick="myFunction()"> <span>Lighting & Studio</span></label></li>
+                                    <li><label for="categories_option11"><input type="checkbox" id="categories_option11" onclick="myFunction()"> <span>Optics</span></label></li>
+                                    <li><label for="categories_option12"><input type="checkbox" id="categories_option12" onclick="myFunction()"> <span>Pet Tech</span></label></li>
+                                    <li><label for="categories_option13"><input type="checkbox" id="categories_option13" onclick="myFunction()"> <span>Photo Accessories</span></label></li>
+                                    <li><label for="categories_option14"><input type="checkbox" id="categories_option14" onclick="myFunction()"> <span>Pro Video</span></label></li>
+                                    <li><label for="categories_option15"><input type="checkbox" id="categories_option15" onclick="myFunction()"> <span>Scooters, Bike, Boards</span></label></li>
+                                    <li><label for="categories_option16"><input type="checkbox" id="categories_option16" onclick="myFunction()"> <span>Seasonal (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option17"><input type="checkbox" id="categories_option17" onclick="myFunction()"> <span>Smart Home</span></label></li>
+                                    <li><label for="categories_option18"><input type="checkbox" id="categories_option18" onclick="myFunction()"> <span>Toys (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option19"><input type="checkbox" id="categories_option19" onclick="myFunction()"> <span>Square  Wearable</span></label></li>
+                                    <li><label for="categories_option20"><input type="checkbox" id="categories_option20" onclick="myFunction()"> <span>Square  White Goods</span></label></li>
+                                    <li><label for="categories_option21"><input type="checkbox" id="categories_option21" onclick="myFunction()"> <span>Other (Press enter to add)</span></label></li>
+                                </ul>
+
+
+
+                                
+                            </div>
+
+                            <div class="categories-display">
+                                <ul class="opt-display">
+                                    <li><p id="categories_display1" style="display:none">Audio & Visual</p></li>
+                                    <li><p id="categories_display2" style="display:none">Cameras</p></li>
+                                    <li><p id="categories_display3" style="display:none">Computers & Mobile</p></li>
+                                    <li><p id="categories_display4" style="display:none">Drones</p></li>
+                                    <li><p id="categories_display5" style="display:none">Fitness & Wellbeing</p></li>
+                                    <li><p id="categories_display6" style="display:none">Home Office</p></li>
+                                    <li><p id="categories_display7" style="display:none">In-Car</p></li>
+                                    <li><p id="categories_display8" style="display:none">Instrument</p></li>
+                                    <li><p id="categories_display9" style="display:none">Lenses</p></li>
+                                    <li><p id="categories_display10" style="display:none">Lighting & Studio</p></li>
+                                    <li><p id="categories_display11" style="display:none">Optics</p></li>
+                                    <li><p id="categories_display12" style="display:none">Pet Tech</p></li>
+                                    <li><p id="categories_display13" style="display:none">Photo Accessories</p></li>
+                                    <li><p id="categories_display14" style="display:none">Pro Video</p></li>
+                                    <li><p id="categories_display15" style="display:none">Scooters, Bike, Boards</p></li>
+                                    <li><p id="categories_display16" style="display:none">Seasonal (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display17" style="display:none">Smart Home</p></li>
+                                    <li><p id="categories_display18" style="display:none">Toys (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display19" style="display:none">Square  Wearable</p></li>
+                                    <li><p id="categories_display20" style="display:none">Square  White Goods</p></li>
+                                    <li><p id="categories_display21" style="display:none">Other (Press enter to add)</p></li>
+                                </ul>
+                            </div>
+                           
+                        </div>
+                        <div class="field">
+                            <button class="firstNext next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Contact Info:</div>
+                        <div class="field">
+                            <div class="label">Email Address</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Phone Number</div>
+                            <input type="Number" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-1 prev">Previous</button>
+                            <button class="next-1 next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Contact Info 2:</div>
+                        <div class="field">
+                            <div class="label">Email Address</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Phone Number</div>
+                            <input type="Number" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-2 prev">Previous</button>
+                            <button class="next-2 next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Login Details:</div>
+                        <div class="field">
+                            <div class="label">Username</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Password</div>
+                            <input type="password" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-5 prev">Previous</button>
+                            <button class="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            initMultiStepForm();
+
+function initMultiStepForm() {
+    const progressNumber = document.querySelectorAll(".step").length;
+    const slidePage = document.querySelector(".slide-page");
+    const submitBtn = document.querySelector(".submit");
+    const progressText = document.querySelectorAll(".step p");
+    const progressCheck = document.querySelectorAll(".step .check");
+    const bullet = document.querySelectorAll(".step .bullet");
+    const pages = document.querySelectorAll(".page");
+    const nextButtons = document.querySelectorAll(".next");
+    const prevButtons = document.querySelectorAll(".prev");
+    const stepsNumber = pages.length;
+
+    if (progressNumber !== stepsNumber) {
+        console.warn(
+            "Error, number of steps in progress bar do not match number of pages"
+        );
+    }
+
+    document.documentElement.style.setProperty("--stepNumber", stepsNumber);
+
+    let current = 1;
+
+    for (let i = 0; i < nextButtons.length; i++) {
+        nextButtons[i].addEventListener("click", function (event) {
+            event.preventDefault();
+
+            inputsValid = validateInputs(this);
+            // inputsValid = true;
+
+            if (inputsValid) {
+                slidePage.style.marginLeft = `-${
+                    (100 / stepsNumber) * current
+                }%`;
+                bullet[current - 1].classList.add("active");
+                progressCheck[current - 1].classList.add("active");
+                progressText[current - 1].classList.add("active");
+                current += 1;
+            }
+        });
+    }
+
+    for (let i = 0; i < prevButtons.length; i++) {
+        prevButtons[i].addEventListener("click", function (event) {
+            event.preventDefault();
+            slidePage.style.marginLeft = `-${
+                (100 / stepsNumber) * (current - 2)
+            }%`;
+            bullet[current - 2].classList.remove("active");
+            progressCheck[current - 2].classList.remove("active");
+            progressText[current - 2].classList.remove("active");
+            current -= 1;
+        });
+    }
+    submitBtn.addEventListener("click", function () {
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+        setTimeout(function () {
+            alert("Your Form Successfully Signed up");
+            location.reload();
+        }, 800);
+    });
+
+    function validateInputs(ths) {
+        let inputsValid = true;
+
+        const inputs =
+            ths.parentElement.parentElement.querySelectorAll("input");
+        for (let i = 0; i < inputs.length; i++) {
+            const valid = inputs[i].checkValidity();
+            if (!valid) {
+                inputsValid = false;
+                inputs[i].classList.add("invalid-input");
+            } else {
+                inputs[i].classList.remove("invalid-input");
+            }
+        }
+        return inputsValid;
+    }
+}
+
+
+function myFunction() {
+    var catoption1 = document.getElementById("categories_option1");
+    var optdisplay1 = document.getElementById("categories_display1");
+
+    var catoption2 = document.getElementById("categories_option2");
+    var optdisplay2 = document.getElementById("categories_display2");
+
+    var catoption3 = document.getElementById("categories_option3");
+    var optdisplay3 = document.getElementById("categories_display3");
+
+    var catoption4 = document.getElementById("categories_option4");
+    var optdisplay4 = document.getElementById("categories_display4");
+
+    var catoption5 = document.getElementById("categories_option5");
+    var optdisplay5 = document.getElementById("categories_display5");
+
+    var catoption6 = document.getElementById("categories_option6");
+    var optdisplay6 = document.getElementById("categories_display6");
+
+    var catoption7 = document.getElementById("categories_option7");
+    var optdisplay7 = document.getElementById("categories_display7");
+
+    var catoption8 = document.getElementById("categories_option8");
+    var optdisplay8 = document.getElementById("categories_display8");
+
+    var catoption9 = document.getElementById("categories_option9");
+    var optdisplay9 = document.getElementById("categories_display9");
+
+    var catoption10 = document.getElementById("categories_option10");
+    var optdisplay10 = document.getElementById("categories_display10");
+
+    var catoption11 = document.getElementById("categories_option11");
+    var optdisplay11 = document.getElementById("categories_display11");
+
+    var catoption12 = document.getElementById("categories_option12");
+    var optdisplay12 = document.getElementById("categories_display12");
+
+    var catoption13 = document.getElementById("categories_option13");
+    var optdisplay13 = document.getElementById("categories_display13");
+
+    var catoption14 = document.getElementById("categories_option14");
+    var optdisplay14 = document.getElementById("categories_display14");
+
+    var catoption15 = document.getElementById("categories_option15");
+    var optdisplay15 = document.getElementById("categories_display15");
+
+    var catoption16 = document.getElementById("categories_option16");
+    var optdisplay16 = document.getElementById("categories_display16");
+
+    var catoption17 = document.getElementById("categories_option17");
+    var optdisplay17 = document.getElementById("categories_display17");
+
+    var catoption18 = document.getElementById("categories_option18");
+    var optdisplay18 = document.getElementById("categories_display18");
+
+    var catoption19 = document.getElementById("categories_option19");
+    var optdisplay19 = document.getElementById("categories_display19");
+
+    var catoption20 = document.getElementById("categories_option20");
+    var optdisplay20 = document.getElementById("categories_display20");
+
+    var catoption21 = document.getElementById("categories_option21");
+    var optdisplay21 = document.getElementById("categories_display21");
+
+    if (catoption1.checked == true){
+      optdisplay1.style.display = "block";
+    //   alert("test")
+    } else {
+       optdisplay1.style.display = "none";
+    }
+
+    if (catoption2.checked == true){
+        optdisplay2.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay2.style.display = "none";
+    }
+
+    if (catoption3.checked == true){
+        optdisplay3.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay3.style.display = "none";
+    }
+
+    if (catoption4.checked == true){
+        optdisplay4.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay4.style.display = "none";
+    }
+
+    if (catoption5.checked == true){
+        optdisplay5.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay5.style.display = "none";
+    }
+
+    if (catoption6.checked == true){
+        optdisplay6.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay6.style.display = "none";
+    }
+
+    if (catoption7.checked == true){
+        optdisplay7.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay7.style.display = "none";
+    }
+
+    if (catoption8.checked == true){
+        optdisplay8.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay8.style.display = "none";
+    }
+
+    if (catoption9.checked == true){
+        optdisplay9.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay9.style.display = "none";
+    }
+    
+    if (catoption10.checked == true){
+        optdisplay10.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay10.style.display = "none";
+    }
+
+    if (catoption11.checked == true){
+        optdisplay11.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay11.style.display = "none";
+    }
+
+    if (catoption12.checked == true){
+        optdisplay12.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay12.style.display = "none";
+    }
+
+    if (catoption13.checked == true){
+        optdisplay13.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay13.style.display = "none";
+    }
+
+    if (catoption14.checked == true){
+        optdisplay14.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay14.style.display = "none";
+    }
+
+    if (catoption15.checked == true){
+        optdisplay15.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay15.style.display = "none";
+    }
+
+    if (catoption16.checked == true){
+        optdisplay16.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay16.style.display = "none";
+    }
+
+    if (catoption17.checked == true){
+        optdisplay17.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay17.style.display = "none";
+    }
+
+    if (catoption18.checked == true){
+        optdisplay18.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay18.style.display = "none";
+    }
+
+    if (catoption19.checked == true){
+        optdisplay19.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay19.style.display = "none";
+    }
+
+    if (catoption20.checked == true){
+        optdisplay20.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay20.style.display = "none";
+    }
+
+    if (catoption21.checked == true){
+        optdisplay21.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay21.style.display = "none";
+    }
+
+
+
+}
+        </script>
+    </body>
+</html>
+
+
+/* categories */
+
+        .categories-option {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            
+        }
+
+        .categories-list {
+            column-count: 3;
+        }
+
+        .categories-list li {
+            list-style-type: none;
+            text-align: left;
+        }
+
+        .opt-display {
+            column-count: 3;
+        }
+
+        .opt-display li {
+            list-style-type: none;
+            text-align: left;
+        }
+
+
+    </style>
+        <div class="container">
+            <header>digiDirect Marketplace Registration Form</header>
+            <p>Compalete the form below to register your interest. A digiDirect Marketplace specialist will contact you to guide you through the process</p>
+
+            <div class="container-progress">
+                <div class="progress-bar">
+                    <div class="step">
+                        <p>Step One</p>
+                        <div class="bullet">
+                            <span>1</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Two</p>
+                        <div class="bullet">
+                            <span>2</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Three</p>
+                        <div class="bullet">
+                            <span>3</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                    <div class="step">
+                        <p>Step Four</p>
+                        <div class="bullet">
+                            <span>4</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-outer">
+                <form action="#">
+                    <div class="page slide-page">
+                        <div class="title">
+                           <b><p> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
+                           <p>(Please select all that is appplicable)</p>
+                        </div>
+                        <div class="fields">
+                            <div class="categories-option">
+                                <ul class="categories-list">
+                                    <li><label for="categories_option1"><input type="checkbox" id="categories_option1" onclick="myFunction()"> <span>Audio & Visual</span></label></li>
+                                    <li><label for="categories_option2"><input type="checkbox" id="categories_option2" onclick="myFunction()"> <span>Cameras</span></label></li>
+                                    <li><label for="categories_option3"><input type="checkbox" id="categories_option3" onclick="myFunction()"> <span>Computers & Mobile</span></label></li>
+                                    <li><label for="categories_option4"><input type="checkbox" id="categories_option4" onclick="myFunction()"> <span>Drones</span></label></li>
+                                    <li><label for="categories_option5"><input type="checkbox" id="categories_option5" onclick="myFunction()"> <span>Fitness & Wellbeing</span></label></li>
+                                    <li><label for="categories_option6"><input type="checkbox" id="categories_option6" onclick="myFunction()"> <span>Home Office</span></label></li>
+                                    <li><label for="categories_option7"><input type="checkbox" id="categories_option7" onclick="myFunction()"> <span>In-Car</span></label></li>
+                                    <li><label for="categories_option8"><input type="checkbox" id="categories_option8" onclick="myFunction()"> <span>Instrument</span></label></li>
+                                    <li><label for="categories_option9"><input type="checkbox" id="categories_option9" onclick="myFunction()"> <span>Lenses</span></label></li>
+                                    <li><label for="categories_option10"><input type="checkbox" id="categories_option10" onclick="myFunction()"> <span>Lighting & Studio</span></label></li>
+                                    <li><label for="categories_option11"><input type="checkbox" id="categories_option11" onclick="myFunction()"> <span>Optics</span></label></li>
+                                    <li><label for="categories_option12"><input type="checkbox" id="categories_option12" onclick="myFunction()"> <span>Pet Tech</span></label></li>
+                                    <li><label for="categories_option13"><input type="checkbox" id="categories_option13" onclick="myFunction()"> <span>Photo Accessories</span></label></li>
+                                    <li><label for="categories_option14"><input type="checkbox" id="categories_option14" onclick="myFunction()"> <span>Pro Video</span></label></li>
+                                    <li><label for="categories_option15"><input type="checkbox" id="categories_option15" onclick="myFunction()"> <span>Scooters, Bike, Boards</span></label></li>
+                                    <li><label for="categories_option16"><input type="checkbox" id="categories_option16" onclick="myFunction()"> <span>Seasonal (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option17"><input type="checkbox" id="categories_option17" onclick="myFunction()"> <span>Smart Home</span></label></li>
+                                    <li><label for="categories_option18"><input type="checkbox" id="categories_option18" onclick="myFunction()"> <span>Toys (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option19"><input type="checkbox" id="categories_option19" onclick="myFunction()"> <span>Square  Wearable</span></label></li>
+                                    <li><label for="categories_option20"><input type="checkbox" id="categories_option20" onclick="myFunction()"> <span>Square  White Goods</span></label></li>
+                                    <li><label for="categories_option21"><input type="checkbox" id="categories_option21" onclick="myFunction()"> <span>Other (Press enter to add)</span></label></li>
+                                </ul>
+
+
+
+                                
+                            </div>
+
+                            <div class="categories-display">
+                                <ul class="opt-display">
+                                    <li><p id="categories_display1" style="display:none">Audio & Visual</p></li>
+                                    <li><p id="categories_display2" style="display:none">Cameras</p></li>
+                                    <li><p id="categories_display3" style="display:none">Computers & Mobile</p></li>
+                                    <li><p id="categories_display4" style="display:none">Drones</p></li>
+                                    <li><p id="categories_display5" style="display:none">Fitness & Wellbeing</p></li>
+                                    <li><p id="categories_display6" style="display:none">Home Office</p></li>
+                                    <li><p id="categories_display7" style="display:none">In-Car</p></li>
+                                    <li><p id="categories_display8" style="display:none">Instrument</p></li>
+                                    <li><p id="categories_display9" style="display:none">Lenses</p></li>
+                                    <li><p id="categories_display10" style="display:none">Lighting & Studio</p></li>
+                                    <li><p id="categories_display11" style="display:none">Optics</p></li>
+                                    <li><p id="categories_display12" style="display:none">Pet Tech</p></li>
+                                    <li><p id="categories_display13" style="display:none">Photo Accessories</p></li>
+                                    <li><p id="categories_display14" style="display:none">Pro Video</p></li>
+                                    <li><p id="categories_display15" style="display:none">Scooters, Bike, Boards</p></li>
+                                    <li><p id="categories_display16" style="display:none">Seasonal (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display17" style="display:none">Smart Home</p></li>
+                                    <li><p id="categories_display18" style="display:none">Toys (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display19" style="display:none">Square  Wearable</p></li>
+                                    <li><p id="categories_display20" style="display:none">Square  White Goods</p></li>
+                                    <li><p id="categories_display21" style="display:none">Other (Press enter to add)</p></li>
+                                </ul>
+                            </div>
+                           
+                        </div>
+                        <div class="field">
+                            <button class="firstNext next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Contact Info:</div>
+                        <div class="field">
+                            <div class="label">Email Address</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Phone Number</div>
+                            <input type="Number" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-1 prev">Previous</button>
+                            <button class="next-1 next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Contact Info 2:</div>
+                        <div class="field">
+                            <div class="label">Email Address</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Phone Number</div>
+                            <input type="Number" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-2 prev">Previous</button>
+                            <button class="next-2 next">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="page">
+                        <div class="title">Login Details:</div>
+                        <div class="field">
+                            <div class="label">Username</div>
+                            <input type="text" required />
+                        </div>
+                        <div class="field">
+                            <div class="label">Password</div>
+                            <input type="password" required />
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-5 prev">Previous</button>
+                            <button class="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            initMultiStepForm();
+
+function initMultiStepForm() {
+    const progressNumber = document.querySelectorAll(".step").length;
+    const slidePage = document.querySelector(".slide-page");
+    const submitBtn = document.querySelector(".submit");
+    const progressText = document.querySelectorAll(".step p");
+    const progressCheck = document.querySelectorAll(".step .check");
+    const bullet = document.querySelectorAll(".step .bullet");
+    const pages = document.querySelectorAll(".page");
+    const nextButtons = document.querySelectorAll(".next");
+    const prevButtons = document.querySelectorAll(".prev");
+    const stepsNumber = pages.length;
+
+    if (progressNumber !== stepsNumber) {
+        console.warn(
+            "Error, number of steps in progress bar do not match number of pages"
+        );
+    }
+
+    document.documentElement.style.setProperty("--stepNumber", stepsNumber);
+
+    let current = 1;
+
+    for (let i = 0; i < nextButtons.length; i++) {
+        nextButtons[i].addEventListener("click", function (event) {
+            event.preventDefault();
+
+            inputsValid = validateInputs(this);
+            // inputsValid = true;
+
+            if (inputsValid) {
+                slidePage.style.marginLeft = `-${
+                    (100 / stepsNumber) * current
+                }%`;
+                bullet[current - 1].classList.add("active");
+                progressCheck[current - 1].classList.add("active");
+                progressText[current - 1].classList.add("active");
+                current += 1;
+            }
+        });
+    }
+
+    for (let i = 0; i < prevButtons.length; i++) {
+        prevButtons[i].addEventListener("click", function (event) {
+            event.preventDefault();
+            slidePage.style.marginLeft = `-${
+                (100 / stepsNumber) * (current - 2)
+            }%`;
+            bullet[current - 2].classList.remove("active");
+            progressCheck[current - 2].classList.remove("active");
+            progressText[current - 2].classList.remove("active");
+            current -= 1;
+        });
+    }
+    submitBtn.addEventListener("click", function () {
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+        setTimeout(function () {
+            alert("Your Form Successfully Signed up");
+            location.reload();
+        }, 800);
+    });
+
+    function validateInputs(ths) {
+        let inputsValid = true;
+
+        const inputs =
+            ths.parentElement.parentElement.querySelectorAll("input");
+        for (let i = 0; i < inputs.length; i++) {
+            const valid = inputs[i].checkValidity();
+            if (!valid) {
+                inputsValid = false;
+                inputs[i].classList.add("invalid-input");
+            } else {
+                inputs[i].classList.remove("invalid-input");
+            }
+        }
+        return inputsValid;
+    }
+}
+
+
+function myFunction() {
+    var catoption1 = document.getElementById("categories_option1");
+    var optdisplay1 = document.getElementById("categories_display1");
+
+    var catoption2 = document.getElementById("categories_option2");
+    var optdisplay2 = document.getElementById("categories_display2");
+
+    var catoption3 = document.getElementById("categories_option3");
+    var optdisplay3 = document.getElementById("categories_display3");
+
+    var catoption4 = document.getElementById("categories_option4");
+    var optdisplay4 = document.getElementById("categories_display4");
+
+    var catoption5 = document.getElementById("categories_option5");
+    var optdisplay5 = document.getElementById("categories_display5");
+
+    var catoption6 = document.getElementById("categories_option6");
+    var optdisplay6 = document.getElementById("categories_display6");
+
+    var catoption7 = document.getElementById("categories_option7");
+    var optdisplay7 = document.getElementById("categories_display7");
+
+    var catoption8 = document.getElementById("categories_option8");
+    var optdisplay8 = document.getElementById("categories_display8");
+
+    var catoption9 = document.getElementById("categories_option9");
+    var optdisplay9 = document.getElementById("categories_display9");
+
+    var catoption10 = document.getElementById("categories_option10");
+    var optdisplay10 = document.getElementById("categories_display10");
+
+    var catoption11 = document.getElementById("categories_option11");
+    var optdisplay11 = document.getElementById("categories_display11");
+
+    var catoption12 = document.getElementById("categories_option12");
+    var optdisplay12 = document.getElementById("categories_display12");
+
+    var catoption13 = document.getElementById("categories_option13");
+    var optdisplay13 = document.getElementById("categories_display13");
+
+    var catoption14 = document.getElementById("categories_option14");
+    var optdisplay14 = document.getElementById("categories_display14");
+
+    var catoption15 = document.getElementById("categories_option15");
+    var optdisplay15 = document.getElementById("categories_display15");
+
+    var catoption16 = document.getElementById("categories_option16");
+    var optdisplay16 = document.getElementById("categories_display16");
+
+    var catoption17 = document.getElementById("categories_option17");
+    var optdisplay17 = document.getElementById("categories_display17");
+
+    var catoption18 = document.getElementById("categories_option18");
+    var optdisplay18 = document.getElementById("categories_display18");
+
+    var catoption19 = document.getElementById("categories_option19");
+    var optdisplay19 = document.getElementById("categories_display19");
+
+    var catoption20 = document.getElementById("categories_option20");
+    var optdisplay20 = document.getElementById("categories_display20");
+
+    var catoption21 = document.getElementById("categories_option21");
+    var optdisplay21 = document.getElementById("categories_display21");
+
+    if (catoption1.checked == true){
+      optdisplay1.style.display = "block";
+    //   alert("test")
+    } else {
+       optdisplay1.style.display = "none";
+    }
+
+    if (catoption2.checked == true){
+        optdisplay2.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay2.style.display = "none";
+    }
+
+    if (catoption3.checked == true){
+        optdisplay3.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay3.style.display = "none";
+    }
+
+    if (catoption4.checked == true){
+        optdisplay4.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay4.style.display = "none";
+    }
+
+    if (catoption5.checked == true){
+        optdisplay5.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay5.style.display = "none";
+    }
+
+    if (catoption6.checked == true){
+        optdisplay6.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay6.style.display = "none";
+    }
+
+    if (catoption7.checked == true){
+        optdisplay7.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay7.style.display = "none";
+    }
+
+    if (catoption8.checked == true){
+        optdisplay8.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay8.style.display = "none";
+    }
+
+    if (catoption9.checked == true){
+        optdisplay9.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay9.style.display = "none";
+    }
+    
+    if (catoption10.checked == true){
+        optdisplay10.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay10.style.display = "none";
+    }
+
+    if (catoption11.checked == true){
+        optdisplay11.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay11.style.display = "none";
+    }
+
+    if (catoption12.checked == true){
+        optdisplay12.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay12.style.display = "none";
+    }
+
+    if (catoption13.checked == true){
+        optdisplay13.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay13.style.display = "none";
+    }
+
+    if (catoption14.checked == true){
+        optdisplay14.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay14.style.display = "none";
+    }
+
+    if (catoption15.checked == true){
+        optdisplay15.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay15.style.display = "none";
+    }
+
+    if (catoption16.checked == true){
+        optdisplay16.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay16.style.display = "none";
+    }
+
+    if (catoption17.checked == true){
+        optdisplay17.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay17.style.display = "none";
+    }
+
+    if (catoption18.checked == true){
+        optdisplay18.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay18.style.display = "none";
+    }
+
+    if (catoption19.checked == true){
+        optdisplay19.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay19.style.display = "none";
+    }
+
+    if (catoption20.checked == true){
+        optdisplay20.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay20.style.display = "none";
+    }
+
+    if (catoption21.checked == true){
+        optdisplay21.style.display = "block";
+    //   alert("test")
+    } else {
+        optdisplay21.style.display = "none";
+    }
+
+
+
+}
+        </script>
+    </body>
+</html>
