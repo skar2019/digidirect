@@ -1,10 +1,11 @@
 <?php 
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
-
+    
+    $isDigiClub = 0;
+    
     if ($customerSession->isLoggedIn()) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
-        $isDigiClub = 0;
         if ($customerGroupId == 10) {
             $isDigiClub = 1;
         }
