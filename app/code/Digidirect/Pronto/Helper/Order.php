@@ -992,11 +992,6 @@ class Order extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
 
                 }
-                else if(strpos($sku, '-1') !== false)
-                {
-                    $productSku = str_replace("-1", "",$sku);
-
-                }
                 else if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
