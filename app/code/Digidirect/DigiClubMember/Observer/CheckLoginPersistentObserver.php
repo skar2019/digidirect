@@ -49,6 +49,8 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
         $name = $observer->getEvent()->getRequest()->getFullActionName();
+        $this->logger->info('getCurrentUrl: ' . $this->urlInterface->getCurrentUrl());
+        $this->logger->info('getBaseUrl: ' . $this->urlInterface->getBaseUrl());
         
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
@@ -56,8 +58,6 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $this->redirect->redirect($controller->getResponse(), $login_url);
 
         } else if (!$this->_customerSession->isLoggedIn() && $this->urlInterface->getCurrentUrl() == $this->urlInterface->getBaseUrl().'/digiclub-member-deals') {
-            $this->logger->info('getCurrentUrl: ' . $this->urlInterface->getCurrentUrl());
-            $this->logger->info('getBaseUrl: ' . $this->urlInterface->getBaseUrl());
             $url = $this->urlInterface->getUrl('digiclub-member-deals');
             $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
