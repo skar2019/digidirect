@@ -41,18 +41,16 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
         $name = $observer->getEvent()->getRequest()->getFullActionName();
         
-        $this->logger->info('getFullActionName: ' . $name);
+        $this->logger->info('getCurrentUrl: ' . $this->urlInterface->getCurrentUrl());
         
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
-            $login_url = $this->urlInterface
-                ->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
+            $login_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $login_url);
             
-        } elseif (!$this->_customerSession->isLoggedIn() && $name == 'category_digiclub_member_deals') {
+        } elseif (!$this->_customerSession->isLoggedIn() && $this->urlInterface->getCurrentUrl() == 'digiclub-member-deals') {
             $url = $this->urlInterface->getUrl('digiclub-member-deals');
-            $page_url = $this->urlInterface
-                ->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
+            $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
             
         }
