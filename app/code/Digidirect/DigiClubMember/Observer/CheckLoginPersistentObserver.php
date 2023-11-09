@@ -62,7 +62,6 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
         }
-        
     }
 
 }
