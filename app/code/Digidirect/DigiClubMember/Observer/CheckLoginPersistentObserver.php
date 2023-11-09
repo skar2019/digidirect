@@ -39,7 +39,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
     {
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
-        $name = $observer->getFullActionName();
+        $name = $observer->getEvent()->getRequest()->getFullActionName();
         
         $this->logger->info('getFullActionName: ' . $name);
         
@@ -48,11 +48,13 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $login_url = $this->urlInterface
                 ->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $login_url);
+            
         } elseif (!$this->_customerSession->isLoggedIn() && $name == 'category_digiclub_member_deals') {
             $url = $this->urlInterface->getUrl('digiclub-member-deals');
             $page_url = $this->urlInterface
                 ->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
+            
         }
     }
 
