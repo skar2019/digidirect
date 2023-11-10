@@ -62,11 +62,9 @@
             <!-- ko if: rates().length  -->
             <form class="form methods-shipping" id="co-shipping-method-form" data-bind="submit: setShippingInformation" novalidate="novalidate">
                 <div id="checkout-shipping-method-load" data-bind="css: methodListClasses()">
-                    
                     <!-- ko if: checkSellers()  -->
                         <div>Please note that this order will be shipped in <!-- ko text: marketplacerSellers().length --><!-- /ko --> deliveries, and the costs below are the total you will be charged for all deliveries.</div>
                     <!-- /ko -->
-                    
                     <span>Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
                     <ul class="shipping-methods table-checkout-shipping-method items">
                         <!-- ko foreach: { data: rates(), as: 'method'} -->
