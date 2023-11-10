@@ -653,6 +653,7 @@ return [
         'Klevu_Troubleshoot' => 1,
         'LatitudeNew_Payment' => 1,
         'Lof_Paymentfee' => 1,
+        'Magecomp_Extrafee' => 0,
         'Magento5_Latipay' => 1,
         'Magezon_Core' => 1,
         'Magezon_Builder' => 1,
