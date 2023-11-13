@@ -17,8 +17,8 @@ class Index extends Action
         $post = $this->getRequest()->getPostValue();
         
         // Get your post values
-        $firstname = "Jireh";
-        $lastname = "Sy";
+        $audiovisual = $this->getRequest()->getParam('categories_option1');
+        $cat_otherfield = $this->getRequest()->getParam('cat_otherfield');
 
         // Send Mail functionality starts from here 
         $from = "from_email_address@example.com";
@@ -27,8 +27,8 @@ class Index extends Action
         $nameTo = "To Name";
         $body = "
         <div>
-        <b>".$firstname."</b>
-        <i>".$lastname."</i>
+            <p>Categories: ".$audiovisual."</p>
+            <p>Others: ".$cat_otherfield."</p>
         </div>";
 
         $email = new \Zend_Mail();

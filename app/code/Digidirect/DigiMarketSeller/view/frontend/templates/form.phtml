@@ -41,7 +41,7 @@
             </div>
 
             <div class="form-outer">
-                <form action="#">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
                     <div class="page slide-page secp1">
                         <div class="title">
                            <b><p class="text-lblack" style="font-weight: 700;"> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
@@ -50,7 +50,7 @@
                         <div class="fields">
                             <div class="categories-option">
                                 <ul class="categories-list">
-                                    <li><label for="categories_option1"><input type="checkbox" name="categories_option1" id="categories_option1" onclick="myFunction()"> <span>Audio & Visual</span></label></li>
+                                    <li><label for="categories_option1"><input type="checkbox" name="categories_option1" id="categories_option1" onclick="myFunction()" value="Audio & Visual"> <span>Audio & Visual</span></label></li>
                                     <li><label for="categories_option2"><input type="checkbox" name="categories_option2" id="categories_option2" onclick="myFunction()"> <span>Cameras</span></label></li>
                                     <li><label for="categories_option3"><input type="checkbox" name="categories_option3" id="categories_option3" onclick="myFunction()"> <span>Computers & Mobile</span></label></li>
                                     <li><label for="categories_option4"><input type="checkbox" name="categories_option4" id="categories_option4" onclick="myFunction()"> <span>Drones</span></label></li>
@@ -73,7 +73,7 @@
                                     <li><label for="categories_option21"><input type="checkbox" name="categories_option21" id="categories_option21"> <span>Other (Press enter to add)</span></label></li>
                                 </ul>
                                 <br>
-                                <div style=""><input id="cat_otherfield" class="cat_otherfield" size="120" type="text" value="" placeholder="Type other Category Here"/></div>
+                                <div style=""><input id="cat_otherfield"  name="cat_otherfield"  class="cat_otherfield" size="120" type="text" value="other category" placeholder="Type other Category Here"/></div>
      
                             </div>
 
