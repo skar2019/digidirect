@@ -1310,19 +1310,18 @@ class TestPronto extends AbstractHelper
                 $productDetails = $this->productFactory->create();
                 //check seller here
                 $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
-                echo $sell ."<br/>";
 
                 if(strpos($sku, 'mp-') !== false)
                 {
                     if($this->currentseller == $sell)
                     {
-                        //do nothing
+                        continue;
                     }
                     else
                     {
                         if($this->syncedseller == $sell)
                         {
-                            //do nothing
+                            continue;
                         }
                         else
                         {
@@ -1374,6 +1373,7 @@ class TestPronto extends AbstractHelper
 
                 }
 
+                echo $gotDigiProducts. "- got digi product <br/>";
                 if($gotDigiProducts)
                 {
                     $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
@@ -1651,7 +1651,8 @@ class TestPronto extends AbstractHelper
                     $countryName = $country->getName();
                 }
             }
-            echo "seller data <br/>";
+            echo "seller data".$seller."<br/>";
+
             $directToWhse = false;
 
             $contactname = $accountname;
