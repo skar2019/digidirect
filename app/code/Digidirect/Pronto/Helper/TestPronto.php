@@ -1310,9 +1310,10 @@ class TestPronto extends AbstractHelper
                 $productDetails = $this->productFactory->create();
                 //check seller here
                 $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
-
+                echo "SKU - " .$sku."<br/>";
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    echo "is MP - " .$sku."<br/>";
                     if($this->currentseller == $sell)
                     {
                         continue;
@@ -1336,6 +1337,7 @@ class TestPronto extends AbstractHelper
                 }
                 else if(strpos($sku, '-') !== false)
                 {
+                    echo "is digiprotect - " .$sku."<br/>";
                     $gotDigiProducts = true;
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
@@ -1367,13 +1369,14 @@ class TestPronto extends AbstractHelper
                 }
                 else
                 {
+                    echo "is normal products - " .$sku."<br/>";
                     $gotDigiProducts = true;
                     $productSku = $sku;
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
-                echo $gotDigiProducts. "- got digi product <br/>";
+                echo " got digi product ".$gotDigiProducts."<br/>";
                 if($gotDigiProducts)
                 {
                     $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
