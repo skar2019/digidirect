@@ -177,6 +177,8 @@ class TestPronto extends AbstractHelper
 
     protected $productDigiprot;
 
+    protected $currentseller;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -1309,7 +1311,16 @@ class TestPronto extends AbstractHelper
 
                 if(strpos($sku, 'mp-') !== false)
                 {
-                    $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell);
+                    if($this->currentseller == $sell)
+                    {
+
+                    }
+                    else
+                    {
+                        $this->currentseller = $sell;
+                        $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell);
+                    }
+
 
                     //sync to pronto here
                 }
