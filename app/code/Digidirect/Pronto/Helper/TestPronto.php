@@ -1332,8 +1332,6 @@ class TestPronto extends AbstractHelper
 
                     }
 
-                    $gotDigiProducts = false;
-                    //sync to pronto here
                 }
                 else if(strpos($sku, '-') !== false)
                 {
