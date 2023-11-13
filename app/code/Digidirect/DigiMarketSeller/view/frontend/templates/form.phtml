@@ -589,11 +589,13 @@ $(function () {
 
     //show it when the checkbox is clicked
     $('#categories_option21').on('click', function () {
-        // alert("success");
+        alert("success21");
         if ($(this).prop('checked')) {
             $('#cat_otherfield').fadeIn();
+            alert("success21_check");
         } else {
             $('#cat_otherfield').hide();
+            alert("success21_uncheck");
         }
     });
 });
