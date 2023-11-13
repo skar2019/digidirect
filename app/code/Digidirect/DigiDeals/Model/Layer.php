@@ -55,8 +55,8 @@ class Layer extends \Magento\Catalog\Model\Layer
     
     public function getProductCollection()
     {
-        if (isset($this->_productCollections[$saleCategoryId])) {
-            $collection = $this->_productCollections[$saleCategoryId];
+        if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
+            $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
             $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
             $collection->addAttributeToSelect('*')->addFinalPrice();
@@ -64,7 +64,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->getSelect()->where("price_index.final_price < price");
             $this->prepareProductCollection($collection);
-            $this->_productCollections[$saleCategoryId] = $collection;
+            $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
         
         return $collection;
