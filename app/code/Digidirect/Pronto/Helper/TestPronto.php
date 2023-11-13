@@ -522,6 +522,7 @@ class TestPronto extends AbstractHelper
         {
             $data = array();
             $counter++;
+            $this->currentseller = "";
             $state = $order->getState();
             /* @var $order \Magento\Sales\Model\Order */
 
@@ -1321,7 +1322,7 @@ class TestPronto extends AbstractHelper
                         $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell);
                     }
 
-
+                    $gotDigiProducts = false;
                     //sync to pronto here
                 }
                 else if(strpos($sku, '-') !== false)
