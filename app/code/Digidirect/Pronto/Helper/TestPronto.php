@@ -1332,6 +1332,8 @@ class TestPronto extends AbstractHelper
 
                     }
 
+                    continue;
+
                 }
                 else if(strpos($sku, '-') !== false)
                 {
