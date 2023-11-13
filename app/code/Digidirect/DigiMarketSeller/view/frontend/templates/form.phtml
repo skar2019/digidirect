@@ -41,7 +41,7 @@
             </div>
 
             <div class="form-outer">
-                <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
+                <form id="sellerForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
                     <div class="page slide-page secp1">
                         <div class="title">
                            <b><p class="text-lblack" style="font-weight: 700;"> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
@@ -247,7 +247,13 @@
                         <div class="field btns">
                             <button class="prev-1 prev">Previous</button>
                             <!-- <button class="next-1 next">Next</button> -->
-                            <button class="submit next">Submit</button>
+                            <!-- <button class="submit next">Submit</button> -->
+                            <?=$block->getChildHtml('form.additional.info') ?>
+                            <input type="hidden" name="hideit" id="hideit" value="" />
+                            <button type="submit" id="add" title="" class="action submit primary  next">
+                                <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
+                            </button>
+
                         </div>
 
                     </div>
@@ -606,5 +612,27 @@ $(function () {
         }
     });
 });
+</script>
+
+<script>
+require(['jquery'],function($){
+    $(document).ready(function(){
+        $("#add").click(function(){
+        var customurl = "<?php echo $this->getUrl("digimarketseller/index/index") ?>";
+        $.ajax({
+            url: customurl,
+            type: "POST",
+            data: $(this).closest('form').serialize(),
+            dataType: "json",
+            success: function(result){
+                console.log(result);
+            }
+        });
+        $('#sellerForm')[0].reset(); 
+        return false;
+        });
+    });
+
+}); 
 </script>
  
