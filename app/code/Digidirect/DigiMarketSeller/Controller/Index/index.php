@@ -23,7 +23,7 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = "from_email_address@example.com";
         $nameFrom = "From Name";
-        $to = "jireh@kayweb.com";
+        $to = "jireh@kayweb.com.au";
         $nameTo = "To Name";
         $body = "
         <div>
@@ -46,8 +46,6 @@ class Index extends Action
         echo "success";
         /* echo "hello";
         exit; */
-
-
        
         
         $this->messageManager->addSuccess(__('Form successfully submitted'));
