@@ -41,6 +41,8 @@ class Index extends Action
         $SquareWhiteGoods = $this->getRequest()->getParam('categories_option20');
         $cat_otherfield = $this->getRequest()->getParam('cat_otherfield');
 
+        $email = "test@gmail.com";
+
         // page2
         $salutename = $this->getRequest()->getParam('salutename');
   
