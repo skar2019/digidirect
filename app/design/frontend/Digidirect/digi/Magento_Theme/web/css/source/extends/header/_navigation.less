@@ -337,6 +337,7 @@
 
     .menu-third-level-links {
         margin-left: 40px;
+        width: 190px;
     }
 
     .menu-third-level-links a {
@@ -417,10 +418,10 @@
         left: -80%;
         left: calc(~'-1 * (100% - @{active-nav-indent})');
         overflow: auto;
-        position: fixed;
-        top: 0;
-        width: calc(~'100% - @{active-nav-indent}');
-        max-width: 350px !important;
+        position: absolute;
+        top: 44px;
+        width: 100%;
+        //max-width: 350px !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;
@@ -594,6 +595,7 @@
         margin-left: -100%;
         margin-top: 0;
         width: 100%;
+        background: none !important;
 
         &.active {
             display: block;
@@ -613,6 +615,7 @@
             padding-right: 15px;
             box-sizing: content-box;
             display: block !important;
+            background: none !important;
         }
 
         &::before{
@@ -693,7 +696,7 @@
     }
 
     .mgz-tabs-nav .mgz-tabs-tab-title {
-        display: block !important;
+        display: block;
     }
 
     .category-tabs .mgz-tabs-tab-title.cameras-tab-menu a {
@@ -1433,11 +1436,10 @@
         left: -80%;
         left: calc(~'-1 * (100% - @{active-nav-indent})');
         overflow: auto;
-        position: fixed;
-        top: 0;
-        width: 80%;
-        width: calc(~'55% - @{active-nav-indent}');
-        max-width: 350px !important;
+        position: absolute;
+        top: 44px;
+        width: 100%;
+        //max-width: 350px !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;
