@@ -41,12 +41,28 @@ class Index extends Action
         $squareWhiteGoods = $this->getRequest()->getParam('categories_option20');
         $cat_otherfield = $this->getRequest()->getParam('cat_otherfield');
 
-        $email = "test@gmail.com";
-        $firstname = "Jireh";
-        $lastname = "Capao";
-
         // page2
         $salutename = $this->getRequest()->getParam('salutename');
+        $firstname = $this->getRequest()->getParam('firstname');
+        $lastname = $this->getRequest()->getParam('lastname');
+        $email = $this->getRequest()->getParam('email');
+        $job = $this->getRequest()->getParam('job');
+        $business = $this->getRequest()->getParam('business');
+        $address = $this->getRequest()->getParam('address');
+        $abn = $this->getRequest()->getParam('abn');
+        $employees = $this->getRequest()->getParam('employees');
+        $contact = $this->getRequest()->getParam('contact');
+        $website = $this->getRequest()->getParam('website');
+
+        // page3
+        $brands = $this->getRequest()->getParam('brands');
+        $current_sell = $this->getRequest()->getParam('current_sell');
+        $method = $this->getRequest()->getParam('method');
+        $platform_use = $this->getRequest()->getParam('platform_use');
+        $head_office = $this->getRequest()->getParam('head_office');
+        $warehouse = $this->getRequest()->getParam('warehouse');
+        $annual_sale = $this->getRequest()->getParam('annual_sale');
+        $intending = $this->getRequest()->getParam('intending');
   
 
         // Send Mail functionality starts from here 
@@ -57,10 +73,49 @@ class Index extends Action
         $body = "
         <div>
             <p>Categories: 
-            ".$audiovisual." ".$cameras." 
+            ".$audiovisual." 
+            ".$cameras." 
+            ".$computersMobile." 
+            ".$drones." 
+            ".$fitnessWellbeing." 
+            ".$homeOffice." 
+            ".$inCar." 
+            ".$instrument." 
+            ".$lenses." 
+            ".$lightingStudio." 
+            ".$optics." 
+            ".$petTech." 
+            ".$photoAccessories." 
+            ".$proVideo." 
+            ".$scootersBikeBoards." 
+            ".$seasonal." 
+            ".$smartHome." 
+            ".$toys." 
+            ".$squareWearable." 
+            ".$squareWhiteGoods." 
             </p>
             <p>Others: ".$cat_otherfield."</p>
+
             <p>Title: ".$salutename."</p>
+            <p>FullName: ".$firstname." ".$lastname."</p>
+            <p>Email: ".$email."</p>
+            <p>Job: ".$job."</p>
+            <p>Business: ".$business."</p>
+            <p>Address: ".$address."</p>
+            <p>ABN: ".$abn."</p>
+            <p>Employees No.: ".$employees."</p>
+            <p>Contact: ".$contact."</p>
+            <p>Website: ".$website."</p>
+
+            <p>Brands: ".$brands."</p>
+            <p>Currently sell on other marketplaces (including abroad): ".$current_sell."</p>
+            <p>Prefered method of integration with digiDirect: ".$method."</p>
+            <p>POS and eCommerce platforms: ".$platform_use."</p> 
+            <p>Head Office Location: ".$head_office."</p> 
+            <p>Warehouse Location Shipping Product from: ".$warehouse."</p>
+            <p>Estimate Annual Sale (AUD): ".$annual_sale."</p>
+            <p>Intending Product to list an digiDirect: ".$intending."</p>
+
         </div>";
 
         $email = new \Zend_Mail();
