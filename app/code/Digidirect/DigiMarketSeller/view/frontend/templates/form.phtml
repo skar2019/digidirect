@@ -41,7 +41,7 @@
             </div>
 
             <div class="form-outer">
-                <form action="#">
+                <form id="sellerForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
                     <div class="page slide-page secp1">
                         <div class="title">
                            <b><p class="text-lblack" style="font-weight: 700;"> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
@@ -50,30 +50,30 @@
                         <div class="fields">
                             <div class="categories-option">
                                 <ul class="categories-list">
-                                    <li><label for="categories_option1"><input type="checkbox" name="categories_option1" id="categories_option1" onclick="myFunction()"> <span>Audio & Visual</span></label></li>
-                                    <li><label for="categories_option2"><input type="checkbox" name="categories_option2" id="categories_option2" onclick="myFunction()"> <span>Cameras</span></label></li>
-                                    <li><label for="categories_option3"><input type="checkbox" name="categories_option3" id="categories_option3" onclick="myFunction()"> <span>Computers & Mobile</span></label></li>
-                                    <li><label for="categories_option4"><input type="checkbox" name="categories_option4" id="categories_option4" onclick="myFunction()"> <span>Drones</span></label></li>
-                                    <li><label for="categories_option5"><input type="checkbox" name="categories_option5" id="categories_option5" onclick="myFunction()"> <span>Fitness & Wellbeing</span></label></li>
-                                    <li><label for="categories_option6"><input type="checkbox" name="categories_option6" id="categories_option6" onclick="myFunction()"> <span>Home Office</span></label></li>
-                                    <li><label for="categories_option7"><input type="checkbox" name="categories_option7" id="categories_option7" onclick="myFunction()"> <span>In-Car</span></label></li>
-                                    <li><label for="categories_option8"><input type="checkbox" name="categories_option8" id="categories_option8" onclick="myFunction()"> <span>Instrument</span></label></li>
-                                    <li><label for="categories_option9"><input type="checkbox" name="categories_option9" id="categories_option9" onclick="myFunction()"> <span>Lenses</span></label></li>
-                                    <li><label for="categories_option10"><input type="checkbox" name="categories_option10" id="categories_option10" onclick="myFunction()"> <span>Lighting & Studio</span></label></li>
-                                    <li><label for="categories_option11"><input type="checkbox" name="categories_option11" id="categories_option11" onclick="myFunction()"> <span>Optics</span></label></li>
-                                    <li><label for="categories_option12"><input type="checkbox" name="categories_option12" id="categories_option12" onclick="myFunction()"> <span>Pet Tech</span></label></li>
-                                    <li><label for="categories_option13"><input type="checkbox" name="categories_option13" id="categories_option13" onclick="myFunction()"> <span>Photo Accessories</span></label></li>
-                                    <li><label for="categories_option14"><input type="checkbox" name="categories_option14" id="categories_option14" onclick="myFunction()"> <span>Pro Video</span></label></li>
-                                    <li><label for="categories_option15"><input type="checkbox" name="categories_option15" id="categories_option15" onclick="myFunction()"> <span>Scooters, Bike, Boards</span></label></li>
-                                    <li><label for="categories_option16"><input type="checkbox" name="categories_option16" id="categories_option16" onclick="myFunction()"> <span>Seasonal (Digital, Electronic)</span></label></li>
-                                    <li><label for="categories_option17"><input type="checkbox" name="categories_option17" id="categories_option17" onclick="myFunction()"> <span>Smart Home</span></label></li>
-                                    <li><label for="categories_option18"><input type="checkbox" name="categories_option18" id="categories_option18" onclick="myFunction()"> <span>Toys (Digital, Electronic)</span></label></li>
-                                    <li><label for="categories_option19"><input type="checkbox" name="categories_option19" id="categories_option19" onclick="myFunction()"> <span>Square  Wearable</span></label></li>
-                                    <li><label for="categories_option20"><input type="checkbox" name="categories_option20" id="categories_option20" onclick="myFunction()"> <span>Square  White Goods</span></label></li>
+                                    <li><label for="categories_option1"><input type="checkbox" name="categories_option1" id="categories_option1" onclick="myFunction()" value="Audio & Visual,"> <span>Audio & Visual</span></label></li>
+                                    <li><label for="categories_option2"><input type="checkbox" name="categories_option2" id="categories_option2" onclick="myFunction()" value="Cameras,"> <span>Cameras</span></label></li>
+                                    <li><label for="categories_option3"><input type="checkbox" name="categories_option3" id="categories_option3" onclick="myFunction()" value="Computers & Mobile,"> <span>Computers & Mobile</span></label></li>
+                                    <li><label for="categories_option4"><input type="checkbox" name="categories_option4" id="categories_option4" onclick="myFunction()" value="Drones,"> <span>Drones</span></label></li>
+                                    <li><label for="categories_option5"><input type="checkbox" name="categories_option5" id="categories_option5" onclick="myFunction()" value="Fitness & Wellbeing,"> <span>Fitness & Wellbeing</span></label></li>
+                                    <li><label for="categories_option6"><input type="checkbox" name="categories_option6" id="categories_option6" onclick="myFunction()" value="Home Office,"> <span>Home Office</span></label></li>
+                                    <li><label for="categories_option7"><input type="checkbox" name="categories_option7" id="categories_option7" onclick="myFunction()" value="In-Car,"> <span>In-Car</span></label></li>
+                                    <li><label for="categories_option8"><input type="checkbox" name="categories_option8" id="categories_option8" onclick="myFunction()" value="Instrument,"> <span>Instrument</span></label></li>
+                                    <li><label for="categories_option9"><input type="checkbox" name="categories_option9" id="categories_option9" onclick="myFunction()" value="Lenses"> <span>Lenses</span></label></li>
+                                    <li><label for="categories_option10"><input type="checkbox" name="categories_option10" id="categories_option10" onclick="myFunction()" value="Lighting & Studio,"> <span>Lighting & Studio</span></label></li>
+                                    <li><label for="categories_option11"><input type="checkbox" name="categories_option11" id="categories_option11" onclick="myFunction()" value="Optics,"> <span>Optics</span></label></li>
+                                    <li><label for="categories_option12"><input type="checkbox" name="categories_option12" id="categories_option12" onclick="myFunction()" value="Pet Tech,"> <span>Pet Tech</span></label></li>
+                                    <li><label for="categories_option13"><input type="checkbox" name="categories_option13" id="categories_option13" onclick="myFunction()" value="Photo Accessories,"> <span>Photo Accessories</span></label></li>
+                                    <li><label for="categories_option14"><input type="checkbox" name="categories_option14" id="categories_option14" onclick="myFunction()" value="Pro Video,"> <span>Pro Video</span></label></li>
+                                    <li><label for="categories_option15"><input type="checkbox" name="categories_option15" id="categories_option15" onclick="myFunction()" value="Scooters, Bike, Boards,"> <span>Scooters, Bike, Boards</span></label></li>
+                                    <li><label for="categories_option16"><input type="checkbox" name="categories_option16" id="categories_option16" onclick="myFunction()" value="Seasonal (Digital, Electronic),"> <span>Seasonal (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option17"><input type="checkbox" name="categories_option17" id="categories_option17" onclick="myFunction()" value="Smart Home,"> <span>Smart Home</span></label></li>
+                                    <li><label for="categories_option18"><input type="checkbox" name="categories_option18" id="categories_option18" onclick="myFunction()" value="Toys (Digital, Electronic),"> <span>Toys (Digital, Electronic)</span></label></li>
+                                    <li><label for="categories_option19"><input type="checkbox" name="categories_option19" id="categories_option19" onclick="myFunction()" value="Square Wearable,"> <span>Square Wearable</span></label></li>
+                                    <li><label for="categories_option20"><input type="checkbox" name="categories_option20" id="categories_option20" onclick="myFunction()" value="Square White Goods"> <span>Square White Goods</span></label></li>
                                     <li><label for="categories_option21"><input type="checkbox" name="categories_option21" id="categories_option21"> <span>Other (Press enter to add)</span></label></li>
                                 </ul>
                                 <br>
-                                <div style=""><input id="cat_otherfield" class="cat_otherfield" size="120" type="text" value="" placeholder="Type other Category Here"/></div>
+                                <div style=""><input id="cat_otherfield"  name="cat_otherfield"  class="cat_otherfield" size="120" type="text" value="other category" placeholder="Type other Category Here"/></div>
      
                             </div>
 
@@ -247,17 +247,30 @@
                         <div class="field btns">
                             <button class="prev-1 prev">Previous</button>
                             <!-- <button class="next-1 next">Next</button> -->
-                            <button class="submit">Submit</button>
+                            <!-- <button class="submit next">Submit</button> -->
+                            <?=$block->getChildHtml('form.additional.info') ?>
+                            <input type="hidden" name="hideit" id="hideit" value="" />
+                            <button type="submit" id="add" title="" class="action submit primary  next">
+                                <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
+                            </button>
+
                         </div>
 
                     </div>
 
                     <div class="page secp4">
-                       <p>page 4 </p>
-                        <div class="field btns">
-                            <button class="prev-5 prev">Previous</button>
-                            <!-- <button class="submit">Submit</button> -->
-                        </div>
+                        <b><p class="text-lblack" style="font-weight: 700; font-size: 22px;"> Registration Complete</p></b>
+                           <p class="text-lblack">Thank you for registering your business on digiMarketplace. <br>You are almost done.
+                            You will receive a confirmation once the registration <br>was approved by our representative.</p>
+
+                            <br><br><br>
+                            <img src="<?php echo $block->getUrl("media/wysiwyg/digiMarket/")?>Thankyou.png" alt="Thankyou Img" />
+                            <!-- <img src="./Thankyou.png" alt=""> -->
+
+                        <div style="margin: 50px;"></div>
+                        <!-- <div class="field btns">
+                            <button class="prev-1 prev">Previous</button>
+                        </div> -->
                     </div>
                 </form>
             </div>
@@ -328,7 +341,7 @@ function initMultiStepForm() {
         progressText[current - 1].classList.add("active");
         current += 1;
         setTimeout(function () {
-            alert("Your Form Successfully Signed up");
+            // alert("Your Form Successfully Signed up");
             location.reload();
         }, 800);
     });
@@ -599,5 +612,27 @@ $(function () {
         }
     });
 });
+</script>
+
+<script>
+require(['jquery'],function($){
+    $(document).ready(function(){
+        $("#add").click(function(){
+        var customurl = "<?php echo $this->getUrl("digimarketseller/index/index") ?>";
+        $.ajax({
+            url: customurl,
+            type: "POST",
+            data: $(this).closest('form').serialize(),
+            dataType: "json",
+            success: function(result){
+                console.log(result);
+            }
+        });
+        $('#sellerForm')[0].reset(); 
+        return false;
+        });
+    });
+
+}); 
 </script>
  
