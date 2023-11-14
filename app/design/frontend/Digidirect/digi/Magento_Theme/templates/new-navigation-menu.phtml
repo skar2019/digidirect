@@ -12,32 +12,18 @@
     }
 ?>
 
-<?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
-
-if ($customerSession->isLoggedIn() == true) { ?>    
-    $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Sign Out <i class="fas fa-sign-out-alt"></i></a></span>')
-<?php } else { ?>
-    $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
-<?php } ?>
-
 <div id="header-mobile-menu-only">
-  <i class="fas fa-times mobile-menu-main-exit"></i>
   <span id="mobile-menu-only-header">
-    <?php
-    if ($customerSession->isLoggedIn()) { ?>    
-        <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
-        <span id="menu-mobile-span-signin">
-            <a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
-        </span>
-    <?php } else { ?>
-        <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
-        <span id="menu-mobile-span-signin">
-            <a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a>
-        </span>
-    <?php } ?>
+    <i class="fas fa-times mobile-menu-main-exit"></i> 
+    <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
+    <span id="menu-mobile-span-signin">
+        <a class="mobile-menu-signin" href="/customer/account" title="Account"><i class="fas fa-user"></i></a>
+        <a class="mobile-menu-signin" href="/customer/account" title="Account"><i class="fas fa-shopping-bag"></i></a>
+    </span>
   </span>
+    
+  <div class="block block-search"><div class="block block-content"><form class="form minisearch" id="search_mini_form" action="https://www.digidirect.com.au/find" method="get"><div class="field search"><label class="label" for="search" data-role="minisearch-label"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -search"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-search" fill="white"></use></svg><span>Search</span></label> <div class="control"><input id="search" type="text" name="q" value="" placeholder="Search our store" class="input-text" maxlength="128" role="combobox" aria-haspopup="false" aria-autocomplete="both" autocomplete="off"><!-- <div id="search_autocomplete" class="search-autocomplete"></div>--></div></div><div class="actions"><button type="submit" title="Search" class="action search"><i class="fas fa-search" style="font-size: 21px; color: #fff; padding: 5px 12px 0 0;"></i></button></div></form></div></div>  
+    
 </div>
 
 <div class="navbar">
