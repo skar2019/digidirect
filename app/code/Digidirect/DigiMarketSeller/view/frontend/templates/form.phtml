@@ -48,10 +48,15 @@
                            <p class="text-lblack">(Please select all that is appplicable)</p>
                         </div>
 
-                        <?php $attribute_value = $product->getResource()->getAttribute("brand")->getFrontend()->getValue($product); ?>
-                        <//?php $attributeValue = $_product->getAttributeText('bottle_size'); ?>
+                        <?php $attribute_value = $this->getResource()->getAttribute("brand")->getFrontend()->getValue($product); ?>
+                        <?php $attributeValue = $this->getAttributeText('brand'); ?>
+
                         <?php if(isset($attribute_value)): ?>
                         <?php echo "Brands: ".$attribute_value; ?>
+                        <?php endif; ?>
+
+                        <?php if(isset($attributeValue)): ?>
+                        <?php echo "Brands2: ".$attributeValue; ?>
                         <?php endif; ?>
 
                         <div class="fields">

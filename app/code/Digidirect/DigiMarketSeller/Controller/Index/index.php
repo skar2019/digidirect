@@ -15,6 +15,7 @@ class Index extends Action
     public function execute()
     {
         $post = $this->getRequest()->getPostValue();
+        $brandlist = $this->getBrand();
         
         // Get your post values
 
@@ -116,6 +117,7 @@ class Index extends Action
             <p>Estimate Annual Sale (AUD): ".$annual_sale."</p>
             <p>Intending Product to list an digiDirect: ".$intending."</p>
 
+            <p>Brand List: ".$brandlist."</p>
         </div>";
 
         $email = new \Zend_Mail();
