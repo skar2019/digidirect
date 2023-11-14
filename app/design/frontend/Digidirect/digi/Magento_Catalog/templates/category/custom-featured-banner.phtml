@@ -35,6 +35,7 @@ $isBrandGoPro = str_contains($currentUrl, 'brands/gopro');
 $isBrandLangly = str_contains($currentUrl, 'brands/langly');
 $isBrandOMSystem = str_contains($currentUrl, 'brands/om-system');
 $isBrandWandrd = str_contains($currentUrl, 'brands/wandrd');
+$isBrandHikmicro = str_contains($currentUrl, 'brands/hikmicro');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -191,6 +192,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-wandrd-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandHikmicro == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-hikmicro-featured-banner')
             ->toHtml();
     }
 }
