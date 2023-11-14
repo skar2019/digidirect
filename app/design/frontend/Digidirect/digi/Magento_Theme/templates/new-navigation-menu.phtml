@@ -12,9 +12,31 @@
     }
 ?>
 
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+
+if ($customerSession->isLoggedIn() == true) { ?>    
+    $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Sign Out <i class="fas fa-sign-out-alt"></i></a></span>')
+<?php } else { ?>
+    $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
+<?php } ?>
+
 <div id="header-mobile-menu-only">
   <i class="fas fa-times mobile-menu-main-exit"></i>
   <span id="mobile-menu-only-header">
+    <?php
+    if ($customerSession->isLoggedIn()) { ?>    
+        <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
+        <span id="menu-mobile-span-signin">
+            <a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+        </span>
+    <?php } else { ?>
+        <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
+        <span id="menu-mobile-span-signin">
+            <a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a>
+        </span>
+    <?php } ?>
   </span>
 </div>
 
@@ -1591,8 +1613,12 @@
       
     <?php 
         if ($isDigiClub == 1) { ?>
-            <a id="submenu-digiclub-member-deals" class="submenu-link item-submenu" href="https://www.digidirect.com.au/digiclub-member-deals" onclick="checkActiveMenuItem(event, 'submenu-digiclub-member-deals')">digiClub Member Deals</a>
-    <?php } ?>
+            <a id="submenu-digiclub-member-deals" class="submenu-link item-submenu" 
+               href="https://www.digidirect.com.au/digiclub-member-deals" 
+               onclick="checkActiveMenuItem(event, 'submenu-digiclub-member-deals')">
+                <span class="dc-digi">digi</span><span class="dc-club">Club</span> MEMBER DEALS
+            </a>
+        <?php } ?>
             
     <a id="submenu-clearance" class="submenu-link item-submenu" href="https://www.digidirect.com.au/clearance" onclick="checkActiveMenuItem(event, 'submenu-clearance')">CLEARANCE</a>
     
@@ -1636,7 +1662,7 @@
         <div class="dropdown">
           <button class="dropbtn">PHOTO LAB <i class="fas fa-angle-down"></i></button><i class="fas fa-angle-right"></i>
           <div class="dropdown-content" onclick="event.stopPropagation()" style="flex-direction: column;">
-            <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;width: 430px; margin-top: 10px;">
+            <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;width: 430px;">
                 
             <div class="reason-list">
                 <span class="icon">
