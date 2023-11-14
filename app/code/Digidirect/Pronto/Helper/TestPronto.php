@@ -2017,6 +2017,7 @@ class TestPronto extends AbstractHelper
                         $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $price;
                         $x++;
                         $producttotal += $total;
                     }
