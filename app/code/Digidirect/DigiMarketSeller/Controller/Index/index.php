@@ -20,25 +20,25 @@ class Index extends Action
 
         // page1
         $audiovisual = $this->getRequest()->getParam('categories_option1');
-        $Cameras = $this->getRequest()->getParam('categories_option2');
-        $ComputersMobile = $this->getRequest()->getParam('categories_option3');
-        $Drones = $this->getRequest()->getParam('categories_option4');
-        $FitnessWellbeing = $this->getRequest()->getParam('categories_option5');
-        $HomeOffice = $this->getRequest()->getParam('categories_option6');
-        $InCar = $this->getRequest()->getParam('categories_option7');
-        $Instrument = $this->getRequest()->getParam('categories_option8');
-        $Lenses = $this->getRequest()->getParam('categories_option9');
-        $LightingStudio = $this->getRequest()->getParam('categories_option10');
-        $Optics = $this->getRequest()->getParam('categories_option11');
-        $PetTech = $this->getRequest()->getParam('categories_option12');
-        $PhotoAccessories = $this->getRequest()->getParam('categories_option13');
-        $ProVideo = $this->getRequest()->getParam('categories_option14');
-        $ScootersBikeBoards = $this->getRequest()->getParam('categories_option15');
-        $Seasonal = $this->getRequest()->getParam('categories_option16');
-        $SmartHome = $this->getRequest()->getParam('categories_option17');
-        $Toys = $this->getRequest()->getParam('categories_option18');
-        $SquareWearable = $this->getRequest()->getParam('categories_option19');
-        $SquareWhiteGoods = $this->getRequest()->getParam('categories_option20');
+        $cameras = $this->getRequest()->getParam('categories_option2');
+        $computersMobile = $this->getRequest()->getParam('categories_option3');
+        $drones = $this->getRequest()->getParam('categories_option4');
+        $fitnessWellbeing = $this->getRequest()->getParam('categories_option5');
+        $homeOffice = $this->getRequest()->getParam('categories_option6');
+        $inCar = $this->getRequest()->getParam('categories_option7');
+        $instrument = $this->getRequest()->getParam('categories_option8');
+        $lenses = $this->getRequest()->getParam('categories_option9');
+        $lightingStudio = $this->getRequest()->getParam('categories_option10');
+        $optics = $this->getRequest()->getParam('categories_option11');
+        $petTech = $this->getRequest()->getParam('categories_option12');
+        $photoAccessories = $this->getRequest()->getParam('categories_option13');
+        $proVideo = $this->getRequest()->getParam('categories_option14');
+        $scootersBikeBoards = $this->getRequest()->getParam('categories_option15');
+        $seasonal = $this->getRequest()->getParam('categories_option16');
+        $smartHome = $this->getRequest()->getParam('categories_option17');
+        $toys = $this->getRequest()->getParam('categories_option18');
+        $squareWearable = $this->getRequest()->getParam('categories_option19');
+        $squareWhiteGoods = $this->getRequest()->getParam('categories_option20');
         $cat_otherfield = $this->getRequest()->getParam('cat_otherfield');
 
         $email = "test@gmail.com";
@@ -57,26 +57,7 @@ class Index extends Action
         $body = "
         <div>
             <p>Categories: 
-            ".$audiovisual." 
-            ".$Cameras." 
-            ".$ComputersMobile." 
-            ".$Drones." 
-            ".$FitnessWellbeing." 
-            ".$HomeOffice." 
-            ".$InCar." 
-            ".$Instrument." 
-            ".$Lenses." 
-            ".$LightingStudio." 
-            ".$Optics." 
-            ".$PetTech." 
-            ".$PhotoAccessories." 
-            ".$ProVideo." 
-            ".$ScootersBikeBoards." 
-            ".$Seasonal." 
-            ".$SmartHome." 
-            ".$Toys." 
-            ".$SquareWearable." 
-            ".$SquareWhiteGoods." 
+            ".$audiovisual." ".$cameras." 
             </p>
             <p>Others: ".$cat_otherfield."</p>
             <p>Title: ".$salutename."</p>
