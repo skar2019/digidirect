@@ -68,10 +68,11 @@ class Data extends AbstractHelper
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
                 
                 if ($seller == $itemSeller) {
-                    $sellerTotal += $finalPrice;
+                    $sellerTotal += $productTotal;
                 }
             }
             $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
@@ -118,10 +119,11 @@ class Data extends AbstractHelper
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
                 
                 if ($seller == $itemSeller) {
-                    $sellerTotal += $finalPrice;
+                    $sellerTotal += $productTotal;
                 }
             }
             $this->logger->info($seller . ': ' . $sellerTotal);
@@ -155,10 +157,11 @@ class Data extends AbstractHelper
             $product = $this->productFactory->create()->load($item->getProductId());
             $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             $finalPrice = $product->getFinalPrice();
+            $productTotal = $finalPrice * $item->getQty();
             $itemSeller = $product->getAttributeText('marketplacer_seller');
 
             if ($itemSeller == "digiDirect") {
-                $digiTotal += $finalPrice;
+                $digiTotal += $productTotal;
             }
         }
         $this->logger->info('getDigiShipping: ' . $digiTotal);
