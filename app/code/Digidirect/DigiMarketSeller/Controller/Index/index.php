@@ -18,6 +18,8 @@ class Index extends Action
         
         // Get your post values
 
+        // redeploy
+
         // page1
         $audiovisual = $this->getRequest()->getParam('categories_option1');
         $cameras = $this->getRequest()->getParam('categories_option2');
