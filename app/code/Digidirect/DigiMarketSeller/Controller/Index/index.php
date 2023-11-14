@@ -42,6 +42,8 @@ class Index extends Action
         $cat_otherfield = $this->getRequest()->getParam('cat_otherfield');
 
         $email = "test@gmail.com";
+        $firstname = "Jireh";
+        $lastname = "Capao";
 
         // page2
         $salutename = $this->getRequest()->getParam('salutename');
