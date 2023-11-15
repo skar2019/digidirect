@@ -613,7 +613,7 @@ txt.addEventListener('keypress', function(e) {
 function render() {
   list.innerHTML = '';
   items.map((item, index) => {
-    list.innerHTML += `<li><a href="javascript: remove(${index})">x </a><span>${item}</span></li>`;
+    list.innerHTML += `<li><a href="javascript: remove(${index})" style="margin-right:5px;">x</a><span>${item}</span></li>`;
   });
 }
 
