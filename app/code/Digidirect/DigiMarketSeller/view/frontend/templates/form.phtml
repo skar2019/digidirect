@@ -196,6 +196,7 @@
                                     <option value="Don't know yet">Don't know yet</option>
                                 </select>
                             </div>
+                            <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>What POS and eCommerce platforms do you currently use?</span>
                                 <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" />
@@ -207,6 +208,7 @@
                                     
                                 </select>
                             </div>
+                            <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>Warehouse Location Shipping Product from</span>
                                 <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
@@ -230,6 +232,7 @@
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
                             </div>
+                            <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>How many products are you intending to list an digiDirect?</span>
                                 <select name="intending" id="intending" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
@@ -613,7 +616,7 @@ txt.addEventListener('keypress', function(e) {
 function render() {
   list.innerHTML = '';
   items.map((item, index) => {
-    list.innerHTML += `<li><a href="javascript: remove(${index})" style="margin-right:5px;">x</a><span>${item}</span></li>`;
+    list.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
   });
 }
 
