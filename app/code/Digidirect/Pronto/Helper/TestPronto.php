@@ -568,6 +568,7 @@ class TestPronto extends AbstractHelper
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
+            $newaccount = "";
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -1327,7 +1328,7 @@ class TestPronto extends AbstractHelper
                         else
                         {
                             $this->currentseller = $sell;
-                            $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell);
+                            $newaccount = $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell, $newaccount);
                         }
 
                     }
@@ -1433,6 +1434,10 @@ class TestPronto extends AbstractHelper
 
             } //end of product line
 
+            if($newaccount != "")
+            {
+                $data['sales-order']['header']['account'] = $newaccount;
+            }
 
             if($gotDigiProducts)
             {
@@ -1595,7 +1600,7 @@ class TestPronto extends AbstractHelper
 
     }
 
-    public function orderPostBySeller($orderId, $date, $size, $page, $test, $seller)
+    public function orderPostBySeller($orderId, $date, $size, $page, $test, $seller, $newaccount)
     {
 
         settype($test,"integer");
@@ -1643,7 +1648,15 @@ class TestPronto extends AbstractHelper
             $rep = $this->getRep($order);
 
             $accountname = $this->getAccountName($order);
-            $account = $this->getAccount($order);
+            if($newaccount != "")
+            {
+                $account = $newaccount;
+            }
+            else
+            {
+                $account = $this->getAccount($order);
+            }
+
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -2121,6 +2134,7 @@ class TestPronto extends AbstractHelper
                     $pronto = $json['sales-orders']['sales-order']['order-no'];
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                     $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                    $newaccount = $json['sales-orders']['sales-order']['account'];
 
                     $order->setData('pronto_order_number',$pronto);
                     $order->setData('pronto_status_code',$prontostatus);
@@ -2128,7 +2142,7 @@ class TestPronto extends AbstractHelper
 
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                     var_dump($json['sales-orders']['sales-order']);
-
+                    return $newaccount;
                 }
             }
 
