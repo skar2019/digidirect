@@ -97,9 +97,6 @@
     
     .mobile-menu-main-exit {
         display: block;
-        position: absolute;
-        left: 91%;
-        top: 12px;
         color: #727272;
         font-size: 23px;
     }
@@ -107,6 +104,19 @@
     #mobile-menu-only-header {
         //margin-bottom: 20px;
         background: #fff !important;
+        display: flex;
+    }
+    
+    #menu-mobile-span-signin {
+        display: flex;
+        position: absolute;
+        right: 15px;
+        top: 17px;
+    }
+    
+    .mobile-menu-signin i {
+        font-size: 18px;
+        color: #000;
     }
     
     #mobile-menu-only-header .whitebg, #mobile-menu-only-header .orangebg {
@@ -337,6 +347,7 @@
 
     .menu-third-level-links {
         margin-left: 40px;
+        width: 190px;
     }
 
     .menu-third-level-links a {
@@ -415,12 +426,12 @@
         .lib-css(transition, left .3s, 1);
         height: 100%;
         left: -80%;
-        left: calc(~'-1 * (100% - @{active-nav-indent})');
+        left: calc(~'-1 * (100%)');
         overflow: auto;
-        position: fixed;
-        top: 0;
-        width: calc(~'100% - @{active-nav-indent}');
-        max-width: 350px !important;
+        position: absolute;
+        top: 44px;
+        width: 100%;
+        //max-width: 350px !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;
@@ -594,6 +605,7 @@
         margin-left: -100%;
         margin-top: 0;
         width: 100%;
+        background: none !important;
 
         &.active {
             display: block;
@@ -613,6 +625,7 @@
             padding-right: 15px;
             box-sizing: content-box;
             display: block !important;
+            background: none !important;
         }
 
         &::before{
@@ -693,7 +706,7 @@
     }
 
     .mgz-tabs-nav .mgz-tabs-tab-title {
-        display: block !important;
+        display: block;
     }
 
     .category-tabs .mgz-tabs-tab-title.cameras-tab-menu a {
@@ -1431,13 +1444,12 @@
         .lib-css(transition, left .3s, 1);
         height: 100%;
         left: -80%;
-        left: calc(~'-1 * (100% - @{active-nav-indent})');
+        left: calc(~'-1 * (100%)');
         overflow: auto;
-        position: fixed;
-        top: 0;
-        width: 80%;
-        width: calc(~'55% - @{active-nav-indent}');
-        max-width: 350px !important;
+        position: absolute;
+        top: 44px;
+        width: 100%;
+        //max-width: 350px !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;

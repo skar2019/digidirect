@@ -307,14 +307,22 @@ display: none !important;
   color: #ff3c00 !important;
 }
 
+#submenu-photolab .reason-list:hover {
+    transition: .3s;
+    background: #ff3c00;
+}
+
+#submenu-photolab .reason-list:hover * {
+    color: #fff !important;
+}
 
 }
 
 @media only screen and (max-width: 1280px) {
 
 img#digi-white-logo {
-  padding: 25px 0 0 10px;
-  width: 210px;
+  padding: 22px 0 0 19px;
+  max-width: 179px
 }
 
 a.mobile-menu-signin {
@@ -595,6 +603,7 @@ a.mobile-menu-signin {
 
 #submenu-photolab .reason-list {
     display: flex;
+    padding-top: 4px;
 }
 
 #submenu-photolab .reason-list img {
@@ -603,11 +612,31 @@ a.mobile-menu-signin {
 
 #submenu-photolab .protect-title {
     margin-top: 0;
-    font-weight: 400;
-    font-size: 16px;
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: uppercase;
 }
 
 #submenu-photolab .reason-list p {
-    font-size: 13px;
-    font-weight: 300;
+    font-size: 12px;
+    font-weight: 400;
 }
+
+.cms-home .dc-digi {
+    color: #ff3c00;
+}
+
+.cms-home #submenu-digiclub-member-deals:hover .dc-digi {
+    color: #fff;
+}
+
+#submenu-digiclub-member-deals:hover .dc-club {
+    color: #000;
+}
+
+.cms-home #submenu-digiclub-member-deals:hover .dc-club {
+    color: #fff !important;
+}
+
+
+
