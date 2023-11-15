@@ -544,10 +544,10 @@ class TestPronto extends AbstractHelper
             if(is_numeric($prontoOrderNumber))
             {
                 echo "Has pronto ". $prontoOrderNumber."<br/>";
-                if(!$test)
-                {
-                    continue;
-                }
+//                if(!$test)
+//                {
+//                    continue;
+//                }
 
             }
 
@@ -1638,7 +1638,7 @@ class TestPronto extends AbstractHelper
             $this->logger->info('Pronto Order Sync - '.$orderId);
             $isMarketPlace = false;
             //Amazon Logic
-            $wrehs = 'SWHS';//$this->getWarehouse($order); // or use DIMA too?
+            $wrehs = 'DIMA';//$this->getWarehouse($order); // or use DIMA too?
             $territory = "DIMA";
             $rep = $this->getRep($order);
 
