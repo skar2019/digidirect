@@ -15,10 +15,12 @@ class Index extends Action
     public function execute()
     {
         $post = $this->getRequest()->getPostValue();
+
+
+        // $product->getData();
+        // $brandlist = $this->getBrand();
         
         // Get your post values
-
-        // redeploy
 
         // page1
         $audiovisual = $this->getRequest()->getParam('categories_option1');
@@ -65,6 +67,9 @@ class Index extends Action
         $warehouse = $this->getRequest()->getParam('warehouse');
         $annual_sale = $this->getRequest()->getParam('annual_sale');
         $intending = $this->getRequest()->getParam('intending');
+
+
+
   
 
         // Send Mail functionality starts from here 
@@ -117,6 +122,7 @@ class Index extends Action
             <p>Warehouse Location Shipping Product from: ".$warehouse."</p>
             <p>Estimate Annual Sale (AUD): ".$annual_sale."</p>
             <p>Intending Product to list an digiDirect: ".$intending."</p>
+
         </div>";
 
         $email = new \Zend_Mail();
