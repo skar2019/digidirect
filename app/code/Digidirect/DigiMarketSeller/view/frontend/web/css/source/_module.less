@@ -2,12 +2,12 @@
 @focus__box-shadow: none;
 
 
-    *:focus {
-        outline: none !important;
+*:focus {
+    outline: none !important;
     border-color: inherit;
     -webkit-box-shadow: none;
     box-shadow: none;
-    }
+}
     
 .secp2 .seller-info .field, .secp3 .seller-info .field {
     display: inline-block !important;
@@ -485,6 +485,20 @@ form .page .btns button.next {
         margin-right: unset; 
 
     }
+
+    .container {
+        width: 100%;
+    }
+
+    .secp2 .seller-info .field, .secp3 .seller-info .field {
+        display: block !important;
+    }
+
+    .salutename {
+        max-width: unset;
+        min-width: unset;
+    }
+
 }
 @media screen and (max-width: 490px) {
     #digimarketseler_form {
@@ -496,6 +510,7 @@ form .page .btns button.next {
         box-sizing: border-box;
         border-radius: 0;
         padding: unset;
+        width: 100%;
     }
 
     .container header {
@@ -537,6 +552,15 @@ form .page .btns button.next {
     
     .row3, .row4 {
         width: 100% !important;
+    }
+
+    .secp2 .seller-info .field, .secp3 .seller-info .field {
+        display: block !important;
+    }
+
+    .salutename {
+        max-width: unset;
+        min-width: unset;
     }
 }
 
