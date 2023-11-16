@@ -79,7 +79,7 @@ class Index extends Action
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p>Categories: 
+            <p><b>Categories:</b> 
             ".$audiovisual." 
             ".$cameras." 
             ".$computersMobile." 
@@ -100,28 +100,28 @@ class Index extends Action
             ".$toys." 
             ".$squareWearable." 
             ".$squareWhiteGoods." 
+            ".$cat_otherfield."
             </p>
-            <p>Others: ".$cat_otherfield."</p>
 
-            <p>Title: ".$salutename."</p>
-            <p>FullName: ".$firstname." ".$lastname."</p>
-            <p>Email: ".$email."</p>
-            <p>Job: ".$job."</p>
-            <p>Business: ".$business."</p>
-            <p>Address: ".$address."</p>
-            <p>ABN: ".$abn."</p>
-            <p>Employees No.: ".$employees."</p>
-            <p>Contact: ".$contact."</p>
-            <p>Website: ".$website."</p>
+            <p><b>Title:</b> ".$salutename."</p>
+            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
+            <p><b>Email:</b> ".$email."</p>
+            <p><b>Job:</b> ".$job."</p>
+            <p><b>Business:</b> ".$business."</p>
+            <p><b>Address:</b> ".$address."</p>
+            <p><b>ABN:</b> ".$abn."</p>
+            <p><b>Employees No.:</b> ".$employees."</p>
+            <p><b>Contact:</b> ".$contact."</p>
+            <p><b>Website:</b> ".$website."</p>
 
-            <p>Brands: ".$brands."</p>
-            <p>Currently sell on other marketplaces (including abroad): ".$current_sell."</p>
-            <p>Prefered method of integration with digiDirect: ".$method."</p>
-            <p>POS and eCommerce platforms: ".$platform_use."</p> 
-            <p>Head Office Location: ".$head_office."</p> 
-            <p>Warehouse Location Shipping Product from: ".$warehouse."</p>
-            <p>Estimate Annual Sale (AUD): ".$annual_sale."</p>
-            <p>Intending Product to list an digiDirect: ".$intending."</p>
+            <p><b>Brands:</b> ".$brands."</p>
+            <p><b>Currently sell on other marketplaces (including abroad):</b> ".$current_sell."</p>
+            <p><b>Prefered method of integration with digiDirect:</b> ".$method."</p>
+            <p><b>POS and eCommerce platforms:</b> ".$platform_use."</p> 
+            <p><b>Head Office Location:</b> ".$head_office."</p> 
+            <p><b>Warehouse Location Shipping Product from:</b> ".$warehouse."</p>
+            <p><b>Estimate Annual Sale (AUD):</b> ".$annual_sale."</p>
+            <p><b>Intending Product to list an digiDirect:</b> ".$intending."</p>
 
         </div>";
 
