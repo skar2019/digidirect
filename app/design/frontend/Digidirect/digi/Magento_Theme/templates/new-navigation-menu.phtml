@@ -82,7 +82,7 @@
                 <div id="sbc-giftcards" class="mgz-tabs-tab-title">
                     <a href="https://digidirectgiftcards.viisolutions.com.au/" style="display:flex;background:none;border:none;">
                         <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/gift-card.png" style="width: 30px; display: none;">
-                        <span style="margin-left: 10px;">Gift Cards</span>
+                        <span>Gift Cards</span>
                     </a>
                 </div> 
                   
@@ -1994,7 +1994,7 @@ function returnToFirstLevel() {
 <script>
     require(['jquery'],function($){
         $('#mobile-menu-minicart').on('click', function(){
-            $('.minicart-wrapper').trigger("click");
+            $('#show-cart').trigger("click");
             console.log("Mobile Navigation Minicart!");
         });
     });
