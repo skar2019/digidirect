@@ -177,6 +177,9 @@ class TestPronto extends AbstractHelper
 
     protected $productDigiprot;
 
+    protected $currentseller;
+    protected $syncedseller;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -520,6 +523,8 @@ class TestPronto extends AbstractHelper
         {
             $data = array();
             $counter++;
+            $this->currentseller = "";
+            $this->syncedseller = "";
             $state = $order->getState();
             /* @var $order \Magento\Sales\Model\Order */
 
@@ -539,10 +544,10 @@ class TestPronto extends AbstractHelper
             if(is_numeric($prontoOrderNumber))
             {
                 echo "Has pronto ". $prontoOrderNumber."<br/>";
-                if(!$test)
-                {
-                    continue;
-                }
+//                if(!$test)
+//                {
+//                    continue;
+//                }
 
             }
 
@@ -563,6 +568,7 @@ class TestPronto extends AbstractHelper
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
+            $newaccount = "";
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -1273,6 +1279,7 @@ class TestPronto extends AbstractHelper
             //product lines
             // for redeploy
             $x = 0;
+            $gotDigiProducts = false;
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -1304,16 +1311,35 @@ class TestPronto extends AbstractHelper
                 $productDetails = $this->productFactory->create();
                 //check seller here
                 $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
-                echo $sell ."<br/>";
-
+                echo "SKU - " .$sku."<br/>";
                 if(strpos($sku, 'mp-') !== false)
                 {
-                    $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell);
+                    echo "is MP - " .$sku."<br/>";
+                    if($this->currentseller == $sell)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if($this->syncedseller == $sell)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            $this->currentseller = $sell;
+                            $newaccount = $this->orderPostBySeller($orderId, $date, $size, $page, $test, $sell, $newaccount);
+                        }
 
-                    //sync to pronto here
+                    }
+
+                    continue;
+
                 }
                 else if(strpos($sku, '-') !== false)
                 {
+                    echo "is digiprotect - " .$sku."<br/>";
+                    $gotDigiProducts = true;
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
                     $digiProtect = $skus[1];
@@ -1344,28 +1370,22 @@ class TestPronto extends AbstractHelper
                 }
                 else
                 {
+                    echo "is normal products - " .$sku."<br/>";
+                    $gotDigiProducts = true;
                     $productSku = $sku;
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
-
-                //$data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
-                $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
-
-
-                if($data['sales-order']['header']['set-on-status'] == "B")
+                echo " got digi product ".$gotDigiProducts."<br/>";
+                if($gotDigiProducts)
                 {
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
-                }
-                else
-                {
-                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
-                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                    $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
+
+
+                    if($data['sales-order']['header']['set-on-status'] == "B")
                     {
                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                         $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
@@ -1373,180 +1393,203 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
-                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                        //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                        if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                        {
+                            $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                            $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                        }
+                        else
+                        {
+                            $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                            $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                        }
+                    }
+
+
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                    $x++;
+
+                    if(!empty($digiProtect))
+                    {
+                        $price = (double) $item->getBasePriceInclTax();
+                        $qty = (double) $item->getQtyOrdered();
+                        $discount = (double) $item->getDiscountAmount();
+                        $total = ($price * $qty) - $discount;
+                        $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                        $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                        $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                        $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                        $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                        $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                        $x++;
                     }
                 }
 
-
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
-                $x++;
-
-                if(!empty($digiProtect))
-                {
-                    $price = (double) $item->getBasePriceInclTax();
-                    $qty = (double) $item->getQtyOrdered();
-                    $discount = (double) $item->getDiscountAmount();
-                    $total = ($price * $qty) - $discount;
-                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
-                    $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
-                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
-                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
-                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
-                    $x++;
-                }
             } //end of product line
 
-            //surcharge clint 01-20-23
-            if($surcharge != "0.0000")
+            if($newaccount != "")
             {
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
-                $x++; // for shipping counter
+                $data['sales-order']['header']['account'] = $newaccount;
             }
 
-            if($coupon != "")
+            if($gotDigiProducts)
             {
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                $x++; // for shipping counter
-            }
-
-
-            $shippingprice = (double) $order->getShippingAmount();
-            $shippingDesc = $order->getShippingDescription();
-            if (strpos($shippingDesc, '|') !== false) {
-                $marketplacesShipping = explode('|', $shippingDesc);
-                $shippingDesc = $marketplacesShipping[1];
-            }
-            if($shippingDesc == "Express - (1 to 3 Days)")
-            {
-                $shippingDesc = "Australia Post – express";
-            }
-            else if($shippingDesc == "Standard - (4 to 7 Days)")
-            {
-                $shippingDesc = "Australia Post – eParcel";
-            }
-            else if($rep == 'WESTFIELD')
-            {
-                $shippingDesc = "Click and Collect";
-            }
-            else if($shippingDesc == "AU_ExpressPostParcelSignature")
-            {
-                $shippingDesc = "Australia Post – express";
-            }
-            else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
-            {
-                $shippingDesc = "Australia Post – eParcel";
-            }
-            //shipping details clint Mar 3 23
-            if($disregardshipping)
-            {
-                $shippingprice = 0;
-            }
-            $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
-
-            if($test)
-            {
-                var_dump($data['sales-order']);
-            }
-            //create xml of order data here
-            //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
-            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
-
-            //TEST
-            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-
-            //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-
-
-            if(!$test)
-            {
-                $this->curl->addHeader("Content-Type", "application/xml");
-                $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
-                //
-//                $this->curl->addHeader("compcode", "UA1"); //test
-//                $this->curl->addHeader("user", "clint.mercado");
-//                $this->curl->addHeader("token", "849cd5080faff5ce");
-
-                $this->curl->post($url, $xml);
-
-                $result = $this->curl->getBody();
-
-                $json = $this->jsonSerializer->unserialize($result);
-
-                if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+                //surcharge clint 01-20-23
+                if($surcharge != "0.0000")
                 {
-                    $msg =  $json['response']['message'];
-                    echo $msg."<br>";
-                    $order->setData('pronto_order_number',$msg);
-                    $order->save();
-                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
-
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                    $x++; // for shipping counter
                 }
-                else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                    $msg =  $json['sales-orders']['response']['message'];
-                    echo $msg ."<br>";
-                    $order->setData('pronto_order_number',$msg);
-                    $order->save();
-                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
 
+                if($coupon != "")
+                {
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                    $x++; // for shipping counter
                 }
-                else {
-
-                    $pronto = $json['sales-orders']['sales-order']['order-no'];
-                    $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                    $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                    $order->setData('pronto_order_number',$pronto);
-                    $order->setData('pronto_status_code',$prontostatus);
-                    $order->save();
 
 
-                    //$this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-                    var_dump($json['sales-orders']['sales-order']);
-                    $account = $json['sales-orders']['sales-order']['account'];
-                    if (!empty($account) && !$order->getCustomerIsGuest()) {
-                        $customer = $this->customerRepository->getById($order->getCustomerId());
-                        $customer->setData('pronto_account_id', $account);
-                        $customer->setCustomAttribute('pronto_account_id', $account);
-                        $this->customerRepository->save($customer);
+                $shippingprice = (double) $order->getShippingAmount();
+                $shippingDesc = $order->getShippingDescription();
+                if (strpos($shippingDesc, '|') !== false) {
+                    $marketplacesShipping = explode('|', $shippingDesc);
+                    $shippingDesc = $marketplacesShipping[1];
+                }
+                if($shippingDesc == "Express - (1 to 3 Days)")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "Standard - (4 to 7 Days)")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else if($rep == 'WESTFIELD')
+                {
+                    $shippingDesc = "Click and Collect";
+                }
+                else if($shippingDesc == "AU_ExpressPostParcelSignature")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                //shipping details clint Mar 3 23
+                if($disregardshipping)
+                {
+                    $shippingprice = 0;
+                }
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+
+                //if($test)
+                //{
+                var_dump($data['sales-order']);
+                //}
+                //create xml of order data here
+                //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+                $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
+
+                //TEST
+                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+
+                //LIVE - port :8084
+                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+
+
+                if(!$test)
+                {
+                    $this->curl->addHeader("Content-Type", "application/xml");
+                    $this->curl->addHeader("Accept", "application/json");
+                    $this->curl->addHeader("compcode", "DIG"); //live
+                    $this->curl->addHeader("user", "ewaveapi");
+                    $this->curl->addHeader("token", "904241bdbf10efa9");
+                    //
+//                    $this->curl->addHeader("compcode", "UA1"); //test
+//                    $this->curl->addHeader("user", "clint.mercado");
+//                    $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                    $this->curl->post($url, $xml);
+
+                    $result = $this->curl->getBody();
+
+                    $json = $this->jsonSerializer->unserialize($result);
+
+                    if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+                    {
+                        $msg =  $json['response']['message'];
+                        echo "<br> fail - ".$msg."<br>";
+                        $order->setData('pronto_order_number',$msg);
+                        $order->save();
+                        //$this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                     }
-                    /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                    $invoice = $order->getInvoiceCollection()->getFirstItem();
-                    $this->incrementIdUpdater->update($invoice, $invoiceno);
+                    else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+                        $msg =  $json['sales-orders']['response']['message'];
+                        echo "<br> fail - ".$msg."<br>";
+                        $order->setData('pronto_order_number',$msg);
+                        $order->save();
+                        //$this->logger->error('Pronto Order Sync', array('info' => $msg));
 
+                    }
+                    else {
+
+                        $pronto = $json['sales-orders']['sales-order']['order-no'];
+                        $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                        $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                        $order->setData('pronto_order_number',$pronto);
+                        $order->setData('pronto_status_code',$prontostatus);
+                        $order->save();
+
+
+                        //$this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+                        var_dump($json['sales-orders']['sales-order']);
+                        $account = $json['sales-orders']['sales-order']['account'];
+                        if (!empty($account) && !$order->getCustomerIsGuest()) {
+                            $customer = $this->customerRepository->getById($order->getCustomerId());
+                            $customer->setData('pronto_account_id', $account);
+                            $customer->setCustomAttribute('pronto_account_id', $account);
+                            $this->customerRepository->save($customer);
+
+                        }
+                        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+                        $invoice = $order->getInvoiceCollection()->getFirstItem();
+                        $this->incrementIdUpdater->update($invoice, $invoiceno);
+
+                    }
                 }
             }
+
+
+
+
 
             if($counter >= $size)
             {
@@ -1557,7 +1600,7 @@ class TestPronto extends AbstractHelper
 
     }
 
-    public function orderPostBySeller($orderId, $date, $size, $page, $test, $seller)
+    public function orderPostBySeller($orderId, $date, $size, $page, $test, $seller, $newaccount)
     {
 
         settype($test,"integer");
@@ -1585,7 +1628,7 @@ class TestPronto extends AbstractHelper
 
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
-            if(is_numeric($prontoOrderNumber))
+            /*if(is_numeric($prontoOrderNumber))
             {
                 echo "Has pronto ". $prontoOrderNumber."<br/>";
                 if(!$test)
@@ -1593,19 +1636,27 @@ class TestPronto extends AbstractHelper
                     continue;
                 }
 
-            }
+            }*/
 
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
             $isMarketPlace = false;
             //Amazon Logic
-            $wrehs = 'SWHS';//$this->getWarehouse($order); // or use DIMA too?
+            $wrehs = 'DIMA';//$this->getWarehouse($order); // or use DIMA too?
             $territory = "DIMA";
             $rep = $this->getRep($order);
 
             $accountname = $this->getAccountName($order);
-            $account = $this->getAccount($order);
+            if($newaccount != "")
+            {
+                $account = $newaccount;
+            }
+            else
+            {
+                $account = $this->getAccount($order);
+            }
+
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -1616,7 +1667,8 @@ class TestPronto extends AbstractHelper
                     $countryName = $country->getName();
                 }
             }
-            echo "seller data <br/>";
+            echo "seller data".$seller."<br/>";
+
             $directToWhse = false;
 
             $contactname = $accountname;
@@ -1970,7 +2022,7 @@ class TestPronto extends AbstractHelper
                         $productSku = $sku;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
-                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'Z4SH';//$productSku;
+                        $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'ZM00';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
@@ -1978,6 +2030,7 @@ class TestPronto extends AbstractHelper
                         $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $price;
                         $x++;
                         $producttotal += $total;
                     }
@@ -2012,12 +2065,12 @@ class TestPronto extends AbstractHelper
             //fixed shipping price as interim
             if($producttotal > 99)
             {
-                $shippingprice = 10;
+                $shippingprice = 0;
                 $shippingDesc = "Standard";
             }
             else
             {
-                $shippingprice = 0;
+                $shippingprice = 10;
                 $shippingDesc = "Free Shipping";
             }
 
@@ -2039,10 +2092,10 @@ class TestPronto extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($sellerdata, 'sales-orders');
 
             //TEST
-            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             if(!$test)
@@ -2066,25 +2119,30 @@ class TestPronto extends AbstractHelper
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
-                    echo $msg."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
-                    echo $msg ."<br>";
+                    echo "<br> fail - ".$msg."<br>";
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else {
-
+                    $this->syncedseller = $seller;
                     $pronto = $json['sales-orders']['sales-order']['order-no'];
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                     $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                    $newaccount = $json['sales-orders']['sales-order']['account'];
+
+                    $order->setData('pronto_order_number',$pronto);
+                    $order->setData('pronto_status_code',$prontostatus);
+                    $order->save();
 
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                     var_dump($json['sales-orders']['sales-order']);
-
+                    return $newaccount;
                 }
             }
 
