@@ -18,7 +18,7 @@
     <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
     <span id="menu-mobile-span-signin">
         <a class="mobile-menu-signin" href="/customer/account" title="Account"><i class="fas fa-user"></i></a>
-        <a class="mobile-menu-signin" href="/customer/account" title="Account"><i class="fas fa-shopping-bag"></i></a>
+        <a id="mobile-menu-minicart" class="mobile-menu-minicart" href="#" title="Cart"><i class="fas fa-shopping-bag"></i></a>
     </span>
   </span>
     
@@ -81,7 +81,7 @@
                   
                 <div id="sbc-giftcards" class="mgz-tabs-tab-title">
                     <a href="https://digidirectgiftcards.viisolutions.com.au/" style="display:flex;background:none;border:none;">
-                        <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/gift-card.png" style="width: 30px;">
+                        <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/gift-card.png" style="width: 30px; display: none;">
                         <span style="margin-left: 10px;">Gift Cards</span>
                     </a>
                 </div> 
@@ -1989,4 +1989,13 @@ function returnToFirstLevel() {
 }
 
 
+</script>
+
+<script>
+    require(['jquery'],function($){
+        $('#mobile-menu-minicart').on('click', function(){
+            $('.minicart-wrapper').trigger("click");
+            console.log("Mobile Navigation Minicart!");
+        });
+    });
 </script>
