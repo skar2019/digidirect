@@ -116,7 +116,7 @@
                         <div class="seller-info">
 
                             <div class="field inputw300">
-                                <select name="salutename" id="salutename" class="salutename" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="salutename" id="salutename" class="salutename" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Title</option>
                                     <option value="Mr.">Mr.</option>
                                     <option value="Ms.">Ms.</option>
@@ -124,45 +124,45 @@
                                   </select>
                             </div>
                             <div class="field inputw300">
-                                <input type="text" name="firstname" placeholder="Firstname" />
+                                <input type="text" name="firstname" placeholder="Firstname" required />
                             </div>
                             <div class="field inputw300">
-                                <input type="text"  name="lastname" placeholder="Lastname" />
+                                <input type="text"  name="lastname" placeholder="Lastname" required />
                             </div>
 
 
                             <div class="field input2w300">
-                                <input type="email" name="email" placeholder="Email" />
+                                <input type="email" name="email" placeholder="Email" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="job" placeholder="Job Role" />
+                                <input type="text" name="job" placeholder="Job Role" required />
                             </div>
 
 
                             <div class="field inputw700">
-                                <input type="text" name="business" placeholder="Business Name" />
+                                <input type="text" name="business" placeholder="Business Name" required />
                             </div>
 
                             
                             <div class="field inputw700">
-                                <input type="text" name="address" placeholder="Address" />
+                                <input type="text" name="address" placeholder="Address" required />
                             </div>
 
 
                             <div class="field input2w300">
-                                <input type="text" name="abn" placeholder="ABN" />
+                                <input type="text" name="abn" placeholder="ABN" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="number" name="employees" placeholder="Number of Employees" />
+                                <input type="number" name="employees" placeholder="Number of Employees" required />
                             </div>
                             
 
 
                             <div class="field input2w300">
-                                <input type="text" name="contact" placeholder="Contact Number" />
+                                <input type="text" name="contact" placeholder="Contact Number" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="website" placeholder="Website" />
+                                <input type="text" name="website" placeholder="Website" required />
                             </div>
 
                         </div>
@@ -179,19 +179,19 @@
 
                            <span>What Brands do you intend to list? (Press Enter to Add)</span>
                             <div class="field inputw700">
-                                <input type="text" name="brands" placeholder="Input Brands Here" />
+                                <input type="text" name="brands" placeholder="Input Brands Here" required />
                             </div>
                            
 
                             <span>Do you currently sell on other marketplaces (including abroad)? If Yes, which ones?</span>
                             <div class="field inputw700">
-                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" />
+                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" required />
                             </div>
    
 
                             <div class="field input2w300">
                                 <span>What is your prefered method of integration with digiDirect?</span>
-                                <select name="method" id="method" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="method" id="method" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Custom Built API connection">Custom Built API connection</option>
                                     <option value="ChannelAdvisor integration">ChannelAdvisor integration</option>
@@ -206,25 +206,25 @@
                             <!-- <div class="space-field"></div> -->
                             <div class="field input2w300">
                                 <span>What POS and eCommerce platforms do you currently use?</span>
-                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" />
+                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" required />
                             </div>
 
                                  <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>Head Office Location</span>
-                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
                             <div class="field input2w300">
                                 <span>Warehouse Location Shipping Product from</span>
-                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
 
 
                             <div class="field input2w300">
                                 <span>Estimate Annual Sale (AUD)</span>
-                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under $20,000">Under $20,000</option>
                                     <option value="$20,001 - $50,000">$20,001 - $50,000</option>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="field input2w300">
                                 <span>How many products are you intending to list an digiDirect?</span>
-                                <select name="intending" id="intending" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="intending" id="intending" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under 10">Under 10</option>
                                     <option value="10 - 25">10 - 25</option>
@@ -635,12 +635,13 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-txtfield = document.querySelector('input[type="text"]');
+var form = document.forms[0]
+txtfield = form.querySelectorAll('input[type="text"]');
 
 txtfield.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
         event.preventDefault();
-    alert("prevent enter")
+    // alert("prevent enter")
   }
 });
 
