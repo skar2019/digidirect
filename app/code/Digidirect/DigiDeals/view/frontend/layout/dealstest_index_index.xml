@@ -5,17 +5,15 @@
     </head>
     <body>
         <attribute name="class" value="page-products"/>
-        <referenceContainer name="div.sidebar.main">
-            <container name="offcanvasSidebar" htmlTag="div" htmlClass="offcanvas-panel offcanvas-left device-only" htmlId="catalogSidebar">
-                <block class="Digidirect\DigiDeals\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Digidirect_DigiDeals::layer/view.phtml">
-                    <block class="Digidirect\DigiDeals\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
-                    <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_DigiDeals::layer/filter.phtml">
-                      <arguments>
-                          <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
-                      </arguments>
-                    </block>
+        <referenceContainer name="sidebar.main">
+            <block class="Digidirect\DigiDeals\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Digidirect_DigiDeals::layer/view.phtml">
+                <block class="Digidirect\DigiDeals\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_DigiDeals::layer/filter.phtml">
+                  <arguments>
+                      <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
+                  </arguments>
                 </block>
-            </container>
+            </block>
         </referenceContainer>
         <referenceContainer name="content">
             <block class="Digidirect\DigiDeals\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
