@@ -22,6 +22,8 @@ $showWishlist = true;
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
 
+<?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::category/custom-sorter.phtml")->toHtml() ?>
+
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
