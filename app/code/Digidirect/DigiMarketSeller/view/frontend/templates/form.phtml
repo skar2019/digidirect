@@ -98,7 +98,7 @@
                                     <li><p id="categories_display18" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Toys (Digital, Electronic)</p></li>
                                     <li><p id="categories_display19" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  Wearable</p></li>
                                     <li><p id="categories_display20" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  White Goods</p></li>
-                                    <ul id="list" class="cat-others"></ul>
+                                    <ul id="other_cat_display" class="cat-others"></ul>
                                 </ul>
                        
                             </div>
@@ -595,21 +595,21 @@ function myFunction() {
 }
 
 // others field
-var txt = document.getElementById('cat_otherfield');
-var list = document.getElementById('list');
+var othercategory = document.getElementById('cat_otherfield');
+var cat_otherlist = document.getElementById('other_cat_display');
 var items = [];
 
-txt.addEventListener('keypress', function(e) {
+othercategory.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
-    let val = txt.value;
+    let val = othercategory.value;
     if (val !== '') {
       if (items.indexOf(val) >= 0) {
         // alert('Tag name is a duplicate');
       } else {
         items.push(val);
         render();
-        txt.value = '';
-        txt.focus();
+        othercategory.value = '';
+        othercategory.focus();
       }
     } else {
     //   alert('Please type a tag Name');
@@ -618,9 +618,9 @@ txt.addEventListener('keypress', function(e) {
 });
 
 function render() {
-  list.innerHTML = '';
+  cat_otherlist.innerHTML = '';
   items.map((item, index) => {
-    list.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
+    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
   });
 }
 
@@ -635,7 +635,7 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-txtfield = document.querySelectorAll('input[type="text"]');
+txtfield = document.querySelector('input[type="text"]');
 
 txtfield.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
