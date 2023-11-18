@@ -97,16 +97,27 @@
     
     .mobile-menu-main-exit {
         display: block;
-        position: absolute;
-        left: 91%;
-        top: 12px;
         color: #727272;
         font-size: 23px;
+        padding: 25px 0 0 15px;
     }
     
     #mobile-menu-only-header {
         //margin-bottom: 20px;
         background: #fff !important;
+        display: flex;
+    }
+    
+    #menu-mobile-span-signin {
+        display: flex;
+        position: absolute;
+        right: 15px;
+        padding: 26px 0 0 0;
+    }
+    
+    .mobile-menu-signin i, .mobile-menu-minicart i {
+        font-size: 18px;
+        color: #000;
     }
     
     #mobile-menu-only-header .whitebg, #mobile-menu-only-header .orangebg {
@@ -114,7 +125,7 @@
     }
     
     .mobile-menu-signin {
-        margin-right: 25px;
+        //margin-right: 25px;
         font-size: 14px;
     }
     
@@ -271,8 +282,7 @@
         transition: 0.3s;
         font-size: 14px;
         font-weight: 500;
-        border-bottom: 1px solid #cacaca;
-        margin-left: 40px 40px 0 40px;
+        border-bottom: 1px dashed #cacaca;
     }
 
     /* Change background color of buttons on hover */
@@ -416,12 +426,13 @@
         .lib-css(transition, left .3s, 1);
         height: 100%;
         left: -80%;
-        left: calc(~'-1 * (100% - @{active-nav-indent})');
+        left: calc(~'-1 * (100%)');
         overflow: auto;
         position: fixed;
         top: 0;
-        width: calc(~'100% - @{active-nav-indent}');
-        max-width: 350px !important;
+        width: 100%;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;
@@ -704,7 +715,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/camera.svg') !important;
 
@@ -714,16 +726,16 @@
         }
 
     }
-
+    
     .category-tabs .mgz-tabs-tab-title.lenses-tab-menu a {
         height: 30px;
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lens.svg') !important;
-
         i {
             position: absolute;
             right: 20px;
@@ -735,7 +747,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/drone.svg') !important;
         i {
@@ -750,7 +763,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lightingandstudio.svg') !important;
         i {
@@ -765,7 +779,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/photoaccessories-cleaningbrush.svg') !important;
         i {
@@ -780,7 +795,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/optics-lens.svg') !important;
         i {
@@ -795,7 +811,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/audiovisual.svg') !important;
         i {
@@ -810,7 +827,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/provideo.svg') !important;
         i {
@@ -825,7 +843,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/smarthome.svg') !important;
         i {
@@ -839,7 +858,8 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        border: none;
+        border-radius: 0;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/mobiletablets.svg') !important;
         i {
@@ -1434,13 +1454,12 @@
         .lib-css(transition, left .3s, 1);
         height: 100%;
         left: -80%;
-        left: calc(~'-1 * (100% - @{active-nav-indent})');
+        left: calc(~'-1 * (100%)');
         overflow: auto;
         position: fixed;
-        top: 0;
-        width: 80%;
-        width: calc(~'55% - @{active-nav-indent}');
-        max-width: 350px !important;
+        //top: 44px;
+        width: 100%;
+        //max-width: 350px !important;
 
         .switcher {
             border-top: 1px solid @color-gray82;
@@ -1775,7 +1794,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/camera.svg') !important;
 
@@ -1791,7 +1810,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lens.svg') !important;
 
@@ -1806,7 +1825,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/drone.svg') !important;
         i {
@@ -1821,7 +1840,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lightingandstudio.svg') !important;
         i {
@@ -1836,7 +1855,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/photoaccessories-cleaningbrush.svg') !important;
         i {
@@ -1851,7 +1870,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/optics-lens.svg') !important;
         i {
@@ -1866,7 +1885,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/audiovisual.svg') !important;
         i {
@@ -1881,7 +1900,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/provideo.svg') !important;
         i {
@@ -1896,7 +1915,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/smarthome.svg') !important;
         i {
@@ -1910,7 +1929,7 @@
         background-size: 30px 30px !important;
         background-repeat: no-repeat !important;
         background-position: 15px 7px !important;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/mobiletablets.svg') !important;
         i {
@@ -2666,6 +2685,10 @@
         vertical-align: middle;
         padding-top: 5px !important;
     }
+    
+    .category-tabs .mgz-tabs-tab-title a {
+        border: none !important;
+    }
 
     .category-tabs .mgz-tabs-tab-title.cameras-tab-menu a span {
         padding-left: 40px;
@@ -2676,7 +2699,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/camera.svg');
 
@@ -2725,7 +2748,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lens.svg');
 
@@ -2768,7 +2791,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/drone.svg');
 
@@ -2811,7 +2834,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/lightingandstudio.svg');
 
@@ -2854,7 +2877,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/photoaccessories-cleaningbrush.svg');
 
@@ -2897,7 +2920,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/optics-lens.svg');
 
@@ -2940,7 +2963,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/audiovisual.svg');
 
@@ -2983,7 +3006,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
        //background-image: url('/media/wysiwyg/main-menu/icons/provideo.svg');
 
@@ -3028,7 +3051,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
         //background-image: url('/media/wysiwyg/main-menu/icons/smarthome.svg');
     }
@@ -3074,7 +3097,7 @@
         //background-image: url('/media/wysiwyg/main-menu/icons/mobiletablets.svg');
         background-repeat: no-repeat;
         background-position: 15px;
-        border: none !important;
+        //border: none !important;
         background-color: #fff !important;
     }
 
@@ -3276,6 +3299,23 @@
         margin-bottom: 5px;
         height: 50px;
         width: auto;
+    }
+    
+    #sbc-giftcards:hover {
+        background: #ff3c00 !important;
+    }
+    
+    #sbc-giftcards img {
+        display: block !important;
+        margin-right: 10px;
+    }
+    
+    #sbc-giftcards:hover img {
+        filter: brightness(0) invert(1);
+    }
+    
+    #sbc-giftcards:hover span {
+        color: #fff !important;
     }
 
 }

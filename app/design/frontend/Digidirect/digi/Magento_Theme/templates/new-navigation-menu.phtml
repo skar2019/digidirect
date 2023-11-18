@@ -13,9 +13,50 @@
 ?>
 
 <div id="header-mobile-menu-only">
-  <i class="fas fa-times mobile-menu-main-exit"></i>
+    <div class="top-header-wrapper">
+        <div class="panel wrapper">
+            <div class="panel header">
+                <div class="header-links header-link-left" style="margin-left: 50px;">
+                    <a class="free-delivery-link" href="/free-shipping" title="Free Shipping Over $99"><i class="fas fa-box"></i> Free Shipping Over $99</a>
+                    <a class="next-day-shipping-link" href="/free-shipping" title="Express Next Day Shipping" style="display: none;"><i class="fas fa-shipping-fast"></i> Express Next Day Shipping</a>
+                    <a class="click-and-collect-link" href="/pickup-instore" title="Click & Collect"><i class="fas fa-hand-point-up"></i> Click & Collect</a>
+                    <a class="store-locator-link" href="/store-locator" title="Store Locator"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
+                    <a class="faq-link" href="/faq" title="FAQ"><i class="fas fa-question-circle"></i> Questions?</a>
+                    <a class="call-us-link" href="tel:1300 889 148" title="call-us"><i class="fas fa-headset"></i> CALL US <span class="company-number">1300 889 148</span></a>
+                    <a class="gift-cards-link" href="https://digidirectgiftcards.viisolutions.com.au/" title="GIFT CARDS"><i class="fas fa-gift"></i> GIFT CARDS</a>
+                    <a class="digiservices-link" href="/#digiservices" title="digiServices"><i class="fas fa-film"></i></i> SERVICES</a>
+                </div>
+                <div class="header-links header-link-right" style="position: absolute; right: 0; margin-right: 50px;">
+                    <div class="header-links-account">
+                        <a class="digiclub-link" href="/digiclub" title="digiClub">digiClub</a>
+                        <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+
+                        if ($customerSession->isLoggedIn() == true) { ?>
+                            <a class="register-link" href="/customer/account" title="Account">My Account</a>
+                            <a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
+                        <?php } else { ?>
+                            <a class="register-link" href="/customer/account/create" title="Register">Register</a>
+                            <a class="login-link" href="/customer/account/login" title="Login">Login</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
   <span id="mobile-menu-only-header">
+    <i class="fas fa-times mobile-menu-main-exit"></i> 
+    <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg"/>
+    <span id="menu-mobile-span-signin">
+        <a class="mobile-menu-signin" href="/customer/account" title="Account"><i class="fas fa-user"></i></a>
+        <a id="mobile-menu-minicart" class="mobile-menu-minicart" href="#" title="Cart"><i class="fas fa-shopping-bag"></i></a>
+    </span>
   </span>
+    
+  <div class="block block-search"><div class="block block-content"><form class="form minisearch" id="search_mini_form" action="https://www.digidirect.com.au/find" method="get"><div class="field search"><label class="label" for="search" data-role="minisearch-label"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -search"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-search" fill="white"></use></svg><span>Search</span></label> <div class="control"><input id="search" type="text" name="q" value="" placeholder="Search our store" class="input-text" maxlength="128" role="combobox" aria-haspopup="false" aria-autocomplete="both" autocomplete="off"><!-- <div id="search_autocomplete" class="search-autocomplete"></div>--></div></div><div class="actions"><button type="submit" title="Search" class="action search"><i class="fas fa-search" style="font-size: 21px; color: #fff; padding: 5px 12px 0 0;"></i></button></div></form></div></div>  
+    
 </div>
 
 <div class="navbar">
@@ -73,8 +114,8 @@
                   
                 <div id="sbc-giftcards" class="mgz-tabs-tab-title">
                     <a href="https://digidirectgiftcards.viisolutions.com.au/" style="display:flex;background:none;border:none;">
-                        <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/gift-card.png" style="width: 30px;">
-                        <span style="margin-left: 10px;">Gift Cards</span>
+                        <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/gift-card.png" style="width: 30px; display: none;">
+                        <span>Gift Cards</span>
                     </a>
                 </div> 
                   
@@ -1981,4 +2022,13 @@ function returnToFirstLevel() {
 }
 
 
+</script>
+
+<script>
+    require(['jquery'],function($){
+        $('#mobile-menu-minicart').on('click', function(){
+            $('#show-cart').trigger("click");
+            console.log("Mobile Navigation Minicart!");
+        });
+    });
 </script>
