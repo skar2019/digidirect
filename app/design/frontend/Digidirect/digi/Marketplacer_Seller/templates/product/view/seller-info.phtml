@@ -38,7 +38,7 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
         <?php endif ?>
     </strong>
     <?php if ($sellerLogo): ?>
-        <span class="image">
+        <span class="image" style="display: none;">
             <img src="<?= $escaper->escapeUrl($sellerLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($sellerName) ?>"/>
         </span>
     <?php endif ?>
