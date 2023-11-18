@@ -1,11 +1,8 @@
-<style>
-
-</style>
-
 <div id="digimarketseler_form">
         <div class="container" >
             <header>digiDirect Marketplace Registration Form</header>
             <p class="text-grey" style="font-size: 22px; margin: 0 25px;">Complete the form below to register your interest. A digiDirect Marketplace specialist will contact you to guide you through the process.</p>
+
             <div class="container-progress">
                 <div class="progress-bar">
                     <div class="step">
@@ -101,7 +98,7 @@
                                     <li><p id="categories_display18" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Toys (Digital, Electronic)</p></li>
                                     <li><p id="categories_display19" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  Wearable</p></li>
                                     <li><p id="categories_display20" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  White Goods</p></li>
-                                    <ul id="list" class="cat-others"></ul>
+                                    <ul id="other_cat_display" class="cat-others"></ul>
                                 </ul>
                        
                             </div>
@@ -117,8 +114,9 @@
                     <div class="page slide-page secp2">
 
                         <div class="seller-info">
+
                             <div class="field inputw300">
-                                <select name="salutename" id="salutename" class="salutename" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="salutename" id="salutename" class="salutename" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Title</option>
                                     <option value="Mr.">Mr.</option>
                                     <option value="Ms.">Ms.</option>
@@ -126,44 +124,50 @@
                                   </select>
                             </div>
                             <div class="field inputw300">
-                                <input type="text" name="firstname" placeholder="Firstname" />
+                                <input type="text" name="firstname" placeholder="Firstname" required />
                             </div>
                             <div class="field inputw300">
-                                <input type="text"  name="lastname" placeholder="lastname" />
+                                <input type="text"  name="lastname" placeholder="Lastname" required />
                             </div>
-                            <br>
+
+
                             <div class="field input2w300">
-                                <input type="email" name="email" placeholder="Email" />
+                                <input type="email" name="email" placeholder="Email" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="job" placeholder="Job Role" />
+                                <input type="text" name="job" placeholder="Job Role" required />
                             </div>
-                            <br>
+
+
                             <div class="field inputw700">
-                                <input type="text" name="business" placeholder="Business Name" />
+                                <input type="text" id="bus" name="business" placeholder="Business Name" required />
                             </div>
-                            <br>
+
+                            
                             <div class="field inputw700">
-                                <input type="text" name="address" placeholder="Address" />
+                                <input type="text" name="address" placeholder="Address" required />
                             </div>
-                            <br>
+
+
                             <div class="field input2w300">
-                                <input type="text" name="abn" placeholder="ABN" />
-                            </div>
-                            <div class="field input2w300">
-                                <input type="number" name="employees" placeholder="Number of Employees" />
-                            </div>
-                            <br>
-                            <div class="field input2w300">
-                                <input type="text" name="contact" placeholder="Contact Number" />
+                                <input type="text" name="abn" placeholder="ABN" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="website" placeholder="Website" />
+                                <input type="number" name="employees" placeholder="Number of Employees" required />
+                            </div>
+                            
+
+
+                            <div class="field input2w300">
+                                <input type="text" name="contact" placeholder="Contact Number" required />
+                            </div>
+                            <div class="field input2w300">
+                                <input type="text" name="website" placeholder="Website" required />
                             </div>
 
                         </div>
 
-                        <div style="margin: 50px;"></div>
+                        <div style="margin: 100px;"></div>
                         <div class="field btns">
                             <button class="prev-1 prev">Previous</button>
                             <button class="next-1 next">Next</button>
@@ -172,19 +176,22 @@
 
                     <div class="page secp3">
                         <div class="seller-info">
+
                            <span>What Brands do you intend to list? (Press Enter to Add)</span>
                             <div class="field inputw700">
-                                <input type="text" name="brands" placeholder="Input Brands Here" />
+                                <input type="text" id="brands" name="brands" placeholder="Input Brands Here" required />
                             </div>
-                            <br><br>
+                           
+
                             <span>Do you currently sell on other marketplaces (including abroad)? If Yes, which ones?</span>
                             <div class="field inputw700">
-                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" />
+                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" required />
                             </div>
-                            <br><br>
+   
+
                             <div class="field input2w300">
                                 <span>What is your prefered method of integration with digiDirect?</span>
-                                <select name="method" id="method" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="method" id="method" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Custom Built API connection">Custom Built API connection</option>
                                     <option value="ChannelAdvisor integration">ChannelAdvisor integration</option>
@@ -196,29 +203,28 @@
                                     <option value="Don't know yet">Don't know yet</option>
                                 </select>
                             </div>
-                            <div class="space-field"></div>
+                            <!-- <div class="space-field"></div> -->
                             <div class="field input2w300">
                                 <span>What POS and eCommerce platforms do you currently use?</span>
-                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" />
+                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" required />
                             </div>
-                            <br><br>
+
+                                 <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>Head Office Location</span>
-                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
-                                    
+                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
-                            <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>Warehouse Location Shipping Product from</span>
-                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
-                                    
+                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
-                            <br><br>
+
+
                             <div class="field input2w300">
                                 <span>Estimate Annual Sale (AUD)</span>
-                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under $20,000">Under $20,000</option>
                                     <option value="$20,001 - $50,000">$20,001 - $50,000</option>
@@ -232,10 +238,9 @@
                                     <option value="Prefer not to say">Prefer not to say</option>
                                 </select>
                             </div>
-                            <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>How many products are you intending to list an digiDirect?</span>
-                                <select name="intending" id="intending" class="salutename selectw300" style='color:gray; font-weight:400;' oninput='style.color="#323232"'>
+                                <select name="intending" id="intending" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under 10">Under 10</option>
                                     <option value="10 - 25">10 - 25</option>
@@ -279,8 +284,7 @@
                 </form>
             </div>
         </div>
-        <script src="script.js"></script>
-    </div>
+</div>
 
 <script>
 initMultiStepForm();
@@ -591,21 +595,21 @@ function myFunction() {
 }
 
 // others field
-var txt = document.getElementById('cat_otherfield');
-var list = document.getElementById('list');
+var othercategory = document.getElementById('cat_otherfield');
+var cat_otherlist = document.getElementById('other_cat_display');
 var items = [];
 
-txt.addEventListener('keypress', function(e) {
+othercategory.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
-    let val = txt.value;
+    let val = othercategory.value;
     if (val !== '') {
       if (items.indexOf(val) >= 0) {
         // alert('Tag name is a duplicate');
       } else {
         items.push(val);
         render();
-        txt.value = '';
-        txt.focus();
+        othercategory.value = '';
+        othercategory.focus();
       }
     } else {
     //   alert('Please type a tag Name');
@@ -614,9 +618,9 @@ txt.addEventListener('keypress', function(e) {
 });
 
 function render() {
-  list.innerHTML = '';
+  cat_otherlist.innerHTML = '';
   items.map((item, index) => {
-    list.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
+    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
   });
 }
 
@@ -631,7 +635,27 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-txt.addEventListener("keypress", function(event) {
+othercategory.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+        event.preventDefault();
+    // alert("prevent enter")
+  }
+});
+
+
+var business = document.getElementById("bus");
+
+business.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+        event.preventDefault();
+    // alert("prevent enter")
+  }
+});
+
+
+var brands = document.getElementById("brands");
+
+brands.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
         event.preventDefault();
     // alert("prevent enter")

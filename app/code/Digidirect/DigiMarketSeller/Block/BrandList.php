@@ -1,33 +1,58 @@
 <?php
-
 /**
- * Get all Brands list
- * @return array
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
  */
 
-
-
+/**
+ * Product description block
+ *
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 namespace Digidirect\DigiMarketSeller\Block;
 
+use Magento\Catalog\Model\Product;
+
+/**
+ * @api
+ * @since 100.0.2
+ */
 class BrandList extends \Magento\Framework\View\Element\Template
 {
+    /**
+     * @var Product
+     */
+    protected $_product = null;
 
-    // country_of_manufacture
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
 
-
-    protected $eavAttributeRepository;
-
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
-    ){
-        parent::__construct($context);
-        $this->eavAttributeRepository = $eavAttributeRepository;
-     }
-  
-    public function getManufacturerListing(){
-        $attributes = $this->eavAttributeRepository->get(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,'manufacturer_name');
-        $options = $attributes->getSource()->getAllOptions(false);
-        return $options;
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
+        array $data = []
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        if (!$this->_product) {
+            $this->_product = $this->_coreRegistry->registry('product');
+        }
+        return $this->_product;
     }
 }
