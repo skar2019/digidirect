@@ -635,9 +635,27 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-var txtfield = document.querySelectorAll("#cat_otherfield, #bus, #brands");
+othercategory.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+        event.preventDefault();
+    // alert("prevent enter")
+  }
+});
 
-txtfield.addEventListener("keypress", function(event) {
+
+var business = document.getElementById("bus");
+
+business.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+        event.preventDefault();
+    // alert("prevent enter")
+  }
+});
+
+
+var brands = document.getElementById("brands");
+
+brands.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
         event.preventDefault();
     // alert("prevent enter")
