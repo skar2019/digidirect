@@ -55,15 +55,17 @@ class Layer extends \Magento\Catalog\Model\Layer
     
     public function getProductCollection()
     {
-        if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
-            $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
+        $defaultCategory = 2;
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
         } else {
-            $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
+            $category = $this->categoryRepository->get($defaultCategory, $this->storeManager->getStore()->getId());
+            $collection = $this->collectionProvider->getCollection($category);
             $collection->addAttributeToSelect('*')->addFinalPrice();
-            $collection->addCategoriesFilter(['in' => 17]);
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            //$collection->getSelect()->where("price_index.final_price < price");
+            $collection->getSelect()->where("price_index.final_price < price");
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
