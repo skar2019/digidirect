@@ -140,7 +140,7 @@
 
 
                             <div class="field inputw700">
-                                <input type="text" name="business" placeholder="Business Name" required />
+                                <input type="text" id="bus" name="business" placeholder="Business Name" required />
                             </div>
 
                             
@@ -179,7 +179,7 @@
 
                            <span>What Brands do you intend to list? (Press Enter to Add)</span>
                             <div class="field inputw700">
-                                <input type="text" name="brands" placeholder="Input Brands Here" required />
+                                <input type="text" id="brands" name="brands" placeholder="Input Brands Here" required />
                             </div>
                            
 
@@ -635,9 +635,9 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-// var txtfield = document.querySelectorAll('input[type="text"]');
+var txtfield = document.querySelectorAll("#cat_otherfield, #bus, #brands");
 
-othercategory.addEventListener("keypress", function(event) {
+txtfield.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
         event.preventDefault();
     // alert("prevent enter")
