@@ -9,9 +9,7 @@
  *
  * @var \Magento\Theme\Block\Html\Pager $block
  * @var \Magento\Framework\Escaper $escaper
- * @var \Magento\Framework\Locale\LocaleFormatter $localeFormatter
  */
-
 ?>
 <?php if ($block->getCollection()->getSize()): ?>
 
@@ -24,17 +22,12 @@
             <span class="toolbar-number">
             <?php if ($block->getLastPageNum()>1): ?>
                 <?= $block->escapeHtml(
-                    __(
-                        'Items %1 to %2 of %3 total',
-                        $localeFormatter->formatNumber($block->getFirstNum()),
-                        $localeFormatter->formatNumber($block->getLastNum()),
-                        $localeFormatter->formatNumber($block->getTotalNum())
-                    )
+                    __('Items %1 to %2 of %3 total', $block->getFirstNum(), $block->getLastNum(), $block->getTotalNum())
                 ) ?>
             <?php elseif ($block->getTotalNum() == 1): ?>
-                <?= $block->escapeHtml(__('%1 Item', $localeFormatter->formatNumber($block->getTotalNum()))) ?>
+                <?= $block->escapeHtml(__('%1 Item', $block->getTotalNum())) ?>
             <?php else: ?>
-                <?= $block->escapeHtml(__('%1 Item(s)', $localeFormatter->formatNumber($block->getTotalNum()))) ?>
+                <?= $block->escapeHtml(__('%1 Item(s)', $block->getTotalNum())) ?>
             <?php endif; ?>
             </span>
         </p>
@@ -47,17 +40,8 @@
             <?php if (!$block->isFirstPage()): ?>
                 <li class="item pages-item-previous">
                     <?php $text = $block->getAnchorTextForPrevious() ? $block->getAnchorTextForPrevious() : '';?>
-                    <?php 
-                        $filterData = explode('?', $block->getPreviousPageUrl());
-                        if ($filterData[1]) {
-                            $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                        } else {
-                            $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                        }
-                        
-                    ?>
                     <a class="<?= $block->escapeHtmlAttr($text ? 'link ' : 'action ') ?> previous"
-                       href="<?= $block->escapeUrl($newUrl) ?>"
+                       href="<?= $block->escapeUrl($block->getPreviousPageUrl()) ?>"
                        title="<?= $block->escapeHtmlAttr($text ? $text : __('Previous')) ?>">
                         <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
                         <span><?= $block->escapeHtml($text ? $text : __('Previous')) ?></span>
@@ -66,39 +50,23 @@
             <?php endif;?>
 
             <?php if ($block->canShowFirst()): ?>
-                <?php 
-                    $filterData = explode('?', $block->getFirstPageUrl());
-                    if ($filterData[1]) {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                    } else {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                    }
-                ?>
                 <li class="item">
-                    <a class="page first" href="<?= $block->escapeUrl($newUrl) ?>">
+                    <a class="page first" href="<?= $block->escapeUrl($block->getFirstPageUrl()) ?>">
                         <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
-                        <span><?= $block->escapeHtml($localeFormatter->formatNumber(1)) ?></span>
+                        <span>1</span>
                     </a>
                 </li>
             <?php endif;?>
 
             <?php if ($block->canShowPreviousJump()): ?>
-                <?php 
-                    $filterData = explode('?', $block->getPreviousJumpUrl());
-                    if ($filterData[1]) {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                    } else {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                    }
-                ?>
                 <li class="item">
                     <a class="page previous jump"
                        title=""
                        aria-label="<?= $escaper->escapeHtmlAttr(__(
                            'Skip to page %1',
-                           $localeFormatter->formatNumber($block->getPreviousJumpPage())
+                           $block->getPreviousJumpPage()
                        )) ?>"
-                       href="<?= $block->escapeUrl($newUrl) ?>">
+                       href="<?= $block->escapeUrl($block->getPreviousJumpUrl()) ?>">
                         <span>...</span>
                     </a>
                 </li>
@@ -109,79 +77,47 @@
                     <li class="item current">
                         <strong class="page">
                             <span class="label"><?= $block->escapeHtml(__('You\'re currently reading page')) ?></span>
-                            <span><?= $block->escapeHtml($localeFormatter->formatNumber($_page)) ?></span>
+                            <span><?= $block->escapeHtml($_page) ?></span>
                         </strong>
                     </li>
                 <?php else: ?>
-                    <?php 
-                        $filterData = explode('?', $block->getPageUrl($_page));
-                        if ($filterData[1]) {
-                            $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                        } else {
-                            $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                        }
-                    ?>
                     <li class="item">
-                        <a href="<?= $block->escapeUrl($newUrl) ?>" class="page">
+                        <a href="<?= $block->escapeUrl($block->getPageUrl($_page)) ?>" class="page">
                             <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
-                            <span><?= $block->escapeHtml($localeFormatter->formatNumber($_page)) ?></span>
+                            <span><?= $block->escapeHtml($_page) ?></span>
                         </a>
                     </li>
                 <?php endif;?>
             <?php endforeach;?>
 
             <?php if ($block->canShowNextJump()): ?>
-                <?php 
-                    $filterData = explode('?', $block->getNextJumpUrl());
-                    if ($filterData[1]) {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                    } else {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                    }
-                ?>
                 <li class="item">
                     <a class="page next jump"
                        title=""
                        aria-label="<?= $escaper->escapeHtmlAttr(__(
                            'Skip to page %1',
-                           $localeFormatter->formatNumber($block->getNextJumpPage())
+                           $block->getNextJumpPage()
                        )) ?>"
-                       href="<?= $block->escapeUrl($newUrl) ?>">
+                       href="<?= $block->escapeUrl($block->getNextJumpUrl()) ?>">
                         <span>...</span>
                     </a>
                 </li>
             <?php endif;?>
 
             <?php if ($block->canShowLast()): ?>
-                <?php 
-                    $filterData = explode('?', $block->getLastPageUrl());
-                    if ($filterData[1]) {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                    } else {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                    }
-                ?>
-                <li class="item">
-                    <a class="page last" href="<?= $block->escapeUrl($newUrl) ?>">
-                        <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
-                        <span><?= $block->escapeHtml($localeFormatter->formatNumber($block->getLastPageNum())) ?></span>
-                    </a>
-                </li>
+              <li class="item">
+                  <a class="page last" href="<?= $block->escapeUrl($block->getLastPageUrl()) ?>">
+                      <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
+                      <span><?= $block->escapeHtml($block->getLastPageNum()) ?></span>
+                  </a>
+              </li>
             <?php endif;?>
 
             <?php if (!$block->isLastPage()): ?>
-                <?php 
-                    $filterData = explode('?', $block->getNextPageUrl());
-                    if ($filterData[1]) {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData[1];
-                    } else {
-                        $newUrl = $block->getCurrentUrl() . '?/&' . $filterData;
-                    }
-                ?>
                 <li class="item pages-item-next">
                     <?php $text = $block->getAnchorTextForNext() ? $block->getAnchorTextForNext() : '';?>
                     <a class="<?= /* @noEscape */ $text ? 'link ' : 'action ' ?> next"
-                       href="<?= $block->escapeUrl($newUrl) ?>"
+                       href="<?= $block->escapeUrl($block->getNextPageUrl()) ?>"
                        title="<?= $block->escapeHtmlAttr($text ? $text : __('Next')) ?>">
                         <span class="label"><?= $block->escapeHtml(__('Page')) ?></span>
                         <span><?= $block->escapeHtml($text ? $text : __('Next')) ?></span>
@@ -200,7 +136,7 @@
                     <option value="<?= $block->escapeUrl($block->getLimitUrl($_key)) ?>"
                         <?php if ($block->isLimitCurrent($_key)): ?>
                         selected="selected"<?php endif ?>>
-                        <?= $block->escapeHtml($localeFormatter->formatNumber((int) $_limit)) ?>
+                        <?= $block->escapeHtml($_limit) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
