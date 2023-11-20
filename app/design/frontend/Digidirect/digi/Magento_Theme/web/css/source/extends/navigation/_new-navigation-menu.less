@@ -253,8 +253,8 @@ color: #fff !important;
 }
 
 .cms-home .dropdown:hover .dropbtn {
-background: #ff3c00 !important;
-color: #fff !important;
+//background: #ff3c00 !important;
+//color: #fff !important;
 }
 
 .top-brands-link {
@@ -321,11 +321,11 @@ display: none !important;
 @media only screen and (max-width: 1280px) {
 
 img#digi-white-logo {
-  padding: 25px 0 0 10px;
-  width: 210px;
+  padding: 22px 0 0 19px;
+  max-width: 179px
 }
 
-a.mobile-menu-signin {
+.mobile-menu-signin i, .mobile-menu-minicart i {
   margin-right: 10px;
 }
 
@@ -333,11 +333,13 @@ a.mobile-menu-signin {
   display: flex !important;
   flex-direction: column;
   margin: 0;
+  background: #fff;
+  margin: 0 30px 0 30px;
 }
 
 .navbar-content > * {
   text-align: left !important;
-  border-bottom: 2.5px solid #ffffff;
+  border-bottom: 1px dashed #cacaca;
 }
 
 #header-mobile-menu-only {
@@ -364,23 +366,63 @@ a.mobile-menu-signin {
   padding-left: 15px;
 }
 
+#header-mobile-menu-only .form.minisearch .label {
+    display: none;
+}
+
+#header-mobile-menu-only .block-search {
+    margin: 0 !important;
+    margin-top: 18px !important;
+}
+
+#header-mobile-menu-only .block-search .control {
+    padding: 0 15px !important;
+}
+
+#header-mobile-menu-only .block-search .actions {
+    right: 15px !important;
+    top: 0 !important;
+}
+
+#header-mobile-menu-only .form.minisearch .input-text {
+    margin: 0 !important;
+}
+
 .navbar {
-  background: #f5f5f5;
+  background: #fff;
   margin: 0 -10px;
+  margin-top: 80px;
 }
 
 .dropdown .dropbtn {
   color: #222;
-  padding: 25px 25px;
+  padding: 15px 0;
   font-size: 15px;
   font-weight: 500;
 }
 
 .navbar a {
-  color: #ff3c00;
-  padding: 25px 25px;
+  color: #222;
+  padding: 15px 0;
   font-size: 15px;
   font-weight: 500;
+}
+
+.category-tabs .mgz-tabs-tab-title a {
+    padding: 7px !important;
+    color: #222;
+    margin-left: 25px;
+    border: none;
+    border-radius: 0;
+    border-top: 1px dashed #cacaca !important;
+}
+
+.category-tabs .mgz-tabs-tab-title a:before {
+    display: none;
+}
+
+.category-tabs .mgz-tabs-tab-title a span {
+    padding: 0 !important;
 }
 
 #nav-sections-id .fa-caret-down {
@@ -397,7 +439,7 @@ a.mobile-menu-signin {
 
 .navbar-content .fa-angle-right {
   display: block;
-  padding: 27px;
+  padding: 17px;
   float: right;
 }
 
@@ -410,13 +452,13 @@ a.mobile-menu-signin {
 } 
 
 .submenu-active .dropdown {
-  background: #ffffff;
-  color: #ffffff;
+  //background: #ffffff;
+  //color: #ffffff;
 }
 
 .submenu-active .dropbtn {
-  color: #ffffff !important;
-  background: #ff3c00 !important;
+  //color: #ffffff !important;
+  //background: #ff3c00 !important;
   width: 100%;
   text-align: left;
 }
@@ -440,8 +482,8 @@ a.mobile-menu-signin {
 }
 
 .submenu-active .dropbtn {
-  background: #ff3c00 !important;
-  color: #ffffff;
+  //background: #ff3c00 !important;
+  //color: #ffffff;
   width: 100%;
   text-align: left;
 }
@@ -456,7 +498,7 @@ a.mobile-menu-signin {
 
 .shop-by-category-tabs {
   display: flex;
-  height: 640px;
+  //height: 640px;
 }
 
 #second-level-menu {
@@ -470,7 +512,7 @@ a.mobile-menu-signin {
 .shop-by-category-tabs .mgz-tabs-nav {
   width: -webkit-fill-available;
   background: #ffffff;
-  padding-top: 10px;
+  //padding-top: 10px;
 }
 
 #third-level-menu {
@@ -627,6 +669,10 @@ a.mobile-menu-signin {
 }
 
 .cms-home #submenu-digiclub-member-deals:hover .dc-digi {
+    color: #fff;
+}
+
+.cms-home #submenu-digideals:hover .dc-digi {
     color: #fff;
 }
 

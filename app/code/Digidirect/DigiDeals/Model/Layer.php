@@ -18,6 +18,8 @@ class Layer extends \Magento\Catalog\Model\Layer
 {
     protected $logger;
     
+    protected $categoryRepo;
+    
     public function __construct(
         \Magento\Catalog\Model\Layer\ContextInterface $context,
         \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
@@ -28,10 +30,12 @@ class Layer extends \Magento\Catalog\Model\Layer
         CategoryRepositoryInterface $categoryRepository,
         CollectionFactory $productCollectionFactory,
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepo,
         array $data = []
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->logger = $logger;
+        $this->categoryRepo = $categoryRepo;
         parent::__construct(
             $context,
             $layerStateFactory,
@@ -55,10 +59,13 @@ class Layer extends \Magento\Catalog\Model\Layer
     
     public function getProductCollection()
     {
-        if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
-            $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
+        $defaultCategory = 2;
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
         } else {
-            $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
+            $category = $this->categoryRepo->get($defaultCategory, 1);
+            $collection = $this->collectionProvider->getCollection($category);
             $collection->addAttributeToSelect('*')->addFinalPrice();
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);

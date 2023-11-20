@@ -22,15 +22,7 @@ $showWishlist = true;
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
 
-<?php
-$categoryName = "";
-if ($currentPage != "catalogsearch_result_index") {
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
-}
-?>
+<?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::category/custom-sorter.phtml")->toHtml() ?>
 
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -236,22 +228,6 @@ if ($currentPage != "catalogsearch_result_index") {
                         </div>
                     <?php endif; ?>
 
-                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds" ||
-                            $categoryName == "REFURB" ||
-                            $categoryName == "OPENBOX" ||
-                            $categoryName == "PRELOVED") : ?>
-                            <strong class="product name product-item-name -grid digiseconds-savings">
-                                <a href="<?= $block->escapeUrl($productUrl); ?>"
-                                   class="product-item-link">
-                                    <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
-                                        Seconds Savings: <?= $secondsSavings; ?>%
-                                    <?php endif; ?>
-                                </a>
-                            </strong>
-                        <?php endif; ?>
-                    <?php endif; ?>
-
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid default-product-name">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
@@ -342,61 +318,12 @@ if ($currentPage != "catalogsearch_result_index") {
                             <?php endif; ?>
                         </div>
                     </div>
-                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds" ||
-                            $categoryName == "REFURB" ||
-                            $categoryName == "OPENBOX" ||
-                            $categoryName == "PRELOVED"): ?>
-                            <div class="digiseconds-product-details">
-                                <div class="digiseconds-product-name">
-                                    <a href="<?= $block->escapeUrl($productUrl); ?>">
-                                        <span><?= $block->escapeHtml($productName); ?></span>
-                                    </a>
-                                </div>
-                                <?php if ($d2ItemDescription): ?>
-                                    <div class="item-note-wrapper-plp">
-                                        <span class="item-note-label">
-                                            Item Note:
-                                        </span>
-                                        <span class="item-note" style="padding-left: 15px;">
-                                            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
-                                        </span>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($d2PackageInclusion): ?>
-                                    <div class="package-inclusion-wrapper">
-                                        <div>
-                                            What's in the box?
-                                        </div>
-                                        <div class="whats-in-the-box-wrapper">
-                                            <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
-                                        </div>
-                                        <div class="digiseconds-show-more">
-                                            <a href="<?= $block->escapeUrl($productUrl); ?>" title="<?= $block->escapeHtml($productName); ?>">
-                                                <i class="fas fa-chevron-circle-down"></i> See more
-                                            </a>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($brandNewProductPrice && $brandNewProductPrice != ""): ?>
-                                    <div class="other-options-wrapper">
-                                        <div>
-                                            OTHER BUYING OPTIONS
-                                        </div>
-                                        <div class="other-options-new">
-                                            New: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        <?php endif; ?>
-                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
         </ol>
     </div>
+    <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
         {
