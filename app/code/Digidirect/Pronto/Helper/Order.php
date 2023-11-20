@@ -943,11 +943,12 @@ class Order extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
 
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
                     {
@@ -1909,11 +1910,12 @@ class Order extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
 
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($sell == $seller)
                     {

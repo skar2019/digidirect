@@ -1309,11 +1309,12 @@ class TestPronto extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
                 echo "SKU - " .$sku."<br/>";
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
                     echo "is MP - " .$sku."<br/>";
                     if($this->currentseller == $sell)
                     {
@@ -2011,11 +2012,12 @@ class TestPronto extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
 
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($sell == $seller)
                     {
