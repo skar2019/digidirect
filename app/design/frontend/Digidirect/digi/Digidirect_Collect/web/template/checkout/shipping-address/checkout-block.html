@@ -1,7 +1,7 @@
 <!-- ko if: isCollectEnableOnCheckout && isSingleCartCollectVariation -->
 <div class="collect-type">
     <!-- ko ifnot: isWebOnly() -->
-    <!-- ko if: productsAvailableInAnyStore -->
+    <!-- ko if: productsAvailableInAnyStore == true -->
         <input type="radio" id="collect_type_delivery" class="half-width" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
     attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <label for="collect_type_delivery" class="label collect-type-delivery-label">
@@ -19,7 +19,7 @@
         </label>
     <!-- /ko-->
     
-    <!-- ko ifnot: productsAvailableInAnyStore || hasMarketplacerSeller -->
+    <!-- ko if: (productsAvailableInAnyStore == false) || (hasMarketplacerSeller == true) -->
         <input type="radio" id="collect_type_delivery" class="half-width" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
     attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <label for="collect_type_delivery" class="label collect-type-delivery-label" style="width: 100% !important;">
