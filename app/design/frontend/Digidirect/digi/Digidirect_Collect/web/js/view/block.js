@@ -65,7 +65,7 @@ define([
         placesUrl: placesUrl,
         distanceList: distanceList,
         productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
-        hasMarketplacerSeller: ko.observable(has_marketplacer_seller),
+        hasMarketplacerSeller: ko.observable(has_marketplacer_seller || false),
         checkIsCollectSelected: function () {
             if (this.collectPlaces().length > 0) {
                 this.isCollectSelected(true);

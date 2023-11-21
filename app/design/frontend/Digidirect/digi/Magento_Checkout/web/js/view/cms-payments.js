@@ -14,7 +14,7 @@ define([
             console.log("seller-name: " + $('.opc-sidebar .items-in-cart .product-item .seller-name').length);
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
-            /*var group = 0;
+            var group = 0;
             $('.items-in-cart').each(function(){
                 group += 1;
                 console.log('group: ' + group);
@@ -36,9 +36,12 @@ define([
                         sellerPerItem.lastIndexOf("<!--")
                     );
                     console.log("subStrSpi: " + subStrSpi);
-
-                    if (subStrSpi === seller) {
-                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    
+                    if (!thisSellerPerItem.hasClass("grouped")) {
+                        if (subStrSpi === seller) {
+                            thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                            thisSellerPerItem.addClass('grouped');
+                        }
                     }
                 });
             });
@@ -59,11 +62,14 @@ define([
                     );
                     console.log("subStrSpi: " + subStrSpi);
 
-                    if (subStrSpi === seller) {
-                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    if (!thisSellerPerItem.hasClass("grouped")) {
+                        if (subStrSpi === seller) {
+                            thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                            thisSellerPerItem.addClass('grouped');
+                        }
                     }
                 });
-            });*/
+            });
 
             return cmsPayments;
         }
