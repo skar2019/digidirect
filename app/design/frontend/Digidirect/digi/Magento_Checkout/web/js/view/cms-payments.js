@@ -14,7 +14,7 @@ define([
             console.log("seller-name: " + $('.opc-sidebar .items-in-cart .product-item .seller-name').length);
             console.log("seller: " + $('.opc-sidebar .items-in-cart .seller').length);
             
-            var group = 0;
+            /*var group = 0;
             $('.items-in-cart').each(function(){
                 group += 1;
                 console.log('group: ' + group);
@@ -69,7 +69,7 @@ define([
                         }
                     }
                 });
-            });
+            });*/
 
             return cmsPayments;
         }
