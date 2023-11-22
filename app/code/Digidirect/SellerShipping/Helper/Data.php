@@ -55,7 +55,6 @@ class Data extends AbstractHelper
             if (($seller != "digiDirect") && (!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
-            
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
