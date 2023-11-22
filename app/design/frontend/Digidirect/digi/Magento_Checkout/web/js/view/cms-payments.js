@@ -36,9 +36,12 @@ define([
                         sellerPerItem.lastIndexOf("<!--")
                     );
                     console.log("subStrSpi: " + subStrSpi);
-
-                    if (subStrSpi === seller) {
-                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    
+                    if (!thisSellerPerItem.hasClass("grouped")) {
+                        if (subStrSpi === seller) {
+                            thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                            thisSellerPerItem.addClass('grouped');
+                        }
                     }
                 });
             });
@@ -59,8 +62,11 @@ define([
                     );
                     console.log("subStrSpi: " + subStrSpi);
 
-                    if (subStrSpi === seller) {
-                        thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                    if (!thisSellerPerItem.hasClass("grouped")) {
+                        if (subStrSpi === seller) {
+                            thisSellerPerItem.parent().insertAfter(thisSeller.parent());
+                            thisSellerPerItem.addClass('grouped');
+                        }
                     }
                 });
             });

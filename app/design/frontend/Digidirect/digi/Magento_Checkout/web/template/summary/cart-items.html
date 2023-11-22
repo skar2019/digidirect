@@ -21,7 +21,9 @@
                     <div style="font-weight: 600;">Delivery <span data-bind="text : $index() + 1"></span></div>
                     <div class="shipped-by" style="display: flex;">
                         <div style="margin-right: 5px;">Shipped By: </div><div data-bind="text: $data[0]" class="seller"></div> 
-                        <span style="margin-left: 5px;">for $</span><div data-bind="text: $data[1]" class="sellerShipping"></div>
+                        <!-- ko if: $data[0] != 'digiDirect'-->
+                            <span style="margin-left: 5px;">for $</span><div data-bind="text: $data[1]" class="sellerShipping"></div>
+                        <!-- /ko -->
                     </div>
                 </div>
             </ol>
