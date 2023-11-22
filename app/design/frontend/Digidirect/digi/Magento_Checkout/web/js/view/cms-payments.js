@@ -21,7 +21,7 @@ define([
                 $(this).addClass('group-' + group);
             });
             
-            $('.items-in-cart.active.group-1 .seller').each(function(){
+            /*$('.items-in-cart.active.group-1 .seller').each(function(){
                 var thisSeller = $(this);
                 var seller = $(this).html();
                 console.log("seller: " + seller);
@@ -44,7 +44,7 @@ define([
                         }
                     }
                 });
-            });
+            });*/
             
             $('.items-in-cart.active.group-2 .seller').each(function(){
                 var thisSeller = $(this);
