@@ -68,10 +68,11 @@ class Data extends AbstractHelper
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
                 
                 if ($seller == $itemSeller) {
-                    $sellerTotal += $finalPrice;
+                    $sellerTotal += $productTotal;
                 }
             }
             $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
@@ -118,10 +119,11 @@ class Data extends AbstractHelper
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
                 
                 if ($seller == $itemSeller) {
-                    $sellerTotal += $finalPrice;
+                    $sellerTotal += $productTotal;
                 }
             }
             $this->logger->info($seller . ': ' . $sellerTotal);
@@ -143,6 +145,25 @@ class Data extends AbstractHelper
         
     }
     
+    public function hasMarketplacerSeller() {
+        $sellers = $this->getSellers();
+        $thirdPartyCount = 0;
+        
+        foreach($sellers as $seller){
+            if ($seller[0] != "General Seller") {
+                $thirdPartyCount++;
+            }
+        }
+        
+        if ($thirdPartyCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    
     public function getDigiShipping()
     {
         $items = $this->cart->getQuote()->getAllItems();
@@ -155,10 +176,11 @@ class Data extends AbstractHelper
             $product = $this->productFactory->create()->load($item->getProductId());
             $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             $finalPrice = $product->getFinalPrice();
+            $productTotal = $finalPrice * $item->getQty();
             $itemSeller = $product->getAttributeText('marketplacer_seller');
 
             if ($itemSeller == "General Seller") {
-                $digiTotal += $finalPrice;
+                $digiTotal += $productTotal;
             }
         }
         $this->logger->info('getDigiShipping: ' . $digiTotal);
