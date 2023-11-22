@@ -1920,6 +1920,8 @@ class Order extends AbstractHelper
                     if($sell == $seller)
                     {
                         $productSku = $sku;
+                        $costprice = ($price - ( $price * 0.1)); // ex gst
+                        $sellercost = $costprice - ($costprice * 0.1); //ex commission
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                         $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'ZM00';//$productSku;
@@ -1930,7 +1932,7 @@ class Order extends AbstractHelper
                         $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
-                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $price;
+                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $sellercost;
                         $x++;
                         $producttotal += $total;
                     }
