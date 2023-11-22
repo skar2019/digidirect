@@ -145,6 +145,25 @@ class Data extends AbstractHelper
         
     }
     
+    public function hasMarketplacerSeller() {
+        $sellers = $this->getSellers();
+        $thirdPartyCount = 0;
+        
+        foreach($sellers as $seller){
+            if ($seller[0] != "digiDirect") {
+                $thirdPartyCount++;
+            }
+        }
+        
+        if ($thirdPartyCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    
     public function getDigiShipping()
     {
         $items = $this->cart->getQuote()->getAllItems();
