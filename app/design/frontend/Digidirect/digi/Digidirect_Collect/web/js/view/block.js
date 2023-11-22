@@ -24,7 +24,7 @@ define([
         distanceList = window.checkoutConfig.quoteData.distance_list,
         selectedStore = window.checkoutConfig.quoteData.selected_collect_place,
         productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store,
-        has_marketplacer_seller = window.checkoutConfig.quoteData.has_marketplacer_seller;;
+        has_marketplacer_seller = window.checkoutConfig.quoteData.has_marketplacer_seller;
 
     return Component.extend({
         defaults: {
