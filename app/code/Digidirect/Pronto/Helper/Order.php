@@ -1249,7 +1249,7 @@ class Order extends AbstractHelper
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
-            ->addFieldToFilter('entity_id', array('gteq' => 4096676)) //615813
+            ->addFieldToFilter('entity_id', array('gteq' => 4127042)) //615813
             ->addFieldToFilter('store_id', array('in' => array(1,5)))
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
