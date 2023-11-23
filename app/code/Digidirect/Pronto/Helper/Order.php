@@ -386,7 +386,10 @@ class Order extends AbstractHelper
 
             //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-
+            //clint Nov 23, 2023
+            if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
+                continue;
+            }
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
 
@@ -1230,7 +1233,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 5)
+            if($counter >= 6)
             {
                 return true; //return after 3 orders
             }
@@ -1618,6 +1621,9 @@ class Order extends AbstractHelper
             //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
 
+            if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
+                continue;
+            }
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
 
