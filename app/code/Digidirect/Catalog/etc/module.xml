@@ -3,6 +3,7 @@
     <module name="Digidirect_Catalog" setup_version="1.2.0">
         <sequence>
             <module name="Magento_Catalog"/>
+            <module name="Itoris_Pricematch"/>
         </sequence>
     </module>
 </config>

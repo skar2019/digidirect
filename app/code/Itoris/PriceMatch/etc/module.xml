@@ -28,7 +28,6 @@
     <module name="Itoris_PriceMatch" setup_version="1.2.0">
         <sequence>
             <module name="Magento_Customer" />
-            <module name="Magento_Catalog" />
         </sequence>
     </module>
 </config>
