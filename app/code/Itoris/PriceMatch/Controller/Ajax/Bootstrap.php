@@ -66,11 +66,23 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $customer  = $this->customerSession->getCustomer();
 
         $product = $this->productRepository->getById($productId,false, $storeId);
+        $price = $product->getData('final_price');
+        $wiserPrice = $product->getData('wiser_price');
+        
+        if ($wiserPrice > 1 && !empty($wiserPrice)) {
+            if ($wiserPrice < $price) {
+                $finalPrice = $wiserPrice;
+            } else {
+                $finalPrice = $price;
+            }
+        } else {
+            $finalPrice = $price;
+        }
 
         $resultJson = $this->resultJsonFactory->create();
         $response = [
             'product_name' => $product->getName(),
-            'final_price' => 3000,
+            'final_price' => $finalPrice,
             'check_render_link' => 1,//($this->calculateRenderLink()) ? 1 : '',
         ];
 
