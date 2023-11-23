@@ -136,6 +136,10 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                     (temporary_it.child_product_id IS NOT NULL AND price_index.entity_id = temporary_it.child_product_id) OR
                     (temporary_it.child_product_id IS NULL AND price_index.entity_id = pm.product_id)
                 ) AND price_index.website_id = st.website_id AND price_index.customer_group_id = 0",
+                []
+            )->joinLeft(
+                ['cpev'=>$this->getTable('catalog_product_entity_varchar')],
+                "ent.row_id = cpev.row_id AND cpev.attribute_id=1450",
                 ['final_price'=>'IF(isnull(pm.old_price), IF((price_index.final_price < ent.wiser_price),price_index.final_price,ent.wiser_price),pm.old_price)']
             )->join(
                 ['a_varchar'=>$this->getTable('catalog_product_entity_varchar')],
