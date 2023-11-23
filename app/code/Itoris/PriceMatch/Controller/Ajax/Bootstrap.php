@@ -70,7 +70,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $resultJson = $this->resultJsonFactory->create();
         $response = [
             'product_name' => $product->getName(),
-            'final_price' => $product->getFinalPrice(),
+            'final_price' => 3000,
             'check_render_link' => 1,//($this->calculateRenderLink()) ? 1 : '',
         ];
 
