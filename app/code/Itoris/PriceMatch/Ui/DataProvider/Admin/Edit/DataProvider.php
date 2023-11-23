@@ -143,7 +143,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     }
 
     private function _formatFinalPrice($item) {
-        return $this->formatPrice($item['final_price'], $item['store_id']);
+        return $this->formatPrice(5000, $item['store_id']);
     }
 
     private function formatPrice($amount, $store){
