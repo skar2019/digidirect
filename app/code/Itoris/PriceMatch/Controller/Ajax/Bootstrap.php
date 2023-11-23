@@ -38,6 +38,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
     protected $productRepository;
     protected $configFactory;
     protected $httpContext;
+    protected $logger;
 
     public function __construct
     (
@@ -47,6 +48,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         \Itoris\PriceMatch\Model\ConfigFactory $configFactory,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger,
         Context $context
     )
     {
@@ -56,6 +58,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $this->configFactory = $configFactory;
         $this->httpContext = $httpContext;
         $this->productRepository = $productRepository;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -68,6 +71,11 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $product = $this->productRepository->getById($productId,false, $storeId);
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
+        
+        $this->logger->info("getData('final_price'): " . $price);
+        $this->logger->info("getData('wiser_price'): " . $wiserPrice);
+        $this->logger->info("getFinalPrice(): " . $product->getFinalPrice());
+        $this->logger->info("getWiserPrice(): " . $product->getWiserPrice());
         
         if ($wiserPrice > 1 && !empty($wiserPrice)) {
             if ($wiserPrice < $price) {
