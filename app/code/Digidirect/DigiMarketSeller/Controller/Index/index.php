@@ -72,77 +72,104 @@ class Index extends Action
 
   
 
-        // Send Mail functionality starts from here 
-        $from = $email;
-        $nameFrom = $firstname." ".$lastname;
-        $to = "jireh@kayweb.com.au";
-        $nameTo = "Digidirect";
-        $body = "
-        <div>
-            <p><b>Categories:</b> 
-            ".$audiovisual." 
-            ".$cameras." 
-            ".$computersMobile." 
-            ".$drones." 
-            ".$fitnessWellbeing." 
-            ".$homeOffice." 
-            ".$inCar." 
-            ".$instrument." 
-            ".$lenses." 
-            ".$lightingStudio." 
-            ".$optics." 
-            ".$petTech." 
-            ".$photoAccessories." 
-            ".$proVideo." 
-            ".$scootersBikeBoards." 
-            ".$seasonal." 
-            ".$smartHome." 
-            ".$toys." 
-            ".$squareWearable." 
-            ".$squareWhiteGoods." 
-            ".$cat_otherfield."
-            </p>
+        if (empty($salutename) 
+        && empty($firstname) 
+        && empty($lastname) 
+        && empty($email) 
+        && empty($job)
+        && empty($business)
+        && empty($address)
+        && empty($abn)
+        && empty($employees)
+        && empty($contact)
+        && empty($website)
+        && empty($brands)
+        && empty($current_sell)
+        && empty($method)
+        && empty($platform_use)
+        && empty($head_office)
+        && empty($warehouse)
+        && empty($annual_sale)
+        && empty($intending))
+        {
+            echo 'Please correct the fields';
+            return false;
+        }else {
+            
+            // Send Mail functionality starts from here 
+            $from = $email;
+            $nameFrom = $firstname." ".$lastname;
+            $to = "jireh@kayweb.com.au";
+            $nameTo = "Digidirect";
+            $body = "
+            <div>
+                <p><b>Categories:</b> 
+                ".$audiovisual." 
+                ".$cameras." 
+                ".$computersMobile." 
+                ".$drones." 
+                ".$fitnessWellbeing." 
+                ".$homeOffice." 
+                ".$inCar." 
+                ".$instrument." 
+                ".$lenses." 
+                ".$lightingStudio." 
+                ".$optics." 
+                ".$petTech." 
+                ".$photoAccessories." 
+                ".$proVideo." 
+                ".$scootersBikeBoards." 
+                ".$seasonal." 
+                ".$smartHome." 
+                ".$toys." 
+                ".$squareWearable." 
+                ".$squareWhiteGoods." 
+                ".$cat_otherfield."
+                </p>
 
-            <p><b>Title:</b> ".$salutename."</p>
-            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
-            <p><b>Email:</b> ".$email."</p>
-            <p><b>Job:</b> ".$job."</p>
-            <p><b>Business:</b> ".$business."</p>
-            <p><b>Address:</b> ".$address."</p>
-            <p><b>ABN:</b> ".$abn."</p>
-            <p><b>Employees No.:</b> ".$employees."</p>
-            <p><b>Contact:</b> ".$contact."</p>
-            <p><b>Website:</b> ".$website."</p>
+                <p><b>Title:</b> ".$salutename."</p>
+                <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
+                <p><b>Email:</b> ".$email."</p>
+                <p><b>Job:</b> ".$job."</p>
+                <p><b>Business:</b> ".$business."</p>
+                <p><b>Address:</b> ".$address."</p>
+                <p><b>ABN:</b> ".$abn."</p>
+                <p><b>Employees No.:</b> ".$employees."</p>
+                <p><b>Contact:</b> ".$contact."</p>
+                <p><b>Website:</b> ".$website."</p>
 
-            <p><b>Brands:</b> ".$brands."</p>
-            <p><b>Currently sell on other marketplaces (including abroad):</b> ".$current_sell."</p>
-            <p><b>Prefered method of integration with digiDirect:</b> ".$method."</p>
-            <p><b>POS and eCommerce platforms:</b> ".$platform_use."</p> 
-            <p><b>Head Office Location:</b> ".$head_office."</p> 
-            <p><b>Warehouse Location Shipping Product from:</b> ".$warehouse."</p>
-            <p><b>Estimate Annual Sale (AUD):</b> ".$annual_sale."</p>
-            <p><b>Intending Product to list an digiDirect:</b> ".$intending."</p>
+                <p><b>Brands:</b> ".$brands."</p>
+                <p><b>Currently sell on other marketplaces (including abroad):</b> ".$current_sell."</p>
+                <p><b>Prefered method of integration with digiDirect:</b> ".$method."</p>
+                <p><b>POS and eCommerce platforms:</b> ".$platform_use."</p> 
+                <p><b>Head Office Location:</b> ".$head_office."</p> 
+                <p><b>Warehouse Location Shipping Product from:</b> ".$warehouse."</p>
+                <p><b>Estimate Annual Sale (AUD):</b> ".$annual_sale."</p>
+                <p><b>Intending Product to list an digiDirect:</b> ".$intending."</p>
 
-        </div>";
+            </div>";
 
-        $email = new \Zend_Mail();
-        $email->setSubject("DigiMarketSeller Form"); 
-        $email->setBodyHtml($body);     // use it to send html data
-        //$email->setBodyText($body);   // use it to send simple text data
-        $email->setFrom($from, $nameFrom);
-        $email->addTo($to, $nameTo);
-        $email->send();
-        
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\DigiMarketSeller\Model\DigiMarketSeller');
-        $data->setData($post);
-        $data->save();
-        echo "success";
-        /* echo "hello";
-        exit; */
-       
-        
-        $this->messageManager->addSuccess(__('Form successfully submitted'));
-             
+            $email = new \Zend_Mail();
+            $email->setSubject("DigiMarketSeller Form"); 
+            $email->setBodyHtml($body);     // use it to send html data
+            //$email->setBodyText($body);   // use it to send simple text data
+            $email->setFrom($from, $nameFrom);
+            $email->addTo($to, $nameTo);
+            $email->send();
+            
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
+            $data = $objectManager->create('Digidirect\DigiMarketSeller\Model\DigiMarketSeller');
+            $data->setData($post);
+            $data->save();
+            echo "success";
+            /* echo "hello";
+            exit; */
+           
+            
+            $this->messageManager->addSuccess(__('Form successfully submitted'));
+
+        }
+
+    
     }
 }
