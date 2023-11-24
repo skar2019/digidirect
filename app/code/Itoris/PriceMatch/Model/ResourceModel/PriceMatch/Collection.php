@@ -86,7 +86,13 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
             $byRequest = \Zend_Json_Decoder::decode( $item['by_request'] );
             $simpleProduct = $this->configurableProduct->getProductByAttributes($byRequest, $product);
-            $phpTableArray[] = ['product_id'=>$item['product_id'], 'child_product_id'=>$simpleProduct->getId(), 'by_request'=>$item['by_request'], 'product_name'=>$simpleProduct->getName()];
+            $phpTableArray[] = [
+                'product_id'=>$item['product_id'], 
+                'child_product_id'=>$simpleProduct->getId(), 
+                'by_request'=>$item['by_request'], 
+                'product_name'=>$simpleProduct->getName(),
+                
+            ];
         }
 
         $this->getConnection()->query("CREATE TEMPORARY TABLE IF NOT EXISTS {$this->getTable('itoris_pm_temporary')} (
@@ -130,7 +136,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                     (temporary_it.child_product_id IS NOT NULL AND price_index.entity_id = temporary_it.child_product_id) OR
                     (temporary_it.child_product_id IS NULL AND price_index.entity_id = pm.product_id)
                 ) AND price_index.website_id = st.website_id AND price_index.customer_group_id = 0",
-                ['final_price'=>'IF(isnull(pm.old_price),price_index.final_price,pm.old_price)']
+                []
+            )->joinLeft(
+                ['cpev'=>$this->getTable('catalog_product_entity_varchar')],
+                "ent.row_id = cpev.row_id AND cpev.attribute_id=1450",
+                ['final_price'=>'IF(isnull(pm.old_price), IF((price_index.final_price < CONVERT(cpev.value, DECIMAL)),price_index.final_price,CONVERT(cpev.value, DECIMAL)), price_index.final_price)']
             )->join(
                 ['a_varchar'=>$this->getTable('catalog_product_entity_varchar')],
                 "a_varchar.{$indexColumn} = ent.{$indexColumn} AND a_varchar.attribute_id = ".$attrNameId.' AND  a_varchar.store_id = (
