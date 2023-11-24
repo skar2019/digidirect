@@ -1588,10 +1588,6 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-
-
-
-
             if($counter >= $size)
             {
                 return true; //return after 2 orders
