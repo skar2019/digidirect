@@ -1,7 +1,7 @@
 <div id="digimarketseler_form">
         <div class="container" >
-            <header>digiDirect Marketplace Registration Form</header>
-            <p class="text-grey" style="font-size: 22px; margin: 0 25px;">Complete the form below to register your interest. A digiDirect Marketplace specialist will contact you to guide you through the process.</p>
+            <header>digiDirect Marketplace Seller Registration Form</header>
+            <p class="text-grey" style="font-size: 22px; margin: 0 25px;">Complete the form to register your interest to be a seller.  Once completed, a digiDirect Marketplace specialist will contact you to guide you through next steps.</p>
 
             <div class="container-progress">
                 <div class="progress-bar">
@@ -36,8 +36,10 @@
                 </div>
             </div>
 
+            <!-- <div class="err-notif" style="display: none;"><span style="color: #ff0000">*ALL FIELDS ARE REQUIRED</span></div> -->
+
             <div class="form-outer">
-                <form id="sellerForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
+                <form id="sellerForm" name="frm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
                     <div class="page slide-page secp1">
                         <div class="title">
                            <b><p class="text-lblack" style="font-weight: 700;"> Which product categories do you intend to list? <span style="color: #ff0000">*</span></p></b>
@@ -65,8 +67,8 @@
                                     <li><label for="categories_option16"><input type="checkbox" name="categories_option16" id="categories_option16" onclick="myFunction()" value="Seasonal (Digital, Electronic),"> <span>Seasonal (Digital, Electronic)</span></label></li>
                                     <li><label for="categories_option17"><input type="checkbox" name="categories_option17" id="categories_option17" onclick="myFunction()" value="Smart Home,"> <span>Smart Home</span></label></li>
                                     <li><label for="categories_option18"><input type="checkbox" name="categories_option18" id="categories_option18" onclick="myFunction()" value="Toys (Digital, Electronic),"> <span>Toys (Digital, Electronic)</span></label></li>
-                                    <li><label for="categories_option19"><input type="checkbox" name="categories_option19" id="categories_option19" onclick="myFunction()" value="Square Wearable,"> <span>Square Wearable</span></label></li>
-                                    <li><label for="categories_option20"><input type="checkbox" name="categories_option20" id="categories_option20" onclick="myFunction()" value="Square White Goods"> <span>Square White Goods</span></label></li>
+                                    <li><label for="categories_option19"><input type="checkbox" name="categories_option19" id="categories_option19" onclick="myFunction()" value="Wearable,"> <span>Wearable</span></label></li>
+                                    <!-- <li><label for="categories_option20"><input type="checkbox" name="categories_option20" id="categories_option20" onclick="myFunction()" value="Square White Goods"> <span>Square White Goods</span></label></li> -->
                                     <li><label for="categories_option21"><input type="checkbox" name="categories_option21" id="categories_option21"> <span>Other (Press enter to add)</span></label></li>
                                 </ul>
                                 <br>
@@ -78,26 +80,26 @@
                             <div class="categories-display">
                                 
                                 <ul class="opt-display">
-                                    <li><p id="categories_display1" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span> Audio & Visual</p></li>
-                                    <li><p id="categories_display2" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Cameras</p></li>
-                                    <li><p id="categories_display3" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Computers & Mobile</p></li>
-                                    <li><p id="categories_display4" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Drones</p></li>
-                                    <li><p id="categories_display5" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Fitness & Wellbeing</p></li>
-                                    <li><p id="categories_display6" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Home Office</p></li>
-                                    <li><p id="categories_display7" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>In-Car</p></li>
-                                    <li><p id="categories_display8" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Instrument</p></li>
-                                    <li><p id="categories_display9" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Lenses</p></li>
-                                    <li><p id="categories_display10" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Lighting & Studio</p></li>
-                                    <li><p id="categories_display11" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Optics</p></li>
-                                    <li><p id="categories_display12" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Pet Tech</p></li>
-                                    <li><p id="categories_display13" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Photo Accessories</p></li>
-                                    <li><p id="categories_display14" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Pro Video</p></li>
-                                    <li><p id="categories_display15" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Scooters, Bike, Boards</p></li>
-                                    <li><p id="categories_display16" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Seasonal (Digital, Electronic)</p></li>
-                                    <li><p id="categories_display17" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Smart Home</p></li>
-                                    <li><p id="categories_display18" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Toys (Digital, Electronic)</p></li>
-                                    <li><p id="categories_display19" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  Wearable</p></li>
-                                    <li><p id="categories_display20" style="display:none">x<span style="font-size: 17px; margin-right:5px;"></span>Square  White Goods</p></li>
+                                    <li><p id="categories_display1" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span> Audio & Visual</p></li>
+                                    <li><p id="categories_display2" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Cameras</p></li>
+                                    <li><p id="categories_display3" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Computers & Mobile</p></li>
+                                    <li><p id="categories_display4" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Drones</p></li>
+                                    <li><p id="categories_display5" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Fitness & Wellbeing</p></li>
+                                    <li><p id="categories_display6" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Home Office</p></li>
+                                    <li><p id="categories_display7" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>In-Car</p></li>
+                                    <li><p id="categories_display8" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Instrument</p></li>
+                                    <li><p id="categories_display9" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Lenses</p></li>
+                                    <li><p id="categories_display10" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Lighting & Studio</p></li>
+                                    <li><p id="categories_display11" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Optics</p></li>
+                                    <li><p id="categories_display12" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Pet Tech</p></li>
+                                    <li><p id="categories_display13" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Photo Accessories</p></li>
+                                    <li><p id="categories_display14" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Pro Video</p></li>
+                                    <li><p id="categories_display15" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Scooters, Bike, Boards</p></li>
+                                    <li><p id="categories_display16" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Seasonal (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display14" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Smart Home</p></li>
+                                    <li><p id="categories_display18" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Toys (Digital, Electronic)</p></li>
+                                    <li><p id="categories_display19" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square Wearable</p></li>
+                                    <!-- <li><p id="categories_display20" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square White Goods</p></li> -->
                                     <ul id="other_cat_display" class="cat-others"></ul>
                                 </ul>
                        
@@ -116,7 +118,7 @@
                         <div class="seller-info">
 
                             <div class="field inputw300">
-                                <select name="salutename" id="salutename" class="salutename" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select name="salutename" id="salutename" class="salutename" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Title</option>
                                     <option value="Mr.">Mr.</option>
                                     <option value="Ms.">Ms.</option>
@@ -124,45 +126,45 @@
                                   </select>
                             </div>
                             <div class="field inputw300">
-                                <input type="text" name="firstname" placeholder="Firstname" required="true" />
+                                <input type="text" name="firstname"  id="firstname"  placeholder="Firstname" required/>
                             </div>
                             <div class="field inputw300">
-                                <input type="text"  name="lastname" placeholder="Lastname" required="true" />
+                                <input type="text"  name="lastname" placeholder="Lastname" id="lastname" required />
                             </div>
 
 
                             <div class="field input2w300">
-                                <input type="email" name="email" placeholder="Email" required="true" />
+                                <input type="email" name="email" id="email" placeholder="Email" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="job" placeholder="Job Role" required="true" />
+                                <input type="text" name="job" id="job" placeholder="Job Role" required />
                             </div>
 
 
                             <div class="field inputw700">
-                                <input type="text" id="bus" name="business" placeholder="Business Name" required="true" />
+                                <input type="text" name="business" id="bus" placeholder="Business Name" required />
                             </div>
 
                             
                             <div class="field inputw700">
-                                <input type="text" name="address" placeholder="Address" required="true" />
+                                <input type="text" name="address" id="address" placeholder="Address" required />
                             </div>
 
 
                             <div class="field input2w300">
-                                <input type="text" name="abn" placeholder="ABN" required="true" />
+                                <input type="number" name="abn" id="abn" placeholder="ABN" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="number" name="employees" placeholder="Number of Employees" required="true" />
+                                <input type="number" name="employees" id="employees" placeholder="Number of Employees" required />
                             </div>
                             
 
 
                             <div class="field input2w300">
-                                <input type="text" name="contact" placeholder="Contact Number" required="true" />
+                                <input type="text" name="contact" id="contact" placeholder="Contact Number" required />
                             </div>
                             <div class="field input2w300">
-                                <input type="text" name="website" placeholder="Website" required="true" />
+                                <input type="url" name="website" id="website" placeholder="Website" required />
                             </div>
 
                         </div>
@@ -179,52 +181,52 @@
 
                            <span>What Brands do you intend to list? (Press Enter to Add)</span>
                             <div class="field inputw700">
-                                <input type="text" id="brands" name="brands" placeholder="Input Brands Here" required="true" />
+                                <input type="text" id="brands" name="brands" placeholder="Input Brands Here" required />
                             </div>
                            
 
                             <span>Do you currently sell on other marketplaces (including abroad)? If Yes, which ones?</span>
                             <div class="field inputw700">
-                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" required="true" />
+                                <input type="text" name="current_sell" placeholder="Input Your Currently Sell Here" required />
                             </div>
    
 
                             <div class="field input2w300">
                                 <span>What is your prefered method of integration with digiDirect?</span>
-                                <select name="method" id="method" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select name="method" id="method" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
-                                    <option value="Custom Built API connection">Custom Built API connection</option>
-                                    <option value="ChannelAdvisor integration">ChannelAdvisor integration</option>
-                                    <option value="Intelligent Reach integration">Intelligent Reach integration</option>
-                                    <option value="Omnivore integration">Omnivore integration</option>
-                                    <option value="Comestri integration">Comestri integration</option>
+                                    <option value="Custom Built API Connection">Custom Built API Connection</option>
+                                    <option value="Channel Advisor Integration">Channel Advisor Integration</option>
+                                    <option value="Intelligent Reach Integration">Intelligent Reach Integration</option>
+                                    <option value="Omnivore Integration">Omnivore Integration</option>
+                                    <option value="Comestri Integration">Comestri Integration</option>
                                     <option value="Other Channel Manager">Other Channel Manager</option>
                                     <option value="Manual CSV, Direct, XML Upload">Manual CSV, Direct, XML Upload</option>
-                                    <option value="Don't know yet">Don't know yet</option>
+                                    <option value="Don't Know Yet">Don't Know Yet</option>
                                 </select>
                             </div>
                             <!-- <div class="space-field"></div> -->
                             <div class="field input2w300">
                                 <span>What POS and eCommerce platforms do you currently use?</span>
-                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" required="true" />
+                                <input type="text" name="platform_use" placeholder="Input Your Currently Use Here" required />
                             </div>
 
                                  <div class="space-field"></div>
                             <div class="field input2w300">
                                 <span>Head Office Location</span>
-                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select id="seller_country_select" name="head_office" id="head_office" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
                             <div class="field input2w300">
                                 <span>Warehouse Location Shipping Product from</span>
-                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select id="seller_country_select2" name="warehouse" id="warehouse" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                 </select>
                             </div>
 
 
                             <div class="field input2w300">
                                 <span>Estimate Annual Sale (AUD)</span>
-                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select name="annual_sale" id="annual_sale" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under $20,000">Under $20,000</option>
                                     <option value="$20,001 - $50,000">$20,001 - $50,000</option>
@@ -235,12 +237,12 @@
                                     <option value="$1,000,001 - $5,000,000">$1,000,001 - $5,000,000</option>
                                     <option value="$5,000,001 - $10,000,000">$5,000,001 - $10,000,000</option>
                                     <option value="$10,000,001+">$10,000,001+</option>
-                                    <option value="Prefer not to say">Prefer not to say</option>
+                                    <option value="Prefer Not to say">Prefer not to say</option>
                                 </select>
                             </div>
                             <div class="field input2w300">
                                 <span>How many products are you intending to list an digiDirect?</span>
-                                <select name="intending" id="intending" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required="true">
+                                <select name="intending" id="intending" class="salutename selectw300" style='color:#c3c3c3; font-weight:400;' oninput='style.color="#323232"' required>
                                     <option value="" disabled selected>Choose</option>
                                     <option value="Under 10">Under 10</option>
                                     <option value="10 - 25">10 - 25</option>
@@ -259,7 +261,7 @@
                             <!-- <button class="submit next">Submit</button> -->
                             <?=$block->getChildHtml('form.additional.info') ?>
                             <input type="hidden" name="hideit" id="hideit" value="" />
-                            <button type="submit" id="add" title="" class="action submit primary  next">
+                            <button type="submit" id="add" title="" class="action submit primary next">
                                 <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
                             </button>
 
@@ -349,21 +351,22 @@ function initMultiStepForm() {
         progressText[current - 1].classList.add("active");
         current += 1;
         setTimeout(function () {
-            // alert("Your Form Successfully Signed up");
-            location.reload();
+            // alert("Your Form Successfully Submit");
+            // location.reload();
         }, 800);
     });
 
     function validateInputs(ths) {
         let inputsValid = true;
 
-        const inputs =
-            ths.parentElement.parentElement.querySelectorAll("input");
+        const inputs = ths.parentElement.parentElement.querySelectorAll("input, select");
+        // const inputs = ths.parentElement.parentElement.querySelectorAll("input");
         for (let i = 0; i < inputs.length; i++) {
             const valid = inputs[i].checkValidity();
             if (!valid) {
                 inputsValid = false;
                 inputs[i].classList.add("invalid-input");
+                // inputs[i].document.getElementByClassName('.err-notif').setAttribute('style', 'display: block !important;');
             } else {
                 inputs[i].classList.remove("invalid-input");
             }
@@ -620,7 +623,7 @@ othercategory.addEventListener('keypress', function(e) {
 function render() {
   cat_otherlist.innerHTML = '';
   items.map((item, index) => {
-    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 17px; margin-right:5px;">x</a><span>${item}</span></li>`;
+    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 14px; margin-right:5px;">x</a><span>${item}</span></li>`;
   });
 }
 
@@ -635,27 +638,17 @@ window.onload = function() {
 }
 
 // prevent next page when press enter
-othercategory.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-        event.preventDefault();
-    // alert("prevent enter")
-  }
-});
+// othercategory.addEventListener("keypress", function(event) {
+//   if (event.key === "Enter") {
+//         event.preventDefault();
+//     // alert("prevent enter")
+//   }
+// });
 
 
-var business = document.getElementById("bus");
+// var business = document.getElementById("bus");
 
-business.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-        event.preventDefault();
-    // alert("prevent enter")
-  }
-});
-
-
-var brands = document.getElementById("brands");
-
-brands.addEventListener("keypress", function(event) {
+document.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
         event.preventDefault();
     // alert("prevent enter")
@@ -683,6 +676,7 @@ require(['jquery'],function($){
     $(document).ready(function(){
         $("#add").click(function(){
         var customurl = "<?php echo $this->getUrl("digimarketseller/index/index") ?>";
+
         $.ajax({
             url: customurl,
             type: "POST",
@@ -830,6 +824,22 @@ require(['jquery'],function($){
         });
 
     });
+
+    $(document).ready(function(){
+
+        $('#sellerForm').submit(function(e) {
+            e.preventDefault();
+            $("input, select").each(function(){
+            if($.trim(this.value) == ""){
+                alert('you did not fill out one of the fields');
+            } else {
+                // Submit 
+            }
+            })
+        })
+
+    });
+
 
 }); 
 

@@ -140,6 +140,7 @@ text-align: left;
 /* background: #f5f5f5; */
 color: #323232;
 /* width: 100px; */
+margin-bottom: 5px !important;
 }
 
 #categories_option1,#categories_option2,#categories_option3,#categories_option4,
@@ -255,6 +256,11 @@ ul#other_cat_display li a  a:hover {
     width: calc(100% / 5);
     transition: margin-left 0.3s ease-in-out;
 }
+
+.page.secp4 {
+    margin-left: 20%!important;
+}
+
 .form-outer form .page .title {
     text-align: center;
     font-size: 14px;
@@ -274,6 +280,7 @@ form .page .field .label {
     top: -30px;
     font-weight: 500;
 }
+
 form .page .field input {
     box-sizing: border-box;
     height: 100%;
@@ -285,9 +292,12 @@ form .page .field input {
     font-size: 14px;
     transition: border-color 150ms ease;
 }
-form .page .field input.invalid-input {
-    border-color: red;
+
+#digimarketseler_form input.invalid-input, #digimarketseler_form select.invalid-input {
+    border-color: red !important;
+    background: #f5f5f5 !important;
 }
+
 form .page .field select {
     width: 100%;
     padding-left: 10px;
