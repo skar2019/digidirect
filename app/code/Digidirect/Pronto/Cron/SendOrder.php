@@ -36,5 +36,11 @@ class SendOrder
         $this->helper->orderPost();
 
     }
+
+    public function sendProcessingOrder()
+    {
+        $this->helper->orderProcessing();
+
+    }
     //redeploy
 }
