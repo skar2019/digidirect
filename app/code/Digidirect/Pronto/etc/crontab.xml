@@ -5,7 +5,7 @@
         <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendOrder">
             <schedule>*/2 * * * *</schedule>
         </job>
-        <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendProcessingOrder">
+        <job name="pronto_order_sync_processing" instance="Digidirect\Pronto\Cron\SendOrder" method="sendProcessingOrder">
             <schedule>* * * * *</schedule>
         </job>
         <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
