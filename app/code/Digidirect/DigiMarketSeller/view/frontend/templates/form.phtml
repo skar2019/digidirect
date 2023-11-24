@@ -98,7 +98,7 @@
                                     <li><p id="categories_display16" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Seasonal (Digital, Electronic)</p></li>
                                     <li><p id="categories_display17" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Smart Home</p></li>
                                     <li><p id="categories_display18" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Toys (Digital, Electronic)</p></li>
-                                    <li><p id="categories_display19" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square Wearable</p></li>
+                                    <li><p id="categories_display19" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Wearable</p></li>
                                     <!-- <li><p id="categories_display20" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square White Goods</p></li> -->
                                     <ul id="other_cat_display" class="cat-others"></ul>
                                 </ul>
@@ -602,6 +602,8 @@ var othercategory = document.getElementById('cat_otherfield');
 var cat_otherlist = document.getElementById('other_cat_display');
 var items = [];
 
+
+
 othercategory.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     let val = othercategory.value;
@@ -613,6 +615,8 @@ othercategory.addEventListener('keypress', function(e) {
         render();
         othercategory.value = '';
         othercategory.focus();
+        alert("items: " + items);
+        alert("val: " + val);
       }
     } else {
     //   alert('Please type a tag Name');
