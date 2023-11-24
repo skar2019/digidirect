@@ -976,10 +976,17 @@ class Order extends AbstractHelper
                 }
                 else if(strpos($sku, '-') !== false)
                 {
-                    $gotDigiProducts = true;
+                    $rest = substr($sku, -2);
                     $skus = explode('-', $sku);
-                    $productSku = $skus[0];
-                    $digiProtect = $skus[1];
+                    if($rest == '-1')
+                    {
+                        $productSku = $skus[0];
+                    }
+                    else
+                    {
+
+                        $productSku = $skus[0];
+                        $digiProtect = $skus[1];
 
 //                    $price = (double) $item->getBasePriceInclTax();
 //                    $orig = (double) $item->getOriginalPrice();
@@ -992,17 +999,21 @@ class Order extends AbstractHelper
 //                    }
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
-                    $productDigiprot = $this->productFactory->create();
-                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
-                    $digiProtectPrice = $productPriceBySku;
-                    $digiProtectQty = (double) $item->getQtyOrdered();
-                    $digiProtectdiscount = 0;
-                    if($coupon != "")
-                    {
+                        $productDigiprot = $this->productFactory->create();
+                        $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                        $digiProtectPrice = $productPriceBySku;
+                        $digiProtectQty = (double) $item->getQtyOrdered();
                         $digiProtectdiscount = 0;
+                        if($coupon != "")
+                        {
+                            $digiProtectdiscount = 0;
+                        }
+                        $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+
                     }
-                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $gotDigiProducts = true;
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+
                 }
                 else
                 {
