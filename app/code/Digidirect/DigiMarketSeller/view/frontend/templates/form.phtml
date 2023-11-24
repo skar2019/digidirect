@@ -96,7 +96,7 @@
                                     <li><p id="categories_display14" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Pro Video</p></li>
                                     <li><p id="categories_display15" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Scooters, Bike, Boards</p></li>
                                     <li><p id="categories_display16" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Seasonal (Digital, Electronic)</p></li>
-                                    <li><p id="categories_display14" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Smart Home</p></li>
+                                    <li><p id="categories_display17" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Smart Home</p></li>
                                     <li><p id="categories_display18" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Toys (Digital, Electronic)</p></li>
                                     <li><p id="categories_display19" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square Wearable</p></li>
                                     <!-- <li><p id="categories_display20" style="display:none"><span style="font-size: 14px; margin-right:5px;">x</span>Square White Goods</p></li> -->
@@ -563,21 +563,21 @@ function myFunction() {
 
     if (catoption17.checked == true){
         optdisplay17.style.display = "block";
-    //   alert("test")
+      alert("checkcatop17");
     } else {
         optdisplay17.style.display = "none";
     }
 
     if (catoption18.checked == true){
         optdisplay18.style.display = "block";
-    //   alert("test")
+        alert("checkcatop18")
     } else {
         optdisplay18.style.display = "none";
     }
 
     if (catoption19.checked == true){
         optdisplay19.style.display = "block";
-    //   alert("test")
+        alert("8")
     } else {
         optdisplay19.style.display = "none";
     }
@@ -806,16 +806,19 @@ require(['jquery'],function($){
         $('#categories_display17').click(function(){
             $('#categories_option17').prop('checked', false);
             $("#categories_display17").css("display", "none");
+            alert("uncheckcatop17");
         });
 
         $('#categories_display18').click(function(){
             $('#categories_option18').prop('checked', false);
             $("#categories_display18").css("display", "none");
+            alert("uncheckcatop18");
         });
 
         $('#categories_display19').click(function(){
             $('#categories_option19').prop('checked', false);
             $("#categories_display19").css("display", "none");
+            alert("uncheckcatop19");
         });
 
         $('#categories_display20').click(function(){
