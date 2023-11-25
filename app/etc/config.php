@@ -681,6 +681,7 @@ return [
         'WebPanda_SalesProductImage' => 1,
         'WeltPixel_Backend' => 0,
         'WeltPixel_GA4' => 0,
-        'Zip_ZipPayment' => 1
+        'Zip_ZipPayment' => 1,
+        'Digidirect_DigiMarketSeller' => 0
     ]
 ];
