@@ -258,7 +258,18 @@
                         <div class="field btns">
                             <button class="prev-1 prev">Previous</button>
                             <!-- <button class="next-1 next">Next</button> -->
-                            <!-- <button class="submit next">Submit</button> -->
+                            <?php 
+                                if(empty($brands) || empty($current_sell) || empty($method) || empty($platform_use) || empty($head_office) || empty($warehouse) || empty($annual_sale) || empty($intending))
+                                {
+                                    echo "button if empty";
+                                }else {
+                                    echo "button if not empty";
+                                }
+                            
+                            ?>
+                           
+                           <button id="btnempty" class="next">Submit1</button>
+
                             <?=$block->getChildHtml('form.additional.info') ?>
                             <input type="hidden" name="hideit" id="hideit" value="" />
                             <button type="submit" id="add" title="" class="action submit primary next">
@@ -356,6 +367,7 @@ function initMultiStepForm() {
         }, 800);
     });
 
+    // fields checker
     function validateInputs(ths) {
         let inputsValid = true;
 
@@ -371,9 +383,32 @@ function initMultiStepForm() {
                 inputs[i].classList.remove("invalid-input");
             }
         }
+        
         return inputsValid;
     }
+
+    var submitbtn = document.getElementById('add');
+    var proxysubmitbtn = document.getElementById('btnempty');
+    var checkinputs = document.querySelectorAll("input, select");
+    submitbtn.style.display = "none";
+
+    checkinputs.addEventListener('checkinputs', function() {
+
+        if(checkinputs.value === ""){
+            alert("Input a value to continue");
+            submitbtn.style.display = "none";
+            proxysubmitbtn.style.display = "block";
+        }
+        else{
+            submitbtn.style.display = "block";
+            proxysubmitbtn.style.display = "none";
+        }
+    });
+
+
 }
+
+
 
 
 function myFunction() {
