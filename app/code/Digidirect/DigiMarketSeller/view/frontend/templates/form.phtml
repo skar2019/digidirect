@@ -260,6 +260,7 @@
                             <!-- <button class="next-1 next">Next</button> -->
                            
                            <button id="btnempty" class="next">Submit1</button>
+
                             <?=$block->getChildHtml('form.additional.info') ?>
                             <input type="hidden" name="hideit" id="hideit" value="" />
                             <button type="submit" id="add" title="" class="action submit primary next">
@@ -633,7 +634,7 @@ othercategory.addEventListener('keypress', function(e) {
 function render() {
   cat_otherlist.innerHTML = '';
   items.map((item, index) => {
-    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 14px; margin-right:5px;">x</a><span class="othercatlist">${item}<span style="display: none;">, </span></span></li>`;
+    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 14px; margin-right:5px;">x</a><span class="othercatlist">${item}<span style="display: none;">,&nbsp;</span></span></li>`;
   });
 }
 
@@ -872,11 +873,13 @@ require(['jquery'],function($){
 
         $(inputchecker).keyup(function() {
             if ($(this).val()) {
-                $("#add").show();
-                $("#btnempty").hide();
-            } else {
                 $("#add").hide();
                 $("#btnempty").show();
+                alert("display empty button");
+            } else {
+                $("#add").show();
+                $("#btnempty").hide();
+                alert("display submit button");
             }
         });
     });
