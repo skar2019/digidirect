@@ -37,7 +37,6 @@ class Applyform extends \Magento\Backend\App\Action
     protected $productRepository;
     protected $configurableProduct;
     protected $priceCurrency;
-    protected $productFactory;
 
     public function __construct
     (
@@ -48,7 +47,6 @@ class Applyform extends \Magento\Backend\App\Action
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Itoris\PriceMatch\Model\Coupon $couponItoris
     )
     {
@@ -60,7 +58,6 @@ class Applyform extends \Magento\Backend\App\Action
         $this->timezone = $timezone;
         $this->priceCurrency = $priceCurrency;
         $this->productRepository = $productRepository;
-        $this->productFactory = $productFactory;
     }
 
     public function execute()
@@ -117,13 +114,6 @@ class Applyform extends \Magento\Backend\App\Action
 
         $priceMatchExtended = $this->getPriceMatchExtended($id);
         $priceMatchExtended = $this->calcProductName($priceMatchExtended) ;
-        //clint work around
-        $product = $this->productFactory->create()->load( $item['product_id'] );
-        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
-        $final_price2 = $product->getFinalPrice();
-        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
-
-        $priceMatchExtended['final_price'] = $final_price3;
         $coupon = $this->couponItoris->createCoupon($priceMatchExtended);
         $priceMatchExtended['coupon_code'] = $coupon->getCode();
         $priceMatchExtended['admin_response'] = $response;

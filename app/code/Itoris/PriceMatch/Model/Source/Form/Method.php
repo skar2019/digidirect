@@ -30,31 +30,22 @@ class Method implements \Magento\Framework\Option\ArrayInterface
     protected $request;
     protected $priceCurrency;
     protected $collectionFactory;
-    protected $productFactory;
 
     public function __construct
     (
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Framework\App\RequestInterface $request
     )
     {
         $this->collectionFactory = $collectionFactory;
         $this->priceCurrency = $priceCurrency;
         $this->request = $request;
-        $this->productFactory = $productFactory;
     }
 
     public function toOptionArray()
     {
         $item = $this->collectionFactory->create()->sendItemById($this->request->getParam('id'));
-
-        $product = $this->productFactory->create()->load( $item['product_id'] );
-        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
-        $final_price2 = $product->getFinalPrice();
-        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
-
         $lower = $this->priceCurrency->format(
             $item['match_price'],
             false,
@@ -62,7 +53,7 @@ class Method implements \Magento\Framework\Option\ArrayInterface
             $item['store_id']
         );
         $diffPrice =$this->priceCurrency->format(
-            $final_price3-$item['match_price'],
+            $item['final_price']-$item['match_price'],
             false,
             \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
             $item['store_id']
