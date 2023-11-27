@@ -52,10 +52,13 @@ class Data extends AbstractHelper
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
+            if ($seller == "") {
+                $seller = "General Seller";
+            }
+            
             if (($seller != "General Seller") && (!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
-            
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
@@ -101,6 +104,11 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
+            
+            if ($seller == "") {
+                $seller = "General Seller";
+            }
+            
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
@@ -160,7 +168,6 @@ class Data extends AbstractHelper
         } else {
             return false;
         }
-        
     }
     
     
@@ -178,6 +185,10 @@ class Data extends AbstractHelper
             $finalPrice = $product->getFinalPrice();
             $productTotal = $finalPrice * $item->getQty();
             $itemSeller = $product->getAttributeText('marketplacer_seller');
+            
+            if ($itemSeller == "") {
+                $itemSeller = "General Seller";
+            }
 
             if ($itemSeller == "General Seller") {
                 $digiTotal += $productTotal;
