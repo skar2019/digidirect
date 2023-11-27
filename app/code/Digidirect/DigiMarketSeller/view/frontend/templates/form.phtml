@@ -73,8 +73,8 @@
                                 </ul>
                                 <br>
                                 
-                                <input type="text" id="cat_otherfield" name="cat_otherfield"  placeholder="Type other Category Here">
-
+                                <input type="text" id="cat_otherfield" placeholder="Type other Category Here">
+                                <input id="getothercat" name="cat_otherfield" type="hidden">
                             </div>
 
                             <div class="categories-display">
@@ -109,7 +109,7 @@
                         <div style="margin: 50px;"></div>
 
                         <div class="field">
-                            <button class="firstNext next">Next</button>
+                            <button class="firstNext next" id="btnGET">Next</button>
                         </div>
                     </div>
 
@@ -258,7 +258,9 @@
                         <div class="field btns">
                             <button class="prev-1 prev">Previous</button>
                             <!-- <button class="next-1 next">Next</button> -->
-                            <!-- <button class="submit next">Submit</button> -->
+                           
+                           <button id="btnempty" class="next">Submit1</button>
+
                             <?=$block->getChildHtml('form.additional.info') ?>
                             <input type="hidden" name="hideit" id="hideit" value="" />
                             <button type="submit" id="add" title="" class="action submit primary next">
@@ -356,6 +358,7 @@ function initMultiStepForm() {
         }, 800);
     });
 
+    // fields checker
     function validateInputs(ths) {
         let inputsValid = true;
 
@@ -371,9 +374,13 @@ function initMultiStepForm() {
                 inputs[i].classList.remove("invalid-input");
             }
         }
+        
         return inputsValid;
     }
+
 }
+
+
 
 
 function myFunction() {
@@ -627,7 +634,7 @@ othercategory.addEventListener('keypress', function(e) {
 function render() {
   cat_otherlist.innerHTML = '';
   items.map((item, index) => {
-    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 14px; margin-right:5px;">x</a><span>${item}</span></li>`;
+    cat_otherlist.innerHTML += `<li><a href="javascript: remove(${index})" style="font-size: 14px; margin-right:5px;">x</a><span class="othercatlist">${item}<span style="display: none;">,&nbsp;</span></span></li>`;
   });
 }
 
@@ -671,6 +678,26 @@ arr.map((op,i)=>{
 })
 document.getElementById("seller_country_select").innerHTML=options;
 document.getElementById("seller_country_select2").innerHTML=options;
+
+//buttons if fields empty and not
+// var submitbtn = document.getElementById('add');
+// var proxysubmitbtn = document.getElementById('btnempty');
+// var checkinputs = document.querySelectorAll("input, select");
+// submitbtn.style.display = "none";
+
+// checkinputs.addEventListener('checkinputs', function() {
+
+//     if(checkinputs.value === ""){
+//         alert("Input a value to continue");
+//         submitbtn.style.display = "none";
+//         proxysubmitbtn.style.display = "block";
+//     }
+//     else{
+//         submitbtn.style.display = "block";
+//         proxysubmitbtn.style.display = "none";
+//     }
+// });
+
 
 </script>
 
@@ -830,6 +857,31 @@ require(['jquery'],function($){
             $("#categories_display20").css("display", "none");
         });
 
+    });
+
+    $(document).ready(function(){
+
+        $('#btnGET').click(function() {
+            $('#getothercat').val($('.othercatlist').text());
+        });
+
+    });
+
+    $(document).ready(function(){
+        $("#add").hide();
+        let inputchecker = document.querySelectorAll("input");
+
+        $(inputchecker).keyup(function() {
+            if ($(this).val()) {
+                $("#add").hide();
+                $("#btnempty").show();
+                alert("display empty button");
+            } else {
+                $("#add").show();
+                $("#btnempty").hide();
+                alert("display submit button");
+            }
+        });
     });
 
     $(document).ready(function(){

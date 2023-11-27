@@ -68,11 +68,6 @@ class Index extends Action
         $annual_sale = $this->getRequest()->getParam('annual_sale');
         $intending = $this->getRequest()->getParam('intending');
 
-        
-        if (!isset($_POST['salutename'], $_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['job'], $_POST['business'], $_POST['address'], $_POST['abn'], $_POST['employees'], $_POST['contact'], $_POST['website'], $_POST['brands'], $_POST['current_sell'], $_POST['method'], $_POST['platform_use'], $_POST['head_office'], $_POST['warehouse'], $_POST['annual_sale'], $_POST['intending'])) {
-            echo "Please enter all of the values!";
-        }else{    
-
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
@@ -144,10 +139,6 @@ class Index extends Action
        
         
         $this->messageManager->addSuccess(__('Form successfully submitted'));
-
-        
-
-        }
 
       
                
