@@ -52,6 +52,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $this->logger->info('getBaseUrl: ' . $this->urlInterface->getBaseUrl());
         $currentUrl = rtrim($this->urlInterface->getCurrentUrl(), '/');
         $this->logger->info('currentUrl: ' . $currentUrl);
+        $isRedirect = $observer->getEvent()->getRequest()->getParam('digiclub');
         
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
@@ -60,12 +61,15 @@ class CheckLoginPersistentObserver implements ObserverInterface
 
         } else if (!$this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclub-member-deals') {
             $url = $this->urlInterface->getUrl('digiclub-member-deals');
-            $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url)]);
+            $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
             
         } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclub-member-deals' && $this->_customerSession->getCustomer()->getGroupId() != 10) {
             $url = $this->urlInterface->getUrl('digiclub-member-deals');
             $page_url = $this->urlInterface->getUrl('digiclubmember/customer/index', ['referer' => base64_encode($url)]);
+            $this->redirect->redirect($controller->getResponse(), $page_url);
+        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index' && $isRedirect && $this->_customerSession->getCustomer()->getGroupId() == 10) {
+            $page_url = $this->urlInterface->getUrl('digiclub-member-deals');
             $this->redirect->redirect($controller->getResponse(), $page_url);
         }
     }
