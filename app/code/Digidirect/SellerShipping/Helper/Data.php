@@ -52,6 +52,10 @@ class Data extends AbstractHelper
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
+            if ($seller == "") {
+                $seller = "digiDirect";
+            }
+            
             if (($seller != "digiDirect") && (!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
@@ -100,6 +104,11 @@ class Data extends AbstractHelper
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
+            
+            if ($seller == "") {
+                $seller = "digiDirect";
+            }
+            
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
@@ -176,6 +185,10 @@ class Data extends AbstractHelper
             $finalPrice = $product->getFinalPrice();
             $productTotal = $finalPrice * $item->getQty();
             $itemSeller = $product->getAttributeText('marketplacer_seller');
+            
+            if ($itemSeller == "") {
+                $itemSeller = "digiDirect";
+            }
 
             if ($itemSeller == "digiDirect") {
                 $digiTotal += $productTotal;
