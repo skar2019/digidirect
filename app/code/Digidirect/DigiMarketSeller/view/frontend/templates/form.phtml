@@ -867,37 +867,22 @@ require(['jquery'],function($){
 
     });
 
-    $(document).ready(function(){
-        $("#add").hide();
-        let inputchecker = document.querySelectorAll("input");
+    // $(document).ready(function(){
+    //     $("#add").hide();
+    //     let inputchecker = document.querySelectorAll("input");
 
-        $(inputchecker).keyup(function() {
-            if ($(this).val()) {
-                $("#add").hide();
-                $("#btnempty").show();
-                alert("display empty button");
-            } else {
-                $("#add").show();
-                $("#btnempty").hide();
-                alert("display submit button");
-            }
-        });
-    });
-
-    $(document).ready(function(){
-
-        $('#sellerForm').submit(function(e) {
-            e.preventDefault();
-            $("input, select").each(function(){
-            if($.trim(this.value) == ""){
-                alert('you did not fill out one of the fields');
-            } else {
-                // Submit 
-            }
-            })
-        })
-
-    });
+    //     $(inputchecker).keyup(function() {
+    //         if ($(this).val()) {
+    //             $("#add").hide();
+    //             $("#btnempty").show();
+    //             // alert("display empty button");
+    //         } else {
+    //             $("#add").show();
+    //             $("#btnempty").hide();
+    //             alert("display submit button");
+    //         }
+    //     });
+    // });
 
 
 }); 
