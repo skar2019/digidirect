@@ -29,7 +29,14 @@
             </ol>
             <!-- ko foreach: { data: items(), as: 'item' } -->
                 <li class="product-item">
-                    <div class="seller-name" style="display: none;"><!-- ko text: item.marketplacer_seller --><!-- /ko --></div>
+                    <div class="seller-name" style="display: none;">
+                        <!-- ko if: item.marketplacer_seller == ''-->
+                            General Seller
+                        <!-- /ko -->
+                        <!-- ko ifnot: item.marketplacer_seller == ''-->
+                            <!-- ko text: item.marketplacer_seller --><!-- /ko -->
+                        <!-- /ko -->
+                    </div>
                     <div class="product">
                         <each args="$parent.elems()" render=""></each>
                     </div>
