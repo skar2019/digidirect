@@ -28,19 +28,26 @@
                 </div>
             </ol>
             <!-- ko foreach: { data: items(), as: 'item' } -->
-                <li class="product-item">
-                    <div class="seller-name" style="display: none;">
-                        <!-- ko if: item.marketplacer_seller == ''-->
-                            General Seller
-                        <!-- /ko -->
-                        <!-- ko ifnot: item.marketplacer_seller == ''-->
+                <!-- ko if: item.marketplacer_seller == ''-->
+                    <li class="product-item">
+                        <div class="seller-name" style="display: none;">
+                            <!-- ko -->General Seller<!-- /ko -->
+                        </div>
+                        <div class="product">
+                            <each args="$parent.elems()" render=""></each>
+                        </div>
+                    </li>
+                <!-- /ko -->
+                <!-- ko ifnot: item.marketplacer_seller == ''-->
+                    <li class="product-item">
+                        <div class="seller-name" style="display: none;">
                             <!-- ko text: item.marketplacer_seller --><!-- /ko -->
-                        <!-- /ko -->
-                    </div>
-                    <div class="product">
-                        <each args="$parent.elems()" render=""></each>
-                    </div>
-                </li>
+                        </div>
+                        <div class="product">
+                            <each args="$parent.elems()" render=""></each>
+                        </div>
+                    </li>
+                <!-- /ko -->
             <!-- /ko -->
         </div>
     </div>
