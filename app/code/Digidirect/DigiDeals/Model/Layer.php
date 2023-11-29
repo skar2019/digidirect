@@ -71,7 +71,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->getSelect()->where("price_index.final_price < price");
             $this->prepareProductCollection($collection);
-            $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
+            $this->_productCollections[$defaultCategory] = $collection;
         }
         
         return $collection;
