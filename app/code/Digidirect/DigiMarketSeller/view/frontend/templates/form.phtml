@@ -259,7 +259,7 @@
                             <button class="prev-1 prev">Previous</button>
                             <!-- <button class="next-1 next">Next</button> -->
                            
-                           <button id="btnempty" class="next">Submit1</button>
+                           <!--<button id="btnempty" class="next">Submit1</button>-->
 
                             <?=$block->getChildHtml('form.additional.info') ?>
                             <input type="hidden" name="hideit" id="hideit" value="" />
@@ -867,37 +867,22 @@ require(['jquery'],function($){
 
     });
 
-    $(document).ready(function(){
-        $("#add").hide();
-        let inputchecker = document.querySelectorAll("input");
+    // $(document).ready(function(){
+    //     $("#add").hide();
+    //     let inputchecker = document.querySelectorAll("input");
 
-        $(inputchecker).keyup(function() {
-            if ($(this).val()) {
-                $("#add").hide();
-                $("#btnempty").show();
-                alert("display empty button");
-            } else {
-                $("#add").show();
-                $("#btnempty").hide();
-                alert("display submit button");
-            }
-        });
-    });
-
-    $(document).ready(function(){
-
-        $('#sellerForm').submit(function(e) {
-            e.preventDefault();
-            $("input, select").each(function(){
-            if($.trim(this.value) == ""){
-                alert('you did not fill out one of the fields');
-            } else {
-                // Submit 
-            }
-            })
-        })
-
-    });
+    //     $(inputchecker).keyup(function() {
+    //         if ($(this).val()) {
+    //             $("#add").hide();
+    //             $("#btnempty").show();
+    //             // alert("display empty button");
+    //         } else {
+    //             $("#add").show();
+    //             $("#btnempty").hide();
+    //             alert("display submit button");
+    //         }
+    //     });
+    // });
 
 
 }); 
