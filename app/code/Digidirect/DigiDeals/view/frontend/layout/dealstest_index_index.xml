@@ -39,6 +39,7 @@
                 <argument name="viewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\OptionsData</argument>
             </arguments>
         </referenceBlock>
+        <referenceBlock name="breadcrumbs" remove="false"/>
         <move element="page.main.title" destination="category.view.container" before="-"/>
     </body>
 </page>
