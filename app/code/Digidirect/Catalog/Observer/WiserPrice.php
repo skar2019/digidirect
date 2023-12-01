@@ -100,7 +100,7 @@ class WiserPrice implements ObserverInterface
             }
 
             $item->setCustomPrice($finalPrice + $optionPrice);
-            $item->setOriginalCustomPrice($finalPrice + $option['option_value']);
+            $item->setOriginalCustomPrice($finalPrice + $optionPrice);
             $item->getProduct()->setIsSuperMode(true);
         }
 
