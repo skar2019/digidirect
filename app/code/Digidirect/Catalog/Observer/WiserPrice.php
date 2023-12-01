@@ -93,7 +93,8 @@ class WiserPrice implements ObserverInterface
             
             if (isset($options['options']) && !empty($options['options'])) {        
                 foreach ($options['options'] as $option) {
-                    $optionPrice = $option['price'];
+                    //product[options][0][values][0][price]
+                    $optionPrice = $option[0][values][0]['price'];
                 }
             }
 
