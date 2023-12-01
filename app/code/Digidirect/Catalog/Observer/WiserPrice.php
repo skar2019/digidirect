@@ -87,6 +87,7 @@ class WiserPrice implements ObserverInterface
                 $this->logger->info('Product Option: ' . json_encode($option));
             }*/
             
+            $optionPrice = 0;
             $options = $item->getProductOptions();        
             if (isset($options['options']) && !empty($options['options'])) {        
                 foreach ($options['options'] as $option) {
@@ -94,10 +95,11 @@ class WiserPrice implements ObserverInterface
                     echo 'ID: ' . $option['option_id'] . '<br />';
                     echo 'Type: ' . $option['option_type'] . '<br />';
                     echo 'Value: ' . $option['option_value'] . '<br />' . '<br />';
+                    $optionPrice = $option['option_value'];
                 }
             }
 
-            $item->setCustomPrice($finalPrice + $option['option_value']);
+            $item->setCustomPrice($finalPrice + $optionPrice);
             $item->setOriginalCustomPrice($finalPrice + $option['option_value']);
             $item->getProduct()->setIsSuperMode(true);
         }
