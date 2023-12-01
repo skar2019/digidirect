@@ -80,6 +80,12 @@ class WiserPrice implements ObserverInterface
             } else {
                 $finalPrice = $price;
             }
+            
+            $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            
+            foreach ($options as $option) {
+                $this->logger->info('Product Option: ' . json_encode($option));
+            }
 
             $item->setCustomPrice($finalPrice);
             $item->setOriginalCustomPrice($finalPrice);
