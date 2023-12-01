@@ -93,10 +93,10 @@ class WiserPrice implements ObserverInterface
             
             if (isset($options['options']) && !empty($options['options'])) {        
                 foreach ($options['options'] as $option) {
-                    echo 'Title: ' . $option['label'] . '<br />';
-                    echo 'ID: ' . $option['option_id'] . '<br />';
-                    echo 'Type: ' . $option['option_type'] . '<br />';
-                    echo 'Value: ' . $option['option_value'] . '<br />' . '<br />';
+                    $this->logger->info('Title: ' . $option['label']);
+                    $this->logger->info('ID: ' . $option['option_id']);
+                    $this->logger->info('Type: ' . $option['option_type']);
+                    $this->logger->info('Value: ' . $option['option_value']);
                     $optionPrice = $option['option_value'];
                 }
             }
