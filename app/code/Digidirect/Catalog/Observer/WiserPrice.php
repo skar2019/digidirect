@@ -87,11 +87,12 @@ class WiserPrice implements ObserverInterface
             //$options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
             
             $arr = (array) $options;
+            $this->logger->info('Product Option: ' . json_encode($arr));
             
-            foreach ($arr as $option) {
+            /*foreach ($arr as $option) {
                 //product[options][0][values][0][price]
                 $optionPrice = $option->getPrice();
-            }
+            }*/
             
             /*foreach ($options as $option) {
                 $this->logger->info('Product Option: ' . json_encode($option));
