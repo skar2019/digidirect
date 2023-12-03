@@ -81,7 +81,10 @@ class WiserPrice implements ObserverInterface
                 $finalPrice = $price;
             }
             
-            $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $options = $_objectManager->get('Magento\Catalog\Model\Product\Option')->getProductOptionCollection($item->getProduct());
+            
+            //$options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
             
             /*foreach ($options as $option) {
                 $this->logger->info('Product Option: ' . json_encode($option));
