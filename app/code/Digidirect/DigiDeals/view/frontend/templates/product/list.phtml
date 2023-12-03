@@ -22,8 +22,6 @@ $showWishlist = true;
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
 
-<?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::category/custom-sorter.phtml")->toHtml() ?>
-
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
@@ -336,21 +334,3 @@ $currentPage = $this->getRequest()->getFullActionName();
         </script>
     <?php endif; ?>
 <?php endif; ?>
-
-<script>
-    /*require([
-            'jquery'
-        ],
-        function ($) {
-
-            $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
-                if ($(this).find('.product-overlay').length) {
-                    $(this).find('.overlay-container').append($(this).find('.product-overlay'));
-                }
-                if ($(this).find('.digiseconds-overlay').length) {
-                    $(this).find('.overlay-container').attr("style", "top: 65px;");
-                }
-            });
-
-    });*/
-</script>
