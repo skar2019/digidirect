@@ -10,12 +10,16 @@ class WiserPrice implements ObserverInterface
     protected $customer;
     
     protected $logger;
+    
+    protected $_productRepository;
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Product $productRepository,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->customer = $customerSession;
+        $this->_productRepository = $productRepository;
         $this->logger = $logger;
     }
     
@@ -83,19 +87,18 @@ class WiserPrice implements ObserverInterface
             
             $this->_productRepository->load($product->getId());
             
+            $optionPrice = 0;
+            
             foreach ($this->_productRepository->getOptions() as $option) {
                 if($option)
                 {
                     if ($option->getTitle() == 'digiProtect') {
-                        $this->logger->info('Product Option: ' . json_encode($option));
+                        $this->logger->info('digiProtect Price: ' . $option->getPrice());
+                        $optionPrice = $option->getPrice();
                     }
                 }
 
             }
-            
-            $optionPrice = 0;
-            //$options = $item->getProductOptions();   
-            $this->logger->info('Product Options: ' . json_encode($options));
             
             $item->setCustomPrice($finalPrice + $optionPrice);
             $item->setOriginalCustomPrice($finalPrice + $optionPrice);
