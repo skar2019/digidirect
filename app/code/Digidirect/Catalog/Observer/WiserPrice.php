@@ -81,34 +81,22 @@ class WiserPrice implements ObserverInterface
                 $finalPrice = $price;
             }
             
-            $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $options = $_objectManager->get('Magento\Catalog\Model\Product\Option')->getProductOptionCollection($item->getProduct());
+            $this->_productRepository->load($product->getId());
             
-            //$options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-            
-            $arr = (array) $options;
-            $this->logger->info('Product Option: ' . json_encode($arr));
-            
-            /*foreach ($arr as $option) {
-                //product[options][0][values][0][price]
-                $optionPrice = $option->getPrice();
-            }*/
-            
-            /*foreach ($options as $option) {
-                $this->logger->info('Product Option: ' . json_encode($option));
-            }*/
+            foreach ($this->_productRepository->getOptions() as $option) {
+                if($option)
+                {
+                    if ($option->getTitle() == 'digiProtect') {
+                        $this->logger->info('Product Option: ' . json_encode($option));
+                    }
+                }
+
+            }
             
             $optionPrice = 0;
             //$options = $item->getProductOptions();   
             $this->logger->info('Product Options: ' . json_encode($options));
             
-            /*if (isset($options['options']) && !empty($options['options'])) {        
-                foreach ($options['options'] as $option) {
-                    //product[options][0][values][0][price]
-                    $optionPrice = $option['price'];
-                }
-            }*/
-
             $item->setCustomPrice($finalPrice + $optionPrice);
             $item->setOriginalCustomPrice($finalPrice + $optionPrice);
             $item->getProduct()->setIsSuperMode(true);
