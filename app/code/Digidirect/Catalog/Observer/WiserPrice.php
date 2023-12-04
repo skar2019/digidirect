@@ -100,6 +100,9 @@ class WiserPrice implements ObserverInterface
             $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
             $this->logger->info('$product->getSku(): ' . $product->getSku());
             
+            $productTestOptions = array ($product->getOptions());
+            $this->logger->info('$productTestOptions: ' . json_encode($productTestOptions));
+            
             $optionPrice = 0;
             
             $options = array ($this->_productRepository->getOptions());
