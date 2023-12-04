@@ -87,6 +87,9 @@ class WiserPrice implements ObserverInterface
             
             $this->_productRepository->load($product->getId());
             
+            $this->logger->info('$product->getId(): ' . $product->getId());
+            $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
+            
             $optionPrice = 0;
             
             $options = array ($this->_productRepository->getOptions());
