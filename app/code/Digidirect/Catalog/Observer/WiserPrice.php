@@ -101,7 +101,7 @@ class WiserPrice implements ObserverInterface
         
         foreach($customOptions as $optionKey => $optionVal) {
             foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                $this->logger->info('$valuesVal: ' . $valuesVal->getId().' '.$valuesVal->getTitle());
+                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle().' '.$valuesVal->getPrice());
                 //echo $valuesVal->getId().' '.$valuesVal->getTitle();
             }
         }
