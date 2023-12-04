@@ -11,14 +11,22 @@ class WiserPrice implements ObserverInterface
     
     protected $logger;
     
+    protected $_productOptions;
+    
+    protected $_productRepositoryInterface;
+    
     protected $_productRepository;
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Product\Option $productOptions,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Catalog\Model\Product $productRepository,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->customer = $customerSession;
+        $this->_productOptions = $productOptions;
+        $this->_productRepositoryInterface = $productRepositoryInterface;
         $this->_productRepository = $productRepository;
         $this->logger = $logger;
     }
@@ -85,18 +93,21 @@ class WiserPrice implements ObserverInterface
                 $finalPrice = $price;
             }
             
+            $this->_productRepositoryInterface->getById($product->getId());
             $this->_productRepository->load($product->getId());
             
             $this->logger->info('$product->getId(): ' . $product->getId());
             $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
+            $this->logger->info('$product->getSku(): ' . $product->getSku());
             
             $optionPrice = 0;
             
             $options = array ($this->_productRepository->getOptions());
-            
             $this->logger->info('Options: ' . json_encode($options));
             
             foreach ($this->_productRepository->getOptions() as $option) {
+                
+                $this->logger->info('$option->getTitle(): ' . $option->getTitle());
                 
                 $optionArray = array ($option);
                 $this->logger->info('Option Array: ' . json_encode($optionArray));
