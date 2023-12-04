@@ -89,14 +89,22 @@ class WiserPrice implements ObserverInterface
             
             $optionPrice = 0;
             
+            $options = array ($this->_productRepository->getOptions());
+            
+            $this->logger->info('Options: ' . json_encode($options));
+            
             foreach ($this->_productRepository->getOptions() as $option) {
-                if($option)
+                
+                $optionArray = array ($option);
+                $this->logger->info('Option Array: ' . json_encode($optionArray));
+                
+                /*if($option)
                 {
                     if ($option->getTitle() == 'digiProtect') {
                         $this->logger->info('digiProtect Price: ' . $option->getPrice());
-                        $optionPrice = $option->getPrice();
+                        //$optionPrice = $option->getPrice();
                     }
-                }
+                }*/
 
             }
             
