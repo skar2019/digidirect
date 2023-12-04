@@ -96,11 +96,12 @@ class WiserPrice implements ObserverInterface
                 }
             }*/
             
-            $values = $option->getValues();
-            foreach ($values as $k => $value) {
-                print_r($value);
+            foreach($this->_productOptions as $optionKey => $optionVal) {
+               foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                   $this->logger->info('$valuesVal: ' . $valuesVal->getId().' '.$valuesVal->getTitle());
+                   //echo $valuesVal->getId().' '.$valuesVal->getTitle();
+               }
             }
-        }
         
         if (!$product->getData('added_by_rule_id')) {
             if ($wiserPrice > 1 && !empty($wiserPrice)) {
