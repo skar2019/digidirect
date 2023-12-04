@@ -82,6 +82,8 @@ class WiserPrice implements ObserverInterface
 
             $this->logger->info('$option->getTitle(): ' . $option->getTitle());
             $this->logger->info('$option->getPrice(): ' . $option->getPrice());
+            $this->logger->info('$option->getValues(): ' . json_encode(array($option->getValues())));
+            //$this->logger->info('$option->getPrice(): ' . $option->getValues()->getPrice());
 
             $optionArray = array ($option);
             $this->logger->info('Option Array: ' . json_encode($optionArray));
