@@ -81,7 +81,12 @@ class Data extends AbstractHelper
             $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             if ($sellerTotal < 99) {
-                $sellerShipping = 10;
+                if ($seller == "digiDirect") {
+                    $sellerShipping = 10;
+                } else {
+                    $sellerShipping = 9.90;
+                }
+                
             }
             
             $sellerTotalShipping += $sellerShipping;
@@ -137,7 +142,11 @@ class Data extends AbstractHelper
             $this->logger->info($seller . ': ' . $sellerTotal);
             
             if ($sellerTotal < 99) {
-                $sellerShipping = 10;
+                if ($seller == "digiDirect") {
+                    $sellerShipping = 10;
+                } else {
+                    $sellerShipping = 9.90;
+                }
             }
             
             //$sellerTotalShipping += $sellerShipping;
