@@ -66,48 +66,50 @@ class WiserPrice implements ObserverInterface
         $this->_productRepositoryInterface->getById($product->getId());
         $this->_productRepository->load($product->getId());
 
-        if ($wiserPrice > 1 && !empty($wiserPrice)) {
-            if ($wiserPrice < $price) {
-                if ((in_array($sku, $discount2)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                } elseif ((in_array($sku, $discount3)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.03);
-                } elseif ((in_array($sku, $discount4)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.04);
-                } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                } elseif ((in_array($sku, $discount20)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.20);
-                } elseif ((in_array($sku, $discount30)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.30);
-                } elseif ((in_array($sku, $discount50)) && $isDigiClub) {
-                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.50);
+        if (!$product->getData('added_by_rule_id')) {
+            if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                if ($wiserPrice < $price) {
+                    if ((in_array($sku, $discount2)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                    } elseif ((in_array($sku, $discount3)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.03);
+                    } elseif ((in_array($sku, $discount4)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.04);
+                    } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                    } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                    } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                    } elseif ((in_array($sku, $discount20)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.20);
+                    } elseif ((in_array($sku, $discount30)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.30);
+                    } elseif ((in_array($sku, $discount50)) && $isDigiClub) {
+                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.50);
+                    }
+                    $finalPrice = $wiserPrice;
+                } else {
+                    $finalPrice = $price;
                 }
-                $finalPrice = $wiserPrice;
             } else {
                 $finalPrice = $price;
             }
-        } else {
-            $finalPrice = $price;
-        }
+            
+            $digiProtectPrice = 0;
 
-        $digiProtectPrice = 0;
-
-        $customOptions = $this->_productOptions->getProductOptionCollection($product);
-        foreach($customOptions as $optionKey => $optionVal) {
-            foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                $digiProtectPrice = $valuesVal->getPrice();
+            $customOptions = $this->_productOptions->getProductOptionCollection($product);
+            foreach($customOptions as $optionKey => $optionVal) {
+                foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                    $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                    $digiProtectPrice = $valuesVal->getPrice();
+                }
             }
+            
+            $item->setCustomPrice($finalPrice + $digiProtectPrice);
+            $item->setOriginalCustomPrice($finalPrice + $digiProtectPrice);
+            $item->getProduct()->setIsSuperMode(true);
         }
-
-        $item->setCustomPrice($finalPrice + $digiProtectPrice);
-        $item->setOriginalCustomPrice($finalPrice + $digiProtectPrice);
-        $item->getProduct()->setIsSuperMode(true);
 
     }
 }
