@@ -62,6 +62,39 @@ class WiserPrice implements ObserverInterface
         
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
+            
+        $this->_productRepositoryInterface->getById($product->getId());
+        $this->_productRepository->load($product->getId());
+
+        $this->logger->info('$product->getId(): ' . $product->getId());
+        $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
+        $this->logger->info('$product->getSku(): ' . $product->getSku());
+
+        $productTestOptions = array ($product->getOptions());
+        $this->logger->info('$productTestOptions: ' . json_encode($productTestOptions));
+
+        $optionPrice = 0;
+
+        $options = array ($this->_productRepository->getOptions());
+        $this->logger->info('Options: ' . json_encode($options));
+
+        foreach ($this->_productRepository->getOptions() as $option) {
+
+            $this->logger->info('$option->getTitle(): ' . $option->getTitle());
+            $this->logger->info('$option->getPrice(): ' . $option->getPrice());
+
+            $optionArray = array ($option);
+            $this->logger->info('Option Array: ' . json_encode($optionArray));
+
+            /*if($option)
+            {
+                if ($option->getTitle() == 'digiProtect') {
+                    $this->logger->info('digiProtect Price: ' . $option->getPrice());
+                    //$optionPrice = $option->getPrice();
+                }
+            }*/
+
+        }
         
         if (!$product->getData('added_by_rule_id')) {
             if ($wiserPrice > 1 && !empty($wiserPrice)) {
@@ -91,39 +124,6 @@ class WiserPrice implements ObserverInterface
                 }
             } else {
                 $finalPrice = $price;
-            }
-            
-            $this->_productRepositoryInterface->getById($product->getId());
-            $this->_productRepository->load($product->getId());
-            
-            $this->logger->info('$product->getId(): ' . $product->getId());
-            $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
-            $this->logger->info('$product->getSku(): ' . $product->getSku());
-            
-            $productTestOptions = array ($product->getOptions());
-            $this->logger->info('$productTestOptions: ' . json_encode($productTestOptions));
-            
-            $optionPrice = 0;
-            
-            $options = array ($this->_productRepository->getOptions());
-            $this->logger->info('Options: ' . json_encode($options));
-            
-            foreach ($this->_productRepository->getOptions() as $option) {
-                
-                $this->logger->info('$option->getTitle(): ' . $option->getTitle());
-                $this->logger->info('$option->getPrice(): ' . $option->getPrice());
-                
-                $optionArray = array ($option);
-                $this->logger->info('Option Array: ' . json_encode($optionArray));
-                
-                /*if($option)
-                {
-                    if ($option->getTitle() == 'digiProtect') {
-                        $this->logger->info('digiProtect Price: ' . $option->getPrice());
-                        //$optionPrice = $option->getPrice();
-                    }
-                }*/
-
             }
             
             $item->setCustomPrice($finalPrice + $optionPrice);
