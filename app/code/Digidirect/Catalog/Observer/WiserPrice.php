@@ -111,6 +111,7 @@ class WiserPrice implements ObserverInterface
             foreach ($this->_productRepository->getOptions() as $option) {
                 
                 $this->logger->info('$option->getTitle(): ' . $option->getTitle());
+                $this->logger->info('$option->getPrice(): ' . $option->getPrice());
                 
                 $optionArray = array ($option);
                 $this->logger->info('Option Array: ' . json_encode($optionArray));
