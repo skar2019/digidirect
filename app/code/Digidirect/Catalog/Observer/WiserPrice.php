@@ -66,13 +66,6 @@ class WiserPrice implements ObserverInterface
         $this->_productRepositoryInterface->getById($product->getId());
         $this->_productRepository->load($product->getId());
 
-        $this->logger->info('$product->getId(): ' . $product->getId());
-        $this->logger->info('$product->getData(): ' . $product->getData('entity_id'));
-        $this->logger->info('$product->getSku(): ' . $product->getSku());
-
-        $productTestOptions = array ($product->getOptions());
-        $this->logger->info('$productTestOptions: ' . json_encode($productTestOptions));
-
         if ($wiserPrice > 1 && !empty($wiserPrice)) {
             if ($wiserPrice < $price) {
                 if ((in_array($sku, $discount2)) && $isDigiClub) {
@@ -107,10 +100,8 @@ class WiserPrice implements ObserverInterface
         $customOptions = $this->_productOptions->getProductOptionCollection($product);
         foreach($customOptions as $optionKey => $optionVal) {
             foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                if ($valuesVal->getTitle() == "digiProtect") {
-                    $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                    $digiProtectPrice = $valuesVal->getPrice();
-                }
+                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                $digiProtectPrice = $valuesVal->getPrice();
             }
         }
 
