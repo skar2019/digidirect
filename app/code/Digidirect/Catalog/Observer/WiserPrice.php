@@ -95,7 +95,11 @@ class WiserPrice implements ObserverInterface
                     //$optionPrice = $option->getPrice();
                 }
             }*/
-
+            
+            $values = $option->getValues();
+            foreach ($values as $k => $value) {
+                print_r($value);
+            }
         }
         
         if (!$product->getData('added_by_rule_id')) {
