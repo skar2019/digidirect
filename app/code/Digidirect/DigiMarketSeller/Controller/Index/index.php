@@ -14,12 +14,12 @@ class Index extends Action
     }   
     public function execute()
     {
-        $post = $this->getRequest()->getPostValue();
-
 
         // $product->getData();
         // $brandlist = $this->getBrand();
         
+        $post = $this->getRequest()->getPostValue();
+
         // Get your post values
 
         // page1
@@ -67,10 +67,6 @@ class Index extends Action
         $warehouse = $this->getRequest()->getParam('warehouse');
         $annual_sale = $this->getRequest()->getParam('annual_sale');
         $intending = $this->getRequest()->getParam('intending');
-
-
-
-  
 
         // Send Mail functionality starts from here 
         $from = $email;
@@ -143,6 +139,8 @@ class Index extends Action
        
         
         $this->messageManager->addSuccess(__('Form successfully submitted'));
-             
+
+      
+               
     }
 }
