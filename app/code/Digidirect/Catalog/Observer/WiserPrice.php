@@ -106,7 +106,7 @@ class WiserPrice implements ObserverInterface
             foreach($customOptions as $optionKey => $optionVal) {
                 foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
                     $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                    if ($selectedOption['options']) {
+                    if (isset($selectedOption['options'])) {
                         $digiProtectPrice = $valuesVal->getPrice();
                     }
                 }
