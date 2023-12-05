@@ -5,7 +5,7 @@
  */
 namespace Digidirect\Checkout\Block\Cart;
 
-class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcessorInterface
+class LayoutProcessor 
 {
     /**
      * @var \Magento\Checkout\Block\Checkout\AttributeMerger
@@ -82,7 +82,10 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
      * @return array
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function process($jsLayout)
+    public function afterProcess(
+        \Magento\Checkout\Block\Checkout\LayoutProcessor $subject,
+        array $jsLayout
+    )
     {
         $elements = [
             'city' => [
