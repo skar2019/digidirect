@@ -35,10 +35,6 @@ class WiserPrice implements ObserverInterface
         
         //get the item just added to cart
         $item = $observer->getEvent()->getData('quote_item');
-        $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-        
-        $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
-        
         $product = $observer->getEvent()->getData('product');
         $sku = $product->getData('sku');
         
@@ -102,6 +98,9 @@ class WiserPrice implements ObserverInterface
             
             $digiProtectPrice = 0;
 
+            $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+            
             $customOptions = $this->_productOptions->getProductOptionCollection($product);
             foreach($customOptions as $optionKey => $optionVal) {
                 foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
@@ -111,6 +110,10 @@ class WiserPrice implements ObserverInterface
                     }
                 }
             }
+            
+            $this->logger->info('$finalPrice: ' . $finalPrice);
+            $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+            
             $item->setCustomPrice($finalPrice + $digiProtectPrice);
             $item->setOriginalCustomPrice($finalPrice + $digiProtectPrice);
             $item->getProduct()->setIsSuperMode(true);
