@@ -35,6 +35,10 @@ class WiserPrice implements ObserverInterface
         
         //get the item just added to cart
         $item = $observer->getEvent()->getData('quote_item');
+        $selectedOption = $observer->getEvent()->getData('options');
+        
+        $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+        
         $product = $observer->getEvent()->getData('product');
         $sku = $product->getData('sku');
         
