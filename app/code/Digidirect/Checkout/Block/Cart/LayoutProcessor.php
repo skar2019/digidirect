@@ -116,22 +116,11 @@ class LayoutProcessor
             ]
         ];
 
-        if (!isset($jsLayout['components']['checkoutProvider']['dictionaries'])) {
-            $jsLayout['components']['checkoutProvider']['dictionaries'] = [
-                'country_id' => $this->countryCollection->loadByStore()->setForegroundCountries(
-                    $this->topDestinationCountries->getTopDestinations()
-                )->toOptionArray(),
-                'region_id' => $this->regionCollection->addAllowedCountriesFilter()->toOptionArray(),
-            ];
-        }
-        if (isset($jsLayout['components']['block-summary']['children']['block-shipping']['children']
-            ['address-fieldsets']['children'])
-        ) {
-            $fieldSetPointer = &$jsLayout['components']['block-summary']['children']['block-shipping']
-            ['children']['address-fieldsets']['children'];
-            $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'shippingAddress', $fieldSetPointer);
-            $fieldSetPointer['region_id']['config']['skipValidation'] = true;
-        }
+        $fieldSetPointer = &$jsLayout['components']['block-summary']['children']['block-shipping']
+        ['children']['address-fieldsets']['children'];
+        $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'shippingAddress', $fieldSetPointer);
+        $fieldSetPointer['region_id']['config']['skipValidation'] = true;
+        
         return $jsLayout;
     }
 }
