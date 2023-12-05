@@ -83,10 +83,11 @@ class Data extends AbstractHelper
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
                     $sellerShipping = 10;
+                } elseif ($seller == "iWorld Australia") {
+                    $sellerShipping = 0;
                 } else {
                     $sellerShipping = 9.90;
                 }
-                
             }
             
             $sellerTotalShipping += $sellerShipping;
@@ -144,6 +145,8 @@ class Data extends AbstractHelper
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
                     $sellerShipping = 10;
+                } elseif ($seller == "iWorld Australia") {
+                    $sellerShipping = 0;
                 } else {
                     $sellerShipping = 9.90;
                 }
