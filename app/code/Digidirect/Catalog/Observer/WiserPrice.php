@@ -10,12 +10,24 @@ class WiserPrice implements ObserverInterface
     protected $customer;
     
     protected $logger;
+    
+    protected $_productOptions;
+    
+    protected $_productRepositoryInterface;
+    
+    protected $_productRepository;
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Product\Option $productOptions,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
+        \Magento\Catalog\Model\Product $productRepository,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->customer = $customerSession;
+        $this->_productOptions = $productOptions;
+        $this->_productRepositoryInterface = $productRepositoryInterface;
+        $this->_productRepository = $productRepository;
         $this->logger = $logger;
     }
     
@@ -50,7 +62,10 @@ class WiserPrice implements ObserverInterface
         
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
-        
+            
+        $this->_productRepositoryInterface->getById($product->getId());
+        $this->_productRepository->load($product->getId());
+
         if (!$product->getData('added_by_rule_id')) {
             if ($wiserPrice > 1 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
@@ -80,7 +95,24 @@ class WiserPrice implements ObserverInterface
             } else {
                 $finalPrice = $price;
             }
+            
+            $digiProtectPrice = 0;
 
+            $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+            $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+            
+            $customOptions = $this->_productOptions->getProductOptionCollection($product);
+            foreach($customOptions as $optionKey => $optionVal) {
+                foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                    $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                    if (isset($selectedOption['options'])) {
+                        $digiProtectPrice = $valuesVal->getPrice();
+                    }
+                }
+            }
+            $this->logger->info('$finalPrice: ' . $finalPrice);
+            $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+            
             $item->setCustomPrice($finalPrice);
             $item->setOriginalCustomPrice($finalPrice);
             $item->getProduct()->setIsSuperMode(true);

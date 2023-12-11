@@ -44,7 +44,7 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
     <?php endif ?>
     <br/>
     <?php if ($sellerPolicies): ?>
-        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>">
+        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>" style="display: none;">
             <?= $escaper->escapeHtml(__('Policies')) ?>
         </a>
     <?php endif ?>
