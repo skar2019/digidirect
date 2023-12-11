@@ -2018,8 +2018,8 @@ class TestPronto extends AbstractHelper
                     if($sell == $seller)
                     {
                         $productSku = $sku;
-                        $costprice = ($price - ( $price * 0.1)); // ex gst
-                        $sellercost = $costprice - ($costprice * 0.1); //ex commission
+                        $costprice = ($price - ( $price * 0.099)); // ex gst
+                        $sellercost = $costprice - ($costprice * 0.099); //ex commission
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                         $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'ZM00';//$productSku;
