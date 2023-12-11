@@ -3,6 +3,7 @@
     <head>
         <css src="Magento_Swatches::css/swatches.css"/>
     </head>
+    
     <body>
         <attribute name="class" value="page-products"/>
         <referenceContainer name="sidebar.main">
