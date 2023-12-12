@@ -88,7 +88,7 @@ foreach($items as $item) {
         'ecomm_pagetype': 'purchase',
         'order_id': <?php echo "\"$order_id\"" ?>,
         'ecomm_totalvalue': <?php echo $total ?>,
-        'currency': '#ADD_STORE_CURRENCY',
+        'currency': 'AUD',
         'ecomm_prodid': <?php echo json_encode($product_ids) ?>
     });
 </script>
