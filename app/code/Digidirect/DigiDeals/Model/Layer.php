@@ -69,7 +69,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*')->addFinalPrice();
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->getSelect()->where("price_index.final_price < price")->limit(5);
+            $collection->getSelect()->where("price_index.final_price < price");
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }
