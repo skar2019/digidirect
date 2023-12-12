@@ -62,6 +62,34 @@ $googleConversion = $this->helper('Digidirect\Digi\Helper\GoogleConversion');
     ga('ecommerce:send');
 </script>
 <!-- clint 10-20-23 -->
-<script>
-    dataLayer.push( <?php echo $googleConversion->getPurchaseData() ?>);
+<!--<script>-->
+<!--    dataLayer.push( --><?php //echo $googleConversion->getPurchaseData() ?>//);
 </script>
+
+<!-- FeedOps - Dynamic Remarketing - Version 1 START -->
+<?php
+$order_id = $block->getRealOrderDetail()->getIncrementId();
+$total = $block->getRealOrderDetail()->getGrandTotal();
+$items = $block->getRealOrderDetail()->getAllVisibleItems();
+$email = $block->getRealOrderDetail()->getCustomerEmail();
+
+$product_ids = array();
+foreach($items as $item) {
+    array_push($product_ids, $item->getProductId());
+}
+?>
+
+<!-- FeedOps Dynamic Remarketing Purchase Page -->
+
+<script type="text/javascript">
+    dataLayer.push({
+        'event': 'DynamicRemarketing',
+        'user_email': <?php echo "\"$email\"" ?>,
+        'ecomm_pagetype': 'purchase',
+        'order_id': <?php echo "\"$order_id\"" ?>,
+        'ecomm_totalvalue': <?php echo $total ?>,
+        'currency': '#ADD_STORE_CURRENCY',
+        'ecomm_prodid': <?php echo json_encode($product_ids) ?>
+    });
+</script>
+<!-- FeedOps - Dynamic Remarketing - Version 1 END -->
