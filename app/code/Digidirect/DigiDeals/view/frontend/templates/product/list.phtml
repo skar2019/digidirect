@@ -22,6 +22,14 @@ $showWishlist = true;
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
 
+<div class="category-view">
+    <div class="page-main">
+        <div class="category-image">
+            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digideals-banner.png" alt="Sale" title="Sale" class="image">
+        </div>
+    </div>
+</div>
+
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
