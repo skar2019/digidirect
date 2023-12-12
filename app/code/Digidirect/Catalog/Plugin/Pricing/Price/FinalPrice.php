@@ -42,22 +42,12 @@ class FinalPrice
                 if ($wiserPrice < $price) {
                     if ((in_array($sku, $discount2)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                    } elseif ((in_array($sku, $discount3)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.03);
-                    } elseif ((in_array($sku, $discount4)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.04);
                     } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
                     } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
                     } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                    } elseif ((in_array($sku, $discount20)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.20);
-                    } elseif ((in_array($sku, $discount30)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.30);
-                    } elseif ((in_array($sku, $discount50)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.50);
                     }
                     $result = $wiserPrice;
                 } else {
