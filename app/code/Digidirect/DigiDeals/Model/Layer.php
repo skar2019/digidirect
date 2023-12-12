@@ -74,6 +74,10 @@ class Layer extends \Magento\Catalog\Model\Layer
             $this->_productCollections[$defaultCategory] = $collection;
         }
         
+        foreach ($collection as $product) {
+            $this->logger->info("Product: " . $product->getId());
+        }
+        
         return $collection;
     }
     
