@@ -49,8 +49,11 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     
     public function getLoadedProductCollection()
     {
+        $defaultCategory = 2;
+        
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')->addFinalPrice();
+        $collection->addCategoriesFilter(['in' => $defaultCategory]);
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $collection->getSelect()->where("price_index.final_price < price");
