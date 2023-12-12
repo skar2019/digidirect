@@ -2237,6 +2237,7 @@
     
     .row-second {
         padding-top: 14px;
+        border: none !important;
     }
     
     .row-second #zip-custom {
@@ -2247,9 +2248,10 @@
 
     .credit-cards {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
         align-items: center;
-        padding: 0 5px;
+        width: 115px;
+        margin: 0 auto;
     }
 
     .credit-cards img {
@@ -2259,6 +2261,11 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
+    }
+    
+    .payment-gateways .paypal-buttons {
+        height: unset !important;
+        margin-top: -5px;
     }
     
     #paypal-custom {
@@ -2289,6 +2296,7 @@
         background-size: contain;
         width: 75px;
         margin-top: 4px;
+        display: none;
     }
     
     .zip-caption {
