@@ -83,7 +83,6 @@ class Layer extends \Magento\Catalog\Model\Layer
                 array_push($productIdsArray, $product->getId());
             }
         }
-        
         if (isset($this->_productCollections[$defaultCategory])) {
             $collection = $this->_productCollections[$defaultCategory];
         } else {
