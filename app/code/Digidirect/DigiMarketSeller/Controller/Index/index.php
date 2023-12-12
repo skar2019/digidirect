@@ -11,13 +11,13 @@ class Index extends Action
         \Magento\Framework\App\Action\Context $context
     ) {
         parent::__construct($context);
-    }   
+    }
     public function execute()
     {
 
         // $product->getData();
         // $brandlist = $this->getBrand();
-        
+
         $post = $this->getRequest()->getPostValue();
 
         // Get your post values
@@ -68,34 +68,34 @@ class Index extends Action
         $annual_sale = $this->getRequest()->getParam('annual_sale');
         $intending = $this->getRequest()->getParam('intending');
 
-        // Send Mail functionality starts from here 
+        // Send Mail functionality starts from here
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = "jireh@kayweb.com.au";
+        $to = array("jireh@kayweb.com.au","digimarket@digidirect.com.au");
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p><b>Categories:</b> 
-            ".$audiovisual." 
-            ".$cameras." 
-            ".$computersMobile." 
-            ".$drones." 
-            ".$fitnessWellbeing." 
-            ".$homeOffice." 
-            ".$inCar." 
-            ".$instrument." 
-            ".$lenses." 
-            ".$lightingStudio." 
-            ".$optics." 
-            ".$petTech." 
-            ".$photoAccessories." 
-            ".$proVideo." 
-            ".$scootersBikeBoards." 
-            ".$seasonal." 
-            ".$smartHome." 
-            ".$toys." 
-            ".$squareWearable." 
-            ".$squareWhiteGoods." 
+            <p><b>Categories:</b>
+            ".$audiovisual."
+            ".$cameras."
+            ".$computersMobile."
+            ".$drones."
+            ".$fitnessWellbeing."
+            ".$homeOffice."
+            ".$inCar."
+            ".$instrument."
+            ".$lenses."
+            ".$lightingStudio."
+            ".$optics."
+            ".$petTech."
+            ".$photoAccessories."
+            ".$proVideo."
+            ".$scootersBikeBoards."
+            ".$seasonal."
+            ".$smartHome."
+            ".$toys."
+            ".$squareWearable."
+            ".$squareWhiteGoods."
             ".$cat_otherfield."
             </p>
 
@@ -113,8 +113,8 @@ class Index extends Action
             <p><b>Brands:</b> ".$brands."</p>
             <p><b>Currently sell on other marketplaces (including abroad):</b> ".$current_sell."</p>
             <p><b>Prefered method of integration with digiDirect:</b> ".$method."</p>
-            <p><b>POS and eCommerce platforms:</b> ".$platform_use."</p> 
-            <p><b>Head Office Location:</b> ".$head_office."</p> 
+            <p><b>POS and eCommerce platforms:</b> ".$platform_use."</p>
+            <p><b>Head Office Location:</b> ".$head_office."</p>
             <p><b>Warehouse Location Shipping Product from:</b> ".$warehouse."</p>
             <p><b>Estimate Annual Sale (AUD):</b> ".$annual_sale."</p>
             <p><b>Intending Product to list an digiDirect:</b> ".$intending."</p>
@@ -122,25 +122,25 @@ class Index extends Action
         </div>";
 
         $email = new \Zend_Mail();
-        $email->setSubject("DigiMarketSeller Form"); 
+        $email->setSubject("DigiMarketSeller Form");
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
         $email->send();
-        
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $data = $objectManager->create('Digidirect\DigiMarketSeller\Model\DigiMarketSeller');
         $data->setData($post);
         $data->save();
         echo "success";
         /* echo "hello";
         exit; */
-       
-        
+
+
         $this->messageManager->addSuccess(__('Form successfully submitted'));
 
-      
-               
+
+
     }
 }

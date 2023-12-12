@@ -128,8 +128,7 @@ class Success extends \Magento\Framework\View\Element\Template
         return $this->_storeManager->getStore()->getBaseUrl();
     }
 
-    public function testBlock()
-    {
-        return "tec";
+    public function getRealOrderDetail() {
+        return $this->_checkoutSession->getLastRealOrder();
     }
 }
