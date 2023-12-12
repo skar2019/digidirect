@@ -60,6 +60,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function getProductCollection()
     {
         $defaultCategory = 2;
+        $productIdsArray = []
         
         if (isset($this->_productCollections[$defaultCategory])) {
             $collection = $this->_productCollections[$defaultCategory];
@@ -71,9 +72,14 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->addMinimalPrice()->addFinalPrice();
             $collection->getSelect()->where("price_index.final_price < price_index.price");
-            $this->prepareProductCollection($collection);
-            $this->_productCollections[$defaultCategory] = $collection;
         }
+        
+        $this->prepareProductCollection($collection);
+        $this->_productCollections[$defaultCategory] = $collection;
+        
+        /*foreach ($collection as $product) {
+            $this->logger->info("Product: " . $product->getId());
+        }*/
         
         return $collection;
     }
