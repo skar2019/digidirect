@@ -84,12 +84,11 @@ class Layer extends \Magento\Catalog\Model\Layer
             }
         }
         
-        if (isset($this->_productCollections[$saleCategoryId])) {
-            $collection = $this->_productCollections[$saleCategoryId];
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
         } else {
             $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
             $collection->addAttributeToSelect('*');
-            $collection->addCategoriesFilter(['in' => $saleCategoryId]);
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
