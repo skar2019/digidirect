@@ -74,9 +74,6 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->getSelect()->where("price_index.final_price < price_index.price");
         }
         
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[$defaultCategory] = $collection;
-        
         foreach ($collection as $product) {
             $this->logger->info("Product: " . $product->getId());
             if (!in_array($product->getId(), $productIdsArray))  {
@@ -93,6 +90,9 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
         }
+        
+        $this->prepareProductCollection($collection);
+        $this->_productCollections[$defaultCategory] = $collection;
         
         return $collection;
     }
