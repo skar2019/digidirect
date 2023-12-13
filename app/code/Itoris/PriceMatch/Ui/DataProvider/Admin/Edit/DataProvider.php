@@ -107,6 +107,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
                 'date_created'   => $item['date_created'],
                 'customer_email' => $this->_formatCustomerMail($item),
                 'product_name'   => $this->_formatProductName($item),
+                'product_sku'   => $this->_formatProductSku($item),
                 'match_price'    => $this->_formatMatchPrice($item),
                 'status'         => $item['status'],
                 'final_price'    => $this->_formatFinalPrice($item),
@@ -136,6 +137,11 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     private function _formatProductName($item) {
         $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
         return '<a href="'.$productUrl.'" target="_blank">'.$item['product_name'].'</a>';
+    }
+    
+    private function _formatProductSku($item) {
+        $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
+        return $item['product_sku'];
     }
 
     private function _formatMatchPrice($item) {
