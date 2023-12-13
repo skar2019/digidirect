@@ -70,11 +70,13 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addMinimalPrice()->addFinalPrice();
-            $collection->getSelect()->where("price_index.final_price < price_index.price");
+            //$collection->addMinimalPrice()->addFinalPrice();
+            //$collection->getSelect()->where("price_index.final_price < price_index.price");
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$defaultCategory] = $collection;
         }
         
-        foreach ($collection as $product) {
+        /*foreach ($collection as $product) {
             $this->logger->info("Product: " . $product->getId());
             if (!in_array($product->getId(), $productIdsArray))  {
                 array_push($productIdsArray, $product->getId());
@@ -89,10 +91,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
-        }
-        
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[$defaultCategory] = $collection;
+        }*/
         
         return $collection;
     }
