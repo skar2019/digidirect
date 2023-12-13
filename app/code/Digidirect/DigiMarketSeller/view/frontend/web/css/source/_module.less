@@ -20,28 +20,76 @@
 .container {
     width: 70%;
     background: #fff;
-    text-align: center;
+    // text-align: center;
     border-radius: 5px;
     padding: 50px 35px 10px 35px;
 }
 .container header {
     font-size: 28px;
     font-weight: 600;
-    margin: 0 0 30px 0;
+    margin: 0 0 80px 0;
     color: #ff6600;
+    text-align: center;
 }
-.container .form-outer {
-    width: 100%;
-    overflow: hidden;
+
+#digimarketseler_form .inline-row {
+    display: inline-block;
 }
-.container .form-outer form {
+
+#digimarketseler_form input[type=file] {
+    display:none;
+}
+
+.uploadfile {
+    padding: 10px;
     display: flex;
-    width: calc(100% * 5);
-}
-.form-outer form .page {
-    width: calc(100% / 5);
-    transition: margin-left 0.3s ease-in-out;
-}
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    color: #cccccc;
+    border: 1px solid #b6b6b6;
+  
+  }
+  
+  .drop-zone--over {
+    border-style: solid;
+  }
+  
+  .drop-zone__input {
+    display: none;
+  }
+  
+  .drop-zone__prompt1 {
+  color: #ff6600;
+  margin-right: 5px;
+  }
+  
+  .drop-zone__thumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #cccccc;
+    background-size: cover;
+    // position: relative;
+  }
+  
+  
+  
+  .drop-zone__thumb::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.75);
+    font-size: 14px;
+    text-align: center;
+  }
+
 
 
 @media screen and (max-width: 668px) {

@@ -4,8 +4,24 @@
 
                 <form id="sellerForm" name="frm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digimarketseller/index/index")?>">
                     
-                    <label for="fname">First Name</label>
-                    <input type="text" id="fname" name="fname">
+                    <label for="email">Your email address<span style="color: #ff0000">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Your email address">
+
+                    <div class="inline-row">
+                        <label for="firstname">Firstname<span style="color: #ff0000">*</span></label>
+                        <input type="text" id="firstname" name="firstname" placeholder="Firstname">
+                        <label for="lastname">Lastname<span style="color: #ff0000">*</span></label>
+                        <input type="text" id="lastname" name="lastname" placeholder="Lastname">
+                    </div>
+
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" cols="30" rows="10"></textarea>
+
+                    <div class="uploadfile drop-zone">
+                        <span class="drop-zone__prompt1">Add file</span>
+                        <span class="drop-zone__prompt2">or drop files here</span>
+                        <input type="file" name="myFile" class="drop-zone__input">
+                    </div>
                     
                     <?=$block->getChildHtml('form.additional.info') ?>
                     <input type="hidden" name="hideit" id="hideit" value="" />
