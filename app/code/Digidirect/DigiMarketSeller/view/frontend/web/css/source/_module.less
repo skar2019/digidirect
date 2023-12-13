@@ -1,209 +1,4 @@
-/* added */
-@focus__box-shadow: none;
 
-
-*:focus {
-    outline: none !important;
-    border-color: inherit;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-    
-.secp2 .seller-info .field, .secp3 .seller-info .field {
-    display: inline-block !important;
-}
-
-.secp2 .seller-info, .secp3 .seller-info {
-    text-align: left !important;
-    margin-left: 100px;
-}
-
-#digimarketseler_form select, #digimarketseler_form input {
-    border: none;
-    border-bottom: 1px solid #b6b6b6;
-    border-radius: 0 !important;
-    outline: none;
-    padding: 14px;
-
-}
-
-#digimarketseler_form select:focus, #digimarketseler_form input[type="text"]:focus {
-    border: none;
-    border-bottom: 1px solid #b6b6b6;
-    border-radius: 0 !important;
-    outline: none !important;  
-}
-
-#digimarketseler_form #digimarketseler_form input[type="text"]:focus-visible {
-    outline: transparent !important;
-}
-
-
-.salutename {
-    font-size: 14px;
-    max-width: 150px;
-    min-width: 100px;
-    height: 45px;
-    background: transparent;
-    /* -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; */
-    border-radius: 0;
-    margin:0;
-    display:block;
-    width: 100%;
-    cursor: pointer;
-    
-    /* custom select appearance */  
-    padding: 12px 55px 15px 15px;
-}
-
-.salutename option[value=""][disabled] {
-    display: none;
-}
-
-.salutename option {
-color: #323232;
-}
-
-#seller_country_select {
-    color: #323232;
-}
-
-#seller_country_select option[value=""][disabled] {
-    display: none;
-}
-
-.selectw300, .selectw700 {
-    outline:none;
-    font-size: 14px;
-    max-width: 100%;
-    min-width: 100px;
-    // height: 45px;
-    border: 1px solid #b6b6b6;
-    outline:none;
-    background: transparent;
-    /* -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; */
-    border-radius: 0;
-    margin:0;
-    display:block;
-    width: 100%;
-    cursor: pointer;
-    
-    /* custom select appearance */  
-    padding: 12px 55px 15px 15px;  
-}
-
-.inputw300 input[type="text"] {
-    width: 290px !important;
-}
-
-.input2w300{
-    width: 360px;
-}
-
-.inputw700 {
-    width: 740px;
-}
-
-.row3, .row4 {
-    width: 740px;
-}
-
-/* categories */
-
-.categories-option {
-margin-top: 50px;
-margin-bottom: 50px;
-
-}
-
-.categories-list {
-column-count: 3;
-}
-
-.categories-list li {
-list-style-type: none;
-text-align: left;
-color: #323232;
-}
-
-.opt-display {
-column-count: 3;
-}
-
-.opt-display li {
-list-style-type: none;
-text-align: left;
-/* background: #f5f5f5; */
-color: #323232;
-/* width: 100px; */
-margin-bottom: 5px !important;
-}
-
-#categories_option1,#categories_option2,#categories_option3,#categories_option4,
-#categories_option5,#categories_option6,#categories_option7,#categories_option8,
-#categories_option9,#categories_option10,#categories_option11,#categories_option12,
-#categories_option13,#categories_option14,#categories_option15,#categories_option16,
-#categories_option17,#categories_option18,#categories_option19,#categories_option20,
-#categories_option21 {
-    accent-color: #F5F5F5;
-    
-}
-
-.categories-list input[type="checkbox"]:focus {
-    outline: 1px solid gray !important;
-    border-color: lightgray !important;
-}
-
-#digimarketseler_form .categories-list input[type="checkbox"] {
-    height: unset !important;
-    margin: unset !important;
-    margin-right: 5px !important;
-    position:unset !important;
-    width: unset !important;
-}
-
-#digimarketseler_form .cat_otherfield {
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #8f8f8f;
-    font-size: 14px;
-}
-
-.text-grey {
-    color: #737373;
-    font-weight: 400;
-}
-
-.text-lblack {
-    color: #323232;
-}
-
-.seller-info span {
-    color: #323232;
-}
-
-/* other input categories */
-.cat-others {
-    color: #323232;
-}
-
-ul#other_cat_display li a {
-    color: #323232;
-    text-decoration: none;
-}
-
-ul#other_cat_display li a  a:hover {
-    color: #323232 !important;
-    text-decoration: none;
-}
-
-
-
-/* end added */
 * #digimarketseler_form {
     margin: 0;
     padding: 0;
@@ -222,247 +17,83 @@ ul#other_cat_display li a  a:hover {
     // background: #333;
 }
 
-
-#digimarketseler_form ::selection {
-    color: #fff;
-    background: #333;
-}
-
-.step p {
-    display: none;
-}
 .container {
     width: 70%;
     background: #fff;
-    text-align: center;
+    // text-align: center;
     border-radius: 5px;
     padding: 50px 35px 10px 35px;
 }
 .container header {
-    font-size: 35px;
+    font-size: 28px;
     font-weight: 600;
-    margin: 0 0 30px 0;
+    margin: 0 0 80px 0;
     color: #ff6600;
-}
-.container .form-outer {
-    width: 100%;
-    overflow: hidden;
-}
-.container .form-outer form {
-    display: flex;
-    width: calc(100% * 5);
-}
-.form-outer form .page {
-    width: calc(100% / 5);
-    transition: margin-left 0.3s ease-in-out;
-}
-
-// .page.secp4 {
-//     margin-left: 20%!important;
-// }
-
-.form-outer form .page .title {
     text-align: center;
-    font-size: 14px;
-    /* font-weight: 500; */
-}
-.form-outer form .page .field {
-    /* width: 600px; */
-    // height: 45px;
-    margin: 10px 0;
-    display: flex;
-    position: relative;
-    justify-content: end;
-    margin-right: 15px;
-}
-form .page .field .label {
-    position: absolute;
-    top: -30px;
-    font-weight: 500;
 }
 
-form .page .field input {
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding-left: 15px;
-    margin: 0 1px;
-    font-size: 14px;
-    transition: border-color 150ms ease;
-}
-
-#digimarketseler_form input.invalid-input, #digimarketseler_form select.invalid-input {
-    border-color: red !important;
-    background: #f5f5f5 !important;
-}
-
-form .page .field select {
-    width: 100%;
-    padding-left: 10px;
-    // font-size: 17px;
-    font-weight: 500;
-    font-family: "Poppins", sans-serif;
-}
-form .page .field button {
-    /* width: 100%; */
-    height: calc(100% + 5px);
-    border: none;
-    background: #ff6600;
-    margin-top: -20px;
-    border-radius: 25px;
-    padding: 15px 25px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 100;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: 0.5s ease;
-}
-form .page .field button:hover {
-    background: #ff6600;
-    opacity: 0.8;
-}
-form .page .btns button {
-    margin-top: -20px !important;
-}
-form .page .btns button.prev {
-    margin-right: 3px;
-    font-size: 14px;
-}
-form .page .btns button.next {
-    margin-left: 3px;
-}
-.container .progress-bar {
-    display: flex;
-    margin: 40px 0;
-    user-select: none;
-}
-.container .progress-bar .step {
-    text-align: center;
-    width: 100%;
-    position: relative;
-}
-.container .progress-bar .step p {
-    font-weight: 500;
-    font-size: 18px;
-    color: #000;
-    margin-bottom: 8px;
-}
-.progress-bar .step .bullet {
-    height: 25px;
-    width: 25px;
-    border: 2px solid #ff6600;
+#digimarketseler_form .inline-row {
     display: inline-block;
-    border-radius: 50%;
-    position: relative;
-    transition: 0.2s;
-    font-weight: 600;
-    font-size: 17px;
-    line-height: 25px;
-    background: white;
-}
-.progress-bar .step .bullet.active {
-    border-color: #ff6600;
-    background: #ff6600;
-}
-.progress-bar .step .bullet span {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.progress-bar .step .bullet.active span {
-    display: none;
-}
-.progress-bar .step .bullet:before,
-.progress-bar .step .bullet:after {
-    position: absolute;
-    content: "";
-    bottom: 11px;
-    right: -210px;
-    height: 3px;
-    width: 210px;
-    background: #ff6600;
-}
-.progress-bar .step .bullet.active:after {
-    background: #ff6600;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: animate 0.3s linear forwards;
-}
-@keyframes animate {
-    100% {
-        transform: scaleX(1);
-    }
-}
-.progress-bar .step:last-child .bullet:before,
-.progress-bar .step:last-child .bullet:after {
-    display: none;
-}
-.progress-bar .step p.active {
-    color: #333;
-    transition: 0.2s linear;
-}
-.progress-bar .step .check {
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    font-size: 15px;
-    transform: translate(-50%, -50%);
-    display: none;
-}
-.progress-bar .step .check.active {
-    display: block;
-    color: #fff;
 }
 
-// .space-field {
-//     display: none;
-// }
+#digimarketseler_form input[type=file] {
+    display:none;
+}
+
+.uploadfile {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    color: #cccccc;
+    border: 1px solid #b6b6b6;
+  
+  }
+  
+  .drop-zone--over {
+    border-style: solid;
+  }
+  
+  .drop-zone__input {
+    display: none;
+  }
+  
+  .drop-zone__prompt1 {
+  color: #ff6600;
+  margin-right: 5px;
+  }
+  
+  .drop-zone__thumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #cccccc;
+    background-size: cover;
+    // position: relative;
+  }
+  
+  
+  
+  .drop-zone__thumb::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.75);
+    font-size: 14px;
+    text-align: center;
+  }
+
+
 
 @media screen and (max-width: 668px) {
-    .container header {
-        font-size: 22px !important;
-    }
-
-    .text-grey {
-        color: #737373;
-        font-weight: 400;
-        font-size: 17px !important;
-        margin: unset;
-    }
-
-    .opt-display {
-        column-count: 1 !important;
-        }
-        
-        
-    .categories-list {
-    column-count: 1 !important;
-    }
-    
-    .secp2 .seller-info, .secp3 .seller-info {
-        text-align: left !important;
-        margin-left: unset;
-    }
-
-    .inputw300 input[type="text"] {
-        width: 100% !important;
-    }
-    
-    .input2w300{
-        width: 100% !important;
-    }
-    
-    .inputw700 {
-        width: 100% !important;
-    }
-    
-    .row3, .row4 {
-        width: 100% !important;
-    }
+   
 
     #digimarketseler_form {
         width: 100%;
@@ -470,57 +101,7 @@ form .page .btns button.next {
         display: block;
     }
 
-    .progress-bar .step p {
-        display: none;
-    }
-
-    .progress-bar .step .bullet::after,
-    .progress-bar .step .bullet::before {
-        display: none;
-    }
-    .progress-bar .step .bullet {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .progress-bar .step .check {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        font-size: 15px;
-        transform: translate(-50%, -50%);
-        display: none;
-    }
-    .step {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .form-outer form .page .field {
-        display: block;
-        margin-right: unset; 
-
-    }
-
-    .container {
-        width: 100%;
-    }
-
-    .secp2 .seller-info .field, .secp3 .seller-info .field {
-        display: block !important;
-    }
-
-    .salutename {
-        max-width: unset;
-        min-width: unset;
-        height: 45px;
-    }
-
-    .space-field {
-        margin-bottom: 25px;
-        display: block;
-    }
+    
 
 }
 @media screen and (max-width: 490px) {
@@ -540,51 +121,7 @@ form .page .btns button.next {
         font-size: 22px !important;
     }
 
-    .text-grey {
-        color: #737373;
-        font-weight: 400;
-        font-size: 17px !important;
-        margin: unset;
-    }
 
-    .opt-display {
-        column-count: 1 !important;
-    }
-        
-        
-    .categories-list {
-        column-count: 1 !important;
-    }
-
-    .secp2 .seller-info, .secp3 .seller-info {
-        text-align: left !important;
-        margin-left: unset;
-    }
-
-    .inputw300 input[type="text"] {
-        width: 100% !important;
-    }
-    
-    .input2w300{
-        width: 100% !important;
-    }
-    
-    .inputw700 {
-        width: 100% !important;
-    }
-    
-    .row3, .row4 {
-        width: 100% !important;
-    }
-
-    .secp2 .seller-info .field, .secp3 .seller-info .field {
-        display: block !important;
-    }
-
-    .salutename {
-        max-width: unset;
-        min-width: unset;
-    }
 }
 
 
