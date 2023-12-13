@@ -60,23 +60,39 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function getProductCollection()
     {
         $defaultCategory = 2;
+        $productIdsArray = [];
         
         if (isset($this->_productCollections[$defaultCategory])) {
             $collection = $this->_productCollections[$defaultCategory];
         } else {
             $category = $this->categoryRepo->get($defaultCategory, 1);
             $collection = $this->collectionProvider->getCollection($category);
-            $collection->addAttributeToSelect('*')->addFinalPrice();
+            $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->getSelect()->where("price_index.final_price < price");
-            $this->prepareProductCollection($collection);
-            $this->_productCollections[$defaultCategory] = $collection;
+            $collection->addMinimalPrice()->addFinalPrice();
+            $collection->getSelect()->where("price_index.final_price < price_index.price");
         }
         
         foreach ($collection as $product) {
             $this->logger->info("Product: " . $product->getId());
+            if (!in_array($product->getId(), $productIdsArray))  {
+                array_push($productIdsArray, $product->getId());
+            }
         }
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
+        } else {
+            $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
+            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
+        }
+        
+        $this->prepareProductCollection($collection);
+        $this->_productCollections[$defaultCategory] = $collection;
         
         return $collection;
     }
