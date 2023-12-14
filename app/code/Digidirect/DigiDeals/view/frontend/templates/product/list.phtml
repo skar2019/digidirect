@@ -14,8 +14,16 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
-
 ?>
+
+<div class="category-view">
+    <div class="page-main">
+        <div class="category-image">
+            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digideals-banner.png" alt="Sale" title="Sale" class="image">
+        </div>
+    </div>
+</div>
+
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php

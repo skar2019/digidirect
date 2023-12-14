@@ -23,15 +23,10 @@ class FinalPrice
         $wiserPrice = $product->getData('wiser_price');
         $sku = $product->getData('sku');
         
-        $discount2 = [136339,142517,139006,126737,148816,145953,132705,145951,129240,119068,138764,142809,128864,137428,131612,131613,142352,142348,142041,146748,154958,154957,138160,149051,151788,151197];
-        $discount3 = [134649,146488,150391,150390,144586,141788,153391,149253,149252,149251,149250];
-        $discount4 = [153686,133938,136565,142693,150685,139639,144624,142338,142339,135790,138974,154961,152228];
-        $discount5 = [150826,150828,148151,146084,148152,137426,133439,133437,146744,146743,139972,140077,121374,138958,154550,116572,121880,155685,146876,145851,139373,138714,137478,139584,154979];
-        $discount10 = [144700,118377,137132,149131,144893,138715,148217,154989,154991,139908,139909,148118,148121,146790,156332];
-        $discount15 = [151302];
-        $discount20 = [152693];
-        $discount30 = [151857,151856];
-        $discount50 = [148264];
+        $discount2 = [122428,124928,130029,133828,135538,135790,137132,137431,139609,139908,142338,144625,144626,146718,146719,146818,146876,147859,148028,148817,149367,149381,152803,153589,153590,154948,154953,155161,155162,155166,155212,155520,155973];
+        $discount5 = [137376,137952,139517,141539,142768,149131,149132,149133,149950,153379,153380,153381,155158,155159,156474,156475,156476,156477,117561,117562,134146,117492,117494,122574,149496,149497];
+        $discount10 = [154979,154784,154782,154783,154785,151173,151169,141197,136339,148815,148728,155243,155244];
+        $discount15 = [133160,147857,130998,117586,153643,153642];
         
         $isDigiClub = 0;
         
@@ -47,22 +42,12 @@ class FinalPrice
                 if ($wiserPrice < $price) {
                     if ((in_array($sku, $discount2)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                    } elseif ((in_array($sku, $discount3)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.03);
-                    } elseif ((in_array($sku, $discount4)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.04);
                     } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
                     } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
                     } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                    } elseif ((in_array($sku, $discount20)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.20);
-                    } elseif ((in_array($sku, $discount30)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.30);
-                    } elseif ((in_array($sku, $discount50)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.50);
                     }
                     $result = $wiserPrice;
                 } else {
