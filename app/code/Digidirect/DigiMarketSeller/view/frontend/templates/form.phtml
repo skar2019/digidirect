@@ -108,11 +108,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 
                     <br>
 
-                    <?=$block->getChildHtml('form.additional.info') ?>
-                    <input type="hidden" name="hideit" id="hideit" value="" />
-                    <button type="submit" id="add" name="button" title="" class="action submit primary">
-                        <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
-                    </button>
+                    <input class="btn btn-primary" type="submit" name="button" value="Submit" />
 
                     <br><br>
                 </form>
