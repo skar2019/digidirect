@@ -25,7 +25,12 @@ class Index extends Action
         $lastname = $this->getRequest()->getParam('lastname');
         $email = $this->getRequest()->getParam('email');
         $message = $this->getRequest()->getParam('message');
-        $attachedfiles = $this->getRequest()->getParam('attachedfiles');
+        // $attachedfiles = $this->getRequest()->getParam('attachedfiles');
+
+        // attachment
+        $file = $_FILES["attachedfiles"]["tmp_name"];
+        $filename = $_FILES["attachedfiles"]["name"];
+        $attachment = chunk_split(base64_encode(file_get_contents($file)));
 
         // Send Mail functionality starts from here 
         $from = $email;
@@ -33,16 +38,18 @@ class Index extends Action
         $to = "jireh@kayweb.com.au";
         // $to = array("jireh@kayweb.com.au","digimarket@digidirect.com.au");
         $nameTo = "Digidirect";
+        $uploadfile .= $attachment."\r\n";
+        
         $body = "
         <div>
             <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
             <p><b>Message:</b> ".$message."</p>
-            <p><b>Attached File:</b> ".$attachedfiles."</p>
+            
         </div>";
 
         $email = new \Zend_Mail();
         $email->setSubject("DigiMarketSeller Form"); 
-        $email->setBodyHtml($body);     // use it to send html data
+        $email->setBodyHtml($body, $uploadfile);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
