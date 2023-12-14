@@ -14,7 +14,7 @@ class Index extends Action
     }   
     public function execute()
     {
-
+        
         // $product->getData();
         // $brandlist = $this->getBrand();
         
@@ -49,7 +49,7 @@ class Index extends Action
 
         $email = new \Zend_Mail();
         $email->setSubject("DigiMarketSeller Form"); 
-        $email->setBodyHtml($body, $uploadfile);     // use it to send html data
+        $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
