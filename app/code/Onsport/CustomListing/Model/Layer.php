@@ -65,7 +65,6 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addCategoriesFilter(['in' => $saleCategoryId]);
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
         }
 
         $this->prepareProductCollection($collection);
