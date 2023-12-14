@@ -38,7 +38,7 @@ class Index extends Action
         $to = "jireh@kayweb.com.au";
         // $to = array("jireh@kayweb.com.au","digimarket@digidirect.com.au");
         $nameTo = "Digidirect";
-        $uploadfile .= $attachment."\r\n";
+        $uploadfile = $attachment;
         
         $body = "
         <div>
