@@ -2,22 +2,16 @@
 
 if(isset($_POST['button']) && isset($_FILES['attachment']))
 {
-	$from_email		 = 'sender@abc.com'; //from mail, sender email address
 	$recipient_email = 'jireh@kayweb.com.au'; //recipient email address
+	$from_email = $_POST["email"]; //from mail, sender email address
+	$firstname = $_POST["firstname"];
+	$lastname = $_POST["lastname"];
+	$note = $_POST["message"]; //body of the email
 	
 	//Load POST data from HTML form
-	$sender_name = $_POST["sender_name"]; //sender name
-	$reply_to_email = $_POST["sender_email"]; //sender email, it will be used in "reply-to" header
-	$subject	 = $_POST["subject"]; //subject for the email
-	$note	 = $_POST["message"]; //body of the email
-	// $message	 = $sender_name . $reply_to_email . $note; 
-	$message	 = "
-  <div>
-      <p><b>FullName:</b> ".$sender_name." ".$sender_name."</p>
-      <p><b>email:</b> ".$from_email."</p>
-      <p><b>Message:</b> ".$note."</p>
-      
-  </div>";
+	$sender_name = $firstname." ".$lastname; //sender name
+	$subject = "DigiMarketSeller Form"; //subject for the email
+	$message = "\n"."\n"."Fullname :"."\t".$sender_name."\n"."Email : "."\t".$from_email."\n"."Message : "."\t".$note."\n"."\n";
 
 	/*Always remember to validate the form fields like this
 	if(strlen($sender_name)<1)
@@ -49,7 +43,8 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	//header
 	$headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
 	$headers .= "From:".$from_email."\r\n"; // Sender Email
-	$headers .= "Reply-To: ".$reply_to_email."\r\n"; // Email address to reach back
+	// $headers.='Bcc: Jai <jireh@kayweb.com.au>';
+
 	$headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
 	$headers .= "boundary = $boundary\r\n"; //Defining the Boundary
 		
@@ -58,7 +53,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
 	$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
 	$body .= chunk_split(base64_encode($message));
-		
+
 	//attachment
 	$body .= "--$boundary\r\n";
 	$body .="Content-Type: $type; name=".$name."\r\n";
@@ -81,27 +76,45 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 ?>
 
 
-	<div style="display:flex; justify-content: center; margin-top:10%;">
-		<form enctype="multipart/form-data" method="POST" action="" style="width: 500px;">
-			<div class="form-group">
-				<input class="form-control" type="text" name="sender_name" placeholder="Your Name" required/>
-			</div>
-			<div class="form-group">
-				<input class="form-control" type="email" name="sender_email" placeholder="Recipient's Email Address" required/>
-			</div>
-			<div class="form-group">
-				<input class="form-control" type="text" name="subject" placeholder="Subject"/>
-			</div>
-			<div class="form-group">
-				<textarea class="form-control" name="message" placeholder="Message"></textarea>
-			</div>
-			<div class="form-group">
-				<input class="form-control" type="file" name="attachment" placeholder="Attachment" required/>
-			</div>
-			<div class="form-group">
-				<input class="btn btn-primary" type="submit" name="button" value="Submit" />
-			</div>		 
-		</form>
-	</div>
 
+	<div id="digimarketseler_form">
+        <div class="container" >
+            <header>Submit a request to join the digiDirect Marketplace</header>
+
+			<form enctype="multipart/form-data" method="POST" action="" style="width: 500px;">
+                    
+                    <label for="email">Your email address<span style="color: #ff0000">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Your email address">
+
+                    <div class="inline-row">
+                        <div class="row1">
+                            <label for="firstname">Firstname<span style="color: #ff0000">*</span></label>
+                            <input type="text" id="firstname" name="firstname" placeholder="Firstname">
+                        </div>
+                        <div class="row1">
+                            <label for="lastname">Lastname<span style="color: #ff0000">*</span></label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Lastname">
+                        </div>
+                    </div>
+
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" cols="10" rows="3"></textarea>
+
+                    <label for="message">Attachement (optional)</label>
+                    <div class="uploadfile drop-zone">
+                        <span class="drop-zone__prompt1">Add file</span>
+                        <span class="drop-zone__prompt2">or drop files here</span>
+                        <input type="file" name="attachment" class="drop-zone__input">
+                    </div>
+                    
+                    <p>Hit submit and a digiDirect Marketplace specialist will contact you shortly.</p>
+
+                    <br>
+
+					<input class="btn btn-primary" type="submit" name="button" value="Submit" />
+
+                    <br><br>
+                </form>
+        </div>
+</div>
 
