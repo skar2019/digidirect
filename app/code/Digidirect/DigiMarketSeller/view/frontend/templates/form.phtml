@@ -10,7 +10,14 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$reply_to_email = $_POST["sender_email"]; //sender email, it will be used in "reply-to" header
 	$subject	 = $_POST["subject"]; //subject for the email
 	$note	 = $_POST["message"]; //body of the email
-	$message	 = $sender_name . $reply_to_email . $note; //body of the email
+	// $message	 = $sender_name . $reply_to_email . $note; 
+	$message	 = "
+  <div>
+      <p><b>FullName:</b> ".$sender_name." ".$sender_name."</p>
+      <p><b>email:</b> ".$from_email."</p>
+      <p><b>Message:</b> ".$note."</p>
+      
+  </div>";
 
 	/*Always remember to validate the form fields like this
 	if(strlen($sender_name)<1)
