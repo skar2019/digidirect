@@ -66,9 +66,8 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         }
-
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[$saleCategoryId] = $collection;
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$saleCategoryId] = $collection;
         
         return $collection;
     }
