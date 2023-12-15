@@ -65,7 +65,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
 
 	if($sentMailResult ){
-		echo "<h3 class='successmessage'>Successfully Sent. Thank You"." ".$sender_name."!"."</h3>";
+		echo "<p class='successmessage'>Successfully Sent. Thank You"." ".$sender_name."!."."</p>";
 		// unlink($name); // delete the file after attachment sent.
 	}
 	else{
