@@ -84,16 +84,16 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
           <form enctype="multipart/form-data" method="POST" action="">
                   
                   <label for="email">Your email address<span style="color: #ff0000">*</span></label>
-                  <input type="email" id="email" name="email" placeholder="Your email address">
+                  <input type="email" id="email" name="email" placeholder="Your email address" required />
 
                   <div class="inline-row">
                       <div class="row1">
                           <label for="firstname">Firstname<span style="color: #ff0000">*</span></label>
-                          <input type="text" id="firstname" name="firstname" placeholder="Firstname">
+                          <input type="text" id="firstname" name="firstname" placeholder="Firstname" required />
                       </div>
                       <div class="row1">
                           <label for="lastname">Lastname<span style="color: #ff0000">*</span></label>
-                          <input type="text" id="lastname" name="lastname" placeholder="Lastname">
+                          <input type="text" id="lastname" name="lastname" placeholder="Lastname" required />
                       </div>
                   </div>
 
@@ -107,6 +107,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                       <input type="file" name="attachment" class="drop-zone__input">
                   </div>
                   
+                  <br>
                   <p>Hit submit and a digiDirect Marketplace specialist will contact you shortly.</p>
 
                   <br>
