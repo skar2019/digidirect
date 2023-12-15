@@ -65,7 +65,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
 
 	if($sentMailResult ){
-		echo "<h3>File Sent Successfully.<h3>";
+		echo "<h3>Successfully Sent. Thank You"." ".$sender_name."!"."<h3>";
 		// unlink($name); // delete the file after attachment sent.
 	}
 	else{
@@ -77,45 +77,46 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 
 
 
-	<div id="digimarketseler_form">
-        <div class="container" >
-            <header>Submit a request to join the digiDirect Marketplace</header>
+<div id="digimarketseler_form">
+    <div class="container" >
+          <header>Submit a request to join the digiDirect Marketplace</header>
 
-			<form enctype="multipart/form-data" method="POST" action="">
-                    
-                    <label for="email">Your email address<span style="color: #ff0000">*</span></label>
-                    <input type="email" id="email" name="email" placeholder="Your email address">
+          <form enctype="multipart/form-data" method="POST" action="">
+                  
+                  <label for="email">Your email address<span style="color: #ff0000">*</span></label>
+                  <input type="email" id="email" name="email" placeholder="Your email address">
 
-                    <div class="inline-row">
-                        <div class="row1">
-                            <label for="firstname">Firstname<span style="color: #ff0000">*</span></label>
-                            <input type="text" id="firstname" name="firstname" placeholder="Firstname">
-                        </div>
-                        <div class="row1">
-                            <label for="lastname">Lastname<span style="color: #ff0000">*</span></label>
-                            <input type="text" id="lastname" name="lastname" placeholder="Lastname">
-                        </div>
-                    </div>
+                  <div class="inline-row">
+                      <div class="row1">
+                          <label for="firstname">Firstname<span style="color: #ff0000">*</span></label>
+                          <input type="text" id="firstname" name="firstname" placeholder="Firstname">
+                      </div>
+                      <div class="row1">
+                          <label for="lastname">Lastname<span style="color: #ff0000">*</span></label>
+                          <input type="text" id="lastname" name="lastname" placeholder="Lastname">
+                      </div>
+                  </div>
 
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" cols="10" rows="3"></textarea>
+                  <label for="message">Message</label>
+                  <textarea name="message" id="message" cols="10" rows="3"></textarea>
 
-                    <label for="message">Attachement (optional)</label>
-                    <div class="uploadfile drop-zone">
-                        <span class="drop-zone__prompt1">Add file</span>
-                        <span class="drop-zone__prompt2">or drop files here</span>
-                        <input type="file" name="attachment" class="drop-zone__input">
-                    </div>
-                    
-                    <p>Hit submit and a digiDirect Marketplace specialist will contact you shortly.</p>
+                  <label for="message">Attachement (optional)</label>
+                  <div class="uploadfile drop-zone">
+                      <span class="drop-zone__prompt1">Add file</span>
+                      <span class="drop-zone__prompt2">or drop files here</span>
+                      <input type="file" name="attachment" class="drop-zone__input">
+                  </div>
+                  
+                  <p>Hit submit and a digiDirect Marketplace specialist will contact you shortly.</p>
 
-                    <br>
+                  <br>
 
-					<input class="btn btn-primary" type="submit" name="button" value="Submit" />
+                  <input class="btn btn-primary button" type="submit" name="button" value="Submit" />
 
-                    <br><br>
-                </form>
-        </div>
+                  <br><br>
+            </form>
+    </div>    
+
 </div>
 
 
