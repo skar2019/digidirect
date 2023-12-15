@@ -15,16 +15,19 @@
     min-height: 100vh;
     overflow-x: hidden;
     // background: #333;
+
+    .container {
+        width: 70%;
+        background: #fff;
+        // text-align: center;
+        border-radius: 5px;
+        padding: 50px 35px 10px 35px;
+        color: #323232;
+        margin-top: -55px;
+    }
 }
 
-.container {
-    width: 70%;
-    background: #fff;
-    // text-align: center;
-    border-radius: 5px;
-    padding: 50px 35px 10px 35px;
-    color: #323232;
-}
+
 
 .container header {
     font-size: 28px;
@@ -137,27 +140,26 @@
 
 @media screen and (max-width: 668px) {
    
-
     #digimarketseler_form {
         width: 100%;
         // width: 400px;
         display: block;
     }
-
     
 
 }
+
 @media screen and (max-width: 490px) {
     #digimarketseler_form {
         width: 100%;
         display: block;
-    }
 
-    .container {
-        box-sizing: border-box;
-        border-radius: 0;
-        padding: unset;
-        width: 100%;
+        .container {
+            box-sizing: border-box;
+            border-radius: 0;
+            padding: unset;
+            width: 100%;
+        }
     }
 
     .container header {
