@@ -560,7 +560,7 @@ return [
         'Digidirect_InfiniteScroll' => 1,
         'Digidirect_Canonical' => 1,
         'Digidirect_Catalog' => 1,
-        'Digidirect_LayeredNavigation' => 0,
+        'Digidirect_LayeredNavigation' => 1,
         'Digidirect_Checkout' => 1,
         'Digidirect_CheckoutFields' => 1,
         'Digidirect_CollaborateForm' => 1,
