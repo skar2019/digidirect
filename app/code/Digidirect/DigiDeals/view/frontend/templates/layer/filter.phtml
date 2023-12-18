@@ -10,7 +10,8 @@
 /** @var \Magento\Framework\Escaper $escaper */
 /** @var \Magento\Framework\Locale\LocaleFormatter $localeFormatter */
 /** @var \Magento\LayeredNavigation\ViewModel\Layer\Filter $viewModel */
-$viewModel = $block->getData('product_layer_view_model');
+$blockObj = $block->getLayout()->createBlock('Digidirect\DigiDeals\Block\Navigation\FilterRenderer');
+$viewModel = $blockObj->getData('product_layer_view_model');
 ?>
 
 <ol class="items">
