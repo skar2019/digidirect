@@ -21,7 +21,7 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute() {
         $resultPage = $this->_resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set("Deals");
+        $resultPage->getConfig()->getTitle()->set("Marketplacer");
         return $resultPage;
     }
 }

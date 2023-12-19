@@ -56,7 +56,7 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         $collection->addCategoriesFilter(['in' => $defaultCategory]);
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addAttributeToFilter('marketplacer_seller', ['neq' => 'digiDirect', 'neq' => '']);
+        $collection->addAttributeToFilter('marketplacer_seller', ['neq' => 'General Seller']);
         
         return $collection;
     }
