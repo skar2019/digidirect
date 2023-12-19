@@ -70,7 +70,8 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter('marketplacer_seller', ['neq' => 'digiDirect', 'neq' => '']);
+            $collection->addAttributeToFilter('marketplacer_seller', ['notnull' => true]);
+            $collection->addAttributeToFilter('marketplacer_seller', ['neq' => 'digiDirect']);
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }
