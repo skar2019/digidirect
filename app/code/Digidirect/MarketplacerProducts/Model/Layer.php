@@ -70,7 +70,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter('marketplacer_seller', ['neq' => 'General Seller']);
+            $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20245));
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }
