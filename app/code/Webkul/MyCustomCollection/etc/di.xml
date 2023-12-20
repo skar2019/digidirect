@@ -21,5 +21,4 @@
     <preference for="Magento\Catalog\Model\Layer\AvailabilityFlagInterface" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
     
     <preference for="Magento\Catalog\Model\ResourceModel\Category" type="Webkul\MyCustomCollection\Model\ResourceModel\Category" />
-    <preference for="Magento\Catalog\Model\ResourceModel\Layer\Filter\Price" type="Webkul\MyCustomCollection\Model\ResourceModel\Layer\Filter\Price" />
 </config>
