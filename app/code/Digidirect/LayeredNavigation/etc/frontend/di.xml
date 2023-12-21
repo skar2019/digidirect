@@ -1,78 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" type="Digidirect\LayeredNavigation\Block\Navigation\FilterRenderer"/>
-    <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered" type="Digidirect\LayeredNavigation\Block\Navigation\SwatchRenderer"/>
-    <preference for="Magento\LayeredNavigation\Block\Navigation\State" type="Digidirect\LayeredNavigation\Block\Navigation\State"/>
-
-    <virtualType name="Digidirect\LayeredNavigation\Model\Layer\Filter\ItemFactory" type="Magento\Catalog\Model\Layer\Filter\ItemFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Item</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Magento\CatalogSearch\Model\ResourceModel\Fulltext\CollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">Digidirect\LayeredNavigation\Model\ResourceModel\Fulltext\Collection</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Magento\CatalogSearch\Model\ResourceModel\Fulltext\SearchCollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">Digidirect\LayeredNavigation\Model\ResourceModel\Fulltext\Collection</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Magento\CatalogSearch\Model\ResourceModel\Advanced\CollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">Digidirect\LayeredNavigation\Model\ResourceModel\Advanced\Collection</argument>
-        </arguments>
-    </virtualType>
-    
     <preference for="elasticsearchFulltextSearchCollection" type="Digidirect\LayeredNavigation\Model\ResourceModel\Fulltext\Collection" />
     <preference for="elasticsearchCategoryCollection" type="Digidirect\LayeredNavigation\Model\ResourceModel\Fulltext\Collection" />
     <preference for="elasticsearchAdvancedCollection" type="Digidirect\LayeredNavigation\Model\ResourceModel\Fulltext\Collection" />
-
-    <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
-        <arguments>
-            <argument name="filters" xsi:type="array">
-                <item name="attribute" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Attribute</item>
-                <item name="price" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Price</item>
-                <item name="decimal" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Decimal</item>
-                <item name="category" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Category</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="searchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
-        <arguments>
-            <argument name="filters" xsi:type="array">
-                <item name="attribute" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Attribute</item>
-                <item name="price" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Price</item>
-                <item name="decimal" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Decimal</item>
-                <item name="category" xsi:type="string">Digidirect\LayeredNavigation\Model\Layer\Filter\Category</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <type name="Digidirect\LayeredNavigation\Model\Layer\Filter\Attribute">
-        <arguments>
-            <argument name="filterItemFactory" xsi:type="object">Digidirect\LayeredNavigation\Model\Layer\Filter\ItemFactory</argument>
-        </arguments>
-    </type>
-    <type name="Digidirect\LayeredNavigation\Model\Layer\Filter\Category">
-        <arguments>
-            <argument name="filterItemFactory" xsi:type="object">Digidirect\LayeredNavigation\Model\Layer\Filter\ItemFactory</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Layer\Filter\DataProvider\Price">
-        <plugin name="Digidirect_LayeredNavigation::removeAjaxParamFromToolbaree" type="Digidirect\LayeredNavigation\Model\Layer\Filter\DataProvider\Price" />
-    </type>
-    <type name="Digidirect\LayeredNavigation\Model\Layer\Filter\Price">
-        <arguments>
-            <argument name="filterItemFactory" xsi:type="object">Digidirect\LayeredNavigation\Model\Layer\Filter\ItemFactory</argument>
-        </arguments>
-    </type>
-    <type name="Digidirect\LayeredNavigation\Model\Layer\Filter\Decimal">
-        <arguments>
-            <argument name="filterItemFactory" xsi:type="object">Digidirect\LayeredNavigation\Model\Layer\Filter\ItemFactory</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\App\RouterList">
         <arguments>
             <argument name="routerList" xsi:type="array">
