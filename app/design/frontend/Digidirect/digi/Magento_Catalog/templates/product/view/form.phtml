@@ -88,8 +88,9 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
 </div>
-<!-- clint commented out requested by Haig 26 06 23-->
+<!-- clint commented out requested by Haig 26 12 23-->
 <?php if($awaiting == 1):?>
+    <?php if($brand != "Canon" && $brand != "Sony" && $brand != "Nikon" && $brand != "Fujifilm"):?>
     <div class="awaiting" id="awaiting-product">
         <div class="ribbon-wrapper">
             <div class="ribbon">
@@ -110,6 +111,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
             </div>
         </div>
     </div>
+    <?php endif; ?>
 <?php endif; ?>
 <script type="text/x-magento-init">
     {
