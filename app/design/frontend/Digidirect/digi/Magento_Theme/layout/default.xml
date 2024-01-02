@@ -46,11 +46,7 @@
         </referenceContainer>
         
          <referenceBlock name="store.menu">
-            <block class="Magento\Cms\Block\Block" name="new.navigation.menu">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">new-navigation-menu</argument>
-                </arguments>
-            </block>
+            <block class="Magento\Framework\View\Element\Template" name="new.navigation.menu" template="Magento_Theme::new-navigation-menu.phtml"/>  
         </referenceBlock>
         
         <referenceContainer name="after.body.start">

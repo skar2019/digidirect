@@ -67,6 +67,7 @@
 
     .footer-nav{
         display: flex;
+        // display: flex;
         justify-content: center;
         align-items: stretch;
     }
@@ -99,6 +100,10 @@
                 height: 12px;
                 fill: #222;
                 margin-right: 5px;
+            }
+                        
+            .f-mobile {
+                display: none;
             }
         }
 
@@ -412,6 +417,14 @@
 
     .footer-menu {
         padding: 0 15px 20px 15px !important;
+
+        .f-mobile {
+            display: block !important;
+        }
+
+        .f-desktop {
+            display: none !important;
+        }
     }
 
     .footer-menu>.item>.link {

@@ -23,7 +23,8 @@ define([
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
         distanceList = window.checkoutConfig.quoteData.distance_list,
         selectedStore = window.checkoutConfig.quoteData.selected_collect_place,
-        productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store;
+        productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store,
+        has_marketplacer_seller = window.checkoutConfig.quoteData.has_marketplacer_seller;
 
     return Component.extend({
         defaults: {
@@ -64,6 +65,7 @@ define([
         placesUrl: placesUrl,
         distanceList: distanceList,
         productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
+        hasMarketplacerSeller: ko.observable(has_marketplacer_seller || false),
         checkIsCollectSelected: function () {
             if (this.collectPlaces().length > 0) {
                 this.isCollectSelected(true);

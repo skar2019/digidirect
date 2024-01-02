@@ -139,30 +139,30 @@ class Product extends AbstractHelper
                 {
 
                     $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '')
+                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                     {
                         if(isset($prod['stk-current-buy']))
                         {
                             $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '')
+                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                             {
                                 if(isset($prod['whse-avg-cost-swhs']))
                                 {
                                     $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
-                                    if ($cost == '0' || $cost == '')
+                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                                     {
                                         $pricetocost = floatval($price);
                                         $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
-
                             }
                         }
                     }
                 }
 
+                echo "cost price ".$cost."<br/>";
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -709,7 +709,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
 
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -1499,7 +1499,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -1767,30 +1767,30 @@ class Product extends AbstractHelper
                 {
 
                     $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '')
+                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                     {
                         if(isset($prod['stk-current-buy']))
                         {
                             $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '')
+                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                             {
                                 if(isset($prod['whse-avg-cost-swhs']))
                                 {
                                     $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
-                                    if ($cost == '0' || $cost == '')
+                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                                     {
                                         $pricetocost = floatval($price);
                                         $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
-
                             }
                         }
                     }
                 }
 
+                echo "cost price ".$cost."<br/>";
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -2332,7 +2332,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -2582,30 +2582,34 @@ class Product extends AbstractHelper
                 {
 
                     $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '')
+                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                     {
                         if(isset($prod['stk-current-buy']))
                         {
                             $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '')
+                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                             {
                                 if(isset($prod['whse-avg-cost-swhs']))
                                 {
                                     $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
-                                    if ($cost == '0' || $cost == '')
+                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
                                     {
                                         $pricetocost = floatval($price);
                                         $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
-
                             }
                         }
                     }
                 }
 
+                echo "cost price ".$cost."<br/>";
+                if($cost > $price)
+                {
+                    $cost = $price;
+                }
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -3169,7 +3173,7 @@ class Product extends AbstractHelper
 
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);

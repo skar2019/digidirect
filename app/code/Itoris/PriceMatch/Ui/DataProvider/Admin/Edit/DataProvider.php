@@ -107,6 +107,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
                 'date_created'   => $item['date_created'],
                 'customer_email' => $this->_formatCustomerMail($item),
                 'product_name'   => $this->_formatProductName($item),
+                'product_sku'   => $this->_formatProductSku($item),
                 'match_price'    => $this->_formatMatchPrice($item),
                 'status'         => $item['status'],
                 'final_price'    => $this->_formatFinalPrice($item),
@@ -137,19 +138,18 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
         return '<a href="'.$productUrl.'" target="_blank">'.$item['product_name'].'</a>';
     }
+    
+    private function _formatProductSku($item) {
+        $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
+        return $item['product_sku'];
+    }
 
     private function _formatMatchPrice($item) {
         return $this->formatPrice($item['match_price'], $item['store_id']);
     }
 
     private function _formatFinalPrice($item) {
-        //clint work around
-        $product = $this->productFactory->create()->load( $item['product_id'] );
-        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
-        $final_price2 = $product->getFinalPrice();
-        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
-
-        return $this->formatPrice($final_price3, $item['store_id']);
+        return $this->formatPrice($item['final_price'], $item['store_id']);
     }
 
     private function formatPrice($amount, $store){

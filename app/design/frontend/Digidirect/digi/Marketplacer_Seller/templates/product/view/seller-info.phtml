@@ -38,13 +38,13 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
         <?php endif ?>
     </strong>
     <?php if ($sellerLogo): ?>
-        <span class="image">
+        <span class="image" style="display: none;">
             <img src="<?= $escaper->escapeUrl($sellerLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($sellerName) ?>"/>
         </span>
     <?php endif ?>
     <br/>
     <?php if ($sellerPolicies): ?>
-        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>">
+        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>" style="display: none;">
             <?= $escaper->escapeHtml(__('Policies')) ?>
         </a>
     <?php endif ?>

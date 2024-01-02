@@ -47,6 +47,9 @@
     
     $categoryDigiSeconds = $categoryFactory->create()->load(2564);
     $allChildrenCategoryIdsDigiSeconds = $categoryDigiSeconds->getAllChildren(true);
+    
+    $categoryDigiClub = $categoryFactory->create()->load(3059);
+    $allChildrenCategoryIdsDigiClub = $categoryDigiClub->getAllChildren(true);
 ?>
 
 
@@ -82,6 +85,8 @@
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>smart_home.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
+        <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiClub)) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiclub-header.png"/>
         <?php endif; ?>
     </div>
     <div class="banner-tablet" style="display: none;">
@@ -107,6 +112,8 @@
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>smart_home.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>digiseconds.png"/>
+        <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiClub)) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>digiclub-header.png"/>
         <?php endif; ?>
     </div>
     

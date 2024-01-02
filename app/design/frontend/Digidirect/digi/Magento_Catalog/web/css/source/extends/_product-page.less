@@ -1331,7 +1331,7 @@
     //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "0% Interest for 6 Months";
+        content: "0% Interest for 12 Months";
     }
 
     .zip-container:last-child:after {
@@ -2226,7 +2226,7 @@
 
     .row-first {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         column-gap: 5px;
     }
     
@@ -2234,12 +2234,24 @@
         border: 1px solid #cacaca;
         border-radius: 5px;
     }
+    
+    .row-second {
+        padding-top: 14px;
+        border: none !important;
+    }
+    
+    .row-second #zip-custom {
+        border: 1px solid #aa8fff;
+        border-radius: 5px;
+        padding: 0 !important;
+    }
 
     .credit-cards {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
         align-items: center;
-        padding: 0 5px;
+        width: 115px;
+        margin: 0 auto;
     }
 
     .credit-cards img {
@@ -2249,6 +2261,11 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
+    }
+    
+    .payment-gateways .paypal-buttons {
+        height: unset !important;
+        margin-top: -5px;
     }
     
     #paypal-custom {
@@ -2279,22 +2296,34 @@
         background-size: contain;
         width: 75px;
         margin-top: 4px;
+        display: none;
     }
     
     .zip-caption {
-        text-align: center;
-        line-height: 10px;
-        margin-top: 1px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
     }
     
     .zip-interest {
-        font-size: 8px;
+        font-size: 11px;
+        margin-top: 10px;
+        text-align: center;
     }
     
     .zip-apply-now {
         font-size: 10px;
         font-weight: 600;
         color: #e40301;
+        margin-top: 9px;
+        margin-right: 20px;
+        margin-left: auto;
+    }
+    
+    .zip-logo-pg {
+        width: 75px;
+        margin-right: auto;
+        margin-left: 5px;
     }
     
     .payment-gateways-bottom {
@@ -2303,7 +2332,7 @@
     
     .row-bottom {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         column-gap: 5px;
     }
 
@@ -3030,7 +3059,7 @@
 
     .zip-container span:first-of-type:before {
         visibility: visible !important;
-        content: "0% Interest for 6 Months" !important;
+        content: "0% Interest for 12 Months" !important;
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;

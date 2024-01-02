@@ -143,7 +143,7 @@ class Product extends Template
     private function _getCurrentProduct() {
         return $this->registry->registry('current_product');
     }
-
+    
     private function convertAttrArray($arr) {
         $result = array_shift($arr);
 

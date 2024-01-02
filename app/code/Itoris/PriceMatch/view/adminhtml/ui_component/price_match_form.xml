@@ -131,6 +131,17 @@
                 </item>
             </argument>
         </field>
+        <field name="product_sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string">SKU:</item>
+                    <item name="source" xsi:type="string">price_match</item>
+                    <item name="elementTmpl" xsi:type="string">Itoris_PriceMatch/form/element/itoris-label</item>
+                </item>
+            </argument>
+        </field>
         <field name="final_price">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

@@ -20,7 +20,7 @@ $hasImageSize = $overlay->getImageSize() ? ' -has-size' : '';
         <?php if ($overlay->getUseForParent()): ?> data-role="use-for-parent"<?php endif; ?>
          data-overlay-id="<?= $block->escapeHtml($overlayId)?>"
          data-product-id="<?= $block->escapeHtml($productId)?>"
-         style="<?= $block->escapeHtml($overlay->getValue('block_style')); ?>">
+         style="width: auto; height: auto;">
         <img class="img"
              src="<?= $block->escapeUrl($block->getImageScr()) ?>"
              title="<?= $block->escapeHtml($nativeText) ?>"
