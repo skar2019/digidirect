@@ -17,6 +17,11 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
  * @var SecureHtmlRenderer $secureRenderer
  */
 ?>
+
+<?php
+echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('b2b-registration-header')->toHtml();
+?>
+
 <form class="form create account form-create-account"
       action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
       method="post" id="form-validate"
