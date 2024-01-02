@@ -683,6 +683,10 @@ class Order extends AbstractHelper
                 }
             }
 
+            $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
+            $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
+            $shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
+
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
