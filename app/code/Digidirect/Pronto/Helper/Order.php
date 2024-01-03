@@ -642,6 +642,7 @@ class Order extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
             }
 
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
@@ -664,7 +665,6 @@ class Order extends AbstractHelper
             }
 
             $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
-            $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
             $shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
