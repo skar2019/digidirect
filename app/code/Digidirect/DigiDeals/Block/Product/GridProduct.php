@@ -57,7 +57,7 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $collection->addMinimalPrice()->addFinalPrice();
-        //$collection->getSelect()->where("price_index.final_price < price_index.price");
+        $collection->getSelect()->where("price_index.final_price < price_index.price");
         
         return $collection;
     }
