@@ -991,6 +991,7 @@ class TestPronto extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
             }
 
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
@@ -1013,6 +1014,9 @@ class TestPronto extends AbstractHelper
 
             }
 
+            $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
+
+            $shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
