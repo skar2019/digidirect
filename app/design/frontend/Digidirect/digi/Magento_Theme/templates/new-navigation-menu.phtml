@@ -1802,15 +1802,12 @@
     <div id="submenu-photolab" class="item-submenu" onclick="checkActiveMenuItem(event, 'submenu-photolab')">
       <div class="photolab-mobile-menu">
         <div class="dropdown">
-        <div id="cameras-tab-menu" class="mgz-tabs-tab-title cameras-tab-menu" onclick="openSecondLevel(event, 'second-level-cameras', 'top-brands-cameras', 'cameras-tab-menu')">
-            <a><span class="first-menu-tab-title">Cameras</span> <i class="fas mgz-fa-angle-right"></i> <span class="tabs-opener" style="display: none;"></span></a>
-        </div>
           <a class="digiprint-link" href="https://www.digidirect.com.au/digiprint">
               <button class="dropbtn">PHOTO LAB <i class="fas fa-angle-down"></i></button>
           </a>
           <i class="fas fa-angle-right"></i>
-          <div class="dropdown-content" onclick="event.stopPropagation()" style="flex-direction: column;">
-            <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;width: 430px;">
+          <div class="dropdown-content" onclick="event.stopPropagation()">
+            <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;">
                 
             <div class="reason-list">
                 <span>
@@ -2179,6 +2176,8 @@ function returnToFirstLevel() {
 
 
 function openDigiPrintSecondLevel(evt, className) {
+  document.getElementById("digiprint-second-level").removeAttribute('style');
+  document.getElementById(className).removeAttribute('style');
   document.getElementById("digiprint-second-level").style.display = "block";
   document.getElementById(className).style.display = "block";
 }
