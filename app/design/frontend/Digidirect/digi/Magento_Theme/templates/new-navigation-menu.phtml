@@ -1821,6 +1821,7 @@
                         <p>Turn your digital photos in to beautiful prints.</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-digital-prints')"></i>
             </div>
 
             <div class="reason-list">
@@ -1835,6 +1836,7 @@
                         <p>Photo Mugs and Photo Gifts</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1849,6 +1851,7 @@
                         <p>Customize your wall and desk calendar</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
 
@@ -1864,6 +1867,7 @@
                         <p>My home and my kids</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1878,6 +1882,7 @@
                         <p>Customize Photo Books in different size and number pages</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1892,6 +1897,7 @@
                         <p>Canvas Prints and Wall Decore</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1906,6 +1912,7 @@
                         <p>Posters</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1920,6 +1927,7 @@
                         <p>Passport Visa and ID Photos</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1934,6 +1942,7 @@
                         <p>Buy the Frame, well make the print Free</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1948,6 +1957,7 @@
                         <p>Shop our wide range of photo albums <br> and Australian made frames</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
 
             <div class="reason-list">
@@ -1962,9 +1972,26 @@
                         <p>Shop our huge range of Film <br> and Darkroom prodcuts</p>
                     </a>
                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
             </div>
                 
             </div>
+              
+            
+            <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
+                <div id="digiprint-second-level-digital-prints" class="second-level-content">
+                  <div class="menu-raw-content">
+                    <div class="menu-second-level">
+                      <div class="tab">
+                        <a class="tablinks" href="https://www.digidirect.com.au/home-category/homeware">Homeware</a>
+                        <a class="tablinks" href="https://www.digidirect.com.au/home-category/small-appliances">Small Appliances</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+              
+              
           </div>
         </div> 
       </div> 
@@ -2147,6 +2174,11 @@ function returnToFirstLevel() {
   resetMenu();
 }
 
+
+function openDigiPrintSecondLevel(evt, className) {
+  document.getElementById("digiprint-second-level").style.display = "block";
+  document.getElementById(className).style.display = "block";
+}
 
 </script>
 
