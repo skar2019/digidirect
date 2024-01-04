@@ -19,7 +19,7 @@
             <ol data-bind="foreach: getSellers()" class="minicart-items">
                 <div class="seller-container">
                     <div style="font-weight: 600;">Delivery <span data-bind="text : $index() + 1"></span></div>
-                    <div class="shipped-by" style="display: flex;">
+                    <div class="shipped-by" style="display: flex; font-size: 12px;">
                         <div style="margin-right: 5px;">Shipped By: </div><div data-bind="text: $data[0]" class="seller"></div> 
                         <span style="margin-left: 5px;">for $</span><div data-bind="text: $data[1]" class="sellerShipping"></div>
                     </div>
