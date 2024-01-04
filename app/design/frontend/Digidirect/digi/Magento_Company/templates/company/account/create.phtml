@@ -246,16 +246,18 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
             <?= $block->getChildHtml('form.additional.info') ?>
         </fieldset>
 
-    </div>
-
-
-    <div class="actions-toolbar">
-        <div class="primary">
-            <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>">
-                <span><?= $block->escapeHtml(__('Submit')) ?></span>
-            </button>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>">
+                    <span><?= $block->escapeHtml(__('Submit')) ?></span>
+                </button>
+            </div>
         </div>
+
     </div>
+
+
+
 
 </form>
 <?php $scriptString = <<<script
