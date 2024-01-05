@@ -31,6 +31,63 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
     
     <div class="b2bregbox">
 
+        
+    <fieldset class="fieldset create info">
+            <legend class="legend"><span><?= $block->escapeHtml(__('Company Administrator')) ?></span></legend><br>
+
+            <?= $block->getLayout()->createBlock(Name::class)
+                ->setFieldNameFormat('customer[%s]')
+                ->setObject($block->getFormData())
+                ->setNoWrap(true)
+                ->setForceUseCustomerAttributes(true)
+                ->toHtml() ?>
+                
+            <div class="field legal-name">
+                <label class="label" for="job_title">
+                    <span><?= $block->escapeHtml(__('Job Title')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[job_title]" id="job_title"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Job Title')) ?>"
+                        class="input-text">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                <div class="control">
+                    <input type="email" name="customer[email]"
+                        autocomplete="email"
+                        id="email_address"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                        class="input-text"
+                        data-async-is-valid="true"
+                        data-mage-init='{"Magento_Company/js/form/element/async-validation": {
+                                "name": "customer_email",
+                                "validateUrl": "<?= $block->escapeUrl($block->getUrl('company/account/validate')) ?>"
+                        }}'
+                        data-validate="{required:true, 'validate-email':true, 'validate-async-customer-email': true}">
+                </div>
+            </div>
+
+
+
+            <?= $block->getLayout()->createBlock(Gender::class)
+                ->setFieldNameFormat('customer[%s]')
+                ->setGender($block->getFormData()->getGender())
+                ->toHtml() ?>
+
+            <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
+            <?php if ($userDefinedAttributes): ?>
+                <?php $userDefinedAttributes->setFieldNameFormat('customer[%1$s]'); ?>
+                <?= $userDefinedAttributes->toHtml() ?>
+            <?php endif; ?>
+
+            <?= $block->getChildHtml('form.additional.info') ?>
+        </fieldset>
+
         <fieldset class="fieldset info">
             <legend class="legend"><span><?= $block->escapeHtml(__('Welcome to digiDirect Business')) ?></span></legend><br>
             <div class="field company-name _required">
@@ -192,59 +249,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
             </div>
         </fieldset>
 
-        <fieldset class="fieldset create info">
-            <legend class="legend"><span><?= $block->escapeHtml(__('Company Administrator')) ?></span></legend><br>
-
-            <div class="field legal-name">
-                <label class="label" for="job_title">
-                    <span><?= $block->escapeHtml(__('Job Title')) ?></span>
-                </label>
-                <div class="control">
-                    <input type="text" name="company[job_title]" id="job_title"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('Job Title')) ?>"
-                        class="input-text">
-                </div>
-            </div>
-
-            <div class="field required">
-                <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
-                <div class="control">
-                    <input type="email" name="customer[email]"
-                        autocomplete="email"
-                        id="email_address"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
-                        class="input-text"
-                        data-async-is-valid="true"
-                        data-mage-init='{"Magento_Company/js/form/element/async-validation": {
-                                "name": "customer_email",
-                                "validateUrl": "<?= $block->escapeUrl($block->getUrl('company/account/validate')) ?>"
-                        }}'
-                        data-validate="{required:true, 'validate-email':true, 'validate-async-customer-email': true}">
-                </div>
-            </div>
-
-            <?= $block->getLayout()->createBlock(Name::class)
-                ->setFieldNameFormat('customer[%s]')
-                ->setObject($block->getFormData())
-                ->setNoWrap(true)
-                ->setForceUseCustomerAttributes(true)
-                ->toHtml() ?>
-
-            <?= $block->getLayout()->createBlock(Gender::class)
-                ->setFieldNameFormat('customer[%s]')
-                ->setGender($block->getFormData()->getGender())
-                ->toHtml() ?>
-
-            <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
-            <?php if ($userDefinedAttributes): ?>
-                <?php $userDefinedAttributes->setFieldNameFormat('customer[%1$s]'); ?>
-                <?= $userDefinedAttributes->toHtml() ?>
-            <?php endif; ?>
-
-            <?= $block->getChildHtml('form.additional.info') ?>
-        </fieldset>
 
         <div class="actions-toolbar">
             <div class="primary">
