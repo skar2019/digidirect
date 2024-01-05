@@ -33,7 +33,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
         
     <fieldset class="fieldset create info">
-            <legend class="legend"><span><?= $block->escapeHtml(__('Company Administrator')) ?></span></legend><br>
+            <legend class="legend"><span><?= $block->escapeHtml(__('Welcome to digiDirect Business')) ?></span></legend><br>
 
             <?= $block->getLayout()->createBlock(Name::class)
                 ->setFieldNameFormat('customer[%s]')
@@ -51,6 +51,18 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                         value=""
                         title="<?= $block->escapeHtmlAttr(__('Job Title')) ?>"
                         class="input-text">
+                </div>
+            </div>
+
+            <div class="field telephone _required">
+                <label class="label" for="telephone">
+                    <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[telephone]" id="telephone"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+                        class="input-text" data-validate="{required:true}">
                 </div>
             </div>
 
@@ -74,10 +86,10 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 
 
-            <?= $block->getLayout()->createBlock(Gender::class)
+            <!-- <//?= $block->getLayout()->createBlock(Gender::class)
                 ->setFieldNameFormat('customer[%s]')
                 ->setGender($block->getFormData()->getGender())
-                ->toHtml() ?>
+                ->toHtml() ?> -->
 
             <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
             <?php if ($userDefinedAttributes): ?>
@@ -89,7 +101,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
         </fieldset>
 
         <fieldset class="fieldset info">
-            <legend class="legend"><span><?= $block->escapeHtml(__('Welcome to digiDirect Business')) ?></span></legend><br>
+            <!-- <legend class="legend"><span><//?= $block->escapeHtml(__('Welcome to digiDirect Business')) ?></span></legend><br> -->
             <div class="field company-name _required">
                 <label class="label" for="company_name">
                     <span><?= $block->escapeHtml(__('Company Name')) ?></span>
@@ -236,17 +248,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 </div>
             </div>
 
-            <div class="field telephone _required">
-                <label class="label" for="telephone">
-                    <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
-                </label>
-                <div class="control">
-                    <input type="text" name="company[telephone]" id="telephone"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
-                        class="input-text" data-validate="{required:true}">
-                </div>
-            </div>
+
         </fieldset>
 
 
