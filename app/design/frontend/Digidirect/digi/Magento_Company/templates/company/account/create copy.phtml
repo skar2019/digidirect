@@ -84,30 +84,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 </div>
             </div>
 
-            <div class="field abn _required">
-                <label class="label" for="abn">
-                    <span><?= $block->escapeHtml(__('ABN')) ?></span>
-                </label>
-                <div class="control">
-                    <input type="text" name="company[abn]" id="abn"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('ABN')) ?>"
-                        class="input-text" data-validate="{required:true}">
-                </div>
-            </div>
-
-            <div class="field acn _required">
-                <label class="label" for="acn">
-                    <span><?= $block->escapeHtml(__('ACN')) ?></span>
-                </label>
-                <div class="control">
-                    <input type="text" name="company[acn]" id="acn"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('ACN')) ?>"
-                        class="input-text" data-validate="{required:true}">
-                </div>
-            </div>
-
             <div class="field company-name _required">
                 <label class="label" for="company_name">
                     <span><?= $block->escapeHtml(__('Company Name')) ?></span>
@@ -117,22 +93,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                         value=""
                         title="<?= $block->escapeHtmlAttr(__('Company Name')) ?>"
                         class="input-text" data-validate="{required:true}">
-                </div>
-            </div>
-
-            <div class="field region-id required">
-                <label class="label" for="region_id">
-                    <span><?= $block->escapeHtml(__('State/Province')) ?></span>
-                </label>
-                <div class="control _required">
-                    <?php $message = $block->escapeHtml(__('Please select a region, state or province.')) ?>
-                    <select name="company[region_id]" id="region_id" data-validate="{required:true}" class="select">
-                        <option value=""><?= /* @noEscape */ $message ?></option>
-                    </select>
-                    <input type="text" id="region" name="company[region]"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('State/Province')) ?>"
-                        class="input-text no-display"">
                 </div>
             </div>
 
