@@ -120,6 +120,28 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 </div>
             </div>
 
+            <div class="field country_id _required">
+                <label class="label" for="country_id">
+                    <span><?= $block->escapeHtml(__('Country')) ?></span>
+                </label>
+                <div class="control _required">
+                    <?php $countryValue = $block->getDefaultCountryId(); ?>
+                    <select name="company[country_id]" id="country_id"
+                            class="select"
+                            title="<?= $block->escapeHtmlAttr(__('Country')) ?>"
+                            data-validate="{required:true}">
+                        <option value=""><?= $block->escapeHtml(__('Please select an option.')) ?></option>
+                        <?php $countries = $block->getCountriesList(); ?>
+                        <?php foreach ($countries as $countryCode => $country): ?>
+                            <option value="<?= $block->escapeHtmlAttr($countryCode) ?>"
+                                <?= ($countryCode == $countryValue) ? ' selected' : '' ;?>>
+                                <?= $block->escapeHtml($country) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
             <div class="field region-id required">
                 <label class="label" for="region_id">
                     <span><?= $block->escapeHtml(__('State/Province')) ?></span>
@@ -151,6 +173,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
             <?= $block->getChildHtml('form.additional.info') ?>
         </fieldset>
+
 
 
         <div class="actions-toolbar">
