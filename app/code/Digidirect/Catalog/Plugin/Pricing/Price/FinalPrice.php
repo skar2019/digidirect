@@ -86,5 +86,6 @@ class FinalPrice
         $result = $finalProductPrice;
             
         return $result;
+        
     }
 }
