@@ -99,7 +99,7 @@ class WiserPrice implements ObserverInterface
             $this->logger->info('$finalPrice: ' . $finalPrice);
             $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
             
-            $finalPrice = $finalPrice + $digiProtectPrice;
+            //$finalPrice = $finalPrice + $digiProtectPrice;
             
             $item->setCustomPrice($finalPrice);
             $item->setOriginalCustomPrice($finalPrice);
