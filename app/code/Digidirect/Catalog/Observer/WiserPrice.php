@@ -57,6 +57,7 @@ class WiserPrice implements ObserverInterface
         
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
+        $basePrice = $product->getPrice();
             
         $this->_productRepositoryInterface->getById($product->getId());
         $this->_productRepository->load($product->getId());
@@ -65,7 +66,7 @@ class WiserPrice implements ObserverInterface
         
         $finalProductPrice = $finalPrice;
         
-        $this->logger->info('$finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
+        $this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalProductPrice = $finalPrice;
