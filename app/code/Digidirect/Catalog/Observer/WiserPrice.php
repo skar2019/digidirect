@@ -62,6 +62,9 @@ class WiserPrice implements ObserverInterface
         $this->_productRepository->load($product->getId());
 
         if (!$product->getData('added_by_rule_id')) {
+            
+            $finalPrice = $price;
+            
             if ($wiserPrice > 1 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
                     if ((in_array($sku, $discount2)) && $isDigiClub) {
@@ -99,10 +102,10 @@ class WiserPrice implements ObserverInterface
             $this->logger->info('$finalPrice: ' . $finalPrice);
             $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
             
-            //$finalPrice = $finalPrice + $digiProtectPrice;
+            $finalProductPrice = $finalPrice + $digiProtectPrice;
             
-            $item->setCustomPrice($finalPrice);
-            $item->setOriginalCustomPrice($finalPrice);
+            $item->setCustomPrice($finalProductPrice);
+            $item->setOriginalCustomPrice($finalProductPrice);
             $item->getProduct()->setIsSuperMode(true);
         }
     }
