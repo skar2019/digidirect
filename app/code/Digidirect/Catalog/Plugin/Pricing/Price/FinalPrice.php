@@ -7,15 +7,11 @@ class FinalPrice
     protected $customer;
     
     protected $logger;
-    
-    protected $_productOptions;
 
     public function __construct(
-        \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Customer\Model\Session $customerSession,
         \Psr\Log\LoggerInterface $logger
     ) {
-        $this->_productOptions = $productOptions;
         $this->customer = $customerSession;
         $this->logger = $logger;
     }
@@ -61,29 +57,6 @@ class FinalPrice
         } else {
             $result = $price;
         }
-        
-        $finalPrice = $result;
-        $digiProtectPrice = 0;
-
-        $selectedOption = $subject->getProduct()->getTypeInstance(true)->getOrderOptions($product);
-        $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
-
-        $customOptions = $this->_productOptions->getProductOptionCollection($product);
-        foreach($customOptions as $optionKey => $optionVal) {
-            foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                if (isset($selectedOption['options'])) {
-                    $digiProtectPrice = $valuesVal->getPrice();
-                }
-            }
-        }
-
-        $this->logger->info('$finalPrice: ' . $finalPrice);
-        $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
-
-        $finalProductPrice = $finalPrice + $digiProtectPrice;
-        
-        $result = $finalProductPrice;
             
         return $result;
         
