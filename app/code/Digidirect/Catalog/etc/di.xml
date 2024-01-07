@@ -2,7 +2,6 @@
     <preference for="Magento\Catalog\Model\Product" type="Digidirect\Catalog\Model\Product" />   
     <preference for="Magento\Catalog\Helper\Product\Configuration" type="Digidirect\Catalog\Helper\Product\Configuration" />
     <preference for="Magento\Catalog\Block\Category\View" type="Digidirect\Catalog\Block\Category\View" />
-
     <type name="Magento\Catalog\Model\Config">
         <plugin name="sortby_add_custom_option" type="Digidirect\Catalog\Plugin\Model\Config" />
     </type>
