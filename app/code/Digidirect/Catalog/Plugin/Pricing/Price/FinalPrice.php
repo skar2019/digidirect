@@ -57,6 +57,29 @@ class FinalPrice
         } else {
             $result = $price;
         }
+        
+        $finalPrice = $result;
+        $digiProtectPrice = 0;
+
+        $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($product);
+        $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+
+        $customOptions = $this->_productOptions->getProductOptionCollection($product);
+        foreach($customOptions as $optionKey => $optionVal) {
+            foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                if (isset($selectedOption['options'])) {
+                    $digiProtectPrice = $valuesVal->getPrice();
+                }
+            }
+        }
+
+        $this->logger->info('$finalPrice: ' . $finalPrice);
+        $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+
+        $finalProductPrice = $finalPrice + $digiProtectPrice;
+        
+        $result = $finalProductPrice;
             
         return $result;
     }
