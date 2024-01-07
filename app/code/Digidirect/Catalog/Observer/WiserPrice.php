@@ -71,44 +71,50 @@ class WiserPrice implements ObserverInterface
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalProductPrice = $finalPrice;
         } else {
-            if ($wiserPrice > 1 && !empty($wiserPrice)) {
-                if ($wiserPrice < $price) {
-                    if ((in_array($sku, $discount2)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                    } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                    } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                    } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                    } 
-                    $finalPrice = $wiserPrice;
+            if ($basePrice > $wiserPrice) {
+                if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                    if ($wiserPrice < $price) {
+                        if ((in_array($sku, $discount2)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                        } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                        } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                        } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                        } 
+                        $finalPrice = $wiserPrice;
+                    } else {
+                        $finalPrice = $price;
+                    }
                 } else {
                     $finalPrice = $price;
                 }
-            } else {
-                $finalPrice = $price;
-            }
 
-            $digiProtectPrice = 0;
+                $digiProtectPrice = 0;
 
-            $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-            $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+                $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+                $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
 
-            $customOptions = $this->_productOptions->getProductOptionCollection($product);
-            foreach($customOptions as $optionKey => $optionVal) {
-                foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                    $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                    if (isset($selectedOption['options'])) {
-                        $digiProtectPrice = $valuesVal->getPrice();
+                $customOptions = $this->_productOptions->getProductOptionCollection($product);
+                foreach($customOptions as $optionKey => $optionVal) {
+                    foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                        $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                        if (isset($selectedOption['options'])) {
+                            $digiProtectPrice = $valuesVal->getPrice();
+                        }
                     }
                 }
+
+                $this->logger->info('$finalPrice: ' . $finalPrice);
+                $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+
+                $finalProductPrice = $finalPrice + $digiProtectPrice;
+                
+            } else {
+                $finalProductPrice = $finalPrice;
             }
-
-            $this->logger->info('$finalPrice: ' . $finalPrice);
-            $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
-
-            $finalProductPrice = $finalPrice + $digiProtectPrice;
+            
         }
         
         $item->setCustomPrice($finalProductPrice);
