@@ -65,6 +65,8 @@ class WiserPrice implements ObserverInterface
         
         $finalProductPrice = $finalPrice;
         
+        $this->logger->info('$finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
+        
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalProductPrice = $finalPrice;
         } else {
