@@ -68,24 +68,6 @@ class WiserPrice implements ObserverInterface
         
         $this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
-        $digiProtectPrice = 0;
-
-        $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-        $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
-
-        $customOptions = $this->_productOptions->getProductOptionCollection($product);
-        foreach($customOptions as $optionKey => $optionVal) {
-            foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                if (isset($selectedOption['options'])) {
-                    $digiProtectPrice = $valuesVal->getPrice();
-                }
-            }
-        }
-
-        $this->logger->info('$finalPrice: ' . $finalPrice);
-        $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
-        
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalProductPrice = $finalPrice;
         } else {
@@ -108,11 +90,30 @@ class WiserPrice implements ObserverInterface
                 } else {
                     $finalPrice = $price;
                 }
+                
+                $digiProtectPrice = 0;
+
+                $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+                $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+
+                $customOptions = $this->_productOptions->getProductOptionCollection($product);
+                foreach($customOptions as $optionKey => $optionVal) {
+                    foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                        $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                        if (isset($selectedOption['options'])) {
+                            $digiProtectPrice = $valuesVal->getPrice();
+                        }
+                    }
+                }
+
+                $this->logger->info('$finalPrice: ' . $finalPrice);
+                $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
 
                 $finalProductPrice = $finalPrice + $digiProtectPrice;
                 
             } else {
-                $finalProductPrice = $finalPrice + $digiProtectPrice;
+                
+                $finalProductPrice = $price;
             }
             
         }
