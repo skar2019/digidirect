@@ -174,8 +174,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
             <?= $block->getChildHtml('form.additional.info') ?>
         </fieldset>
 
-
-
         <div class="actions-toolbar">
             <div class="primary">
                 <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>">
@@ -183,6 +181,8 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 </button>
             </div>
         </div>
+
+        <span>Already have an account? <a href="/customer/account/login">Login</a></span>
 
     </div>
 
