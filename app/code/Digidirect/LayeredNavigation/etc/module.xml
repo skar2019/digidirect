@@ -5,7 +5,6 @@
             <module name="Digidirect_Utilities" />
             <module name="Magento_Catalog" />
             <module name="Magento_CatalogSearch" />
-            <module name="Magento_LayeredNavigation" />
             <module name="Magento_LayeredNavigationStaging" />
         </sequence>
     </module>
