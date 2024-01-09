@@ -247,7 +247,7 @@ class SeoBrandDescription
         {
             $seoPart = "";
         }
-        $params = $this->urlParser->parseSeoPart($seoPart);
+        $params = [];//$this->urlParser->parseSeoPart($seoPart);
 
         if (!empty($params)) {
             $labels = [];
