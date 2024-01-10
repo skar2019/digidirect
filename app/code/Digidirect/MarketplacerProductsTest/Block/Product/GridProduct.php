@@ -1,6 +1,6 @@
 <?php
 
-namespace Onsport\CustomListing\Block\Product;
+namespace Digidirect\MarketplacerProductsTest\Block\Product;
 
 class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
@@ -25,8 +25,6 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productCollectionFactory;
     
     protected $_limit; // Limit Product
-    
-    protected $categoryFactory;
 
     /**
      * @param Context $context
@@ -41,28 +39,26 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = []
     ) {
         $this->urlHelper = $urlHelper;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
-        $this->categoryFactory = $categoryFactory;
         parent::__construct($context, $data);
     }
     
     public function getLoadedProductCollection()
     {
-        $saleCategoryId = 2;
+        $defaultCategory = 2;
         
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
-            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
-    
-        return $collection;
+        $collection->addCategoriesFilter(['in' => $defaultCategory]);
+        $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+        $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
         
+        return $collection;
     }
 
 }

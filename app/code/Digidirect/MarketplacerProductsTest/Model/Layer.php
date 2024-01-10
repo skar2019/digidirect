@@ -8,7 +8,7 @@
  * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
  * @license   https://store.webkul.com/license.html
  */
-namespace Digidirect\DigiDeals\Model;
+namespace Digidirect\MarketplacerProductsTest\Model;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory as AttributeCollectionFactory;
@@ -62,17 +62,35 @@ class Layer extends \Magento\Catalog\Model\Layer
         $defaultCategory = 2;
         $productIdsArray = [];
         
-        $category = $this->categoryRepo->get($defaultCategory, 1);
-        $collection = $this->collectionProvider->getCollection($category);
-        $collection->addAttributeToSelect('*');
-        $collection->addCategoriesFilter(['in' => $defaultCategory]);
-        $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-        $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addMinimalPrice()->addFinalPrice();
-        $collection->getSelect()->where("price_index.final_price < price");
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
+        } else {
+            $category = $this->categoryRepo->get($defaultCategory, 1);
+            $collection = $this->collectionProvider->getCollection($category);
+            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$defaultCategory] = $collection;
+        }
         
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[$defaultCategory] = $collection;
+        /*foreach ($collection as $product) {
+            $this->logger->info("Product: " . $product->getId());
+            if (!in_array($product->getId(), $productIdsArray))  {
+                array_push($productIdsArray, $product->getId());
+            }
+        }
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
+        } else {
+            $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
+            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
+        }*/
         
         return $collection;
     }

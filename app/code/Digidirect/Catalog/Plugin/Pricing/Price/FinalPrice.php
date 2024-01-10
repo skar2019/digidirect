@@ -59,5 +59,6 @@ class FinalPrice
         }
             
         return $result;
+        
     }
 }

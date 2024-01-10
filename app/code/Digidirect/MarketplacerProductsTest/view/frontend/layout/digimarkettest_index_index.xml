@@ -6,9 +6,9 @@
     <body>
         <attribute name="class" value="page-products"/>
         <referenceContainer name="sidebar.main">
-            <block class="Onsport\CustomListing\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Onsport_CustomListing::layer/view.phtml">
-                <block class="Onsport\CustomListing\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
-                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Onsport_CustomListing::layer/filter.phtml">
+            <block class="Digidirect\MarketplaceProductsTest\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Digidirect_MarketplaceProductsTest::layer/view.phtml">
+                <block class="Digidirect\MarketplaceProductsTest\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_MarketplaceProductsTest::layer/filter.phtml">
                   <arguments>
                       <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
                   </arguments>
@@ -16,7 +16,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
-            <block class="Onsport\CustomListing\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
+            <block class="Digidirect\MarketplacerProductsTest\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
                 <container name="category.product.list.additional" as="additional" />
                 <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
                     <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
@@ -27,7 +27,7 @@
                            template="Magento_Catalog::product/list/addto/compare.phtml"/>
                 </block>
                 <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="Magento_Catalog::product/list/toolbar.phtml">
-                    <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager" template="Magento_Theme::html/pager.phtml"/>
+                    <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager" template="Digidirect_MarketplacerProductsTest::html/pager.phtml"/>
                 </block>
                 <action method="setToolbarBlockName">
                     <argument name="name" xsi:type="string">product_list_toolbar</argument>
@@ -39,5 +39,7 @@
                 <argument name="viewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\OptionsData</argument>
             </arguments>
         </referenceBlock>
+        <referenceBlock name="breadcrumbs" remove="false"/>
+        <move element="page.main.title" destination="category.view.container" before="-"/>
     </body>
 </page>

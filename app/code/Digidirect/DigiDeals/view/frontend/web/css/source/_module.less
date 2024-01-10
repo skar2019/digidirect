@@ -32,6 +32,8 @@
     .deals-index-index .toolbar-amount {
         padding: 0;
         margin: 0 0 20px 0;
+        text-align: left;
+        margin-left: 5px;
     }
     
     .deals-index-index .field.limiter {
@@ -69,6 +71,35 @@
         width: 1320px !important;
     }
     
+    .deals-index-index.page-products .category-view .page-main {
+        display: block;
+    }
+    
+    .deals-index-index.page-products .category-view .page-title-wrapper {
+        display: none;
+    }
+    
+    
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    .deals-index-index.page-products .category-view .page-main {
+        display: none;
+    }
+    
+    .deals-index-index.page-products .category-view .page-title-wrapper {
+        display: block;
+    }
+    
+    .deals-index-index .products.wrapper.products-widget.product-category-listing.grid.products-grid {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .deals-index-index.page-products .products-grid .product-item {
+        width: 47.5% !important;
+    }
     
 }
 

@@ -57,35 +57,26 @@ class WiserPrice implements ObserverInterface
         
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
+        $basePrice = $product->getPrice();
             
         $this->_productRepositoryInterface->getById($product->getId());
         $this->_productRepository->load($product->getId());
 
-        if (!$product->getData('added_by_rule_id')) {
-            if ($wiserPrice > 1 && !empty($wiserPrice)) {
-                if ($wiserPrice < $price) {
-                    if ((in_array($sku, $discount2)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                    } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                    } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                    } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                    } 
-                    $finalPrice = $wiserPrice;
-                } else {
-                    $finalPrice = $price;
-                }
-            } else {
-                $finalPrice = $price;
-            }
+        $finalPrice = $price;
+        
+        $finalProductPrice = $finalPrice;
+        
+        $this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
+        
+        if ($wiserPrice == 0 || empty($wiserPrice)) {
+            $finalProductPrice = $finalPrice;
+        } else {
             
             $digiProtectPrice = 0;
 
             $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
             $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
-            
+
             $customOptions = $this->_productOptions->getProductOptionCollection($product);
             foreach($customOptions as $optionKey => $optionVal) {
                 foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
@@ -96,15 +87,42 @@ class WiserPrice implements ObserverInterface
                 }
             }
             
-            $this->logger->info('$finalPrice: ' . $finalPrice);
-            $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+            $wiserPlusDigiProtect = $wiserPrice + $digiProtectPrice;
             
-            $finalPrice = $finalPrice + $digiProtectPrice;
-            
-            $item->setCustomPrice($finalPrice);
-            $item->setOriginalCustomPrice($finalPrice);
-            $item->getProduct()->setIsSuperMode(true);
-        }
+            if ($finalPrice > $wiserPlusDigiProtect) {
+                if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                    if ($wiserPrice < $price) {
+                        if ((in_array($sku, $discount2)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                        } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                        } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                        } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                        } 
+                        $finalPrice = $wiserPrice;
+                    } else {
+                        $finalPrice = $price;
+                    }
+                } else {
+                    $finalPrice = $price;
+                }
 
+                $this->logger->info('$finalPrice: ' . $finalPrice);
+                $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+
+                $finalProductPrice = $finalPrice + $digiProtectPrice;
+                
+            } else {
+                
+                $finalProductPrice = $finalPrice;
+            }
+            
+        }
+        
+        $item->setCustomPrice($finalProductPrice);
+        $item->setOriginalCustomPrice($finalProductPrice);
+        $item->getProduct()->setIsSuperMode(true);
     }
 }
