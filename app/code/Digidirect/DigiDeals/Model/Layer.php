@@ -64,11 +64,11 @@ class Layer extends \Magento\Catalog\Model\Layer
         
         $category = $this->categoryRepo->get($defaultCategory, 1);
         $collection = $this->collectionProvider->getCollection($category);
-        $collection->addAttributeToSelect('*');
-        $collection->addCategoriesFilter(['in' => $defaultCategory]);
+        $collection->addAttributeToSelect('*')->addFinalPrice();
+        //$collection->addCategoriesFilter(['in' => $defaultCategory]);
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addMinimalPrice()->addFinalPrice();
+        //$collection->addMinimalPrice()->addFinalPrice();
         $collection->getSelect()->where("price_index.final_price < price");
         
         $this->prepareProductCollection($collection);
