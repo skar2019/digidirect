@@ -76,5 +76,4 @@ class Layer extends \Magento\Catalog\Model\Layer
         
         return $collection;
     }
-    
 }
