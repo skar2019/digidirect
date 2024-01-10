@@ -385,22 +385,22 @@ class Estimates extends AbstractHelper
         $fetchFrom = $this->getAttributesFetchPriority();
         switch ($fetchFrom) {
             case 'itself_parent':
-                $attrValue = $this->selectedProduct->getData($attrCode);
-                if (!$attrValue) {
-                    $attrValue = $this->product->getData($attrCode);
+                $attrValue = $this->simpleProductIsSet() ? $this->selectedProduct->getData($attrCode) : '';
+                if (empty($attrValue)) {
+                    $attrValue = $this->product->getData($attrCode) ?? '';
                 }
                 break;
             case 'parent_itself':
-                $attrValue = $this->product->getData($attrCode);
-                if (!$attrValue) {
-                    $attrValue = $this->selectedProduct->getData($attrCode);
+                $attrValue = $this->product->getData($attrCode) ?? '';
+                if (empty($attrValue)) {
+                    $attrValue = $this->simpleProductIsSet() ? $this->selectedProduct->getData($attrCode) : '';
                 }
                 break;
             case 'itself_only':
-                $attrValue = $this->selectedProduct->getData($attrCode);
+                $attrValue = $this->simpleProductIsSet() ? $this->selectedProduct->getData($attrCode) : '';
                 break;
             case 'parent_only':
-                $attrValue = $this->product->getData($attrCode);
+                $attrValue = $this->product->getData($attrCode) ?? '';
                 break;
             default:
                 $attrValue = '';
@@ -660,7 +660,10 @@ class Estimates extends AbstractHelper
         if ($field) {
             $field = '/' . trim($field, '/');
         }
-        return $this->scopeConfig->getValue('wesupply_api/wesupply_order_export' . $field, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(
+            'wesupply_api/advanced_settings/wesupply_order_export' . $field,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -669,7 +672,7 @@ class Estimates extends AbstractHelper
     private function getAttributesFetchPriority()
     {
         return $this->scopeConfig->getValue(
-            'wesupply_api/advanced_settings/wesupply_order_exportwesupply_order_product_attributes_fetch',
+            'wesupply_api/advanced_settings/wesupply_order_export/wesupply_order_product_attributes_fetch',
             ScopeInterface::SCOPE_STORE
         );
     }
@@ -688,11 +691,7 @@ class Estimates extends AbstractHelper
      */
     protected function simpleProductIsSet()
     {
-        if ($this->selectedProduct) {
-            return true;
-        }
-
-        return false;
+        return $this->selectedProduct ? true : false;
     }
 
     /**

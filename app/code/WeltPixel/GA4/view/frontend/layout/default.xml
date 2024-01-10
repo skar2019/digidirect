@@ -44,5 +44,8 @@
             </action>
         </referenceBlock>
         <!-- product clicks for cross, related, upsell -->
+        <referenceBlock name="head.additional">
+            <block class="WeltPixel\GA4\Block\Core" name="weltpixel_ga4_common_head" before="-" template="WeltPixel_GA4::common.phtml"/>
+        </referenceBlock>
     </body>
 </page>

@@ -21,7 +21,7 @@ class ConversionTracking extends \WeltPixel\GA4\Model\Api
     /**
      * Tag names
      */
-    const TAG_CONVERSION_TRACKING_ADWORDS_CONVERSION_TRACKING = 'WP - AdWords Conversion Tracking';
+    const TAG_CONVERSION_TRACKING_ADWORDS_CONVERSION_TRACKING = 'WP - Google Ads Conversion Tracking';
 
     /**
      * Field names used in sending data to dataLayer

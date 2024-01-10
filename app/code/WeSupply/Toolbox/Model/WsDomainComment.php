@@ -56,7 +56,7 @@ class WsDomainComment implements CommentInterface
         $commentEl .= '<span class="comment">';
         $commentEl .= __('The WeSupply URL has two parts:');
         $commentEl .= '<br> - ' . __('a subdomain name you chose when you set up your account, followed by ') . '<strong>' . $weSupplyDomainDefault . '</strong>';
-        $commentEl .= '<br> - ' . __('or your <strong>Domain Alias</strong> if you already have setup one in your WeSupply account under Settings -> General -> Custom Domain.');
+        $commentEl .= '<br> - ' . __('or your <strong>Domain Alias</strong> if you already have setup one in your WeSupply account under Settings > Branding > Configuration > DNS Settings > Custom Domain Host Mapping.');
         $commentEl .= '<br>' . '(' . __('Examples: ') . '<strong>' . 'mycompany.' . $weSupplyDomainDefault . '</strong> or <strong>yourdomainalias.com</strong>).';
         $commentEl .= '</span>';
 

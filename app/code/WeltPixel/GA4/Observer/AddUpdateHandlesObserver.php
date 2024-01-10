@@ -46,7 +46,7 @@ class AddUpdateHandlesObserver implements ObserverInterface
             return $this;
         }
 
-        if ($this->ga4Helper->isDatalayerPreviewEnabled()) {
+        if ($this->ga4Helper->isDatalayerPreviewEnabled() && $this->ga4Helper->isDatalayerPreviewIpRestrictionEnabled()) {
             $layout->getUpdate()->addHandle('weltpixel_ga4_datalayer_preview');
         }
 

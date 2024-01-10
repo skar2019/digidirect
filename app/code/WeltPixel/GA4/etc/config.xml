@@ -7,6 +7,7 @@
                 <gtm_code></gtm_code>
                 <gtm_nonjs_code></gtm_nonjs_code>
                 <enable_datalayer_preview>0</enable_datalayer_preview>
+                <datalayer_preview_ip_addresses></datalayer_preview_ip_addresses>
                 <loadlistingblock>0</loadlistingblock>
                 <id_selection>id</id_selection>
                 <enable_brand>0</enable_brand>

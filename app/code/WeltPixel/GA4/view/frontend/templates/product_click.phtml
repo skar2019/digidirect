@@ -40,7 +40,9 @@
         ];
 
         ?>
-        window.dataLayer.push({ecommerce: null});
-        window.dataLayer.push(<?php echo $this->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data)); ?>);
+        if (window.ga4AllowServices) {
+            window.dataLayer.push({ecommerce: null});
+            window.dataLayer.push(<?php echo $this->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data)); ?>);
+        }
     <?php endif; ?>
 <?php endif; ?>

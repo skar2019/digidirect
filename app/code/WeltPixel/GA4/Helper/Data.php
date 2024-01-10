@@ -256,7 +256,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return !$this->cookieHelper->isUserNotAllowSaveCookie() && $this->_gtmOptions['general']['enable'];
+        return $this->_gtmOptions['general']['enable'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentWebsiteId()
+    {
+        return $this->storeManager->getWebsite()->getId();
     }
 
     /**
@@ -275,7 +283,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!isset($this->_gtmOptions['general']['product_click_tracking'])) {
             return false;
         }
-        return !$this->cookieHelper->isUserNotAllowSaveCookie() && $this->_gtmOptions['general']['product_click_tracking'];
+        return $this->_gtmOptions['general']['product_click_tracking'];
     }
 
     /**
@@ -1747,6 +1755,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isDatalayerPreviewEnabled()
     {
         return $this->_gtmOptions['general']['enable_datalayer_preview'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatalayerPreviewIpRestrictions()
+    {
+        return $this->_gtmOptions['general']['datalayer_preview_ip_addresses'] ?? '';
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDatalayerPreviewIpRestrictionEnabled()
+    {
+        $remoteIpAddress = $this->_remoteAddress->getRemoteAddress();
+        $ipRestrictions = $this->getDatalayerPreviewIpRestrictions();
+        if ($ipRestrictions) {
+            $ipRestrictionsArray = explode(',', $ipRestrictions);
+            $ipRestrictionsArray = array_map('trim', $ipRestrictionsArray);
+            return in_array($remoteIpAddress, $ipRestrictionsArray);
+        }
+
+        return true;
     }
 
     /**

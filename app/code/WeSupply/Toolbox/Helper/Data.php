@@ -1198,7 +1198,10 @@ class Data extends AbstractHelper
         if ($field) {
             $field = '/' . trim($field, '/');
         }
-        return $this->scopeConfig->getValue('wesupply_api/wesupply_order_export' . $field, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(
+            'wesupply_api/advanced_settings/wesupply_order_export' . $field,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

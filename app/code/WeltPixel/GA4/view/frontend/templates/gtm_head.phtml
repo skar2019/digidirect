@@ -5,5 +5,9 @@
 $_helper = $this->helper('WeltPixel\GA4\Helper\Data');
 ?>
 <?php if ($_helper->isEnabled()) : ?>
-    <?php echo $_helper->getGtmCodeSnippetForHead(); ?>
+    <?php echo str_replace(
+        ['<script>', '<script exclude-this-tag="text/x-magento-template">', '</script>'],
+        ['<script>  if (window.ga4AllowServices) { ','<script exclude-this-tag="text/x-magento-template">  if (window.ga4AllowServices) { ', '} </script>'],
+        $_helper->getGtmCodeSnippetForHead()
+    ); ?>
 <?php endif; ?>

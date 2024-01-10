@@ -39,6 +39,14 @@
                     </depends>
                     <comment>Set this option to Yes to enable a button which can be used to trigger a preview window on the frontend which shows the current values of the dataLayer and is updated as the dataLayer is updated</comment>
                 </field>
+                <field id="datalayer_preview_ip_addresses" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>IP Address Restriction</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="enable_datalayer_preview">1</field>
+                    </depends>
+                    <comment>Add IP ranges in this field (comma separated) to limit the display of the dataLayer preview to certain IP addresses only. Leave blank for no restrictions.</comment>
+                </field>
                 <field id="impression_chunk_size" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Impression Chunks Size</label>
                     <depends>

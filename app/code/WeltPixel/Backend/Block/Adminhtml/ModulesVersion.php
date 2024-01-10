@@ -155,6 +155,6 @@ class ModulesVersion extends \Magento\Backend\Block\Template
         $dirReader = $this->readFactory->create($path);
         $composerJsonData = $dirReader->readFile('composer.json');
         $data = json_decode($composerJsonData, true);
-        return $data['version'];
+        return $data['version'] ?? __('N/A');
     }
 }

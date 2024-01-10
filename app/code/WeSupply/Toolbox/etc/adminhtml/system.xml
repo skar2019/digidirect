@@ -384,7 +384,7 @@
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <comment>
                             <![CDATA[
-                            Select "Yes" to replace the default Magento Order List with the WeSupply platform's own Order List. Excluded orders will not be displayed in the WeSupply Order List. Applies to the Order List in <strong>My Account > My Orders</strong> as well as the <strong>Recent Orders</strong> block in <strong>My Account</strong>.<br/>This setting is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings -> General -> Custom Domain.
+                            Select "Yes" to replace the default Magento Order List with the WeSupply platform's own Order List. Excluded orders will not be displayed in the WeSupply Order List. Applies to the Order List in <strong>My Account > My Orders</strong> as well as the <strong>Recent Orders</strong> block in <strong>My Account</strong>.<br/>This setting is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings > Branding > Configuration > DNS Settings > Custom Domain Host Mapping.
                             ]]>
                         </comment>
                     </field>
@@ -415,7 +415,7 @@
                         <comment>
                             <![CDATA[
                                 Select "Open in Modal" to display the Order View Page in a popup window. Select "Open on WeSupply Platform" to display the View Order Page in a new window.<br/>
-                                "<strong>Open in Modal</strong>" is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings -> General -> Custom Domain.
+                                "<strong>Open in Modal</strong>" is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings > Branding > Configuration > DNS Settings > Custom Domain Host Mapping.
                             ]]>
                         </comment>
                         <depends>
@@ -439,7 +439,7 @@
                         <comment>
                             <![CDATA[
                                 Select "Open in Magento" to display the Tracking Info Page as an iframe embedded in a CMS page. Select "Open on WeSupply Platform" to redirect the customer to the Tracking Info Page in WeSupply.<br/>
-                                "<strong>Open in Magento</strong>" option is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings -> General -> Custom Domain.
+                                "<strong>Open in Magento</strong>" option is only available if you have configured a <strong>Domain Alias</strong> in your WeSupply account under Settings > Branding > Configuration > DNS Settings > Custom Domain Host Mapping.
                             ]]>
                         </comment>
                     </field>

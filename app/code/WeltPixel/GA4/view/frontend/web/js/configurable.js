@@ -48,7 +48,7 @@ define([
                                 'variant': variants.join(' | ')
                             }
                         }, function (pushData) {
-                            if (pushData) {
+                            if (window.ga4AllowServices && pushData) {
                                 window.dataLayer.push({ecommerce: null});
                                 window.dataLayer.push(pushData);
                             }

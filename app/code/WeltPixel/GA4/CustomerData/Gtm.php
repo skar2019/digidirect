@@ -2,6 +2,7 @@
 namespace WeltPixel\GA4\CustomerData;
 
 use Magento\Customer\CustomerData\SectionSourceInterface;
+use Magento\Framework\Event\ManagerInterface;
 
 /**
  * Gtm section
@@ -25,18 +26,23 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
     protected $customerSession;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * Constructor
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\Checkout\Model\Session $_checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param ManagerInterface $eventManager
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \Magento\Checkout\Model\Session $_checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
-        \WeltPixel\GA4\Helper\Data $gtmHelper,
+        ManagerInterface $eventManager,
         array $data = []
     )
     {
@@ -44,6 +50,7 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         $this->jsonHelper = $jsonHelper;
         $this->_checkoutSession = $_checkoutSession;
         $this->customerSession = $customerSession;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -101,8 +108,12 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         }
         $this->customerSession->setGA4LoginData(null);
 
-        return [
+        $ga4SectionData = [
             'datalayer' => $this->jsonHelper->jsonEncode($data)
         ];
+
+        $this->eventManager->dispatch('weltpixel_ga4_section_data', ['ga4_section_data' => $ga4SectionData]);
+
+        return $ga4SectionData;
     }
 }
