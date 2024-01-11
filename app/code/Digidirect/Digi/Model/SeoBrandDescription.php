@@ -15,6 +15,7 @@ use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Digidirect\Digi\Helper\AbstractAttribute;
 use \Zend\Uri\Http as ZendUrlParser;
+use \Digidirect\LayeredNavigation\Helper\UrlParser;
 
 /**
  * Class SeoBrandDescription
@@ -95,6 +96,7 @@ class SeoBrandDescription
      * @param PageAsset $pageAsset
      * @param AbstractAttribute $abstractAttributeHelper
      * @param ZendUrlParser $zendUrlParser
+     * @param UrlParser $urlParser
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -106,6 +108,7 @@ class SeoBrandDescription
         PageAsset $pageAsset,
         AbstractAttribute $abstractAttributeHelper,
         ZendUrlParser $zendUrlParser,
+        UrlParser $urlParser,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->abstractEntityRepository = $abstractEntityRepository;
@@ -116,6 +119,7 @@ class SeoBrandDescription
         $this->pageAsset = $pageAsset;
         $this->abstractAttributeHelper = $abstractAttributeHelper;
         $this->zendUrlParser = $zendUrlParser;
+        $this->urlParser = $urlParser;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -243,7 +247,7 @@ class SeoBrandDescription
         {
             $seoPart = "";
         }
-        $params = [];//$this->urlParser->parseSeoPart($seoPart);
+        $params = $this->urlParser->parseSeoPart($seoPart);
 
         if (!empty($params)) {
             $labels = [];
