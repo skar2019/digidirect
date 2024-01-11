@@ -135,17 +135,18 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </script>
 <?php endif ?>
 
+<!--comment out clint Jan 11 2024 -->
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
-<?php $_product = $block->getProduct(); ?>
-    <script>
-        dataLayer.push({
-            'event': 'DynamicRemarketing',
-            'ecomm_pagetype': 'product',
-            'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
-            'currency': 'AUD',
-            'ecomm_prodid': [
-                <?php echo $_product->getId() ?>
-            ]
-        });
-    </script>
+<?php //$_product = $block->getProduct(); ?>
+<!--    <script>-->
+<!--        dataLayer.push({-->
+<!--            'event': 'DynamicRemarketing',-->
+<!--            'ecomm_pagetype': 'product',-->
+<!--            'ecomm_totalvalue': --><?php //echo $_product->getPrice() ?>//,
+//            'currency': 'AUD',
+//            'ecomm_prodid': [
+//                <?php //echo $_product->getId() ?>
+//            ]
+//        });
+//    </script>
 <!-- FeedOps - Dynamic Remarketing - Version 1 END -->
