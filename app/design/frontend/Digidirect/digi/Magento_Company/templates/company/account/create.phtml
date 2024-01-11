@@ -22,65 +22,71 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
     echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('b2b-registration-header')->toHtml();
 ?>
 
+
 <form class="form create account form-create-account"
       action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
       method="post" id="form-validate"
       enctype="multipart/form-data"
       autocomplete="off">
     <?= $block->getBlockHtml('formkey') ?>
-    
+
     <div class="b2bregbox">
-
         
-        <fieldset class="fieldset create info">
-            <legend class="legend"><span><?= $block->escapeHtml(__('Welcome to digiDirect Business')) ?></span></legend><br>
+        <h1 style="font-weight: 600; text-align: center; margin: 25px 0; font-size: 32px;">Welcome to digiDirect Business</h1>
 
-            <?= $block->getLayout()->createBlock(Name::class)
-                ->setFieldNameFormat('customer[%s]')
-                ->setObject($block->getFormData())
-                ->setNoWrap(true)
-                ->setForceUseCustomerAttributes(true)
-                ->toHtml() ?>
-                
-            <!-- <div class="field legal-name">
-                <label class="label" for="job_title">
-                    <span><//?= $block->escapeHtml(__('Job Title')) ?></span>
+        <br><br>
+
+        <fieldset class="fieldset info">
+            <legend class="legend"><span><?= $block->escapeHtml(__('Company Information')) ?></span></legend><br>
+            <div class="field company-name _required">
+                <label class="label" for="company_name">
+                    <span><?= $block->escapeHtml(__('Company Name')) ?></span>
                 </label>
                 <div class="control">
-                    <input type="text" name="company[job_title]" id="job_title"
+                    <input type="text" name="company[company_name]" id="company_name" 
                         value=""
-                        title="<//?= $block->escapeHtmlAttr(__('Job Title')) ?>"
-                        class="input-text">
-                </div>
-            </div> -->
-
-            <div class="field telephone _required">
-                <label class="label" for="telephone">
-                    <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
-                </label>
-                <div class="control">
-                    <input type="text" name="company[telephone]" id="telephone"
-                        value=""
-                        title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+                        title="<?= $block->escapeHtmlAttr(__('Company Name')) ?>"
                         class="input-text" data-validate="{required:true}">
                 </div>
             </div>
-
-            <div class="field email required">
-                <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+            <div class="field legal-name">
+                <label class="label" for="legal_name">
+                    <span><?= $block->escapeHtml(__('Company Legal Name')) ?></span>
+                </label>
                 <div class="control">
-                    <input type="email" name="customer[email]"
-                        autocomplete="email"
-                        id="email_address"
+                    <input type="text" name="company[legal_name]" id="legal_name"
                         value=""
-                        title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                        title="<?= $block->escapeHtmlAttr(__('Company Legal Name')) ?>"
+                        class="input-text">
+                </div>
+            </div>
+            <div class="field company-email _required">
+                <label class="label" for="company_email">
+                    <span><?= $block->escapeHtml(__('Company Email')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="email" name="company[company_email]" id="company_email"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Company Email')) ?>"
                         class="input-text"
+                        data-role="email"
                         data-async-is-valid="true"
                         data-mage-init='{"Magento_Company/js/form/element/async-validation": {
-                                "name": "customer_email",
+                                "name": "company_email",
                                 "validateUrl": "<?= $block->escapeUrl($block->getUrl('company/account/validate')) ?>"
                         }}'
-                        data-validate="{required:true, 'validate-email':true, 'validate-async-customer-email': true}">
+                        data-validate="{required:true, 'validate-email': true, 'validate-async-company-email': true}">
+                </div>
+            </div>
+            <div class="field vat-tax-id">
+                <label class="label" for="vat_tax_id">
+                    <span><?= $block->escapeHtml(__('VAT/TAX ID')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[vat_tax_id]" id="vat_tax_id"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('VAT/TAX ID')) ?>"
+                        class="input-text">
                 </div>
             </div>
 
@@ -107,19 +113,52 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                         class="input-text" data-validate="{required:true}">
                 </div>
             </div>
-
-            <div class="field company-name _required">
-                <label class="label" for="company_name">
-                    <span><?= $block->escapeHtml(__('Company Name')) ?></span>
+            
+            <div class="field reseller-id">
+                <label class="label" for="reseller_id">
+                    <span><?= $block->escapeHtml(__('Re-seller ID')) ?></span>
                 </label>
                 <div class="control">
-                    <input type="text" name="company[company_name]" id="company_name"
+                    <input type="text" name="company[reseller_id]" id="reseller_id"
                         value=""
-                        title="<?= $block->escapeHtmlAttr(__('Company Name')) ?>"
+                        title="<?= $block->escapeHtmlAttr(__('Re-seller ID')) ?>"
+                        class="input-text">
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="fieldset info">
+            <legend class="legend"><span><?= $block->escapeHtml(__('Legal Address')) ?></span></legend><br>
+            <div class="field street _required">
+                <label class="label" for="street0">
+                    <span><?= $block->escapeHtml(__('Street Address')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[street][0]" id="street0"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Street Address')) ?>"
                         class="input-text" data-validate="{required:true}">
                 </div>
             </div>
-
+            <div class="field street">
+                <div class="control">
+                    <input type="text" name="company[street][1]" id="street1"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Street Address')) ?>"
+                        class="input-text">
+                </div>
+            </div>
+            <div class="field city _required">
+                <label class="label" for="city">
+                    <span><?= $block->escapeHtml(__('City')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[city]" id="city"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('City')) ?>"
+                        class="input-text" data-validate="{required:true}">
+                </div>
+            </div>
             <div class="field country_id _required">
                 <label class="label" for="country_id">
                     <span><?= $block->escapeHtml(__('Country')) ?></span>
@@ -141,7 +180,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                     </select>
                 </div>
             </div>
-
             <div class="field region-id required">
                 <label class="label" for="region_id">
                     <span><?= $block->escapeHtml(__('State/Province')) ?></span>
@@ -157,13 +195,77 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                         class="input-text no-display"">
                 </div>
             </div>
+            <div class="field postcode required">
+                <label class="label" for="postcode">
+                    <span><?= $block->escapeHtml(__('ZIP/Postal Code')) ?></span>
+                </label>
+                <div class="control">
+                    <?php $postcodeClass = $block->escapeHtmlAttr($block->getAttributeValidationClass('postcode')) ?>
+                    <input type="text" name="company[postcode]" id="postcode"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('ZIP/Postal Code')) ?>"
+                        class="input-text validate-zip-international <?= /* @noEscape */ $postcodeClass ?>"
+                        data-validate="{'required':true, 'validate-zip-international':true}" />
+                </div>
+            </div>
 
+            <div class="field telephone _required">
+                <label class="label" for="telephone">
+                    <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[telephone]" id="telephone"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+                        class="input-text" data-validate="{required:true}">
+                </div>
+            </div>
+        </fieldset>
 
+        <fieldset class="fieldset create info">
+            <legend class="legend"><span><?= $block->escapeHtml(__('Company Administrator')) ?></span></legend><br>
 
-            <!-- <//?= $block->getLayout()->createBlock(Gender::class)
+            <div class="field legal-name">
+                <label class="label" for="job_title">
+                    <span><?= $block->escapeHtml(__('Job Title')) ?></span>
+                </label>
+                <div class="control">
+                    <input type="text" name="company[job_title]" id="job_title"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Job Title')) ?>"
+                        class="input-text">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                <div class="control">
+                    <input type="email" name="customer[email]"
+                        autocomplete="email"
+                        id="email_address"
+                        value=""
+                        title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                        class="input-text"
+                        data-async-is-valid="true"
+                        data-mage-init='{"Magento_Company/js/form/element/async-validation": {
+                                "name": "customer_email",
+                                "validateUrl": "<?= $block->escapeUrl($block->getUrl('company/account/validate')) ?>"
+                        }}'
+                        data-validate="{required:true, 'validate-email':true, 'validate-async-customer-email': true}">
+                </div>
+            </div>
+
+            <?= $block->getLayout()->createBlock(Name::class)
+                ->setFieldNameFormat('customer[%s]')
+                ->setObject($block->getFormData())
+                ->setNoWrap(true)
+                ->setForceUseCustomerAttributes(true)
+                ->toHtml() ?>
+
+            <?= $block->getLayout()->createBlock(Gender::class)
                 ->setFieldNameFormat('customer[%s]')
                 ->setGender($block->getFormData()->getGender())
-                ->toHtml() ?> -->
+                ->toHtml() ?>
 
             <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
             <?php if ($userDefinedAttributes): ?>
@@ -181,14 +283,11 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 </button>
             </div>
         </div>
-        
+
         <br><br>
         <span class="redirection-login">Already have an account? <a href="/customer/account/login">Login</a></span>
-
+        
     </div>
-
-
-
 
 </form>
 <?php $scriptString = <<<script
