@@ -18,6 +18,8 @@ class Layer extends \Magento\Catalog\Model\Layer
 {
     protected $logger;
     
+    protected $categoryRepo;
+    
     public function __construct(
         \Magento\Catalog\Model\Layer\ContextInterface $context,
         \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
@@ -28,10 +30,12 @@ class Layer extends \Magento\Catalog\Model\Layer
         CategoryRepositoryInterface $categoryRepository,
         CollectionFactory $productCollectionFactory,
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepo,
         array $data = []
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->logger = $logger;
+        $this->categoryRepo = $categoryRepo;
         parent::__construct(
             $context,
             $layerStateFactory,
