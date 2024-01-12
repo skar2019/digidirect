@@ -21,29 +21,46 @@
     .form-create-account .fieldset, .form-create-account .actions-toolbar {
         max-width: 800px !important;
     }
+
+    
+    // jireh code
+    .b2bregbox {
+        max-width: 900px;
+        min-width: 420px;
+        margin: 0 auto;
+        border: 1px solid #aaaaaa;
+        padding: 50px 0;
+
+        .redirection-login {
+            margin-left: 46px;
+            a {
+                color: #727272;
+                text-decoration: none;
+            }
+        }
+
+    }
     
 }
 
-// jireh code
-.b2bregbox {
-    max-width: 900px;
-    min-width: 420px;
-    margin: 0 auto;
-    border: 1px solid #aaaaaa;
-    padding: 50px 0;
-
-    .redirection-login {
-        margin-left: 46px;
-        a {
-            color: #727272;
-            text-decoration: none;
-        }
-    }
-
-}
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    
+    .b2bregbox {
+        max-width: unset;
+        min-width: unset;
+        margin: 0 auto;
+        border: unset;
+        padding: 50px 0;
+
+        .redirection-login {
+            margin-left: 0px;
+            a {
+                color: #727272;
+                text-decoration: none;
+            }
+        }
+
+    }
     
 
 }
