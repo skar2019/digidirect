@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    
+    <preference for="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" type="Digidirect\LayeredNavigation\Block\Navigation\FilterRenderer"/>
     <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered" type="Digidirect\LayeredNavigation\Block\Navigation\SwatchRenderer"/>
     <preference for="Magento\LayeredNavigation\Block\Navigation\State" type="Digidirect\LayeredNavigation\Block\Navigation\State"/>
 
