@@ -50,9 +50,109 @@ class FilterRenderer extends \Magento\LayeredNavigation\Block\Navigation\FilterR
      */
     public function render(FilterInterface $filter)
     {
-        $this->assign('filterItems', $filter->getItems());
-        $html = $this->_toHtml();
-        $this->assign('filterItems', []);
-        return $html;
+        $this->filter = $filter;
+        $setting = $this->settingHelper->getSettingByLayerFilter($filter);
+        $template = $this->getTemplateByFilterSetting($setting);
+        $this->setTemplate($template);
+        $this->assign('filterSetting', $setting);
+        return parent::render($filter);
+    }
+
+    /**
+     * @param FilterSettingInterface $filterSetting
+     * @return string
+     */
+    public function getTemplateByFilterSetting(FilterSettingInterface $filterSetting)
+    {
+        switch ($filterSetting->getDisplayMode()) {
+            case DisplayMode::MODE_SLIDER:
+                $template = "layer/filter/slider.phtml";
+                break;
+            case DisplayMode::MODE_DROPDOWN:
+                $template = "layer/filter/dropdown.phtml";
+                break;
+            default:
+                $template = "layer/filter/default.phtml";
+                break;
+        }
+
+        return $template;
+    }
+
+    /**
+     * @param Item $filterItem
+     * @return int
+     */
+    public function checkedFilter($filterItem)
+    {
+        $data = $this->getRequest()->getParam($filterItem->getFilter()->getRequestVar());
+        if (!empty($data)) {
+            $ids = explode(UrlParser::ALIAS_DELIMITER, $data);
+            $values = explode(UrlParser::ALIAS_DELIMITER, $filterItem->getValue());
+            if (in_array($filterItem->getValue(), $ids) || empty(array_diff($values, $ids))) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClearUrl()
+    {
+        if (!array_key_exists('filterItems', $this->_viewVars) || !is_array($this->_viewVars['filterItems'])) {
+            return '';
+        }
+
+        $items = $this->_viewVars['filterItems'];
+        foreach ($items as $item) {
+            /** @var Item $item */
+            if ($this->checkedFilter($item)) {
+                return $item->getRemoveUrl();
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getSliderUrlTemplate()
+    {
+        return $this->urlBuilder->buildUrl(
+            $this->filter,
+            'layered_navigation_slider_from-layered_navigation_slider_to'
+        );
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @return string[]
+     */
+    public function getActiveLabels(FilterInterface $filter)
+    {
+        $labels = [];
+        foreach ($filter->getItems() as $item) {
+            if ($item instanceof Item && $this->checkedFilter($item)) {
+                $labels[] = $item->getLabel();
+            }
+        }
+        return $labels;
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @return int
+     */
+    public function getActiveCount(FilterInterface $filter)
+    {
+        $data = $this->getRequest()->getParam($filter->getRequestVar());
+        if (!empty($data)) {
+            return count(explode(UrlParser::ALIAS_DELIMITER, $data));
+        }
+        return 0;
     }
 }
