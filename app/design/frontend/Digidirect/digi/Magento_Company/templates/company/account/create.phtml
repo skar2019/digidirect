@@ -23,6 +23,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 ?>
 
 
+
 <form class="form create account form-create-account"
       action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
       method="post" id="form-validate"
@@ -33,8 +34,6 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
     <div class="b2bregbox">
         
         <h1 style="font-weight: 600; text-align: center; margin: 25px 0; font-size: 32px;">Welcome to digiDirect Business</h1>
-
-        <br><br>
 
         <fieldset class="fieldset info">
             <legend class="legend"><span><?= $block->escapeHtml(__('Company Information')) ?></span></legend><br>
@@ -113,18 +112,18 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                         class="input-text" data-validate="{required:true}">
                 </div>
             </div>
-            
-            <div class="field reseller-id">
+
+            <!-- <div class="field reseller-id">
                 <label class="label" for="reseller_id">
-                    <span><?= $block->escapeHtml(__('Re-seller ID')) ?></span>
+                    <span><//?= $block->escapeHtml(__('Re-seller ID')) ?></span>
                 </label>
                 <div class="control">
                     <input type="text" name="company[reseller_id]" id="reseller_id"
                         value=""
-                        title="<?= $block->escapeHtmlAttr(__('Re-seller ID')) ?>"
+                        title="<//?= $block->escapeHtmlAttr(__('Re-seller ID')) ?>"
                         class="input-text">
                 </div>
-            </div>
+            </div> -->
         </fieldset>
 
         <fieldset class="fieldset info">
