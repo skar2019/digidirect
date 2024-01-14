@@ -4,14 +4,15 @@ namespace Digidirect\DigiDeals\Block\Index;
  
 class Search extends Template
 {
+    
+    protected $_productCollectionFactory;
+    
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context, 
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = [])
-    {
+        array $data = []
+    ){
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->productFactory = $productFactory;
         parent::__construct($context, $data);
     }
 
