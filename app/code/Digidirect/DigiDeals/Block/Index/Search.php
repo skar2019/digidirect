@@ -1,0 +1,35 @@
+<?php
+
+namespace Digidirect\DigiDeals\Block\Index;
+ 
+class Search extends Template
+{
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context, 
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        array $data = [])
+    {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->productFactory = $productFactory;
+        parent::__construct($context, $data);
+    }
+
+    protected function _prepareLayout()
+    {
+        return parent::_prepareLayout();
+    }
+    
+    /* Get product count on a category */
+    public function getProductCollectionSearchResult($searchTerm) 
+    {
+        $productCollection = $this->_productCollectionFactory->create();
+        $productCollection->addAttributeToSelect('*');
+        $productCollection->addCategoriesFilter(['in' => $categoryId]);
+        $productCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+        $productCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $productCollection->addAttributeToFilter('name', array('like' => '%'.$searchTerm.'%'));
+        return $productCollection;
+    }
+    
+}

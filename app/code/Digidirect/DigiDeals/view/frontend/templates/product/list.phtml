@@ -333,6 +333,12 @@ $currentPage = $this->getRequest()->getFullActionName();
             <?php endforeach; ?>
         </ol>
     </div>
+    
+    
+    <div id="inner-search-result" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    
+    </div>
+    
     <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
