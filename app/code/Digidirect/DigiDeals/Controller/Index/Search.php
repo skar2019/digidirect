@@ -15,7 +15,7 @@ class Search extends Action {
     public function execute() {
 
         if ($this->getRequest()->getParam('innerSearchInput')) {
-            return $this->getRequest()->getParam('innerSearchInput');
+            return 'Test JSON!';
         } else {
             return 'No data!';
         }
