@@ -28,6 +28,7 @@ class Search extends Action {
     public function execute() {
         
         $result = $this->_resultJsonFactory->create();
+        $resultPage = $this->_resultPageFactory->create();
         
         if ($this->getRequest()->getParam('innerSearchInput')) {
             
