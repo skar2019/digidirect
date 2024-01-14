@@ -353,13 +353,12 @@ $currentPage = $this->getRequest()->getFullActionName();
         $('#inner-search').on('keyup',function (e){
 
             var url = "<?php echo $block->getBaseUrl().'deals/search'?>";
-            var innerSearchInput =  $("#inner-search").val();
+            var innerSearchInput = $("#inner-search").val();
 
             if (innerSearchInput != ""){
                 $.ajax({
                     url: url,
                     type: "POST",
-                    async: false,
                     data: {
                         innerSearchInput: innerSearchInput
                     },
