@@ -350,9 +350,9 @@ $currentPage = $this->getRequest()->getFullActionName();
 <script>
     require(['jquery'],function($){
     
-        $('#inner-search').on('keyup',function (e){
+        $('#inner-search').on('keyup',function (){
 
-            var url = "<?php echo $block->getBaseUrl().'deals/search'?>";
+            var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
             var innerSearchInput = $("#inner-search").val();
 
             if (innerSearchInput != ""){

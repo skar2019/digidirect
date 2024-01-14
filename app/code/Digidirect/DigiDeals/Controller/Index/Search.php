@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\DigiDeals\Controller;
+namespace Digidirect\DigiDeals\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
 
