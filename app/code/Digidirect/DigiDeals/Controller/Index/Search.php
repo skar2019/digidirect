@@ -3,7 +3,6 @@
 namespace Digidirect\DigiDeals\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\Result\JsonFactory;
 
 class Search extends Action {
     /**
