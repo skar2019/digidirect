@@ -7,6 +7,148 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
 
 ?>
 
-<div>
-    <?= $searchTerm ?>
+<ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
+    data-mage-init='{
+        "truncateCollection": {
+            "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+        }
+    }'>
+    <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+    <?php foreach ($_productCollection as $_product): ?>
+
+        <?php
+        $blockMode = $block->getMode();
+        $productId = $_product->getId();
+        $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
+        $qff_base = $_helper->productAttribute($_product, $_product->getQffBase(), 'qff_base');
+        $qff_bonus = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
+        $stock = $_helper->productAttribute($_product, $_product->getPrice(), 'price');
+
+        $brandNewProductPrice = "";
+        $brandNewProductUrl = "";
+        $secondsSavings = "";
+
+        $finalProductPrice = $_product->getFinalPrice();
+        $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
+        $qff_bonus_points = 0;
+
+        $d2BrandNewProductSKU = $_product->getData('d2newsku');
+        $d2ItemCondition = $_product->getData('item_codition');
+        $d2ItemDescription = $_product->getData('d2desc');
+        $d2ItemRating = $_product->getData('item_rating');
+        $d2PackageInclusion = $_product->getData('whats_in_the_box');
+
+        $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
+        $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
+
+        $categoryIds = $_product->getCategoryIds();
+        $digiSecondsIds = array(2564,2567,2570,2573);
+
+        // digiprint
+        $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
+        $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
+
+        if ($brandNewProduct) {
+            $brandNewProductPrice = $brandNewProduct->getPrice();
+            $brandNewProductUrl = $brandNewProduct->getProductUrl();
+            $secondsSavings = round(100 - (($finalProductPrice/$brandNewProductPrice)*100));
+        }
+
+        ?>
+
+        <?php if (!empty($qff_base) && !empty($qff_bonus)) {
+
+            $bonusPlusBase = $qff_base + $qff_bonus;
+
+            $points = number_format($finalProductPrice * $bonusPlusBase);
+        }else {
+            if(!empty($qff_bonus)){
+
+                $points = number_format($finalProductPrice * $qff_bonus);
+            } else {
+                $points = number_format($finalProductPrice * 1);
+            }
+        }
+
+        $finalQffPoints = $_product->getPoints();
+
+        $productUrl = $_product->getProductUrl();
+
+        if ($currentPage == "eaa_attribute_option_index") {
+            $explode1 = explode("/catalog/product/view/id", $productUrl);
+            $baseUrl = $explode1[0];
+            $explode2 = explode("/s/", $productUrl);
+            $initUrl = $explode2[1];
+            $explode3 = explode("/category/2", $explode2[1]);
+            $seoUrl = $explode3[0];
+            $productUrl = $baseUrl . "/" . $seoUrl;
+        }
+
+        ?>
+        <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+        <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
+             data-container="product-grid"
+             data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
+             data-parent-product-id="<?= $block->escapeHtml($productId); ?>">
+            <?php
+            $productImage = $block->getImage($_product, $image);
+            if ($pos != null) {
+                $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                    . 'top:' . $productImage->getHeight() . 'px;"';
+            }
+            ?>
+
+            <?php ?>
+            <a href="<?= $block->escapeUrl($productUrl); ?>"
+               title="<?= $block->escapeHtml($productName); ?>"
+               class="product photo product-item-photo"
+               tabindex="-1">
+                <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
+                    <?php if ($d2ItemCondition): ?>
+                        <div class="digiseconds-overlay">
+                            <?php if ($d2ItemCondition == "PRELOVED"): ?>
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
+                            <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-demo.png"/>
+                            <?php elseif ($d2ItemCondition == "REFURB"): ?>
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-refurbished.png"/>
+                            <?php endif; ?>
+                            <div class="digiseconds-rating">
+                                <?php if ($d2ItemRating == 5): ?>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                <?php elseif ($d2ItemRating == 4): ?>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                <?php elseif ($d2ItemRating == 3): ?>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                <?php elseif ($d2ItemRating == 2): ?>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                <?php elseif ($d2ItemRating == 1): ?>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                <?php elseif ($d2ItemRating == 0): ?>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                <?php endif; ?>
 </div>

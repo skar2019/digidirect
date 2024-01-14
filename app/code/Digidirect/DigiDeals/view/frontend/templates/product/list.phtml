@@ -370,6 +370,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                     },
                     success: function(data){
                         console.log(data.output);
+                        jQuery('#inner-search-result').html(data.output);
                     },
                     error: function(){
                         console.log("Error!");
