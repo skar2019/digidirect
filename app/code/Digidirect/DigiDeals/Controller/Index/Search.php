@@ -41,9 +41,12 @@ class Search extends Action {
             
             $result->setData(['output' => $block]);
             return $result;
+            
         } else {
+            
             $result->setData(['output' => 'No data!']);
             return $result;
+            
         }
         
     }

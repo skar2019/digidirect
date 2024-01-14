@@ -1,6 +1,8 @@
 <?php
 
 namespace Digidirect\DigiDeals\Block\Index;
+
+use Magento\Framework\View\Element\Template;
  
 class Search extends Template
 {
