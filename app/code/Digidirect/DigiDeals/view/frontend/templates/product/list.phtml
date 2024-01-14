@@ -24,6 +24,10 @@ $showWishlist = true;
     </div>
 </div>
 
+<div class="inner-search-container">
+    <input id="inner-search" type="text" name="q" value="" placeholder="Search products" class="input-text" maxlength="128" role="combobox" aria-haspopup="false" autocomplete="off">
+</div>
+
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php
@@ -342,3 +346,36 @@ $currentPage = $this->getRequest()->getFullActionName();
         </script>
     <?php endif; ?>
 <?php endif; ?>
+
+<script>
+    require(['jquery'],function($){
+    
+        $('#inner-search').on('change',function (e){
+
+            var url = "<?php echo $block->getBaseUrl().'/deals/search'?>";
+            var innerSearchInput =  $("#inner-search").val();
+
+            if (innerSearchInput != ""){
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    async: false,
+                    data: {
+                        innerSearchInput: innerSearchInput
+                    },
+                    success: function(data){
+                        var res = data;
+                        var json = JSON.parse(res);
+                        console.log(json.result);
+                    },
+                    error: function(){
+                        console.log("Error!");
+                    }
+                });
+             }
+        });
+    });
+  
+
+  
+</script>
