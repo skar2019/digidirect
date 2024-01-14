@@ -13,7 +13,7 @@ class Search extends Action {
     
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\JsonFactory $jsonFactory
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         parent::__construct($context);
