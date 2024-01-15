@@ -4,9 +4,25 @@ $blockData = $block->getData();
 $searchTerm = $blockData['data']['searchTerm'];
 
 $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$currentPage = $this->getRequest()->getFullActionName();
+$pos = $block->getPositioned();
+$iterator = 1; 
+
+$image = 'category_page_grid';
+$showDescription = false;
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
 
 ?>
 
-<div>
-    <?= $searchTerm ?>
-</div>
+<ol class="products items product-items -grid"
+            data-mage-init='{
+                "truncateCollection": {
+                    "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                }
+            }'>
+    <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+    <?php foreach ($_productCollection as $_product): ?>
+        <?= $_product->getName()?><br>
+    <?php endforeach; ?>
+</ol>
