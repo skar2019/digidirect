@@ -27,14 +27,14 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
         <?php
             $productId = $_product->getId();
             $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
-
+            $productUrl = $_product->getProductUrl();
+            
             $brandNewProductPrice = "";
             $brandNewProductUrl = "";
             $secondsSavings = "";
 
             $finalProductPrice = $_product->getFinalPrice();
             $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
-            $qff_bonus_points = 0;
 
             $d2BrandNewProductSKU = $_product->getData('d2newsku');
             $d2ItemCondition = $_product->getData('item_codition');
