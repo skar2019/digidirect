@@ -113,6 +113,32 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                 </a>
             </strong>
                 
+            <div class="product details product-item-details marketplacer-product">
+                <div class="no-display">
+                    <?php
+                        // Must be called for Preorder plugin
+                        echo $block->getReviewsSummaryHtml($_product);
+                    ?>
+                </div>
+                <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                    <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                <?php endif; ?>
+                <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                
+                <div class="product-item-inner digiprint-right">
+                    <?= $block->getProductDetailsHtml($_product); ?>
+                    <div class="product actions product-item-actions">
+                        <div class="actions-primary">
+                            
+                        </div>
+                    </div>
+                    <?php if ($showDescription):?>
+                        <div class="product description product-item-description">
+                            <?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
         <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
     <?php endforeach; ?>
