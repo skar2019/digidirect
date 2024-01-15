@@ -132,6 +132,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                             <?php $postParams = $block->getAddToCartPostParams($_product); ?>
                         </div>
                     </div>
+                    
                     <?php if ($showDescription):?>
                         <div class="product description product-item-description">
                             <?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?>
