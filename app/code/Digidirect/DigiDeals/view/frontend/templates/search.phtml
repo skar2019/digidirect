@@ -1,0 +1,12 @@
+<?php
+
+$blockData = $block->getData();
+$searchTerm = $blockData['data']['searchTerm'];
+
+$_productCollection = $block->getProductCollectionSearchResult($searchTerm);
+
+?>
+
+<div>
+    <?= $searchTerm ?>
+</div>
