@@ -23,7 +23,6 @@ class Search extends Template
         return parent::_prepareLayout();
     }
     
-    /* Get product count on a category */
     public function getProductCollectionSearchResult($searchTerm) 
     {
         $productCollection = $this->_productCollectionFactory->create();
