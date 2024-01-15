@@ -9,6 +9,10 @@ $currentPage = $this->getRequest()->getFullActionName();
 $pos = $block->getPositioned();
 $iterator = 1; 
 
+$image = 'category_page_grid';
+$showDescription = false;
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+
 ?>
 
 <ol class="products items product-items -grid"
