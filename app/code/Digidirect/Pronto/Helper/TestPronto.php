@@ -1361,7 +1361,7 @@ class TestPronto extends AbstractHelper
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
                     $productDigiprot = $this->productFactory->create();
-                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getFinalPrice();
                     $digiProtectPrice = $productPriceBySku;
                     $digiProtectQty = (double) $item->getQtyOrdered();
                     $digiProtectdiscount = 0;
@@ -1370,6 +1370,7 @@ class TestPronto extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $price = $price - $digiProtectTotal;
                     echo "digiprotect price ".$digiProtectPrice."<br/>";
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 }

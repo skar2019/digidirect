@@ -1004,7 +1004,7 @@ class Order extends AbstractHelper
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
                         $productDigiprot = $this->productFactory->create();
-                        $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                        $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getFinalPrice();
                         $digiProtectPrice = $productPriceBySku;
                         $digiProtectQty = (double) $item->getQtyOrdered();
                         $digiProtectdiscount = 0;
@@ -1013,6 +1013,7 @@ class Order extends AbstractHelper
                             $digiProtectdiscount = 0;
                         }
                         $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                        $price = $price - $digiProtectTotal;
 
                     }
                     $gotDigiProducts = true;
@@ -1064,10 +1065,10 @@ class Order extends AbstractHelper
 
                     if(!empty($digiProtect))
                     {
-                        $price = (double) $item->getBasePriceInclTax();
-                        $qty = (double) $item->getQtyOrdered();
-                        $discount = (double) $item->getDiscountAmount();
-                        $total = ($price * $qty) - $discount;
+                        //$price = (double) $item->getBasePriceInclTax();
+                        //$qty = (double) $item->getQtyOrdered();
+                        //$discount = (double) $item->getDiscountAmount();
+                        //$total = ($price * $qty) - $discount;
                         $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                         $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
                         $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
