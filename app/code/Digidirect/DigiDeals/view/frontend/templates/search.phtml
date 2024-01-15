@@ -79,6 +79,40 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                tabindex="-1">
                 <div class="overlay-container"></div>
             </a>
+
+            <?php
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+                $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+                $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+                $storeId = $storeManager->getStore()->getStoreId();
+                $reviewFactory->getEntitySummary($product, $storeId);
+
+                $ratingSummary = $product->getRatingSummary()->getRatingSummary();
+                $reviewCount = $product->getRatingSummary()->getReviewsCount();
+            ?>
+
+            <?php if ($reviewCount > 0) : ?>
+                <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
+            <?php else: ?>
+                <div class="product-reviews-summary short">
+                    <div class="rating-summary">
+                        <span class="label"><span>Rating:</span></span>
+                        <div class="rating-result blank-star-rating" title="100%">
+                            <span style="width: 100%;"><span>100%</span></span>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <strong class="product name product-item-name -grid default-product-name">
+                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                   title="<?= $block->escapeHtml($productName); ?>"
+                   class="product-item-link">
+                    <?= $block->escapeHtml($productName); ?>
+                </a>
+            </strong>
+                
         </div>
         <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
     <?php endforeach; ?>
