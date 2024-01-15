@@ -7,14 +7,14 @@ use Magento\Framework\View\Element\Template;
 class Search extends Template
 {
     
-    protected $_productCollectionFactory;
-    
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context, 
+        Template\Context $context, 
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        array $data = []
-    ){
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        array $data = [])
+    {
         $this->_productCollectionFactory = $productCollectionFactory;
+        $this->productFactory = $productFactory;
         parent::__construct($context, $data);
     }
 
@@ -23,7 +23,7 @@ class Search extends Template
         return parent::_prepareLayout();
     }
     
-    public function getProductCollectionSearchResult() 
+    public function getProductCollectionSearchResult($searchTerm) 
     {
         $productCollection = $this->_productCollectionFactory->create();
         $productCollection->addAttributeToSelect('*');
