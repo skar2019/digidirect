@@ -7,7 +7,7 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
 
 ?>
 
-<ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
+<ol class="products items product-items -grid"
             data-mage-init='{
                 "truncateCollection": {
                     "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
@@ -86,7 +86,7 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
 
         ?>
         <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
-        <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
+        <div class="product-item-info -grid"
              data-container="product-grid"
              data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
              data-parent-product-id="<?= $block->escapeHtml($productId); ?>">
