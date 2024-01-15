@@ -23,7 +23,7 @@ class Search extends Template
         return parent::_prepareLayout();
     }
     
-    public function getProductCollectionSearchResult($searchTerm) 
+    public function getProductCollectionSearchResult() 
     {
         $productCollection = $this->_productCollectionFactory->create();
         $productCollection->addAttributeToSelect('*');
