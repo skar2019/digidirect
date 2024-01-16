@@ -142,11 +142,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                                 </a>
 
                             <?php else: ?>
-                                <form data-role="tocart-form"
-                                    data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
-                                    action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
-                                >
-                                </form>
+                                
                             <?php endif; ?>
                         </div>
                     </div>
