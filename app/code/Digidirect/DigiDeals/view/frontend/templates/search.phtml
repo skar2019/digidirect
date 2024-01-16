@@ -133,6 +133,13 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                     <?php endif; ?>
 
                 <?php endif; ?>
+                
+                <span class="product-image-container product-image-container" style="width: 240px;">
+                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                        <img class="product-image-photo" src="<?= $block->getProductImage($_product) ?>" loading="lazy" width="240" height="300" alt="<?= $productName ?>">
+                    </span>
+                </span>
+                
                 <div class="overlay-container"></div>
             </a>
 

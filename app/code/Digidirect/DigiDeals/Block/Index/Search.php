@@ -6,19 +6,20 @@ use Magento\Framework\View\Element\Template;
 
 class Search extends Template
 {
+    protected $imageHelperFactory;
     
     public function __construct(
         Template\Context $context, 
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
-        \Magento\Catalog\Model\Product\Gallery\Processor $processor,
+        \Magento\Catalog\Helper\ImageFactory $imageHelperFactory,
         array $data = [])
     {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->productFactory = $productFactory;
         $this->listProductBlock = $listProductBlock;
-        $this->processor = $processor;
+        $this->imageHelperFactory = $imageHelperFactory;
         parent::__construct($context, $data);
     }
 
@@ -47,9 +48,11 @@ class Search extends Template
         return $this->listProductBlock->getProductPrice($product);
     }
     
-    public function getImage($product, $file)
+    public function getProductImage($product)
     {
-        return $this->processor->getImage($product, $file);
+        $imageUrl = $this->imageHelperFactory->create()
+        ->init($product, 'product_thumbnail_image')->getUrl();
+        return $imageUrl;
     }
     
 }
