@@ -72,6 +72,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                 $position = ' style="left:' . $productImage->getWidth() . 'px;'
                     . 'top:' . $productImage->getHeight() . 'px;"';
             }
+            echo json_encode($productImage);
             ?>
 
             <?php ?>
@@ -132,7 +133,6 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                     <?php endif; ?>
 
                 <?php endif; ?>
-                <?= $productImage->toHtml(); ?>
                 <div class="overlay-container"></div>
             </a>
 
