@@ -23,7 +23,7 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
-    
+
     protected $_limit; // Limit Product
 
     /**
@@ -46,19 +46,19 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_catalogProductVisibility = $catalogProductVisibility;
         parent::__construct($context, $data);
     }
-    
+
     public function getLoadedProductCollection()
     {
         $defaultCategory = 2;
-        
+
         $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*')->addFinalPrice();
-        $collection->addCategoriesFilter(['in' => 17]);
+        $collection->addAttributeToSelect('*');
+        $collection->addCategoriesFilter(['in' => $defaultCategory]);
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        //$collection->addMinimalPrice()->addFinalPrice();
-        $collection->getSelect()->where("price_index.final_price < price");
-        
+        $collection->addMinimalPrice()->addFinalPrice();
+        $collection->getSelect()->where("price_index.final_price < price_index.price");
+
         return $collection;
     }
 
