@@ -129,7 +129,10 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                     <?= $block->getProductDetailsHtml($_product); ?>
                     <div class="product actions product-item-actions">
                         <div class="actions-primary">
-                            <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                            <?php 
+                                $postParams = $block->getAddToCartPostParams($_product); 
+                                echo json_encode($postParams);
+                            ?>
 
                             <?php if ($is_digiPrint == 1): ?>
 
@@ -142,8 +145,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                                 </a>
 
                             <?php else: ?>
-                                <form action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post">
-                                </form>
+                                
                             <?php endif; ?>
                         </div>
                     </div>
