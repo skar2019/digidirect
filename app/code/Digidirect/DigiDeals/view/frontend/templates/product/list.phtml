@@ -54,7 +54,7 @@ $currentPage = $this->getRequest()->getFullActionName();
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div id="main-listing" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -356,12 +356,14 @@ $currentPage = $this->getRequest()->getFullActionName();
 <script>
     require(['jquery'],function($){
     
-        $('#inner-search').on('keyup',function (){
+        $('#inner-search').on('input',function (){
 
             var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
             var innerSearchInput = $("#inner-search").val();
 
             if (innerSearchInput != ""){
+                $("#main-listing").hide();
+                $("#inner-search-result").show();
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -376,6 +378,9 @@ $currentPage = $this->getRequest()->getFullActionName();
                         console.log("Error!");
                     }
                 });
+             } else {
+                $("#main-listing").show();
+                $("#inner-search-result").hide();
              }
         });
     });
