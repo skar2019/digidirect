@@ -1361,7 +1361,7 @@ class TestPronto extends AbstractHelper
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
                     $productDigiprot = $this->productFactory->create();
-                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getFinalPrice();
+                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
                     $digiProtectPrice = $productPriceBySku;
                     $digiProtectQty = (double) $item->getQtyOrdered();
                     $digiProtectdiscount = 0;
