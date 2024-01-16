@@ -29,6 +29,10 @@ $showWishlist = true;
     </div>
 </div>
 
+<div class="inner-search-container">
+    <input id="inner-search" type="text" placeholder="Search products from our partners" class="input-text" maxlength="128" autocomplete="off">
+</div>
+
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php
@@ -55,7 +59,7 @@ $currentPage = $this->getRequest()->getFullActionName();
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div id="main-listing" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -334,6 +338,12 @@ $currentPage = $this->getRequest()->getFullActionName();
             <?php endforeach; ?>
         </ol>
     </div>
+    
+    
+    <div id="inner-search-result" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    
+    </div>
+    
     <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
@@ -347,3 +357,41 @@ $currentPage = $this->getRequest()->getFullActionName();
         </script>
     <?php endif; ?>
 <?php endif; ?>
+
+<script>
+    require(['jquery'],function($){
+    
+        $('#inner-search').on('input',function (){
+
+            var url = "<?php echo $block->getBaseUrl().'digimarket/index/search'?>";
+            var innerSearchInput = $("#inner-search").val();
+
+            if (innerSearchInput != ""){
+                $("#main-listing").hide();
+                $('.digimarket-index-index .pages').hide();
+                $("#inner-search-result").show();
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        innerSearchInput: innerSearchInput
+                    },
+                    success: function(data){
+                        console.log(data.output);
+                        $('#inner-search-result').html(data.output);
+                    },
+                    error: function(){
+                        console.log("Error!");
+                    }
+                });
+             } else {
+                $("#main-listing").show();
+                $('.digimarket-index-index .pages').show();
+                $("#inner-search-result").hide();
+             }
+        });
+    });
+  
+
+  
+</script>
