@@ -361,7 +361,7 @@ $currentPage = $this->getRequest()->getFullActionName();
 <script>
     require(['jquery'],function($){
     
-        $('#inner-search').on('input',function (){
+        $('#inner-search').on('keyup',function (){
 
             var url = "<?php echo $block->getBaseUrl().'digimarket/index/search'?>";
             var innerSearchInput = $("#inner-search").val();
