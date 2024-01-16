@@ -12,11 +12,13 @@ class Search extends Template
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
+        \Magento\Catalog\Model\Product\Gallery\Processor $processor,
         array $data = [])
     {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->productFactory = $productFactory;
         $this->listProductBlock = $listProductBlock;
+        $this->processor = $processor;
         parent::__construct($context, $data);
     }
 
@@ -43,6 +45,11 @@ class Search extends Template
     public function getProductPrice($product)
     {
         return $this->listProductBlock->getProductPrice($product);
+    }
+    
+    public function getImage($product, $file)
+    {
+        return $this->processor->getImage($product, $file);
     }
     
 }
