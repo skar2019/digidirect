@@ -3,6 +3,7 @@
 namespace Digidirect\DigiDeals\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\Controller\ResultFactory; 
 
 class Search extends Action {
     /**
@@ -44,8 +45,9 @@ class Search extends Action {
             
         } else {
             
-            $result->setData(['output' => 'No data!']);
-            return $result;
+            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+            $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+            return $resultRedirect;
             
         }
         
