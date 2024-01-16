@@ -175,10 +175,16 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                     echo $block->getReviewsSummaryHtml($_product);
                     ?>
                 </div>
-                    <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
-                        <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
-                    <?php endif; ?>
-                    <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                <?= $this->getLayout()
+                    ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                    ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                    ->setProduct($_product)
+                    ->toHtml();
+                ?>
+                <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                    <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                <?php endif; ?>
+                <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
 
                 <div class="product-item-inner digiprint-right">
                     <?= $block->getProductDetailsHtml($_product); ?>
