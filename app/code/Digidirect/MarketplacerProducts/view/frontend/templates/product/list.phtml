@@ -377,11 +377,11 @@ $currentPage = $this->getRequest()->getFullActionName();
                         innerSearchInput: innerSearchInput
                     },
                     success: function(data){
-                        console.log(data.output);
+                        //console.log(data.output);
                         $('#inner-search-result').html(data.output);
                     },
                     error: function(){
-                        console.log("Error!");
+                        //console.log("Error!");
                     }
                 });
              } else {
