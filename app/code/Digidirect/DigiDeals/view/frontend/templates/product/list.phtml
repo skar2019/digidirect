@@ -363,6 +363,7 @@ $currentPage = $this->getRequest()->getFullActionName();
 
             if (innerSearchInput != ""){
                 $("#main-listing").hide();
+                $('.deals-index-index .pages').hide();
                 $("#inner-search-result").show();
                 $.ajax({
                     url: url,
@@ -380,6 +381,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                 });
              } else {
                 $("#main-listing").show();
+                $('.deals-index-index .pages').show();
                 $("#inner-search-result").hide();
              }
         });
