@@ -40,4 +40,9 @@ class Search extends Template
         return $this->listProductBlock->getAddToCartPostParams($product);
     }
     
+    public function getProductPrice($product)
+    {
+        return $this->listProductBlock->getProductPrice($product);
+    }
+    
 }
