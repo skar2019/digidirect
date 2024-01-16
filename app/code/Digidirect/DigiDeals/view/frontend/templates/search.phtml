@@ -144,7 +144,6 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                             <?php else: ?>
                                 <form data-role="tocart-form"
                                     data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
-                                    data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
                                     action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
                                 >
                                 </form>
