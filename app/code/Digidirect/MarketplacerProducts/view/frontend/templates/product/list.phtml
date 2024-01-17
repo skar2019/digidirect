@@ -35,6 +35,12 @@ $showWishlist = true;
 </div>
 
 <?= $block->getToolbarHtml() ?>
+<div class="toolbar toolbar-products">            
+    <p class="toolbar-amount" id="toolbar-inner-search"> 
+        Showing results for <span id="inner-search-term"></span>
+    </p> 
+</div>
+
 <?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
@@ -390,6 +396,9 @@ $currentPage = $this->getRequest()->getFullActionName();
                     },
                     success: function(data){
                         //console.log(data.output);
+                        $("#toolbar-amount").hide();
+                        $("#toolbar-inner-search").show();
+                        $('#inner-search-term').html('"' + innerSearchInput + '"');
                         $('.inner-search-preloader').hide();
                         $('#inner-search-result').html(data.output);
                         $("#inner-search-result").show();
@@ -399,6 +408,8 @@ $currentPage = $this->getRequest()->getFullActionName();
                     }
                 });
              } else {
+                $("#toolbar-amount").show();
+                $("#toolbar-inner-search").hide();
                 $("#main-listing").show();
                 $('.inner-search-preloader').hide();
                 $('.digimarket-index-index .pages').show();
