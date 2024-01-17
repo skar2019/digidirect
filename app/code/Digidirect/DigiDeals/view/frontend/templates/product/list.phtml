@@ -55,6 +55,7 @@ $currentPage = $this->getRequest()->getFullActionName();
      */
     $pos = $block->getPositioned();
     ?>
+    <div class="inner-search-preloader"></div>
     <div id="main-listing" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
@@ -373,6 +374,7 @@ $currentPage = $this->getRequest()->getFullActionName();
 
             if (innerSearchInput != ""){
                 $("#main-listing").hide();
+                $('.inner-search-preloader').show();
                 $('.deals-index-index .pages').hide();
                 $("#inner-search-result").show();
                 $.ajax({
@@ -383,6 +385,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                     },
                     success: function(data){
                         console.log(data.output);
+                        $('.inner-search-preloader').hide();
                         $('#inner-search-result').html(data.output);
                     },
                     error: function(){
@@ -391,6 +394,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                 });
              } else {
                 $("#main-listing").show();
+                $('.inner-search-preloader').hide();
                 $('.deals-index-index .pages').show();
                 $("#inner-search-result").hide();
              }
