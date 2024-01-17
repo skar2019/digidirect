@@ -102,11 +102,36 @@
 
     }
 
+    input[type=checkbox]:checked+label:before {
+        font-family: 'Font Awesome 5 Free';
+        content: "\f00c";
+        font-weight: 900;
+    }
+
+    input[type=checkbox]:checked+label:after {
+        display: none !important;
+    }
+
     // #condition_approvers {
     //     height: 50px;
     //     font-size: 1.4rem;
     //     border-color: #e1e1e1;
     //     color: #222;
+    // }
+
+    #condition_approvers .admin__action-group-wrap .admin__action-multiselect-actions-wrap .action-secondary {
+        background: #ff6600 !important;
+        border: 1px solid #ff6600 !important;
+    }
+
+    #condition_approvers .admin__action-group-wrap .admin__action-multiselect-actions-wrap .action-secondary:hover {
+       opacity: 0.8 !important;
+    }
+
+    
+    // .admin__action-group-wrap .admin__action-multiselect-actions-wrap .action-secondary {
+    //     background: #ff6600 !important;
+    //     border: 1px solid #ff6600 !important;
     // }
     
 }
