@@ -17,9 +17,9 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 class Layer extends \Magento\Catalog\Model\Layer
 {
     protected $logger;
-
+    
     protected $categoryRepo;
-
+    
     public function __construct(
         \Magento\Catalog\Model\Layer\ContextInterface $context,
         \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
@@ -47,34 +47,36 @@ class Layer extends \Magento\Catalog\Model\Layer
             $data
         );
     }
-
+    
     public function getStateKey()
     {
         if (!$this->_stateKey) {
             $this->_stateKey = $this->stateKeyGenerator->toString($this->getCurrentCategory());
         }
-        $this->logger->info("this->_stateKey: " . $this->_stateKey);
+        $this->logger->info("this->_stateKey: " . $this->_stateKey); 
         return $this->_stateKey;
     }
-
+    
     public function getProductCollection()
     {
         $defaultCategory = 2;
         $productIdsArray = [];
-
-        $category = $this->categoryRepo->get($defaultCategory, 1);
-        $collection = $this->collectionProvider->getCollection($category);
-        $collection->addAttributeToSelect('*');
-        $collection->addCategoriesFilter(['in' => $defaultCategory]);
-        $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-        $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addMinimalPrice()->addFinalPrice();
-        $collection->getSelect()->where("price_index.final_price < price_index.price");
-
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[$defaultCategory] = $collection;
-
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
+        } else {
+            $category = $this->categoryRepo->get($defaultCategory, 1);
+            $collection = $this->collectionProvider->getCollection($category);
+            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addMinimalPrice()->addFinalPrice();
+            $collection->getSelect()->where("price_index.final_price < price_index.price");
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$defaultCategory] = $collection;
+        }
+        
         return $collection;
     }
-
+    
 }
