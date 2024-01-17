@@ -30,9 +30,12 @@ $showWishlist = true;
 </div>
 
 <?= $block->getToolbarHtml() ?>
-<p class="toolbar-amount" id="toolbar-inner-search"> 
-    Showing results for <span id="inner-search-term"></span>
-</p>
+<div class="toolbar toolbar-products">            
+    <p class="toolbar-amount" id="toolbar-inner-search"> 
+        Showing results for <span id="inner-search-term"></span>
+    </p> 
+</div>
+
 <?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
