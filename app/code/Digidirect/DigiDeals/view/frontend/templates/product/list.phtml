@@ -376,7 +376,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $("#main-listing").hide();
                 $('.inner-search-preloader').show();
                 $('.deals-index-index .pages').hide();
-                $("#inner-search-result").show();
+                $("#inner-search-result").hide();
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -387,6 +387,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                         console.log(data.output);
                         $('.inner-search-preloader').hide();
                         $('#inner-search-result').html(data.output);
+                        $("#inner-search-result").show();
                     },
                     error: function(){
                         console.log("Error!");

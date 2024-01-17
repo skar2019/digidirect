@@ -51,7 +51,7 @@ class Search extends Template
     public function getProductImage($product)
     {
         $imageUrl = $this->imageHelperFactory->create()
-        ->init($product, 'product_thumbnail_image')->getUrl();
+        ->init($product, 'product_base_image')->getUrl();
         return $imageUrl;
     }
     
