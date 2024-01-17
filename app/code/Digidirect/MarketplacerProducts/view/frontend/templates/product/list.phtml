@@ -29,8 +29,9 @@ $showWishlist = true;
     </div>
 </div>
 
-<div class="inner-search-container" style="display: none;">
-    <input id="inner-search" type="text" placeholder="Search products from our partners" class="input-text" maxlength="128" autocomplete="off">
+<div class="inner-search-container">
+    <input id="inner-search" type="text" placeholder="Search our deals" class="input-text" maxlength="128" autocomplete="off">
+    <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
 </div>
 
 <?= $block->getToolbarHtml() ?>
@@ -361,8 +362,18 @@ $currentPage = $this->getRequest()->getFullActionName();
 <script>
     require(['jquery'],function($){
     
-        $('#inner-search').on('keyup',function (){
-            var url = "<?php echo $block->getBaseUrl().'digimarket/index/search'?>";
+        $('#inner-search-button').on('click',function (){
+            searchProducts();
+        });
+        
+        $('#inner-search').on('keypress',function (e){
+            if(e.which == 13) {
+                searchProducts();
+            }
+        });
+    
+        function searchProducts() {
+            var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
             var innerSearchInput = $("#inner-search").val();
 
             if (innerSearchInput != ""){
@@ -388,9 +399,8 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $('.digimarket-index-index .pages').show();
                 $("#inner-search-result").hide();
              }
-        });
+        }
+        
     });
-  
-
   
 </script>
