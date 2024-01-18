@@ -1,6 +1,8 @@
 require(['jquery'],
     function ($) {
+        
             alert("test");
+
             $('.requisition-list-button').attr( 'id', 'requisition_id' );
 
         // $(document).ready(function() {
