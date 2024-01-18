@@ -3,19 +3,15 @@
  * Category layered navigation
  *
  * @var $block \Magento\LayeredNavigation\Block\Navigation
- * @var $faceBookPixel \Digidirect\Digi\Helper\FaceBookPixel
  */
 ?>
 <?php
     $isShowState = false; // Show/Hide filters state
     $isShowTitleCount = false; // Show/Hide Title Count
     $brandLabels = false;
-    $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
     $filterExclusions = ['cat'];
     
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
-    $_helper = $this->helper('Magento\Catalog\Helper\Output');
 
     $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
     $currentUrl = $urlInterface->getCurrentUrl();
@@ -25,14 +21,8 @@
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
         <div class="sidedar-toolbar">
-            <strong class="title _hide-for-mobile-tablet-l">
-                <?php echo /* @noEscape */ __('Refine By'); ?>
-            </strong>
-            
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
-            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
         </div>
-        <?php echo $block->getChildHtml('digidirect.categoryfilter.dropdown'); ?>
         <?php $allFilter = $block->getFilters();
         $filterWithCodeName = array_reduce($allFilter, static function ($acc, $filter) use ($filterExclusions) {
             $filterRequestVar = $filter->getRequestVar();
