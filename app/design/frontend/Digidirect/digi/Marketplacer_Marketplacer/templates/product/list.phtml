@@ -397,6 +397,7 @@ if ($currentPage != "catalogsearch_result_index") {
             <?php endforeach; ?>
         </ol>
     </div>
+    <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
         {
