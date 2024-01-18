@@ -139,8 +139,34 @@
         display: block !important;
 
         span {
-            color: #000;
+            color: #000 !important;
         }
+
+        .requisition-list-action>.action.toggle {
+            padding: unset !important;
+            
+            ::after {
+                color: #000 !important;
+                font-weight: 700 !important;
+                font-size: 19px !important;
+            }
+
+            ::before {
+                color: #000 !important;
+            }
+        }
+
+        .button {
+            width: unset !important;
+            padding: unset !important;
+            background: transparent !important;
+        }
+
+        .product-addto-links {
+            border: 1px solid #ff6600;
+            height: auto !important;
+        }
+
         
         .towishlist {
             display: none !important;
