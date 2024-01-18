@@ -5,18 +5,23 @@
 & when (@media-common = true) {
     
     .deals-index-index.page-products .products-grid .product-item {
-        width: calc((100% - 15%)/5) !important;
+        //width: calc((100% - 15%)/5) !important;
     }
     
     .deals-index-index .category-view {
         display: block !important;
         padding: 0;
         margin: 15px auto 0 auto;
-        max-width: 1170px;
+        max-width: 1075px;
+        margin-left: -39px;
+    }
+    
+    .deals-index-index .sidebar-main .filter.block {
+        width: unset !important;
     }
     
     .deals-index-index .toolbar-products {
-        margin: 0 50px 0 135px;
+        margin: 0 50px 0 -50px;
     }
     
     .deals-index-index .block-content.filter-content {
@@ -26,7 +31,7 @@
 
     .deals-index-index .block.filter {
         padding-right: 0 !important;
-        margin-right: 20px;
+        //margin-right: 20px;
     }
 
     .deals-index-index .toolbar-amount {
@@ -34,6 +39,10 @@
         margin: 0 0 20px 0;
         text-align: left;
         margin-left: 5px;
+    }
+    
+    .deals-index-index ol.products.items.product-items.-grid {
+        margin-left: 20px;
     }
     
     .deals-index-index .field.limiter {
@@ -68,7 +77,7 @@
     
     .deals-index-index .products.wrapper.products-widget.product-category-listing.grid.products-grid {
         margin-left: unset !important;
-        width: 1320px !important;
+        //width: 1320px !important;
     }
     
     .deals-index-index.page-products .category-view .page-main {
@@ -80,7 +89,7 @@
     }
     
     .inner-search-container {
-        margin-left: 136px;
+        margin-left: -38px;
         margin-bottom: 15px;
         max-width: 428px;
         display: flex;
@@ -119,10 +128,6 @@
         animation: spin 2s linear infinite;
     }
     
-    #toolbar-inner-search {
-        display: none;
-    }
-    
     @-webkit-keyframes spin {
         0% { -webkit-transform: rotate(0deg); }
         100% { -webkit-transform: rotate(360deg); }
@@ -132,7 +137,6 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-    
     
 }
 
@@ -163,5 +167,4 @@
 }
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
- 
 }
