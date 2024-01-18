@@ -14,10 +14,6 @@
 
 <?php if ($block->canShowBlock()) : ?>
     <div class="block filter -core">
-        <div class="block-title filter-title">
-            <strong><?= $block->escapeHtml(__('Shop By')) ?></strong>
-        </div>
-
         <div class="block-content filter-content">
             <?= $block->getChildHtml('state') ?>
 
@@ -29,7 +25,6 @@
             <?php $wrapOptions = false; ?>
             <?php foreach ($block->getFilters() as $filter) : ?>
                 <?php if (!$wrapOptions) : ?>
-                    <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?= $block->escapeHtml(__('Shopping Options')) ?></strong>
                     <dl class="filter-options" id="narrow-by-list">
                     <?php $wrapOptions = true;
                 endif; ?>
