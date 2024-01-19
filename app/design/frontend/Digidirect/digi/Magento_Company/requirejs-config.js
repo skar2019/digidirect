@@ -1,13 +1,10 @@
-
 var config = {
-    map: {
-        '*':{
-                custom_js:'Magento_Company/js/default.js',
-           }
+    paths: {
+        'requisition': 'Magento_Company/js/owl.carousel',
+    },
+    shim: {
+        requisition: {
+            deps: ['jquery']
         },
-    shim:{
-          'custom_js':{
-                                 deps: ['jquery']
-                             }
-       }
+    }
 };
