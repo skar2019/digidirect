@@ -1,7 +1,9 @@
-'use strict';
-require(["jquery", "domReady!"], function($){
-    $(document).ready(function() {
-        console.log('jquery loaded with success!');
-        alert("req");
-    });
+define([
+    'jquery',
+    'domReady',
+], function ($,dom) {
+    'use strict';
+    return function($) {
+            alert("test new");
+    }
 });
