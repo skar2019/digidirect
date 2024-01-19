@@ -1,19 +1,5 @@
-require(['jquery'],
-    function ($) {
-        
-            alert("test");
+define(["jquery", "domReady!","custom_js"], function($,dom,custom_js){
 
-            $('.requisition-list-button').attr( 'id', 'requisition_id' );
+    alert("Add Custom Js");
 
-        // $(document).ready(function() {
-        //     $('.product-carousel').owlCarousel({
-        //         loop:false,
-        //         nav:false,
-        //         items:1,
-        //         dots:true,
-        //         autoplay:true,
-        //         autoplayTimeout:3000
-        //     })
-        // });
-    }
-);
+})
