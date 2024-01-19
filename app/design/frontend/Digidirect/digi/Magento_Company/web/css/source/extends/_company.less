@@ -140,20 +140,11 @@
 
         .block.block-requisition-list.social-button span {
             color: #000 !important;
+            margin-left: 15px !important;
         }
 
         .requisition-list-action>.action.toggle {
             padding: unset !important;
-            
-            // ::after {
-            //     color: #000 !important;
-            //     font-weight: 700 !important;
-            //     font-size: 19px !important;
-            // }
-
-            // ::before {
-            //     color: #000 !important;
-            // }
         }
 
         .requisition-list-action .action.toggle:after {
@@ -169,7 +160,22 @@
         .button {
             width: unset !important;
             // padding: unset !important;
-            background: transparent !important;
+            // background: transparent !important;
+            background: #ff3000 !important;
+            padding: 15px !important;
+            border-radius: 5px;
+        }
+
+        button.action.requisition-list-button.toggle.change.active {
+            background: #ff3000 !important;
+            padding: 15px !important;
+            border-radius: 5px;
+
+            span, ::after, ::before {
+                color: #fff;
+            }
+
+            
         }
 
       .requisition-list-action {
@@ -179,6 +185,23 @@
             }
         }
       }
+
+    
+        // modal
+       .requisition-popup {
+
+            .modal-popup .modal-header, .modal-popup .modal-content, .modal-popup .modal-footer {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+            }
+
+            .modal-footer .secondary {
+                background: #ff3000 !important;
+                opacity: 0.8;
+                padding: 10px 15px !important;
+            }
+
+       }
 
         .product-addto-links {
             border: none !important;
