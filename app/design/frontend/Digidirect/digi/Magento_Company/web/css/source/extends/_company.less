@@ -138,22 +138,32 @@
     .most-bottom-product-info {
         display: block !important;
 
-        #requisition_id span {
+        .block.block-requisition-list.social-button span {
             color: #000 !important;
         }
 
         .requisition-list-action>.action.toggle {
             padding: unset !important;
             
-            ::after {
+            // ::after {
+            //     color: #000 !important;
+            //     font-weight: 700 !important;
+            //     font-size: 19px !important;
+            // }
+
+            // ::before {
+            //     color: #000 !important;
+            // }
+        }
+
+        .requisition-list-action .action.toggle:after {
                 color: #000 !important;
                 font-weight: 700 !important;
                 font-size: 19px !important;
-            }
+        }
 
-            ::before {
-                color: #000 !important;
-            }
+        .social-button .requisition-list-button:before {
+            color: #000 !important;
         }
 
         .button {
