@@ -185,7 +185,7 @@
             ::after, ::before {
                 color: #fff !important;
             }
-            
+
         }
 
       .requisition-list-action {
@@ -199,12 +199,14 @@
     
         // modal
         aside.modal-popup.modal-slide.requisition-popup.add_to_requisition_popup._show {
-            padding-left: 3rem !important;
-            padding-right: 3rem !important;
-
+            .modal-content {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+                padding-top: 2rem !important;
+            }
         }
 
-        .modal-popup.requisition-popup .modal-footer .secondary {
+        button.action.secondary.cancel {
             background: #ff3000 !important;
             opacity: 0.8;
             padding: 10px 15px !important;
