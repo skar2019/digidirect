@@ -160,19 +160,20 @@
         .button {
             width: unset !important;
             // padding: unset !important;
-            // background: transparent !important;
-            background: #ff3000 !important;
+            background: transparent !important;
+            // background: #ff3000 !important;
             padding: 15px !important;
             border-radius: 5px;
+            border: 1px solid #ff3000;
         }
 
         button.action.requisition-list-button.toggle.change.active {
             background: #ff3000 !important;
-            padding: 15px !important;
+            // padding: 15px !important;
             border-radius: 5px;
 
             span, ::after, ::before {
-                color: #fff;
+                color: #fff !important;
             }
 
             
@@ -188,20 +189,17 @@
 
     
         // modal
-       .requisition-popup {
+        aside.modal-popup.modal-slide.requisition-popup.add_to_requisition_popup._show {
+            padding-left: 3rem !important;
+            padding-right: 3rem !important;
 
-            .modal-popup .modal-header, .modal-popup .modal-content, .modal-popup .modal-footer {
-                padding-left: 3rem !important;
-                padding-right: 3rem !important;
-            }
+        }
 
-            .modal-footer .secondary {
-                background: #ff3000 !important;
-                opacity: 0.8;
-                padding: 10px 15px !important;
-            }
-
-       }
+        .modal-popup.requisition-popup .modal-footer .secondary {
+            background: #ff3000 !important;
+            opacity: 0.8;
+            padding: 10px 15px !important;
+        }
 
         .product-addto-links {
             border: none !important;
