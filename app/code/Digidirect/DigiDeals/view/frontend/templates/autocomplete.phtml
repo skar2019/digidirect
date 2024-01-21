@@ -9,13 +9,13 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
 
 ?>
 <?php if (!$_productCollection->count()): ?>
-    <div>We can\'t find products matching your search</div>
+    <div>We can't find products matching your search</div>
 <?php else: ?>
     <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
-    <ul>
+    <ul style="list-style-type: none;margin: 0;">
         <?php foreach ($_productCollection as $_product): ?>
             <li>
-                <a class="autocomplete-product-link" href="<?= $block->getBaseUrl(). $_product->getProductUrl() ?>"><?= $_product->getName() ?></a>
+                <a class="autocomplete-product-link" href="<?= $_product->getProductUrl() ?>"><?= $_product->getName() ?></a>
             </li>
         <?php endforeach; ?>
     </ul>

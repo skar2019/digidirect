@@ -375,7 +375,7 @@ $currentPage = $this->getRequest()->getFullActionName();
             }
         });
         
-        $('#inner-search').on('keypress',function (e){
+        $('#inner-search').on('keyup',function (e){
             if(e.which != 13) {
                 autocomplete();
             }
