@@ -433,6 +433,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                     },
                     success: function(data){
                         console.log(data.output);
+                        $('#suggested-products-search-result').html(data.output);
                     },
                     error: function(){
                         console.log("Error!");
