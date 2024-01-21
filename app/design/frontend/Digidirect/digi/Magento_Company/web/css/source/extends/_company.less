@@ -138,28 +138,78 @@
     .most-bottom-product-info {
         display: block !important;
 
-        #requisition_id span {
+        .block.block-requisition-list.social-button span {
             color: #000 !important;
+            margin-left: 15px !important;
         }
 
         .requisition-list-action>.action.toggle {
             padding: unset !important;
-            
-            ::after {
+        }
+
+        .requisition-list-action .action.toggle:after {
                 color: #000 !important;
                 font-weight: 700 !important;
                 font-size: 19px !important;
-            }
+        }
 
-            ::before {
-                color: #000 !important;
-            }
+        .social-button .requisition-list-button:before {
+            color: #000 !important;
         }
 
         .button {
             width: unset !important;
             // padding: unset !important;
-            // background: transparent !important;
+            background: transparent !important;
+            // background: #ff3000 !important;
+            padding: 15px !important;
+            border-radius: 5px;
+            border: 1px solid #ff3000;
+        }
+
+        button.action.requisition-list-button.toggle.change.active {
+            background: #ff3000 !important;
+            // padding: 15px !important;
+            border-radius: 5px;
+
+            span, ::after, ::before {
+                color: #fff !important;
+            }
+
+            
+        }
+
+        .split.button.requisition-list-action.active {
+            background: #ff3000 !important;
+            
+            ::after, ::before {
+                color: #fff !important;
+            }
+
+        }
+
+      .requisition-list-action {
+        .list-items {
+            li {
+                color: #000 !important;
+            }
+        }
+      }
+
+    
+        // modal
+        aside.modal-popup.modal-slide.requisition-popup.add_to_requisition_popup._show {
+            .modal-content {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+                padding-top: 2rem !important;
+            }
+        }
+
+        button.action.secondary.cancel {
+            background: #ff3000 !important;
+            opacity: 0.8;
+            padding: 10px 15px !important;
         }
 
         .product-addto-links {
