@@ -27,6 +27,7 @@ $showWishlist = true;
 <div class="inner-search-container">
     <input id="inner-search" type="text" placeholder="Search our deals" class="input-text" maxlength="128" autocomplete="off">
     <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
+    <div id="suggested-products-search-result"></div>
 </div>
 
 <?= $block->getToolbarHtml() ?>
@@ -373,6 +374,12 @@ $currentPage = $this->getRequest()->getFullActionName();
                 searchProducts();
             }
         });
+        
+        $('#inner-search').on('keypress',function (e){
+            if(e.which != 13) {
+                autocomplete();
+            }
+        });
     
         function searchProducts() {
             var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
@@ -409,6 +416,30 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $('.inner-search-preloader').hide();
                 $('.deals-index-index .pages').show();
                 $("#inner-search-result").hide();
+             }
+        }
+        
+        function autocomplete() {
+            var url = "<?php echo $block->getBaseUrl().'deals/index/autocomplete'?>";
+            var innerSearchInput = $("#inner-search").val();
+
+            if (innerSearchInput != ""){
+                $('#suggested-products-search-result').show();
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        innerSearchInput: innerSearchInput
+                    },
+                    success: function(data){
+                        console.log(data.output);
+                    },
+                    error: function(){
+                        console.log("Error!");
+                    }
+                });
+             } else {
+                $('#suggested-products-search-result').hide();
              }
         }
         
