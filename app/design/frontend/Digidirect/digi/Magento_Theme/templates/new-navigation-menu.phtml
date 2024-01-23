@@ -1850,21 +1850,6 @@ if ($customerSession->isLoggedIn()) {
                 <i class="fas mgz-fa-angle-right" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-printing-services')"></i>
                             </div>
 
-                            <div class="reason-list" style="display: none;">
-                <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/photo-gifts/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-gifts.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/photo-gifts/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Photo Gifts</h3>
-                                        <p>Photo Mugs and Photo Gifts</p>
-                                    </a>
-                                </div>
-                <i class="fas mgz-fa-angle-right" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-photo-gifts')"></i>
-                            </div>
-
                             <div class="reason-list">
                 <span>
                     <a href="https://1458.app.fujifilmimagine.com/products/photo-books/all-products-of-category/12/1/none">
@@ -1892,7 +1877,7 @@ if ($customerSession->isLoggedIn()) {
                                         <p>Customize your wall and desk calendar</p>
                                     </a>
                                 </div>
-                <a href="https://www.digidirect.com.au/digi-print/calendar"><i class="fas mgz-fa-angle-right"></i></a>
+                <i class="fas mgz-fa-angle-right"><a href="https://www.digidirect.com.au/digi-print/calendar"></a></i>
                             </div>
 
                         </div>
@@ -1900,21 +1885,6 @@ if ($customerSession->isLoggedIn()) {
             
             <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
                 <div id="digiprint-second-level-printing-services" class="second-level-content">
-                    <div class="menu-raw-content">
-                        <div class="menu-second-level">
-                            <div class="tab">
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/metal-prints">Metal Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/glass-prints">Glass Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-prints">Framed Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-metal-prints">Framed Metal Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-canvas-prints">Framed Canvas Prints</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="digiprint-second-level-photo-gifts" class="second-level-content" style="display: none;">
                     <div class="menu-raw-content">
                         <div class="menu-second-level">
                             <div class="tab">
@@ -2128,6 +2098,7 @@ if ($customerSession->isLoggedIn()) {
 
 
     function openDigiPrintSecondLevel(evt, className) {
+        resetDigiPrintSecondLevel();
         document.getElementById("digiprint-second-level").removeAttribute('style');
         document.getElementById(className).removeAttribute('style');
         document.getElementById("digiprint-second-level").style.display = "block";
