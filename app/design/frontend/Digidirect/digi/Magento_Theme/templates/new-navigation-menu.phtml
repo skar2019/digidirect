@@ -1887,6 +1887,7 @@ if ($customerSession->isLoggedIn()) {
                 <div id="digiprint-second-level-printing-services" class="second-level-content">
                     <div class="menu-raw-content">
                         <div class="menu-second-level">
+                            <span>Printing Services</span>
                             <div class="tab">
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
@@ -1902,6 +1903,7 @@ if ($customerSession->isLoggedIn()) {
                 <div id="digiprint-second-level-photo-books" class="second-level-content">
                     <div class="menu-raw-content">
                         <div class="menu-second-level">
+                            <span>Photo Books</span>
                             <div class="tab">
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/standard-cover-photo-books">Standard Cover Photo Books</a>
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/personalised-cover-photo-books">Personalised Cover Photo Books</a>
@@ -2121,7 +2123,8 @@ if ($customerSession->isLoggedIn()) {
     }
     
     function returnToFirstLevelDigiPrint() {
-        resetDigiPrintSecondLevel();
+        document.getElementById("photolab-listing").style.display = "block";
+        document.getElementById("digiprint-second-level").removeAttribute('style');
     }
 
 </script>
