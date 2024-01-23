@@ -24311,17 +24311,11 @@
         },
         {
             "name": "marketplacer/magento2-plugin-metapackage",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin.git",
-                "reference": "03e3128efbedaa17d61446b7ec692c76e75f2797"
-            },
+            "version": "2.1.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin/zipball/03e3128efbedaa17d61446b7ec692c76e75f2797",
-                "reference": "03e3128efbedaa17d61446b7ec692c76e75f2797",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-metapackage/marketplacer-magento2-plugin-metapackage-2.1.0.0.zip",
+                "shasum": "73077c57f80e6b91390ed6c69e96c23a152dfd60"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "~2.1.0",
@@ -24335,16 +24329,10 @@
                 "marketplacer/magento2-plugin-avalara-integration": "~1.0.0"
             },
             "type": "metapackage",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Marketplacer Magento 2 Connector metapackage",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin/tree/v2.1.0"
-            },
-            "time": "2023-04-11T22:56:26+00:00"
+            "description": "Marketplacer Magento 2 Connector metapackage"
         },
         {
             "name": "marketplacer/magento2-plugin-seller",
