@@ -2109,9 +2109,9 @@ if ($customerSession->isLoggedIn()) {
         document.getElementById(className).style.display = "block";
         
         if (window.innerWidth < 1280) {
-            document.getElementById("photolab-listing").hide();
+            document.getElementById("photolab-listing").style.display = "none";
         } else {
-            document.getElementById("photolab-listing").show();
+            document.getElementById("photolab-listing").style.display = "block";
         }
         
     }
