@@ -12,6 +12,7 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
     <div>We can't find products matching your search</div>
 <?php else: ?>
     <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+    <i class="fas fa-times"></i>
     <ul style="list-style-type: none;margin: 0;">
         <?php foreach ($_productCollection as $_product): ?>
             <li>
@@ -20,3 +21,11 @@ $_productCollection = $block->getProductCollectionSearchResult($searchTerm);
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
+
+<script>
+    require(['jquery'],function($){
+        $('#suggested-products-search-result .fa-times').on('click',function (){
+            $('#suggested-products-search-result').hide();
+        });
+    });
+</script>
