@@ -2098,7 +2098,11 @@ if ($customerSession->isLoggedIn()) {
 
 
     function openDigiPrintSecondLevel(evt, className) {
-        resetDigiPrintSecondLevel();
+        var i;
+        tabcontent = document.getElementsByClassName("second-level-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].removeAttribute('style');
+        }
         document.getElementById("digiprint-second-level").removeAttribute('style');
         document.getElementById(className).removeAttribute('style');
         document.getElementById("digiprint-second-level").style.display = "block";
@@ -2107,7 +2111,6 @@ if ($customerSession->isLoggedIn()) {
 
     function resetDigiPrintSecondLevel() {
         document.getElementById("digiprint-second-level").removeAttribute('style');
-        document.getElementById(className).removeAttribute('style');
     }
 
 </script>
