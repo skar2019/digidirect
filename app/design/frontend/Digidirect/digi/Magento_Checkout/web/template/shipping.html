@@ -62,11 +62,8 @@
             <!-- ko if: rates().length  -->
             <form class="form methods-shipping" id="co-shipping-method-form" data-bind="submit: setShippingInformation" novalidate="novalidate">
                 <div id="checkout-shipping-method-load" data-bind="css: methodListClasses()">
-                    
-                    <!-- ko if: checkSellers()  -->
-                        <div>Please note that this order will be shipped in <!-- ko text: marketplacerSellers().length --><!-- /ko --> deliveries, and the costs below are the total you will be charged for all deliveries.</div>
-                    <!-- /ko -->
-                    
+
+
                     <span>Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
                     <ul class="shipping-methods table-checkout-shipping-method items">
                         <!-- ko foreach: { data: rates(), as: 'method'} -->
@@ -104,21 +101,21 @@
 
                             <span class="col col-method"
                                     data-bind="text: method.method_title + ' *', attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></span>
-                            
+
                             <!-- ko if: ((method.carrier_code == 'express') || (method.carrier_code == 'nextdaydelivery')) -->
                                 <span> **</span>
                             <!-- /ko -->
-                            
+
                             <strong class="col col-price">
                                 <!-- ko foreach: $parent.getRegion('price') -->
                                 <!-- ko template: getTemplate() --><!-- /ko -->
                                 <!-- /ko -->
                             </strong>
-                            
+
                             <!-- ko if: ((method.carrier_code == 'standard' && method.price_excl_tax == 20) || (method.carrier_code == 'express' && method.price_excl_tax == 35) || (method.carrier_code == 'AP' && method.price_excl_tax == 41) || (method.carrier_code == 'AP' && method.price_excl_tax == 69) || (method.carrier_code == 'nextdaydelivery' && method.price_excl_tax == 45)) -->
                                 <span> ***</span>
                             <!-- /ko -->
-                            
+
                         </li>
 
                         <!-- ko if:  method.carrier_code == 'collect'  -->
@@ -152,7 +149,7 @@
                         <!-- /ko -->
                     </span>
                 </div>
-                
+
                 <!-- ko foreach: getRegion('before-shipping-method-form') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!-- /ko -->
@@ -179,7 +176,7 @@
             <!-- ko ifnot: rates().length > 0 --><div data-bind="css: 'no-quotes-block ' + methodListClasses()"><!-- ko i18n: 'Sorry, no quotes are available for this order at this time'--><!-- /ko --></div><!-- /ko -->
         </div>
     </div>
-    
+
     <div class="action-extension-toolbar">
         <div class="primary">
             <button id="shipping-button-extension" class="extension-action button continue primary" type="button">
@@ -187,5 +184,5 @@
             </button>
         </div>
     </div>
-    
+
 </li>
