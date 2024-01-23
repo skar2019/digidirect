@@ -1833,7 +1833,7 @@ if ($customerSession->isLoggedIn()) {
                     </a>
                     <i class="fas fa-angle-right"></i>
           <div class="dropdown-content" onclick="event.stopPropagation()" onmouseleave="resetDigiPrintSecondLevel()">
-            <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;border: 1px solid #cacaca;">
+            <div id="photolab-listing" class="photolab-listing" style="display: grid; grid-auto-rows: 100px;border: 1px solid #cacaca;">
 
                             <div class="reason-list">
                 <span>
@@ -1867,12 +1867,12 @@ if ($customerSession->isLoggedIn()) {
                 
                             <div class="reason-list">
                 <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/calendar/all-products-of-category/12/1/none">
+                    <a href="https://www.digidirect.com.au/digi-print/calendar">
                         <img src="https://www.digidirect.com.au/media/digiprint-calendar.png">
                     </a>
                 </span>
                                 <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/calendar/all-products-of-category/12/1/none">
+                                    <a href="https://www.digidirect.com.au/digi-print/calendar">
                                         <h3 class="protect-title">Calendar</h3>
                                         <p>Customize your wall and desk calendar</p>
                                     </a>
@@ -1883,6 +1883,7 @@ if ($customerSession->isLoggedIn()) {
               
             
             <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
+                <div id="return-to-first-level-digiprint" onclick="returnToFirstLevelDigiPrint()" style="display: none;"><i class="fas fa-angle-left" style="margin-right: 10px"></i>Previous</div>
                 <div id="digiprint-second-level-printing-services" class="second-level-content">
                     <div class="menu-raw-content">
                         <div class="menu-second-level">
@@ -2106,10 +2107,21 @@ if ($customerSession->isLoggedIn()) {
         document.getElementById(className).removeAttribute('style');
         document.getElementById("digiprint-second-level").style.display = "block";
         document.getElementById(className).style.display = "block";
+        
+        if (window.innerWidth < 1280) {
+            document.getElementById("photolab-listing").hide();
+        } else {
+            document.getElementById("photolab-listing").show();
+        }
+        
     }
 
     function resetDigiPrintSecondLevel() {
         document.getElementById("digiprint-second-level").removeAttribute('style');
+    }
+    
+    function returnToFirstLevelDigiPrint() {
+        resetDigiPrintSecondLevel();
     }
 
 </script>
