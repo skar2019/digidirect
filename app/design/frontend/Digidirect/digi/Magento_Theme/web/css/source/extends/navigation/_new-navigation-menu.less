@@ -360,6 +360,10 @@ div#shop-by-category-tabs {
     cursor: pointer;
 }
 
+#digiprint-second-level .menu-second-level {
+    max-width: 250px !important;
+}
+
 @media only screen and (min-width: 1281px) {
 
     .cms-home .navigation-menu-row {
@@ -748,8 +752,9 @@ div#shop-by-category-tabs {
         border: none !important;
         padding: 0 !important;
         width: 100% !important;
-        grid-auto-rows: 100px !important;
+        grid-auto-rows: 85px !important;
         padding-top: 10px !important;
+        grid-row-gap: 20px;
     }
 
     #submenu-photolab .reason-list span {
@@ -786,6 +791,10 @@ div#shop-by-category-tabs {
     
     #digiprint-second-level .menu-second-level span {
         display: block;
+    }
+
+    .navbar-content>*:last-child {
+        border-bottom: none;
     }
 
 }
