@@ -1832,172 +1832,95 @@ if ($customerSession->isLoggedIn()) {
                         </button>
                     </a>
                     <i class="fas fa-angle-right"></i>
-                    <div class="dropdown-content" onclick="event.stopPropagation()" style="flex-direction: column;">
-                        <div class="photolab-listing" style="display: grid; grid-auto-rows: 100px;width: 430px;">
+          <div class="dropdown-content" onclick="event.stopPropagation()" onmouseleave="resetDigiPrintSecondLevel()">
+            <div id="photolab-listing" class="photolab-listing" style="display: grid; grid-auto-rows: 100px;border: 1px solid #cacaca;">
 
-                            <div class="reason-list">
+                            <div class="reason-list" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-printing-services')">
                 <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/digital-print/all-products-of-category/12/1/none">
+                    <a>
                         <img src="https://www.digidirect.com.au/media/digiprint-digitalprints.png">
                     </a>
                 </span>
                                 <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/digital-print/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Digital Prints</h3>
+                                    <a>
+                                        <h3 class="protect-title">Printing Services</h3>
                                         <p>Turn your digital photos in to beautiful prints.</p>
                                     </a>
                                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
                             </div>
 
-                            <div class="reason-list">
+                            <div class="reason-list" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-photo-books')">
                 <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/photo-gifts/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-gifts.png">
+                    <a>
+                        <img src="https://www.digidirect.com.au/media/digiprint-photobooks.png">
                     </a>
                 </span>
                                 <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/photo-gifts/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Gifts</h3>
-                                        <p>Photo Mugs and Photo Gifts</p>
+                                    <a>
+                                        <h3 class="protect-title">Photo Books</h3>
+                                        <p>Customize Photo Books in different size and number pages</p>
                                     </a>
                                 </div>
+                <i class="fas mgz-fa-angle-right"></i>
                             </div>
-
+                
                             <div class="reason-list">
                 <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/calendar/all-products-of-category/12/1/none">
+                    <a href="https://www.digidirect.com.au/digi-print/calendar">
                         <img src="https://www.digidirect.com.au/media/digiprint-calendar.png">
                     </a>
                 </span>
                                 <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/calendar/all-products-of-category/12/1/none">
+                                    <a href="https://www.digidirect.com.au/digi-print/calendar">
                                         <h3 class="protect-title">Calendar</h3>
                                         <p>Customize your wall and desk calendar</p>
                                     </a>
                                 </div>
                             </div>
 
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/fairy/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-myhome.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/fairy/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">My Home & My kids</h3>
-                                        <p>My home and my kids</p>
-                                    </a>
-                                </div>
+                        </div>
+              
+            
+            <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
+                <div id="return-to-first-level-digiprint" onclick="returnToFirstLevelDigiPrint()" style="display: none;"><i class="fas fa-angle-left" style="margin-right: 10px"></i>Previous</div>
+                <div id="digiprint-second-level-printing-services" class="second-level-content">
+                    <div class="menu-raw-content">
+                        <div class="menu-second-level">
+                            <span>Printing Services</span>
+                            <div class="tab">
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/metal-prints">Metal Prints</a> 
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/glass-prints">Glass Prints</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-prints">Framed Prints</a> 
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-metal-prints">Framed Metal Prints</a> 
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-canvas-prints">Framed Canvas Prints</a>
                             </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/photo-books/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-photobooks.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/photo-books/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Photo Books</h3>
-                                        <p>Customize Photo Books in different size and number pages</p>
-                                    </a>
-                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="digiprint-second-level-photo-books" class="second-level-content">
+                    <div class="menu-raw-content">
+                        <div class="menu-second-level">
+                            <span>Photo Books</span>
+                            <div class="tab">
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/standard-cover-photo-books">Standard Cover Photo Books</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/personalised-cover-photo-books">Personalised Cover Photo Books</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/premium-cover-photo-books">Premium Cover Photo Books</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/flip-books">Flip Books</a>
                             </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/canvas-print/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-canva.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/canvas-print/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Canvas and Wall Decore</h3>
-                                        <p>Canvas Prints and Wall Decore</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://1458.app.fujifilmimagine.com/products/posters/all-products-of-category/12/1/none">
-                        <img src="https://www.digidirect.com.au/media/digiprint-poster.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://1458.app.fujifilmimagine.com/products/posters/all-products-of-category/12/1/none">
-                                        <h3 class="protect-title">Posters</h3>
-                                        <p>Posters</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://www.digidirect.com.au/passport-photos">
-                        <img src="https://www.digidirect.com.au/media/digiprint-passport-photos.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://www.digidirect.com.au/passport-photos">
-                                        <h3 class="protect-title">Passport Photos</h3>
-                                        <p>Passport Visa and ID Photos</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="#">
-                        <img src="https://www.digidirect.com.au/media/digiprint-fill.png">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="#">
-                                        <h3 class="protect-title">Fill It Free</h3>
-                                        <p>Buy the Frame, well make the print Free</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://www.digidirect.com.au/photo-accessories/albums-and-frames">
-                        <img src="https://www.digidirect.com.au/media/wysiwyg/pages/digiPrint/digiprint-frames_album.jpg">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://www.digidirect.com.au/photo-accessories/albums-and-frames">
-                                        <h3 class="protect-title">Frames and Albums</h3>
-                                        <p>Shop our wide range of photo albums <br> and Australian made frames</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="reason-list">
-                <span>
-                    <a href="https://www.digidirect.com.au/photo-accessories/film-darkroom-and-video-tapes">
-                        <img src="https://www.digidirect.com.au/media/wysiwyg/pages/digiPrint/digiprint-shop_film.jpg">
-                    </a>
-                </span>
-                                <div class="content">
-                                    <a href="https://www.digidirect.com.au/photo-accessories/film-darkroom-and-video-tapes">
-                                        <h3 class="protect-title">Film & Darkroom</h3>
-                                        <p>Shop our huge range of Film <br> and Darkroom prodcuts</p>
-                                    </a>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
     </div>
 </div>
+</div>
+    </div>
+
+    </div>
+  </div>
 </div>
 
 <script>
@@ -2177,15 +2100,31 @@ if ($customerSession->isLoggedIn()) {
 
 
     function openDigiPrintSecondLevel(evt, className) {
+        var i;
+        tabcontent = document.getElementsByClassName("second-level-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].removeAttribute('style');
+        }
         document.getElementById("digiprint-second-level").removeAttribute('style');
         document.getElementById(className).removeAttribute('style');
         document.getElementById("digiprint-second-level").style.display = "block";
         document.getElementById(className).style.display = "block";
+        
+        if (window.innerWidth < 1280) {
+            document.getElementById("photolab-listing").style.display = "none";
+        } else {
+            document.getElementById("photolab-listing").style.display = "block";
+        }
+        
     }
 
     function resetDigiPrintSecondLevel() {
         document.getElementById("digiprint-second-level").removeAttribute('style');
-        document.getElementById(className).removeAttribute('style');
+    }
+    
+    function returnToFirstLevelDigiPrint() {
+        document.getElementById("photolab-listing").style.display = "grid";
+        document.getElementById("digiprint-second-level").removeAttribute('style');
     }
 
 </script>

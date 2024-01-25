@@ -325,6 +325,7 @@ div#shop-by-category-tabs {
 
 .photolab-listing .mgz-fa-angle-right {
     padding: 40px 20px;
+    cursor: pointer;
 }
 
 #top-brands-title {
@@ -336,6 +337,31 @@ div#shop-by-category-tabs {
     padding-bottom: 0;
     margin-top: 0 !important;
     padding-top: 0 !important;
+}
+
+#digiprint-second-level .second-level-content {
+    display: none;
+}
+
+#digiprint-second-level a:hover {
+    color: #ff3c00;
+}
+
+#digiprint-second-level .menu-second-level span {
+    display: none;
+}
+
+#digiprint-second-level .tablinks {
+    border-bottom: 1px dashed #cacaca;
+    padding: 12px !important;
+}
+
+#submenu-photolab .reason-list {
+    cursor: pointer;
+}
+
+#digiprint-second-level .menu-second-level {
+    max-width: 250px !important;
 }
 
 @media only screen and (min-width: 1281px) {
@@ -719,6 +745,56 @@ div#shop-by-category-tabs {
 
     #submenu-photolab .reason-list .content {
         padding-left: 20px;
+    }
+    
+    //New CSS Rondel
+    #submenu-photolab .photolab-listing {
+        border: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+        grid-auto-rows: 85px !important;
+        padding-top: 10px !important;
+        grid-row-gap: 20px;
+    }
+
+    #submenu-photolab .reason-list span {
+        //display: none;
+        padding-right: 15px;
+    }
+
+    #submenu-photolab .reason-list .content {
+        padding-left: 0 !important;
+    }
+
+    #submenu-photolab .reason-list .content {
+        width: 100%;
+        padding-right: 15px;
+    }
+
+    .photolab-listing .mgz-fa-angle-right {
+        padding: 0 19px;
+    }
+    
+    #return-to-first-level-digiprint {
+        display: block !important;
+    }
+    
+    #digiprint-second-level {
+        position: initial;
+        border: none;
+        margin-top: 10px !important;
+    }
+    
+    #digiprint-second-level .menu-second-level .tab {
+        margin-top: 15px;
+    }
+    
+    #digiprint-second-level .menu-second-level span {
+        display: block;
+    }
+
+    .navbar-content>*:last-child {
+        border-bottom: none;
     }
 
 }
