@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\FreeGift\Preferences;
+namespace Digidirect\FreeGift\Model;
 
 class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
 {
