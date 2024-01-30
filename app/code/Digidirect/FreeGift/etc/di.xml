@@ -65,4 +65,5 @@
             </argument>
         </arguments>
     </type>
+    <preference for="Magento\Checkout\CustomerData\DefaultItem" type="Digidirect\FreeGift\Model\MiniCartItem" />
 </config>
