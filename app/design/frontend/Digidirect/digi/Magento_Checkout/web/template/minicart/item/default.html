@@ -129,6 +129,13 @@
 <!-- ko if: isFreeGift -->
 <li class="item product product-item freegift-item" data-role="product-item" data-bind="attr: { id: 'minicart-' + item_id}">
     <div class="product">
+        <div class="product actions -before" style="visibility: hidden;">
+            <div class="secondary">
+                <a href="#" data-bind="attr: {'data-cart-item': item_id, title: $t('Remove item')}" class="action delete">
+                    <span data-bind="i18n: 'Remove'"></span>
+                </a>
+            </div>
+        </div>
         <div class="media-container">
             <!-- ko if: product_has_url -->
             <a data-bind="attr: {href: product_url, title: product_name}" tabindex="-1" class="product-item-photo">
@@ -195,7 +202,7 @@
                     </div>
 
                     <div class="minicart-item-price-wrapper" style="margin-top: 30px;">
-                        <div class="product-item-pricing" style="text-align: center;padding: 9px 10px;font-weight: 500;">
+                        <div class="product-item-pricing" style="text-align: center;padding: 8px 10px;font-weight: 500;border: 1px solid;">
                             <i class="fas fa-gift" style="margin-right: 5px;"></i>FREE
                         </div>
                     </div>
