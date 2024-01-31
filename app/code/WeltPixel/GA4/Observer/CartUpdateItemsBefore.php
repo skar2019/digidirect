@@ -11,6 +11,11 @@ class CartUpdateItemsBefore implements ObserverInterface
     protected $helper;
 
     /**
+     * @var \WeltPixel\GA4\Helper\MetaPixelTracking
+     */
+    protected $metaPixelTrackingHelper;
+
+    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -18,12 +23,15 @@ class CartUpdateItemsBefore implements ObserverInterface
 
     /**
      * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\MetaPixelTracking $metaPixelTrackingHelper
      * @param \Magento\Checkout\Model\Session $_checkoutSession
      */
     public function __construct(\WeltPixel\GA4\Helper\Data $helper,
+                                \WeltPixel\GA4\Helper\MetaPixelTracking $metaPixelTrackingHelper,
                                 \Magento\Checkout\Model\Session $_checkoutSession)
     {
         $this->helper = $helper;
+        $this->metaPixelTrackingHelper = $metaPixelTrackingHelper;
         $this->_checkoutSession = $_checkoutSession;
     }
 
@@ -33,7 +41,7 @@ class CartUpdateItemsBefore implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        if (!$this->helper->isEnabled()) {
+        if (!$this->helper->isEnabled() && !($this->metaPixelTrackingHelper->isEnabled() && $this->metaPixelTrackingHelper->shouldMetaPixelEventBeTracked(\WeltPixel\GA4\Model\Config\Source\MetaPixel\TrackingEvents::EVENT_ADD_TO_CART))) {
             return $this;
         }
 

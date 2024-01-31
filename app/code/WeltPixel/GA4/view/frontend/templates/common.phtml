@@ -3,6 +3,7 @@
 ?>
 <?php
 $_helper = $this->helper('WeltPixel\GA4\Helper\Data');
+$_metaPixelHelper = $this->helper('WeltPixel\GA4\Helper\MetaPixelTracking');
 $scriptAdditionalTag = '';
 if ($_helper->isDevMoveJsBottomEnabled()) {
     $scriptAdditionalTag = ' exclude-this-tag="text/x-magento-template"';
@@ -10,7 +11,7 @@ if ($_helper->isDevMoveJsBottomEnabled()) {
 ?>
 
 <?php
-if ($_helper->isEnabled()) :
+if ($_helper->isEnabled() || $_metaPixelHelper->isMetaPixelTrackingEnabled()) :
     $isCookieRestrictionModeEnabled = $_helper->isCookieRestrictionModeEnabled();
     $currentWebsiteId = $_helper->getCurrentWebsiteId();
     $cookieName = \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE;

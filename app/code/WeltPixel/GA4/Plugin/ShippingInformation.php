@@ -10,6 +10,11 @@ class ShippingInformation
     protected $helper;
 
     /**
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
+     */
+    protected $ga4ServerSideHelper;
+
+    /**
      * Quote repository.
      *
      * @var \Magento\Quote\Api\CartRepositoryInterface
@@ -23,15 +28,18 @@ class ShippingInformation
 
     /**
      * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \WeltPixel\GA4\Helper\Data $helper,
+        \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Checkout\Model\Session $checkoutSession)
     {
         $this->helper = $helper;
+        $this->ga4ServerSideHelper = $ga4ServerSideHelper;
         $this->quoteRepository = $quoteRepository;
         $this->_checkoutSession = $checkoutSession;
     }
@@ -53,6 +61,11 @@ class ShippingInformation
         $result = $proceed($cartId, $addressInformation);
 
         if (!$this->helper->isEnabled()) {
+            return $result;
+        }
+
+        if (($this->ga4ServerSideHelper->isServerSideTrakingEnabled() && $this->ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_ADD_SHIPPING_INFO)
+            && $this->ga4ServerSideHelper->isDataLayerEventDisabled())) {
             return $result;
         }
 

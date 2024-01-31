@@ -84,6 +84,31 @@ class Dimension extends \WeltPixel\GA4\Model\Storage
             $dimensions[self::DIMENSION_SALE_PRODUCT] = $saleProduct;
         }
 
+        $reviewRatingDimensions = $this->getReviewRatingDimensions($product, $gtmHelper);
+        if ($reviewRatingDimensions) {
+            $dimensions = array_merge($dimensions, $reviewRatingDimensions);
+        }
+
+        for ($i=1; $i<=5; $i++) {
+            if ($gtmHelper->trackCustomAttribute($i)) {
+                $attributeValue = $gtmHelper->getCustomAttributeValue($i, $product);
+                $attributeCode =  $gtmHelper->getCustomAttributeName($i);
+                $dimensions[$attributeCode] = $attributeValue;
+            }
+        }
+
+        return $dimensions;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \WeltPixel\GA4\Helper\Data $gtmHelper
+     * @return array
+     */
+    public function getReviewRatingDimensions($product, $gtmHelper)
+    {
+        $dimensions = [];
+
         if ($this->moduleManager->isEnabled('Magento_Review')) {
             $summaryModel = $this->getReviewSummary($product);
 
@@ -95,14 +120,6 @@ class Dimension extends \WeltPixel\GA4\Model\Storage
             if ($gtmHelper->trackReviewsScoreEnabled()) {
                 $ratingSummary = $summaryModel->getRatingSummary();
                 $dimensions[self::DIMENSION_REVIEWS_SCORE] = strval($ratingSummary / 20);
-            }
-        }
-
-        for ($i=1; $i<=5; $i++) {
-            if ($gtmHelper->trackCustomAttribute($i)) {
-                $attributeValue = $gtmHelper->getCustomAttributeValue($i, $product);
-                $attributeCode =  $gtmHelper->getCustomAttributeName($i);
-                $dimensions[$attributeCode] = $attributeValue;
             }
         }
 

@@ -11,11 +11,20 @@ class CoreLayoutRenderElementObserver implements ObserverInterface
     protected $helper;
 
     /**
-     * @param \WeltPixel\GA4\Helper\Data $helper
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
      */
-    public function __construct(\WeltPixel\GA4\Helper\Data $helper)
-    {
+    protected $serverSideHelper;
+
+    /**
+     * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $serverSideHelper
+     */
+    public function __construct(
+        \WeltPixel\GA4\Helper\Data $helper,
+        \WeltPixel\GA4\Helper\ServerSideTracking $serverSideHelper
+    ) {
         $this->helper = $helper;
+        $this->serverSideHelper = $serverSideHelper;
     }
 
     /**
@@ -24,13 +33,23 @@ class CoreLayoutRenderElementObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        if (!$this->helper->isEnabled()) {
+        if (!$this->helper->isEnabled() && !$this->serverSideHelper->isServerSideTrakingEnabled()) {
             return $this;
         }
 
         $elementName = $observer->getData('element_name');
 
         if ($elementName != 'weltpixel_gtmga4_head') {
+            return $this;
+        }
+
+        if (!$this->helper->isEnabled() && $this->serverSideHelper->isServerSideTrakingEnabled()) {
+            $this->serverSideHelper->addCategoryPageInformation();
+            $this->serverSideHelper->addSearchResultPageInformation();
+            $this->serverSideHelper->addProductPageInformation();
+            $this->serverSideHelper->addCartPageInformation();
+            $this->serverSideHelper->addOrderInformation();
+
             return $this;
         }
 

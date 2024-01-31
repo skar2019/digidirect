@@ -11,4 +11,8 @@
     <type name="Magento\Framework\App\FrontController">
         <plugin name="weltpixel-ga4-cookieset" type="WeltPixel\GA4\Plugin\CookieManagement" sortOrder="20"/>
     </type>
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="weltpixel-ga4-serverside-ga-cookie-in-quote"
+                type="WeltPixel\GA4\Plugin\ServerSide\GaCookieInQuote" sortOrder="10"/>
+    </type>
 </config>

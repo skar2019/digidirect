@@ -39,11 +39,13 @@ define([
                                 variants.push(variant);
                             }
                         }
+                        let parent_product_id = $('input[name="product"]').attr('value');
 
                         $.post({
                             url: requestUrl,
                             global: false,
                             data: {
+                                'parent_product_id': parent_product_id,
                                 'product_id': productId,
                                 'variant': variants.join(' | ')
                             }

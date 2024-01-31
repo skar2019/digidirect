@@ -60,6 +60,7 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
     {
 
         $data = [];
+        $metaPixelData = [];
 
         /** AddToCart data verifications */
         if ($this->_checkoutSession->getGA4AddToCartData()) {
@@ -108,12 +109,33 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         }
         $this->customerSession->setGA4LoginData(null);
 
+
+        /** MetaPixel Add To Cart  */
+        if ($this->_checkoutSession->getMetaPixelAddToCartData()) {
+            foreach ($this->_checkoutSession->getMetaPixelAddToCartData() as $metaPixelAddToCartData) {
+                $metaPixelData[] = $metaPixelAddToCartData;
+            }
+        }
+        $this->_checkoutSession->setMetaPixelAddToCartData(null);
+
+        /** MetaPixel Add To Wishlist  */
+        if ($this->customerSession->getMetaPixelAddToWishlistData()) {
+            foreach ($this->customerSession->getMetaPixelAddToWishlistData() as $metaPixelAddToWishlistData) {
+                $metaPixelData[] = $metaPixelAddToWishlistData;
+            }
+        }
+        $this->_checkoutSession->setMetaPixelAddToWishlistData(null);
+
         $ga4SectionData = [
-            'datalayer' => $this->jsonHelper->jsonEncode($data)
+            'datalayer' => $this->jsonHelper->jsonEncode($data),
+            'metapixel' => $this->jsonHelper->jsonEncode($metaPixelData)
         ];
 
-        $this->eventManager->dispatch('weltpixel_ga4_section_data', ['ga4_section_data' => $ga4SectionData]);
+        $ga4SectionDataObject = new \Magento\Framework\DataObject(['section_data' =>$ga4SectionData ]);
 
-        return $ga4SectionData;
+        $this->eventManager->dispatch('weltpixel_ga4_section_data', ['ga4_section_data' => $ga4SectionDataObject]);
+
+        return $ga4SectionDataObject->getData('section_data');
+
     }
 }

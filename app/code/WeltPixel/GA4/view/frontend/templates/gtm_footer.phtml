@@ -5,6 +5,9 @@
 $_helper = $this->helper('WeltPixel\GA4\Helper\Data');
 $parentOrChildUsage = $_helper->getParentOrChildIdUsage();
 $isVariantEnabled = $_helper->isVariantEnabled();
+if (($parentOrChildUsage == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && $_helper->sendAllChildConfigurableProducts()) {
+    $parentOrChildUsage = '';
+}
 ?>
 <?php if ($_helper->isEnabled()) : ?>
     <script>

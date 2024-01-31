@@ -76,6 +76,36 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
     protected $remarketingEnabled;
 
     /**
+     * @var boolean
+     */
+    protected $enableEnhancedConversion;
+
+    /**
+     * @var boolean
+     */
+    protected $enableConversionCustomerAcquisition;
+
+    /**
+     * @var boolean
+     */
+    protected $enableConversionCartData;
+
+    /**
+     * @var string
+     */
+    protected $conversionCartMerchantCenterId;
+
+    /**
+     * @var string
+     */
+    protected $conversionCartFeedCountry;
+
+    /**
+     * @var string
+     */
+    protected $conversionCartFeedLanguage;
+
+    /**
      * @var string
      */
     protected $remarketingConversionCode;
@@ -135,6 +165,12 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
      * @param $remarketingEnabled
      * @param $remarketingConversionCode
      * @param $remarketingConversionLabel
+     * @param $enableEnhancedConversion
+     * @param $enableConversionCustomerAcquisition
+     * @param $enableConversionCartData
+     * @param $conversionCartMerchantCenterId
+     * @param $conversionCartFeedCountry
+     * @param $conversionCartFeedLanguage
      * @param $publicId
      * @return string
      */
@@ -149,6 +185,12 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
         $remarketingEnabled,
         $remarketingConversionCode,
         $remarketingConversionLabel,
+        $enableEnhancedConversion,
+        $enableConversionCustomerAcquisition,
+        $enableConversionCartData,
+        $conversionCartMerchantCenterId,
+        $conversionCartFeedCountry,
+        $conversionCartFeedLanguage,
         $publicId
     ) {
         $this->fingerprint = time();
@@ -162,6 +204,13 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
         $this->remarketingEnabled = $remarketingEnabled;
         $this->remarketingConversionCode = $remarketingConversionCode;
         $this->remarketingConversionLabel = $remarketingConversionLabel;
+        $this->enableEnhancedConversion = $enableEnhancedConversion;
+        $this->enableConversionCustomerAcquisition = $enableConversionCustomerAcquisition;
+        $this->enableConversionCartData = $enableConversionCartData;
+        $this->conversionCartMerchantCenterId = $conversionCartMerchantCenterId;
+        $this->conversionCartFeedCountry = $conversionCartFeedCountry;
+        $this->conversionCartFeedLanguage = $conversionCartFeedLanguage;
+
         $this->publicId = $publicId;
 
         $variables = $this->getVariablesForJsonGeneration();
@@ -255,6 +304,15 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
         $variablesToCreate = $this->apiCore->getVariablesList($this->measurementId);
         if ($this->conversionEnabled) {
             $variablesToCreate = array_merge($variablesToCreate, $this->apiConversionTracking->getConversionVariablesList());
+            if ($this->enableEnhancedConversion) {
+                $variablesToCreate = array_merge($variablesToCreate, $this->apiConversionTracking->getEnhancedConversionVariablesList());
+            }
+            if ($this->enableConversionCustomerAcquisition) {
+                $variablesToCreate = array_merge($variablesToCreate, $this->apiConversionTracking->getConversionCustomerAcquisitionVariablesList());
+            }
+            if ($this->enableConversionCartData) {
+                $variablesToCreate = array_merge($variablesToCreate, $this->apiConversionTracking->getConversionCartDataVariablesList());
+            }
         }
         if ($this->remarketingEnabled) {
             $variablesToCreate = array_merge($variablesToCreate, $this->apiRemarketing->getRemarketingVariablesList());
@@ -354,7 +412,13 @@ class JsonGenerator extends \Magento\Framework\Model\AbstractModel
             $params = [
                 'conversion_id' => $this->conversionId,
                 'conversion_currency_code' => $this->conversionCurrencyCode,
-                'conversion_label' => $this->conversionLabel
+                'conversion_label' => $this->conversionLabel,
+                'enable_enhanced_conversion' => $this->enableEnhancedConversion,
+                'enable_customer_acquisition' => $this->enableConversionCustomerAcquisition,
+                'enable_conversion_cart_data' => $this->enableConversionCartData,
+                'conversion_cart_merchant_center_id' => $this->conversionCartMerchantCenterId,
+                'conversion_cart_feed_country' => $this->conversionCartFeedCountry,
+                'conversion_cart_feed_language' => $this->conversionCartFeedLanguage,
             ];
             $tagsToCreate = array_merge($tagsToCreate, $this->apiConversionTracking->getConversionTagsList($triggersMap, $params));
         }

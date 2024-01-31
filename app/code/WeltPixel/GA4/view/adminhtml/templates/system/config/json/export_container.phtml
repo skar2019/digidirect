@@ -13,6 +13,7 @@
         function   ($, gtmGa4Api) {
             $(document).ready(function() {
                 gtmGa4Api.initializeJsonGeneration('<?php echo $this->getUrlForItemsJsonGeneration() ?>');
+                gtmGa4Api.MultiSelectDependenciesAdjustemnts();
             });
         });
 </script>

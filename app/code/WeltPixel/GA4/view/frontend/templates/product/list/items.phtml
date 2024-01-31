@@ -231,7 +231,7 @@ switch ($type = $block->getType()) {
                             <?php endif; ?>
                             <div class="product-item-info <?php /* @escapeNotVerified */ echo $available; ?>">
                                 <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
-                                <a aria-label="<?= __('Product Page Link') ?>"  <?php if ($productLabelsEnabled) : ?>
+                                <a  aria-label="<?= __('Product Page Link') ?>"  <?php if ($productLabelsEnabled) : ?>
                                     data-wpproductlabel="1" data-product-id="<?php echo $_item->getId() ?>"
                                     <?php endif; ?>
                                     <?php if ($ga4Helper->isProductClickTrackingEnabled()) :

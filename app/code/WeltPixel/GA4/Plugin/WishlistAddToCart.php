@@ -10,20 +10,28 @@ class WishlistAddToCart
     protected $helper;
 
     /**
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
+     */
+    protected $ga4ServerSideHelper;
+
+    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
      * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \WeltPixel\GA4\Helper\Data $helper,
+        \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper,
         \Magento\Checkout\Model\Session $checkoutSession
         )
     {
         $this->helper = $helper;
+        $this->ga4ServerSideHelper = $ga4ServerSideHelper;
         $this->_checkoutSession = $checkoutSession;
     }
 
@@ -38,6 +46,11 @@ class WishlistAddToCart
         $result)
     {
         if (!$this->helper->isEnabled()) {
+            return $result;
+        }
+
+        if (($this->ga4ServerSideHelper->isServerSideTrakingEnabled() && $this->ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_ADD_TO_CART)
+            && $this->ga4ServerSideHelper->isDataLayerEventDisabled())) {
             return $result;
         }
 
