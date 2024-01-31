@@ -2,9 +2,6 @@
 
 namespace Digidirect\FreeGift\Model;
 
-use Magento\Framework\App\ObjectManager;
-use Magento\Catalog\Model\Product\Configuration\Item\ItemResolverInterface;
-
 class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
 {
     public function __construct(
@@ -13,16 +10,16 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Catalog\Helper\Product\ConfigurationPool $configurationPool,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        \Magento\Framework\Escaper $escaper = null,
-        ItemResolverInterface $itemResolver = null
+        \Magento\Catalog\Helper\Output $helper,
+        \Magento\Catalog\Model\Product $productModel
     ) {
         $this->configurationPool = $configurationPool;
         $this->imageHelper = $imageHelper;
         $this->msrpHelper = $msrpHelper;
         $this->urlBuilder = $urlBuilder;
         $this->checkoutHelper = $checkoutHelper;
-        $this->escaper = $escaper ?: ObjectManager::getInstance()->get(\Magento\Framework\Escaper::class);
-        $this->itemResolver = $itemResolver ?: ObjectManager::getInstance()->get(ItemResolverInterface::class);
+        $this->helper = $helper;
+        $this->productModel = $productModel;
     }
 
     /**
