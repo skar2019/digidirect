@@ -36,13 +36,10 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
             'item_id' => $this->item->getId(),
             'configure_url' => $this->getConfigureUrl(),
             'is_visible_in_site_visibility' => $this->item->getProduct()->isVisibleInSiteVisibility(),
-            'product_id' => $this->item->getProduct()->getId(),
-            'product_name' => $productName,
-            'product_sku' => $this->item->getProduct()->getSku(),
+            'product_name' => $this->item->getProduct()->getName(),
             'product_url' => $this->getProductUrl(),
             'product_has_url' => $this->hasProductUrl(),
             'product_price' => $this->checkoutHelper->formatPrice($this->item->getCalculationPrice()),
-            'product_price_value' => $this->item->getCalculationPrice(),
             'product_image' => [
                 'src' => $imageHelper->getUrl(),
                 'alt' => $imageHelper->getLabel(),
@@ -52,7 +49,6 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
             'freegift_rule_id' => 15,
             'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct())
                 && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
-            'message' => $this->item->getMessage(),
         ];
     }
 }
