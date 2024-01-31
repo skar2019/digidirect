@@ -88,7 +88,7 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         $imageHelper = $this->imageHelper->init($this->getProductForThumbnail(), 'mini_cart_product_thumbnail');
         $productName = $this->escaper->escapeHtml($this->item->getProduct()->getName());
         
-        $this->logger->info("isFreeGift: " . $this->freeGift->isFreeGiftItem($this->item));
+        $this->logger->info("parentProduct: " . $item->getParentItem()->getProduct()->getName());
 
         return [
             'options' => $this->getOptionList(),
