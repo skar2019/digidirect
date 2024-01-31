@@ -51,4 +51,101 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
                 && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
         ];
     }
+    
+    /**
+     * Get list of all options for product
+     *
+     * @return array
+     * @codeCoverageIgnore
+     */
+    protected function getOptionList()
+    {
+        return $this->configurationPool->getByProductType($this->item->getProductType())->getOptions($this->item);
+    }
+
+    /**
+     * Returns product for thumbnail.
+     *
+     * @return \Magento\Catalog\Model\Product
+     * @codeCoverageIgnore
+     */
+    protected function getProductForThumbnail()
+    {
+        return $this->itemResolver->getFinalProduct($this->item);
+    }
+
+    /**
+     * Returns product.
+     *
+     * @return \Magento\Catalog\Model\Product
+     * @codeCoverageIgnore
+     */
+    protected function getProduct()
+    {
+        return $this->item->getProduct();
+    }
+
+    /**
+     * Get item configure url
+     *
+     * @return string
+     */
+    protected function getConfigureUrl()
+    {
+        return $this->urlBuilder->getUrl(
+            'checkout/cart/configure',
+            ['id' => $this->item->getId(), 'product_id' => $this->item->getProduct()->getId()]
+        );
+    }
+
+    /**
+     * Check Product has URL
+     *
+     * @return bool
+     */
+    protected function hasProductUrl()
+    {
+        if ($this->item->getRedirectUrl()) {
+            return true;
+        }
+
+        $product = $this->item->getProduct();
+        $option = $this->item->getOptionByCode('product_type');
+        if ($option) {
+            $product = $option->getProduct();
+        }
+
+        if ($product->isVisibleInSiteVisibility()) {
+            return true;
+        } else {
+            if ($product->hasUrlDataObject()) {
+                $data = $product->getUrlDataObject();
+                if (in_array($data->getVisibility(), $product->getVisibleInSiteVisibilities())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve URL to item Product
+     *
+     * @return string
+     */
+    protected function getProductUrl()
+    {
+        if ($this->item->getRedirectUrl()) {
+            return $this->item->getRedirectUrl();
+        }
+
+        $product = $this->item->getProduct();
+        $option = $this->item->getOptionByCode('product_type');
+        if ($option) {
+            $product = $option->getProduct();
+        }
+
+        return $product->getUrlModel()->getUrl($product);
+    }
 }
