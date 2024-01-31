@@ -28,7 +28,7 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem
     protected function doGetItemData()
     {
         $imageHelper = $this->imageHelper->init($this->getProductForThumbnail(), 'mini_cart_product_thumbnail');
-        $productName = $this->escaper->escapeHtml($this->item->getProduct()->getName());
+        $product = $this->productModel->load($this->item->getProduct()->getId());
         
         return [
             'options' => $this->getOptionList(),
