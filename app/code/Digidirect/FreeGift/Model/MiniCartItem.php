@@ -45,6 +45,9 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
      * @var ItemResolverInterface
      */
     private $itemResolver;
+    
+    
+    private $freeGift;
 
     /**
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -63,7 +66,8 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         \Magento\Catalog\Helper\Product\ConfigurationPool $configurationPool,
         \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Framework\Escaper $escaper = null,
-        ItemResolverInterface $itemResolver = null
+        ItemResolverInterface $itemResolver = null,
+        \Digidirect\FreeGift\Model\Cart\Item $freeGift
     ) {
         $this->configurationPool = $configurationPool;
         $this->imageHelper = $imageHelper;
@@ -72,6 +76,7 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         $this->checkoutHelper = $checkoutHelper;
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(\Magento\Framework\Escaper::class);
         $this->itemResolver = $itemResolver ?: ObjectManager::getInstance()->get(ItemResolverInterface::class);
+        $this->freeGift = $freeGift;
     }
 
     public function doGetItemData() {
@@ -97,8 +102,9 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
                 'width' => $imageHelper->getWidth(),
                 'height' => $imageHelper->getHeight(),
             ],
-            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()), 
-            'freegift_rule_id' => 15,
+            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
+            'qantas_points' => 0,
+            'freegift_rule_id' => $this->freeGift->getRuleId($this->item),
         ];
     }
 
