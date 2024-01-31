@@ -51,7 +51,7 @@ class Renderer
             $this->_helperConfig->isHideFreeItemPrice()
         ) {
             $priceMessage = $this->_helperConfig->getMessageForHiddenFreeItemPrice();
-            return '<span class="price">' . $priceMessage . '</span>';
+            return '<span class="price freegift-price">FREE</span>';
         } else {
             return $procede($price);
         }

@@ -10,7 +10,7 @@
  *
  * @var $block \Magento\LayeredNavigation\Block\Navigation
  */
-$priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
+$priorityAttributes = ["Price", "Color", "Brand", "Category"];
 ?>
 
 <?php if ($block->canShowBlock()) : ?>
@@ -19,7 +19,7 @@ $priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
             <?= $block->getChildHtml('state') ?>
 
             <?php if ($block->getLayer()->getState()->getFilters()) : ?>
-                <div class="block-actions filter-actions">
+                <div class="block-actions filter-actions" style="display: none">
                     <a href="<?= $block->escapeUrl($block->getClearUrl()) ?>" class="action clear filter-clear"><span><?= $block->escapeHtml(__('Clear All')) ?></span></a>
                 </div>
             <?php endif; ?>
@@ -31,11 +31,7 @@ $priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
                 endif; ?>
                     <?php if (in_array($filter->getName(), $priorityAttributes)) { ?>
                         <?php if ($filter->getItemsCount()) : ?>
-                            <?php if ($filter->getName() == "MP_Brand") : ?>
-                                <dt role="heading" aria-level="3" class="filter-options-title">Brand</dt>
-                            <?php else: ?>
-                                <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
-                            <?php endif; ?>
+                            <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
                             <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
                         <?php endif; ?>
                     <?php } ?>
