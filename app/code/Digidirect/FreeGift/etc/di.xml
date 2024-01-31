@@ -3,6 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Digidirect\FreeGift\Api\RuleRepositoryInterface" type="Digidirect\FreeGift\Model\RuleRepository"/>
     <preference for="Digidirect\FreeGift\Api\Data\RuleInterface" type="Digidirect\FreeGift\Model\Rule"/>
+    <preference for="Magento\Checkout\CustomerData\DefaultItem" type="Digidirect\FreeGift\Model\MiniCartItem" />
 
     <type name="Magento\Quote\Model\Quote\Item">
         <plugin name="Digidirect_FreeGift::QuoteItem" type="Digidirect\FreeGift\Plugin\Quote\Item"/>
@@ -65,5 +66,4 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Magento\Checkout\CustomerData\DefaultItem" type="Digidirect\FreeGift\Model\MiniCartItem" />
 </config>
