@@ -48,6 +48,9 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
     
     
     private $freeGift;
+    
+    
+    protected $logger;
 
     /**
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -67,7 +70,8 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Framework\Escaper $escaper = null,
         ItemResolverInterface $itemResolver = null,
-        \Digidirect\FreeGift\Model\Cart\Item $freeGift
+        \Digidirect\FreeGift\Model\Cart\Item $freeGift,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->configurationPool = $configurationPool;
         $this->imageHelper = $imageHelper;
@@ -77,11 +81,14 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(\Magento\Framework\Escaper::class);
         $this->itemResolver = $itemResolver ?: ObjectManager::getInstance()->get(ItemResolverInterface::class);
         $this->freeGift = $freeGift;
+        $this->logger = $logger;
     }
 
     public function doGetItemData() {
         $imageHelper = $this->imageHelper->init($this->getProductForThumbnail(), 'mini_cart_product_thumbnail');
         $productName = $this->escaper->escapeHtml($this->item->getProduct()->getName());
+        
+        $this->logger->info("isFreeGift: " . $this->freeGift->isFreeGiftItem($this->item));
 
         return [
             'options' => $this->getOptionList(),
@@ -103,7 +110,7 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
                 'height' => $imageHelper->getHeight(),
             ],
             'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
-            'freegift_rule_id' => $this->freeGift->getRuleId($this->item),
+            'isFreeGift' => $this->freeGift->isFreeGiftItem($this->item),
         ];
     }
 
