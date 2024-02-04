@@ -2031,8 +2031,8 @@ class TestPronto extends AbstractHelper
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                        $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = 0;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                         $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $sellercost;

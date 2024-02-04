@@ -3,43 +3,36 @@ namespace WeltPixel\GA4\Controller\Track;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Catalog\Api\ProductRepositoryInterface;
-use WeltPixel\GA4\Model\Dimension as DimensionModel;
-
 
 class Childproduct extends Action
 {
     /**
-     * @var \WeltPixel\GA4\Helper\Data
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
      */
     protected $ga4Helper;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    protected $productRepository;
+    /** @var \WeltPixel\GA4\Api\ServerSide\Events\ViewItemBuilderInterface */
+    protected $viewItemBuilder;
 
-    /**
-     * @var DimensionModel
-     */
-    protected $dimensionModel;
+    /** @var \WeltPixel\GA4\Model\ServerSide\Api */
+    protected $ga4ServerSideApi;
 
     /**
      * @param Context $context
-     * @param \WeltPixel\GA4\Helper\Data $ga4Helper
-     * @param ProductRepositoryInterface $productRepository
-     * @param DimensionModel $dimensionModel
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4Helper
+     * @param \WeltPixel\GA4\Api\ServerSide\Events\ViewItemBuilderInterface $viewItemBuilder
+     * @param \WeltPixel\GA4\Model\ServerSide\Api $ga4ServerSideApi
      */
     public function __construct(
         Context $context,
-        \WeltPixel\GA4\Helper\Data $ga4Helper,
-        ProductRepositoryInterface $productRepository,
-        DimensionModel $dimensionModel
+        \WeltPixel\GA4\Helper\ServerSideTracking $ga4Helper,
+        \WeltPixel\GA4\Api\ServerSide\Events\ViewItemBuilderInterface $viewItemBuilder,
+        \WeltPixel\GA4\Model\ServerSide\Api $ga4ServerSideApi
     ) {
         parent::__construct($context);
         $this->ga4Helper = $ga4Helper;
-        $this->productRepository = $productRepository;
-        $this->dimensionModel = $dimensionModel;
+        $this->viewItemBuilder = $viewItemBuilder;
+        $this->ga4ServerSideApi = $ga4ServerSideApi;
     }
 
     /**
@@ -49,63 +42,49 @@ class Childproduct extends Action
     public function execute()
     {
         $productId = $this->getRequest()->getPostValue('product_id');
+        $parentProductId = $this->getRequest()->getPostValue('parent_product_id', false);
+        $viewItemEvent = null;
         $result = '';
 
         if (!$productId) {
             return $this->prepareResult('');
         }
+        if (!$parentProductId) {
+            $parentProductId = $productId;
+        }
 
         $variant = $this->getRequest()->getPostValue('variant');
+        if ($this->ga4Helper->isServerSideTrakingEnabled() && $this->ga4Helper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_VIEW_ITEM)) {
+            $viewItemEvent = $this->viewItemBuilder->getViewItemEventWithMultipleProducts(
+                $parentProductId, [
+                    [
+                        'product_id' =>  $productId,
+                        'variant' => $variant
+                    ]
+                ]);
+            $this->ga4ServerSideApi->pushViewItemEvent($viewItemEvent);
+        }
 
-        if ($this->ga4Helper->isEnabled()) {
-            try {
-                $product = $this->productRepository->getById($productId);
-            } catch (\Exception $ex) {
-                return $this->prepareResult($result);
+        if (!($this->ga4Helper->isServerSideTrakingEnabled() && $this->ga4Helper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_VIEW_ITEM)
+            && $this->ga4Helper->isDataLayerEventDisabled())) {
+            $viewItemEvent = $this->viewItemBuilder->getViewItemEventWithMultipleProducts(
+                $parentProductId, [
+                    [
+                        'product_id' =>  $productId,
+                        'variant' => $variant
+                    ]
+            ]);
+
+            $viewItemEventData = $viewItemEvent->getParams();
+            if ($viewItemEventData && isset($viewItemEventData['events'])) {
+               $ecommerceData = $viewItemEventData['events'][0]['params'];
+                unset($ecommerceData['page_location']);
+
+               $result = [
+                   'ecommerce' => $ecommerceData,
+                   'event' => 'view_item'
+               ];
             }
-
-            $currencyCode = $this->ga4Helper->getCurrencyCode();
-            $productPrice = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
-
-            $productItemOptions = [];
-            $productItemOptions['item_name'] = html_entity_decode($product->getName() ?? '');
-            $productItemOptions['item_id'] = $this->ga4Helper->getGtmProductId($product);
-            $productItemOptions['affiliation'] = $this->ga4Helper->getAffiliationName();
-            $productItemOptions['price'] = $productPrice;
-            if ($this->ga4Helper->isBrandEnabled()) {
-                $productItemOptions['item_brand'] = $this->ga4Helper->getGtmBrand($product);
-            }
-
-            $productCategoryIds = $product->getCategoryIds();
-            $ga4Categories = $this->ga4Helper->getGA4CategoriesFromCategoryIds($productCategoryIds);
-            $productItemOptions = array_merge($productItemOptions, $ga4Categories);
-            $productItemOptions['quantity'] = 1;
-            $productItemOptions['index'] = 0;
-            $categoryName = $this->ga4Helper->getGtmCategoryFromCategoryIds($productCategoryIds);
-            $productItemOptions['item_list_name'] = $categoryName;
-            $productItemOptions['item_list_id'] = count($productCategoryIds) ? $productCategoryIds[0] : '';
-
-            if ($this->ga4Helper->isVariantEnabled() && $variant) {
-                $productItemOptions['item_variant'] = $variant;
-            }
-
-            /**  Set the custom dimensions */
-            $customDimensions = $this->dimensionModel->getProductDimensions($product, $this->ga4Helper);
-            foreach ($customDimensions as $name => $value) :
-                $productItemOptions[$name] = $value;
-            endforeach;
-
-            $ecommerceData = [
-                'value' => $productPrice,
-                'currency' => $currencyCode,
-                'items' => [$productItemOptions],
-                'event' => 'view_item'
-            ];
-
-            $result = [
-               'ecommerce' => $ecommerceData,
-               'event' => 'view_item'
-            ];
         }
 
         return $this->prepareResult($result);
