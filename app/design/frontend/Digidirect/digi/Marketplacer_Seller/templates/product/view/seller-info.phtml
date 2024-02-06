@@ -27,24 +27,16 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
 
 <div class="mrkt-product-info-seller">
     <strong class="name">
-        <?php if ($escaper->escapeHtml($sellerName) == "digiDirect"): ?>
-            Shipped by: <?= $escaper->escapeHtml($sellerName) ?>
-        <?php else :?>    
-            Shipped by: <?= $escaper->escapeHtml($sellerName) ?>
-            <i class="fas fa-info-circle" 
-               title="This item will be shipped from our trusted digiMarket Sellers." 
-               style="margin-left: 5px;color: #ff3c00;font-size: 13px;">
-            </i>
-        <?php endif ?>
+        Fulfilled By <?= $escaper->escapeHtml($sellerName) ?>
     </strong>
     <?php if ($sellerLogo): ?>
-        <span class="image" style="display: none;">
+        <span class="image">
             <img src="<?= $escaper->escapeUrl($sellerLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($sellerName) ?>"/>
         </span>
     <?php endif ?>
     <br/>
     <?php if ($sellerPolicies): ?>
-        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>" style="display: none;">
+        <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>">
             <?= $escaper->escapeHtml(__('Policies')) ?>
         </a>
     <?php endif ?>

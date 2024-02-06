@@ -88,6 +88,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
 </div>
+
 <!-- clint commented out requested by Haig 26 06 23-->
 <?php if($awaiting == 1):?>
     <div class="awaiting" id="awaiting-product">
@@ -101,7 +102,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
                         color: #00C3FF;
                         display: inline-block;
                         margin-top: -25px;
-                        margin-right: 10px;">
+                        margin-right: 10px;">  
                     </i>
                     <div class="addtocart-tooltiptext tooltip-bottom-awaiting">
                         This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
@@ -111,6 +112,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         </div>
     </div>
 <?php endif; ?>
+
 <script type="text/x-magento-init">
     {
     "[data-role=priceBox][data-product-id='<?= $block->escapeHtml($_product->getId()) ?>']": {
@@ -135,18 +137,17 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </script>
 <?php endif ?>
 
-<!--comment out clint Jan 11 2024 -->
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
-<?php //$_product = $block->getProduct(); ?>
-<!--    <script>-->
-<!--        dataLayer.push({-->
-<!--            'event': 'DynamicRemarketing',-->
-<!--            'ecomm_pagetype': 'product',-->
-<!--            'ecomm_totalvalue': --><?php //echo $_product->getPrice() ?>//,
-//            'currency': 'AUD',
-//            'ecomm_prodid': [
-//                <?php //echo $_product->getId() ?>
-//            ]
-//        });
-//    </script>
+<?php $_product = $block->getProduct(); ?>
+    <script>
+        dataLayer.push({
+            'event': 'DynamicRemarketing',
+            'ecomm_pagetype': 'product',
+            'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
+            'currency': 'AUD',
+            'ecomm_prodid': [
+                <?php echo $_product->getId() ?>
+            ]
+        });
+    </script>
 <!-- FeedOps - Dynamic Remarketing - Version 1 END -->

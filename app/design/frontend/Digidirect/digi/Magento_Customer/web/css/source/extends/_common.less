@@ -16,14 +16,14 @@
 //
 ////  Sidebars
 //@account-sidebar-additional__margin-top: false;
-@account-sidebar__width__xl: 270px;
+@account-sidebar__width__xl: 420px;
 @account-sidebar__padding-right__xl: 50px;
 //
 ////  Column Main
 //@account-column-main-block__use-account-blocks: true;
 //@account-column-main-block-content__use-add-clearfix-desktop__m: true;
 //@account-column-main-block-content-box__use-blocks-2columns__m: true;
-@account-column-main__width__xl: calc(~'100% - 25%');
+@account-column-main__width__xl: calc(~'100% - @{account-sidebar__width__xl}');
 //
 ////  Table Wrapper
 //@account-table-wrapper__last-child__margin-bottom: 0;
@@ -316,36 +316,6 @@
     .block.block-collapsible-nav {
         display: none;
     }
-    
-    .form-digiclub-manage .block-title {
-        padding: 0;
-    }
-    
-    .form-digiclub-manage .block-title span {
-        font-size: 20px;
-    }
-    
-    .digiclubmember-customer-index .page-title-wrapper {
-        display: none;
-    }
-    
-    .digiclub-description li {
-        list-style-type: decimal;
-        margin-left: 30px;
-        line-height: 17px;
-        padding-left: 15px;
-    }
-    
-    .form-digiclub-manage .field._required>.label:after {
-        content: '*';
-        color: #e02b27;
-        font-size: 1.2rem;
-        margin: 0 0 0 5px;
-    }
-    
-    .form-digiclub-manage .field>.label {
-        font-weight: 700;
-    }
 
 }
 
@@ -530,11 +500,6 @@
         padding-top: 30px;
         height: 100%;
     }
-    
-    .form-digiclub-manage .field-dob {
-        width: 50%;
-    }
-    
 }
 
 //

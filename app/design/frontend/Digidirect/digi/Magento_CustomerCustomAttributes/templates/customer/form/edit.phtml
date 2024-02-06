@@ -34,6 +34,10 @@
             <input type="checkbox" name="change_password" id="change-password" data-role="change-password" value="1" title="<?= $block->escapeHtmlAttr(__('Change Password')) ?>"<?php if ($block->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox" />
             <label class="label" for="change-password"><span><?= $block->escapeHtml(__('Change Password')) ?></span></label>
         </div>
+        <div class="field choice qff-number">
+            <input type="checkbox" name="change_qff_number" id="change-qff-number" data-role="change-qff-number" value="1" title="<?= $block->escapeHtmlAttr(__('Change QFF Number')) ?>" class="checkbox" />
+            <label class="label" for="change-qff-number"><span><?= $block->escapeHtml(__('Change QFF Number')) ?></span></label>
+        </div>
         
         <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
         <?php if ($userDefinedAttributes):?>

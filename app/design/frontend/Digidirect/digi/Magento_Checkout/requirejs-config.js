@@ -6,7 +6,6 @@ var config = {
             'digidirectStoreCheckout': 'Magento_Checkout/js/dist/common/store',
             'accordionStep': 'Magento_Checkout/js/accordion-step',
             'qantasLoader': 'Magento_Checkout/js/qantas',
-            'clickAndCollect': 'Digidirect_Locator/js/view/list'
         }
     },
     config: {

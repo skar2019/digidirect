@@ -31,6 +31,18 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($_product);
                 </div>
             </button>
         </form>
+        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <button type="submit"
+                class="action tocart btn_cart tocart-pdp-btn"
+                id="product-addtocart-button"
+                data-action="add-to-cart-action"
+                >
+                <div id="klarna-custom">
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>klarna.png"/>
+                </div>
+            </button>
+        </form>
     </div>
 </div>
 

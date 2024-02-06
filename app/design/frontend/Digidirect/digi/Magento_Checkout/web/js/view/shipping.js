@@ -235,14 +235,18 @@ define([
                 quote.shippingMethod()['carrier_code'] + '_' + quote.shippingMethod()['method_code'] :
                 null;
         }),
-        
-        checkSellers: function () {
-            if (marketplacer_sellers.length == 1 && marketplacer_sellers[0][0] == 'digiDirect') {
-                return false;
-            } else {
-                return true;
-            }
-        },
+
+        // checkSellers: function () {
+        //     console.log('checkSellers');
+        //     console.log('marketplacer_sellers: ' + JSON.stringify(marketplacer_sellers));
+        //     console.log('marketplacer_sellers.length: ' + marketplacer_sellers.length);
+        //     console.log('marketplacer_sellers[0][0]: ' + marketplacer_sellers[0][0]);
+        //     if (marketplacer_sellers.length == 1 && marketplacer_sellers[0][0] == 'General Seller') {
+        //         return false;
+        //     } else {
+        //         return true;
+        //     }
+        // },
 
         /**
          * @param {Object} shippingMethod
@@ -324,7 +328,7 @@ define([
                 addressData = addressConverter.formAddressDataToQuoteAddress(
                     this.source.get('shippingAddress')
                 );
-                
+
                 // Therefore, convert it to a real array
                 var realArray = $.makeArray(shippingAddress['customAttributes'])
 
@@ -334,7 +338,7 @@ define([
                         let intial_unit_number = $(".unit-number " + unitnumberSelector).val();
                         let unit_number = intial_unit_number.replace('unit_number', '');
                         $(".unit-number " + unitnumberSelector).val(unit_number);
-                        
+
                         shippingAddress['customAttributes'][i]['value'] = unit_number;
                         addressData['customAttributes'][i]['value'] = unit_number;
                     }
