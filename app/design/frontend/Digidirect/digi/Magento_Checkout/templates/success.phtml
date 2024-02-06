@@ -3,7 +3,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
 $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
-
+$googleConversion = $this->helper('Digidirect\Digi\Helper\GoogleConversion');
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
@@ -53,11 +53,67 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
         </script>
     </div>-->
 </div>
-
-<script>
-    ga('require', 'ecommerce');
-
-    ga('ecommerce:addTransaction', <?php echo $googleAnalytic->getPurchaseData() ?> );
-
-    ga('ecommerce:send');
+<!--comment out clint Jan 11 2024 -->
+<!--<script>-->
+<!--    ga('require', 'ecommerce');-->
+<!---->
+<!--    ga('ecommerce:addTransaction', --><?php //echo $googleAnalytic->getPurchaseData() ?>// );
+//
+//    ga('ecommerce:send');
+//</script>
+<!-- clint 10-20-23 -->
+<!--<script>-->
+<!--    dataLayer.push( --><?php //echo $googleConversion->getPurchaseData() ?>//);
 </script>
+
+<!--comment out clint Jan 11 2024 -->
+<!-- FeedOps - Dynamic Remarketing - Version 2 START -->
+<?php
+//$order_id = $block->getRealOrderDetail()->getIncrementId();
+//$total = $block->getRealOrderDetail()->getGrandTotal();
+//$items = $block->getRealOrderDetail()->getAllVisibleItems();
+//$email = $block->getRealOrderDetail()->getCustomerEmail();
+//
+//$shipaddress = $block->getRealOrderDetail()->getBillingAddress();
+//$shipstrt = $shipaddress->getStreet();
+//if(is_array($shipstrt))
+//{
+//    $shipstreet = implode(",", $shipstrt);
+//
+//}
+//
+//$firstname = $shipaddress->getFirstName();
+//$lastname = $shipaddress->getLastName();
+//
+//$shipcity = $shipaddress->getCity();
+//$shipregion = $shipaddress->getRegion();
+//$shippostcode = $shipaddress->getPostcode();
+//$shipcountrycode = $shipaddress->getCountryId();
+//$shipphone = $shipaddress->getTelephone();
+//
+//$product_ids = array();
+//foreach($items as $item) {
+//    array_push($product_ids, $item->getProductId());
+//}
+//?>
+
+<!--<script type="text/javascript">-->
+<!--    dataLayer.push({-->
+<!--        'event': 'DynamicRemarketing',-->
+<!--        'user_email': --><?php //echo "\"$email\"" ?>//,
+//        'user_phone': <?php //echo "\"$shipphone\"" ?>//,
+//        'ecomm_pagetype': 'purchase',
+//        'order_id': <?php //echo "\"$order_id\"" ?>//,
+//        'ecomm_totalvalue': <?php //echo $total ?>//,
+//        'currency': 'AUD',
+//        'order_user_first_name': <?php //echo "\"$firstname\"" ?>//,
+//        'order_user_last_name': <?php //echo "\"$lastname\"" ?>//,
+//        'order_shipping_street': <?php //echo "\"$shipstreet\"" ?>//,
+//        'order_shipping_city': <?php //echo "\"$shipcity\"" ?>//,
+//        'order_shipping_region': <?php //echo "\"$shipregion\"" ?>//,
+//        'order_shipping_postal_code': <?php //echo "\"$shippostcode\"" ?>//,
+//        'order_shipping_country_code': <?php //echo "\"$shipcountrycode\"" ?>//,
+//        'ecomm_prodid': <?php //echo json_encode($product_ids) ?>
+//    });
+//</script>
+<!-- FeedOps - Dynamic Remarketing - Version 2 END -->

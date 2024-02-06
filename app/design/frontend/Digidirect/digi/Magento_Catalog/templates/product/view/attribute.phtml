@@ -43,7 +43,7 @@ if ($_attributeType && $_attributeType == 'text') {
             <div class="value" <?= /* @noEscape */ $_attributeAddAttribute ?>><?= /* @noEscape */ $_attributeValue ?></div>
         </div>
     <?php else :?>
-        <?php if ($_seller == "General Seller" || $_seller == "") :?>
+        <?php if ($_seller == "digiDirect" || $_seller == "") :?>
             <div class="product attribute <?= $block->escapeHtmlAttr($_className) ?>">
                 <?php if ($renderLabel) :?>
                     <strong class="type"><?= $block->escapeHtml($_attributeLabel) ?></strong>
