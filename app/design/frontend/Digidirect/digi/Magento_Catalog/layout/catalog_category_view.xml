@@ -22,21 +22,11 @@
         </referenceContainer>
 
         <referenceBlock name="category.products.list">
-            <container name="category.product.list.additional" as="additional" />
-            <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
-                <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
+                </arguments>
             </block>
-            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="category.product.addto" as="addto">
-                <block class="Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare"
-                       name="category.product.addto.compare" as="compare"
-                       template="Magento_Catalog::product/list/addto/compare.phtml"/>
-            </block>
-            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="Magento_Catalog::product/list/toolbar.phtml">
-                <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager"/>
-            </block>
-            <action method="setToolbarBlockName">
-                <argument name="name" xsi:type="string">product_list_toolbar</argument>
-            </action>
         </referenceBlock>
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
