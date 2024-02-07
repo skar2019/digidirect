@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d18fe1e7f0cf649dfbc14073a78d1a17",
+    "content-hash": "bd4896fb2ea2c994abd9700990535832",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -24163,17 +24163,11 @@
         },
         {
             "name": "marketplacer/magento2-plugin-base",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-base.git",
-                "reference": "d82d9f75dcfa9b296f10aa7aa5e1168473e052e0"
-            },
+            "version": "2.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-base/zipball/d82d9f75dcfa9b296f10aa7aa5e1168473e052e0",
-                "reference": "d82d9f75dcfa9b296f10aa7aa5e1168473e052e0",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-base/marketplacer-magento2-plugin-base-2.2.0.0.zip",
+                "shasum": "92e2aae0c49e318ca25d1614341296e115766f2d"
             },
             "type": "magento2-module",
             "autoload": {
@@ -24184,30 +24178,18 @@
                     "Marketplacer\\Base\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Marketplacer Base module",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-base/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-base/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:37:18+00:00"
+            "description": "Marketplacer Base module"
         },
         {
             "name": "marketplacer/magento2-plugin-brand",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-brand.git",
-                "reference": "74fac58d636b6ceb65612bb0e34bcab39de9445a"
-            },
+            "version": "2.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-brand/zipball/74fac58d636b6ceb65612bb0e34bcab39de9445a",
-                "reference": "74fac58d636b6ceb65612bb0e34bcab39de9445a",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-brand/marketplacer-magento2-plugin-brand-2.1.1.0.zip",
+                "shasum": "400d71dfed42f7a2c6017025402a0776122108ea"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "^2.0.0",
@@ -24222,30 +24204,18 @@
                     "Marketplacer\\Brand\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Package of back-office management and storefront displaying of Marketplacer Brands",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-brand/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-brand/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:34:00+00:00"
+            "description": "Package of back-office management and storefront displaying of Marketplacer Brands"
         },
         {
             "name": "marketplacer/magento2-plugin-brand-api",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-brand-api.git",
-                "reference": "178eae52cda6d584e1f003b9f13b5ed0e0a81971"
-            },
+            "version": "2.1.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-brand-api/zipball/178eae52cda6d584e1f003b9f13b5ed0e0a81971",
-                "reference": "178eae52cda6d584e1f003b9f13b5ed0e0a81971",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-brand-api/marketplacer-magento2-plugin-brand-api-2.1.0.0.zip",
+                "shasum": "a3722ca0dc5f3ca678a62a30e37e46ad5319d38c"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "^2.0.0"
@@ -24259,30 +24229,18 @@
                     "Marketplacer\\BrandApi\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Package of API definitions and basic implementation for Marketplacer Brands",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-brand-api/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-brand-api/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:32:25+00:00"
+            "description": "Package of API definitions and basic implementation for Marketplacer Brands"
         },
         {
             "name": "marketplacer/magento2-plugin-marketplacer",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-marketplacer.git",
-                "reference": "3fd17cd2db7eeaa31547b46662ba3ec31cb2eef2"
-            },
+            "version": "2.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-marketplacer/zipball/3fd17cd2db7eeaa31547b46662ba3ec31cb2eef2",
-                "reference": "3fd17cd2db7eeaa31547b46662ba3ec31cb2eef2",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-marketplacer/marketplacer-magento2-plugin-marketplacer-2.1.1.0.zip",
+                "shasum": "29e2c98869826104c7ed4eb79cfaea0c704225f5"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "^2.0.0",
@@ -24298,35 +24256,30 @@
                     "Marketplacer\\Marketplacer\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Summary package for Marketplacer brands and sellers on listings and in orders ",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-marketplacer/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-marketplacer/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:30:01+00:00"
+            "description": "Summary package for Marketplacer brands and sellers on listings and in orders "
         },
         {
             "name": "marketplacer/magento2-plugin-metapackage",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-metapackage/marketplacer-magento2-plugin-metapackage-2.1.0.0.zip",
-                "shasum": "73077c57f80e6b91390ed6c69e96c23a152dfd60"
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-metapackage/marketplacer-magento2-plugin-metapackage-2.2.1.0.zip",
+                "shasum": "05ff3051177e74d9db7eecdd2db9935eec333076"
             },
             "require": {
-                "marketplacer/magento2-plugin-base": "~2.1.0",
+                "marketplacer/magento2-plugin-base": "~2.2.0",
                 "marketplacer/magento2-plugin-brand": "~2.1.0",
                 "marketplacer/magento2-plugin-brand-api": "~2.1.0",
                 "marketplacer/magento2-plugin-marketplacer": "~2.1.0",
-                "marketplacer/magento2-plugin-seller": "~2.1.0",
-                "marketplacer/magento2-plugin-seller-api": "~2.1.0"
+                "marketplacer/magento2-plugin-seller": "~2.2.0",
+                "marketplacer/magento2-plugin-seller-api": "~2.2.0"
             },
             "suggest": {
-                "marketplacer/magento2-plugin-avalara-integration": "~1.0.0"
+                "marketplacer/magento2-plugin-avalara-integration": "~1.0.0",
+                "marketplacer/magento2-plugin-seller-shipping": "~1.0.1"
             },
             "type": "metapackage",
             "license": [
@@ -24336,17 +24289,11 @@
         },
         {
             "name": "marketplacer/magento2-plugin-seller",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-seller.git",
-                "reference": "22c6e8c4d40e41ad72df251626eec7b4cac679bb"
-            },
+            "version": "2.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-seller/zipball/22c6e8c4d40e41ad72df251626eec7b4cac679bb",
-                "reference": "22c6e8c4d40e41ad72df251626eec7b4cac679bb",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-seller/marketplacer-magento2-plugin-seller-2.2.0.0.zip",
+                "shasum": "3fc7d5c1d7a864b959fcbb6ed15667cb86faba51"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "^2.0.0",
@@ -24361,30 +24308,18 @@
                     "Marketplacer\\Seller\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Package of back-office management and storefront displaying of Marketplacer Sellers",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-seller/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-seller/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:23:20+00:00"
+            "description": "Package of back-office management and storefront displaying of Marketplacer Sellers"
         },
         {
             "name": "marketplacer/magento2-plugin-seller-api",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marketplacer/magento2-plugin-seller-api.git",
-                "reference": "814228d09ee79297cf86c6446dfb758293838802"
-            },
+            "version": "2.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marketplacer/magento2-plugin-seller-api/zipball/814228d09ee79297cf86c6446dfb758293838802",
-                "reference": "814228d09ee79297cf86c6446dfb758293838802",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/marketplacer/magento2-plugin-seller-api/marketplacer-magento2-plugin-seller-api-2.2.0.0.zip",
+                "shasum": "a9e8c4672bb280535743c01d166060352d94d5fd"
             },
             "require": {
                 "marketplacer/magento2-plugin-base": "^2.0.0"
@@ -24398,16 +24333,10 @@
                     "Marketplacer\\SellerApi\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
-            "description": "Package of API definitions and basic implementation for Marketplacer Sellers",
-            "support": {
-                "issues": "https://github.com/marketplacer/magento2-plugin-seller-api/issues",
-                "source": "https://github.com/marketplacer/magento2-plugin-seller-api/tree/v2.1.0"
-            },
-            "time": "2023-04-04T03:12:00+00:00"
+            "description": "Package of API definitions and basic implementation for Marketplacer Sellers"
         },
         {
             "name": "monolog/monolog",
