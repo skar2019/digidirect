@@ -16,7 +16,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 
 ?>
-<?= $block->getToolbarHtml() ?>
+<?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
