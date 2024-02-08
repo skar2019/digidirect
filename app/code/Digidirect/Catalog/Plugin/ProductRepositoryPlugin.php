@@ -20,7 +20,7 @@ class ProductRepositoryPlugin
         $this->logger = $logger;
     }
     
-    public function afterGet($subject, $result) 
+    public function afterGet(ProductRepository $subject, $result) 
     {
         // Modify SKU before returning the result
         $this->logger->info('Test Product API Override!');
