@@ -2,7 +2,9 @@
 
 namespace Digidirect\Catalog\Plugin;
 
-class ProductRepository
+use Magento\Catalog\Model\ProductRepository;
+
+class ProductRepositoryPlugin
 {
     
     protected $logger;
