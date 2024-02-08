@@ -17,7 +17,7 @@ class ProductRepository
         ProductInterface $result
     ) {
         // Modify SKU before returning the result
-        $result->setSku(substr($result->getSku(), 0, 50));
+        $result->setSku(substr($result->getSku(), 0, 3));
 
         return $result;
     }

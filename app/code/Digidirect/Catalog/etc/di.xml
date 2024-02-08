@@ -12,7 +12,4 @@
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
     </type>
-    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
-        <plugin name="custom_sku_limit" type="Digidirect\Catalog\Plugin\ProductRepository" sortOrder="1" disabled="false"/>
-    </type>
 </config>
