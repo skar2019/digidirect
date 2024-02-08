@@ -2,6 +2,8 @@
 
 namespace Digidirect\Catalog\Plugin;
 
+use Magento\Catalog\Api\Data\ProductInterface;
+
 class ProductRepositoryPlugin
 {
     
