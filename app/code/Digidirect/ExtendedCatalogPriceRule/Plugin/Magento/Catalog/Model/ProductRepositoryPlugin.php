@@ -86,7 +86,7 @@ class ProductRepositoryPlugin
     public function afterGet(ProductRepository $object, $result)
     {
         $this->logger->info('Test Product API Override!');
-        $result->setSku(substr($entity->getSku(), 0, 3));
+        $result->setSku(substr($result->getSku(), 0, 3));
         if ($result instanceof Product && $this->configHelper->isSetDynamicPrice()) {
            $result = $this->setDynamicPrice($result);
         }
