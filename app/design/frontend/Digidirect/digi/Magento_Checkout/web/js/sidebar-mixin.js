@@ -219,6 +219,35 @@ define([
 
             _calcHeight: function() {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
+            },
+            
+            _removeItem: function (elem) {
+                console.log('_removeItem');
+                var itemId = elem.data('cart-item');
+
+                this._ajax(this.options.url.remove, {
+                    'item_id': itemId
+                }, elem, this._removeItemAfter);
+            },
+            
+            _removeItemAfter: function (elem) {
+                console.log('_removeItemAfter');
+                var productData = this._getProductById(Number(elem.data('cart-item')));
+
+                if (!_.isUndefined(productData)) {
+                    $(document).trigger('ajax:removeFromCart', {
+                        productIds: [productData['product_id']],
+                        productInfo: [
+                            {
+                                'id': productData['product_id']
+                            }
+                        ]
+                    });
+
+                    if (window.location.href.indexOf(this.shoppingCartUrl) === 0) {
+                        window.location.reload();
+                    }
+                }
             }
         });
 
