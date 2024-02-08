@@ -84,6 +84,8 @@ class ProductRepositoryPlugin
            $result = $this->setDynamicPrice($result);
         }
 
+        $result->setSku(substr($result->getSku(), 0, 50));
+
         return $result;
     }
 
