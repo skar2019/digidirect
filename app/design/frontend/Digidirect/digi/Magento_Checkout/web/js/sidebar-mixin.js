@@ -225,7 +225,13 @@ define([
                 console.log('_removeItem');
                 var itemId = elem.data('cart-item');
                 console.log(itemId);
+                
+                var productPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
+                console.log(productPrice);
+                
                 $("#minicart-" + itemId).remove();
+                
+                #minicartSidebar .subtotal .price
 
                 this._ajax(this.options.url.remove, {
                     'item_id': itemId
