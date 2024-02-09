@@ -231,7 +231,7 @@ define([
                 
                 $("#minicart-" + itemId).remove();
                 
-                #minicartSidebar .subtotal .price
+                //#minicartSidebar .subtotal .price
 
                 this._ajax(this.options.url.remove, {
                     'item_id': itemId
