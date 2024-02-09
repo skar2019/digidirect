@@ -609,7 +609,7 @@ return [
         'Digidirect_PaSalesForceProductRecommendation' => 1,
         'Digidirect_ProductOverlay' => 1,
         'Digidirect_Pronto' => 1,
-        'Digidirect_Qantas' => 0,
+        'Digidirect_Qantas' => 1,
         'Digidirect_QuickView' => 1,
         'Digidirect_ReadytoPickup' => 0,
         'Digidirect_RecommendedProducts' => 1,
