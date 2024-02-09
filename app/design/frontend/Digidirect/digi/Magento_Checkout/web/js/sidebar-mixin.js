@@ -223,8 +223,9 @@ define([
             
             _removeItem: function (elem) {
                 console.log('_removeItem');
-                console.log('_removeItem ' + JSON.stringify(elem));
                 var itemId = elem.data('cart-item');
+                console.log(itemId);
+                $("#minicart-" + itemId).remove();
 
                 this._ajax(this.options.url.remove, {
                     'item_id': itemId
@@ -233,7 +234,6 @@ define([
             
             _removeItemAfter: function (elem) {
                 console.log('_removeItemAfter');
-                console.log('_removeItemAfter ' + JSON.stringify(elem));
                 var productData = this._getProductById(Number(elem.data('cart-item')));
 
                 if (!_.isUndefined(productData)) {
