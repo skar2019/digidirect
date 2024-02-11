@@ -228,13 +228,19 @@ define([
                 
                 var stringPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
                 
-                var productPrice = stringPrice.split('<!-- ko text: item_subtotal -->').pop().split('<!-- /ko -->')[0];
+                var productPrice = Number(stringPrice.split('<!-- ko text: item_subtotal -->$').pop().split('<!-- /ko -->')[0]);
                 
                 console.log('productPrice: ' + productPrice);
                 
                 $("#minicart-" + itemId).remove();
                 
-                //#minicartSidebar .subtotal .price
+                var stringSubTotal = $("#minicartSidebar .subtotal .price").html();
+                
+                var subTotal = Number(stringSubTotal.substr(1, stringSubTotal.length - 1));
+                
+                var newSubTotal = subTotal - productPrice;
+                
+                $("#minicartSidebar .subtotal .price").html("$" + newSubTotal);
 
                 this._ajax(this.options.url.remove, {
                     'item_id': itemId
