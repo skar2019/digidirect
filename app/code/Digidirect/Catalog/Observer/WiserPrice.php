@@ -66,7 +66,7 @@ class WiserPrice implements ObserverInterface
         
         $finalProductPrice = $finalPrice;
         
-        $this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
+        //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalProductPrice = $finalPrice;
@@ -75,12 +75,12 @@ class WiserPrice implements ObserverInterface
             $digiProtectPrice = 0;
 
             $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-            $this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+            //$this->logger->info('$selectedOption: ' . json_encode($selectedOption));
 
             $customOptions = $this->_productOptions->getProductOptionCollection($product);
             foreach($customOptions as $optionKey => $optionVal) {
                 foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                    $this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                    //$this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
                     if (isset($selectedOption['options'])) {
                         $digiProtectPrice = $valuesVal->getPrice();
                     }
@@ -109,8 +109,8 @@ class WiserPrice implements ObserverInterface
                     $finalPrice = $price;
                 }
 
-                $this->logger->info('$finalPrice: ' . $finalPrice);
-                $this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+                //$this->logger->info('$finalPrice: ' . $finalPrice);
+                //$this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
 
                 $finalProductPrice = $finalPrice + $digiProtectPrice;
                 

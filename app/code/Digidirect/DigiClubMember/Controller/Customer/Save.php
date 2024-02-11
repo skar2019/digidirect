@@ -95,11 +95,11 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
                 $customerDob = $this->getRequest()->getParam('digiclub-dob');
                 
-                $this->logger->info('$customerFirstName: ' . $customerFirstName);
-                $this->logger->info('$customerLastName: ' . $customerLastName);
-                $this->logger->info('$customerEmail: ' . $customerEmail);
-                $this->logger->info('$customerContactNumber: ' . $customerContactNumber);
-                $this->logger->info('$customerDob: ' . $customerDob);
+                //$this->logger->info('$customerFirstName: ' . $customerFirstName);
+                //$this->logger->info('$customerLastName: ' . $customerLastName);
+                //$this->logger->info('$customerEmail: ' . $customerEmail);
+                //$this->logger->info('$customerContactNumber: ' . $customerContactNumber);
+                //$this->logger->info('$customerDob: ' . $customerDob);
                 
                 $this->setIgnoreValidationFlag($customer);
                 

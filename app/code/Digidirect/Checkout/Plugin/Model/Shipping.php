@@ -64,11 +64,11 @@ class Shipping {
         
         if ($carrierCode == 'nextdaydelivery') {
             if (($isSwhs == 1 && $swhsQty <= 0)) {
-                $this->logger->info("SWHS Next Day Delivery");
+                //$this->logger->info("SWHS Next Day Delivery");
                 return false;
             }
             if (($isMelb == 1 && $melbQty <= 0)) {
-                $this->logger->info("Melbourne Next Day Delivery");
+                //$this->logger->info("Melbourne Next Day Delivery");
                 return false;
             }
         }

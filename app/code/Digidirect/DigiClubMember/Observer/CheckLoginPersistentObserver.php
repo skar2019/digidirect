@@ -49,12 +49,12 @@ class CheckLoginPersistentObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
         $name = $observer->getEvent()->getRequest()->getFullActionName();
-        $this->logger->info('getBaseUrl: ' . $this->urlInterface->getBaseUrl());
+        //$this->logger->info('getBaseUrl: ' . $this->urlInterface->getBaseUrl());
         $currentUrl = rtrim($this->urlInterface->getCurrentUrl(), '/');
-        $this->logger->info('currentUrl: ' . $currentUrl);
+        //$this->logger->info('currentUrl: ' . $currentUrl);
         $isRedirect = $observer->getEvent()->getRequest()->getParam('digiclub');
         
-        $this->logger->info('$isRedirect: ' . $isRedirect);
+        //$this->logger->info('$isRedirect: ' . $isRedirect);
         
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclubmember') {
             $url = $this->urlInterface->getUrl('digiclubmember/customer/index');
@@ -77,7 +77,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
         } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index/digiclub/1' && $this->_customerSession->getCustomer()->getGroupId() == 10) {
             $page_url = $this->urlInterface->getUrl('digiclub-member-deals');
             $this->redirect->redirect($controller->getResponse(), $page_url);
-            $this->logger->info('digiclub-member-deals');
+            //$this->logger->info('digiclub-member-deals');
             
         }
     }
