@@ -1010,7 +1010,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($this->checkoutSession->getGA4LastProductPrice()), 2, '.', ''));
             $this->checkoutSession->setGA4LastProductPrice(null);
         } else {
-            $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+            $numb = $product->getPriceInfo()->getPrice('final_price')->getValue();
+            if(!is_null($numb))
+            {
+                $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+            }
+            else
+            {
+                $productData['price'] = $numb;
+            }
+
         }
 
         if ($this->isBrandEnabled()) {
