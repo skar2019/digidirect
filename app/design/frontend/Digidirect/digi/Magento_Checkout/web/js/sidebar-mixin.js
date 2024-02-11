@@ -244,7 +244,7 @@ define([
                 
                 console.log(productPrice + ", " + subTotal + ", " + newSubTotal);
                 
-                $("#minicartSidebar .subtotal .price").html("$" + newSubTotal);
+                $("#minicartSidebar .subtotal .price").html("$" + newSubTotal.toFixed(2));
 
                 this._ajax(this.options.url.remove, {
                     'item_id': itemId
