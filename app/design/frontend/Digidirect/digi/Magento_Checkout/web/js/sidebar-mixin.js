@@ -236,6 +236,8 @@ define([
                 
                 var stringSubTotal = $("#minicartSidebar .subtotal .price").html();
                 
+                console.log('stringSubTotal: ' + stringSubTotal);
+                
                 var subTotal = Number(stringSubTotal.substr(1, stringSubTotal.length - 1));
                 
                 var newSubTotal = subTotal - productPrice;
