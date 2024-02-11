@@ -224,7 +224,7 @@ define([
             _removeItem: function (elem) {
                 console.log('_removeItem');
                 var itemId = elem.data('cart-item');
-                console.log(itemId);
+                //console.log(itemId);
                 
                 var stringPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
                 
@@ -239,6 +239,8 @@ define([
                 var subTotal = Number(stringSubTotal.substr(1, stringSubTotal.length - 1));
                 
                 var newSubTotal = subTotal - productPrice;
+                
+                console.log(productPrice + ", " + subTotal + ", " + newSubTotal);
                 
                 $("#minicartSidebar .subtotal .price").html("$" + newSubTotal);
 
