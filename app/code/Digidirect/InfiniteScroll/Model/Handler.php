@@ -66,7 +66,7 @@ class Handler
             if ($html) {
                 $this->_validateResponse($html);
                 $this->_sendResponse(json_encode($html));
-                $this->logger->info('handleRequest HTML: '. json_encode($html));
+                //$this->logger->info('handleRequest HTML: '. json_encode($html));
             }
         }
 

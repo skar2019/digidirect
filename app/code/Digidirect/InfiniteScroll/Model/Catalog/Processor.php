@@ -129,7 +129,7 @@ class Processor implements ProcessorInterface
                 $brand_id = $this->_brandModel->getCurrentOption();
             }
             
-            $this->logger->info('Infinite Scroll Brand ID: '. $brand_id);
+            //$this->logger->info('Infinite Scroll Brand ID: '. $brand_id);
             
             if($brand_id > 0){
                 $page = "p=" . $toolbar->nextPageCount();
@@ -145,7 +145,7 @@ class Processor implements ProcessorInterface
                 $url = htmlspecialchars_decode($pager->getNextPageUrl());
             }
             
-            $this->logger->info('Infinite Scroll URL: '. $url);
+            //$this->logger->info('Infinite Scroll URL: '. $url);
 
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());

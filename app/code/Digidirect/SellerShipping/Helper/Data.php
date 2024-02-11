@@ -41,14 +41,14 @@ class Data extends AbstractHelper
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
-            $this->logger->info('getProductId: ' . $item->getProductId());
+            //$this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
-            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
-            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
-            $this->logger->info('getSku: ' . $product->getSku());
-            $this->logger->info('getName: ' . $product->getName());
-            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            //$this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            //$this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            //$this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            //$this->logger->info('getSku: ' . $product->getSku());
+            //$this->logger->info('getName: ' . $product->getName());
+            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
@@ -69,7 +69,7 @@ class Data extends AbstractHelper
             $sellerTotal = 0;
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -78,7 +78,7 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
@@ -92,12 +92,12 @@ class Data extends AbstractHelper
             
             $sellerTotalShipping += $sellerShipping;
             
-            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
+            //$this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
-        $this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
+        //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
         return $sellerTotalShipping;
         
     }
@@ -131,7 +131,7 @@ class Data extends AbstractHelper
             
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -140,7 +140,7 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            $this->logger->info($seller . ': ' . $sellerTotal);
+            //$this->logger->info($seller . ': ' . $sellerTotal);
             
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
@@ -159,7 +159,7 @@ class Data extends AbstractHelper
             }
         }
         
-        $this->logger->info('sellersArray: ' . json_encode($sellersArray));
+        //$this->logger->info('sellersArray: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
@@ -193,7 +193,7 @@ class Data extends AbstractHelper
         
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             $finalPrice = $product->getFinalPrice();
             $productTotal = $finalPrice * $item->getQty();
             $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -206,13 +206,13 @@ class Data extends AbstractHelper
                 $digiTotal += $productTotal;
             }
         }
-        $this->logger->info('getDigiShipping: ' . $digiTotal);
+        //$this->logger->info('getDigiShipping: ' . $digiTotal);
 
         if (($digiTotal < 99) && ($digiTotal != 0)) {
             $digiShipping = 10;
         }
 
-        $this->logger->info('digiShipping : ' . $digiShipping);
+        //$this->logger->info('digiShipping : ' . $digiShipping);
         
         return $digiShipping;
         

@@ -50,7 +50,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
                 $this->customerRepository->save($customer);
             }
         }
-        $this->logger->info("customerID: " . $customerID); 
+        //$this->logger->info("customerID: " . $customerID); 
         
         $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
         $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
@@ -62,7 +62,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
 
         $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
         
-        $this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
+        //$this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); 
         
         $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
         $webSignUpParams = json_encode(["email"=>$email,"source"=>"Web"]);
@@ -73,7 +73,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         
         $webSignUpResult = $this->curl->getBody();
         $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
-        $this->logger->info("Response: " . $webSignUpResult); 
+        //$this->logger->info("Response: " . $webSignUpResult); 
         
     }
 }

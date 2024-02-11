@@ -17,7 +17,7 @@ class Log extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $this->logger->info("Test controller is working!"); 
+        //$this->logger->info("Test controller is working!"); 
     }
     
 }

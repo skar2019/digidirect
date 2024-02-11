@@ -53,7 +53,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (!$this->_stateKey) {
             $this->_stateKey = $this->stateKeyGenerator->toString($this->getCurrentCategory());
         }
-        $this->logger->info("this->_stateKey: " . $this->_stateKey); 
+        //$this->logger->info("this->_stateKey: " . $this->_stateKey); 
         return $this->_stateKey;
     }
     
