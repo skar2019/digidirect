@@ -226,8 +226,11 @@ define([
                 var itemId = elem.data('cart-item');
                 console.log(itemId);
                 
-                var productPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
-                console.log(productPrice);
+                var stringPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
+                
+                var productPrice = stringPrice.split('<!-- ko text: item_subtotal -->').pop().split('<!-- /ko -->')[0];
+                
+                console.log('productPrice: ' + productPrice);
                 
                 $("#minicart-" + itemId).remove();
                 
