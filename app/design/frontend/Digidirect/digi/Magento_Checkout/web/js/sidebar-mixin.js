@@ -219,6 +219,56 @@ define([
 
             _calcHeight: function() {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
+            },
+            
+            _removeItem: function (elem) {
+                console.log('_removeItem');
+                var itemId = elem.data('cart-item');
+                //console.log(itemId);
+                
+                var stringPrice = $("#minicart-" + itemId + " .minicart-item-subtotal").html();
+                
+                var productPrice = Number(stringPrice.split('<!-- ko text: item_subtotal -->$').pop().split('<!-- /ko -->')[0]);
+                
+                console.log('productPrice: ' + productPrice);
+                
+                $("#minicart-" + itemId).remove();
+                
+                var stringSubTotal = $("#minicartSidebar .subtotal .price").html();
+                
+                var subTotal = Number(stringSubTotal.substr(1, stringSubTotal.length - 1).replace(',', ''));
+                
+                console.log('subTotal: ' + subTotal);
+                
+                var newSubTotal = subTotal - productPrice;
+                
+                console.log(productPrice + ", " + subTotal + ", " + newSubTotal);
+                
+                $("#minicartSidebar .subtotal .price").html("$" + newSubTotal);
+
+                this._ajax(this.options.url.remove, {
+                    'item_id': itemId
+                }, elem, this._removeItemAfter);
+            },
+            
+            _removeItemAfter: function (elem) {
+                console.log('_removeItemAfter');
+                var productData = this._getProductById(Number(elem.data('cart-item')));
+
+                if (!_.isUndefined(productData)) {
+                    $(document).trigger('ajax:removeFromCart', {
+                        productIds: [productData['product_id']],
+                        productInfo: [
+                            {
+                                'id': productData['product_id']
+                            }
+                        ]
+                    });
+
+                    if (window.location.href.indexOf(this.shoppingCartUrl) === 0) {
+                        window.location.reload();
+                    }
+                }
             }
         });
 
