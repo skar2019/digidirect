@@ -36,9 +36,9 @@ class Item
      * @param mixed $value
      * @return array
      */
-    public function afterSetPrice(QuoteItem $subject, $value)
+    public function beforeSetPrice(QuoteItem $subject, $value)
     {
-        $this->logger->info('afterSetPrice!');
+        $this->logger->info('beforeSetPrice!');
         $this->logger->info('$value: ' . $value);
         $this->logger->info('isFreeGiftItem: ' . $this->_giftItem->isFreeGiftItem($subject));
         if ($this->_giftItem->isFreeGiftItem($subject)) {
