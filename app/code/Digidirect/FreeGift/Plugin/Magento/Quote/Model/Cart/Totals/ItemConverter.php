@@ -58,7 +58,7 @@ class ItemConverter
     ) {
         $result = $procede($item);
 
-        if ($this->_dataHelper->isFreeGiftItem($item)) {
+        if ($this->_dataHelper->isFreeGiftItem($item) && $this->_configHelper->isHideFreeItemPrice()) {
             $priceMessage = $this->_configHelper->getMessageForHiddenFreeItemPrice();
 
             $extensionAttributes = $item->getExtensionAttributes();

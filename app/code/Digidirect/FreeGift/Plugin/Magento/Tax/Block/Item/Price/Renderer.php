@@ -47,7 +47,8 @@ class Renderer
 
         if (($product instanceof \Magento\Quote\Model\Quote\Item ||
             $product instanceof \Magento\Sales\Model\Order\Item) &&
-            $this->_helper->isFreeGiftItem($product)
+            $this->_helper->isFreeGiftItem($product) &&
+            $this->_helperConfig->isHideFreeItemPrice()
         ) {
             $priceMessage = $this->_helperConfig->getMessageForHiddenFreeItemPrice();
             return '<span class="price">' . $priceMessage . '</span>';
