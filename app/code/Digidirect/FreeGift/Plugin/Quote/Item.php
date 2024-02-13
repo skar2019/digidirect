@@ -24,7 +24,7 @@ class Item
     public function __construct
     (   
         CartItem $giftItem,
-        Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger
     )
     {
         $this->_giftItem = $giftItem;
