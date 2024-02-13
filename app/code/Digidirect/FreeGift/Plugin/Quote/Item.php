@@ -12,15 +12,23 @@ class Item
      * @var CartItem
      */
     protected $_giftItem;
+    
+    
+    protected $logger;
 
     /**
      * Item constructor.
      *
      * @param CartItem $giftItem
      */
-    public function __construct(CartItem $giftItem)
+    public function __construct
+    (   
+        CartItem $giftItem,
+        \Psr\Log\LoggerInterface $logger
+    )
     {
         $this->_giftItem = $giftItem;
+        $this->logger = $logger;
     }
 
     /**
@@ -30,7 +38,11 @@ class Item
      */
     public function beforeSetPrice(QuoteItem $subject, $value)
     {
+        $this->logger->info('beforeSetPrice!');
+        $this->logger->info('$value: ' . $value);
+        $this->logger->info('isFreeGiftItem: ' . $this->_giftItem->isFreeGiftItem($subject));
         if ($this->_giftItem->isFreeGiftItem($subject)) {
+            $this->logger->info('This is free gift!');
             return [0];
         }
         return [$value];
