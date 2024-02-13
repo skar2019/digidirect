@@ -39,7 +39,12 @@ class Item
     public function beforeSetPrice(QuoteItem $subject, $value)
     {
         $this->logger->info('beforeSetPrice!');
-        return [0];
+        $this->logger->info('$value: ' . $value);
+        $this->logger->info('isFreeGiftItem: ' . $this->_giftItem->isFreeGiftItem($subject));
+        if ($this->_giftItem->isFreeGiftItem($subject)) {
+            return [0];
+        }
+        return [$value];
     }
 
     /**
