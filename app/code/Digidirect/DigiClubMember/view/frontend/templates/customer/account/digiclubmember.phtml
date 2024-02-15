@@ -4,12 +4,16 @@
 
     if ($customerSession->isLoggedIn()) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
-        $isDigiClub = 0;
-        $isChecked = "";
         if ($customerGroupId == 10) {
             $isDigiClub = 1;
             $isChecked = "checked";
+        } else {
+            $isDigiClub = 0;
+            $isChecked = "";
         }
+    } else {
+        $isDigiClub = 0;
+        $isChecked = "";
     }
 ?>
 
