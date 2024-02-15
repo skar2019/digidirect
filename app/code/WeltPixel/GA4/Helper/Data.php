@@ -1375,7 +1375,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData['item_name'] = html_entity_decode($product->getName() ?? '');
         $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $this->getGtmProductId($product);
-        $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+        if(is_null($product->getPriceInfo()->getPrice('final_price')->getValue()))
+        {
+            $productData['price'] = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        }
+        else
+        {
+            $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+        }
+
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
         }
