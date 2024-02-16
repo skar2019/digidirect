@@ -23,6 +23,9 @@ class Item extends QuoteItem
      * @var \Digidirect\FreeGift\Model\ResourceModel\Rule
      */
     protected $_resourceFreeGift;
+    
+    
+    protected $logger;
 
     /**
      * Item constructor.
@@ -58,9 +61,11 @@ class Item extends QuoteItem
         \Digidirect\FreeGift\Model\ResourceModel\Rule $resourceFreeGift,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
         $this->_resourceFreeGift = $resourceFreeGift;
+        $this->logger = $logger;
         parent::__construct(
             $context,
             $registry,
@@ -107,6 +112,9 @@ class Item extends QuoteItem
      */
     public function isFreeGiftItem($item)
     {
+        $this->logger->info('in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML]): ' . in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML]));
+        $this->logger->info('$this->getRuleId($item): ' . $this->getRuleId($item));
+        
         if (in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML])) {
             return false;
         }
