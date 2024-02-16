@@ -4,6 +4,7 @@ namespace Digidirect\Catalog\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\App\RequestInterface;
+use Digidirect\FreeGift\Model\Cart\Item as CartItem;
 
 class WiserPrice implements ObserverInterface
 {
@@ -16,18 +17,22 @@ class WiserPrice implements ObserverInterface
     protected $_productRepositoryInterface;
     
     protected $_productRepository;
+    
+    protected $_giftItem;
 
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Catalog\Model\Product $productRepository,
+        CartItem $giftItem,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->customer = $customerSession;
         $this->_productOptions = $productOptions;
         $this->_productRepositoryInterface = $productRepositoryInterface;
         $this->_productRepository = $productRepository;
+        $this->_giftItem = $giftItem;
         $this->logger = $logger;
     }
     
@@ -68,57 +73,62 @@ class WiserPrice implements ObserverInterface
         
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
-        if ($wiserPrice == 0 || empty($wiserPrice)) {
-            $finalProductPrice = $finalPrice;
+        
+        if ($this->_giftItem->isFreeGiftItem($item)) {
+            $finalProductPrice = 0;
         } else {
-            
-            $digiProtectPrice = 0;
+            if ($wiserPrice == 0 || empty($wiserPrice)) {
+                $finalProductPrice = $finalPrice;
+            } else {
 
-            $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
-            //$this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+                $digiProtectPrice = 0;
 
-            $customOptions = $this->_productOptions->getProductOptionCollection($product);
-            foreach($customOptions as $optionKey => $optionVal) {
-                foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
-                    //$this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
-                    if (isset($selectedOption['options'])) {
-                        $digiProtectPrice = $valuesVal->getPrice();
+                $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+                //$this->logger->info('$selectedOption: ' . json_encode($selectedOption));
+
+                $customOptions = $this->_productOptions->getProductOptionCollection($product);
+                foreach($customOptions as $optionKey => $optionVal) {
+                    foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+                        //$this->logger->info('$valuesVal: ' . $valuesVal->getTitle(). ' ' .$valuesVal->getPrice());
+                        if (isset($selectedOption['options'])) {
+                            $digiProtectPrice = $valuesVal->getPrice();
+                        }
                     }
                 }
-            }
-            
-            $wiserPlusDigiProtect = $wiserPrice + $digiProtectPrice;
-            
-            if ($finalPrice > $wiserPlusDigiProtect) {
-                if ($wiserPrice > 1 && !empty($wiserPrice)) {
-                    if ($wiserPrice < $price) {
-                        if ((in_array($sku, $discount2)) && $isDigiClub) {
-                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                        } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                        } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                        } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                        } 
-                        $finalPrice = $wiserPrice;
+
+                $wiserPlusDigiProtect = $wiserPrice + $digiProtectPrice;
+
+                if ($finalPrice > $wiserPlusDigiProtect) {
+                    if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                        if ($wiserPrice < $price) {
+                            if ((in_array($sku, $discount2)) && $isDigiClub) {
+                                $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                            } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                                $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                            } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                                $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                            } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                                $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                            } 
+                            $finalPrice = $wiserPrice;
+                        } else {
+                            $finalPrice = $price;
+                        }
                     } else {
                         $finalPrice = $price;
                     }
+
+                    //$this->logger->info('$finalPrice: ' . $finalPrice);
+                    //$this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
+
+                    $finalProductPrice = $finalPrice + $digiProtectPrice;
+
                 } else {
-                    $finalPrice = $price;
+
+                    $finalProductPrice = $finalPrice;
                 }
 
-                //$this->logger->info('$finalPrice: ' . $finalPrice);
-                //$this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
-
-                $finalProductPrice = $finalPrice + $digiProtectPrice;
-                
-            } else {
-                
-                $finalProductPrice = $finalPrice;
             }
-            
         }
         
         $item->setCustomPrice($finalProductPrice);
