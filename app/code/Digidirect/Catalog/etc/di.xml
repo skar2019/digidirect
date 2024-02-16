@@ -4,7 +4,7 @@
     <preference for="Magento\Catalog\Block\Category\View" type="Digidirect\Catalog\Block\Category\View" />
     
     <type name="Magento\Quote\Model\Quote\Item">
-        <plugin name="Digidirect_Catalog::QuoteItem" type="Digidirect\Catalog\Plugin\Quote\Item"/>
+        <plugin name="freegift_price" type="Digidirect\Catalog\Plugin\Quote\Item"/>
     </type>
     <type name="Magento\Catalog\Model\Config">
         <plugin name="sortby_add_custom_option" type="Digidirect\Catalog\Plugin\Model\Config" />
