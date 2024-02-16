@@ -559,7 +559,7 @@ return [
         'Digidirect_Blog' => 1,
         'Digidirect_InfiniteScroll' => 0,
         'Digidirect_Canonical' => 1,
-        'Digidirect_Catalog' => 0,
+        'Digidirect_Catalog' => 1,
         'Digidirect_LayeredNavigation' => 0,
         'Digidirect_Checkout' => 1,
         'Digidirect_CheckoutFields' => 1,
