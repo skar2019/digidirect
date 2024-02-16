@@ -40,7 +40,7 @@ class Item
     {
         if ($this->_giftItem->isFreeGiftItem($subject)) {
             $this->logger->info('This is free gift!');
-            return [0];
+            return 0;
         } else {
             return [$value];
         }
