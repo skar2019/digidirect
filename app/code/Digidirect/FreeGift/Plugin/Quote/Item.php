@@ -43,7 +43,7 @@ class Item
         $this->logger->info('isFreeGiftItem: ' . $this->_giftItem->isFreeGiftItem($subject));
         if ($this->_giftItem->isFreeGiftItem($subject)) {
             $this->logger->info('This is free gift!');
-            return [0];
+            return [15];
         }
         return [$value];
     }
