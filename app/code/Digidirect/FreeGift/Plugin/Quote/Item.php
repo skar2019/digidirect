@@ -33,6 +33,16 @@ class Item
 
     /**
      * @param QuoteItem $subject
+     * @param mixed $value
+     * @return array
+     */
+    public function beforeSetPrice(QuoteItem $subject, $value)
+    {
+        return [0];
+    }
+
+    /**
+     * @param QuoteItem $subject
      * @param \Closure $proceed
      * @param Product $product
      * @return bool
