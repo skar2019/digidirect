@@ -38,7 +38,11 @@ class Item
      */
     public function beforeSetPrice(QuoteItem $subject, $value)
     {
-        return [0];
+        if ($this->_giftItem->isFreeGiftItem($subject)) {
+            $this->logger->info('This is free gift!');
+            return [0];
+        }
+        return [$value];
     }
 
     /**
