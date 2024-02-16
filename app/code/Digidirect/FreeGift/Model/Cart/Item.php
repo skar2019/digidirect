@@ -24,8 +24,6 @@ class Item extends QuoteItem
      */
     protected $_resourceFreeGift;
     
-    
-    protected $logger;
 
     /**
      * Item constructor.
@@ -61,11 +59,9 @@ class Item extends QuoteItem
         \Digidirect\FreeGift\Model\ResourceModel\Rule $resourceFreeGift,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
         $this->_resourceFreeGift = $resourceFreeGift;
-        $this->logger = $logger;
         parent::__construct(
             $context,
             $registry,
