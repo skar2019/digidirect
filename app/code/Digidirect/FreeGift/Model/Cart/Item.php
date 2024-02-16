@@ -107,9 +107,9 @@ class Item extends QuoteItem
      */
     public function isFreeGiftItem($item)
     {
-        /*if (in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML])) {
+        if (in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML])) {
             return false;
-        }*/
+        }
         return $this->getRuleId($item) !== null;
     }
 
