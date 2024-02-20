@@ -82,11 +82,9 @@ class Data extends AbstractHelper
             
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
-                    $sellerShipping = 10;
-                } elseif ($seller == "iWorld Australia") {
-                    $sellerShipping = 0;
+                    $sellerShipping = 8.95;
                 } else {
-                    $sellerShipping = 9.90;
+                    $sellerShipping = 8.95;
                 }
             }
             
@@ -144,11 +142,9 @@ class Data extends AbstractHelper
             
             if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
-                    $sellerShipping = 10;
-                } elseif ($seller == "iWorld Australia") {
-                    $sellerShipping = 0;
+                    $sellerShipping = 8.95;
                 } else {
-                    $sellerShipping = 9.90;
+                    $sellerShipping = 8.95;
                 }
             }
             
@@ -209,7 +205,7 @@ class Data extends AbstractHelper
         //$this->logger->info('getDigiShipping: ' . $digiTotal);
 
         if (($digiTotal < 99) && ($digiTotal != 0)) {
-            $digiShipping = 10;
+            $digiShipping = 8.95;
         }
 
         //$this->logger->info('digiShipping : ' . $digiShipping);
