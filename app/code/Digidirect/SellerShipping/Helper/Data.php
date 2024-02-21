@@ -93,18 +93,20 @@ class Data extends AbstractHelper
                 $nonDigidirectSeller += $standardShipping;
             }
             
+            $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
+            $this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
+            
+            $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+            
             if ($nonDigidirectSeller <= 0) {
                 $nonDigidirectSeller = 0;
-            } else {
-                $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
             }
-            
             
             //$sellerShipping = 8.95;
             
             $sellerTotalShipping = $digidirectSeller + $nonDigidirectSeller;
             
-            //$this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
+            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
         //$sellerCount = count($sellers);
