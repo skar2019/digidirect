@@ -64,6 +64,12 @@ class Data extends AbstractHelper
         
         $sellerTotalShipping = 0;
         
+        $digidirectSeller = 0;
+        
+        $nonDigidirectSeller = 0;
+        
+        $standardShipping = 8.95;
+        
         foreach($sellers as $seller) {
             $sellerShipping = 0;
             $sellerTotal = 0;
@@ -80,17 +86,23 @@ class Data extends AbstractHelper
             }
             //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
-            /*if ($sellerTotal < 99) {
-                if ($seller == "digiDirect") {
-                    $sellerShipping = 8.95;
-                } else {
-                    $sellerShipping = 8.95;
-                }
-            }*/
             
-            $sellerShipping = 8.95;
+            if ($seller == "digiDirect") {
+                $digidirectSeller += $standardShipping;
+            } else {
+                $nonDigidirectSeller += $standardShipping;
+            }
             
-            $sellerTotalShipping += $sellerShipping;
+            if ($nonDigidirectSeller <= 0) {
+                $nonDigidirectSeller = 0;
+            } else {
+                $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+            }
+            
+            
+            //$sellerShipping = 8.95;
+            
+            $sellerTotalShipping = $digidirectSeller + $nonDigidirectSeller;
             
             //$this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
@@ -98,8 +110,7 @@ class Data extends AbstractHelper
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
         //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
-        $standardShipping = 8.95;
-        $finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
+        //$finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
         
         return $sellerTotalShipping;
         
