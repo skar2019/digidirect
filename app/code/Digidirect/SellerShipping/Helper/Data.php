@@ -80,13 +80,15 @@ class Data extends AbstractHelper
             }
             //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
+            /*if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
                     $sellerShipping = 8.95;
                 } else {
                     $sellerShipping = 8.95;
                 }
-            }
+            }*/
+            
+            $sellerShipping = 8.95;
             
             $sellerTotalShipping += $sellerShipping;
             
@@ -102,7 +104,6 @@ class Data extends AbstractHelper
     
     public function getSellers()
     {
-        //$items = $this->session->getQuote()->getAllVisibleItems();
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
@@ -116,7 +117,6 @@ class Data extends AbstractHelper
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
-            //$this->logger->info('getProductId: ' . $product->getId());
         }
         
         $sellerTotalShipping = 0;
@@ -129,7 +129,6 @@ class Data extends AbstractHelper
             
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -138,17 +137,15 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            //$this->logger->info($seller . ': ' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
+            /*if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
                     $sellerShipping = 8.95;
                 } else {
                     $sellerShipping = 8.95;
                 }
-            }
-            
-            //$sellerTotalShipping += $sellerShipping;
+            }*/
+            $sellerShipping = 8.95;
             
             if (!in_array($seller, $sellersArray))  {
                 array_push($sellersArray, [$seller,$sellerShipping]);
@@ -181,7 +178,7 @@ class Data extends AbstractHelper
     
     public function getDigiShipping()
     {
-        $items = $this->cart->getQuote()->getAllItems();
+        /*$items = $this->cart->getQuote()->getAllItems();
         
         $digiShipping = 0;
         
@@ -210,7 +207,7 @@ class Data extends AbstractHelper
 
         //$this->logger->info('digiShipping : ' . $digiShipping);
         
-        return $digiShipping;
-        
+        return $digiShipping;*/
+        return 8.95;
     }
 }
