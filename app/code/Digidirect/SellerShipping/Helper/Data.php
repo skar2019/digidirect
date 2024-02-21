@@ -101,7 +101,7 @@ class Data extends AbstractHelper
         $standardShipping = 8.95;
         $finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
         
-        return $finalSellerTotalShipping;
+        return $sellerTotalShipping;
         
     }
     
