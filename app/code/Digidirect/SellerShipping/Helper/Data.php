@@ -98,7 +98,10 @@ class Data extends AbstractHelper
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
         //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
-        return $sellerTotalShipping;
+        $standardShipping = 8.95;
+        $finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
+        
+        return $finalSellerTotalShipping;
         
     }
     
