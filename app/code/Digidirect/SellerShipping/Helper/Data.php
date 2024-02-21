@@ -92,8 +92,6 @@ class Data extends AbstractHelper
             } else {
                 $nonDigidirectSeller += $standardShipping;
             }
-            
-            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
         $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
