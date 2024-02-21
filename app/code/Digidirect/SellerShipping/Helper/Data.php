@@ -71,6 +71,21 @@ class Data extends AbstractHelper
         $standardShipping = 8.95;
         
         foreach($sellers as $seller) {
+            $sellerShipping = 0;
+            $sellerTotal = 0;
+            foreach($items as $item) {
+                $product = $this->productFactory->create()->load($item->getProductId());
+                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
+                $itemSeller = $product->getAttributeText('marketplacer_seller');
+            
+                if ($seller == $itemSeller) {
+                    $sellerTotal += $productTotal;
+                }
+            }
+            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            
             
             if ($seller == "digiDirect") {
                 $digidirectSeller += $standardShipping;
