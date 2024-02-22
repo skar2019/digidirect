@@ -68,6 +68,8 @@ class Data extends AbstractHelper
         
         $nonDigidirectSeller = 0;
         
+        $digidirectSellerCount = 0;
+        
         $nonDigidirectSellerCount = 0;
         
         $standardShipping = 8.95;
@@ -89,15 +91,17 @@ class Data extends AbstractHelper
             //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             
-            if ($seller != "digiDirect") {
+            if ($seller == "digiDirect") {
+                $digidirectSellerCount++;
+            } else {
                 $nonDigidirectSeller += $standardShipping;
                 $nonDigidirectSellerCount++;
             }
         }
         
-        /*if ($nonDigidirectSellerCount > 1) {
+        if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
             $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
-        }*/
+        }
         
         $this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
         $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
