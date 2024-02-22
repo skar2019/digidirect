@@ -68,6 +68,8 @@ class Data extends AbstractHelper
         
         $nonDigidirectSeller = 0;
         
+        $nonDigidirectSellerCount = 0;
+        
         $standardShipping = 8.95;
         
         foreach($sellers as $seller) {
@@ -91,11 +93,14 @@ class Data extends AbstractHelper
                 $digidirectSeller += $standardShipping;
             } else {
                 $nonDigidirectSeller += $standardShipping;
+                $nonDigidirectSellerCount++;
             }
         }
         
-        $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
-
+        if ($nonDigidirectSellerCount > 1) {
+            $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+        }
+        
         if ($nonDigidirectSeller <= 0) {
             $nonDigidirectSeller = 0;
         }
