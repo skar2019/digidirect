@@ -56,7 +56,7 @@ class Data extends AbstractHelper
                 $seller = "digiDirect";
             }
             
-            if (($seller != "digiDirect") && (!in_array($seller, $sellers)))  {
+            if ((!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());
@@ -99,7 +99,7 @@ class Data extends AbstractHelper
             }
         }
         
-        if ($nonDigidirectSellerCount > 0) {
+        if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
             $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
         }
         
