@@ -95,9 +95,9 @@ class Data extends AbstractHelper
             }
         }
         
-        if ($nonDigidirectSellerCount > 1) {
+        /*if ($nonDigidirectSellerCount > 1) {
             $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
-        }
+        }*/
         
         $this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
         $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
