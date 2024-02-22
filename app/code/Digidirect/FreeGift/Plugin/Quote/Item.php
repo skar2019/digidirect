@@ -12,28 +12,23 @@ class Item
      * @var CartItem
      */
     protected $_giftItem;
+    
+    
+    protected $logger;
 
     /**
      * Item constructor.
      *
      * @param CartItem $giftItem
      */
-    public function __construct(CartItem $giftItem)
+    public function __construct
+    (   
+        CartItem $giftItem,
+        \Psr\Log\LoggerInterface $logger
+    )
     {
         $this->_giftItem = $giftItem;
-    }
-
-    /**
-     * @param QuoteItem $subject
-     * @param mixed $value
-     * @return array
-     */
-    public function beforeSetPrice(QuoteItem $subject, $value)
-    {
-        if ($this->_giftItem->isFreeGiftItem($subject)) {
-            return [0];
-        }
-        return [$value];
+        $this->logger = $logger;
     }
 
     /**

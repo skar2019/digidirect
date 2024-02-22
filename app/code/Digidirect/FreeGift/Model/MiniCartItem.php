@@ -50,8 +50,6 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
     private $freeGift;
     
     
-    protected $logger;
-
     /**
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Msrp\Helper\Data $msrpHelper
@@ -70,8 +68,7 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Framework\Escaper $escaper = null,
         ItemResolverInterface $itemResolver = null,
-        \Digidirect\FreeGift\Model\Cart\Item $freeGift,
-        \Psr\Log\LoggerInterface $logger
+        \Digidirect\FreeGift\Model\Cart\Item $freeGift
     ) {
         $this->configurationPool = $configurationPool;
         $this->imageHelper = $imageHelper;
@@ -81,14 +78,12 @@ class MiniCartItem extends \Magento\Checkout\CustomerData\DefaultItem {
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(\Magento\Framework\Escaper::class);
         $this->itemResolver = $itemResolver ?: ObjectManager::getInstance()->get(ItemResolverInterface::class);
         $this->freeGift = $freeGift;
-        $this->logger = $logger;
     }
 
     public function doGetItemData() {
         $imageHelper = $this->imageHelper->init($this->getProductForThumbnail(), 'mini_cart_product_thumbnail');
         $productName = $this->escaper->escapeHtml($this->item->getProduct()->getName());
         
-        $this->logger->info("freegift_rule_id: " . $this->freeGift->getRuleId($this->item) . ", sku: " . $this->item->getProduct()->getSku());
 
         return [
             'options' => $this->getOptionList(),

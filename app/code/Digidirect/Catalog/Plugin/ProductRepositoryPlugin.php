@@ -2,6 +2,8 @@
 
 namespace Digidirect\Catalog\Plugin;
 
+use Magento\Catalog\Api\Data\ProductInterface;
+
 class ProductRepositoryPlugin
 {
     
@@ -19,6 +21,18 @@ class ProductRepositoryPlugin
     }
     
     public function afterGet
+    (
+        \Magento\Catalog\Api\ProductRepositoryInterface $subject,
+        \Magento\Catalog\Api\Data\ProductInterface $entity
+    ) {
+        // Modify SKU before returning the result
+        $this->logger->info('Test Product API Override!');
+        $entity->setSku(substr($entity->getSku(), 0, 3));
+
+        return $entity;
+    }
+    
+    public function afterGetById
     (
         \Magento\Catalog\Api\ProductRepositoryInterface $subject,
         \Magento\Catalog\Api\Data\ProductInterface $entity
