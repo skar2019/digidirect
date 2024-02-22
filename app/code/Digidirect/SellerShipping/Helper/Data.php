@@ -99,11 +99,11 @@ class Data extends AbstractHelper
             }
         }
         
-        /*if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
+        if ($nonDigidirectSellerCount > 0) {
             $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
         }
         
-        if ($digidirectSellerCount > 0) {
+        /*if ($digidirectSellerCount > 0) {
             $nonDigidirectSeller = $nonDigidirectSeller + $standardShipping;
         }*/
         
