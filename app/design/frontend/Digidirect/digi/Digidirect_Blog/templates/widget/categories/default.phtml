@@ -19,9 +19,11 @@ $categories = $block->getCategoriesTree();
                         <a class="link<?php if($block->isActive($category->getEntityId())): ?> -active<?php endif; ?>" href="<?php echo $block->escapeUrl($block->getCategoryUrl($category->getUrlKey())); ?>"
                            title="<?php echo $block->escapeHtml($category->getName()); ?>">
                             <?php echo $block->escapeHtml($category->getName()); ?>
+                            <?php echo "insert1"; ?>
                         </a>
                     <?php else: ?>
                         <?php echo $block->escapeHtml($category->getName()); ?>
+                        <?php echo "insert2"; ?>
                     <?php endif; ?>
                 </li>
             <?php endif; ?>
@@ -35,6 +37,7 @@ $categories = $block->getCategoriesTree();
                 <a class="link" href="<?php echo $block->escapeUrl($block->getBlogUrl()); ?>"
                    title="<?php echo $block->escapeHtml(__('All')); ?>">
                     <?php echo $block->escapeHtml(__('View All')); ?>
+                    <?php echo "insert3"; ?>
                 </a>
             </div>
         <?php endif; ?>
