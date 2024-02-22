@@ -89,15 +89,13 @@ class Data extends AbstractHelper
             //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             
-            if ($seller == "digiDirect") {
-                $digidirectSeller += $standardShipping;
-            } else {
+            if ($seller != "digiDirect") {
                 $nonDigidirectSeller += $standardShipping;
                 $nonDigidirectSellerCount++;
             }
         }
         
-        if ($nonDigidirectSellerCount > 0) {
+        if ($nonDigidirectSellerCount > 1) {
             $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
         }
         
@@ -105,7 +103,7 @@ class Data extends AbstractHelper
         $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
         $this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
         
-        $sellerTotalShipping = $digidirectSeller + $nonDigidirectSeller;
+        $sellerTotalShipping = $nonDigidirectSeller;
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
         //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
