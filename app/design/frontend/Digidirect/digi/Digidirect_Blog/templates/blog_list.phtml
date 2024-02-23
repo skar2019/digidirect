@@ -2,6 +2,7 @@
 /**
  * @var \Digidirect\Blog\Block\Blog $block
  * @var \Digidirect\Blog\Model\Post $post
+ * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
  */
 
 /**
@@ -9,7 +10,30 @@
  */
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
+$categories = $block->getCategoriesTree();
 ?>
+
+<!-- added -->
+<?php $function = function ($category) use (&$function, $block) { ?>
+            <?php if(!empty($category) && $block->showCategory($category)): ?>
+                <li class="item item-<?php echo $block->escapeHtml($category->getEntityId()); ?>">
+                    <?php if($block->isEnabled($category)): ?>
+                        <a class="link<?php if($block->isActive($category->getEntityId())): ?> -active<?php endif; ?>" href="<?php echo $block->escapeUrl($block->getCategoryUrl($category->getUrlKey())); ?>"
+                           title="<?php echo $block->escapeHtml($category->getName()); ?>">
+                            <?php echo $block->escapeHtml($category->getName()); ?>
+                        </a>
+                    <?php else: ?>
+                        <?php echo $block->escapeHtml($category->getName()); ?>
+                    <?php endif; ?>
+                </li>
+            <?php endif; ?>
+        <?php } ;?>
+        <?php foreach ($categories as $category): ?>
+            <?php $category = $block->getCategoryObject($category); ?>
+            <?php $function($category);?>
+        <?php endforeach; ?>
+<!-- added end -->
+
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
         <?php foreach ($block->getCollection() as $post): ?>
@@ -41,7 +65,6 @@ $categoriesArrayNames = [];
                     <h2 class="title blogjai4">
                         <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
-                            <?php echo $block->escapeHtml($category->getName()); ?>
                         </a>
                     </h2>
                     
