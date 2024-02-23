@@ -9,9 +9,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
-            <block name="banner.data.homepage"
-            class="Magento\Banner\Block\Ajax\Data"
-            template="Magento_Banner::js/banner.phtml"/>
+            <block class="Magento\Cms\Block\Page" name="cms_page"/>
         </referenceContainer>
     </body>
 </page>
