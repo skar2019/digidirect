@@ -11,9 +11,9 @@ $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
 ?>
 <?php if ($block->isListPageMode()): ?>
-    <div class="blog-list blog-pg blogger">
+    <div class="blog-list blog-pg blogger blogjai1">
         <?php foreach ($block->getCollection() as $post): ?>
-            <article class="post-card item">
+            <article class="post-card item blogjai2">
                 <?php if (!empty($post->getImageUrl())): ?>
                 <a class="img-link" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>">
                     <picture>
@@ -22,12 +22,12 @@ $categoriesArrayNames = [];
                     </picture>
                 </a>
                 <?php endif; ?>
-                <div class="container">
+                <div class="container blogjai3">
                     <?php if ($block->isShowCategoryNames()) : ?>
                         <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
                         <?php $categoriesTitlesCount = count($categoriesArray); ?>
                         <?php if ($categoriesTitlesCount) : ?>
-                            <div class="categories">
+                            <div class="categories blogjai3">
                                 <?php /** @var $category \Digidirect\Blog\Model\Category*/ ?>
                                 <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
                                     <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
@@ -37,7 +37,7 @@ $categoriesArrayNames = [];
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <h2 class="title">
+                    <h2 class="title blogjai4">
                         <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
