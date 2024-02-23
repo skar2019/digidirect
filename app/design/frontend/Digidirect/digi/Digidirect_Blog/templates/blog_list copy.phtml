@@ -2,7 +2,6 @@
 /**
  * @var \Digidirect\Blog\Block\Blog $block
  * @var \Digidirect\Blog\Model\Post $post
- * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
  */
 
 /**
@@ -10,11 +9,7 @@
  */
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
-$categories = $block->getCategoriesTree();
 ?>
-
-<?php echo $categories; ?>
-
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
         <?php foreach ($block->getCollection() as $post): ?>
@@ -42,10 +37,8 @@ $categories = $block->getCategoriesTree();
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-
                     <h2 class="title blogjai4">
-                        <!-- edited -->
-                        <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getName()); ?>">
+                        <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
                     </h2>
