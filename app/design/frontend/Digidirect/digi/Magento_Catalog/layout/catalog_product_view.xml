@@ -169,6 +169,7 @@
             </arguments>
         </block>
         
+        <move element="frequently.bought.with" destination="page.wrapper" before="page.messages" />
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
         <move element="page.main.title" destination="product.info.main" before="-" />
