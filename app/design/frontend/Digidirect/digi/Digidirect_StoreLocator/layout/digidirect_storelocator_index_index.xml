@@ -2,6 +2,13 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <attribute name="class" value="simple-structure"/>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceBlock name="page.main.title" remove="true">
             <action method="setPageTitle">
                 <argument name="label" translate="true" xsi:type="string">Find a Store</argument>
