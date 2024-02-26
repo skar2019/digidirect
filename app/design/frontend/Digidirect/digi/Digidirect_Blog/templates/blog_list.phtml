@@ -2,21 +2,28 @@
 /**
  * @var \Digidirect\Blog\Block\Blog $block
  * @var \Digidirect\Blog\Model\Post $post
- * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
  */
 
 /**
  * @var \Digidirect\Digi\Helper\Blog $blogHelper
  */
+
+/**
+ * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
+ */
+
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
 $categories = $block->getCategoriesTree();
+
 ?>
 
 <?php 
 var_dump($categoriesArrayNames);
+echo "<br>";
 var_dump($categories);
-
+echo "<br>";
+var_dump($blogHelper);
 ?>
 
 
