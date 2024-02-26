@@ -52,17 +52,49 @@ $viewModel = $block->getData('product_layer_view_model');
             //console.log("Test JQuery!");
             var ctrOption = 0;
             var hiddenOptions = 0;
-            $(this).find('.item').each(function () {
+            $(this).find('li.item').each(function () {
                 ctrOption++;
                 if (ctrOption > 5) {
                     $(this).hide();
                     hiddenOptions++;
                 }
-                console.log("ctrOption++: " + ctrOption++);
+                //console.log("ctrOption++: " + ctrOption++);
             });
             if (hiddenOptions == 0) {
                 $(this).find('.show-more-options').hide();
             }
         });
+        
+        
+        $('#narrow-by-list > .filter-options-content').each(function () {
+            var optionLimit = 5;
+            var optionCtr = 0;
+            $(this).children('.show-more-options').click(function() {
+                console.log("show-more-options clicked!");
+                $(this).prev().each(function () {
+                    $(this).children('.item:hidden').each(function () {
+                        optionCtr++;
+                        $(this).show();
+                        if (optionCtr == optionLimit) {
+                            optionCtr = 0;
+                            return false;
+                        }
+                    })
+                    var hiddenOption = 0;
+                    $(this).children('.item:hidden').each(function () {
+                        hiddenOption++;
+                    })
+                    if (hiddenOption == 0) {
+                        $(this).next().hide();
+                    }
+                    
+                });
+            });
+            
+            
+        });
+        
+        
     });
+    
 </script>
