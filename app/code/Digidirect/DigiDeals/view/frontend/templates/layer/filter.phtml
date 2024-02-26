@@ -45,3 +45,23 @@ $viewModel = $block->getData('product_layer_view_model');
     <?php endforeach ?>
     <div class="show-more-options">Show More</div>
 </ol>
+
+<script>
+    require(['jquery', 'jquery/ui'], function($){ 
+        $('#narrow-by-list > .filter-options-content').each(function () {
+            var ctrOption = 0;
+            var hiddenOptions = 0;
+            $(this).children('.item').each(function () {
+                ctrOption++;
+                if (ctrOption > 5) {
+                    $(this).hide();
+                    hiddenOptions++;
+                }
+                console.log("ctrOption++: " + ctrOption++);
+            });
+            if (hiddenOptions == 0) {
+                $(this).children('.show-more-options').hide();
+            }
+        });
+    });
+</script>
