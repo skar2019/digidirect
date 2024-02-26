@@ -8,15 +8,27 @@
  * @var \Digidirect\Digi\Helper\Blog $blogHelper
  */
 
-/**
- * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
+ /** @var \Digidirect\Blog\Block\Widget\TagsCloud $block
+ * @var \Digidirect\Blog\Model\Tag
  */
 
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
-$categories = $block->getCategoriesTree();
 
 ?>
+
+<?php if($block->hasTags()) : ?>
+    <div class="blog-tags blog-widget widget">
+        <h3 class="title"><?php /* @escapeNotVerified */ echo __('Tags')?></h3>
+        <ul class="list">
+            <?php foreach ($block->getTags() as $tag): ?>
+                <li class="item">
+                    <a class="link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>" title="<?php echo $block->escapeHtml($tag->getName()) ?>"><?php echo $block->escapeHtml($tag->getName()) ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif ?>
 
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
