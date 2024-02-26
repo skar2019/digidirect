@@ -25,9 +25,10 @@
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
     $is_digiPrint = $currentProduct->getData('is_digiprint');
+    $seller = $currentProduct->getData('marketplacer_seller');
 ?>
 
-<?php if($block->checkRenderLink() && !$is_digiPrint) : ?>
+<?php if($block->checkRenderLink() && !$is_digiPrint && $seller == "digiDirect") : ?>
     <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 0; margin-top: 15px;">
         <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
             <div class="pricematch-caption">
