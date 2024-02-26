@@ -66,13 +66,13 @@ $viewModel = $block->getData('product_layer_view_model');
         });
         
         
-        $('#narrow-by-list > .filter-options-content').each(function () {
+        $('#narrow-by-list .filter-options-content').each(function () {
             var optionLimit = 5;
             var optionCtr = 0;
-            $(this).children('.show-more-options').click(function() {
+            $(this).find('.show-more-options').click(function() {
                 console.log("show-more-options clicked!");
                 $(this).prev().each(function () {
-                    $(this).children('.item:hidden').each(function () {
+                    $(this).find('.item:hidden').each(function () {
                         optionCtr++;
                         $(this).show();
                         if (optionCtr == optionLimit) {
@@ -81,7 +81,7 @@ $viewModel = $block->getData('product_layer_view_model');
                         }
                     })
                     var hiddenOption = 0;
-                    $(this).children('.item:hidden').each(function () {
+                    $(this).find('.item:hidden').each(function () {
                         hiddenOption++;
                     })
                     if (hiddenOption == 0) {
