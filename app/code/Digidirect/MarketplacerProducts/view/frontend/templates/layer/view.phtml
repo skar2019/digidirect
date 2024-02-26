@@ -26,7 +26,7 @@ $priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
             <?php $wrapOptions = false; ?>
             <?php foreach ($block->getFilters() as $filter) : ?>
                 <?php if (!$wrapOptions) : ?>
-                    <dl class="filter-options" id="narrow-by-list">
+                    <dl class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState":"active", "collapsible": true, "active":false,"multipleCollapsible":false}}'>
                     <?php $wrapOptions = true;
                 endif; ?>
                     <?php if (in_array($filter->getName(), $priorityAttributes)) { ?>
