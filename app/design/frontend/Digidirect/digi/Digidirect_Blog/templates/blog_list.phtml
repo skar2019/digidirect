@@ -2,18 +2,33 @@
 /**
  * @var \Digidirect\Blog\Block\Blog $block
  * @var \Digidirect\Blog\Model\Post $post
- * @var \Digidirect\Blog\Block\Widget\BlogCategories $block
  */
 
 /**
  * @var \Digidirect\Digi\Helper\Blog $blogHelper
  */
+
+ /** @var \Digidirect\Blog\Block\Widget\TagsCloud $block
+ * @var \Digidirect\Blog\Model\Tag
+ */
+
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
-$categories = $block->getCategoriesTree();
+
 ?>
 
-<?php echo $categories; ?>
+
+    <div class="blog-tags blog-widget widget">
+        <h3 class="title"><?php /* @escapeNotVerified */ echo __('Tags')?></h3>
+        <ul class="list">
+            <?php foreach ($block->getTags() as $tag): ?>
+                <li class="item">
+                    <a class="link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>" title="<?php echo $block->escapeHtml($tag->getName()) ?>"><?php echo $block->escapeHtml($tag->getName()) ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
 
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
@@ -45,7 +60,7 @@ $categories = $block->getCategoriesTree();
 
                     <h2 class="title blogjai4">
                         <!-- edited -->
-                        <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getName()); ?>">
+                        <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
                     </h2>
