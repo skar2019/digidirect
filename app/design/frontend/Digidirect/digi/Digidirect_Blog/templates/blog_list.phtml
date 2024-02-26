@@ -18,15 +18,6 @@ $categories = $block->getCategoriesTree();
 
 ?>
 
-<?php 
-var_dump($categoriesArrayNames);
-echo "<br>";
-var_dump($categories);
-echo "<br>";
-var_dump($blogHelper);
-?>
-
-
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
         <?php foreach ($block->getCollection() as $post): ?>
