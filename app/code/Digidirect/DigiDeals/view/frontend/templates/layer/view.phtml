@@ -29,16 +29,14 @@ $priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
                     <dl class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState":"active", "collapsible": true, "active":false,"multipleCollapsible":false}}'>
                     <?php $wrapOptions = true;
                 endif; ?>
-                    <?php if (in_array($filter->getName(), $priorityAttributes)) { ?>
-                        <?php if ($filter->getItemsCount()) : ?>
-                            <?php if ($filter->getName() == "MP_Brand") : ?>
-                                <dt role="heading" aria-level="3" class="filter-options-title">Brand</dt>
-                            <?php else: ?>
-                                <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
-                            <?php endif; ?>
-                            <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                    <?php if ($filter->getItemsCount()) : ?>
+                        <?php if ($filter->getName() == "MP_Brand") : ?>
+                            <dt role="heading" aria-level="3" class="filter-options-title">Brand</dt>
+                        <?php else: ?>
+                            <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
                         <?php endif; ?>
-                    <?php } ?>
+                        <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                    <?php endif; ?>
             <?php endforeach; ?>
             <?php if ($wrapOptions) : ?>
                 </dl>
@@ -46,3 +44,23 @@ $priorityAttributes = ["Price", "Color", "MP_Brand", "Category", "Seller"];
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    require(['jquery', 'jquery/ui'], function($){ 
+        $('#narrow-by-list > .filter-options-content').each(function () {
+            var ctrOption = 0;
+            var hiddenOptions = 0;
+            $(this).children('.item').each(function () {
+                ctrOption++;
+                if (ctrOption > 5) {
+                    $(this).hide();
+                    hiddenOptions++;
+                }
+            });
+            if (hiddenOptions == 0) {
+                $(this).children('.show-more-options').hide();
+            }
+        });
+    });
+    
+</script>
