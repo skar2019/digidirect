@@ -37,7 +37,7 @@
     $allChildrenCategoryIdsOptics = $categoryOptics->getAllChildren(true);
     
     $categoryPhotoAndAccessories = $categoryFactory->create()->load(71);
-    $allChildrenCategoryIdsPhotoAndAccessories = $categoryPhotoAndAccessories->getAllChildren(true);
+    $allChildrenCategoryIdsPhotoAndAccessories = array_diff($categoryPhotoAndAccessories->getAllChildren(true),[331]);
     
     $categoryProVideo = $categoryFactory->create()->load(77);
     $allChildrenCategoryIdsProVideo = $categoryProVideo->getAllChildren(true);
