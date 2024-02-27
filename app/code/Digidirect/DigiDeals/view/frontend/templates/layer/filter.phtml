@@ -73,7 +73,7 @@ $viewModel = $block->getData('product_layer_view_model');
             thisElement.find('.show-more-options').click(function() {
                 console.log("show-more-options clicked!");
                 thisElement.each(function () {
-                    $(this).find('.item').each(function () {
+                    thisElement.find('li.item').each(function () {
                         optionCtr++;
                         $(this).show();
                         if (optionCtr == optionLimit) {
@@ -82,6 +82,7 @@ $viewModel = $block->getData('product_layer_view_model');
                         }
                     });
                 });
+                console.log("optionCtr++: " + optionCtr++);
             });
         });
         
