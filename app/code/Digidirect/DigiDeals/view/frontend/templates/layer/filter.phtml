@@ -66,11 +66,10 @@ $viewModel = $block->getData('product_layer_view_model');
         });
         
         
-        $('#narrow-by-list .filter-options-content').each(function () {
+        $('#narrow-by-list .filter-options-content .items').each(function () {
             var optionLimit = 5;
             var optionCtr = 0;
             $(this).find('.show-more-options').click(function() {
-                console.log("show-more-options clicked!");
                 $(this).prev().each(function () {
                     $(this).find('.item').each(function () {
                         optionCtr++;
@@ -82,8 +81,6 @@ $viewModel = $block->getData('product_layer_view_model');
                     });
                 });
             });
-            
-            
         });
         
         
