@@ -70,7 +70,7 @@ $viewModel = $block->getData('product_layer_view_model');
             var optionLimit = 5;
             var optionCtr = 0;
             $(this).find('.show-more-options').click(function() {
-                $(this).find('.item:hidden').each(function () {
+                $(this).find('.item').each(function () {
                     optionCtr++;
                     $(this).show();
                     if (optionCtr == optionLimit) {
