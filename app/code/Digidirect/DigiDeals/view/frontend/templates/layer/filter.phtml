@@ -68,9 +68,9 @@ $viewModel = $block->getData('product_layer_view_model');
         
         $('#narrow-by-list .filter-options-content .items').each(function () {
             var optionLimit = 5;
-            var optionCtr = 0;
-            var thisElement = $(this)
+            var thisElement = $(this);
             thisElement.find('.show-more-options').click(function() {
+                var optionCtr = 0;
                 thisElement.find('li.item:hidden').each(function () {
                     if (optionCtr < optionLimit) {
                         $(this).show();
