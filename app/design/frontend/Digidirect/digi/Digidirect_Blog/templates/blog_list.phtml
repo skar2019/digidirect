@@ -7,29 +7,9 @@
 /**
  * @var \Digidirect\Digi\Helper\Blog $blogHelper
  */
-
- /** @var \Digidirect\Blog\Block\Widget\TagsCloud $block
- * @var \Digidirect\Blog\Model\Tag
- */
-
 $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
-
 ?>
-
-
-    <div class="blog-tags blog-widget widget">
-        <h3 class="title"><?php /* @escapeNotVerified */ echo __('Tags')?></h3>
-        <ul class="list">
-            <?php foreach ($block->getTags() as $tag): ?>
-                <li class="item">
-                    <a class="link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>" title="<?php echo $block->escapeHtml($tag->getName()) ?>"><?php echo $block->escapeHtml($tag->getName()) ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-
-
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg blogger blogjai1">
         <?php foreach ($block->getCollection() as $post): ?>
@@ -57,9 +37,7 @@ $categoriesArrayNames = [];
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-
                     <h2 class="title blogjai4">
-                        <!-- edited -->
                         <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
