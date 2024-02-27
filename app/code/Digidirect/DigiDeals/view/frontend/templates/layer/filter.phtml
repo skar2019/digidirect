@@ -72,13 +72,13 @@ $viewModel = $block->getData('product_layer_view_model');
             var thisElement = $(this)
             thisElement.find('.show-more-options').click(function() {
                 thisElement.find('li.item:hidden').each(function () {
-                    console.log("optionCtr++: " + optionCtr++);
+                    optionCtr++;
+                    $(this).show();
+                    console.log("optionCtr: " + optionCtr);
                     if (optionCtr == optionLimit) {
                         optionCtr = 0;
                         return false;
                     }
-                    optionCtr++;
-                    $(this).show();
                 });
                 
                 var hiddenOption = 0;
