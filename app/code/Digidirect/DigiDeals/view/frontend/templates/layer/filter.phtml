@@ -70,24 +70,21 @@ $viewModel = $block->getData('product_layer_view_model');
             var optionLimit = 5;
             var optionCtr = 0;
             $(this).find('.show-more-options').click(function() {
-                $(this).each(function () {
-                    $(this).find('.item:hidden').each(function () {
-                        optionCtr++;
-                        $(this).show();
-                        if (optionCtr == optionLimit) {
-                            optionCtr = 0;
-                            return false;
-                        }
-                    })
-                    var hiddenOption = 0;
-                    $(this).find('.item:hidden').each(function () {
-                        hiddenOption++;
-                    })
-                    if (hiddenOption == 0) {
-                        $(this).next().hide();
+                $(this).find('.item:hidden').each(function () {
+                    optionCtr++;
+                    $(this).show();
+                    if (optionCtr == optionLimit) {
+                        optionCtr = 0;
+                        return false;
                     }
-                    
                 });
+                /*var hiddenOption = 0;
+                $(this).find('.item:hidden').each(function () {
+                    hiddenOption++;
+                })
+                if (hiddenOption == 0) {
+                    $(this).next().hide();
+                }*/
             });
             
             
