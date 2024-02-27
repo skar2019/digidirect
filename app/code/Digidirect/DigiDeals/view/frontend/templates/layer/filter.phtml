@@ -72,15 +72,14 @@ $viewModel = $block->getData('product_layer_view_model');
             var thisElement = $(this)
             thisElement.find('.show-more-options').click(function() {
                 console.log("show-more-options clicked!");
-                thisElement.each(function () {
-                    thisElement.find('li.item').each(function () {
-                        optionCtr++;
-                        $(this).show();
-                        if (optionCtr == optionLimit) {
-                            optionCtr = 0;
-                            return false;
-                        }
-                    });
+                thisElement.find('li.item').each(function () {
+                    console.log("thisElement.find");
+                    optionCtr++;
+                    $(this).show();
+                    if (optionCtr == optionLimit) {
+                        optionCtr = 0;
+                        return false;
+                    }
                 });
                 console.log("optionCtr++: " + optionCtr++);
             });
