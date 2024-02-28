@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\Blog\Block;
+namespace Digidirect\Blog\B2B;
 
 use Digidirect\Blog\Api\CommentRepositoryInterface;
 use Digidirect\Blog\Api\Data\PostInterface;
