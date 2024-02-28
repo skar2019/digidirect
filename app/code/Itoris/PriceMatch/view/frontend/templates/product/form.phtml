@@ -26,11 +26,10 @@
     $currentProduct = $productBlock->getCurrentProduct();
     $is_digiPrint = $currentProduct->getData('is_digiprint');
     $seller = $currentProduct->getData('marketplacer_seller');
-    $productSeller = $currentProduct->getMarketplacerSeller();
 ?>
 
-<?php if($block->checkRenderLink() && !$is_digiPrint) : ?>
-<div class="itoris-pm-product-marker <?= $seller?> -<?= $seller?>" style="display: none; clear: left; margin-bottom: 0; margin-top: 15px;">
+<?php if($block->checkRenderLink() && !$is_digiPrint && $seller == 20329) : ?>
+    <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 0; margin-top: 15px;">
         <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
             <div class="pricematch-caption">
                 <span>Found a better price? Click here and watch us try to beat it.</span>
