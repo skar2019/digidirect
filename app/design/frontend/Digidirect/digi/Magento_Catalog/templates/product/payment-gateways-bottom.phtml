@@ -7,7 +7,7 @@ $seller = $_product->getData('marketplacer_seller');
 ?>
 
 <div class="payment-gateways-bottom">
-    <?php if ($seller == "digiDirect") { ?>
+    <?php if ($seller == 20329) { ?>
         <div class="row-bottom">
             <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
                 <?php echo $block->getBlockHtml('formkey')?>
