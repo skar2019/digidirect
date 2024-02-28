@@ -117,7 +117,7 @@ class B2B extends Template
     {
         if (!$this->hasData('collection')) {
             $collection = $this->prepareCollection();
-            $collection->addAttributeToFilter("category_id", 28);
+            $collection->addFieldToFilter('category_id', 28);
             $this->setData('collection', $collection);
             if ($this->isShowCategoryNames()) {
                 $this->categoryHelper->prepareCategoriesUrls();
