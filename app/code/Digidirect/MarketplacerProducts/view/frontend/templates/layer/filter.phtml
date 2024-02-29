@@ -44,6 +44,7 @@ $viewModel = $block->getData('product_layer_view_model');
         </li>
     <?php endforeach ?>
     <div class="show-more-options">Show More<i class="fas fa-chevron-down" style="margin-left: 10px;"></i></div>
+    <div class="show-less-options" style="display: none;">Show Less<i class="fas fa-chevron-up" style="margin-left: 10px;"></i></div>
 </ol>
 
 <script>
@@ -67,7 +68,7 @@ $viewModel = $block->getData('product_layer_view_model');
         
         
         $('#narrow-by-list .filter-options-content .items').each(function () {
-            var optionLimit = 5;
+            //var optionLimit = 5;
             var thisElement = $(this);
             thisElement.find('.show-more-options').click(function(event) {
                 var optionCtr = 0;
@@ -75,9 +76,9 @@ $viewModel = $block->getData('product_layer_view_model');
                     optionCtr++;
                     $(this).show();
                     console.log("optionCtr: " + optionCtr);
-                    if (optionCtr == optionLimit) {
+                    /*if (optionCtr == optionLimit) {
                         return false;
-                    }
+                    }*/
                 });
                 
                 var hiddenOption = 0;
@@ -87,9 +88,26 @@ $viewModel = $block->getData('product_layer_view_model');
 
                 if (hiddenOption == 0) {
                     thisElement.find('.show-more-options').hide();
+                    thisElement.find('.show-less-options').show();
                 }
                 event.stopPropagation();
             });
+            
+            thisElement.find('.show-less-options').click(function() {
+                var ctrOption = 0;
+                var hiddenOptions = 0;
+                thisElement.find('li.item').each(function () {
+                    ctrOption++;
+                    if (ctrOption > 5) {
+                        $(this).hide();
+                        hiddenOptions++;
+                    }
+                    //console.log("ctrOption++: " + ctrOption++);
+                });
+                thisElement.find('.show-more-options').show();
+                thisElement.find('.show-less-options').hide();
+            });
+            
         });
         
         
