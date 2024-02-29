@@ -43,15 +43,5 @@ $minimalRegularPrice = $regularPriceModel->getMinimalPrice();
                 'include_container' => true
             ]); ?>
         </p>
-        <?php if ($catalogRulePDP = trim($this->getLayout()
-            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
-            ->setBlockName('digi_catalog_rule_pdp')
-            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/price_rule.phtml')
-            ->setActualAmount($minimalPrice)
-            ->toHtml())) : ?>
-            <div class="price-to">
-                <span class="price-label"><?= /* @escapeNotVerified */ __('Cashback Available') ?></span>
-            </div>
-        <?php endif; ?>
     <?php endif ?>
 <?php endif ?>
