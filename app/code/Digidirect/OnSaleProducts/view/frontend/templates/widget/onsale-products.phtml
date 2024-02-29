@@ -96,14 +96,6 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         <?= $block->escapeHtml($_item->getName()); ?>
                                     </a>
                                 </strong>
-                                
-                                <?= $this->getLayout()
-                                    ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
-                                    ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
-                                    ->setProduct($_item)
-                                    ->toHtml();
-                                ?>
-                                
                                 <?= $block->getProductPriceHtml($_item, $type); ?>
                                 
                                 <?php if ($templateType) :?>
