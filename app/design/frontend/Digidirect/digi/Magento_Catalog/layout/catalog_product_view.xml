@@ -28,6 +28,10 @@
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
+            <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
+                   name="digidirectextended.catalog.price.rule.product.view.core"
+                   before="-"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
             <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
