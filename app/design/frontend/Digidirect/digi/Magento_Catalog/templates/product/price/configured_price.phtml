@@ -48,15 +48,6 @@ $configuredRegularPrice = $block->getPriceType(
         ? $block->getPriceLabel()
         : '';
     ?>
-    <?php if ($catalogRulePDP = trim($this->getLayout()
-        ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
-        ->setBlockName('digi_catalog_rule_pdp')
-        ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/price_rule_amount.phtml')
-        ->setActualAmount($configuredPrice->getAmount())
-        ->toHtml())) : ?>
-        <?php echo $catalogRulePDP; ?>
-        <?php $priceLabel = __('Before Cashback') ?>
-    <?php endif; ?>
     <p class="price-as-configured">
         <?= /* @noEscape */ $block->renderAmount(
             $configuredPrice->getAmount(),

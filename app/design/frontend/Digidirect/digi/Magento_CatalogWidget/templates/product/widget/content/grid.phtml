@@ -91,12 +91,6 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <?php if ($showReview && $templateType): ?>
                                         <?=  $block->getReviewsSummaryHtml($_item, $templateType); ?>
                                     <?php endif; ?>
-                                    <?= $this->getLayout()
-                                        ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
-                                        ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
-                                        ->setProduct($_item)
-                                        ->toHtml();
-                                    ?>
                                     <?= $block->getProductPriceHtml($_item, $type); ?>
 
                                     <div class="product-item-inner">
