@@ -37,7 +37,7 @@
     $allChildrenCategoryIdsOptics = $categoryOptics->getAllChildren(true);
     
     $categoryPhotoAndAccessories = $categoryFactory->create()->load(71);
-    $allChildrenCategoryIdsPhotoAndAccessories = $categoryPhotoAndAccessories->getAllChildren(true);
+    $allChildrenCategoryIdsPhotoAndAccessories = array_diff($categoryPhotoAndAccessories->getAllChildren(true),[331]);
     
     $categoryProVideo = $categoryFactory->create()->load(77);
     $allChildrenCategoryIdsProVideo = $categoryProVideo->getAllChildren(true);
@@ -50,6 +50,9 @@
     
     $categoryDigiClub = $categoryFactory->create()->load(3059);
     $allChildrenCategoryIdsDigiClub = $categoryDigiClub->getAllChildren(true);
+    
+    $categoryDigiPrint = $categoryFactory->create()->load(2881);
+    $allChildrenCategoryIdsDigiPrint = $categoryDigiPrint->getAllChildren(true);
 ?>
 
 
@@ -87,6 +90,10 @@
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiClub)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiclub-header.png"/>
+        <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiPrint)) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiPrint-Category-page-banner.png"/>
+        <?php elseif ($categoryId == 331) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiPrint-Category-page-banner.png"/>
         <?php endif; ?>
     </div>
     <div class="banner-tablet" style="display: none;">
@@ -114,6 +121,10 @@
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>digiseconds.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiClub)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>digiclub-header.png"/>
+        <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiPrint)) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiPrint-Category-page-banner.png"/>
+        <?php elseif ($categoryId == 331) : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiPrint-Category-page-banner.png"/>
         <?php endif; ?>
     </div>
     

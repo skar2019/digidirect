@@ -17,7 +17,6 @@ if ($customerSession->isLoggedIn()) {
         <div class="panel wrapper">
             <div class="panel header">
                 <div class="header-links header-link-left" style="margin-left: 50px;">
-                    <a class="free-delivery-link" href="/free-shipping" title="Free Shipping Over $99"><i class="fas fa-box"></i> Free Shipping Over $99</a>
                     <a class="next-day-shipping-link" href="/free-shipping" title="Express Next Day Shipping" style="display: none;"><i class="fas fa-shipping-fast"></i> Express Next Day Shipping</a>
                     <a class="click-and-collect-link" href="/pickup-instore" title="Click & Collect"><i class="fas fa-hand-point-up"></i> Click & Collect</a>
                     <a class="store-locator-link" href="/store-locator" title="Store Locator"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
@@ -1891,9 +1890,11 @@ if ($customerSession->isLoggedIn()) {
                             <a href="https://www.digidirect.com.au/digi-print/printing-services">View All Printing Services</a>
                             <div class="tab">
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/wide-format-fine-art-printing">Wide Format & Fine Art Printing</a>
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/metal-prints">Metal Prints</a> 
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/glass-prints">Glass Prints</a>
+                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/in-store-framed-prints">In Store Framed Prints</a>
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-prints">Framed Prints</a> 
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-metal-prints">Framed Metal Prints</a> 
                                 <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-canvas-prints">Framed Canvas Prints</a>
@@ -1920,6 +1921,9 @@ if ($customerSession->isLoggedIn()) {
 </div>
 </div>
     </div>
+    <a id="submenu-sale" class="submenu-link item-submenu" href="https://www.digidirect.com.au/leap-year-sale" onclick="checkActiveMenuItem(event, 'submenu-sale')">
+        <span class="dc-digi">Leap Year</span><span class="dc-club" style="margin-left: 4px;">Sale</span>
+    </a>
 
     </div>
   </div>

@@ -5,10 +5,17 @@
     </head>
     <body>
         <attribute name="class" value="page-products"/>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceContainer name="sidebar.main">
             <block class="Digidirect\MarketplacerProducts\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" cacheable="true" template="Digidirect_MarketplacerProducts::layer/view.phtml">
                 <block class="Digidirect\MarketplacerProducts\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
-                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml">
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_MarketplacerProducts::layer/filter.phtml">
                   <arguments>
                       <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
                   </arguments>

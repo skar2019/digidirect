@@ -61,6 +61,15 @@
             $(".mobile-menu-main-exit").click(function(){
                 $("#nav-sections-id").removeClass("nav-mobile-menu");
             });
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() > $(document).height() - 400) {
+                    console.log($(window).scrollTop() + ", " + $(window).height() + ", " + $(document).height());
+                    console.log("Near Bottom!");
+                    $("#side-banner-ads").hide();
+                } else {
+                    $("#side-banner-ads").show();
+                }
+            });
           
         }
     );

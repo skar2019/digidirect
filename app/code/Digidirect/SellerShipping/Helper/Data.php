@@ -56,13 +56,23 @@ class Data extends AbstractHelper
                 $seller = "digiDirect";
             }
             
-            if (($seller != "digiDirect") && (!in_array($seller, $sellers)))  {
+            if ((!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());
         }
         
         $sellerTotalShipping = 0;
+        
+        $digidirectSeller = 0;
+        
+        $nonDigidirectSeller = 0;
+        
+        $digidirectSellerCount = 0;
+        
+        $nonDigidirectSellerCount = 0;
+        
+        $standardShipping = 8.95;
         
         foreach($sellers as $seller) {
             $sellerShipping = 0;
@@ -73,38 +83,47 @@ class Data extends AbstractHelper
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
-                
+            
                 if ($seller == $itemSeller) {
                     $sellerTotal += $productTotal;
                 }
             }
             //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
-                if ($seller == "digiDirect") {
-                    $sellerShipping = 10;
-                } elseif ($seller == "iWorld Australia") {
-                    $sellerShipping = 0;
-                } else {
-                    $sellerShipping = 9.90;
-                }
+            
+            if ($seller == "digiDirect") {
+                $digidirectSellerCount++;
+            } else {
+                $nonDigidirectSeller += $standardShipping;
+                $nonDigidirectSellerCount++;
             }
-            
-            $sellerTotalShipping += $sellerShipping;
-            
-            //$this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
+        if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
+            $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+        }
+        
+        /*if ($digidirectSellerCount > 0) {
+            $nonDigidirectSeller = $nonDigidirectSeller + $standardShipping;
+        }*/
+        
+        $this->logger->info('$digidirectSellerCount: ' . $digidirectSellerCount);
+        $this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
+        $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
+        $this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
+        
+        $sellerTotalShipping = $nonDigidirectSeller;
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
         //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
+        //$finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
+        
         return $sellerTotalShipping;
         
     }
     
     public function getSellers()
     {
-        //$items = $this->session->getQuote()->getAllVisibleItems();
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
@@ -118,7 +137,6 @@ class Data extends AbstractHelper
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
-            //$this->logger->info('getProductId: ' . $product->getId());
         }
         
         $sellerTotalShipping = 0;
@@ -131,7 +149,6 @@ class Data extends AbstractHelper
             
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -140,19 +157,15 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            //$this->logger->info($seller . ': ' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
+            /*if ($sellerTotal < 99) {
                 if ($seller == "digiDirect") {
-                    $sellerShipping = 10;
-                } elseif ($seller == "iWorld Australia") {
-                    $sellerShipping = 0;
+                    $sellerShipping = 8.95;
                 } else {
-                    $sellerShipping = 9.90;
+                    $sellerShipping = 8.95;
                 }
-            }
-            
-            //$sellerTotalShipping += $sellerShipping;
+            }*/
+            $sellerShipping = 8.95;
             
             if (!in_array($seller, $sellersArray))  {
                 array_push($sellersArray, [$seller,$sellerShipping]);
@@ -185,7 +198,7 @@ class Data extends AbstractHelper
     
     public function getDigiShipping()
     {
-        $items = $this->cart->getQuote()->getAllItems();
+        /*$items = $this->cart->getQuote()->getAllItems();
         
         $digiShipping = 0;
         
@@ -209,12 +222,12 @@ class Data extends AbstractHelper
         //$this->logger->info('getDigiShipping: ' . $digiTotal);
 
         if (($digiTotal < 99) && ($digiTotal != 0)) {
-            $digiShipping = 10;
+            $digiShipping = 8.95;
         }
 
         //$this->logger->info('digiShipping : ' . $digiShipping);
         
-        return $digiShipping;
-        
+        return $digiShipping;*/
+        return 8.95;
     }
 }
