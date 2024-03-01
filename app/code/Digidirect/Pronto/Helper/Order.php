@@ -2222,6 +2222,12 @@ class Order extends AbstractHelper
                     $isMarketPlace = true;
                     //for woolworths
                 }
+                else if (strpos($orderId, 'REEB') !== false) {
+                    $rep ="REEBELO";
+                    $account = "REEB";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
 
             }
 
