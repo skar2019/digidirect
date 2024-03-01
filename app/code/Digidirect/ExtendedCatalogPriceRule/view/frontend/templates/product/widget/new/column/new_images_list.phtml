@@ -22,6 +22,12 @@
                             <?php /* new_products_images_only_widget */ ?>
                             <?= $block->getImage($_product, 'new_products_images_only_widget')->toHtml() ?>
                         </a>
+                        <?php echo $this->getLayout()
+                            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                            ->setProduct($_item)
+                            ->toHtml()
+                        ?>
                     </li>
                 <?php endforeach; ?>
             </ol>

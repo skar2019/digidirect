@@ -59,6 +59,14 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <?php if ($templateType): ?>
                                         <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
                                     <?php endif; ?>
+
+                                    <?php echo $this->getLayout()
+                                        ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                                        ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                                        ->setProduct($_item)
+                                        ->toHtml()
+                                    ?>
+
                                     <?php if ($showWishlist || $showCompare || $showCart): ?>
                                         <div class="product-item-actions">
                                             <?php if ($showCart): ?>

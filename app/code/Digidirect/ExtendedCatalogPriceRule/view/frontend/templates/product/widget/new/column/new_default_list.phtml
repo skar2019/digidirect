@@ -30,6 +30,14 @@
                                     </a>
                                 </strong>
                                 <?= /* @escapeNotVerified */ $block->getProductPriceHtml($_product, '-widget-new-' . $suffix) ?>
+
+                                <?php echo $this->getLayout()
+                                    ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                                    ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                                    ->setProduct($_item)
+                                    ->toHtml()
+                                ?>
+
                                 <div class="product-item-actions">
                                     <div class="actions-primary">
                                         <?php if ($_product->isSaleable()): ?>

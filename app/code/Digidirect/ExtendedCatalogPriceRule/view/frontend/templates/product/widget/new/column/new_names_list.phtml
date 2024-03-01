@@ -24,6 +24,12 @@
                                 <?= /* @escapeNotVerified */ $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName(), 'name') ?>
                             </a>
                         </strong>
+                        <?php echo $this->getLayout()
+                            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                            ->setProduct($_item)
+                            ->toHtml()
+                        ?>
                     </li>
                 <?php endforeach; ?>
             </ol>
