@@ -115,6 +115,12 @@
         <referenceContainer name="product.info.extrahint">
             <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
         </referenceContainer>
+
+        <referenceBlock name="product.info.upsell">
+            <block name="product.tile.extended.catalog.rule"
+                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
+        </referenceBlock>
         
         <referenceContainer name="content.aside">
             <block class="Magento\Cms\Block\Block" name="also.viewed">
