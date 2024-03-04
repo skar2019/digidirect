@@ -34,7 +34,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         /**
          * Check and set correct variable values to prevent SQL-injections
          */
-        $range = floatval($range);
+        $range = (float)$range;
         if ($range == 0) {
             $range = 1;
         }
@@ -43,7 +43,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
 
         $select->columns(['range' => $rangeExpr, 'count' => $countExpr]);
         $select->group($rangeExpr)->order(new \Zend_Db_Expr("({$rangeExpr}) ASC"));
-        
+
         return $this->getConnection()->fetchPairs($select);
     }
     
@@ -58,25 +58,27 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             $this->session->getCustomerGroupId(),
             $this->storeManager->getStore()->getWebsiteId()
         );
-        
-        $select = clone $collection->getSelect();
+
+        if ($collection->getCatalogPreparedSelect() !== null) {
+            $select = clone $collection->getCatalogPreparedSelect();
+        } else {
+            $select = clone $collection->getSelect();
+        }
+
         // reset columns, order and limitation conditions
         $select->reset(\Magento\Framework\DB\Select::COLUMNS);
         $select->reset(\Magento\Framework\DB\Select::ORDER);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_COUNT);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET);
-        
+
         // remove join with main table
         $fromPart = $select->getPart(\Magento\Framework\DB\Select::FROM);
-        if (!isset(
-            $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS]
-        ) || !isset(
-            $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::MAIN_TABLE_ALIAS]
-            )
+        if (!isset($fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS]) ||
+            !isset($fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::MAIN_TABLE_ALIAS])
         ) {
             return $select;
         }
-        
+
         // processing FROM part
         $priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS];
         $priceIndexJoinConditions = explode('AND', $priceIndexJoinPart['joinCondition']);
@@ -89,7 +91,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             $fromPart[$key]['joinCondition'] = $this->_replaceTableAlias($fromJoinItem['joinCondition']);
         }
         $select->setPart(\Magento\Framework\DB\Select::FROM, $fromPart);
-        
+
         // processing WHERE part
         $wherePart = $select->getPart(\Magento\Framework\DB\Select::WHERE);
         foreach ($wherePart as $key => $wherePartItem) {
@@ -104,7 +106,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             $select->where($this->_replaceTableAlias($condition));
         }
         $select->where($this->_getPriceExpression($select) . ' IS NOT NULL');
-        
+
         return $select;
     }
 }
