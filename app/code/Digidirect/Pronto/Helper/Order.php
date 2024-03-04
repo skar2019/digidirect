@@ -303,7 +303,7 @@ class Order extends AbstractHelper
                     $isMarketPlace = true;
                     if (strpos($orderId, 'REEB') !== false) {
                         $rep ="REEBELO";
-                        $account = "REEB";
+                        $account = "REEB00";
                         $territory = "MRKT";
                         $isMarketPlace = true;
                         //REEBELO
@@ -368,7 +368,7 @@ class Order extends AbstractHelper
 
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB")
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00")
                 {
                     $account = "";
                 }
@@ -808,7 +808,7 @@ class Order extends AbstractHelper
                     if (strpos($orderId, 'REEB') !== false) {
                         $payment_type ="REEB";
                         $catchRef = $orderId;
-                        $catchRef = str_replace("WW","",$catchRef);
+                        $catchRef = str_replace("REEB","",$catchRef);
                         $payment_reference = $catchRef;
                     }
                 }
@@ -2214,6 +2214,13 @@ class Order extends AbstractHelper
                     $account = "EBAY00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
+
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $rep ="REEBELO";
+                        $account = "REEB00";
+                        $territory = "MRKT";
+                        $isMarketPlace = true;
+                    }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
@@ -2245,12 +2252,6 @@ class Order extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
-                }
-                else if (strpos($orderId, 'REEB') !== false) {
-                    $rep ="REEBELO";
-                    $account = "REEB";
-                    $territory = "MRKT";
-                    $isMarketPlace = true;
                 }
 
             }
