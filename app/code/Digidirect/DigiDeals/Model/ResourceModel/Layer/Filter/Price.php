@@ -61,7 +61,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         
         $select = clone $collection->getSelect();
         // reset columns, order and limitation conditions
-        $select->reset(\Magento\Framework\DB\Select::COLUMNS);
+        /*$select->reset(\Magento\Framework\DB\Select::COLUMNS);
         $select->reset(\Magento\Framework\DB\Select::ORDER);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_COUNT);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET);
@@ -78,7 +78,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         }
         
         // processing FROM part
-        /*$priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS];
+        $priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS];
         $priceIndexJoinConditions = explode('AND', $priceIndexJoinPart['joinCondition']);
         $priceIndexJoinPart['joinType'] = \Magento\Framework\DB\Select::FROM;
         $priceIndexJoinPart['joinCondition'] = null;
