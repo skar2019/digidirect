@@ -47,7 +47,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         return $this->getConnection()->fetchPairs($select);
     }
     
-    public function getSelect()
+    public function _getSelect()
     {
         $collection = $this->layer->getProductCollection();
         $collection->addAttributeToSelect('*');
@@ -61,7 +61,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         
         $select = clone $collection->getSelect();
         // reset columns, order and limitation conditions
-        /*$select->reset(\Magento\Framework\DB\Select::COLUMNS);
+        $select->reset(\Magento\Framework\DB\Select::COLUMNS);
         $select->reset(\Magento\Framework\DB\Select::ORDER);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_COUNT);
         $select->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET);
@@ -103,7 +103,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             }
             $select->where($this->_replaceTableAlias($condition));
         }
-        $select->where($this->_getPriceExpression($select) . ' IS NOT NULL');*/
+        $select->where($this->_getPriceExpression($select) . ' IS NOT NULL');
         
         return $select;
     }
