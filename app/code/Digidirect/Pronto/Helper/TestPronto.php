@@ -616,6 +616,13 @@ class TestPronto extends AbstractHelper
                     $account = "EBAY00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
+
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $rep ="REEBELO";
+                        $account = "REEB00";
+                        $territory = "MRKT";
+                        $isMarketPlace = true;
+                    }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
@@ -1151,6 +1158,14 @@ class TestPronto extends AbstractHelper
                     $catchRef = $orderId;
                     $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
+
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $payment_type ="REEB";
+                        $catchRef = $orderId;
+                        $catchRef = str_replace("REEB","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
+
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
