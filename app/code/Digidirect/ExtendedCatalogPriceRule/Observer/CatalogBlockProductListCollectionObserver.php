@@ -36,5 +36,11 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
         if (!$productCollection instanceof \Magento\Catalog\Model\ResourceModel\Product\Collection) {
             return;
         }
+
+        $productIds = $productCollection->getAllIds();
+        $ruleData = $this->helper->getExtendedRulesDataForView($productIds);
+        if (empty($ruleData)) {
+            return;
+        }
     }
 }
