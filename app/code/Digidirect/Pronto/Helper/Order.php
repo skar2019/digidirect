@@ -301,6 +301,13 @@ class Order extends AbstractHelper
                     $account = "EBAY00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $rep ="REEBELO";
+                        $account = "REEB";
+                        $territory = "MRKT";
+                        $isMarketPlace = true;
+                        //REEBELO
+                    }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
@@ -361,7 +368,7 @@ class Order extends AbstractHelper
 
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00")
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB")
                 {
                     $account = "";
                 }
@@ -648,6 +655,9 @@ class Order extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                //click and collect goes to picking screen
+                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                $data['sales-order']['header']['set-on-status'] = "P";
 
             }
             else if($rep == "WESTFIELD")
@@ -795,6 +805,12 @@ class Order extends AbstractHelper
                     $catchRef = $orderId;
                     $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $payment_type ="REEB";
+                        $catchRef = $orderId;
+                        $catchRef = str_replace("WW","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
@@ -802,6 +818,7 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("WW","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -917,12 +934,14 @@ class Order extends AbstractHelper
             // for redeploy
             $x = 0;
             $gotDigiProducts = false;
+            $mpTotal = 0; //clint digiMarket workaround
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
                 $skus = array();
                 $productSku = "";
+                $mpsellertotal = 0; //clint digiMarket workaround
                 $digiProtect = "";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
@@ -955,6 +974,7 @@ class Order extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
+                    $mpTotal += $total;
                     $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
@@ -1158,6 +1178,9 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+
+                //digiMarket subtract mptotal clint 04/03/2024
+                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
 
                 //create xml of order data here
                 //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
@@ -1960,7 +1983,7 @@ class Order extends AbstractHelper
                         $productSku = $sku;
                         $costprice = ($price - ( $price * 0.099)); // ex gst
                         $sellercost = $costprice - ($costprice * 0.099); //ex commission
-                        $sellerdata['sales-order']['header']['set-on-status'] = "B";
+                        //$sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                         $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'ZM00';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
@@ -1988,7 +2011,8 @@ class Order extends AbstractHelper
 
             } //end of product line
 
-
+            //sync only product total
+            $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
             if($coupon != "")
             {
                 $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
