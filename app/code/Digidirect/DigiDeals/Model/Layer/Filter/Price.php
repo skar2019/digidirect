@@ -4,22 +4,13 @@ namespace Digidirect\DigiDeals\Model\ResourceModel\Layer\Filter;
 
 class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
 {
-    /**
-     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
-     * @param \Magento\Customer\Model\Session $session
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Webkul\MyCustomCollection\Model\Layer $layer
-     * @param null $connectionName
-     */
     public function __construct(
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Customer\Model\Session $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Webkul\MyCustomCollection\Model\Layer $layer,
+        \Digidirect\DigiDeals\Model\Layer $layer,
         $connectionName = null
         ) {
             $this->layer        = $layerResolver->get();
