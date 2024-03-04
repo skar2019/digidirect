@@ -78,7 +78,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         }
         
         // processing FROM part
-        $priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS];
+        /*$priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\ResourceModel\Product\Collection::INDEX_TABLE_ALIAS];
         $priceIndexJoinConditions = explode('AND', $priceIndexJoinPart['joinCondition']);
         $priceIndexJoinPart['joinType'] = \Magento\Framework\DB\Select::FROM;
         $priceIndexJoinPart['joinCondition'] = null;
@@ -103,7 +103,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             }
             $select->where($this->_replaceTableAlias($condition));
         }
-        $select->where($this->_getPriceExpression($select) . ' IS NOT NULL');
+        $select->where($this->_getPriceExpression($select) . ' IS NOT NULL');*/
         
         return $select;
     }
