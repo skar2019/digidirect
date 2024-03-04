@@ -28,7 +28,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
     
     public function getCount($range)
     {
-        $select = $this->getSelect();
+        $select = $this->_getSelect();
         $priceExpression = $this->_getFullPriceExpression($select);
 
         /**
