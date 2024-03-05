@@ -33,6 +33,20 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
-        return $productCollection;
+        if (!$productCollection instanceof \Magento\Catalog\Model\ResourceModel\Product\Collection) {
+            return;
+        }
+
+        $productIds = $productCollection->getAllIds();
+        $ruleData = $this->helper->getExtendedRulesDataForView($productIds);
+        if (empty($ruleData)) {
+            return;
+        }
+
+        foreach ($productCollection as $item) {
+            if (!empty($ruleData[$item->getId()])) {
+                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
+            }
+        }
     }
 }
