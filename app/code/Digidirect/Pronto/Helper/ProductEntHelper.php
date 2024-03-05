@@ -187,173 +187,183 @@ class ProductEntHelper extends AbstractHelper
             $data = [];
             $description = "";
 
-            if(!empty($product->getDescription()))
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
             {
-                $description = strip_tags($product->getDescription());
-                $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
-            }
-
-            if(isset($this->attributeOptions[$product->getBrand()]))
-            {
-                $brandname = $this->attributeOptions[$product->getBrand()];
-
-            }
-
-            $category1 = "";
-            $category2 = "";
-            $category3 = "";
-            $category4 = "";
-            //echo $product->getId() ."<br/>";
-            $productCategoryIds = $product->getCategoryIds();
-            if((count($productCategoryIds)))
-            {
-                foreach ($getCategoryList as $id => $category)
+                if(!empty($product->getDescription()))
                 {
-
-                    if($category['id'] == $productCategoryIds[0])
-                    {
-                        $category1 =$category['name'];
-                    }
-
-                    if(isset($productCategoryIds[1]))
-                    {
-                        if($category['id'] == $productCategoryIds[1])
-                        {
-                            $category2 =$category['name'];
-                        }
-                    }
-
-                    if(isset($productCategoryIds[2]))
-                    {
-                        if($category['id'] == $productCategoryIds[2])
-                        {
-                            $category3 =$category['name'];
-                        }
-                    }
-
-                    if(isset($productCategoryIds[3]))
-                    {
-                        if($category['id'] == $productCategoryIds[3])
-                        {
-                            $category4 =$category['name'];
-                        }
-                    }
-
-                }
-            }
-
-            //echo $product->getBarcode1()."b1 <br/>";
-            $gtin = "";
-            $barcode1 = $product->getCustomAttribute('barcode1');
-            if(is_null($barcode1))
-            {
-                $barcode2 = $product->getCustomAttribute('barcode2');
-                if(is_null($barcode2))
-                {
-
+                    $description = strip_tags($product->getDescription());
+                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
                 }
 
-            }
-            else
-            {
-                $bc = $barcode1->getValue();
-                if(is_numeric($bc))
+                if(isset($this->attributeOptions[$product->getBrand()]))
                 {
-                    $gtin = $bc;
+                    $brandname = $this->attributeOptions[$product->getBrand()];
+
                 }
                 else
                 {
-                    $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+                    $brandname = "";
+                }
+
+                $category1 = "";
+                $category2 = "";
+                $category3 = "";
+                $category4 = "";
+                //echo $product->getId() ."<br/>";
+                $productCategoryIds = $product->getCategoryIds();
+                if((count($productCategoryIds)))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+
+                        if($category['id'] == $productCategoryIds[0])
+                        {
+                            $category1 =$category['name'];
+                        }
+
+                        if(isset($productCategoryIds[1]))
+                        {
+                            if($category['id'] == $productCategoryIds[1])
+                            {
+                                $category2 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[2]))
+                        {
+                            if($category['id'] == $productCategoryIds[2])
+                            {
+                                $category3 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[3]))
+                        {
+                            if($category['id'] == $productCategoryIds[3])
+                            {
+                                $category4 =$category['name'];
+                            }
+                        }
+
+                    }
+                }
+
+                //echo $product->getBarcode1()."b1 <br/>";
+                $gtin = "";
+                $barcode1 = $product->getCustomAttribute('barcode1');
+                if(is_null($barcode1))
+                {
+                    $barcode2 = $product->getCustomAttribute('barcode2');
                     if(is_null($barcode2))
                     {
 
                     }
-                    else
-                    {
-
-                    }
 
                 }
-            }
+                else
+                {
+                    $bc = $barcode1->getValue();
+                    if(is_numeric($bc))
+                    {
+                        $gtin = $bc;
+                    }
+                    else
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+                        if(is_null($barcode2))
+                        {
 
-            $title = $product->getName();
-            $title = strip_tags($title);
-            $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
-            $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
-            $actualcost = 0;
-            $cost = $product->getCustomAttribute('cost');
-            if(is_null($cost))
-            {
-                $actualcost = $regular_price / 1.1;
-            }
-            else
-            {
-                $actualcost = $cost->getValue();
-                if($actualcost == 0)
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                }
+
+                $title = $product->getName();
+                $title = strip_tags($title);
+                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                $actualcost = 0;
+                $cost = $product->getCustomAttribute('cost');
+                if(is_null($cost))
                 {
                     $actualcost = $regular_price / 1.1;
                 }
-            }
+                else
+                {
+                    $actualcost = $cost->getValue();
+                    if($actualcost == 0)
+                    {
+                        $actualcost = $regular_price / 1.1;
+                    }
+                }
 
-            $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
-            $final_price2 = $product->getFinalPrice();
-            $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $final_price2 = $product->getFinalPrice();
+                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 //            echo "final price ".$final_price."<br/>";
 //            echo "final price2 ".$final_price2."<br/>";
 //            echo $product->getSku()." final price3 ".$final_price3."<br/>";
-            $stockC = "Other";
-            $stockcondition = $product->getCustomAttribute('stock_condition');
-
-            if(is_null($stockcondition))
-            {
                 $stockC = "Other";
-            }
-            else {
-                $stockC = $stockcondition->getValue();
+                $stockcondition = $product->getCustomAttribute('stock_condition');
 
-                if ($stockC == 179) {
-                    $stockC = "0";
-                } elseif ($stockC == 181) {
-                    $stockC = "T";
-                } else {
+                if(is_null($stockcondition))
+                {
                     $stockC = "Other";
                 }
+                else {
+                    $stockC = $stockcondition->getValue();
+
+                    if ($stockC == 179) {
+                        $stockC = "0";
+                    } elseif ($stockC == 181) {
+                        $stockC = "T";
+                    } else {
+                        $stockC = "Other";
+                    }
+                }
+
+                $sckGrp = "";
+                $stockgroup = $product->getCustomAttribute('stock_group');
+                if(!is_null($stockgroup))
+                {
+                    $sckGrp = $stockgroup->getValue();
+                }
+                //echo $sckGrp."<br/>";
+
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                $stockonhand = 0;
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+
+                    $stockonhand += $sourceItem->getQuantity();
+                }
+                //echo $stockonhand."<br/>";
+                $data[] = $brandname;
+                $data[] = $description;
+                $data[] = $gtin;
+                $data[] = $product->getSku();
+                $data[] = $product->getApn();
+                $data[] = $title;
+                $data[] = $category1;
+                $data[] = $category2;
+                $data[] = $category3;
+                $data[] = $category4;
+                $data[] = $regular_price;
+                $data[] = $actualcost;
+                $data[] = $final_price3;
+                $data[] = $stockC;
+                $data[] = $sckGrp;
+                $data[] = $stockonhand;
+
+                $stream->writeCsv($data);
             }
 
-            $sckGrp = "";
-            $stockgroup = $product->getCustomAttribute('stock_group');
-            if(!is_null($stockgroup))
-            {
-                $sckGrp = $stockgroup->getValue();
-            }
-            //echo $sckGrp."<br/>";
 
-            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-            $stockonhand = 0;
-            foreach ($sourceItems as $sourceItemId => $sourceItem) {
-
-                $stockonhand += $sourceItem->getQuantity();
-            }
-            //echo $stockonhand."<br/>";
-            $data[] = $brandname;
-            $data[] = $description;
-            $data[] = $gtin;
-            $data[] = $product->getSku();
-            $data[] = $product->getApn();
-            $data[] = $title;
-            $data[] = $category1;
-            $data[] = $category2;
-            $data[] = $category3;
-            $data[] = $category4;
-            $data[] = $regular_price;
-            $data[] = $actualcost;
-            $data[] = $final_price3;
-            $data[] = $stockC;
-            $data[] = $sckGrp;
-            $data[] = $stockonhand;
-
-            $stream->writeCsv($data);
         }
 
 
