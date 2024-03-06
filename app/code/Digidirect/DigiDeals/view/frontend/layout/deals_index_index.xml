@@ -23,8 +23,9 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
-            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="infinitescroll.toolbar" template="Digidirect_DigiDeals::product/list/toolbar.phtml" />
-
+            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="infinitescroll.toolbar" template="Digidirect_DigiDeals::product/list/toolbar.phtml">
+                <block class="Magento\Theme\Block\Html\Pager" name="digideals_product_list_toolbar_pager"/>
+            </block>
             <block class="Digidirect\DigiDeals\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
                 <container name="category.product.list.additional" as="additional" />
                 <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
