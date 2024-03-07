@@ -21,7 +21,6 @@
                     <argument name="block_id" xsi:type="string">pdp-banner</argument>
                 </arguments>
             </block>
-            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="mobile.category.toolbar" template="Magento_Catalog::product/list/toolbar.phtml" />
             <block class="Magento\Catalog\Block\Category\View" name="category.products" template="Magento_Catalog::category/products.phtml">
                 <block class="Magento\Catalog\Block\Product\ListProduct" name="category.products.list" as="product_list" template="Magento_Catalog::product/list.phtml">
                     <container name="category.product.list.additional" as="additional" />
