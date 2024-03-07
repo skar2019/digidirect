@@ -45,7 +45,7 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
 
         foreach ($productCollection as $item) {
             if (!empty($ruleData[$item->getId()])) {
-                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
+                //$item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
             }
         }
     }
