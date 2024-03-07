@@ -52,7 +52,6 @@ class Toolbar
         $collection
     ) {
         $this->_collection = $collection;
-
         /*if ($subject->getCurrentOrder() == 'most_viewed') {
             if (!$this->_subQueryApplied) {
                 $reportEventTable = $this->_collection->getResource()->getTable('report_event');
