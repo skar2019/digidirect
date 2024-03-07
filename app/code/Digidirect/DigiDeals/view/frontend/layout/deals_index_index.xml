@@ -40,9 +40,6 @@
                 <action method="setToolbarBlockName">
                     <argument name="name" xsi:type="string">product_list_toolbar</argument>
                 </action>
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">3600</argument>
-                </arguments>
             </block>
         </referenceContainer>
         <referenceBlock name="sale.products.list">
