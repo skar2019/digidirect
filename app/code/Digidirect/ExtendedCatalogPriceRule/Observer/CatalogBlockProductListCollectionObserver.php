@@ -32,8 +32,7 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        return;
-        /*$productCollection = $observer->getEvent()->getCollection();
+        $productCollection = $observer->getEvent()->getCollection();
         if (!$productCollection instanceof \Magento\Catalog\Model\ResourceModel\Product\Collection) {
             return;
         }
@@ -45,9 +44,9 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
         }
 
         foreach ($productCollection as $item) {
-            if (!empty($ruleData[$item->getId()])) {
-                //$item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
-            }
-        }*/
+            /*if (!empty($ruleData[$item->getId()])) {
+                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
+            }*/
+        }
     }
 }
