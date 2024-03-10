@@ -23,7 +23,6 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
-            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="productlisting.mobile.toolbar" template="Magento_Catalog::product/list/toolbar/toolbar.phtml" />
             <block class="Digidirect\MarketplacerProducts\Block\Product\ListProduct"  cacheable="true" name="sale.products.list" as="product_list" template="product/list.phtml">
                 <container name="category.product.list.additional" as="additional" />
                 <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
