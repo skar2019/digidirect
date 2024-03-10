@@ -7,4 +7,5 @@
     <preference for="Magento\Catalog\Model\Layer\FilterableAttributeListInterface" type="Magento\Catalog\Model\Layer\Category\FilterableAttributeList" />
     <preference for="Magento\Catalog\Model\Layer\AvailabilityFlagInterface" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
     <preference for="Magento\Catalog\Model\ResourceModel\Category" type="Digidirect\MarketplacerProducts\Model\ResourceModel\Category" />
+    
 </config>
