@@ -4,4 +4,5 @@
     <type id="blog_category_index" label="Blog Category"/>
     <type id="blog_tag_index" label="Blog Tag Post"/>
     <type id="blog_view_index" label="Blog Post Detail"/>
+    <type id="blog_b2b_index" label="Blog Post List"/>
 </page_types>

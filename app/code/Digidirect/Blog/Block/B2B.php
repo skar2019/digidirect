@@ -117,7 +117,7 @@ class B2B extends Template
     {
         if (!$this->hasData('collection')) {
             $collection = $this->prepareCollection();
-            $collection->addAttributeToFilter("category_id", 28);
+            //$collection->addFieldToFilter('category_id', 28);
             $this->setData('collection', $collection);
             if ($this->isShowCategoryNames()) {
                 $this->categoryHelper->prepareCategoriesUrls();
@@ -137,6 +137,8 @@ class B2B extends Template
             $this->_storeManager->getStore()->getId(),
             date('Y-m-d')
         );
+        $collection->addFieldToFilter('category.category_id', 28);
+        $this->arrowHelper->setCategoryCondition(28);
         $collection->setOrder(
             PostInterface::FIELD_PUBLISH_DATE,
             $this->dataHelper->getGeneralSettingsConfig('post_sorting')
