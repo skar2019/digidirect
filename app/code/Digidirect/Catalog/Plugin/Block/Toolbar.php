@@ -52,8 +52,7 @@ class Toolbar
         $collection
     ) {
         $this->_collection = $collection;
-
-        if ($subject->getCurrentOrder() == 'most_viewed') {
+        /*if ($subject->getCurrentOrder() == 'most_viewed') {
             if (!$this->_subQueryApplied) {
                 $reportEventTable = $this->_collection->getResource()->getTable('report_event');
                 $subSelect = $this->_conn->select()->from(
@@ -97,10 +96,9 @@ class Toolbar
             
         } 
         
-//        elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
-//            $this->_collection->getSelect()->order('((price - special_price) / price) DESC');
-//            
-//        }      
+        //elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
+        //   $this->_collection->getSelect()->order('((price - special_price) / price) DESC');        
+        //}*/    
 
         return $this;
     }

@@ -34,6 +34,8 @@ $showWishlist = true;
     <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
 </div>
 
+<?php echo $this->getLayout()->createBlock("Magento\Catalog\Block\Product\ProductList\Toolbar")->setTemplate("Magento_Catalog::product/list/toolbar/toolbar.phtml")->toHtml() ?>
+
 <?= $block->getToolbarHtml() ?>
 <div class="toolbar toolbar-products">            
     <p class="toolbar-amount" id="toolbar-inner-search"> 

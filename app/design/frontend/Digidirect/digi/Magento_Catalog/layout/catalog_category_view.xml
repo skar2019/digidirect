@@ -52,6 +52,7 @@
         <referenceContainer name="content">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" after="banner-category"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="productlisting.mobile.toolbar" template="Magento_Catalog::product/list/toolbar/toolbar.phtml" after="custom-sorter"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-featured-banner.phtml" name="custom-featured-banner" after="banner-category"/>  
         </referenceContainer>
 
