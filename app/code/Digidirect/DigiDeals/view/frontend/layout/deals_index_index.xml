@@ -5,10 +5,17 @@
     </head>
     <body>
         <attribute name="class" value="page-products"/>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceContainer name="sidebar.main">
-            <block class="Digidirect\DigiDeals\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Magento_LayeredNavigation::layer/view.phtml">
+            <block class="Digidirect\DigiDeals\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" template="Digidirect_DigiDeals::layer/view.phtml">
                 <block class="Digidirect\DigiDeals\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
-                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Magento_LayeredNavigation::layer/filter.phtml">
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_DigiDeals::layer/filter.phtml">
                   <arguments>
                       <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
                   </arguments>
@@ -16,6 +23,9 @@
             </block>
         </referenceContainer>
         <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="infinitescroll.toolbar" template="Digidirect_DigiDeals::product/list/toolbar.phtml">
+                <block class="Magento\Theme\Block\Html\Pager" name="digideals_product_list_toolbar_pager"/>
+            </block>
             <block class="Digidirect\DigiDeals\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
                 <container name="category.product.list.additional" as="additional" />
                 <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">

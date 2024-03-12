@@ -28,10 +28,6 @@
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
-            <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
-                   name="digidirectextended.catalog.price.rule.product.view.core"
-                   before="-"
-                   template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
             <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
@@ -51,7 +47,6 @@
                         <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
                     </container>
                 </container>
-                <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
             </container>
         </referenceBlock>
         
@@ -87,6 +82,11 @@
         </referenceContainer>
         
         <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
+                </arguments>
+            </block>
             <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
@@ -164,6 +164,7 @@
             </arguments>
         </block>
         
+        <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
         <move element="page.main.title" destination="product.info.main" before="-" />
