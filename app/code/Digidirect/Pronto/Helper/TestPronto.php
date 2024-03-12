@@ -584,8 +584,15 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            $amShipping = "";
+            if (strpos($orderId, 'REEB') !== false) {
 
-            $amShipping = $order->getShippingDescription();
+            }
+            else
+            {
+                $amShipping = $order->getShippingDescription();
+            }
+
 
             $this->logger->info('Pronto Order Shipping - '.$amShipping);
 
@@ -889,7 +896,15 @@ class TestPronto extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            $delivery = $order->getShippingDescription();
+                            $delivery = "";
+                            if (strpos($orderId, 'REEB') !== false) {
+                                $delivery = "";
+                            }
+                            else
+                            {
+                                $delivery = $order->getShippingDescription();
+                            }
+
                             if($delivery == "Next Day Delivery")
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -986,7 +1001,13 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();

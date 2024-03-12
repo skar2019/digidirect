@@ -2178,8 +2178,15 @@ class Order extends AbstractHelper
                 }
             }
 
+            $amShipping = "";
+            if (strpos($orderId, 'REEB') !== false) {
 
-            $amShipping = $order->getShippingDescription();
+            }
+            else
+            {
+                $amShipping = $order->getShippingDescription();
+            }
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -2543,7 +2550,14 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
+
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
