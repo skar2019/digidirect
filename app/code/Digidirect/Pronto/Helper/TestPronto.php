@@ -568,6 +568,10 @@ class TestPronto extends AbstractHelper
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
+
+            $this->logger->info('Pronto Order AccountName - '.$accountname);
+            $this->logger->info('Pronto Order Account - '.$account);
+
             $newaccount = "";
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
@@ -582,6 +586,9 @@ class TestPronto extends AbstractHelper
 
 
             $amShipping = $order->getShippingDescription();
+
+            $this->logger->info('Pronto Order Account - '.$amShipping);
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
