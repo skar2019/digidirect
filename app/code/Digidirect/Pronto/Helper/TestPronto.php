@@ -587,7 +587,7 @@ class TestPronto extends AbstractHelper
 
             $amShipping = $order->getShippingDescription();
 
-            $this->logger->info('Pronto Order Account - '.$amShipping);
+            $this->logger->info('Pronto Order Shipping - '.$amShipping);
 
             $is_am_order = false;
             $is_am_fba = false;
@@ -692,6 +692,7 @@ class TestPronto extends AbstractHelper
             $customertype = "WG";
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
+                $this->logger->info('Pronto Order Customer Not Guest - '.$amShipping);
             }
 
             if(!$isMarketPlace)
