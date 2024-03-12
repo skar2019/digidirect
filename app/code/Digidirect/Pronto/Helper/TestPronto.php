@@ -610,7 +610,6 @@ class TestPronto extends AbstractHelper
                     //$territory = "AWHS";
                     $is_am_fba = true;
                 }
-
                 $territory = "MRKT";
                 $isMarketPlace = true;
 
