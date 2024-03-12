@@ -1673,7 +1673,7 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-
+            //redeploy
             $prontoOrderNumber = $order->getData('pronto_order_number');
             /*if(is_numeric($prontoOrderNumber))
             {
