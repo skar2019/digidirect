@@ -204,7 +204,7 @@ class Data extends AbstractHelper
     
     public function getDigiShipping()
     {
-        //$this->checkForBulkyItems();
+        $this->checkForBulkyItems();
         return 8.95;
     }
 }
