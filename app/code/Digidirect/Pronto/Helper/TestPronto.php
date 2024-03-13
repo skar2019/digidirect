@@ -568,6 +568,10 @@ class TestPronto extends AbstractHelper
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
+
+            $this->logger->info('Pronto Order AccountName - '.$accountname);
+            $this->logger->info('Pronto Order Account - '.$account);
+
             $newaccount = "";
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
@@ -580,8 +584,18 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            $amShipping = "";
+            if (strpos($orderId, 'REEB') !== false) {
 
-            $amShipping = $order->getShippingDescription();
+            }
+            else
+            {
+                $amShipping = $order->getShippingDescription();
+            }
+
+
+            $this->logger->info('Pronto Order Shipping - '.$amShipping);
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -603,7 +617,6 @@ class TestPronto extends AbstractHelper
                     //$territory = "AWHS";
                     $is_am_fba = true;
                 }
-
                 $territory = "MRKT";
                 $isMarketPlace = true;
 
@@ -622,6 +635,8 @@ class TestPronto extends AbstractHelper
                         $account = "REEB00";
                         $territory = "MRKT";
                         $isMarketPlace = true;
+
+                        //redeploy
                     }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
@@ -684,6 +699,7 @@ class TestPronto extends AbstractHelper
             $customertype = "WG";
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
+                $this->logger->info('Pronto Order Customer Not Guest - '.$amShipping);
             }
 
             if(!$isMarketPlace)
@@ -880,7 +896,15 @@ class TestPronto extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            $delivery = $order->getShippingDescription();
+                            $delivery = "";
+                            if (strpos($orderId, 'REEB') !== false) {
+                                $delivery = "";
+                            }
+                            else
+                            {
+                                $delivery = $order->getShippingDescription();
+                            }
+
                             if($delivery == "Next Day Delivery")
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -977,7 +1001,13 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
@@ -1642,7 +1672,6 @@ class TestPronto extends AbstractHelper
                     continue;
                 }
             }
-
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
             /*if(is_numeric($prontoOrderNumber))

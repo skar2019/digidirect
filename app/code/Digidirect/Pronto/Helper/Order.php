@@ -1141,9 +1141,16 @@ class Order extends AbstractHelper
 
                 $shippingprice = (double) $order->getShippingAmount();
                 $shippingDesc = $order->getShippingDescription();
-                if (strpos($shippingDesc, '|') !== false) {
-                    $marketplacesShipping = explode('|', $shippingDesc);
-                    $shippingDesc = $marketplacesShipping[1];
+
+                if (strpos($orderId, 'REEB') !== false) {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else
+                {
+                    if (strpos($shippingDesc, '|') !== false) {
+                        $marketplacesShipping = explode('|', $shippingDesc);
+                        $shippingDesc = $marketplacesShipping[1];
+                    }
                 }
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
@@ -1745,6 +1752,13 @@ class Order extends AbstractHelper
             $sellerdata['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
             $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
@@ -2095,6 +2109,7 @@ class Order extends AbstractHelper
 
                 $order->setData('pronto_order_number',$pronto);
                 $order->setData('pronto_status_code',$prontostatus);
+                $order->addCommentToStatusHistory($seller." - ".$pronto);
                 $order->save();
 
                 $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
@@ -2178,8 +2193,15 @@ class Order extends AbstractHelper
                 }
             }
 
+            $amShipping = "";
+            if (strpos($orderId, 'REEB') !== false) {
 
-            $amShipping = $order->getShippingDescription();
+            }
+            else
+            {
+                $amShipping = $order->getShippingDescription();
+            }
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -2451,7 +2473,13 @@ class Order extends AbstractHelper
                     {
                         if($instockInv == 1)
                         {
-                            $delivery = $order->getShippingDescription();
+                            if (strpos($orderId, 'REEB') !== false) {
+                                $delivery = "";
+                            }
+                            else
+                            {
+                                $delivery = $order->getShippingDescription();
+                            }
                             if($delivery == "Next Day Delivery")
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -2543,7 +2571,14 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
+
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
@@ -3036,10 +3071,18 @@ class Order extends AbstractHelper
 
                 $shippingprice = (double) $order->getShippingAmount();
                 $shippingDesc = $order->getShippingDescription();
-                if (strpos($shippingDesc, '|') !== false) {
-                    $marketplacesShipping = explode('|', $shippingDesc);
-                    $shippingDesc = $marketplacesShipping[1];
+
+                if (strpos($orderId, 'REEB') !== false) {
+                    $shippingDesc = "Australia Post – eParcel";
                 }
+                else
+                {
+                    if (strpos($shippingDesc, '|') !== false) {
+                        $marketplacesShipping = explode('|', $shippingDesc);
+                        $shippingDesc = $marketplacesShipping[1];
+                    }
+                }
+
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
