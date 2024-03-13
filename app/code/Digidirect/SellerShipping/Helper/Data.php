@@ -194,17 +194,27 @@ class Data extends AbstractHelper
         $ctr = 0;
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('bulky_item: ' . $product->getData('bulky_item'));
-            /*$isBulky = $product->getData('bulky_item');
-            if ($isBulky > 0) {
+            //$this->logger->info('bulky_item: ' . $product->getData('bulky_item'));
+            $isBulky = $product->getData('bulky_item');
+            if ($isBulky == 1) {
                 $ctr++;
-            }*/
+            }
+        }
+        
+        if ($ctr > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
     
     public function getDigiShipping()
     {
-        $this->checkForBulkyItems();
-        return 8.95;
+        $standardShipping = 8.95;
+        $bulkItemSurcharge = 0;
+        if ($this->checkForBulkyItems() == true) {
+            $bulkItemSurcharge = 20;
+        }
+        return $standardShipping + $bulkItemSurcharge;
     }
 }
