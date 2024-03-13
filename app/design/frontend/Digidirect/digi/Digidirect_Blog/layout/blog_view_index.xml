@@ -2,13 +2,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="msrp_popup"/>
     <body>
-        <referenceContainer name="page.wrapper">
-            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
-                </arguments>
-            </block>
-        </referenceContainer>
         <move element="blog.categorytree.left" destination="sidebar.main" before="-"/>
         <move element="blog.sidebar.tags.cloud" destination="sidebar.main" after="-"/>
         <move element="blog.widget.search" destination="main" after="page.main.title"/>
