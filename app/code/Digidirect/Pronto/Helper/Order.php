@@ -2109,6 +2109,7 @@ class Order extends AbstractHelper
 
                 $order->setData('pronto_order_number',$pronto);
                 $order->setData('pronto_status_code',$prontostatus);
+                $order->addCommentToStatusHistory($seller." - ".$pronto);
                 $order->save();
 
                 $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
