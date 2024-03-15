@@ -803,14 +803,18 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'EB') !== false) {
                     $payment_type ="EB";
                     $catchRef = $orderId;
-                    $catchRef = str_replace("EB","",$catchRef);
-                    $payment_reference = $catchRef;
                     if (strpos($orderId, 'REEB') !== false) {
                         $payment_type ="REEB";
                         $catchRef = $orderId;
                         $catchRef = str_replace("REEB","",$catchRef);
                         $payment_reference = $catchRef;
                     }
+                    else
+                    {
+                        $catchRef = str_replace("EB","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
+
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
@@ -2744,8 +2748,17 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'EB') !== false) {
                     $payment_type ="EB";
                     $catchRef = $orderId;
-                    $catchRef = str_replace("EB","",$catchRef);
-                    $payment_reference = $catchRef;
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $payment_type ="REEB";
+                        $catchRef = $orderId;
+                        $catchRef = str_replace("REEB","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
+                    else
+                    {
+                        $catchRef = str_replace("EB","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
