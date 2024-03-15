@@ -158,13 +158,6 @@ class Data extends AbstractHelper
                 }
             }
             
-            /*if ($sellerTotal < 99) {
-                if ($seller == "digiDirect") {
-                    $sellerShipping = 8.95;
-                } else {
-                    $sellerShipping = 8.95;
-                }
-            }*/
             $sellerShipping = 8.95;
             
             if (!in_array($seller, $sellersArray))  {
@@ -195,39 +188,33 @@ class Data extends AbstractHelper
         }
     }
     
+    public function checkForBulkyItems()
+    {
+        $items = $this->cart->getQuote()->getAllItems();
+        $ctr = 0;
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            //$this->logger->info('bulky_item: ' . $product->getData('bulky_item'));
+            $isBulky = $product->getData('bulky_item');
+            if ($isBulky == 1) {
+                $ctr++;
+            }
+        }
+        
+        if ($ctr > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     public function getDigiShipping()
     {
-        /*$items = $this->cart->getQuote()->getAllItems();
-        
-        $digiShipping = 0;
-        
-        $digiTotal = 0;
-        
-        foreach($items as $item) {
-            $product = $this->productFactory->create()->load($item->getProductId());
-            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
-            $finalPrice = $product->getFinalPrice();
-            $productTotal = $finalPrice * $item->getQty();
-            $itemSeller = $product->getAttributeText('marketplacer_seller');
-            
-            if ($itemSeller == "") {
-                $itemSeller = "digiDirect";
-            }
-
-            if ($itemSeller == "digiDirect") {
-                $digiTotal += $productTotal;
-            }
+        $standardShipping = 8.95;
+        $bulkItemSurcharge = 0;
+        if ($this->checkForBulkyItems() == true) {
+            $bulkItemSurcharge = 20;
         }
-        //$this->logger->info('getDigiShipping: ' . $digiTotal);
-
-        if (($digiTotal < 99) && ($digiTotal != 0)) {
-            $digiShipping = 8.95;
-        }
-
-        //$this->logger->info('digiShipping : ' . $digiShipping);
-        
-        return $digiShipping;*/
-        return 8.95;
+        return $standardShipping + $bulkItemSurcharge;
     }
 }

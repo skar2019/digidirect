@@ -65,7 +65,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (isset($this->_productCollections[$defaultCategory])) {
             $collection = $this->_productCollections[$defaultCategory];
         } else {
-            $category = $this->categoryRepo->get($defaultCategory, 1);
+            $category = $this->categoryRepo->get(17, 1);
             $collection = $this->collectionProvider->getCollection($category);
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);

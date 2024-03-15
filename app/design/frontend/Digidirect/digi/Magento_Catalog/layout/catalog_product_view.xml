@@ -87,11 +87,6 @@
         </referenceContainer>
         
         <referenceContainer name="page.wrapper">
-            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
-                </arguments>
-            </block>
             <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
