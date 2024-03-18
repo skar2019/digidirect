@@ -62,50 +62,19 @@ web:
       rules:
         ^/static/version\d+/(?<resource>.*)$:
           passthru: "/static/$resource"
-          locations:
-            "/":
-              # The public directory of the app, relative to its root.
-              root: "pub"
-              # The front-controller script to send non-static requests to.
-              passthru: "/index.php"
-              index:
-                - index.php
-              expires: -1
-              scripts: true
-              allow: false
-              rules:
-                \.(css|js|map|hbs|gif|jpe?g|png|tiff|wbmp|ico|jng|bmp|svgz|midi?|mp?ga|mp2|mp3|m4a|ra|weba|3gpp?|mp4|mpe?g|mpe|ogv|mov|webm|flv|mng|asx|asf|wmv|avi|ogx|swf|jar|ttf|eot|woff|otf|html?)$:
-                  allow: true
-                ^/sitemap(.*)\.xml$:
-                  passthru: "/media/sitemap$1.xml"
-            "/media":
-              root: "pub/media"
-              allow: true
-              scripts: false
-              expires: 1y
-              passthru: "/get.php"
-            "/static":
-              root: "pub/static"
-              allow: true
-              scripts: false
-              expires: 1y
-              passthru: "/front-static.php"
-              rules:
-                ^/static/version\d+/(?<resource>.*)$:
-                  passthru: "/static/$resource"
-            "/bridge2cart":
-              root: "pub/bridge2cart"
-              passthru: "/bridge.php"
-              index:
-                - bridge.php
-              expires: -1
-              scripts: true
-              allow: true
-            "/.well-known":
-              root: "pub/.well-known"
-              expires: -1
-              scripts: false
-              allow: true
+    "/bridge2cart":
+      root: "pub/bridge2cart"
+      passthru: "/bridge.php"
+      index:
+        - bridge.php
+      expires: -1
+      scripts: true
+      allow: true
+    "/.well-known":
+      root: "pub/.well-known"
+      expires: -1
+      scripts: false
+      allow: true
 
 
 # The size of the persistent disk of the application (in MB).
