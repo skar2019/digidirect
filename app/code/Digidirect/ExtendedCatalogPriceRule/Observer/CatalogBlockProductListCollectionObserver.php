@@ -50,5 +50,7 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
 //                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
 //            }*/
 //        }
+
+        //redeploy
     }
 }
