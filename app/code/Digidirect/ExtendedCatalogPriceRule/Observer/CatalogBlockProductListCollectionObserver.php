@@ -32,6 +32,8 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        return;
+        //to disable everything below as recommended by magento support
         $productCollection = $observer->getEvent()->getCollection();
         if (!$productCollection instanceof \Magento\Catalog\Model\ResourceModel\Product\Collection) {
             return;
