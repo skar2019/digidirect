@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="productlabels" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Product Labels</label>
+            <tab>mageplaza</tab>
+            <resource>Mageplaza_ProductLabels::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to enable this module</comment>
+                </field>
+                <field id="limit" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Limit The Number Of Labels Per Product</label>
+                    <validate>validate-digits validate-zero-or-greater</validate>
+                    <comment>Default: 2. If empty, no limitation</comment>
+                </field>
+                <field id="show_related_products" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Show Labels with Related Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Yes, labels will be displayed on related products on the current product page.</comment>
+                </field>
+                <field id="show_upsell_products" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Show Labels with Upsell Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Yes, labels will be displayed on up-sell products on the current product page.</comment>
+                </field>
+                <field id="show_crosssell_products" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Show Labels with Cross-sell Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Yes, labels will be displayed on cross-sell products on the current shopping cart page.</comment>
+                </field>
+            </group>
+            <group id="stock_status" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Stock Status Label Setting</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Displays Label When The Product Is Out Of Stock</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, only show the Out of Stock label when the product is out of stock and will hide all other labels.</comment>
+                </field>
+                <field id="label" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>'Out of Stock' Label</label>
+                    <source_model>Mageplaza\ProductLabels\Model\Config\Source\Label</source_model>
+                    <comment>If yes, only show the Out of Stock label when the product is out of stock and will hide all other labels.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
+    <indexer id="mpproductlabels_rule_meta" view_id="mpproductlabels_rule_meta" class="Mageplaza\ProductLabels\Model\Indexer\RuleIndexer">
+        <title translate="true">Mageplaza ProductLabels Rule</title>
+        <description translate="true">Indexed rule labels association</description>
+        <dependencies>
+            <indexer id="catalogrule_product" />
+        </dependencies>
+    </indexer>
+</config>

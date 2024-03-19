@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/mpproductlabels/label" method="GET">
+        <service class="Mageplaza\ProductLabels\Api\LabelRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Mageplaza_ProductLabels::mpproductlabels" />
+        </resources>
+    </route>
+    <route url="/V1/mpproductlabels/label/:ruleId" method="GET">
+        <service class="Mageplaza\ProductLabels\Api\LabelRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Mageplaza_ProductLabels::mpproductlabels" />
+        </resources>
+    </route>
+    <route url="/V1/mpproductlabels/label/:ruleId" method="DELETE">
+        <service class="Mageplaza\ProductLabels\Api\LabelRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Mageplaza_ProductLabels::mpproductlabels" />
+        </resources>
+    </route>
+    <route url="/V1/mpproductlabels/label" method="POST">
+        <service class="Mageplaza\ProductLabels\Api\LabelRepositoryInterface" method="add"/>
+        <resources>
+            <resource ref="Mageplaza_ProductLabels::mpproductlabels" />
+        </resources>
+    </route>
+    <route url="/V1/mpproductlabels/label" method="PUT">
+        <service class="Mageplaza\ProductLabels\Api\LabelRepositoryInterface" method="update"/>
+        <resources>
+            <resource ref="Mageplaza_ProductLabels::mpproductlabels" />
+        </resources>
+    </route>
+</routes>

@@ -1,0 +1,140 @@
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+.mpproductlabel-label {
+  position: absolute;
+  z-index: 8;
+}
+
+.mpproductlabel-text-label {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  width: 100%
+}
+
+
+@media screen and (max-width: 1000px) {
+  .mpproductlabel-text-label {
+    font-size: 90%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .mpproductlabel-text-label {
+    font-size: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mpproductlabel-text-label {
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .mpproductlabel-text-label {
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .mpproductlabel-text-label {
+    font-size: 85%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mpproductlabel-text-label {
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .mpproductlabel-text-label {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .mpproductlabel-text-label {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .mpproductlabel-text-label {
+    font-size: 50%;
+  }
+}
+
+.fotorama--fullscreen .mpproductlabel-label {
+  display: none !important;
+}
+
+.fotorama--fullscreen #mpfotorama {
+  overflow: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mp-tooltip {
+    display: inline-block;
+    position: absolute;
+    top: 105%;
+    left: 40%;
+    z-index: 100;
+}
+
+.mp-tooltip .mp-tooltiptext {
+    word-break: break-word;
+    visibility: hidden;
+    width: 120px;
+    background-color: #EFF2FB;
+    color: #1979C3;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    top: 20%;
+    z-index: 1;
+    left: 100%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+@media only screen and (max-width: 1024px) {
+    .mp-tooltip {
+        left: 60%;
+    }
+
+    .mp-tooltip .mp-tooltiptext {
+        width: 70px;
+    }
+}
+
+.mpproductlabel-label:hover .mp-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

@@ -1,0 +1,159 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Mageplaza\ProductLabels\Block\Product\Label;
+
+/** @var Label $block */
+$product = $block->getProduct();
+?>
+<?php foreach ($block->getRulesApplyProduct($product) as $rule) : ?>
+    <?php if ($block->validateProductInRule($rule, $product->getId()) || $block->checkStockStatus($product)) : ?>
+        <div id="design-labels-<?= /** @noEscape */ $rule->getId() ?>-<?= /** @noEscape */ $product->getId() ?>"
+             class="mpproductlabel-label" data-mage-init='{"mpLabels": <?= /** @noEscape */ $block->getDataLabel($rule) ?>}'
+             style="display: none">
+            <?php if ($block->getProductTooltip($rule->getProductTooltip())) : ?>
+                <label class="mp-tooltip label">
+                    <span class="mp-tooltiptext"><?= /** @noEscape */ $block->getProductTooltip($rule->getProductTooltip()) ?></span>
+                </label>
+            <?php endif; ?>
+            <?php if ($block->getSrcImg($rule)) : ?>
+                <img id="design-label-image-<?= /** @noEscape */ $rule->getId() ?>-<?= /** @noEscape */ $product->getId() ?>"
+                     class="mpproductlabel-img-label product-token" alt="<?= /** @noEscape */ __('Product label') ?>"
+                     src="<?= /** @noEscape */ $block->getSrcImg($rule) ?>">
+            <?php endif; ?>
+            <span id="design-label-text-<?= /** @noEscape */ $rule->getId() ?>-<?= /** @noEscape */ $product->getId() ?>"
+                  class="mpproductlabel-text-label"><?= /** @noEscape */ $block->replaceLabel($rule->getLabel(), $product) ?></span>
+        </div>
+        <style>
+            <?= /** @noEscape */ $block->replaceCustomCss($rule) ?>
+
+            #mpfotorama {
+                overflow: unset;
+                height: unset !important;
+            }
+
+            .fotorama__video-close {
+                display: none;
+}
+
+            .fotorama__stage:has(.grid-parent) {
+                height: unset !important;
+            }
+
+            .fotorama__stage {
+                height: unset !important;
+            }
+
+            .product-token {
+                width: 80px !important;
+                height: 80px !important;
+                /* top: -461px !important; */
+                top: 25px;
+                left: 25px;
+                position: absolute;
+                margin: 15px;
+            }
+
+            @media screen and (max-width: 375px) {
+                .product-token {
+                    width: 80px !important;
+                    height: 80px !important;
+                    /* top: -500px !important; */
+                    top: 25px;
+                    left: 25px;
+                    position: absolute;
+                    margin: 15px;
+                }
+                
+                #mpfotorama .fotorama__stage__frame.magnify-wheel-loaded.fotorama_vertical_ratio.fotorama__loaded.fotorama__loaded--img.fotorama__active {
+                    overflow: unset !important;
+                }
+
+                .fotorama__stage__frame .fotorama__img {
+                    transform: translate3d(-50%, 0%, 0);
+                }
+                
+                .fotorama__stage__shaft.fotorama__grab .fotorama__stage__frame:first-child img, .fotorama__stage__shaft .fotorama__stage__frame:first-child img {
+                    max-height: 342px !important;
+                    width: inherit !important;
+                }
+
+                .fotorama__stage__shaft.fotorama__grab .fotorama__stage__frame:not(:last-child) {
+                    border-bottom: unset !important;
+                }
+
+                .fotorama__stage:has(.grid-parent) {
+                    height: 342px !important;
+                }
+
+                .fotorama__stage {
+                    height: 342px !important;
+                }
+
+            }
+            
+            @media screen and (max-width: 420px) and (min-width: 390px) {
+                #mpfotorama .fotorama__stage__frame.magnify-wheel-loaded.fotorama_vertical_ratio.fotorama__loaded.fotorama__loaded--img.fotorama__active {
+                    overflow: unset !important;
+                }
+
+                .fotorama__stage__frame .fotorama__img {
+                    transform: translate3d(-50%, 0%, 0);
+                }
+                
+                .fotorama__stage__shaft.fotorama__grab .fotorama__stage__frame:first-child img, .fotorama__stage__shaft .fotorama__stage__frame:first-child img {
+                    max-height: 388px !important;
+                    width: inherit !important;
+                }
+
+                .fotorama__stage__shaft.fotorama__grab .fotorama__stage__frame:not(:last-child) {
+                    border-bottom: unset !important;
+                }
+
+                .fotorama__stage:has(.grid-parent) {
+                    height: 388px !important;
+                }
+
+                .fotorama__stage {
+                    height: 388px !important;
+                }
+
+            }
+            
+
+            @media screen and (max-width: 1024px) and (min-width: 780px) {
+                .product-token {
+                    width: 80px !important;
+                    height: 80px !important;
+                    /* top: -400px !important; */
+                    top: 25px;
+                    left: 25px;
+                    position: absolute;
+                }
+            }
+            
+            
+            
+
+
+        </style>
+    <?php endif; ?>
+<?php endforeach; ?>

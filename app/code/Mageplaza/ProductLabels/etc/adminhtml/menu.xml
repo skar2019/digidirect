@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageplaza_ProductLabels::mpproductlabels" title="Product Labels" module="Mageplaza_ProductLabels" sortOrder="30" resource="Mageplaza_ProductLabels::mpproductlabels" parent="Magento_Backend::content"/>
+        <add id="Mageplaza_ProductLabels::rule" title="Manage Rules" module="Mageplaza_ProductLabels" sortOrder="20" parent="Mageplaza_ProductLabels::mpproductlabels" action="mpproductlabels/rule/index" resource="Mageplaza_ProductLabels::mpproductlabels"/>
+        <add id="Mageplaza_ProductLabels::configuration" title="Configuration" module="Mageplaza_ProductLabels" sortOrder="40" action="adminhtml/system_config/edit/section/productlabels" resource="Mageplaza_ProductLabels::configuration" parent="Mageplaza_ProductLabels::mpproductlabels"/>
+    </menu>
+</config>
