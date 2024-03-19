@@ -286,6 +286,8 @@ class Data extends CoreHelper
                         $item->setData($attrCode, $value);
                     }
                 }
+                $qty = $product->getData('quantity_and_stock_status')['qty'];
+                $item->setData('qty', (int)$qty);
                 $item->setStockItem(null);
             }
 
