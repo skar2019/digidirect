@@ -39,16 +39,16 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
             return;
         }
 
-        $productIds = $productCollection->getAllIds();
+        $productIds = $productCollection->getAllIds(30);
         $ruleData = $this->helper->getExtendedRulesDataForView($productIds);
         if (empty($ruleData)) {
             return;
         }
 
-        foreach ($productCollection as $item) {
-            /*if (!empty($ruleData[$item->getId()])) {
-                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
-            }*/
-        }
+//        foreach ($productCollection as $item) {
+//            /*if (!empty($ruleData[$item->getId()])) {
+//                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
+//            }*/
+//        }
     }
 }
