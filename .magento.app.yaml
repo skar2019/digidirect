@@ -1,80 +1,88 @@
 # This file describes an application. You can have multiple applications
 # in the same project.
 
+
 # The name of this app. Must be unique within a project.
 name: mymagento
 
 # The toolstack used to build the application.
 type: php:8.1
+# 1. Change flavor to none.
 build:
-  flavor: none
+    flavor: none
 
+# 2. Add Composer ^2.0 as a php dependency.
 dependencies:
-  php:
-    composer/composer: '2.2.4'
+    php:
+        composer/composer: '2.2.4'
+    ruby:
+        sass: "3.4.7"
+    nodejs:
+        grunt-cli: "~1.2.0"
 
 # Enable extensions required by Magento 2
 runtime:
-  extensions:
-    - xsl
-    - newrelic
-    - sodium
+    extensions:
+        - redis
+        - xsl
+        - sodium
+        - newrelic
 
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the environment variable. The right-hand
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
-  database: "mysql:mysql"
-  redis: "redis:redis"
-  opensearch: "opensearch:opensearch"
+    database: "mysql:mysql"
+    redis: "redis:redis"
+    elasticsearch: "elasticsearch:elasticsearch"
 
 # The configuration of app when it is exposed to the web.
 web:
-  locations:
-    "/":
-      # The public directory of the app, relative to its root.
-      root: "pub"
-      # The front-controller script to send non-static requests to.
-      passthru: "/index.php"
-      index:
-        - index.php
-      expires: -1
-      scripts: true
-      allow: false
-      rules:
-        \.(css|js|map|hbs|gif|jpe?g|png|tiff|wbmp|ico|jng|bmp|svgz|midi?|mp?ga|mp2|mp3|m4a|ra|weba|3gpp?|mp4|mpe?g|mpe|ogv|mov|webm|flv|mng|asx|asf|wmv|avi|ogx|swf|jar|ttf|eot|woff|otf|html?)$:
-          allow: true
-        ^/sitemap(.*)\.xml$:
-          passthru: "/media/sitemap$1.xml"
-    "/media":
-      root: "pub/media"
-      allow: true
-      scripts: false
-      expires: 1y
-      passthru: "/get.php"
-    "/static":
-      root: "pub/static"
-      allow: true
-      scripts: false
-      expires: 1y
-      passthru: "/front-static.php"
-      rules:
-        ^/static/version\d+/(?<resource>.*)$:
-          passthru: "/static/$resource"
-    "/bridge2cart":
-      root: "pub/bridge2cart"
-      passthru: "/bridge.php"
-      index:
-        - bridge.php
-      expires: -1
-      scripts: true
-      allow: true
-    "/.well-known":
-      root: "pub/.well-known"
-      expires: -1
-      scripts: false
-      allow: true
+    locations:
+        "/":
+            # The public directory of the app, relative to its root.
+            root: "pub"
+            # The front-controller script to send non-static requests to.
+            passthru: "/index.php"
+            index:
+                - index.php
+            expires: -1
+            scripts: true
+            allow: false
+            rules:
+                \.(css|js|map|hbs|gif|jpe?g|png|tiff|wbmp|ico|jng|bmp|svgz|midi?|mp?ga|mp2|mp3|m4a|ra|weba|3gpp?|mp4|mpe?g|mpe|ogv|mov|webm|flv|mng|asx|asf|wmv|avi|ogx|swf|jar|ttf|eot|woff|otf|html?)$:
+                    allow: true
+                ^/sitemap(.*)\.xml$:
+                    passthru: "/media/sitemap$1.xml"
+        "/media":
+            root: "pub/media"
+            allow: true
+            scripts: false
+            expires: 1y
+            passthru: "/get.php"
+        "/static":
+            root: "pub/static"
+            allow: true
+            scripts: false
+            expires: 1y
+            passthru: "/front-static.php"
+            rules:
+                ^/static/version\d+/(?<resource>.*)$:
+                    passthru: "/static/$resource"
+        "/bridge2cart":
+            root: "pub/bridge2cart"
+            passthru: "/bridge.php"
+            index:
+                - bridge.php
+            expires: -1
+            scripts: true
+            allow: true
+        "/.well-known":
+            root: "pub/.well-known"
+            expires: -1
+            scripts: false
+            allow: true
 
 
 # The size of the persistent disk of the application (in MB).
@@ -82,34 +90,46 @@ disk: 20000
 
 # The mounts that will be performed when the package is deployed.
 mounts:
-  "var": "shared:files/var"
-  "app/etc": "shared:files/etc"
-  "pub/media": "shared:files/media"
-  "pub/static": "shared:files/static"
+    "var": "shared:files/var"
+    "app/etc": "shared:files/etc"
+    "pub/media": "shared:files/media"
+    "pub/static": "shared:files/static"
 
 hooks:
-  # We run build hooks before your application has been packaged.
-  build: |
-    set -e
-    composer install
-    php ./vendor/bin/ece-tools run scenario/build/generate.xml
-    php ./vendor/bin/ece-tools run scenario/build/transfer.xml
-  # We run deploy hook after your application has been deployed and started.
-  deploy: |
-    php ./vendor/bin/ece-tools run scenario/deploy.xml
-  # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
-  post_deploy: |
-    php ./vendor/bin/ece-tools run scenario/post-deploy.xml
+    # We run build hooks before your application has been packaged.
+    build: |
+        set -e
+        composer --no-ansi --no-interaction install --no-progress --prefer-dist --optimize-autoloader
+        npm install
+        php ./vendor/bin/ece-tools build:generate
+        grunt prod
+        php ./vendor/bin/ece-tools build:transfer
+    # We run deploy hook after your application has been deployed and started.
+    deploy: |
+        php ./bin/magento maintenance:enable
+        php ./vendor/bin/ece-tools deploy
+        php ./bin/magento maintenance:disable
+        php ./bin/magento cache:enable
+    # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
+    post_deploy: |
+        php ./vendor/bin/ece-tools post-deploy
 
 # Default Magento 2 cron jobs
 crons:
-  cronrun:
-    spec: "* * * * *"
-    cmd: "php bin/magento cron:run"
+    cronrun:
+        spec: "* * * * *"
+        cmd: "php bin/magento cron:run"
+    dumpupload:
+        spec: "0 16 * * *"
+        cmd: "/bin/bash ~/var/dumps/dump-auto-upload.sh > /dev/null 2>&1"
+    logrotator:
+        spec: "0 2 * * *"
+        cmd: "/bin/bash ~/var/remove-integration-logs.sh > /dev/null 2>&1"
+
 
 # Environment variables
 variables:
-  env:
-    CONFIG__DEFAULT__PAYPAL_ONBOARDING__MIDDLEMAN_DOMAIN: 'payment-broker.magento.com'
-    CONFIG__STORES__DEFAULT__PAYPAL__NOTATION_CODE: 'Magento_Enterprise_Cloud'
-    ADMIN_LOCALE: 'en_AU'
+    env:
+        CONFIG__DEFAULT__PAYPAL_ONBOARDING__MIDDLEMAN_DOMAIN: 'payment-broker.magento.com'
+        CONFIG__STORES__DEFAULT__PAYPAL__NOTATION_CODE: 'Magento_Enterprise_Cloud'
+        ADMIN_LOCALE: 'en_AU'
