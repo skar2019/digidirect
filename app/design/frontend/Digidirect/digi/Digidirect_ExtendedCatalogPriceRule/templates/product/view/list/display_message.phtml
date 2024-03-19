@@ -5,7 +5,7 @@
         $product = $_parentBlock->getProduct();
     }
     $productId = $product->getId();
-    $productRules = null;//$block->getProductRules($product);
+    $productRules = $block->getProductRules($product);
 ?>
 <?php if ($product && $productRules) : ?>
     <?php foreach ($productRules as $rule): ?>
