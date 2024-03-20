@@ -51,6 +51,5 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
 //            }*/
 //        }
 
-        //redeploy
     }
 }
