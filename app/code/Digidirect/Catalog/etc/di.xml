@@ -15,7 +15,4 @@
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
     </type>
-    <type name="Magento\Catalog\Api\Data\ProductRepositoryInterface">
-        <plugin name="custom_sku_limit" type="Digidirect\Catalog\Plugin\ProductRepositoryPlugin"/>
-    </type>
 </config>
