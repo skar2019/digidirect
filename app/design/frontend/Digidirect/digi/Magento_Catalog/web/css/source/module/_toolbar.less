@@ -113,8 +113,28 @@
 
     .limiter {
         .page-products .toolbar & {
-            display: none;
+            display: none !important;
         }
+    }
+    
+    .products.wrapper~.toolbar .pages {
+        float: right !important;
+    }
+    
+    ul.items.pages-items {
+        margin-right: 35px !important;
+        margin-bottom: 50px !important;
+    }
+    
+    .pages strong.page {
+        background: #ff3c00 !important;
+        color: #fff !important;
+        padding: 0 14px !important;
+    }
+    
+    .pages a.page {
+        color: #ff3c00 !important;
+        padding: 0 14px !important;
     }
 }
 
