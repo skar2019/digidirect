@@ -22,5 +22,10 @@ class WiserData
         $this->helper->productData();
     }
 
+    public function customFinalP()
+    {
+        $this->helper->customFinalPrice();
+    }
+
 
 }

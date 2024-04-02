@@ -661,5 +661,34 @@ class ProductEntHelper extends AbstractHelper
         return isset($position[$product->getId()]) ? $position[$product->getId()] : false;
     }
 
+    public function customFinalPrice()
+    {
+
+        $collection = $this->getProductCollection();
+        foreach ($collection as $product) {
+
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
+            {
+
+                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $final_price2 = $product->getFinalPrice();
+                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+                if(is_null($final_price3))
+                {
+                    $final_price3 = 0;
+                }
+
+                $product->setCustomAttribute('custom_final_price', $final_price3);
+                $this->productRepository->save($product);
+
+            }
+
+
+        }
+
+
+    }
+
 
 }
