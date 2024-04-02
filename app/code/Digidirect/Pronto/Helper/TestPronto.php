@@ -569,6 +569,10 @@ class TestPronto extends AbstractHelper
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $newaccount = "";
+
+            $this->logger->info('Pronto Order AccountName - '.$accountname);
+            $this->logger->info('Pronto Order Account - '.$account);
+
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -1656,6 +1660,8 @@ class TestPronto extends AbstractHelper
             {
                 $account = $this->getAccount($order);
             }
+
+            $this->logger->info('Pronto Order Sync - '.$orderId);
 
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();

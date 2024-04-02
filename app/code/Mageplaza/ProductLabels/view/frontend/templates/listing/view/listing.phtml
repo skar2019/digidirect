@@ -1,0 +1,73 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+?>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        var products = $('.item.product.product-item');
+
+        products.each(function () {
+            var product     = $(this),
+                productImg  = product.find('.product-image-wrapper'),
+                labelEl     = product.find('.mpproductlabel-label'),
+                imgLabelEl  = product.find('.mpproductlabel-img-label'),
+                textLabelEl = product.find('.mpproductlabel-text-label');
+
+            if (!productImg.length) {
+                productImg = product.find('.product.photo.product-item-photo');
+            }
+
+            productImg.css({
+                'overflow': 'unset',
+                'z-index': 'unset'
+            });
+            productImg.append(labelEl);
+
+            labelEl.each(function () {
+                $(this).css({
+                    'display': 'flex',
+                    'z-index': 8
+                });
+
+                $(this).find('label.mp-tooltip.label').css({
+                    'top': '80%'
+                });
+
+                $(this).hover(function () {
+                    $(this).css({
+                        'z-index': 1001
+                    });
+                }, function () {
+                    $(this).css({
+                        'z-index': 8
+                    });
+                });
+            });
+
+            /** fix src img label null **/
+            if (!imgLabelEl.attr('src')) {
+                textLabelEl.css({"-webkit-transform": "translate(0,0)"})
+            }
+            labelEl.show();
+        })
+    });
+</script>

@@ -14,11 +14,15 @@
         <move element="minicart" destination="main-header-wrapper" after="header.content.links"/>
         <!--    <move element="form.subscribe" destination="footer" />
         <move element="digi.footer.partners" destination="form.subscribe" />-->
-        
         <referenceContainer name="header.panel.wrapper" remove="true" />
         <referenceContainer name="header.panel" remove="true" />
         
         <referenceContainer name="header-wrapper">
+            <block class="Magento\Cms\Block\Block" name="site.takeover">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">site-takeover</argument>
+                </arguments>
+            </block>
             <container name="top-red-banner-wrapper" htmlTag="div" htmlClass="top-red-banner-wrapper" before="top-header-wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="top-red-banner" template="Magento_Theme::header/top-red-banner.phtml"/> 
             </container> 
@@ -40,6 +44,11 @@
         <move element="my-account-link" destination="authorization-link"/>
         
         <referenceContainer name="page.wrapper">
+            <block class="Magento\Cms\Block\Block" name="side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">side-banner-ads</argument>
+                </arguments>
+            </block>
             <container name="brand.banner.block" before="main.content">
                 <block class="Magento\Framework\View\Element\Template" template="Magento_Theme::header/brand-banner.phtml" name="brand-banner"/>
             </container>

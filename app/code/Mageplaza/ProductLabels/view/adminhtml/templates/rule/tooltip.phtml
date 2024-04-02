@@ -1,0 +1,57 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Mageplaza\ProductLabels\Block\Adminhtml\Rule\Edit\Tab\Renderer\Tooltip;
+
+/** @var Tooltip $block */
+$stores      = $block->getStores();
+$elementId   = $block->getElementId();
+$tooltipData = $block->getTooltipData($elementId);
+?>
+<div class="admin__field-control control">
+    <div class="fieldset-wrapper-content in collapse" id="manage-store-labels">
+        <fieldset class="admin__fieldset fieldset">
+            <div class="admin__control-table-wrapper">
+                <table class="admin__control-table" id="attribute-labels-table">
+                    <thead>
+                    <tr>
+                        <?php foreach ($stores as $store) : ?>
+                            <th class="col-store-view"><span><?= $block->escapeHtml($store->getName()) ?></span></th>
+                        <?php endforeach; ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <?php foreach ($stores as $store) : ?>
+                            <td class="col-store-view">
+                                <input style="width: 100%"
+                                       class="input-text" type="text"
+                                       name="rule[<?= $block->escapeHtmlAttr($elementId) ?>][<?= $block->escapeHtmlAttr($store->getCode()) ?>]"
+                                       value="<?= isset($tooltipData[$store->getCode()]) ? $block->escapeHtmlAttr($tooltipData[$store->getCode()]) : '' ?>"/>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+</div>
