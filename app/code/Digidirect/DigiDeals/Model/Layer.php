@@ -75,7 +75,6 @@ class Layer extends \Magento\Catalog\Model\Layer
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }
-        
         return $collection;
     }
     
