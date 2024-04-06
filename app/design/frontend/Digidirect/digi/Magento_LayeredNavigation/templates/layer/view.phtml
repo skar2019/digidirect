@@ -11,7 +11,18 @@
  *
  * @var $block \Magento\LayeredNavigation\Block\Navigation
  */
-$priorityAttributes = ["Price", "Color", "Brand", "Category", "Canvas Prints", "Metal Prints", "Photo Prints", "Wide Format & Fine Art Printing"];
+$catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+$categoryObject = $catalogHelperData->getCategory();
+$categoryId = $categoryObject->getId();
+
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+$categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+
+$categoryDigiPrint = $categoryFactory->create()->load(2881);
+$allChildrenCategoryIdsDigiPrint = $categoryDigiPrint->getAllChildren(true);
+
+$priorityAttributes = ["Price", "Color", "Brand", "Category"];
+$digiPrintAttributes = ["Price", "Category", "Canvas Prints", "Metal Prints", "Photo Prints", "Wide Format & Fine Art Printing"];
 ?>
 
 <?php if ($block->canShowBlock()) : ?>
@@ -30,12 +41,21 @@ $priorityAttributes = ["Price", "Color", "Brand", "Category", "Canvas Prints", "
                     <dl class="filter-options" id="narrow-by-list">
                     <?php $wrapOptions = true;
                 endif; ?>
-                    <?php if (in_array($filter->getName(), $priorityAttributes)) { ?>
-                        <?php if ($filter->getItemsCount()) : ?>
-                            <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
-                            <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
-                        <?php endif; ?>
-                    <?php } ?>
+                    <?php if (in_array($categoryId, $allChildrenCategoryIdsDigiPrint)) { ?>
+                        <?php if (in_array($filter->getName(), $digiPrintAttributes)) { ?>
+                            <?php if ($filter->getItemsCount()) : ?>
+                                <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
+                                <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                            <?php endif; ?>
+                        <?php } ?>
+                    <?php } else { ?> 
+                        <?php if (in_array($filter->getName(), $priorityAttributes)) { ?>
+                            <?php if ($filter->getItemsCount()) : ?>
+                                <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
+                                <dd class="filter-options-content"><?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                            <?php endif; ?>
+                        <?php } ?>
+                    <?php } ?>    
             <?php endforeach; ?>
             <?php if ($wrapOptions) : ?>
                 </dl>
