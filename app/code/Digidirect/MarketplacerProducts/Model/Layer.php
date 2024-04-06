@@ -67,7 +67,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         } else {
             $category = $this->categoryRepo->get($defaultCategory, 1);
             $collection = $this->collectionProvider->getCollection($category);
-            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToSelect('*')->orderRand();
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
