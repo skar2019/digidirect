@@ -2069,6 +2069,7 @@ class TestPronto extends AbstractHelper
                     {
                         $productSku = $sku;
                         $gst = $price - ($price*100 / (100+10));
+                        $gst = number_format($gst,2);
                         $costlessgst = $price - $gst;
                         $commission = $costlessgst * 0.1;
                         $exgstcost = $costlessgst - $commission;
