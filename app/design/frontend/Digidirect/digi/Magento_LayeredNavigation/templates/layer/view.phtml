@@ -12,7 +12,6 @@
  * @var $block \Magento\LayeredNavigation\Block\Navigation
  */
 $currentPage = $this->getRequest()->getFullActionName();
-
 if ($currentPage != "catalogsearch_result_index") {
     $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
     $categoryObject = $catalogHelperData->getCategory();
