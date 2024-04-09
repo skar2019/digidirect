@@ -101,7 +101,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $setup->getConnection()->createTable($processSchedule);
         }
 
-        if (version_compare($context->getVersion(), '2.0.3') > 0) {
+        if (version_compare($context->getVersion(), '2.0.3') < 0) {
             $queueTable = $setup->getConnection()->newTable(
                 $setup->getTable('digidirect_ai_queue')
             )->addColumn(
@@ -721,6 +721,32 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         if (version_compare($context->getVersion(), '2.1.11') < 0) {
+            $queueLogTable = $setup->getTable('digidirect_ai_queue_log');
+            if ($adapter->tableColumnExists($queueLogTable, 'entity_id')) {
+                $adapter->dropColumn($queueLogTable, 'entity_id');
+            }
+            //set new primary key - log id. one log could not have more than 1 queue element.
+            $pkIndexName = $adapter->getIndexName(
+                $queueLogTable,
+                ['log_id'],
+                AdapterInterface::INDEX_TYPE_PRIMARY
+            );
+            $indexList = $adapter->getIndexList($queueLogTable);
+            if (!isset($indexList[$pkIndexName])) {
+                $adapter->addIndex($queueLogTable, $pkIndexName, ['log_id'], AdapterInterface::INDEX_TYPE_PRIMARY);
+            }
+            //remove old unique index
+            $unqIndexName = $adapter->getIndexName(
+                $queueLogTable,
+                ['log_id', 'queue_id'],
+                AdapterInterface::INDEX_TYPE_UNIQUE
+            );
+            if (isset($indexList[$unqIndexName])) {
+                $adapter->dropIndex($queueLogTable, $unqIndexName);
+            }
+        }
+
+        if (version_compare($context->getVersion(), '2.4.4') < 0) {
             $queueLogTable = $setup->getTable('digidirect_ai_queue_log');
             if ($adapter->tableColumnExists($queueLogTable, 'entity_id')) {
                 $adapter->dropColumn($queueLogTable, 'entity_id');
