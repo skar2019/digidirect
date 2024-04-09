@@ -754,7 +754,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             //set new primary key - log id. one log could not have more than 1 queue element.
             $pkIndexName = $adapter->getIndexName(
                 $queueLogTable,
-                ['log_id'],
+                ['id'],
                 AdapterInterface::INDEX_TYPE_PRIMARY
             );
             $indexList = $adapter->getIndexList($queueLogTable);
