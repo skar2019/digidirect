@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="digidirect_pronto">
 `       <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendOrder">
-            <schedule>* * * * *</schedule>
+            <schedule>* 23 * * *</schedule>
         </job>
 
     </group>
