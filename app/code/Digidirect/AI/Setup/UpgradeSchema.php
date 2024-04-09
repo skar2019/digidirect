@@ -101,7 +101,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $setup->getConnection()->createTable($processSchedule);
         }
 
-        if (version_compare($context->getVersion(), '2.0.3') < 0) {
+        if (version_compare($context->getVersion(), '2.0.3') > 0) {
             $queueTable = $setup->getConnection()->newTable(
                 $setup->getTable('digidirect_ai_queue')
             )->addColumn(
