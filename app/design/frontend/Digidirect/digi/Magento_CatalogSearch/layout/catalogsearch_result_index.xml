@@ -5,6 +5,7 @@
     </head>
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
+        <referenceBlock name="catalog.leftnav" template="Magento_CatalogSearch::layer/view.phtml" />
         <referenceContainer name="div.sidebar.additional" remove="true" />
         <referenceContainer name="content">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" before="search.result"/>

@@ -60,6 +60,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function getProductCollection()
     {
         $defaultCategory = 2;
+        //$defaultCategory = 17;
         $productIdsArray = [];
         
         if (isset($this->_productCollections[$defaultCategory])) {
