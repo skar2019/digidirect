@@ -5,6 +5,5 @@
 `       <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendOrder">
             <schedule>* 23 * * *</schedule>
         </job>
-
     </group>
 </config>
