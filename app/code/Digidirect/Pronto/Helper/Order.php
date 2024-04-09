@@ -1578,7 +1578,8 @@ class Order extends AbstractHelper
             $accountName = $address->getName();
         }
 
-        $accountName = preg_replace('/[^A-Za-z0-9. -]/', '', $accountName);
+        $aReplace = array('(', ')','[',']','{','}');
+        $accountName = str_replace($aReplace , '', $accountName);
         return $accountName;
     }
 
