@@ -6,12 +6,6 @@
     <type name="Magento\Quote\Model\Quote\Item">
         <plugin name="freegift_price" type="Digidirect\Catalog\Plugin\Quote\Item"/>
     </type>
-    <type name="Magento\Catalog\Model\Config">
-        <plugin name="sortby_add_custom_option" type="Digidirect\Catalog\Plugin\Model\Config" />
-    </type>
-    <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
-        <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
-    </type>
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
     </type>
