@@ -1578,7 +1578,8 @@ class Order extends AbstractHelper
             $accountName = $address->getName();
         }
 
-        $accountName = preg_replace('/[^A-Za-z0-9. -]/', '', $accountName);
+        $aReplace = array('(', ')','[',']','{','}');
+        $accountName = str_replace($aReplace , '', $accountName);
         return $accountName;
     }
 
@@ -2004,6 +2005,7 @@ class Order extends AbstractHelper
 //                        $costprice = ($price - ( $price * 0.099)); // ex gst
 //                        $sellercost = $costprice - ($costprice * 0.099); //ex commission
                         $gst = $price - ($price*100 / (100+10));
+                        $gst = number_format($gst,2);
                         $costlessgst = $price - $gst;
                         $commission = $costlessgst * 0.1;
                         $exgstcost = $costlessgst - $commission;
