@@ -2,7 +2,7 @@
 
 namespace Digidirect\Order\Model;
 
-class OrderCustomAttribute implements Digidirect\Order\Api\OrderCustomAttributeInterface
+class OrderCustomAttribute implements \Digidirect\Order\Api\OrderCustomAttributeInterface
 {
     protected $orderRepository;
 
