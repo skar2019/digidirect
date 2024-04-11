@@ -547,7 +547,7 @@ class TestPronto extends AbstractHelper
 //                if(!$test)
 //                {
 //                    continue;
-//                }
+//                } redeploy
             }
 
             $orderId = $order->getIncrementId();
