@@ -746,7 +746,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
         }
 
-        if (version_compare($context->getVersion(), '2.4.4') < 0) {
+        if (version_compare($context->getVersion(), '2.4.3') < 0) {
             $queueLogTable = $setup->getTable('digidirect_ai_queue_log');
             if ($adapter->tableColumnExists($queueLogTable, 'entity_id')) {
                 $adapter->dropColumn($queueLogTable, 'entity_id');
@@ -759,7 +759,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             );
             $indexList = $adapter->getIndexList($queueLogTable);
             if (!isset($indexList[$pkIndexName])) {
-                $adapter->addIndex($queueLogTable, $pkIndexName, ['log_id'], AdapterInterface::INDEX_TYPE_PRIMARY);
+                $adapter->addIndex($queueLogTable, $pkIndexName, ['id'], AdapterInterface::INDEX_TYPE_PRIMARY);
             }
             //remove old unique index
             $unqIndexName = $adapter->getIndexName(
