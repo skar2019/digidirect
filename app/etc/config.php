@@ -600,7 +600,7 @@ return [
         'Digidirect_CategoryFilter' => 0,
         'Digidirect_Locator' => 1,
         'Digidirect_Store' => 1,
-        'Digidirect_Digi' => 1,
+        'Digidirect_Digi' => 0,
         'Digidirect_MyStoreWidget' => 1,
         'Digidirect_MyStoreWidgetCollect' => 1,
         'Digidirect_NotFound' => 0,
