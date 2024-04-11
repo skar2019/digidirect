@@ -548,7 +548,6 @@ class TestPronto extends AbstractHelper
 //                {
 //                    continue;
 //                }
-                //redeploy
 
             }
 
