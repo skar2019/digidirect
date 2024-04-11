@@ -59,7 +59,7 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
             $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
             $shipAddress->setUnitNumber($shippingAddressUnitNumber);
         }
-        
+
 
         $this->repositoryAddress->save($shipAddress);
 
@@ -76,61 +76,61 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
 
         $this->repositoryAddress->save($billingAddress);
 
-        if ($isGuest) {
-            if (isset($_SESSION["qantasqff"]) && !empty($_SESSION["qantasqff"])) {
-
-                $qff_number = $_SESSION["qff_number"];
-                $qff_lastname = $_SESSION["qff_lastname"];
-
-                $order->setQffNumber($qff_number)->save();
-
-                $order->setQffLastname($qff_lastname)->save();
-
-                unset($_SESSION["qantasqff"]);
-            }
-
-            return $this;
-        } else {
-            $pos = strpos($customerEmail, "catch.com.au");
-
-            if ($pos !== false) {
-                $order->setQffNumber('')->save();
-
-                $order->setQffLastname('')->save();
-
-                return $this;
-            } else {
-                $customer = $this->_customerRepository->get($customerEmail);
-
-                $getQffNumber = $customer->getQffNumber();
-
-                $getQffLastName = $customer->getQffLastName();
-                if (isset($_SESSION["qff"])) {
-
-                    $order->setQffNumber($_SESSION["qff"])->save();
-
-                    $order->setQffLastname('')->save();
-                    unset($_SESSION["qff"]);
-                }
-                if ($getQffNumber == NULL && $getQffLastName == NULL) {
-
-                    $order->setQffNumber('')->save();
-
-                    $order->setQffLastname('')->save();
-
-                    return $this;
-                }
-
-                if ($getQffNumber !== NULL && $getQffLastName !== NULL) {
-
-                    $order->setQffLastname($getQffLastName)->save();
-
-                    $order->setQffNumber($getQffNumber)->save();
-
-                    return $this;
-                }
-            }
-        }
+//        if ($isGuest) {
+//            if (isset($_SESSION["qantasqff"]) && !empty($_SESSION["qantasqff"])) {
+//
+//                $qff_number = $_SESSION["qff_number"];
+//                $qff_lastname = $_SESSION["qff_lastname"];
+//
+//                $order->setQffNumber($qff_number)->save();
+//
+//                $order->setQffLastname($qff_lastname)->save();
+//
+//                unset($_SESSION["qantasqff"]);
+//            }
+//
+//            return $this;
+//        } else {
+//            $pos = strpos($customerEmail, "catch.com.au");
+//
+//            if ($pos !== false) {
+//                $order->setQffNumber('')->save();
+//
+//                $order->setQffLastname('')->save();
+//
+//                return $this;
+//            } else {
+//                $customer = $this->_customerRepository->get($customerEmail);
+//
+//                $getQffNumber = $customer->getQffNumber();
+//
+//                $getQffLastName = $customer->getQffLastName();
+//                if (isset($_SESSION["qff"])) {
+//
+//                    $order->setQffNumber($_SESSION["qff"])->save();
+//
+//                    $order->setQffLastname('')->save();
+//                    unset($_SESSION["qff"]);
+//                }
+//                if ($getQffNumber == NULL && $getQffLastName == NULL) {
+//
+//                    $order->setQffNumber('')->save();
+//
+//                    $order->setQffLastname('')->save();
+//
+//                    return $this;
+//                }
+//
+//                if ($getQffNumber !== NULL && $getQffLastName !== NULL) {
+//
+//                    $order->setQffLastname($getQffLastName)->save();
+//
+//                    $order->setQffNumber($getQffNumber)->save();
+//
+//                    return $this;
+//                }
+//            }
+//        }
     }
 
 }
