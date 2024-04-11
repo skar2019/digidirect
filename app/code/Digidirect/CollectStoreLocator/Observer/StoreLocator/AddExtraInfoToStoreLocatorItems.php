@@ -112,40 +112,47 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //$qty .= $sourceItem->getQuantity();
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sydnQty * $sourceItem->getQuantity();
-                    } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $bondQty * $sourceItem->getQuantity();
-                    } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $melbQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $brisQty * $sourceItem->getQuantity();
-                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $miraQty * $sourceItem->getQuantity();
-                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $cannQty * $sourceItem->getQuantity();
-                    } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty * $sourceItem->getQuantity();
-                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $parrQty * $sourceItem->getQuantity();
+                        $sydnQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
+                        $bondQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
+                        $melbQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
+                        $brisQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
+                        $miraQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
+                        $cannQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
+                        $stPetersQty = $sourceItem->getQuantity();
+                    } 
+                    elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
+                        $parrQty = $sourceItem->getQuantity();
                     }
                 }
             }
 
-            if ($sydnQty > 1) {
+            if ($sydnQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($bondQty > 1) {
+            } elseif ($bondQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($melbQty > 1) {
+            } elseif ($melbQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($brisQty > 1) {
+            } elseif ($brisQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($miraQty > 1) {
+            } elseif ($miraQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($cannQty > 1) {
+            } elseif ($cannQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($stPetersQty > 1) {
+            } elseif ($stPetersQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($parrQty > 1) {
+            } elseif ($parrQty > 0) {
                 $items[$key]['click_and_collect'] = true;
             } else {
                 $items[$key]['click_and_collect'] = false;
