@@ -1,5 +1,5 @@
 <?php
-namespace Vendorname\ModuleName\Plugin\Magento\Sales\Api;
+namespace Digidirect\Order\Plugin\Magento\Sales\Api;
 
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderAddressExtensionInterfaceFactory;
