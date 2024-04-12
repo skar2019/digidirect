@@ -683,5 +683,6 @@ return [
         'WeltPixel_GA4' => 0,
         'Zip_ZipPayment' => 1,
         'Digidirect_SellerShipping' => 0,
+        
     ]
 ];
