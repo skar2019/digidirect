@@ -41,22 +41,22 @@ class Data extends AbstractHelper
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
-            $this->logger->info('getProductId: ' . $item->getProductId());
+            //$this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
-            $this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
-            $this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
-            $this->logger->info('getSku: ' . $product->getSku());
-            $this->logger->info('getName: ' . $product->getName());
-            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            //$this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
+            //$this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
+            //$this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
+            //$this->logger->info('getSku: ' . $product->getSku());
+            //$this->logger->info('getName: ' . $product->getName());
+            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
             if ($seller == "") {
-                $seller = "General Seller";
+                $seller = "digiDirect";
             }
             
-            if (($seller != "General Seller") && (!in_array($seller, $sellers)))  {
+            if ((!in_array($seller, $sellers)))  {
                 array_push($sellers, $seller);
             }
             //$this->logger->info('getProductId: ' . $product->getId());
@@ -64,41 +64,66 @@ class Data extends AbstractHelper
         
         $sellerTotalShipping = 0;
         
+        $digidirectSeller = 0;
+        
+        $nonDigidirectSeller = 0;
+        
+        $digidirectSellerCount = 0;
+        
+        $nonDigidirectSellerCount = 0;
+        
+        $standardShipping = 8.95;
+        
         foreach($sellers as $seller) {
             $sellerShipping = 0;
             $sellerTotal = 0;
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
-                
+            
                 if ($seller == $itemSeller) {
                     $sellerTotal += $productTotal;
                 }
             }
-            $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
-                $sellerShipping = 10;
+            
+            if ($seller == "digiDirect") {
+                $digidirectSellerCount++;
+            } else {
+                $nonDigidirectSeller += $standardShipping;
+                $nonDigidirectSellerCount++;
             }
-            
-            $sellerTotalShipping += $sellerShipping;
-            
-            $this->logger->info($itemSeller . ': ' . $sellerTotalShipping);
         }
         
+        if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
+            $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+        }
+        
+        /*if ($digidirectSellerCount > 0) {
+            $nonDigidirectSeller = $nonDigidirectSeller + $standardShipping;
+        }*/
+        
+        $this->logger->info('$digidirectSellerCount: ' . $digidirectSellerCount);
+        $this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
+        $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
+        $this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
+        
+        $sellerTotalShipping = $nonDigidirectSeller;
         //$sellerCount = count($sellers);
         //$sellerTotalShipping = $sellerCount * $baseShipping;
-        $this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
+        //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
+        //$finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
+        
         return $sellerTotalShipping;
         
     }
     
     public function getSellers()
     {
-        //$items = $this->session->getQuote()->getAllVisibleItems();
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
         foreach($items as $item) {
@@ -106,13 +131,12 @@ class Data extends AbstractHelper
             $seller = $product->getAttributeText('marketplacer_seller');
             
             if ($seller == "") {
-                $seller = "General Seller";
+                $seller = "digiDirect";
             }
             
             if (!in_array($seller, $sellers))  {
                 array_push($sellers, $seller);
             }
-            //$this->logger->info('getProductId: ' . $product->getId());
         }
         
         $sellerTotalShipping = 0;
@@ -125,7 +149,6 @@ class Data extends AbstractHelper
             
             foreach($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
@@ -134,20 +157,15 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            $this->logger->info($seller . ': ' . $sellerTotal);
             
-            if ($sellerTotal < 99) {
-                $sellerShipping = 10;
-            }
-            
-            //$sellerTotalShipping += $sellerShipping;
+            $sellerShipping = 8.95;
             
             if (!in_array($seller, $sellersArray))  {
                 array_push($sellersArray, [$seller,$sellerShipping]);
             }
         }
         
-        $this->logger->info('sellersArray: ' . json_encode($sellersArray));
+        //$this->logger->info('sellersArray: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
@@ -158,7 +176,7 @@ class Data extends AbstractHelper
         $thirdPartyCount = 0;
         
         foreach($sellers as $seller){
-            if ($seller[0] != "General Seller") {
+            if ($seller[0] != "digiDirect") {
                 $thirdPartyCount++;
             }
         }
@@ -170,39 +188,33 @@ class Data extends AbstractHelper
         }
     }
     
+    public function checkForBulkyItems()
+    {
+        $items = $this->cart->getQuote()->getAllItems();
+        $ctr = 0;
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            //$this->logger->info('bulky_item: ' . $product->getData('bulky_item'));
+            $isBulky = $product->getData('bulky_item');
+            if ($isBulky == 1) {
+                $ctr++;
+            }
+        }
+        
+        if ($ctr > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     public function getDigiShipping()
     {
-        $items = $this->cart->getQuote()->getAllItems();
-        
-        $digiShipping = 0;
-        
-        $digiTotal = 0;
-        
-        foreach($items as $item) {
-            $product = $this->productFactory->create()->load($item->getProductId());
-            $this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
-            $finalPrice = $product->getFinalPrice();
-            $productTotal = $finalPrice * $item->getQty();
-            $itemSeller = $product->getAttributeText('marketplacer_seller');
-            
-            if ($itemSeller == "") {
-                $itemSeller = "General Seller";
-            }
-
-            if ($itemSeller == "General Seller") {
-                $digiTotal += $productTotal;
-            }
+        $standardShipping = 8.95;
+        $bulkItemSurcharge = 0;
+        if ($this->checkForBulkyItems() == true) {
+            $bulkItemSurcharge = 20;
         }
-        $this->logger->info('getDigiShipping: ' . $digiTotal);
-
-        if (($digiTotal < 99) && ($digiTotal != 0)) {
-            $digiShipping = 10;
-        }
-
-        $this->logger->info('digiShipping : ' . $digiShipping);
-        
-        return $digiShipping;
-        
+        return $standardShipping + $bulkItemSurcharge;
     }
 }
