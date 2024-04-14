@@ -53,7 +53,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (!$this->_stateKey) {
             $this->_stateKey = $this->stateKeyGenerator->toString($this->getCurrentCategory());
         }
-        $this->logger->info("this->_stateKey: " . $this->_stateKey); 
+        //$this->logger->info("this->_stateKey: " . $this->_stateKey); 
         return $this->_stateKey;
     }
     
@@ -70,7 +70,8 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20245));
+            $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
+            $collection->getSelect()->orderRand();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }

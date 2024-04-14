@@ -5,8 +5,18 @@
     </head>
     <body>
         <attribute name="class" value="page-products"/>
+        <referenceContainer name="sidebar.main">
+            <block class="Digidirect\MarketplacerProducts\Block\Navigation" name="catalog.leftnav" as="navigation" before="-" cacheable="true" template="Digidirect_MarketplacerProducts::layer/view.phtml">
+                <block class="Digidirect\MarketplacerProducts\Block\Navigation\State" name="catalog.navigation.state" as="state" template="Magento_LayeredNavigation::layer/state.phtml" />
+                <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="Digidirect_MarketplacerProducts::layer/filter.phtml">
+                  <arguments>
+                      <argument name="product_layer_view_model" xsi:type="object">Magento\LayeredNavigation\ViewModel\Layer\Filter</argument>
+                  </arguments>
+                </block>
+            </block>
+        </referenceContainer>
         <referenceContainer name="content">
-            <block class="Digidirect\MarketplacerProducts\Block\Product\ListProduct" name="sale.products.list" as="product_list" template="product/list.phtml">
+            <block class="Digidirect\MarketplacerProducts\Block\Product\ListProduct"  cacheable="true" name="sale.products.list" as="product_list" template="product/list.phtml">
                 <container name="category.product.list.additional" as="additional" />
                 <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
                     <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
