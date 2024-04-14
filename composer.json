@@ -20,7 +20,6 @@
     },
     "require": {
         "classyllama/module-zendesk": "1.1.11",
-        "klarna/m2-klarna": "^2.0",
         "livechat/module-magento-livechat": "dev-master",
         "magento/composer-root-update-plugin": "~2.0",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
