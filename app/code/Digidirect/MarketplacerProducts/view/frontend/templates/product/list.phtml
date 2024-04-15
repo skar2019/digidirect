@@ -16,15 +16,33 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 ?>
 
-<div class="category-view" style="display: none;">
+<div class="category-view">
+    <div class="page-title-wrapper">
+        <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+            <span class="base" data-ui-id="page-title-wrapper">digiMarket</span>
+        </h1> 
+    </div>
     <div class="page-main">
         <div class="category-image">
-            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/marketplacer-products-banner.png" alt="Sale" title="Sale" class="image">
+            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digimarket-banner.png" alt="Sale" title="Sale" class="image">
         </div>
     </div>
 </div>
 
+<div class="inner-search-container">
+    <input id="inner-search" type="text" placeholder="Search digiMarket" class="input-text" maxlength="128" autocomplete="off">
+    <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
+</div>
+
+<?php echo $this->getLayout()->createBlock("Magento\Catalog\Block\Product\ProductList\Toolbar")->setTemplate("Magento_Catalog::product/list/toolbar/toolbar.phtml")->toHtml() ?>
+
 <?= $block->getToolbarHtml() ?>
+<div class="toolbar toolbar-products">            
+    <p class="toolbar-amount" id="toolbar-inner-search"> 
+        Showing results for <span id="inner-search-term"></span>
+    </p> 
+</div>
+
 <?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
@@ -50,7 +68,8 @@ $currentPage = $this->getRequest()->getFullActionName();
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div class="inner-search-preloader"></div>
+    <div id="main-listing" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -329,6 +348,12 @@ $currentPage = $this->getRequest()->getFullActionName();
             <?php endforeach; ?>
         </ol>
     </div>
+    
+    
+    <div id="inner-search-result" class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    
+    </div>
+    
     <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
@@ -342,3 +367,58 @@ $currentPage = $this->getRequest()->getFullActionName();
         </script>
     <?php endif; ?>
 <?php endif; ?>
+
+<script>
+    require(['jquery'],function($){
+    
+        $('#inner-search-button').on('click',function (){
+            searchProducts();
+        });
+        
+        $('#inner-search').on('keypress',function (e){
+            if(e.which == 13) {
+                searchProducts();
+            }
+        });
+    
+        function searchProducts() {
+            var url = "<?php echo $block->getBaseUrl().'digimarket/index/search'?>";
+            var innerSearchInput = $("#inner-search").val();
+
+            if (innerSearchInput != ""){
+                $("#main-listing").hide();
+                $('.inner-search-preloader').show();
+                $('.digimarket-index-index .pages').hide();
+                $("#inner-search-result").hide();
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        innerSearchInput: innerSearchInput
+                    },
+                    success: function(data){
+                        //console.log(data.output);
+                        $("#toolbar-amount").hide();
+                        $("#toolbar-inner-search").show();
+                        $('#inner-search-term').html('"' + innerSearchInput + '"');
+                        $('.inner-search-preloader').hide();
+                        $('#inner-search-result').html(data.output);
+                        $("#inner-search-result").show();
+                    },
+                    error: function(){
+                        //console.log("Error!");
+                    }
+                });
+             } else {
+                $("#toolbar-amount").show();
+                $("#toolbar-inner-search").hide();
+                $("#main-listing").show();
+                $('.inner-search-preloader').hide();
+                $('.digimarket-index-index .pages').show();
+                $("#inner-search-result").hide();
+             }
+        }
+        
+    });
+  
+</script>

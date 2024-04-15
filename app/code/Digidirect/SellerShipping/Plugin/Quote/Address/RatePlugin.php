@@ -19,12 +19,12 @@ class RatePlugin
     
     public function afterImportShippingRate(\Magento\Quote\Model\Quote\Address\Rate $subject, $result, $rate)
     {
-        $this->logger->info('afterImportShippingRate');
+        //$this->logger->info('afterImportShippingRate');
         if ($rate instanceof \Magento\Quote\Model\Quote\Address\RateResult\Method) {
-            $this->logger->info('getCode: ' . $result->getCode());
+            //$this->logger->info('getCode: ' . $result->getCode());
             if($result->getCode() == 'standard_standard') {
                 $result->setPrice($this->helperData->getDigiShipping());
-                $this->logger->info('standard afterImportShippingRate: ' . $this->helperData->getDigiShipping());
+                //$this->logger->info('standard afterImportShippingRate: ' . $this->helperData->getDigiShipping());
             }
             $result->setPrice($result->getPrice() + $this->helperData->getSellerShipping());
         }

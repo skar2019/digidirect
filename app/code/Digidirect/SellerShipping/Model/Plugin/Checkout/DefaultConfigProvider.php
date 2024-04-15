@@ -36,7 +36,7 @@ class DefaultConfigProvider
         \Magento\Checkout\Model\DefaultConfigProvider $subject,
         $result
     ) {
-        $this->logger->info('DefaultConfigProvider getSellersShipping(): ' . $this->helperData->getSellerShipping());
+        //$this->logger->info('DefaultConfigProvider getSellersShipping(): ' . $this->helperData->getSellerShipping());
         $result['quoteData']['has_marketplacer_seller'] = $this->helperData->hasMarketplacerSeller();
         $result['quoteData']['marketplacer_sellers'] = $this->helperData->getSellers();
         
