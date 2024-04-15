@@ -5,8 +5,10 @@
 mysql:
     type: mysql:10.2
     disk: 2048
+
 redis:
-  type: redis:6.0
-opensearch:
-  type: opensearch:2
-  disk: 1024
+    type: redis:5.0
+
+elasticsearch:
+    type: elasticsearch:7.7
+    disk: 1024
