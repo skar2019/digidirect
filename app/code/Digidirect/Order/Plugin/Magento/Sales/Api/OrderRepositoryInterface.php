@@ -12,11 +12,13 @@ class OrderRepositoryInterface
      * @var OrderAddressExtensionInterfaceFactory
      */
     private $addressExtensionInterfaceFactory;
-
+    protected $logger;
     public function __construct(
-        OrderAddressExtensionInterfaceFactory $addressExtensionInterfaceFactory
+        OrderAddressExtensionInterfaceFactory $addressExtensionInterfaceFactory,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->addressExtensionInterfaceFactory = $addressExtensionInterfaceFactory;
+        $this->logger = $logger;
     }
 
     public function afterGet(
@@ -26,6 +28,11 @@ class OrderRepositoryInterface
         /**
          * @var OrderAddressInterface  $billingAddress
          */
+        $this->logger->info('Test order API Override!');
+        //Set unit number for Shipping Address
+
+        $initialShippingAddressUnitNumber = $order->getShippingAddress()->getUnitNumber();
+        $this->logger->info('Test order API Override! -'.$initialShippingAddressUnitNumber);
 
         return $order;
     }
