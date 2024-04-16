@@ -43,7 +43,7 @@ class OrderGet
             $initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
             $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
             $shipAddress->setStreet(array($newstreet));
-            $shipAddress->setUnitNumber($shippingAddressUnitNumber);
+            //$shipAddress->setUnitNumber($shippingAddressUnitNumber);
         }
 
         $this->repositoryAddress->save($shipAddress);
