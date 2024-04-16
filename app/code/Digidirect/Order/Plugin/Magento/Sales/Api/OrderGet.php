@@ -31,8 +31,9 @@ class OrderGet
 
         $initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
         $street = $resultOrder->getShippingAddress()->getStreet();
-        $newstreet = $initialShippingAddressUnitNumber . " ". $street;
-        $resultOrder->getShippingAddress()->setStreet($newstreet);
+        $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
+        $resultOrder->getShippingAddress()->setStreet(array($newstreet));
+        //$resultOrder->setShippingAddress()->setStreet($newstreet);
         $this->logger->info('Test order API Override! -'.$newstreet);
         /** @var \Magento\Sales\Api\Data\OrderExtension $orderExtension */
 
