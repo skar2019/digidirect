@@ -591,7 +591,7 @@ return [
         'Digidirect_Feed' => 0,
         'Digidirect_FilterShipping' => 1,
         'Digidirect_FreeGift' => 1,
-        'Digidirect_AddressVerification' => 0,
+        'Digidirect_AddressVerification' => 1,
         'Digidirect_HotDealsProducts' => 1,
         'Digidirect_BlogInfiniteScroll' => 0,
         'Digidirect_InvoiceEmail' => 1,
