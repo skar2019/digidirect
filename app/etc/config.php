@@ -560,7 +560,7 @@ return [
         'Digidirect_AbstractAttributes' => 0,
         'Digidirect_AbstractEntity' => 1,
         'Digidirect_AbstractGiftCard' => 1,
-        'Digidirect_AI' => 0,
+        'Digidirect_AI' => 1,
         'Digidirect_Googleapi' => 1,
         'Digidirect_BestsellersProducts' => 1,
         'Digidirect_Blog' => 1,
