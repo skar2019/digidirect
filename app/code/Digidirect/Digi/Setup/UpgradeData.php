@@ -238,104 +238,104 @@ class UpgradeData implements UpgradeDataInterface
         $setup->startSetup();
         /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
-//        if (version_compare($context->getVersion(), '1.0.1', '<')) {
-//            $this->upgradeTo101($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.2', '<')) {
-//            $this->upgradeTo102($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.3', '<')) {
-//            $this->upgradeTo103($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.4', '<')) {
-//            $this->upgradeTo104($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.5', '<')) {
-//            $this->upgradeTo105($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.6', '<')) {
-//            $this->upgradeTo106($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.7', '<')) {
-//            $this->upgradeTo107($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.8', '<')) {
-//            $this->upgradeTo108($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.9', '<')) {
-//            $this->upgradeTo109($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.10', '<')) {
-//            $this->upgradeTo110($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.11', '<')) {
-//            $this->upgradeTo111($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.12', '<')) {
-//            $this->upgradeTo112($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.13', '<')) {
-//            $this->upgradeTo113($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.14', '<')) {
-//            $this->upgradeTo114($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.15', '<')) {
-//            $this->upgradeTo115($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.16', '<')) {
-//            $this->upgradeTo116($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.17', '<')) {
-//            $this->upgradeTo117($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.18', '<')) {
-//            $this->upgradeTo118($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.19', '<')) {
-//            $this->upgradeTo119($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.20', '<')) {
-//            $this->upgradeTo120($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.21', '<')) {
-//            $this->upgradeTo121($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.22', '<')) {
-//            $this->upgradeTo122($setup);
-//        }
-//
-//        if (version_compare($context->getVersion(), '1.0.22', '<')) {
-//            $this->upgradeTo122($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.23', '<')) {
-//            $this->upgradeTo123($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.24', '<')) {
-//            $this->upgradeTo124($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.25', '<')) {
-//            $this->upgradeTo125($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.26', '<')) {
-//            $this->upgradeTo126($setup);
-//        }
-//        if (version_compare($context->getVersion(), '1.0.27', '<')) {
-//            $this->upgradeTo127($setup);
-//        }
+        if (version_compare($context->getVersion(), '1.0.1', '<')) {
+            $this->upgradeTo101($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.2', '<')) {
+            $this->upgradeTo102($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.3', '<')) {
+            $this->upgradeTo103($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.4', '<')) {
+            $this->upgradeTo104($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.5', '<')) {
+            $this->upgradeTo105($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.6', '<')) {
+            $this->upgradeTo106($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.7', '<')) {
+            $this->upgradeTo107($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.8', '<')) {
+            $this->upgradeTo108($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $this->upgradeTo109($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.10', '<')) {
+            $this->upgradeTo110($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.11', '<')) {
+            $this->upgradeTo111($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.12', '<')) {
+            $this->upgradeTo112($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.13', '<')) {
+            $this->upgradeTo113($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.14', '<')) {
+            $this->upgradeTo114($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.15', '<')) {
+            $this->upgradeTo115($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.16', '<')) {
+            $this->upgradeTo116($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.17', '<')) {
+            $this->upgradeTo117($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.18', '<')) {
+            $this->upgradeTo118($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.19', '<')) {
+            $this->upgradeTo119($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.20', '<')) {
+            $this->upgradeTo120($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.21', '<')) {
+            $this->upgradeTo121($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.22', '<')) {
+            $this->upgradeTo122($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.22', '<')) {
+            $this->upgradeTo122($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.23', '<')) {
+            $this->upgradeTo123($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.24', '<')) {
+            $this->upgradeTo124($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.25', '<')) {
+            $this->upgradeTo125($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.26', '<')) {
+            $this->upgradeTo126($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.27', '<')) {
+            $this->upgradeTo127($setup);
+        }
 //        if (version_compare($context->getVersion(), '1.0.28', '<')) {
 //            $this->upgradeTo128($setup);
 //        }
