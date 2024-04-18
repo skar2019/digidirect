@@ -263,6 +263,26 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('is_qantas_product', '0');
                 }
 
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+                }
+
                 $forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-user-only-alpha4-1'] == 'P')
@@ -877,6 +897,27 @@ class Product extends AbstractHelper
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 $product->setCustomAttribute('is_nda', 1);
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+                }
+
                 $this->productRepository->save($product);
 
             }
@@ -1071,6 +1112,27 @@ class Product extends AbstractHelper
                     $awaiting = "Awaiting Product = 0";
                 }
                 $forLogs .= $awaiting."\n";
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+                }
+
                 //set to pre order
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
@@ -1657,6 +1719,27 @@ class Product extends AbstractHelper
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 $product->setCustomAttribute('is_nda', 1);
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+                }
+
                 $this->productRepository->save($product);
 
             }
@@ -1877,6 +1960,26 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-3'] == "Q")
                 {
                     $product->setCustomAttribute('is_qantas_product', '1');
+                }
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
                 }
 
                 if($prod['stk-user-only-alpha4-1'] == 'P')
@@ -2490,6 +2593,27 @@ class Product extends AbstractHelper
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 $product->setCustomAttribute('is_nda', 1);
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+                }
+
                 $this->productRepository->save($product);
 
             }
@@ -2705,6 +2829,26 @@ class Product extends AbstractHelper
                 else
                 {
                     $product->setCustomAttribute('is_qantas_product', '0');
+                }
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
                 }
 
                 if($prod['stk-user-only-alpha4-1'] == 'P')
@@ -3354,6 +3498,26 @@ class Product extends AbstractHelper
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
                     $product->setCustomAttribute('bulky_item', 0);
+                }
+
+                if(isset($prod['stock-division']))
+                {
+                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+                }
+
+                if(isset($prod['stock-department']))
+                {
+                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+                }
+
+                if(isset($prod['stock-category']))
+                {
+                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+                }
+
+                if(isset($prod['stock-class']))
+                {
+                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
                 }
 
                 $today = date('Y-m-d');
