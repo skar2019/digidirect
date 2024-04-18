@@ -25,7 +25,7 @@ class OrderGet
         OrderRepositoryInterface $subject,
         OrderInterface $resultOrder
     ) {
-        $this->logger->info('Test order API Override!');
+        //$this->logger->info('Test order API Override!');
 
 //        $extensionAttributes = $resultOrder->getExtensionAttributes();
 //        if ($extensionAttributes && $extensionAttributes->getUnitNumber()) {
@@ -51,7 +51,7 @@ class OrderGet
         }
 
         $this->repositoryAddress->save($shipAddress);
-        $this->logger->info('Test order API Override! -'.$newstreet);
+        //$this->logger->info('Test order API Override! -'.$newstreet);
         /** @var \Magento\Sales\Api\Data\OrderExtension $orderExtension */
 
 //        $orderExtension = $extensionAttributes ? $extensionAttributes : $this->orderExtensionFactory->create();
