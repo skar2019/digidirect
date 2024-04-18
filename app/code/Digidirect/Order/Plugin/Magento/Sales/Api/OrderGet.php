@@ -48,9 +48,10 @@ class OrderGet
             }
 
             $shipAddress->setStreet(array($newstreet));
+            $this->repositoryAddress->save($shipAddress);
         }
 
-        $this->repositoryAddress->save($shipAddress);
+
         //$this->logger->info('Test order API Override! -'.$newstreet);
         /** @var \Magento\Sales\Api\Data\OrderExtension $orderExtension */
 
