@@ -351,9 +351,25 @@ class ProductEntHelper extends AbstractHelper
                 }
 
                 $stockDivision = $product->getCustomAttribute('stock_division');
+                if(!is_null($stockDivision))
+                {
+                    $stockDivision = $stockDivision->getValue();
+                }
                 $stockDepartment = $product->getCustomAttribute('stock_department');
+                if(!is_null($stockDepartment))
+                {
+                    $stockDepartment = $stockDepartment->getValue();
+                }
                 $stockCategory = $product->getCustomAttribute('stock_category');
+                if(!is_null($stockCategory))
+                {
+                    $stockCategory = $stockCategory->getValue();
+                }
                 $stockClass = $product->getCustomAttribute('stock_class');
+                if(!is_null($stockClass))
+                {
+                    $stockClass = $stockClass->getValue();
+                }
 
                 //echo $stockonhand."<br/>";
                 $data[] = $brandname;
