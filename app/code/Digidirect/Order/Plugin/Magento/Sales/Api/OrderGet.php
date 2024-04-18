@@ -35,23 +35,19 @@ class OrderGet
         $initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
         $street = $resultOrder->getShippingAddress()->getStreet();
         $strstring = $street[0];
-        if (str_contains($strstring, $initialShippingAddressUnitNumber)) {
-            $newstreet = $street[0];
-        }
-        else
-        {
-            $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
-        }
-
         $shipAddress = $resultOrder->getShippingAddress();
         //$initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
         if(!empty($initialShippingAddressUnitNumber))
         {
-            $initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
-            $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
+            if (str_contains($strstring, $initialShippingAddressUnitNumber)) {
+                $newstreet = $street[0];
+            }
+            else
+            {
+                $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
+            }
 
             $shipAddress->setStreet(array($newstreet));
-            //$shipAddress->setUnitNumber($shippingAddressUnitNumber);
         }
 
         $this->repositoryAddress->save($shipAddress);
