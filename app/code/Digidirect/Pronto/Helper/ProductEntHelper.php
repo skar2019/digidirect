@@ -182,7 +182,8 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand'];
+            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
+            'Stock Division', 'Stock Department','Stock Category','Stock Class'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -348,6 +349,12 @@ class ProductEntHelper extends AbstractHelper
 
                     $stockonhand += $sourceItem->getQuantity();
                 }
+
+                $stockDivision = $product->getCustomAttribute('stock_division');
+                $stockDepartment = $product->getCustomAttribute('stock_department');
+                $stockCategory = $product->getCustomAttribute('stock_category');
+                $stockClass = $product->getCustomAttribute('stock_class');
+
                 //echo $stockonhand."<br/>";
                 $data[] = $brandname;
                 $data[] = $description;
@@ -365,6 +372,10 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $stockC;
                 $data[] = $sckGrp;
                 $data[] = $stockonhand;
+                $data[] = $stockDivision;
+                $data[] = $stockDepartment;
+                $data[] = $stockCategory;
+                $data[] = $stockClass;
 
                 $stream->writeCsv($data);
             }
