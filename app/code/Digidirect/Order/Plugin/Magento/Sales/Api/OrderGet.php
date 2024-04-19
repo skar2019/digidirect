@@ -9,12 +9,15 @@ use Magento\Sales\Model\ResourceModel\Order\Collection;
 class OrderGet
 {
     protected $orderExtensionFactory;
+    protected $repositoryAddress;
     protected $logger;
     public function __construct(
         OrderExtensionFactory $orderExtensionFactory,
+        \Magento\Sales\Model\Order\AddressRepository $repositoryAddress,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->orderExtensionFactory = $orderExtensionFactory;
+        $this->repositoryAddress= $repositoryAddress;
         $this->logger = $logger;
     }
 
@@ -22,23 +25,41 @@ class OrderGet
         OrderRepositoryInterface $subject,
         OrderInterface $resultOrder
     ) {
-        $this->logger->info('Test order API Override!');
+        //$this->logger->info('Test order API Override!');
 
-        $extensionAttributes = $resultOrder->getExtensionAttributes();
-        if ($extensionAttributes && $extensionAttributes->getUnitNumber()) {
-            return $resultOrder;
-        }
+//        $extensionAttributes = $resultOrder->getExtensionAttributes();
+//        if ($extensionAttributes && $extensionAttributes->getUnitNumber()) {
+//            return $resultOrder;
+//        }
 
         $initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
-        $this->logger->info('Test order API Override! -'.$initialShippingAddressUnitNumber);
+        $street = $resultOrder->getShippingAddress()->getStreet();
+        $strstring = $street[0];
+        $shipAddress = $resultOrder->getShippingAddress();
+        //$initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
+        if(!empty($initialShippingAddressUnitNumber))
+        {
+            if (str_contains($strstring, $initialShippingAddressUnitNumber)) {
+                $newstreet = $street[0];
+            }
+            else
+            {
+                $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
+            }
+
+            $shipAddress->setStreet(array($newstreet));
+            $this->repositoryAddress->save($shipAddress);
+        }
+
+
+        //$this->logger->info('Test order API Override! -'.$newstreet);
         /** @var \Magento\Sales\Api\Data\OrderExtension $orderExtension */
 
-        $orderExtension = $extensionAttributes ? $extensionAttributes : $this->orderExtensionFactory->create();
-        $orderExtension->setUnitNumber($initialShippingAddressUnitNumber);
-        $resultOrder->setExtensionAttributes($orderExtension);
+//        $orderExtension = $extensionAttributes ? $extensionAttributes : $this->orderExtensionFactory->create();
+//        $orderExtension->setUnitNumber($initialShippingAddressUnitNumber);
+//        $resultOrder->setExtensionAttributes($orderExtension);
 
         return $resultOrder;
-        //redeploy
 
     }
 
