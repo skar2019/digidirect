@@ -38,12 +38,7 @@
                                 </a>
                             </strong>
                             <?php
-                                echo $block->getProductPriceHtml(
-                                    $product,
-                                    'wishlist_configured_price',
-                                    \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
-                                    ['item' => $item]
-                                );
+                                echo $block->getProductPriceHtml($product, \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
                             ?>
                             <?= $block->getDetailsHtml($item) ?>
                         </td>
