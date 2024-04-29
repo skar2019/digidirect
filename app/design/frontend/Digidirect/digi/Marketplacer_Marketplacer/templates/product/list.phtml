@@ -1,3 +1,4 @@
+<span class="currentPage" style="display: none;"></span>
 <?php
 use Magento\Framework\App\Action\Action;
 ?>
@@ -16,8 +17,6 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 
 ?>
-<?= $block->getToolbarHtml() ?>
-<?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
