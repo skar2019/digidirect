@@ -1,4 +1,3 @@
-<span class="currentPage" style="display: none;"></span>
 <?php
 use Magento\Framework\App\Action\Action;
 ?>
@@ -17,6 +16,8 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 
 ?>
+<?= $block->getToolbarHtml() ?>
+<?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
@@ -120,7 +121,7 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $productUrl = $_product->getProductUrl();
                 
-                if ($currentPage == "eaa_attribute_option_index") {
+                /*if ($currentPage == "eaa_attribute_option_index") {
                     $explode1 = explode("/catalog/product/view/id", $productUrl);
                     $baseUrl = $explode1[0];
                     $explode2 = explode("/s/", $productUrl);
@@ -128,7 +129,7 @@ if ($currentPage != "catalogsearch_result_index") {
                     $explode3 = explode("/category/2", $explode2[1]);
                     $seoUrl = $explode3[0];
                     $productUrl = $baseUrl . "/" . $seoUrl;
-                }
+                }*/
 
                 ?>
 
