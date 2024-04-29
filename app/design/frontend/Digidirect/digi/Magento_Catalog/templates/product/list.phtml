@@ -16,12 +16,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 
 ?>
-<?= $block->getToolbarHtml() ?>
-<?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
-<span class="currentPage" style="display: none;"><?= $currentPage ?></span>
 <?php
 $categoryName = "";
 if ($currentPage != "catalogsearch_result_index") {
