@@ -21,7 +21,7 @@ $showWishlist = true;
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
-
+<span class="currentPage" style="display: none;"><?= $currentPage ?></span>
 <?php
 $categoryName = "";
 if ($currentPage != "catalogsearch_result_index") {
