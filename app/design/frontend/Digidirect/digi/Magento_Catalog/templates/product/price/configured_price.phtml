@@ -15,58 +15,29 @@ $configuredRegularPrice = $block->getPriceType(
     \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_REGULAR_PRICE_CODE
 );
 ?>
-<?php if ($configuredPrice->getAmount()->getValue() < $configuredRegularPrice->getAmount()->getValue()) : ?>
-    <p class="price-as-configured">
-        <span class="old-price">
-            <?= /* @noEscape */ $block->renderAmount(
-                $configuredRegularPrice->getAmount(),
-                [
-                    'display_label'     => $block->escapeHtml(__('')),
-                    'price_id'          => $block->escapeHtml($block->getPriceId('old-price-' . $idSuffix)),
-                    'price_type'        => 'oldPrice',
-                    'include_container' => true,
-                    'skip_adjustments'  => true,
-                ]
-            ); ?>
-        </span>
-        <span class="special-price">
-            <?= /* @noEscape */ $block->renderAmount(
-                $configuredPrice->getAmount(),
-                [
-                    'display_label'     => $block->escapeHtml(__('Promotional Pricing')),
-                    'price_id'          => $block->escapeHtml($block->getPriceId('product-price-' . $idSuffix)),
-                    'price_type'        => 'finalPrice',
-                    'include_container' => true,
-                    'schema' => $schema,
-                ]
-            ); ?>
-        </span>
-    </p>
-<?php else : ?>
-    <?php
-    $priceLabel = ($block->getPriceLabel() !== null)
-        ? $block->getPriceLabel()
-        : '';
-    ?>
-    <?php if ($catalogRulePDP = trim($this->getLayout()
-        ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
-        ->setBlockName('digi_catalog_rule_pdp')
-        ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/price_rule_amount.phtml')
-        ->setActualAmount($configuredPrice->getAmount())
-        ->toHtml())) : ?>
-        <?php echo $catalogRulePDP; ?>
-        <?php $priceLabel = __('Before Cashback') ?>
-    <?php endif; ?>
-    <p class="price-as-configured">
+<p class="price-as-configured" style="display: none !important;">
+    <span class="old-price">
+        <?= /* @noEscape */ $block->renderAmount(
+            $configuredRegularPrice->getAmount(),
+            [
+                'display_label'     => $block->escapeHtml(__('')),
+                'price_id'          => $block->escapeHtml($block->getPriceId('old-price-' . $idSuffix)),
+                'price_type'        => 'oldPrice',
+                'include_container' => true,
+                'skip_adjustments'  => true,
+            ]
+        ); ?>
+    </span>
+    <span class="special-price">
         <?= /* @noEscape */ $block->renderAmount(
             $configuredPrice->getAmount(),
             [
-                'display_label'     => $block->escapeHtml($priceLabel),
+                'display_label'     => $block->escapeHtml(__('Promotional Pricing')),
                 'price_id'          => $block->escapeHtml($block->getPriceId('product-price-' . $idSuffix)),
                 'price_type'        => 'finalPrice',
                 'include_container' => true,
                 'schema' => $schema,
             ]
         ); ?>
-    </p>
-<?php endif; ?>
+    </span>
+</p>

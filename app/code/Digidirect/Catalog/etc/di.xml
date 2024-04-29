@@ -12,4 +12,7 @@
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
     </type>
+    <type name="Magento\Framework\View\Result\Page">
+        <plugin name="digiprinit_class" type="Digidirect\Catalog\Plugin\Result\Page"/>
+    </type>
 </config>

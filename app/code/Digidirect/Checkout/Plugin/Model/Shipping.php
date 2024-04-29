@@ -10,9 +10,11 @@ class Shipping {
     
     public function __construct(
         GetSourceItemsBySku $getSourceItemsBySku,
+        \Digidirect\SellerShipping\Helper\Data $helperData,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->helperData = $helperData;
         $this->logger = $logger;
     }
        
@@ -69,6 +71,12 @@ class Shipping {
             }
             if (($isMelb == 1 && $melbQty <= 0)) {
                 //$this->logger->info("Melbourne Next Day Delivery");
+                return false;
+            }
+        }
+        
+        if ($this->helperData->hasMarketplacerSeller()) {
+            if ($carrierCode == 'nextdaydelivery') {
                 return false;
             }
         }
