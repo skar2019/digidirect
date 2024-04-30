@@ -20,7 +20,7 @@
     $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
     $schema = ($block->getZone() == 'item_view') ? true : false;
     
-    $discountPrice = number_format($finalPriceModel->getAmount()) - number_format($priceModel->getAmount());
+    $discountPrice = number_format((float)$finalPriceModel->getAmount(), 2, '.', '') - number_format((float)$priceModel->getAmount(), 2, '.', '');
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
