@@ -24,7 +24,15 @@
     $promoPrice = number_format((float)$block->getSaleableItem()->getFinalPrice(), 2, '.', '');
     $wiserPrice = number_format((float)$block->getSaleableItem()->getWiserPrice(), 2, '.', '');
     
-    $discountPrice = $originalPrice - $promoPrice;
+    if (is_null($wiserPrice) || $wiserPrice == 0) {
+        $discountPrice = round($originalPrice - $promoPrice, 2);
+    } else {
+        if ($wiserPrice < $promoPrice) {
+            $discountPrice = round($originalPrice - $wiserPrice, 2);
+        } else {
+            $discountPrice = round($originalPrice - $promoPrice, 2);
+        }
+    }
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
