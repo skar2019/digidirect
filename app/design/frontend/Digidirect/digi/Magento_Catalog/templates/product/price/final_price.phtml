@@ -20,7 +20,7 @@
     $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
     $schema = ($block->getZone() == 'item_view') ? true : false;
     
-    $discountPrice = number_format($block->renderAmount($priceModel->getAmount())) - number_format($block->renderAmount($finalPriceModel->getAmount()));
+   $discountPrice = 0;//number_format($block->renderAmount($priceModel->getAmount())) - number_format($block->renderAmount($finalPriceModel->getAmount()));
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
@@ -88,7 +88,7 @@
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
+        <div class="discount-price-wrapper <?= $block->renderAmount($priceModel->getAmount()); ?> <?= $block->renderAmount($finalPriceModel->getAmount()); ?>" style="display: none;">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
