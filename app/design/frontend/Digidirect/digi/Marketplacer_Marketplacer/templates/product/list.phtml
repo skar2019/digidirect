@@ -77,8 +77,10 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $finalProductPrice = $_product->getFinalPrice();
                 $originalPrice = $_product->getPrice();
+                $wiserPrice =$_product->getData('wiser_price');
                 
                 $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
                 
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
@@ -138,15 +140,10 @@ if ($currentPage != "catalogsearch_result_index") {
                 ?>
 
                 <?php if ($is_digiPrint == 1): ?>
-
                     <?= /* @escapeNotVerified */ '<li class="item product product-item test-class digiprint-product">' ?>
-
                 <?php else: ?>
-
                     <?= /* @escapeNotVerified */ '<li class="item product product-item test-class">' ?>
-
                 <?php endif; ?>
-
 
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
                      data-container="product-grid"
@@ -166,7 +163,7 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($discountPrice > 0): ?>
+                        <?php if ($discountPrice > 0 || $discountWiserPrice > 0): ?>
                             <div class="digideals-overlay">
                                 <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
                             </div>

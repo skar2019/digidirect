@@ -88,7 +88,7 @@
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper <?= $block->renderAmount($priceModel->getAmount()); ?> <?= $block->renderAmount($finalPriceModel->getAmount()); ?>" style="display: none;">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
+        <div class="discount-price-wrapper" style="display: none;">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
