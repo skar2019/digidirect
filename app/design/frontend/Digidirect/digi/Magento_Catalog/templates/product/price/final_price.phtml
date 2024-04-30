@@ -32,7 +32,6 @@
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
     }
 ?>
-
 <?php if ($block->hasSpecialPrice()): ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($priceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="old-price-wrapper marketplaces-price">
