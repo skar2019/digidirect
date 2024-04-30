@@ -63,7 +63,7 @@
         </div>
     <?php else: ?>
         <div class="old-price-wrapper">
-            <span class="old-price">
+            <span class="old-price" <?= $priceModel->getAmount()?>>
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
                     'display_label'     => __('Price Slashed'),
                     'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
@@ -79,7 +79,7 @@
             <?php } else { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>
             <?php } ?>
-            <span class="special-price">
+            <span class="special-price <?= $finalPriceModel->getAmount()?>">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                     'display_label'     => __(''),
                     'price_id'          => $block->getPriceId('product-price-' . $idSuffix),

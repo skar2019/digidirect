@@ -163,13 +163,13 @@ if ($currentPage != "catalogsearch_result_index") {
                     <?php ?>
                     <a href="<?= $block->escapeUrl($productUrl); ?>"
                        title="<?= $block->escapeHtml($productName); ?>"
-                       class="product photo product-item-photo"
+                       class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
                         <?php if ($discountPrice > 0): ?>
-                        <div class="digideals-overlay">
-                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                        </div>
+                            <div class="digideals-overlay">
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                            </div>
                         <?php endif; ?>
                         
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
