@@ -32,7 +32,10 @@ class OrderGet
 //            return $resultOrder;
 //        }
 
-        $initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
+        $initialShippingAddressUnitNumber = "";
+         $initialShippingAddressUnitNumber = $resultOrder?->getShippingAddress()?->getUnitNumber();
+
+
         $street = $resultOrder->getShippingAddress()->getStreet();
         $strstring = $street[0];
         $shipAddress = $resultOrder->getShippingAddress();
