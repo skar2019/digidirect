@@ -76,6 +76,10 @@ if ($currentPage != "catalogsearch_result_index") {
                 $secondsSavings = "";
 
                 $finalProductPrice = $_product->getFinalPrice();
+                $originalPrice = $_product->getPrice();
+                
+                $discountPrice = round($finalProductPrice - $originalPrice, 2);
+                
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
 
@@ -161,6 +165,13 @@ if ($currentPage != "catalogsearch_result_index") {
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
+                        
+                        <?php if ($discountPrice > 0): ?>
+                        <div class="digideals-overlay">
+                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                        </div>
+                        <?php endif; ?>
+                        
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
                                 <div class="digiseconds-overlay">
@@ -340,7 +351,7 @@ if ($currentPage != "catalogsearch_result_index") {
                                         <button type="submit"
                                                 title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
                                                 class="action tocart primary">
-                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
                                         </button>
                                     </form>
                                     <?php endif; ?>

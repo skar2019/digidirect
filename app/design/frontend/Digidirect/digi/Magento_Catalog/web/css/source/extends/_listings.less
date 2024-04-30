@@ -26,8 +26,8 @@
 //@catalog-listing-product-item-name__margin: @indent__xs 0;
 //@catalog-listing-product-item-name__word-wrap: break-word;
 //@catalog-listing-product-item-name__hyphens: auto;
-@catalog-listing-product-item-name__height: 52px;
-@catalog-listing-product-item-name__height__l: 52px;
+@catalog-listing-product-item-name__height: 53px;
+@catalog-listing-product-item-name__height__l: 53px;
 
 //  To Cart
 //@catalog-listing-product-item-tocart__white-space: nowrap;
@@ -622,13 +622,15 @@
         position: absolute;
         padding: 0;
         z-index: 97;
-        max-width: 120px;
+        max-width: 85px;
+        left: 10px;
+        top: 10px;
     }
     .digiseconds-rating {
-        margin-left: 42px;
-        margin-top: -28px;
-        color: #FFAE00;
-        font-size: 11px;
+        margin-left: 30px;
+        margin-top: -21px;
+        color: #ffae00;
+        font-size: 8px;
     }
 
     .digiseconds-product-name a {
@@ -684,6 +686,66 @@
     
     .product-item-info .product-overlay.-top-left.-has-size.-ready:not(:first-of-type) {
         padding-left: 13px;
+    }
+    
+    //Product Tile Redesign (Rondel)
+    .testfreaks-items {
+        min-height: 10px !important;
+    }
+
+    .product-item .old-price {
+            text-decoration: none !important;
+    }
+
+    .product-item .price-final_price {
+        text-align: center;
+        display: block;
+    }
+
+    .current-price-wrapper.no-special-price {
+        position: absolute !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    .product-item .price-box .old-price .price:before {
+        position: absolute;
+        content: "";
+        left: 62%;
+        top: 50%;
+        right: 0;
+        border-top: 1px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(-30deg);
+        -moz-transform: rotate(-30deg);
+        -ms-transform: rotate(-30deg);
+        -o-transform: rotate(-30deg);
+        transform: rotate(-6deg);
+        width: 31%;
+        color: red;
+    }
+
+    .discount-price-wrapper {
+        background: #4e4e4e;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    .catalog-category-view .products .product-item-info .current-price-wrapper.has-special-price {
+        margin-top: -5px;
+        margin-bottom: 5px;
+    }
+
+    .digideals-overlay {
+        max-width: 65px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
     }
     
 }
