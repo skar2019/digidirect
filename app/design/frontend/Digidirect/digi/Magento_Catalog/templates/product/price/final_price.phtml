@@ -20,7 +20,7 @@
     $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
     $schema = ($block->getZone() == 'item_view') ? true : false;
     
-    //$discountPrice = $finalPriceModel->getAmount() - $priceModel->getAmount();
+    $discountPrice = number_format($finalPriceModel->getAmount()) - number_format($priceModel->getAmount());
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
@@ -63,7 +63,7 @@
         </div>
     <?php else: ?>
         <div class="old-price-wrapper">
-            <span class="old-price" <?= $priceModel->getAmount()?>>
+            <span class="old-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
                     'display_label'     => __('Price Slashed'),
                     'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
@@ -79,7 +79,7 @@
             <?php } else { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>
             <?php } ?>
-            <span class="special-price <?= $finalPriceModel->getAmount()?>">
+            <span class="special-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                     'display_label'     => __(''),
                     'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
@@ -89,7 +89,7 @@
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper" style="display: none;">$<span class="discount-price"></span> Off</div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>

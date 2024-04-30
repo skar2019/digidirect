@@ -78,7 +78,7 @@ if ($currentPage != "catalogsearch_result_index") {
                 $finalProductPrice = $_product->getFinalPrice();
                 $originalPrice = $_product->getPrice();
                 
-                $discountPrice = round($finalProductPrice - $originalPrice, 2);
+                $discountPrice = round($originalPrice - $finalProductPrice, 2);
                 
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
