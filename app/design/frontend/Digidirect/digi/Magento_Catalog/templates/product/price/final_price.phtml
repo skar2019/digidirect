@@ -22,6 +22,7 @@
     
     $originalPrice = number_format((float)$block->getSaleableItem()->getPrice(), 2, '.', '');
     $promoPrice = number_format((float)$block->getSaleableItem()->getFinalPrice(), 2, '.', '');
+    $wiserPrice = number_format((float)$block->getSaleableItem()->getWiserPrice(), 2, '.', '');
     
     $discountPrice = $originalPrice - $promoPrice;
 
@@ -91,7 +92,7 @@
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper <?= $originalPrice?> <?= $promoPrice?>">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
+        <div class="discount-price-wrapper <?= $originalPrice?> <?= $promoPrice?> <?= $wiserPrice?>">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
