@@ -91,6 +91,16 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $brandNewProductPrice = "";
                 $brandNewProductUrl = "";
                 $secondsSavings = "";
+                
+                $finalProductPrice = $_product->getFinalPrice();
+                $originalPrice = $_product->getPrice();
+                $wiserPrice = $_product->getData('wiser_price');
+                
+                $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                $discountWiserPrice = 0;
+                if (!is_null($wiserPrice)) {
+                    $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                }
 
                 $finalProductPrice = $_product->getFinalPrice();
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
@@ -167,6 +177,13 @@ $currentPage = $this->getRequest()->getFullActionName();
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
+                        
+                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0)): ?>
+                            <div class="digideals-overlay">
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                            </div>
+                        <?php endif; ?>
+                        
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
                                 <div class="digiseconds-overlay">
