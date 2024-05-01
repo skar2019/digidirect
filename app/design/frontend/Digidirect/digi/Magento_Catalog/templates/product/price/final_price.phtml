@@ -100,7 +100,7 @@
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper <?= $originalPrice?> <?= $promoPrice?> <?= $wiserPrice?>">$<span class="discount-price"><?= round($discountPrice, 2)?></span> Off</div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
