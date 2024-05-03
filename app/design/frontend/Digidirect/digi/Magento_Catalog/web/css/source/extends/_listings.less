@@ -455,6 +455,20 @@
     .category-refurb .product-item  {
         height: 305px !important;
     }
+    
+    .category-digiseconds .product-item-info.-grid, 
+    .category-openbox .product-item-info.-grid, 
+    .category-preloved .product-item-info.-grid, 
+    .category-refurb .product-item-info.-grid {
+	height: 330px !important;
+    }
+
+    .category-digiseconds li.item.product.product-item, 
+    .category-openbox li.item.product.product-item, 
+    .category-preloved li.item.product.product-item, 
+    .category-refurb li.item.product.product-item {
+        margin-bottom: 60px;
+    }
 
     .digiseconds-product-details {
         position: absolute;
@@ -465,7 +479,7 @@
         margin-top: -15px;
         overflow: hidden;
         z-index: 0;
-        height: inherit;
+        height: 345px;
         padding-left: 30px;
     }
     
@@ -598,11 +612,14 @@
         display: none !important;
     }
     
-    .category-digiseconds .product-item .product-item-name, 
     .category-openbox .product-item .product-item-name, 
     .category-preloved .product-item .product-item-name, 
     .category-refurb .product-item .product-item-name  {
         display: none;
+    }
+    
+    .category-digiseconds .product-item .product-item-name {
+        display: none !important;
     }
     
     .category-digiseconds .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo, 
@@ -751,6 +768,10 @@
     
     .digiprint-product .product-item-name {
         margin-top: 15px;
+    }
+    
+    .product-overlay.-top-left.-has-size.-ready .img {
+        width: auto !important;
     }
     
 }
@@ -1397,6 +1418,10 @@
     .category-refurb .product-category-listing .product-item-details  {
         width: 33% !important;
         position: relative;
+    }
+    
+    .category-digiseconds .product-category-listing .product-item-details {
+        margin-top: 30px;
     }
     
     .digiseconds-product-details {
