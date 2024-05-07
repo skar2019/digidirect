@@ -22,7 +22,7 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      *
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $_productCollectionFactory;
+    protected $_productCollectionFactory;                                                                          
     
     protected $_limit; // Limit Product
 
@@ -57,6 +57,7 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
+        $collection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
         
         return $collection;
     }
