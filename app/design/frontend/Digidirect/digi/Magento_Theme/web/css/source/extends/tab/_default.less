@@ -1117,7 +1117,8 @@
         display: none;
     }
 
-    .product-tab-mobile-load-more.grid-toggle-more, .product-tab-mobile-widget-load-more.grid-toggle-more {
+    .product-tab-mobile-load-more.grid-toggle-more, .product-tab-mobile-widget-load-more.grid-toggle-more, 
+    .product-tab-mobile-widget-view-less.grid-toggle-more, .product-tab-mobile-widget-view-all.grid-toggle-more {
         text-align: center;
         margin-top: -35px;
         margin-bottom: 20px;
@@ -1128,6 +1129,21 @@
     .product-tab-mobile-load-more.grid-toggle-more > div > p:after, .product-tab-mobile-widget-load-more.grid-toggle-more > div > p:after {
         font-family: "Font Awesome 5 Free";
         content: "\f103";
+        font-size: 15px;
+        font-weight: 600;
+        margin-left: 10px !important;
+    }
+    
+    .product-tab-mobile-widget-view-less.grid-toggle-more > div > p:after {
+        font-family: "Font Awesome 5 Free";
+        content: "\f102";
+        font-size: 15px;
+        font-weight: 600;
+        margin-left: 10px !important;
+    }
+    
+    .product-tab-mobile-widget-view-all.grid-toggle-more > div > p:after {
+        font-family: "Font Awesome 5 Free";
         font-size: 15px;
         font-weight: 600;
         margin-left: 10px !important;
