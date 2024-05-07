@@ -75,6 +75,16 @@ $htmlId               = $element->getHtmlId();
                                         
                                         $d2ItemCondition = $_product->getData('item_codition');
                                         $d2ItemRating = $_product->getData('item_rating');
+                                        
+                                        $finalProductPrice = $_product->getFinalPrice();
+                                        $originalPrice = $_product->getPrice();
+                                        $wiserPrice = $_product->getData('wiser_price');
+
+                                        $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                                        $discountWiserPrice = 0;
+                                        if (!is_null($wiserPrice)) {
+                                            $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                                        }
                                     ?>
                                                     
                                     <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
@@ -138,6 +148,11 @@ $htmlId               = $element->getHtmlId();
 		                    	?>
 		                        <?= $imgHtml ?>
 		                    </a>
+                                    <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0)): ?>
+                                        <div class="digideals-overlay">
+                                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                        </div>
+                                    <?php endif; ?>
 							<?php } ?>
 							<div class="product details product-item-details">
 								<?php if ($showName) { ?>
@@ -177,7 +192,7 @@ $htmlId               = $element->getHtmlId();
 															<button type="submit"
 															title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
 															class="action tocart primary">
-                                                                                                                        <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                                                                                                        <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
 														</button>
 													</form>
 												<?php } else { ?>

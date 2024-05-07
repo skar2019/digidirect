@@ -19,10 +19,24 @@
     $finalPriceModel = $block->getPriceType('final_price');
     $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
     $schema = ($block->getZone() == 'item_view') ? true : false;
+    
+    $originalPrice = number_format((float)$block->getSaleableItem()->getPrice(), 2, '.', '');
+    $promoPrice = number_format((float)$block->getSaleableItem()->getFinalPrice(), 2, '.', '');
+    $wiserPrice = number_format((float)$block->getSaleableItem()->getWiserPrice(), 2, '.', '');
+    
+    if (is_null($wiserPrice) || $wiserPrice == 0) {
+        $discountPrice = round($originalPrice - $promoPrice, 2);
+    } else {
+        if ($wiserPrice < $promoPrice) {
+            $discountPrice = round($originalPrice - $wiserPrice, 2);
+        } else {
+            $discountPrice = round($originalPrice - $promoPrice, 2);
+        }
+    }
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
-
+    
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
     $customerGroupId = 0;
@@ -30,14 +44,13 @@
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
     }
 ?>
-
 <?php if ($block->hasSpecialPrice()): ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($priceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="old-price-wrapper marketplaces-price">
             <span class="old-price">  
                 <span class="price-container price-final_price tax weee"> 
                     <span class="price-label">Everyday Price</span>  
-                    <span data-price-amount="<?php echo $marketPlacePrice;?>">
+                    <span class="price" data-price-amount="<?php echo $marketPlacePrice;?>">
                         <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
                     </span>  
                 </span>
@@ -63,7 +76,7 @@
         <div class="old-price-wrapper">
             <span class="old-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
-                    'display_label'     => __('Original Price'),
+                    'display_label'     => __('Price Slashed'),
                     'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
                     'price_type'        => 'oldPrice',
                     'include_container' => true,
@@ -87,6 +100,7 @@
                 ]); ?>
             </span>
         </div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($discountPrice, 2)?></span> Off</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
@@ -94,7 +108,7 @@
             <span class="old-price">  
                 <span class="price-container price-final_price tax weee"> 
                     <span class="price-label">Everyday Price</span>  
-                    <span data-price-amount="<?php echo $marketPlacePrice;?>">
+                    <span class="price" data-price-amount="<?php echo $marketPlacePrice;?>">
                         <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
                     </span>  
                 </span>
