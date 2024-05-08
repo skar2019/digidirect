@@ -79,6 +79,7 @@ if ($currentPage != "catalogsearch_result_index") {
                 $originalPrice = $_product->getPrice();
                 $wiserPrice = $_product->getData('wiser_price');
                 
+                $hasDiscountClass = "";
                 $discountPrice = round($originalPrice - $finalProductPrice, 2);
                 $discountWiserPrice = 0;
                 if (!is_null($wiserPrice)) {
@@ -167,6 +168,9 @@ if ($currentPage != "catalogsearch_result_index") {
                        tabindex="-1">
                         
                         <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0)): ?>
+                            <?php 
+                                $hasDiscountClass = "has-discount";
+                            ?>
                             <div class="digideals-overlay">
                                 <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
                             </div>
@@ -174,7 +178,7 @@ if ($currentPage != "catalogsearch_result_index") {
                         
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
-                                <div class="digiseconds-overlay">
+                                <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                     <?php elseif ($d2ItemCondition == "OPENBOX"): ?>

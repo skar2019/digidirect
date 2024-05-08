@@ -62,12 +62,12 @@
         
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
-            <block class="Magento\Cms\Block\Block" name="digimarket.product.page">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">digimarket-product-page</argument>
-                </arguments>
-            </block>
             <referenceBlock name="product.info.details" >
+                <block class="Magento\Cms\Block\Block" name="digimarket.product.page">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">digimarket-product-page</argument>
+                    </arguments>
+                </block>
                 <referenceBlock name="product.info.description">
                     <arguments>
                         <argument name="title" translate="true" xsi:type="string">Description</argument>
@@ -185,7 +185,7 @@
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         <move element="frequently.bought.with" destination="content" before="-"/>
-        <move element="digimarket.product.page" destination="content" before="product.info.details"/>
+        <move element="digimarket.product.page" destination="product.info.details" before="product.info.short_description"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" />
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
