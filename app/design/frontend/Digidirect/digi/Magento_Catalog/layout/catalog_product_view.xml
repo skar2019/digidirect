@@ -28,6 +28,11 @@
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
+            <block class="Magento\Cms\Block\Block" name="digimarket.side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">digimarket-side-banner-ads</argument>
+                </arguments>
+            </block>
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    before="-"
@@ -87,11 +92,6 @@
         </referenceContainer>
         
         <referenceContainer name="page.wrapper">
-            <block class="Magento\Cms\Block\Block" name="digimarket.side.banner.ads">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">digimarket-side-banner-ads</argument>
-                </arguments>
-            </block>
             <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
