@@ -79,6 +79,7 @@ $htmlId               = $element->getHtmlId();
                                         $finalProductPrice = $_product->getFinalPrice();
                                         $originalPrice = $_product->getPrice();
                                         $wiserPrice = $_product->getData('wiser_price');
+                                        $hasDiscountClass = "";
 
                                         $discountPrice = round($originalPrice - $finalProductPrice, 2);
                                         $discountWiserPrice = 0;
@@ -89,7 +90,12 @@ $htmlId               = $element->getHtmlId();
                                                     
                                     <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                                         <?php if ($d2ItemCondition): ?>
-                                            <div class="digiseconds-overlay">
+                                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0)): ?>
+                                                <?php 
+                                                    $hasDiscountClass = "has-discount";
+                                                ?>
+                                            <?php endif; ?>
+                                            <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                                 <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                                     <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                                 <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
