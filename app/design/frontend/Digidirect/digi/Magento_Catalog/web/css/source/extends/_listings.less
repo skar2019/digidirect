@@ -856,7 +856,7 @@
     }
     
     .category-page-banner img {
-        margin-left: -57px;
+        //margin-left: -57px;
     }
     
     .product-item-inner {
@@ -1338,6 +1338,41 @@
     }
 }
 
+@media (min-width:1440px) and (max-width:1680px) { 
+
+    .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-name>a {
+        font-size: 11px !important;
+        line-height: 18px !important;
+    }
+
+    .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box>.old-price-wrapper>.old-price>.price-container>.price-label {
+        font-weight: 600 !important;
+        font-size: 9px !important;
+    }
+
+    .product-item .price-box .old-price .price {
+        font-size: 9px !important;
+    }
+
+    .product-item .special-price .price-wrapper .price {
+        font-size: 14px !important;
+    }
+
+    .discount-price-wrapper {
+        font-size: 10px !important;
+    }
+
+    .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box {
+        height: 47px !important;
+    }
+
+    .products-widget .product-items .action.primary {
+        font-size: 11px !important;
+        padding: 5px !important;
+    }
+    
+}
+
 //
 //  Desktop large
 //  ---------------------------------------------
@@ -1350,17 +1385,17 @@
 
         .sidebar.sidebar-main,
         .sidebar.sidebar-additional {
-            .lib-css(max-width, @catalog-listing-product-sidebar__max-width__xl);
-            .lib-css(padding-right, @catalog-listing-product-sidebar__indent__xl);
-            .lib-css(flex-basis, 100% / (@layout-column__width / @layout-column__sidebar-width));
-
+            //.lib-css(max-width, @catalog-listing-product-sidebar__max-width__xl);
+            //.lib-css(padding-right, @catalog-listing-product-sidebar__indent__xl);
+            //.lib-css(flex-basis, 100% / (@layout-column__width / @layout-column__sidebar-width));
+            flex-basis: 18%;
             float: none;
         }
 
         .column.main {
-            .lib-css(flex-basis, @catalog-listing-product-main-column__width__xl);
-
+            flex-basis: unset;
             float: none;
+            margin-right: 50px;
         }
     }
 

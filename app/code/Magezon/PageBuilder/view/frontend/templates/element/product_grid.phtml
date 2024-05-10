@@ -86,6 +86,9 @@ $htmlId               = $element->getHtmlId();
                                         if (!is_null($wiserPrice)) {
                                             $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
                                         }
+                                        
+                                        $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
+                                        $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
                                     ?>
                                                     
                                     <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
@@ -187,7 +190,17 @@ $htmlId               = $element->getHtmlId();
 											<div class="actions-primary">
 												<?php if ($_product->isSaleable()) { ?>
 													<?php $postParams = $block->getAddToCartPostParams($_product); ?>
-													<form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
+                                                                                            
+                                                                                                        <?php if ($is_digiPrint == 1): ?>
+                                                                                                            <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
+                                                                                                                <button type="button"
+                                                                                                                    title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
+                                                                                                                    class="action btn-ordernow primary">
+                                                                                                                    Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
+                                                                                                                </button>
+                                                                                                            </a>
+                                                                                                        <?php else: ?>
+                                                                                                            <form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
 														<input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
 														<input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
 														<?php if ($formKey = $block->getProductFormKey()) { ?>
@@ -200,7 +213,9 @@ $htmlId               = $element->getHtmlId();
 															class="action tocart primary">
                                                                                                                         <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
 														</button>
-													</form>
+                                                                                                            </form>
+                                                                                                        <?php endif; ?>
+                                                                                            
 												<?php } else { ?>
 													<?php if ($_product->getIsSalable()) { ?>
 														<div class="stock available"><span><?= __('In stock') ?></span></div>
