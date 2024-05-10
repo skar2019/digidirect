@@ -35,7 +35,13 @@
     }
 
     //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
+    $mpDiscountPrice = 0;
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
+    if (!is_null($marketPlacePrice) || $marketPlacePrice != 0) {
+        if ($marketPlacePrice > $promoPrice) {
+            $mpDiscountPrice = round($marketPlacePrice - $promoPrice, 2);
+        }
+    }
     
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
@@ -49,7 +55,7 @@
         <div class="old-price-wrapper marketplaces-price">
             <span class="old-price">  
                 <span class="price-container price-final_price tax weee"> 
-                    <span class="price-label">Everyday Price</span>  
+                    <span class="price-label">PRICE SLASHED</span>  
                     <span class="price" data-price-amount="<?php echo $marketPlacePrice;?>">
                         <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
                     </span>  
@@ -72,6 +78,7 @@
                 ]); ?>
             </span>
         </div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> Off</div>
     <?php else: ?>
         <div class="old-price-wrapper">
             <span class="old-price">
@@ -107,7 +114,7 @@
         <div class="old-price-wrapper marketplaces-price">
             <span class="old-price">  
                 <span class="price-container price-final_price tax weee"> 
-                    <span class="price-label">Everyday Price</span>  
+                    <span class="price-label">PRICE SLASHED</span>  
                     <span class="price" data-price-amount="<?php echo $marketPlacePrice;?>">
                         <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
                     </span>  
@@ -130,6 +137,7 @@
                 ]); ?>
             </span>
         </div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> Off</div>
     <?php else: ?>  
         <div class="current-price-wrapper no-special-price">
             <?php if ($customerGroupId == 10) { ?>
