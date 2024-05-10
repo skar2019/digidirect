@@ -59,6 +59,10 @@ class Status
                 /** @var Product|null $product */
                 $product = $item->getProduct();
                 if ($product || !in_array($item->getProductType(), $notAllowType)) {
+                    if(!$product)
+                    {
+                        return [$status];
+                    }
                     $productId = $product->getId();
                     $isInStock = $this->helper->getIsInStock($productId);
                     $preOrder = $this->helper->getPreOrder($productId);
