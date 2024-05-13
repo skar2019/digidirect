@@ -243,27 +243,31 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
 
                 //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
-                else
-                {
-                    $product->setCustomAttribute('is_qantas_product', '0');
-                }
+
 
                 if(isset($prod['stock-division']))
                 {
@@ -285,7 +289,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('stock_class', $prod['stock-class']);
                 }
 
-                $forLogs .= $awaiting."\n";
+                //$forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
@@ -1176,18 +1180,18 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
-                $forLogs .= $awaiting."\n";
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
+//                $forLogs .= $awaiting."\n";
 
                 if(isset($prod['stock-division']))
                 {
@@ -2087,22 +2091,29 @@ class Product extends AbstractHelper
 
                 echo $endis." <br/>";
 
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    echo "awaiting 1  <br/>";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    echo "awaiting 0  <br/>";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    echo "awaiting 1  <br/>";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    echo "awaiting 0  <br/>";
+//                }
 
                  //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
 
                 if(isset($prod['stock-division']))
@@ -3020,26 +3031,29 @@ class Product extends AbstractHelper
 
                 echo $endis." <br/>";
 
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    echo "awaiting 1  <br/>";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    echo "awaiting 0  <br/>";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    echo "awaiting 1  <br/>";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    echo "awaiting 0  <br/>";
+//                }
 
                  //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
-                }
-                else
-                {
-                    $product->setCustomAttribute('is_qantas_product', '0');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
 
                 if(isset($prod['stock-division']))
