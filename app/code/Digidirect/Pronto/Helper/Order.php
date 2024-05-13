@@ -1217,6 +1217,8 @@ class Order extends AbstractHelper
 //                    $this->curl->addHeader("user", "clint.mercado");
 //                    $this->curl->addHeader("token", "849cd5080faff5ce");
 
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
                     $this->curl->post($url, $xml);
 
                     $result = $this->curl->getBody();
@@ -2094,6 +2096,8 @@ class Order extends AbstractHelper
 //            $this->curl->addHeader("user", "clint.mercado");
 //            $this->curl->addHeader("token", "849cd5080faff5ce");
 
+            $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+            $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
             $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
@@ -3163,6 +3167,8 @@ class Order extends AbstractHelper
 //                    $this->curl->addHeader("user", "clint.mercado");
 //                    $this->curl->addHeader("token", "849cd5080faff5ce");
 
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
                     $this->curl->post($url, $xml);
 
                     $result = $this->curl->getBody();
