@@ -76,6 +76,8 @@ class Inventory extends AbstractHelper
         //$this->curl->addHeader("user", "clint.mercado");
         //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
+        $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+        $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
@@ -414,6 +416,8 @@ class Inventory extends AbstractHelper
         //$this->curl->addHeader("user", "clint.mercado");
         //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
+        $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+        $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
