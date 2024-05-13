@@ -22,7 +22,7 @@
         "classyllama/module-zendesk": "1.1.11",
         "livechat/module-magento-livechat": "dev-master",
         "magento/composer-root-update-plugin": "~2.0",
-        "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
+        "magento/magento-cloud-metapackage": "2.4.4",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
         "swissup/attributepages": "^1.5",
         "swissup/delete-orders": "^1.2",
