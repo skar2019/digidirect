@@ -367,6 +367,14 @@ class Product extends AbstractHelper
                     }
                 }
 
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -774,13 +782,13 @@ class Product extends AbstractHelper
                 }
 
                 //disable first. this might be causing issue on sync
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -1284,11 +1292,16 @@ class Product extends AbstractHelper
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
-
                     }
                 }
 
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
                 if($prod['stk-condition-code'] == 'T')
@@ -1675,13 +1688,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -3574,13 +3587,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
