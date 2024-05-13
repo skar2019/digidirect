@@ -3837,7 +3837,8 @@ class Product extends AbstractHelper
             $categoryData[$category->getId()] = [
                 'name'=> $category->getName(),
                 'url'=> $category->getUrl(),
-                'id'=> $category->getId()
+                'id'=> $category->getId(),
+                'parent_id'=>$subcategory->getParentId()
             ];
             if (count($category->getChildrenData())) {
                 $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
@@ -3845,7 +3846,8 @@ class Product extends AbstractHelper
                     $categoryData[$subcategory->getId()]  = [
                         'name'=> $subcategory->getName(),
                         'url'=> $subcategory->getUrl(),
-                        'id'=> $subcategory->getId()
+                        'id'=> $subcategory->getId(),
+                        'parent_id'=>$subcategory->getParentId()
                     ];
                     if (count($subcategory->getChildrenData())) {
                         $getSubCategoryLevelDownAgain = $this->getCategoryData($subcategory->getId());
@@ -3853,7 +3855,8 @@ class Product extends AbstractHelper
                             $categoryData[$sub2category->getId()]  = [
                                 'name'=> $sub2category->getName(),
                                 'url'=> $sub2category->getUrl(),
-                                'id'=> $sub2category->getId()
+                                'id'=> $sub2category->getId(),
+                                'parent_id'=>$subcategory->getParentId()
                             ];
                             if (count($sub2category->getChildrenData())) {
                                 $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
@@ -3861,7 +3864,8 @@ class Product extends AbstractHelper
                                     $categoryData[$sub3category->getId()]  = [
                                         'name'=> $sub3category->getName(),
                                         'url'=> $sub3category->getUrl(),
-                                        'id'=> $sub3category->getId()
+                                        'id'=> $sub3category->getId(),
+                                        'parent_id'=>$subcategory->getParentId()
                                     ];
                                 }
                             }
