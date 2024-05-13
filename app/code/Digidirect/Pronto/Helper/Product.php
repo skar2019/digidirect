@@ -3147,7 +3147,13 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error default source";
+                            }
                         }
                         else
                         {
@@ -3157,8 +3163,14 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error default source";
+                            }
                         }
                     }
                 }
@@ -3169,8 +3181,13 @@ class Product extends AbstractHelper
                 $sourceItem->setSku($prod['code']);
                 $sourceItem->setStatus(1);//in stock
                 $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                 echo "default - 0";
+                try {
+                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    //return true;
+                } catch (\Exception $e) {
+                    echo "error default source";
+                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
