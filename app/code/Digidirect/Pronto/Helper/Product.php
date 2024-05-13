@@ -1179,6 +1179,7 @@ class Product extends AbstractHelper
 
                 }
                 $forLogs .= $endis."\n";
+                //comment out for now 13-05-24
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 //                if($prod['stk-user-only-alpha4-1'] == 'A')
 //                {
