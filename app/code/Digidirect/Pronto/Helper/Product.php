@@ -3147,7 +3147,7 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+                            echo $qt['code']." - ".$qt['qty_available'];
                             try {
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                                 //return true;
