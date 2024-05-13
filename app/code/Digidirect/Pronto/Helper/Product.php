@@ -243,27 +243,31 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
 
                 //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
-                else
-                {
-                    $product->setCustomAttribute('is_qantas_product', '0');
-                }
+
 
                 if(isset($prod['stock-division']))
                 {
@@ -285,7 +289,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('stock_class', $prod['stock-class']);
                 }
 
-                $forLogs .= $awaiting."\n";
+                //$forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
@@ -331,85 +335,7 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                //set categories
-                $categoryIds = array();
-                $catList = "";
-                $productCategoryIds = $product->getCategoryIds();
-                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
-                {
-                    if (count($getCategoryList))
-                    {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            //digiSeconds
-                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
 
-                            //digiSeconds
-                            if(isset($prod['d2lvl1']))
-                            {
-                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-
-
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                            if(isset($prod['web-category2']))
-                            {
-                                if($category['name'] == $prod['web-category2'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category3']))
-                            {
-                                if($category['name'] == $prod['web-category3'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category4']))
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                if($category['name'] == $prod['web-category4'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                        }
-                    }
-                    $forLogs .= $catList."\n";
-                    if (count($categoryIds)) {
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
-                    }
-                }
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -440,6 +366,14 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -532,8 +466,123 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
-
+                //magento bug, need to save first then assign categories
                 $this->productRepository->save($product);
+
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
 
 
 
@@ -647,86 +696,6 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                //set categories
-                $categoryIds = array();
-                $mainCat = 2;
-                $catList = "";
-                if (count($getCategoryList))
-                {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if(isset($prod['d2lvl1']))
-                        {
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if(isset($prod['web-category2']))
-                        {
-                            if($category['name'] == $prod['web-category2'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category3']))
-                        {
-                            if($category['name'] == $prod['web-category3'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category4']))
-                        {
-
-                            if($category['name'] == $prod['web-category4'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                    }
-                }
-
-
-                if (count($categoryIds)) {
-                    $forLogs .= "Categories: ".$catList."\n";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
-                }
-
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -813,13 +782,13 @@ class Product extends AbstractHelper
                 }
 
                 //disable first. this might be causing issue on sync
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -921,6 +890,121 @@ class Product extends AbstractHelper
                 }
 
                 $this->productRepository->save($product);
+
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
 
             }
         }
@@ -1103,19 +1187,20 @@ class Product extends AbstractHelper
 
                 }
                 $forLogs .= $endis."\n";
+                //comment out for now 13-05-24
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
-                $forLogs .= $awaiting."\n";
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
+//                $forLogs .= $awaiting."\n";
 
                 if(isset($prod['stock-division']))
                 {
@@ -1182,89 +1267,6 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                //set categories
-                $categoryIds = array();
-                $catList = "";
-                $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
-                {
-                    if (count($getCategoryList))
-                    {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            //digiSeconds
-                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if(isset($prod['d2lvl1']))
-                            {
-                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-
-
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                            if(isset($prod['web-category2']))
-                            {
-                                if($category['name'] == $prod['web-category2'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category3']))
-                            {
-                                if($category['name'] == $prod['web-category3'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category4']))
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                if($category['name'] == $prod['web-category4'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                        }
-                    }
-                    $forLogs .= $catList."\n";
-                    if (count($categoryIds)) {
-
-                        $forLogs .= "Categories: ".$catList."\n";
-                        //echo "update categories: ".$catList."<br />";
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
-                    }
-                }
-
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -1290,11 +1292,16 @@ class Product extends AbstractHelper
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
-
                     }
                 }
 
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
                 if($prod['stk-condition-code'] == 'T')
@@ -1380,6 +1387,121 @@ class Product extends AbstractHelper
 
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
+
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -1481,87 +1603,6 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                //set categories
-                $categoryIds = array();
-                $mainCat = 2;
-                $catList = "";
-                if (count($getCategoryList))
-                {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if(isset($prod['d2lvl1']))
-                        {
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-
-
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if(isset($prod['web-category2']))
-                        {
-                            if($category['name'] == $prod['web-category2'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category3']))
-                        {
-                            if($category['name'] == $prod['web-category3'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category4']))
-                        {
-
-                            if($category['name'] == $prod['web-category4'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                    }
-                }
-
-
-                if (count($categoryIds)) {
-                    $forLogs .= "Categories: ".$catList."\n";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
-                }
-
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1647,13 +1688,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -1745,6 +1786,120 @@ class Product extends AbstractHelper
                 }
 
                 $this->productRepository->save($product);
+
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    //echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
 
             }
         }
@@ -1950,22 +2105,29 @@ class Product extends AbstractHelper
 
                 echo $endis." <br/>";
 
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    echo "awaiting 1  <br/>";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    echo "awaiting 0  <br/>";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    echo "awaiting 1  <br/>";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    echo "awaiting 0  <br/>";
+//                }
 
                  //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
 
                 if(isset($prod['stock-division']))
@@ -2031,96 +2193,6 @@ class Product extends AbstractHelper
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
                     $product->setBrand($brandCode);
                 }
-
-                //set categories
-                $categoryIds = array();
-                $catList = "";
-                $productCategoryIds = $product->getCategoryIds();
-                $shouldupdate = false;
-
-                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
-                {
-                    if (count($getCategoryList))
-                    {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            //digiSeconds
-                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if(isset($prod['d2lvl1']))
-                            {
-                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-
-
-
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                            if(isset($prod['web-category2']))
-                            {
-                                if($category['name'] == $prod['web-category2'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category3']))
-                            {
-                                if($category['name'] == $prod['web-category3'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category4']))
-                            {
-
-                                if($category['name'] == $prod['web-category4'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                        }
-                    }
-                    echo $catList."<br>";
-                    $forLogs .= $catList."\n";
-                    if (count($categoryIds)) {
-
-                        $forLogs .= "Categories: ".$catList."\n";
-                        //echo "update categories: ".$catList."<br />";
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
-                    }
-                }
-
-
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2256,6 +2328,121 @@ class Product extends AbstractHelper
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
+
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
@@ -2355,87 +2542,6 @@ class Product extends AbstractHelper
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
                     $product->setBrand($brandCode);
-                }
-
-                //set categories
-                $categoryIds = array();
-                $mainCat = 2;
-                $catList = "";
-                if (count($getCategoryList))
-                {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if(isset($prod['d2lvl1']))
-                        {
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-
-
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if(isset($prod['web-category2']))
-                        {
-                            if($category['name'] == $prod['web-category2'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category3']))
-                        {
-                            if($category['name'] == $prod['web-category3'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category4']))
-                        {
-
-                            if($category['name'] == $prod['web-category4'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                    }
-                }
-
-                echo $catList ."<br/>";
-                if (count($categoryIds)) {
-                    $forLogs .= "Categories: ".$catList."\n";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
                 }
 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -2622,6 +2728,121 @@ class Product extends AbstractHelper
 
                 $this->productRepository->save($product);
 
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                //echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
+
             }
         }
         $this->logger->info($forLogs);
@@ -2633,15 +2854,21 @@ class Product extends AbstractHelper
     {
         set_time_limit(300);
 
+        //get brands to compare later
         $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $forLogs = "";
         echo 'Manual Pronto Product Sync - start item: '.$startItem."<br/>";
+
+        //get all categories
         $parentID = 2;
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
         //var_dump($getCategoryList);
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+
+        //connect to Pronto stock-master
+        // call-type=full_enquiry
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
@@ -2671,6 +2898,7 @@ class Product extends AbstractHelper
 
         foreach ($json['stockmaster'] as $prod)
         {
+            //if blank exit
             if(!isset($prod['code']))
             {
                 exit;
@@ -2683,7 +2911,7 @@ class Product extends AbstractHelper
                 //product update
                 $forLogs .= "SKU ".$prod['code']."\n";
                 echo "SKU ".$prod['code']."\n";
-                $product = $this->productRepository->get($prod['code']);
+                $product = $this->productRepository->get($prod['code']); // code is SKU
 
                 //set name, price, stock status
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
@@ -2691,6 +2919,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 //                $product->setName($prodname);
                 $tax = 10;
+                //to set pricing
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
@@ -2706,7 +2935,7 @@ class Product extends AbstractHelper
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
-
+                //to populate custom attributes "cost" for wiserdata etc
                 $pricetocost = floatval($price);
                 $tax = floatval($tax);
                 $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
@@ -2744,6 +2973,7 @@ class Product extends AbstractHelper
                 }
                 $product->setCustomAttribute('cost', $cost);
 
+                //to set marketplaces prices
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
@@ -2757,9 +2987,7 @@ class Product extends AbstractHelper
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
-                echo "is nda";
-                echo "<br />";
-
+                //if true, do not enable
                 $isNda = $product->getIsNda();
                 if($isNda)
                 {
@@ -2789,7 +3017,7 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
                     }
-                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    else if($prod['stk-user-only-alpha4-1'] == 'W') // W = web enabled
                     {
                         $isNda = $product->getIsNda();
                         if($isNda)
@@ -2817,26 +3045,29 @@ class Product extends AbstractHelper
 
                 echo $endis." <br/>";
 
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    echo "awaiting 1  <br/>";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    echo "awaiting 0  <br/>";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    echo "awaiting 1  <br/>";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    echo "awaiting 0  <br/>";
+//                }
 
                  //stk-user-only-alpha4-3 is_qantas_product
-                if($prod['stk-user-only-alpha4-3'] == "Q")
+                if(isset($prod['stk-user-only-alpha4-3']))
                 {
-                    $product->setCustomAttribute('is_qantas_product', '1');
-                }
-                else
-                {
-                    $product->setCustomAttribute('is_qantas_product', '0');
+                    if($prod['stk-user-only-alpha4-3'] == "Q")
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('is_qantas_product', '0');
+                    }
                 }
 
                 if(isset($prod['stock-division']))
@@ -2899,96 +3130,8 @@ class Product extends AbstractHelper
                 }
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
-                    $brandCode = $this->attributeOptions[strtolower($brandName)];
-                    $product->setBrand($brandCode);
-                }
-
-                //set categories
-                $categoryIds = array();
-                $catList = "";
-                $productCategoryIds = $product->getCategoryIds();
-                $shouldupdate = false;
-
-                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
-                {
-                    if (count($getCategoryList))
-                    {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            //digiSeconds
-                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if(isset($prod['d2lvl1']))
-                            {
-                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-
-                                //digiSeconds
-                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                                {
-                                    $catList .= $category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-
-
-
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                            if(isset($prod['web-category2']))
-                            {
-                                if($category['name'] == $prod['web-category2'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category3']))
-                            {
-                                if($category['name'] == $prod['web-category3'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category4']))
-                            {
-
-                                if($category['name'] == $prod['web-category4'])
-                                {
-                                    $catList .=$category['name'] . " - " .$category['id']." : ";
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                        }
-                    }
-                    echo $catList."<br>";
-                    $forLogs .= $catList."\n";
-                    if (count($categoryIds)) {
-
-                        $forLogs .= "Categories: ".$catList."\n";
-                        //echo "update categories: ".$catList."<br />";
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
-                    }
+                    $brandCode = $this->attributeOptions[strtolower($brandName)]; //get brand code by brandname
+                    $product->setBrand($brandCode); //update via brand code
                 }
 
 
@@ -3004,7 +3147,13 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error default source";
+                            }
                         }
                         else
                         {
@@ -3014,19 +3163,31 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error default source";
+                            }
                         }
                     }
                 }
 
+                //default source, dapat lagi meron
                 $sourceItem = $this->sourceItemFactory->create();
                 $sourceItem->setSourceCode('default');
                 $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
+                $sourceItem->setStatus(1);//in stock
                 $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                 echo "default - 0";
+                try {
+                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    //return true;
+                } catch (\Exception $e) {
+                    echo "error default source";
+                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -3045,6 +3206,7 @@ class Product extends AbstractHelper
                     //echo $prod['qff-store-price'] ."<br/>";
                 }
 
+                //check code meaing
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -3118,7 +3280,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('bulky_item', 0);
                 }
 
-                $product->setCustomAttribute('marketplacer_seller', 20329);
+                $product->setCustomAttribute('marketplacer_seller', 20329); //digidirect seller code
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -3127,8 +3289,125 @@ class Product extends AbstractHelper
                 //echo "update ".$lastCode ."<br/>";
 
 
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+                        //actual category
+                        if($category['name'] == $prod['web-category1']) //parent category
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
+
+
+
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
+                //does not exist
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $forLogs .= "Product Name: ".$prodname."\n";
@@ -3241,87 +3520,6 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                //set categories
-                $categoryIds = array();
-                $mainCat = 2;
-                $catList = "";
-                if (count($getCategoryList))
-                {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if(isset($prod['d2lvl1']))
-                        {
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-
-
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if(isset($prod['web-category2']))
-                        {
-                            if($category['name'] == $prod['web-category2'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category3']))
-                        {
-                            if($category['name'] == $prod['web-category3'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                        if(isset($prod['web-category4']))
-                        {
-
-                            if($category['name'] == $prod['web-category4'])
-                            {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                    }
-                }
-
-                echo $catList ."<br/>";
-                if (count($categoryIds)) {
-                    $forLogs .= "Categories: ".$catList."\n";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
-                }
-
 
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -3406,13 +3604,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
@@ -3533,6 +3731,121 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
+                $parent = "";
+                $subcat1 = "";
+                $subcat2 = "";
+                $subcat3 = "";
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                $shouldupdate = false;
+
+
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
+
+
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            if($parent == "")
+                            {
+                                if($category['parent_id'] == '2')
+                                {
+                                    $parent = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                            }
+
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                if($category['parent_id'] == $subcat1)
+                                {
+                                    $subcat2 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                if($category['parent_id'] == $subcat2)
+                                {
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                }
+                echo $catList."<br>";
+                $forLogs .= $catList."\n";
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
+
             }
         }
         $this->logger->info($forLogs);
@@ -3569,7 +3882,8 @@ class Product extends AbstractHelper
             $categoryData[$category->getId()] = [
                 'name'=> $category->getName(),
                 'url'=> $category->getUrl(),
-                'id'=> $category->getId()
+                'id'=> $category->getId(),
+                'parent_id'=> $category->getParentId()
             ];
             if (count($category->getChildrenData())) {
                 $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
@@ -3577,7 +3891,8 @@ class Product extends AbstractHelper
                     $categoryData[$subcategory->getId()]  = [
                         'name'=> $subcategory->getName(),
                         'url'=> $subcategory->getUrl(),
-                        'id'=> $subcategory->getId()
+                        'id'=> $subcategory->getId(),
+                        'parent_id'=>$subcategory->getParentId()
                     ];
                     if (count($subcategory->getChildrenData())) {
                         $getSubCategoryLevelDownAgain = $this->getCategoryData($subcategory->getId());
@@ -3585,7 +3900,8 @@ class Product extends AbstractHelper
                             $categoryData[$sub2category->getId()]  = [
                                 'name'=> $sub2category->getName(),
                                 'url'=> $sub2category->getUrl(),
-                                'id'=> $sub2category->getId()
+                                'id'=> $sub2category->getId(),
+                                'parent_id'=>$sub2category->getParentId()
                             ];
                             if (count($sub2category->getChildrenData())) {
                                 $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
@@ -3593,7 +3909,8 @@ class Product extends AbstractHelper
                                     $categoryData[$sub3category->getId()]  = [
                                         'name'=> $sub3category->getName(),
                                         'url'=> $sub3category->getUrl(),
-                                        'id'=> $sub3category->getId()
+                                        'id'=> $sub3category->getId(),
+                                        'parent_id'=>$sub3category->getParentId()
                                     ];
                                 }
                             }
