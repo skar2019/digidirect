@@ -3838,7 +3838,7 @@ class Product extends AbstractHelper
                 'name'=> $category->getName(),
                 'url'=> $category->getUrl(),
                 'id'=> $category->getId(),
-                'parent_id'=>$category->getParentId()
+                'parent_id'=> $category->getParentId()
             ];
             if (count($category->getChildrenData())) {
                 $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
