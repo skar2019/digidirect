@@ -92,7 +92,9 @@ $currentPage = $this->getRequest()->getFullActionName();
                 
                 $finalProductPrice = $_product->getFinalPrice();
                 $originalPrice = $_product->getPrice();
+                $marketplacesPrice = $_product->getMarketplacesPrice();
                 $wiserPrice = $_product->getData('wiser_price');
+                $hasDiscountClass = "";
                 
                 $discountPrice = round($originalPrice - $finalProductPrice, 2);
                 $discountWiserPrice = 0;
@@ -176,7 +178,10 @@ $currentPage = $this->getRequest()->getFullActionName();
                        class="product photo product-item-photo"
                        tabindex="-1">
                         
-                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0)): ?>
+                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                            <?php 
+                                $hasDiscountClass = "has-discount";
+                            ?>
                             <div class="digideals-overlay">
                                 <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
                             </div>
@@ -184,7 +189,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                         
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
-                                <div class="digiseconds-overlay">
+                                <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                     <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
