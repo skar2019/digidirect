@@ -3134,7 +3134,7 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode); //update via brand code
                 }
 
-
+                $sourceItems = [];
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -3146,14 +3146,15 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                            $sourceItems[] = $sourceItem;
+                            //$forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             echo $qt['code']." - ".$qt['qty_available'];
-                            try {
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                //return true;
-                            } catch (\Exception $e) {
-                                echo "error default source";
-                            }
+//                            try {
+//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                                //return true;
+//                            } catch (\Exception $e) {
+//                                echo "error default source";
+//                            }
                         }
                         else
                         {
@@ -3163,14 +3164,15 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
-                            try {
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                //return true;
-                            } catch (\Exception $e) {
-                                echo "error default source";
-                            }
+                            $sourceItems[] = $sourceItem;
+//                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+//                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+//                            try {
+//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                                //return true;
+//                            } catch (\Exception $e) {
+//                                echo "error default source";
+//                            }
                         }
                     }
                 }
@@ -3181,9 +3183,10 @@ class Product extends AbstractHelper
                 $sourceItem->setSku($prod['code']);
                 $sourceItem->setStatus(1);//in stock
                 $sourceItem->setQuantity(0);
+                $sourceItems[] = $sourceItem;
                  echo "default - 0";
                 try {
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    $this->sourceItemsSaveInterface->execute($sourceItems);
                     //return true;
                 } catch (\Exception $e) {
                     echo "error default source";
