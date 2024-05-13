@@ -3838,7 +3838,7 @@ class Product extends AbstractHelper
                 'name'=> $category->getName(),
                 'url'=> $category->getUrl(),
                 'id'=> $category->getId(),
-                'parent_id'=>$subcategory->getParentId()
+                'parent_id'=>$category->getParentId()
             ];
             if (count($category->getChildrenData())) {
                 $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
@@ -3856,7 +3856,7 @@ class Product extends AbstractHelper
                                 'name'=> $sub2category->getName(),
                                 'url'=> $sub2category->getUrl(),
                                 'id'=> $sub2category->getId(),
-                                'parent_id'=>$subcategory->getParentId()
+                                'parent_id'=>$sub2category->getParentId()
                             ];
                             if (count($sub2category->getChildrenData())) {
                                 $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
@@ -3865,7 +3865,7 @@ class Product extends AbstractHelper
                                         'name'=> $sub3category->getName(),
                                         'url'=> $sub3category->getUrl(),
                                         'id'=> $sub3category->getId(),
-                                        'parent_id'=>$subcategory->getParentId()
+                                        'parent_id'=>$sub3category->getParentId()
                                     ];
                                 }
                             }
