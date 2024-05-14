@@ -367,13 +367,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -782,13 +782,13 @@ class Product extends AbstractHelper
                 }
 
                 //disable first. this might be causing issue on sync
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -1295,13 +1295,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
                 if($prod['stk-condition-code'] == 'T')
@@ -1688,13 +1688,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -2224,13 +2224,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -3134,7 +3134,7 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode); //update via brand code
                 }
 
-
+                $sourceItems = [];
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -3146,14 +3146,15 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                            $sourceItems[] = $sourceItem;
+                            //$forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             echo $qt['code']." - ".$qt['qty_available'];
-                            try {
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                //return true;
-                            } catch (\Exception $e) {
-                                echo "error default source";
-                            }
+//                            try {
+//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                                //return true;
+//                            } catch (\Exception $e) {
+//                                echo "error default source";
+//                            }
                         }
                         else
                         {
@@ -3163,31 +3164,33 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
-                            try {
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                //return true;
-                            } catch (\Exception $e) {
-                                echo "error default source";
-                            }
+                            $sourceItems[] = $sourceItem;
+//                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+//                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
+//                            try {
+//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                                //return true;
+//                            } catch (\Exception $e) {
+//                                echo "error default source";
+//                            }
                         }
                     }
                 }
 
                 //default source, dapat lagi meron
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);//in stock
-                $sourceItem->setQuantity(0);
-                 echo "default - 0";
-                try {
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                    //return true;
-                } catch (\Exception $e) {
-                    echo "error default source";
-                }
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);//in stock
+//                $sourceItem->setQuantity(0);
+//                $sourceItems[] = $sourceItem;
+//                 echo "default - 0";
+//                try {
+//                    $this->sourceItemsSaveInterface->execute($sourceItems);
+//                    //return true;
+//                } catch (\Exception $e) {
+//                    echo "error default source";
+//                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -3604,13 +3607,14 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                //redeploy
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
