@@ -3614,6 +3614,7 @@ class Product extends AbstractHelper
 //                $sourceItem->setQuantity(0);
 //                $forLogs .="default - 0 \n";
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                //redeploy
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
