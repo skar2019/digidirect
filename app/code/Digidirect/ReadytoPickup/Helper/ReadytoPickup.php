@@ -195,20 +195,20 @@ class ReadytoPickup extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'rondel@kayweb.com.au'
+                    'rondel.d@digidirect.com.au'
                 )->getTransport();
             try {
                 // Send an email
                 $transport->sendMessage();
+                //End Send ReadytoPickup Confirmation Email
+                //Change ReadytoPickup Status
+                $order->setData('pickup_email', 1);
+                $order->save();
+                //End Change ReadytoPickup Status
             } catch (\Exception $e) {
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-            //End Send ReadytoPickup Confirmation Email
-            //Change ReadytoPickup Status
-            $order->setData('pickup_email', 1);
-            $order->save();
-            //End Change ReadytoPickup Status
         }
         return true;
     }
