@@ -111,11 +111,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                     
-                    if ($sourceItem->getQuantity() <= 0) {
-                        $getQty = 0;
-                    } else {
-                        $getQty = $sourceItem->getQuantity();
-                    }
+                    $getQty = $sourceItem->getQuantity();
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
