@@ -36,8 +36,15 @@ class OrderGet
          $initialShippingAddressUnitNumber = $resultOrder?->getShippingAddress()?->getUnitNumber();
 
 
-        $street = $resultOrder->getShippingAddress()->getStreet();
-        $strstring = $street[0];
+        $street = $resultOrder->getShippingAddress()?->getStreet();
+        if(is_null($street))
+        {
+            $strstring = "";
+        }
+        else
+        {
+            $strstring = $street[0];
+        }
         $shipAddress = $resultOrder->getShippingAddress();
         //$initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
         if(!empty($initialShippingAddressUnitNumber))
