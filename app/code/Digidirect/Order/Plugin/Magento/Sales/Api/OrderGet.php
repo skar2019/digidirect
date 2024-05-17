@@ -34,8 +34,7 @@ class OrderGet
 
         $initialShippingAddressUnitNumber = "";
          $initialShippingAddressUnitNumber = $resultOrder?->getShippingAddress()?->getUnitNumber();
-
-
+         //redeploy
         $street = $resultOrder->getShippingAddress()?->getStreet();
         if(is_null($street))
         {
