@@ -90,16 +90,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             //}
 
+            $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
+            $parrQty = 1;
+            $stPetersQty = 1;
+            
             foreach ($cartItems as $cartItem) {
 
-                $sydnQty = 1;
-                $bondQty = 1;
-                $melbQty = 1;
-                $brisQty = 1;
-                $miraQty = 1;
-                $cannQty = 1;
-                $parrQty = 1;
-                $stPetersQty = 1;
 
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
@@ -131,26 +132,26 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $parrQty = $parrQty * $getQty;
                     }
                 }
-                
-                if ($sydnQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($bondQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($melbQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($brisQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($miraQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($cannQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($stPetersQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } elseif ($parrQty > 0) {
-                    $items[$key]['click_and_collect'] = true;
-                } else {
-                    $items[$key]['click_and_collect'] = false;
-                }
+            }
+            
+            if ($id == 1 && $sydnQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 31 && $bondQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 7 && $melbQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 10 && $brisQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 13 && $miraQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 16 && $cannQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 35 && $stPetersQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } elseif ($id == 32 && $parrQty > 0) {
+                $items[$key]['click_and_collect'] = true;
+            } else {
+                $items[$key]['click_and_collect'] = false;
             }
 
         }
