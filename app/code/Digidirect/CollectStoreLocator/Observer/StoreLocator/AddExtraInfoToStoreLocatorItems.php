@@ -133,7 +133,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     }
                 }
             }
-            
             if ($id == 1 && $sydnQty > 0) {
                 $items[$key]['click_and_collect'] = true;
             } elseif ($id == 31 && $bondQty > 0) {
