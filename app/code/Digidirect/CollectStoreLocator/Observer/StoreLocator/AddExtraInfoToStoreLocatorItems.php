@@ -90,16 +90,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             //}
 
-            $sydnQty = 0;
-            $bondQty = 0;
-            $melbQty = 0;
-            $brisQty = 0;
-            $miraQty = 0;
-            $cannQty = 0;
-            $parrQty = 0;
-            $stPetersQty = 0;
-
+            $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
+            $parrQty = 1;
+            $stPetersQty = 1;
+            
             foreach ($cartItems as $cartItem) {
+
 
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
@@ -110,48 +111,43 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
-                    
-                    if ($sourceItem->getQuantity() <= 0) {
-                        $getQty = 0;
-                    } else {
-                        $getQty = $sourceItem->getQuantity();
-                    }
+
+                    $getQty = $sourceItem->getQuantity();
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sydnQty + $getQty;
+                        $sydnQty = $sydnQty * $getQty;
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $bondQty + $getQty;
+                        $bondQty = $bondQty * $getQty;
                     } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $melbQty + $getQty;
+                        $melbQty = $melbQty * $getQty;
                     } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $brisQty + $getQty;
+                        $brisQty = $brisQty * $getQty;
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $miraQty + $getQty;
+                        $miraQty = $miraQty * $getQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $cannQty + $getQty;
+                        $cannQty = $cannQty * $getQty;
                     } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty + $getQty;
+                        $stPetersQty = $stPetersQty * $getQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $parrQty + $getQty;
+                        $parrQty = $parrQty * $getQty;
                     }
                 }
             }
-
-            if ($sydnQty > 0) {
+            if ($id == 1 && $sydnQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($bondQty > 0) {
+            } elseif ($id == 31 && $bondQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($melbQty > 0) {
+            } elseif ($id == 7 && $melbQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($brisQty > 0) {
+            } elseif ($id == 10 && $brisQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($miraQty > 0) {
+            } elseif ($id == 13 && $miraQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($cannQty > 0) {
+            } elseif ($id == 16 && $cannQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($stPetersQty > 0) {
+            } elseif ($id == 35 && $stPetersQty > 0) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($parrQty > 0) {
+            } elseif ($id == 32 && $parrQty > 0) {
                 $items[$key]['click_and_collect'] = true;
             } else {
                 $items[$key]['click_and_collect'] = false;
