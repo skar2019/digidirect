@@ -90,14 +90,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             //}
 
-            $sydnQty = 0;
-            $bondQty = 0;
-            $melbQty = 0;
-            $brisQty = 0;
-            $miraQty = 0;
-            $cannQty = 0;
-            $parrQty = 0;
-            $stPetersQty = 0;
+            $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
+            $parrQty = 1;
+            $stPetersQty = 1;
 
             foreach ($cartItems as $cartItem) {
 
@@ -118,21 +118,21 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     }
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sydnQty + $getQty;
+                        $sydnQty = $sydnQty * $getQty;
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $bondQty + $getQty;
+                        $bondQty = $bondQty * $getQty;
                     } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $melbQty + $getQty;
+                        $melbQty = $melbQty * $getQty;
                     } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $brisQty + $getQty;
+                        $brisQty = $brisQty * $getQty;
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $miraQty + $getQty;
+                        $miraQty = $miraQty * $getQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $cannQty + $getQty;
+                        $cannQty = $cannQty * $getQty;
                     } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty + $getQty;
+                        $stPetersQty = $stPetersQty * $getQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $parrQty + $getQty;
+                        $parrQty = $parrQty * $getQty;
                     }
                 }
             }
