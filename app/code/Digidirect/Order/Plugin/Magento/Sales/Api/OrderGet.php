@@ -50,11 +50,11 @@ class OrderGet
         if(!empty($initialShippingAddressUnitNumber))
         {
             if (str_contains($strstring, $initialShippingAddressUnitNumber)) {
-                $newstreet = $street[0];
+                $newstreet = $strstring;//$street[0];
             }
             else
             {
-                $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
+                $newstreet = $initialShippingAddressUnitNumber . " ". $strstring;//$street[0];
             }
 
             $shipAddress->setStreet(array($newstreet));
