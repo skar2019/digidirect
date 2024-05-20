@@ -73,7 +73,6 @@ class WiserPrice implements ObserverInterface
         
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
-        
         if ($this->_giftItem->isFreeGiftItem($item)) {
             $finalProductPrice = 0;
         } else {
