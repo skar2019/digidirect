@@ -88,8 +88,10 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .category-promotion {
         .banner-content {
-            margin-left: calc(~'25% + 22px');
+            //margin-left: calc(~'25% + 22px');
             .lib-font-size(14);
+            margin-left: unset;
+            max-width: unset;
         }
 
         .banner-content .headline {
@@ -108,7 +110,9 @@
         }
     
         .banner-content {
-            .lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl + @layout-columns__padding__l);
+            //.lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl + @layout-columns__padding__l);
+            margin-left: unset;
+            max-width: unset;
         }
     }
 }
@@ -123,7 +127,9 @@
         }
         
         .banner-content {
-            .lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl);
+            //.lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl);
+            margin-left: unset;
+            max-width: unset;
         }
     }
 }
