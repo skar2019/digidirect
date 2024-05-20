@@ -99,7 +99,7 @@ class WiserPrice implements ObserverInterface
                 $wiserPlusDigiProtect = $wiserPrice + $digiProtectPrice;
 
                 if ($finalPrice > $wiserPlusDigiProtect) {
-                    if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                    if ($wiserPrice > 0 && !empty($wiserPrice)) {
                         if ($wiserPrice < $price) {
                             if ((in_array($sku, $discount2)) && $isDigiClub) {
                                 $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
