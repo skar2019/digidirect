@@ -34,20 +34,26 @@ class OrderGet
 
         $initialShippingAddressUnitNumber = "";
          $initialShippingAddressUnitNumber = $resultOrder?->getShippingAddress()?->getUnitNumber();
-
-
-        $street = $resultOrder->getShippingAddress()->getStreet();
-        $strstring = $street[0];
+         //redeploy
+        $street = $resultOrder->getShippingAddress()?->getStreet();
+        if(is_null($street))
+        {
+            $strstring = "";
+        }
+        else
+        {
+            $strstring = $street[0];
+        }
         $shipAddress = $resultOrder->getShippingAddress();
         //$initialShippingAddressUnitNumber = $resultOrder->getShippingAddress()->getUnitNumber();
         if(!empty($initialShippingAddressUnitNumber))
         {
             if (str_contains($strstring, $initialShippingAddressUnitNumber)) {
-                $newstreet = $street[0];
+                $newstreet = $strstring;//$street[0];
             }
             else
             {
-                $newstreet = $initialShippingAddressUnitNumber . " ". $street[0];
+                $newstreet = $initialShippingAddressUnitNumber . " ". $strstring;//$street[0];
             }
 
             $shipAddress->setStreet(array($newstreet));
