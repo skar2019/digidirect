@@ -31,6 +31,7 @@ class Pdf extends \Magento\Framework\App\Action\Action
 
             $fileName = $_GET["file"];
             $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export';
+            $targetFile = 'sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName;
 
             $sftpConfig = [
                 'host' => '119.82.149.212',
@@ -41,9 +42,9 @@ class Pdf extends \Magento\Framework\App\Action\Action
 
             try {
                 $this->sftp->open($sftpConfig);
-                $this->sftp->read('sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName, $filePath);
+                $this->sftp->read( $filePath);
                 $this->sftp->close();
-                echo $fileName . ", " . $filePath;
+                echo $targetFile . ", " . $filePath;
             } catch (\Exception $e) {
                 //echo "Error: " . $e->getMessage();
                 return false;
