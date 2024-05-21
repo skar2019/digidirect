@@ -496,6 +496,13 @@ class Order extends AbstractHelper
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                 $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -570,6 +577,12 @@ class Order extends AbstractHelper
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
+
+                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+                                    }
                                 }
                             }
                         }
@@ -2465,6 +2478,12 @@ class Order extends AbstractHelper
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                 $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -2548,6 +2567,12 @@ class Order extends AbstractHelper
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
+
+                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+                                    }
                                 }
                             }
                         }
@@ -2555,8 +2580,6 @@ class Order extends AbstractHelper
                         {
                             if($delivery == "Pick Up in Store - Click and Collect Shipping")
                             {
-                                $shipcompany = 'Click and Collect';
-                                //click and collect goes to picking screen
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                                 $data['sales-order']['header']['set-on-status'] = "H";
 

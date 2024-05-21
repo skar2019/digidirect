@@ -856,6 +856,13 @@ class TestPronto extends AbstractHelper
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                 $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+
+                                }
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -939,6 +946,13 @@ class TestPronto extends AbstractHelper
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
+
+                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+
+                                    }
                                 }
                             }
                         }
@@ -1811,7 +1825,7 @@ class TestPronto extends AbstractHelper
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
 
             $grandTotal = round($grandTotal, 2);
-            $sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
+            //$sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
             if(is_array($strt))
