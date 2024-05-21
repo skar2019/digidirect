@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\StfpDownload\Index;
+namespace Digidirect\StfpDownload\Controller\Index;
 
 use Magento\Framework\Filesystem\Io\Sftp;
 use Magento\Framework\Filesystem\Io\File;
