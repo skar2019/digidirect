@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\StfpDownload\Controller\Index;
+namespace Digidirect\SftpDownload\Controller\Index;
 
 use Magento\Framework\Filesystem\Io\Sftp;
 use Magento\Framework\Filesystem\Io\File;
@@ -8,11 +8,11 @@ use Magento\Framework\Filesystem\Io\File;
 class Pdf extends \Magento\Framework\App\Action\Action
 {
     protected $sftp;
-    
+
     protected $file;
-    
+
     protected $directoryList;
-    
+
     public function __construct(
         Sftp $sftp,
         File $file,
@@ -28,10 +28,10 @@ class Pdf extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         if(isset($_GET["file"])){
-            
+
             $fileName = $_GET["file"];
             $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export';
-        
+
             $sftpConfig = [
                 'host' => '119.82.149.212',
                 'port' => '6999',
@@ -48,10 +48,10 @@ class Pdf extends \Magento\Framework\App\Action\Action
                 echo "Error: " . $e->getMessage();
                 return false;
             }
-            
+
         } else {
             echo 'Invalid file!';
         }
-        
+
     }
 }
