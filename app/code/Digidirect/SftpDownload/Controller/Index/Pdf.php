@@ -54,5 +54,4 @@ class Pdf extends \Magento\Framework\App\Action\Action
         }
         
     }
-    
 }
