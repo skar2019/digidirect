@@ -41,11 +41,11 @@ class Pdf extends \Magento\Framework\App\Action\Action
 
             try {
                 $this->sftp->open($sftpConfig);
-                $this->sftp->read('sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName, $this->file->read($filePath));
+                $this->sftp->read('sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName, $filePath);
                 $this->sftp->close();
-                return true;
+                echo "Success!";
             } catch (\Exception $e) {
-                echo "Error: " . $e->getMessage();
+                //echo "Error: " . $e->getMessage();
                 return false;
             }
             
