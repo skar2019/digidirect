@@ -974,7 +974,7 @@ class TestPronto extends AbstractHelper
                         echo "latipay pending";
                         continue;
                     }
-                }
+            }
 
                 if($payment_type == 'VI')
                 {
@@ -1277,9 +1277,9 @@ class TestPronto extends AbstractHelper
                 }
             }
             //pao's order 001313994-1 001313991-1
-            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            if($orderId == '001901158')
             {
-                $amount_tendered = 1604.10;
+                $amount_tendered = 1986.10;
             }
 
 
