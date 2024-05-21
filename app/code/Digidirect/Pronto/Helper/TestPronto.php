@@ -1798,8 +1798,7 @@ class TestPronto extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
-
-
+            //redeploy
             $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
             $sellerdata['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
