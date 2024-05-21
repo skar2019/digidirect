@@ -52,6 +52,5 @@ class Pdf extends \Magento\Framework\App\Action\Action
         } else {
             echo 'Invalid file!';
         }
-
     }
 }
