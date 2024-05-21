@@ -896,16 +896,17 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
+                        $delivery = "";
+                        if (strpos($orderId, 'REEB') !== false) {
+                            $delivery = "";
+                        }
+                        else
+                        {
+                            $delivery = $order->getShippingDescription();
+                        }
+
                         if($instockInv == 1)
                         {
-                            $delivery = "";
-                            if (strpos($orderId, 'REEB') !== false) {
-                                $delivery = "";
-                            }
-                            else
-                            {
-                                $delivery = $order->getShippingDescription();
-                            }
 
                             if($delivery == "Next Day Delivery")
                             {
