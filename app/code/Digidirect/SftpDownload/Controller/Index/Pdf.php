@@ -45,25 +45,23 @@ class Pdf extends \Magento\Framework\App\Action\Action
                 $this->sftp->cd('/MAGENTO/');
                 
                 //Fetching/Listing all the files.
-                $sftp_server_files = $this->sftp->ls();
-
-
+                /*$sftp_server_files = $this->sftp->ls();
                 foreach ($sftp_server_files as $file) {
                     $source = $file['text'];
                     echo $source . "\n";
-                }
+                }*/
                 
-                //$result = $this->sftp->read($fileName, $filePath);
+                $result = $this->sftp->read($fileName, $filePath);
                 //$this->sftp->write($targetFile, $filePath);
                 //$this->sftp->close();
-                /*echo $fileName . ', ' . $filePath ."\n";
+                echo $fileName . ', ' . $filePath ."\n";
                 if($result == true) {
                     echo 'File read from SFTP server';
                 }
                 else
                 {
                     echo 'File not able to read from SFTP server';
-                }*/
+                }
             } catch (\Exception $e) {
                 echo "Error: " . $e->getMessage();
                 return false;
