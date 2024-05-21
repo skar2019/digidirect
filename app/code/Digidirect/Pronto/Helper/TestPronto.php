@@ -933,8 +933,19 @@ class TestPronto extends AbstractHelper
                         }
                         else
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "";
-                            $data['sales-order']['header']['set-on-status'] = "B";
+                            if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                            {
+                                $shipcompany = 'Click and Collect';
+                                //click and collect goes to picking screen
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+
+                            }
+                            else
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "B";
+                            }
                         }
                     }
                 }
