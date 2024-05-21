@@ -30,7 +30,8 @@ class Pdf extends \Magento\Framework\App\Action\Action
         if(isset($_GET["file"])){
 
             $fileName = $_GET["file"];
-            $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export';
+            $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/'. $fileName;
+            $targetFile = 'sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName;
 
             $sftpConfig = [
                 'host' => '119.82.149.212',
@@ -41,9 +42,26 @@ class Pdf extends \Magento\Framework\App\Action\Action
 
             try {
                 $this->sftp->open($sftpConfig);
-                $this->sftp->read('sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName, $this->file->read($filePath));
-                $this->sftp->close();
-                return true;
+                $this->sftp->cd('/MAGENTO/');
+                
+                //Fetching/Listing all the files.
+                /*$sftp_server_files = $this->sftp->ls();
+                foreach ($sftp_server_files as $file) {
+                    $source = $file['text'];
+                    echo $source . "\n";
+                }*/
+                
+                $result = $this->sftp->read($fileName, $filePath);
+                //$this->sftp->write($targetFile, $filePath);
+                //$this->sftp->close();
+                echo $fileName . ', ' . $filePath ."\n";
+                if($result == true) {
+                    echo 'File read from SFTP server';
+                }
+                else
+                {
+                    echo 'File not able to read from SFTP server';
+                }
             } catch (\Exception $e) {
                 echo "Error: " . $e->getMessage();
                 return false;
@@ -52,6 +70,5 @@ class Pdf extends \Magento\Framework\App\Action\Action
         } else {
             echo 'Invalid file!';
         }
-
     }
 }
