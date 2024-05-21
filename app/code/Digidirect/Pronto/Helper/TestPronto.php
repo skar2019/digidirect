@@ -847,6 +847,7 @@ class TestPronto extends AbstractHelper
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
                     //check if all product has stock
+                    $delivery = $order->getShippingDescription();
                     if($payment_type == 'BT')
                     {
                         if ($order->getStatus() != 'fraud')
@@ -877,8 +878,17 @@ class TestPronto extends AbstractHelper
                             else
                             {
 
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "B";
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+
+                                }
+                                else
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "B";
+                                }
                             }
 
                         }
@@ -936,8 +946,6 @@ class TestPronto extends AbstractHelper
                         {
                             if($delivery == "Pick Up in Store - Click and Collect Shipping")
                             {
-                                $shipcompany = 'Click and Collect';
-                                //click and collect goes to picking screen
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                                 $data['sales-order']['header']['set-on-status'] = "H";
 
