@@ -14,6 +14,10 @@
 </div>
 <script>
     function scrollToProductOverview() {
-        document.getElementById("productoverview").scrollIntoView();
+        if(document.getElementById("tab-label-productoverview")){
+            document.getElementById("tab-label-productoverview").scrollIntoView();
+        } else {
+            document.getElementById("tab-label-description").scrollIntoView();
+        }
     }
 </script>
