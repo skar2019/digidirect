@@ -30,7 +30,7 @@ class Pdf extends \Magento\Framework\App\Action\Action
         if(isset($_GET["file"])){
 
             $fileName = $_GET["file"];
-            $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export';
+            $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/'. $fileName;
             $targetFile = 'sftp://magentosftp@119.82.149.212:6999/MAGENTO/'.$fileName;
 
             $sftpConfig = [
