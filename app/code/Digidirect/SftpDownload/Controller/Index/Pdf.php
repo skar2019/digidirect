@@ -42,10 +42,11 @@ class Pdf extends \Magento\Framework\App\Action\Action
 
             try {
                 $this->sftp->open($sftpConfig);
-                $result = $this->sftp->read($targetFile, $filePath);
+                $this->sftp->cd('/MAGENTO/');
+                $result = $this->sftp->read($fileName, $filePath);
                 //$this->sftp->write($targetFile, $filePath);
                 $this->sftp->close();
-                echo $targetFile . ', ' . $filePath;
+                echo $targetFile . ', ' . $filePath .'\n';
                 if($result == true) {
                     echo 'File read from SFTP server';
                 }
