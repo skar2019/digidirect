@@ -49,8 +49,8 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 
     public function getLoadedProductCollection()
     {
-        //$defaultCategory = 2;
-        $defaultCategory = 17;
+        $defaultCategory = 2;
+        //$defaultCategory = 17;
 
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
