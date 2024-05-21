@@ -1305,6 +1305,8 @@ class TestPronto extends AbstractHelper
 
             }
 
+            $sellerdata['sales-order']['header']['order-total-inc-tax'] = $amount_tendered;
+
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
