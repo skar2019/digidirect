@@ -26,3 +26,7 @@ define([
     });
 });
 
+function scrollToProductOverview() {
+    document.getElementById("productoverview").scrollIntoView();
+}
+

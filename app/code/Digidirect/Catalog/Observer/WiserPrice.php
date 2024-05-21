@@ -73,7 +73,6 @@ class WiserPrice implements ObserverInterface
         
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
-        
         if ($this->_giftItem->isFreeGiftItem($item)) {
             $finalProductPrice = 0;
         } else {
@@ -99,7 +98,7 @@ class WiserPrice implements ObserverInterface
                 $wiserPlusDigiProtect = $wiserPrice + $digiProtectPrice;
 
                 if ($finalPrice > $wiserPlusDigiProtect) {
-                    if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                    if ($wiserPrice > 0 && !empty($wiserPrice)) {
                         if ($wiserPrice < $price) {
                             if ((in_array($sku, $discount2)) && $isDigiClub) {
                                 $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
