@@ -47,7 +47,7 @@ class Pdf extends \Magento\Framework\App\Action\Action
                 $this->sftp->close();
                 echo $targetFile . ', ' . $filePath;
             } catch (\Exception $e) {
-                //echo "Error: " . $e->getMessage();
+                echo "Error: " . $e->getMessage();
                 return false;
             }
 
