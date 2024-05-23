@@ -154,6 +154,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             }
 
         }
+        
+        if (is_null($id)) {
+            $items[$key]['click_and_collect'] = false;
+        }
+        
         return $items;
     }
 
