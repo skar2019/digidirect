@@ -133,30 +133,31 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     }
                 }
             }
-            if ($id == 1 && $sydnQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 31 && $bondQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 7 && $melbQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 10 && $brisQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 13 && $miraQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 16 && $cannQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 35 && $stPetersQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($id == 32 && $parrQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } else {
+            
+            
+            if (is_null($id)) {
                 $items[$key]['click_and_collect'] = false;
+            } else {
+                if ($id == 1 && $sydnQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 31 && $bondQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 7 && $melbQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 10 && $brisQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 13 && $miraQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 16 && $cannQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 35 && $stPetersQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } elseif ($id == 32 && $parrQty > 0) {
+                    $items[$key]['click_and_collect'] = true;
+                } else {
+                    $items[$key]['click_and_collect'] = false;
+                }
             }
-
-        }
-        
-        if (is_null($id)) {
-            $items[$key]['click_and_collect'] = false;
         }
         
         return $items;
