@@ -1224,7 +1224,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
 
                 //create xml of order data here
-                //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+                $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
                 //TEST
