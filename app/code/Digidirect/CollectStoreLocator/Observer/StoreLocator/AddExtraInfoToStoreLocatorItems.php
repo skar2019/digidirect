@@ -29,6 +29,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      * @var Data
      */
     protected $collectHelper;
+    
+    
+    protected $logger;
 
     /**
      * AddExtraInfoToStoreLocatorItems constructor.
@@ -40,12 +43,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         Session $checkoutSession,
         Places $placesHelper,
         Data $collectHelper,
-        GetSourceItemsBySku $getSourceItemsBySku
+        GetSourceItemsBySku $getSourceItemsBySku,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->placesHelper = $placesHelper;
         $this->collectHelper = $collectHelper;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->logger = $logger;
     }
 
     /**
@@ -111,6 +116,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
+                    $this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
 
                     $getQty = $sourceItem->getQuantity();
 
@@ -130,8 +136,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $stPetersQty = $stPetersQty * $getQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
                     }
                 }
             }
