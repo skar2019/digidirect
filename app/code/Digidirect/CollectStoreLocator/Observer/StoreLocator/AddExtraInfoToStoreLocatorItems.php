@@ -130,6 +130,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $stPetersQty = $stPetersQty * $getQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
+                    } else {
+                        $items[$key]['click_and_collect'] = false;
                     }
                 }
             }
