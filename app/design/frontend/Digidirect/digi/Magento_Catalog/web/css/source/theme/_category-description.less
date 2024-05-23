@@ -56,6 +56,13 @@
             width: 100%;
         }
     }
+
+    
+    .category-description {
+        background: #f5f5f5 !important;
+        padding: 35px;
+    }
+
 }
 
 
@@ -67,6 +74,14 @@
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .category-view{
         display: none;
+    }
+
+    .category-description {
+        background: #f5f5f5 !important;
+        padding: 35px;
+        margin-left: 25px !important;
+        margin-right: 25px !important;
+        margin-bottom: 50px !important;
     }
 }
 
