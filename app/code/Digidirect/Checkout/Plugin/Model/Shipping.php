@@ -59,7 +59,7 @@ class Shipping {
                 if ($sourceItem->getSourceCode() == 'SWHS') {
                     $swhsQty = $swhsQty * $sourceItem->getQuantity();
                 } elseif ($sourceItem->getSourceCode() == 'MELB') {
-                    $this->logger->info($product->getSku() . ": " . $melbQty);
+                    $this->logger->info($product->getSku() . ": " . $sourceItem->getQuantity());
                     $melbQty = $melbQty * $sourceItem->getQuantity();
                 }
             }
