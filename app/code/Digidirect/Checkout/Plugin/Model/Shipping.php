@@ -64,6 +64,8 @@ class Shipping {
             }
         }
         
+        $this->logger->info("melbQty: " . $melbQty);
+        
         if ($carrierCode == 'nextdaydelivery') {
             if (($isSwhs == 1 && $swhsQty <= 0)) {
                 //$this->logger->info("SWHS Next Day Delivery");
