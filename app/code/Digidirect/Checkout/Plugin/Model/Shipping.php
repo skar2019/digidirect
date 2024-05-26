@@ -56,11 +56,15 @@ class Shipping {
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                $getQty = $sourceItem->getQuantity();
+                if ($getQty < 0) {
+                    $getQty = 0;
+                }
                 if ($sourceItem->getSourceCode() == 'SWHS') {
-                    $swhsQty = $swhsQty * $sourceItem->getQuantity();
+                    $swhsQty = $swhsQty * $getQty;
                 } elseif ($sourceItem->getSourceCode() == 'MELB') {
-                    $this->logger->info($product->getSku() . ": " . $sourceItem->getQuantity());
-                    $melbQty = $melbQty * $sourceItem->getQuantity();
+                    $this->logger->info($product->getSku() . ": " . $getQty);
+                    $melbQty = $melbQty * $getQty;
                 }
             }
         }
