@@ -87,12 +87,6 @@ class Shipping {
                 return false;
             }
         }
-        
-        /*if (($isSwhs == 1 && $carrierCode == 'nextdaydelivery' && $swhsQty <= 0) || 
-                ($isMelb == 1 && $carrierCode == 'nextdaydelivery' && $melbQty <= 0)) {
-            return false;
-        }*/
-        
         return $proceed($carrierCode, $request);
         
     }
