@@ -679,7 +679,7 @@ return [
         'Swissup_Marketplace' => 1,
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
-        'WeSupply_Toolbox' => 1,
+        'WeSupply_Toolbox' => 0,
         'WebPanda_SalesProductImage' => 1,
         'Webkul_MyCustomCollection' => 1,
         'WeltPixel_Backend' => 1,
