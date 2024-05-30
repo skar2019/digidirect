@@ -41,6 +41,7 @@ class FinalPrice
         }
         
         if ($product) {
+            
             if (!$isDigiPrint) {
                 if ($wiserPrice > 0 && !empty($wiserPrice)) {
                     if ($wiserPrice < $price) {
