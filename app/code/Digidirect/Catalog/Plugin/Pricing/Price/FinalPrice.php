@@ -21,6 +21,9 @@ class FinalPrice
         $product = $subject->getProduct();
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
+        
+        $isDigiPrint = $product->getData('is_digiprint');
+        
         $sku = $product->getData('sku');
         
         $discount2 = [122428,124928,130029,133828,135538,135790,137132,137431,139609,139908,142338,144625,144626,146718,146719,146818,146876,147859,148028,148817,149367,149381,152803,153589,153590,154948,154953,155161,155162,155166,155212,155520,155973];
@@ -38,22 +41,26 @@ class FinalPrice
         }
         
         if ($product) {
-            if ($wiserPrice > 0 && !empty($wiserPrice)) {
-                if ($wiserPrice < $price) {
-                    if ((in_array($sku, $discount2)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                    } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                    } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                    } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+            
+            if (!$isDigiPrint) {
+                if ($wiserPrice > 0 && !empty($wiserPrice)) {
+                    if ($wiserPrice < $price) {
+                        if ((in_array($sku, $discount2)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                        } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                        } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                        } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                            $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                        }
+                        $result = $wiserPrice;
+                    } else {
+                        $result = $price;
                     }
-                    $result = $wiserPrice;
-                } else {
-                    $result = $price;
                 }
             }
+            
         } else {
             $result = $price;
         }
