@@ -580,7 +580,13 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                    }
+
                     //$product->setCategoryIds($categoryIds);
                 }
 
