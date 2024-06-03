@@ -584,7 +584,12 @@ class Product extends AbstractHelper
                     {
                         $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
                     }
 
                     //$product->setCategoryIds($categoryIds);
@@ -1008,8 +1013,17 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -1505,8 +1519,17 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -1903,8 +1926,17 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -2444,9 +2476,18 @@ class Product extends AbstractHelper
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
-                    echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            echo $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -2844,9 +2885,17 @@ class Product extends AbstractHelper
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
-                    echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -3408,8 +3457,17 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -3852,8 +3910,17 @@ class Product extends AbstractHelper
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
