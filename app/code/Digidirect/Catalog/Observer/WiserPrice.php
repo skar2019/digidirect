@@ -75,15 +75,13 @@ class WiserPrice implements ObserverInterface
         
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
         
-        if ($this->_giftItem->isFreeGiftItem($item)) {
-            $finalProductPrice = 0;
-        } else {
-            if ($wiserPrice == 0 || empty($wiserPrice)) {
-                $finalProductPrice = $finalPrice;
+        if (!$isDigiPrint) {
+            if ($this->_giftItem->isFreeGiftItem($item)) {
+                $finalProductPrice = 0;
             } else {
-                
-                if (!$isDigiPrint) {
-                    
+                if ($wiserPrice == 0 || empty($wiserPrice)) {
+                    $finalProductPrice = $finalPrice;
+                } else {
                     $digiProtectPrice = 0;
 
                     $selectedOption = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
@@ -120,19 +118,13 @@ class WiserPrice implements ObserverInterface
                         } else {
                             $finalPrice = $price;
                         }
-
-                        //$this->logger->info('$finalPrice: ' . $finalPrice);
-                        //$this->logger->info('$digiProtectPrice: ' . $digiProtectPrice);
-
                         $finalProductPrice = $finalPrice + $digiProtectPrice;
 
                     } else {
 
                         $finalProductPrice = $finalPrice;
                     }
-                    
                 }
-
             }
         }
         
