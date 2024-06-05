@@ -37,6 +37,7 @@ class WiserPrice implements ObserverInterface
     }
     
     public function execute(\Magento\Framework\Event\Observer $observer) {
+        
         //get the item just added to cart
         $item = $observer->getEvent()->getData('quote_item');
         $product = $observer->getEvent()->getData('product');
