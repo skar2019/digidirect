@@ -52,7 +52,7 @@ if ($currentPage != "catalogsearch_result_index") {
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?> product-count-<?= $_productCollection->count(); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
