@@ -630,15 +630,20 @@ class Order extends AbstractHelper
             $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            $strt = $address->getStreet();
-            if(is_array($strt))
+            $street = "";
+            if(!(is_null($address->getStreet())))
             {
-                $street = implode(",", $strt);
+                $strt = $address->getStreet();
+                if(is_array($strt))
+                {
+                    $street = implode(",", $strt);
+                }
+                else
+                {
+                    $street = $strt;
+                }
             }
-            else
-            {
-                $street = $strt;
-            }
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -1758,15 +1763,20 @@ class Order extends AbstractHelper
             $grandTotal = round($grandTotal, 2);
             $sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            $strt = $address->getStreet();
-            if(is_array($strt))
+            $street = "";
+            if(!(is_null($address->getStreet())))
             {
-                $street = implode(",", $strt);
+                $strt = $address->getStreet();
+                if(is_array($strt))
+                {
+                    $street = implode(",", $strt);
+                }
+                else
+                {
+                    $street = $strt;
+                }
             }
-            else
-            {
-                $street = $strt;
-            }
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -2620,15 +2630,20 @@ class Order extends AbstractHelper
             $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            $strt = $address->getStreet();
-            if(is_array($strt))
+            $street = "";
+            if(!(is_null($address->getStreet())))
             {
-                $street = implode(",", $strt);
+                $strt = $address->getStreet();
+                if(is_array($strt))
+                {
+                    $street = implode(",", $strt);
+                }
+                else
+                {
+                    $street = $strt;
+                }
             }
-            else
-            {
-                $street = $strt;
-            }
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
