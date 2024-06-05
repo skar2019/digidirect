@@ -74,8 +74,6 @@ class WiserPrice implements ObserverInterface
         $finalProductPrice = $finalPrice;
         
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
-        
-        if (!$isDigiPrint) {
             if ($this->_giftItem->isFreeGiftItem($item)) {
                 $finalProductPrice = 0;
             } else {
@@ -102,16 +100,18 @@ class WiserPrice implements ObserverInterface
                     if ($finalPrice > $wiserPlusDigiProtect) {
                         if ($wiserPrice > 0 && !empty($wiserPrice)) {
                             if ($wiserPrice < $price) {
-                                if ((in_array($sku, $discount2)) && $isDigiClub) {
-                                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
-                                } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
-                                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
-                                } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
-                                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
-                                } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
-                                    $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                                } 
-                                $finalPrice = $wiserPrice;
+                                if (!$isDigiPrint) {
+                                    if ((in_array($sku, $discount2)) && $isDigiClub) {
+                                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
+                                    } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
+                                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.05);
+                                    } elseif ((in_array($sku, $discount10)) && $isDigiClub) {
+                                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
+                                    } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
+                                        $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
+                                    } 
+                                    $finalPrice = $wiserPrice;
+                                }
                             } else {
                                 $finalPrice = $price;
                             }
@@ -126,7 +126,6 @@ class WiserPrice implements ObserverInterface
                     }
                 }
             }
-        }
         
         $item->setCustomPrice($finalProductPrice);
         $item->setOriginalCustomPrice($finalProductPrice);
