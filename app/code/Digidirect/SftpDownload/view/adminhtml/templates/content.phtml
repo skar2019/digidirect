@@ -1,3 +1,12 @@
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$directory = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+
+$pdfPath = $directory->getPath('var') . '/export/TRANSFER%20-%203015597.pdf';
+        
+?>
+
 <canvas id="the-canvas"></canvas>
 
 <div>
@@ -12,7 +21,8 @@
 <script type="module">
   // If absolute URL from the remote server is provided, configure the CORS
   // header on that server.
-  var url = 'sftp://magentosftp@119.82.149.212:6999/MAGENTO/TRANSFER%20-%203015597.pdf';
+  
+  var url = <?= $pdfPath ?>;
 
   // Loaded via <script> tag, create shortcut to access PDF.js exports.
   var { pdfjsLib } = globalThis;
