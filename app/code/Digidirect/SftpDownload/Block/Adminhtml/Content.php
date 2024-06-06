@@ -5,6 +5,12 @@ namespace Digidirect\SftpDownload\Block\Adminhtml;
 
 class Content extends \Magento\Framework\View\Element\Template {
     
+    protected $directoryList;
+    
+    protected $driverFile;
+    
+    protected $logger;
+    
     public  function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem\Driver\File $driverFile,
