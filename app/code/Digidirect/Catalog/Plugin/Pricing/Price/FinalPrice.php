@@ -41,9 +41,9 @@ class FinalPrice
         }
         
         if ($product) {
-            if (!$isDigiPrint) {
-                if ($wiserPrice > 0 && !empty($wiserPrice)) {
-                    if ($wiserPrice < $price) {
+            if ($wiserPrice > 0 && !empty($wiserPrice)) {
+                if ($wiserPrice < $price) {
+                    if (!$isDigiPrint) {
                         if ((in_array($sku, $discount2)) && $isDigiClub) {
                             $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
                         } elseif ((in_array($sku, $discount5)) && $isDigiClub) {
@@ -54,9 +54,9 @@ class FinalPrice
                             $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
                         }
                         $result = $wiserPrice;
-                    } else {
-                        $result = $price;
                     }
+                } else {
+                    $result = $price;
                 }
             }
             
