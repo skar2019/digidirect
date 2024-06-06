@@ -8,7 +8,8 @@ class Content {
     public  function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem\Driver\File $driverFile,
-        LoggerInterface $logger)
+        \Psr\Log\LoggerInterface $logger
+    )
     {
         $this->directoryList = $directoryList;
         $this->driverFile = $driverFile;
