@@ -169,13 +169,24 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                            <?php 
-                                $hasDiscountClass = "has-discount";
-                            ?>
-                            <div class="digideals-overlay">
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                            </div>
+                        <?php if ($is_digiPrint == 1): ?>
+                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <div class="digideals-overlay">
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <div class="digideals-overlay">
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                         
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
