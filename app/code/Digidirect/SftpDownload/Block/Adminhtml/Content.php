@@ -3,7 +3,7 @@
 namespace Digidirect\SftpDownload\Block\Adminhtml;
 
 
-class Content {
+class Content extends \Magento\Framework\View\Element\Template {
     
     public  function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
