@@ -6,6 +6,10 @@ use Magento\Framework\View\Element\Template;
 
 class Content extends Template {
     
+    protected $directoryList;
+    
+    protected $driverFile;
+    
     protected $logger;
     
     public function __construct(
