@@ -463,26 +463,26 @@ class Order extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
@@ -928,31 +928,31 @@ class Order extends AbstractHelper
             }
 
             //CUSTOM DATA
-            $qffNumber = $order->getQffNumber();
-            $qffLastname = $order->getQffLastname();
+//            $qffNumber = $order->getQffNumber();
+//            $qffLastname = $order->getQffLastname();
+//
+//
+//            echo "surcharge - " .$surcharge;
+//
+//            if (!empty($qffNumber) && !empty($qffLastname)) {
+//                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+//                $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
+//                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+//                $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
+//            }
+//            else
+//            {
+//                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+//                $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
+//                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+//                $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
+//            }
 
+            $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
+            $data['sales-order']['header']['custom-data']['data'][0]['value'] = $orderId;
 
-            echo "surcharge - " .$surcharge;
-
-            if (!empty($qffNumber) && !empty($qffLastname)) {
-                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
-                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
-            }
-            else
-            {
-                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
-                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
-            }
-
-            $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'magento-order-number';
-            $data['sales-order']['header']['custom-data']['data'][2]['value'] = $orderId;
-
-            $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
-            $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
+            $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
+            $data['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
 
             if (!$order->getCustomerIsGuest()) {
                 $customerRep = $this->customerRepository->getById($order->getCustomerId());
@@ -2250,15 +2250,8 @@ class Order extends AbstractHelper
                 }
             }
 
-            $amShipping = "";
-            if (strpos($orderId, 'REEB') !== false) {
 
-            }
-            else
-            {
-                $amShipping = $order->getShippingDescription();
-            }
-
+            $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -2293,12 +2286,12 @@ class Order extends AbstractHelper
                     $account = "EBAY00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
-
                     if (strpos($orderId, 'REEB') !== false) {
                         $rep ="REEBELO";
                         $account = "REEB00";
                         $territory = "MRKT";
                         $isMarketPlace = true;
+                        //REEBELO
                     }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
@@ -2360,7 +2353,7 @@ class Order extends AbstractHelper
 
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00")
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00")
                 {
                     $account = "";
                 }
@@ -2455,26 +2448,26 @@ class Order extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
@@ -2494,6 +2487,7 @@ class Order extends AbstractHelper
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
+
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -2544,18 +2538,9 @@ class Order extends AbstractHelper
                     }
                     else
                     {
-                        $delivery = "";
-                        if (strpos($orderId, 'REEB') !== false) {
-                            $delivery = "";
-                        }
-                        else
-                        {
-                            $delivery = $order->getShippingDescription();
-                        }
-
+                        $delivery = $order->getShippingDescription();
                         if($instockInv == 1)
                         {
-
                             if($delivery == "Next Day Delivery")
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -2667,14 +2652,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            if (strpos($orderId, 'REEB') !== false) {
-                $delivery = "";
-            }
-            else
-            {
-                $delivery = $order->getShippingDescription();
-            }
-
+            $delivery = $order->getShippingDescription();
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
@@ -2693,11 +2671,13 @@ class Order extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
             }
 
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                //click and collect goes to picking screen
 
             }
             else if($rep == "WESTFIELD")
@@ -2713,6 +2693,9 @@ class Order extends AbstractHelper
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
+
+            $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
+            $shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
@@ -2851,6 +2834,7 @@ class Order extends AbstractHelper
                         $catchRef = str_replace("EB","",$catchRef);
                         $payment_reference = $catchRef;
                     }
+
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
@@ -2858,6 +2842,7 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("WW","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -2928,31 +2913,29 @@ class Order extends AbstractHelper
             }
 
             //CUSTOM DATA
-            $qffNumber = $order->getQffNumber();
-            $qffLastname = $order->getQffLastname();
+//            $qffNumber = $order->getQffNumber();
+//            $qffLastname = $order->getQffLastname();
+//
+//
+//            if (!empty($qffNumber) && !empty($qffLastname)) {
+//                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+//                $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
+//                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+//                $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
+//            }
+//            else
+//            {
+//                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
+//                $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
+//                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
+//                $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
+//            }
 
+            $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
+            $data['sales-order']['header']['custom-data']['data'][0]['value'] = $orderId;
 
-            //echo "surcharge - " .$surcharge;
-
-            if (!empty($qffNumber) && !empty($qffLastname)) {
-                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
-                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
-            }
-            else
-            {
-                $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
-                $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
-            }
-
-            $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'magento-order-number';
-            $data['sales-order']['header']['custom-data']['data'][2]['value'] = $orderId;
-
-            $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
-            $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
+            $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'email';
+            $data['sales-order']['header']['custom-data']['data'][1]['value'] = $customerEmail;
 
             if (!$order->getCustomerIsGuest()) {
                 $customerRep = $this->customerRepository->getById($order->getCustomerId());
@@ -2973,12 +2956,14 @@ class Order extends AbstractHelper
             // for redeploy
             $x = 0;
             $gotDigiProducts = false;
+            $mpTotal = 0; //clint digiMarket workaround
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
                 $skus = array();
                 $productSku = "";
+                $mpsellertotal = 0; //clint digiMarket workaround
                 $digiProtect = "";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
@@ -3011,6 +2996,7 @@ class Order extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
+                    $mpTotal += $total;
                     $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
@@ -3069,6 +3055,7 @@ class Order extends AbstractHelper
                             $digiProtectdiscount = 0;
                         }
                         $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                        $price = $price - $digiProtectTotal;
 
                     }
                     $gotDigiProducts = true;
@@ -3120,10 +3107,10 @@ class Order extends AbstractHelper
 
                     if(!empty($digiProtect))
                     {
-                        $price = (double) $item->getBasePriceInclTax();
-                        $qty = (double) $item->getQtyOrdered();
-                        $discount = (double) $item->getDiscountAmount();
-                        $total = ($price * $qty) - $discount;
+                        //$price = (double) $item->getBasePriceInclTax();
+                        //$qty = (double) $item->getQtyOrdered();
+                        //$discount = (double) $item->getDiscountAmount();
+                        //$total = ($price * $qty) - $discount;
                         $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                         $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
                         $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
@@ -3187,7 +3174,6 @@ class Order extends AbstractHelper
                         $shippingDesc = $marketplacesShipping[1];
                     }
                 }
-
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
@@ -3222,8 +3208,11 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
+                //digiMarket subtract mptotal clint 04/03/2024
+                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+
                 //create xml of order data here
-                //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+                $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
                 //TEST
@@ -3314,7 +3303,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 4)
+            if($counter >= 6)
             {
                 return true; //return after 3 orders
             }

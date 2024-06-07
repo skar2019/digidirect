@@ -256,17 +256,17 @@ class Product extends AbstractHelper
 //                }
 
                 //stk-user-only-alpha4-3 is_qantas_product
-                if(isset($prod['stk-user-only-alpha4-3']))
-                {
-                    if($prod['stk-user-only-alpha4-3'] == "Q")
-                    {
-                        $product->setCustomAttribute('is_qantas_product', '1');
-                    }
-                    else
-                    {
-                        $product->setCustomAttribute('is_qantas_product', '0');
-                    }
-                }
+//                if(isset($prod['stk-user-only-alpha4-3']))
+//                {
+//                    if($prod['stk-user-only-alpha4-3'] == "Q")
+//                    {
+//                        $product->setCustomAttribute('is_qantas_product', '1');
+//                    }
+//                    else
+//                    {
+//                        $product->setCustomAttribute('is_qantas_product', '0');
+//                    }
+//                }
 
 
                 if(isset($prod['stock-division']))
