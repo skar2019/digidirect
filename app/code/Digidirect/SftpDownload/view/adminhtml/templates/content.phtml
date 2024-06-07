@@ -1,5 +1,8 @@
 <?php
 $files = $block->getAllFiles();
+
+$filesToString = implode(" ", $files);
+echo $filesToString;
 ?>
 
 <?php foreach ($files as $file): ?>
