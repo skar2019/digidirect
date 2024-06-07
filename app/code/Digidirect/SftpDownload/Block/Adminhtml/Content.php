@@ -37,9 +37,9 @@ class Content extends Template {
     public function getFileContents() {
         $paths = [];
         try {
-            $path = $this->directoryList->getPath(DirectoryList::VAR_DIR). '/export/email/digi_website_au_customers_10_05_2022_025147.csv';
+            $path = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR). '/export/email/digi_website_au_customers_10_05_2022_025147.csv';
             //read just that single directory
-            $contents =  $this->driverFile->fileGetContents($path);
+            $contents = $this->driverFile->fileGetContents($path);
         } catch (FileSystemException $e) {
             $this->logger->error($e->getMessage());
         }
