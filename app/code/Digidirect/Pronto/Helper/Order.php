@@ -463,26 +463,26 @@ class Order extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
@@ -2448,26 +2448,26 @@ class Order extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
