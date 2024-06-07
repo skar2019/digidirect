@@ -1,2 +1,7 @@
-<div><?= $block->testEcho(); ?></div>
-<div><?= $block->getAllFiles(); ?></div>
+<?php
+$files = $block->getAllFiles();
+?>
+
+<?php foreach ($files as $file): ?>
+    <div><?= $file?></div>
+<?php endforeach; ?>
