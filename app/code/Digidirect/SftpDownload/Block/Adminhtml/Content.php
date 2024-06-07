@@ -34,17 +34,17 @@ class Content extends Template {
         echo 'Send PDF!';
     }
     
-    public function getFileContents() {
+    public function getAllFiles() {
         $paths = [];
         try {
-            $path = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR). '/export/email/digi_website_au_customers_10_05_2022_025147.csv';
+            $path = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR). '/export/email/';
             //read just that single directory
-            $contents = $this->driverFile->fileGetContents($path);
+            $paths =  $this->driverFile->readDirectory($path);
         } catch (FileSystemException $e) {
             $this->logger->error($e->getMessage());
         }
 
-        return $contents;
+        return $paths;
     }
     
 }
