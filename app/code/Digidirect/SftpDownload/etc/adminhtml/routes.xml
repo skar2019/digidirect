@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
         <route id="sendpdf" frontName="sendpdf">
-            <module name="Digidirect_SftpDownload"/>
+            <module before="Magento_Backend" name="Digidirect_SftpDownload"/>
         </route>
     </router>
 </config>

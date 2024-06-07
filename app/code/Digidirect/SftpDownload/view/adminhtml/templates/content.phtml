@@ -19,7 +19,7 @@ $files = $block->getAllFiles();
         });
 
         function sendInvoice() {
-            var url = "<?php echo $block->getBaseUrl().'sendpdf/adminhtml/index/send'?>";
+            var url = "<?php echo $block->getBaseUrl().'sendpdf/index/send'?>";
             var sendInvoiceEmail = $("#send-invoice-email").val();
 
             if (sendInvoiceEmail != ""){
