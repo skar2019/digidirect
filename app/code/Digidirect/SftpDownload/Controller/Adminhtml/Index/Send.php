@@ -37,6 +37,7 @@ class Send extends Action {
         $customerEmail = $this->getRequest()->getParam('email');
         
         $store = $this->storeManager->getStore();
+        $templateParams = [];
         
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'send_pdf_email_template'
@@ -44,8 +45,8 @@ class Send extends Action {
                 ['area' => 'adminhtml', 'store' => $store->getId()]
             )->addTo(
                 $customerEmail, $customerEmail
-            /*)->setTemplateVars(
-                $templateParams*/
+            )->setTemplateVars(
+                $templateParams
             )->setFrom(
                 'general'
             )->addBcc(
