@@ -27,7 +27,6 @@ class Send extends Action {
     public function __construct(
         Sftp $sftp,
         File $file,
-        \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Psr\Log\LoggerInterface $logger,
