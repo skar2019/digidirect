@@ -41,7 +41,7 @@ class Send extends Action {
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        parent::__construct($context);
+        return parent::__construct($context);
     }   
 
     public function execute() {
@@ -120,7 +120,7 @@ class Send extends Action {
             $this->logger->critical($e->getMessage());
         }*/
         
-        if ($customerEmail) {
+        if ($fileName) {
             $result->setData(['output' => $fileName]);
             return $result;
         }
