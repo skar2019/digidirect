@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
-    <template id="send_pfd_email_template" label="Invoice PDF" file="pdf.html" type="html" module="Digidirect_SftpDownload" area="adminhtml"/>
+    <template id="send_pfd_email_template" label="Invoice PDF" file="pdf.html" type="html" module="Digidirect_SftpDownload" area="frontend"/>
 </config>
