@@ -39,12 +39,16 @@ class Send extends Action {
         $store = $this->storeManager->getStore();
         $templateParams = [];
         
+        $pdfFile = '/app/6ycwrjafqqprk/var/export/BACKORDER - 2222286.pdf';
+        
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'send_pdf_email_template'
             )->setTemplateOptions(
                 ['area' => 'adminhtml', 'store' => $store->getId()]
             )->addTo(
                 $customerEmail, $customerEmail
+            )->addAttachment(
+                file_get_contents($pdfFile)
             )->setTemplateVars(
                 $templateParams
             )->setFrom(
