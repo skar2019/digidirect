@@ -38,11 +38,6 @@ class Send extends Action {
         
         $store = $this->storeManager->getStore();
         
-        if ($customerEmail) {
-            $result->setData(['output' => $customerEmail]);
-            return $result;
-        }
-        
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'send_pdf_email_template'
             )->setTemplateOptions(
@@ -61,6 +56,11 @@ class Send extends Action {
             $transport->sendMessage();
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
+        }
+        
+        if ($customerEmail) {
+            $result->setData(['output' => $customerEmail]);
+            return $result;
         }
         
     }
