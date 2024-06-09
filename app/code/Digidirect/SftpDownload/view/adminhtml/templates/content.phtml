@@ -30,7 +30,7 @@ $files = $block->getAllFiles();
 
         function sendInvoice() {
             var url = "<?php echo $block->getBaseUrl().'d1g1_@dm1np@neI/sendpdf/index/send'?>";
-            var sendInvoiceType = $("#send-invoice-type").text();
+            var sendInvoiceType = $("#send-invoice-type :selected").text();
             var sendInvoiceNumber = $("#send-invoice-number").val();
             var sendInvoiceEmail = $("#send-invoice-email").val();
 
