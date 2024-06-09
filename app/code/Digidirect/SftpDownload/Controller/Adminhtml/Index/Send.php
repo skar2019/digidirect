@@ -90,7 +90,7 @@ class Send extends Action {
         
         
         
-        /*$result = $this->_resultJsonFactory->create();
+        $result = $this->_resultJsonFactory->create();
         $customerEmail = $this->getRequest()->getParam('email');
         
         $store = $this->storeManager->getStore();
@@ -123,7 +123,7 @@ class Send extends Action {
         if ($customerEmail) {
             $result->setData(['output' => $customerEmail]);
             return $result;
-        }*/
+        }
         
     }
 

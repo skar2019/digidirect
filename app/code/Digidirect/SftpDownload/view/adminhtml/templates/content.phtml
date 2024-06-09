@@ -7,7 +7,7 @@ $files = $block->getAllFiles();
 <?php endforeach; ?>
 
 <div class="send-invoice-container">
-    <select name="send-invoice-type" id="invoice-type" class="input-text">
+    <select name="send-invoice-type" id="send-invoice-type" class="input-text">
         <option value="transfer">TRANSFER</option>
         <option value="tax-invoice">TAX INVOICE</option>
         <option value="quotation">QUOTATION</option>
@@ -19,6 +19,7 @@ $files = $block->getAllFiles();
     <input id="send-invoice-email" type="text" placeholder="Email" class="input-text" maxlength="128" autocomplete="off">
     <span id="send-invoice-button">Send</span>
 </div>
+<div id="send-result"></div>
     
 <script>
     require(['jquery'],function($){
@@ -44,6 +45,7 @@ $files = $block->getAllFiles();
                     },
                     success: function(data){
                         console.log(data.output);
+                        $('#send-result').html("Success!");
                     },
                     error: function(){
                         console.log("Error!");
