@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\SftpDownload\Magento\Mail\Template;
+namespace Digidirect\SftpDownload\Model\Mail\Template;
 
 use Magento\Framework\App\TemplateTypesInterface;
 use Magento\Framework\Exception\LocalizedException;
