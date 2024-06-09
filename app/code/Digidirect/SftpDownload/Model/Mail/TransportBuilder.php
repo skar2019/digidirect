@@ -2,46 +2,45 @@
 
 namespace Digidirect\SftpDownload\Model\Mail;
 
+use Zend_Mime;
+
 class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
 {
-    
-    public function __construct(
-        FactoryInterface $templateFactory, 
-        MessageInterface $message, 
-        SenderResolverInterface $senderResolver, 
-        ObjectManagerInterface $objectManager, 
-        TransportInterfaceFactory $mailTransportFactory, 
-        MessageInterfaceFactory $messageFactory = null, 
-        EmailMessageInterfaceFactory $emailMessageInterfaceFactory = null, 
-        MimeMessageInterfaceFactory $mimeMessageInterfaceFactory = null, 
-        MimePartInterfaceFactory $mimePartInterfaceFactory = null, 
-        AddressConverter $addressConverter = null
-    ){
-        parent::__construct(
-            $templateFactory, 
-            $message, 
-            $senderResolver, 
-            $objectManager, 
-            $mailTransportFactory, 
-            $messageFactory, 
-            $emailMessageInterfaceFactory, 
-            $mimeMessageInterfaceFactory, 
-            $mimePartInterfaceFactory, 
-            $addressConverter
-        );
-    }
+    private $parts = [];
+
     /**
-     * @param Api\AttachmentInterface $attachment
+     * @param $body
+     * @param null $filename
+     * @param string $mimeType
+     * @param string $disposition
+     * @param string $encoding
+     * @return $this
      */
-    public function addAttachment($pdfString)
-    {
-        $this->message->createAttachment(
-            $pdfString,
-            'application/pdf',
-            \Zend_Mime::DISPOSITION_ATTACHMENT,
-            \Zend_Mime::ENCODING_BASE64,
-            'attached.pdf'
-        );
+    public function addAttachment(
+        $body,
+        $mimeType    = Zend_Mime::TYPE_OCTETSTREAM,
+        $filename    = null,
+        $disposition = Zend_Mime::DISPOSITION_ATTACHMENT,
+        $encoding    = Zend_Mime::ENCODING_BASE64
+    ) {
+        if (method_exists($this->message, 'createAttachment')) {
+            $this->message->createAttachment(
+                $body,
+                $mimeType,
+                $disposition,
+                $encoding,
+                $filename
+            );
+        } else {
+            $mp = new \Zend\Mime\Part($body);
+            $mp->encoding = $encoding;
+            $mp->type = $mimeType;
+            $mp->disposition = $disposition;
+            $mp->filename = $filename;
+
+            $this->parts[] = $mp;
+        }
+
         return $this;
     }
 }
