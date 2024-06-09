@@ -1,0 +1,44 @@
+<?php
+$files = $block->getAllFiles();
+?>
+
+<?php foreach ($files as $file): ?>
+    <div><?= $file?></div>
+<?php endforeach; ?>
+
+<div class="send-invoice-container">
+    <input id="send-invoice-email" type="text" placeholder="Email" class="input-text" maxlength="128" autocomplete="off">
+    <span id="send-invoice-button">Send</span>
+</div>
+    
+<script>
+    require(['jquery'],function($){
+
+        $('#send-invoice-button').on('click',function (){
+            sendInvoice();
+        });
+
+        function sendInvoice() {
+            var url = "<?php echo $block->getBaseUrl().'admin/sendpdf/index/send'?>";
+            var sendInvoiceEmail = $("#send-invoice-email").val();
+
+            if (sendInvoiceEmail != ""){
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        email: sendInvoiceEmail
+                    },
+                    success: function(data){
+                        console.log(data.output);
+                    },
+                    error: function(){
+                        console.log("Error!");
+                    }
+                });
+             }
+        }
+
+    });
+
+</script>

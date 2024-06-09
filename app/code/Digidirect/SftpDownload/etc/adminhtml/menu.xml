@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Digidirect_SftpDownload::sendpdf"
+             title="Send PDF"
+             module="Digidirect_SftpDownload"
+             sortOrder="100"
+             parent="Magento_Sales::sales_operation"
+             action="sendpdf/index/index"
+             resource="Digidirect_SftpDownload::sendpdf"
+        />
+    </menu>
+</config>
