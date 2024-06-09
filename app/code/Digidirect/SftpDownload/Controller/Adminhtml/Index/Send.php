@@ -20,7 +20,7 @@ class Send extends Action {
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Psr\Log\LoggerInterface $logger,
-        \Digidirect\SftpDownload\Model\Mail\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
@@ -47,7 +47,7 @@ class Send extends Action {
             )->addTo(
                 $customerEmail, $customerEmail
             )->addAttachment(
-                file_get_contents($pdfFile)
+                file_get_contents($pdfFile), 'BACKORDER - 2222286.pdf', 'application/pdf' 
             )->setTemplateVars(
                 $templateParams
             )->setFrom(
