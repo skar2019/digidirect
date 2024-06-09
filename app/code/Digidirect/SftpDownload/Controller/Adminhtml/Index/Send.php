@@ -4,7 +4,6 @@ namespace Digidirect\SftpDownload\Controller\Adminhtml\Index;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\ResultFactory; 
-use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Send extends Action {
@@ -21,7 +20,7 @@ class Send extends Action {
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Psr\Log\LoggerInterface $logger,
-        TransportBuilder $transportBuilder,
+        \Digidirect\SftpDownload\Model\Mail\TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
