@@ -42,7 +42,7 @@ class Send extends Action {
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'send_pdf_email_template'
             )->setTemplateOptions(
-                ['area' => 'adminhtml', 'store' => $store->getId()]
+                ['area' => 'frontend', 'store' => $store->getId()]
             )->addTo(
                 $customerEmail, $customerEmail
             )->setTemplateVars(
