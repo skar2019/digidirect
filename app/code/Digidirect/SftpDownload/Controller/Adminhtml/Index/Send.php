@@ -74,13 +74,13 @@ class Send extends Action {
             $result = $this->sftp->read($fileName, $filePath);
             //$this->sftp->write($targetFile, $filePath);
             //$this->sftp->close();
-            echo $fileName . ', ' . $filePath ."\n";
+            $this->logger->info($fileName . ', ' . $filePath);
             if($result == true) {
-                echo 'File read from SFTP server';
+                $this->logger->info('File read from SFTP server');
             }
             else
             {
-                echo 'File not able to read from SFTP server';
+                $this->logger->info('File not able to read from SFTP server');
             }
         } catch (\Exception $e) {
             echo "Error: " . $e->getMessage();
@@ -90,7 +90,7 @@ class Send extends Action {
         
         
         
-        $result = $this->_resultJsonFactory->create();
+        /*$result = $this->_resultJsonFactory->create();
         $customerEmail = $this->getRequest()->getParam('email');
         
         $store = $this->storeManager->getStore();
@@ -123,7 +123,7 @@ class Send extends Action {
         if ($customerEmail) {
             $result->setData(['output' => $customerEmail]);
             return $result;
-        }
+        }*/
         
     }
 
