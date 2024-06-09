@@ -90,7 +90,7 @@ class Send extends Action {
         
         
         
-        $result = $this->_resultJsonFactory->create();
+        /*$result = $this->_resultJsonFactory->create();
         $customerEmail = $this->getRequest()->getParam('email');
         
         $store = $this->storeManager->getStore();
@@ -118,10 +118,10 @@ class Send extends Action {
             $transport->sendMessage();
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
-        }
+        }*/
         
         if ($customerEmail) {
-            $result->setData(['output' => $customerEmail]);
+            $result->setData(['output' => $fileName]);
             return $result;
         }
         
