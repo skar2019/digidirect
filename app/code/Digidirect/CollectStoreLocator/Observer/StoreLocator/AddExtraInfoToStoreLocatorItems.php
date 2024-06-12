@@ -185,7 +185,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     if (in_array('CANN', $stores)) {
                         $items[$key]['click_and_collect'] = true;
                     } else {
-                        $items[$key]['click_and_collect'] = false;
+                        //$items[$key]['click_and_collect'] = false;
+                        unset($items[$key]); //Reemove Cannington from Click & Collect option
                     }
                 } elseif ($id == 35 && $stPetersQty > 0) {
                     if (in_array('SWHS', $stores)) {
