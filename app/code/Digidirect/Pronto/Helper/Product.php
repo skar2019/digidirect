@@ -3242,7 +3242,6 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-                //redeploy
                 //default source, dapat lagi meron
                 $sourceItem = $this->sourceItemFactory->create();
                 $sourceItem->setSourceCode('default');
