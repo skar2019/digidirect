@@ -3244,19 +3244,19 @@ class Product extends AbstractHelper
                 }
 
                 //default source, dapat lagi meron
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);//in stock
-//                $sourceItem->setQuantity(0);
-//                $sourceItems[] = $sourceItem;
-//                 echo "default - 0";
-//                try {
-//                    $this->sourceItemsSaveInterface->execute($sourceItems);
-//                    //return true;
-//                } catch (\Exception $e) {
-//                    echo "error default source";
-//                }
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);//in stock
+                $sourceItem->setQuantity(0);
+                $sourceItems[] = $sourceItem;
+                 echo "default - 0";
+                try {
+                    $this->sourceItemsSaveInterface->execute($sourceItems);
+                    //return true;
+                } catch (\Exception $e) {
+                    echo "error default source";
+                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
