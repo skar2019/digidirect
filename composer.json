@@ -24,15 +24,9 @@
         }
     },
     "require": {
-        "instant/instant-checkout": "^1.8",
-        "klarna/m2-klarna": "^1.0",
-        "klevu/module-search": "^2.3",
-        "magento/extension-b2b": "v1.3.3-p3",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
-        "marketplacer/magento2-plugin-metapackage": "^2.2",
-        "outeredge/magento-structured-data-module": "^4.0",
-        "swissup/attributepages": "^1.5",
-        "vlucas/valitron": "^1.4"
+        "magento/product-enterprise-edition": "2.4.4-p9",
+        "marketplacer/magento2-plugin-metapackage": "^2.2"
     },
     "replace": {
         "klevu/module-mysqlcompat": "*",
