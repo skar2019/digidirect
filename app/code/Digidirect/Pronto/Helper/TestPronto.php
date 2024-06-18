@@ -1322,6 +1322,11 @@ class TestPronto extends AbstractHelper
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
                 }
+                else
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                }
 
             }
 
@@ -2046,6 +2051,11 @@ class TestPronto extends AbstractHelper
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 }
             }
+            else
+            {
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+            }
 
 
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
@@ -2160,25 +2170,25 @@ class TestPronto extends AbstractHelper
             }
 
             //fixed shipping price as interim
-            if($producttotal > 99)
-            {
-                $shippingprice = 0;
-                $shippingDesc = "Standard";
-            }
-            else
-            {
-                $shippingprice = 10;
-                $shippingDesc = "Free Shipping";
-            }
+//            if($producttotal > 99)
+//            {
+//                $shippingprice = 0;
+//                $shippingDesc = "Standard";
+//            }
+//            else
+//            {
+//                $shippingprice = 10;
+//                $shippingDesc = "Free Shipping";
+//            }
 
-            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //if($test)
             //{
