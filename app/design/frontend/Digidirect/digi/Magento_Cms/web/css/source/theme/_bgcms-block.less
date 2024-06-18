@@ -25,7 +25,7 @@
             .lib-vendor-prefix-display();
             align-items: center;
             justify-content: center;
-            margin: 0 -20px;
+            //margin: 0 -20px;
         }
 
         .page-title-wrapper > .page-title {
@@ -65,6 +65,23 @@
 }
 
 //
+//  Mobie
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .cms-bg-block {
+        .page-title-wrapper {
+            margin: 0 15px;
+        }
+    }
+    
+    .page-main.cms-bg-block .page-title span {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 
@@ -75,7 +92,7 @@
         }
 
         .page-title-wrapper {
-            .lib-css(height, @cms-title__height__m);
+            //.lib-css(height, @cms-title__height__m);
         }
 
         .bg-cms {
