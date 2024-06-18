@@ -2170,16 +2170,16 @@ class TestPronto extends AbstractHelper
             }
 
             //fixed shipping price as interim
-            if($producttotal > 99)
-            {
-                $shippingprice = 0;
-                $shippingDesc = "Standard";
-            }
-            else
-            {
-                $shippingprice = 10;
-                $shippingDesc = "Free Shipping";
-            }
+//            if($producttotal > 99)
+//            {
+//                $shippingprice = 0;
+//                $shippingDesc = "Standard";
+//            }
+//            else
+//            {
+//                $shippingprice = 10;
+//                $shippingDesc = "Free Shipping";
+//            }
 
             $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;

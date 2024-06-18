@@ -2106,25 +2106,25 @@ class Order extends AbstractHelper
             }
 
             //fixed shipping price as interim
-            if($producttotal > 99)
-            {
-                $shippingprice = 0;
-                $shippingDesc = "Standard";
-            }
-            else
-            {
-                $shippingprice = 10;
-                $shippingDesc = "Free Shipping";
-            }
-
-            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+//            if($producttotal > 99)
+//            {
+//                $shippingprice = 0;
+//                $shippingDesc = "Standard";
+//            }
+//            else
+//            {
+//                $shippingprice = 10;
+//                $shippingDesc = "Free Shipping";
+//            }
+//
+//            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
