@@ -188,7 +188,7 @@ class Brand extends Template
             } elseif ($action === 'mpbrand_index_index') {
                 $this->pageConfig->getTitle()->set($this->getMetaTitle());
                 $this->pageConfig->addRemotePageAsset(
-                    $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
+                    'canonical-mageplaza',
                     'canonical',
                     ['attributes' => ['rel' => 'canonical']]
                 );
