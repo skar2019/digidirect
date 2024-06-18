@@ -34,7 +34,8 @@ require(['jquery', 'jquery/ui'], function($){
  
         $(function() {
           $.ajax({
-            url: "https://www.eventbriteapi.com/v3/organizations/80988983007/events/?time_filter=current_future&order_by=start_desc&token=OGT3SWONGWH5KTAZTD2Z",
+            // url: "https://www.eventbriteapi.com/v3/organizations/80988983007/events/?time_filter=current_future&order_by=start_desc&token=OGT3SWONGWH5KTAZTD2Z",
+            url: "https://www.eventbriteapi.com/v3/organizations/80988983007/events/?token=7OCEGMNMNZO6WLUFU2FM&status=live",
             type: "get",
             dataType: "json",
             success: function(data) {
