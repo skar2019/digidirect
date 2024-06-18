@@ -309,12 +309,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -696,12 +696,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -1265,12 +1265,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -1625,12 +1625,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -2214,12 +2214,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -2587,12 +2587,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -3174,12 +3174,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -3584,12 +3584,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
