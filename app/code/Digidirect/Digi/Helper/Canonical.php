@@ -121,7 +121,7 @@ class Canonical extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $this->pageConfig->addRemotePageAsset(
-            $url,
+            'canonical-canonical',
             self::ASSET_CANONICAL,
             ['attributes' => ['rel' => self::ASSET_CANONICAL]]
         );
