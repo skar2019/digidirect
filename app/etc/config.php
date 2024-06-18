@@ -555,7 +555,7 @@ return [
         'Digidirect_BestsellersProducts' => 1,
         'Digidirect_Blog' => 1,
         'Digidirect_InfiniteScroll' => 0,
-        'Digidirect_Canonical' => 1,
+        'Digidirect_Canonical' => 0,
         'Digidirect_Catalog' => 1,
         'Digidirect_LayeredNavigation' => 0,
         'Digidirect_Checkout' => 1,
