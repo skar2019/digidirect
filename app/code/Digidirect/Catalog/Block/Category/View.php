@@ -85,8 +85,25 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 $this->pageConfig->setKeywords($keywords);
             }
             if ($this->_categoryHelper->canUseCanonicalTag()) {
+                
+                $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+                
+                /*$urlComponents = parse_url($currentUrl);
+                
+                parse_str($urlComponents['query'], $params);
+                
+                if ($params['p']) {
+                    if ($params['p'] != 1) {
+                        $canonical = $urlComponents['host'] . $urlComponents['path']; 
+                    } else {
+                        $canonical = $urlComponents['host'] . $urlComponents['path'] . '?p=' . $params['p']; 
+                    }
+                } else {
+                    $canonical = $urlComponents['host'] . $urlComponents['path']; 
+                }*/
+                
                 $this->pageConfig->addRemotePageAsset(
-                    'canonical-category',
+                    $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
                     'canonical',
                     ['attributes' => ['rel' => 'canonical']]
                 );
