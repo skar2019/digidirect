@@ -1325,6 +1325,7 @@ class TestPronto extends AbstractHelper
                 else
                 {
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $orderId;
                     $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 }
 
@@ -2054,6 +2055,7 @@ class TestPronto extends AbstractHelper
             else
             {
                 $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $orderId;
                 $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
             }
 
