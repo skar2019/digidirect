@@ -88,7 +88,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
                 
-                $urlComponents = parse_url($currentUrl);
+                /*$urlComponents = parse_url($currentUrl);
                 
                 parse_str($urlComponents['query'], $params);
                 
@@ -100,10 +100,10 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                     }
                 } else {
                     $canonical = $urlComponents['host'] . $urlComponents['path']; 
-                }
+                }*/
                 
                 $this->pageConfig->addRemotePageAsset(
-                    $canonical,
+                    $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
                     'canonical',
                     ['attributes' => ['rel' => 'canonical']]
                 );
