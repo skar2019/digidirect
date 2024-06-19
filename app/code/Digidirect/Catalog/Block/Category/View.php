@@ -92,10 +92,14 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 
                 parse_str($urlComponents['query'], $params);
                 
-                if ($params['p'] != 1) {
-                    $canonical = $urlComponents['host'] . $urlComponents['path']; 
+                if ($params['p']) {
+                    if ($params['p'] != 1) {
+                        $canonical = $urlComponents['host'] . $urlComponents['path']; 
+                    } else {
+                        $canonical = $urlComponents['host'] . $urlComponents['path'] . '?p=' . $params['p']; 
+                    }
                 } else {
-                    $canonical = $urlComponents['host'] . $urlComponents['path'] . '?p=' . $params['p']; 
+                    $canonical = $urlComponents['host'] . $urlComponents['path']; 
                 }
                 
                 $this->pageConfig->addRemotePageAsset(
