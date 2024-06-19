@@ -924,11 +924,6 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
                 }
-                else
-                {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
 
             }
 
@@ -1231,7 +1226,11 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
 
                 //create xml of order data here
                 $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
@@ -1983,11 +1982,6 @@ class Order extends AbstractHelper
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 }
             }
-            else
-            {
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            }
 
 
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
@@ -2091,7 +2085,11 @@ class Order extends AbstractHelper
             } //end of product line
 
             //sync only product total
-            $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            if($withpaymentref)
+            {
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            }
+
             if($coupon != "")
             {
                 $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
@@ -2919,11 +2917,7 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
                 }
-                else
-                {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
+
 
             }
 
@@ -3224,7 +3218,11 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
+
 
                 //create xml of order data here
                 $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
