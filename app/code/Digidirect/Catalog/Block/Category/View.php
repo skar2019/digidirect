@@ -95,7 +95,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 
                 $urlComponents = parse_url($currentUrl);
                 
-                $canonical = $urlComponents['host'] . $urlComponents['path'];
+                $canonical = $urlComponents['scheme'] . '//' . $urlComponents['host'] . $urlComponents['path'];
                 
                 if (!empty($urlComponents['query'])) {
                     
@@ -111,9 +111,9 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                         } else {
                             $page = '?p=' . $params['p']; 
                         }
-                        $canonical = $urlComponents['host'] . $urlComponents['path'] . $page;
+                        $canonical = $urlComponents['scheme'] . '//' . $urlComponents['host'] . $urlComponents['path'] . $page;
                     } else {
-                        $canonical = $urlComponents['host'] . $urlComponents['path'];
+                        $canonical = $urlComponents['scheme'] . '//' . $urlComponents['host'] . $urlComponents['path'];
                     }
                 }
                 
