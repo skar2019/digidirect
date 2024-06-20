@@ -104,9 +104,12 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                     parse_str($urlComponents['query'], $params);
                 
                     if (!empty($params['p'])) {
-                        $this->pageConfig->setRobots("INDEX,FOLLOW");
+                        
+                        if (count($params) == 1) {
+                            $this->pageConfig->setRobots("INDEX,FOLLOW");
+                        }
+                        
                         if ($params['p'] == 1) {
-                            
                             $page = ''; 
                         } else {
                             $page = '?p=' . $params['p']; 
