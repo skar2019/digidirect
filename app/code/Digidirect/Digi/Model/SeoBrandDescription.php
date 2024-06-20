@@ -215,7 +215,7 @@ class SeoBrandDescription
     public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
         if ($this->isCategoryBrandPage()) {
-            $this->pageConfig->setRobots($robotsMetaData);
+            //$this->pageConfig->setRobots($robotsMetaData);
             $this->setCanonical($this->getCanonicalUrl());
 
             //clint comment out Nov 9, 2023
