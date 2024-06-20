@@ -15,7 +15,4 @@
     <type name="Magento\Framework\View\Result\Page">
         <plugin name="digiprinit_class" type="Digidirect\Catalog\Plugin\Result\Page"/>
     </type>
-    <type name="Magento\Catalog\Model\Product\Url">
-        <plugin name="override_product_url" sortOrder="10" type="Digidirect\Catalog\Plugin\Model\Product\Url"/>
-    </type>
 </config>
