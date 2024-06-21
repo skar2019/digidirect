@@ -1227,8 +1227,11 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
 
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
 
 
                 //create xml of order data here
@@ -2084,7 +2087,10 @@ class Order extends AbstractHelper
             } //end of product line
 
             //sync only product total
-             $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            if($withpaymentref)
+            {
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            }
 
 
             if($coupon != "")
@@ -3215,7 +3221,10 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
 
 
 
