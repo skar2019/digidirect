@@ -40,7 +40,7 @@ class Canonical extends AbstractHelper
             if ($this->cmsPage->getId()) {
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
-                        $this->scopeConfig->getValue('web/secure/base_url')
+                         rtrim($this->scopeConfig->getValue('web/secure/base_url'), '/')
                     );
                 } else {
                     return $this->createLink(
@@ -53,7 +53,7 @@ class Canonical extends AbstractHelper
             if($checkModule == 'contact'){
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
-                        $this->scopeConfig->getValue('web/secure/base_url')
+                        rtrim($this->scopeConfig->getValue('web/secure/base_url'), '/')
                     );
                 } else {
                     return $this->createLink(
