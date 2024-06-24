@@ -38,15 +38,28 @@ class Canonical extends AbstractHelper
     {
         if($this->scopeConfig->getValue('catalog/seo/cms_canonical_tag')){
             if ($this->cmsPage->getId()) {
-                return $this->createLink(
-                    $this->scopeConfig->getValue('web/secure/base_url') . $this->cmsPage->getIdentifier()
-                );
+                if ($this->cmsPage->getIdentifier() == "home") {
+                    return $this->createLink(
+                        $this->scopeConfig->getValue('web/secure/base_url')
+                    );
+                } else {
+                    return $this->createLink(
+                        $this->scopeConfig->getValue('web/secure/base_url') . $this->cmsPage->getIdentifier()
+                    );
+                }
+                
             }
             $checkModule = $this->http->getModuleName();
             if($checkModule == 'contact'){
-                return $this->createLink(
-                    $this->scopeConfig->getValue('web/secure/base_url') . $this->http->getModuleName()
-                );
+                if ($this->cmsPage->getIdentifier() == "home") {
+                    return $this->createLink(
+                        $this->scopeConfig->getValue('web/secure/base_url')
+                    );
+                } else {
+                    return $this->createLink(
+                        $this->scopeConfig->getValue('web/secure/base_url') . $this->http->getModuleName()
+                    );
+                }
             }
         }
         
