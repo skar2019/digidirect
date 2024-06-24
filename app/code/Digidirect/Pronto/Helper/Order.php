@@ -924,12 +924,7 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
                 }
-                else
-                {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $orderId;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
+
 
             }
 
@@ -1232,8 +1227,11 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
 
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
 
 
                 //create xml of order data here
@@ -1343,7 +1341,7 @@ class Order extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('nin' => array('canceled','processing')))
+            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval','processing')))
             ->addFieldToFilter('entity_id', array('gteq' => 4127042)) //615813
             ->addFieldToFilter('store_id', array('in' => array(1,5)))
             ->setOrder('created_at', 'asc');
@@ -1986,12 +1984,6 @@ class Order extends AbstractHelper
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 }
             }
-            else
-            {
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $orderId;
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            }
 
 
             $sellerdata['sales-order']['header']['custom-data']['data'][0]['key'] = 'magento-order-number';
@@ -2095,7 +2087,10 @@ class Order extends AbstractHelper
             } //end of product line
 
             //sync only product total
-             $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            if($withpaymentref)
+            {
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
+            }
 
 
             if($coupon != "")
@@ -2925,12 +2920,6 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
                 }
-                else
-                {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $orderId;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
 
 
             }
@@ -3232,7 +3221,10 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                 //digiMarket subtract mptotal clint 04/03/2024
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                if($withpaymentref)
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered - $mpTotal;
+                }
 
 
 
