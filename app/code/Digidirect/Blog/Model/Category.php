@@ -62,7 +62,7 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
      */
     public function getViewUrl()
     {
-        return $this->urlModel->getCategoryUrl($this->getUrlKey());
+        return rtrim($this->urlModel->getCategoryUrl($this->getUrlKey()), '/');
     }
 
     /**
