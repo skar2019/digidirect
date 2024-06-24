@@ -62,7 +62,6 @@ class Canonical extends AbstractHelper
                 }
             }
         }
-        
         return '';
     }
 
