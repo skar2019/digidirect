@@ -52,13 +52,13 @@ class Canonical extends AbstractHelper
         if($this->scopeConfig->getValue('catalog/seo/cms_canonical_tag')){
             if ($this->cmsPage->getId()) {
                 
-                $this->logger->info('$this->cmsPage->getIdentifier() ' . $this->cmsPage->getIdentifier());
+                //$this->logger->info('$this->cmsPage->getIdentifier() ' . $this->cmsPage->getIdentifier());
                 
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
                          rtrim($this->scopeConfig->getValue('web/secure/base_url'), '/')
                     );
-                } /*elseif ($this->cmsPage->getIdentifier() == "find") {
+                } elseif ($this->cmsPage->getIdentifier() == "find") {
                     $url = $this->urlInterface->getCurrentUrl();
                     $this->logger->info('$url: ' . $url);
                     $urlComponents = parse_url($url);
@@ -71,7 +71,7 @@ class Canonical extends AbstractHelper
                     $this->logger->info('$canonical ' . $canonical);
                     return $this->createLink($canonical);
                     
-                }*/ else {
+                } else {
                     return $this->createLink(
                         $this->scopeConfig->getValue('web/secure/base_url') . $this->cmsPage->getIdentifier()
                     );
