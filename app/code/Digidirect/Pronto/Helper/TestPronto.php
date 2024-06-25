@@ -852,19 +852,18 @@ class TestPronto extends AbstractHelper
                     {
                         if ($order->getStatus() != 'fraud')
                         {
-                            if($liabilityShift)
+
+                            if($instockInv == 1)
                             {
-                                if($instockInv == 1)
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
                                 {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
 
-                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                        $data['sales-order']['header']['set-on-status'] = "P";
-
-                                    }
+                                }
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -883,28 +882,23 @@ class TestPronto extends AbstractHelper
 //                                        $data['sales-order']['header']['set-on-status'] = "H";
 //                                    }
 //                                }
-                                }
-                                else
-                                {
-
-                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                                        $data['sales-order']['header']['set-on-status'] = "H";
-
-                                    }
-                                    else
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                        $data['sales-order']['header']['set-on-status'] = "B";
-                                    }
-                                }
                             }
                             else
                             {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                                $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+
+                                }
+                                else
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "B";
+                                }
                             }
+
 
 
                         }
@@ -1207,14 +1201,14 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-            $liabilityShift = false;
             if (($payment_type == 'BT')) {
 
                 $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
                 echo "liabilityShifted " .$liabilityShifted;
                 if($liabilityShifted == 'Yes')
                 {
-                    $liabilityShift = true;
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
 
