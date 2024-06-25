@@ -808,6 +808,17 @@ class Order extends AbstractHelper
                 }
             }
 
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+            }
+
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
@@ -1855,7 +1866,7 @@ class Order extends AbstractHelper
             }
 
             if (empty($payment_reference) && ($method == 'latipay')) {
-                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //
                 //if (empty($payment_reference)){
                 continue;
                 //}
@@ -1929,6 +1940,17 @@ class Order extends AbstractHelper
                 if($payment_status == 'pending')
                 {
                     continue;
+                }
+            }
+
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
 
@@ -2801,6 +2823,17 @@ class Order extends AbstractHelper
                 if($payment_status == 'pending')
                 {
                     continue;
+                }
+            }
+
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
 

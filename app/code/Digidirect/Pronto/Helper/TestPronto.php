@@ -1205,7 +1205,7 @@ class TestPronto extends AbstractHelper
 
                 $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
                 echo "liabilityShifted " .$liabilityShifted;
-                if($liabilityShifted == 'Yes')
+                if($liabilityShifted != 'Yes')
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
