@@ -1026,7 +1026,8 @@ class Order extends AbstractHelper
                 {
                     //check seller here
                     $mpTotal += $total;
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
                     {
@@ -2067,7 +2068,8 @@ class Order extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($sell == $seller)
                     {
@@ -3042,7 +3044,8 @@ class Order extends AbstractHelper
                 {
                     //check seller here
                     $mpTotal += $total;
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
                     {
