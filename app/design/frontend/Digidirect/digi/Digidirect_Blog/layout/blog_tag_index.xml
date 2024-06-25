@@ -2,6 +2,9 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="msrp_popup"/>
     <body>
+        <referenceBlock name="head.additional">
+            <block class="Digidirect\Blog\Block\Canonical" name="blog.canonical" template="Digidirect_Blog::canonical.phtml"/>
+        </referenceBlock>
         <move element="blog.categorytree.left" destination="sidebar.main" before="-"/>
         <move element="blog.widget.search" destination="main" after="page.main.title"/>
         <move element="div.sidebar.main" destination="columns" before="-"/>

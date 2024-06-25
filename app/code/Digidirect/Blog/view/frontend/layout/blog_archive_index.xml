@@ -2,6 +2,9 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="3columns"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceBlock name="head.additional">
+            <block class="Digidirect\Blog\Block\Canonical" name="blog.canonical" template="Digidirect_Blog::canonical.phtml"/>
+        </referenceBlock>
         <referenceContainer name="content">
             <block class="Digidirect\Blog\Block\Archive" name="blog.list" template="blog_list.phtml">
                 <arguments>

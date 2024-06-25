@@ -95,7 +95,7 @@ class Renderer extends Template
      */
     public function getCategoryUrl($urlKey)
     {
-        return $this->urlModel->getCategoryUrl($urlKey);
+        return rtrim($this->urlModel->getCategoryUrl($urlKey), '/');
     }
 
     /**
