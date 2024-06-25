@@ -852,6 +852,7 @@ class TestPronto extends AbstractHelper
                     {
                         if ($order->getStatus() != 'fraud')
                         {
+
                             if($instockInv == 1)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
@@ -897,6 +898,8 @@ class TestPronto extends AbstractHelper
                                     $data['sales-order']['header']['set-on-status'] = "B";
                                 }
                             }
+
+
 
                         }
                         else
@@ -1195,6 +1198,17 @@ class TestPronto extends AbstractHelper
                 {
                     echo "pending paypal <br />";
                     continue;
+                }
+            }
+
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
 
@@ -1990,6 +2004,16 @@ class TestPronto extends AbstractHelper
                     continue;
                 }
             }
+
+//            $liabilityShift = false;
+//            if (($payment_type == 'BT')) {
+//
+//                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+//                if($liabilityShifted == 'Yes')
+//                {
+//                    $liabilityShift = true;
+//                }
+//            }
 
 
             $withpaymentref = true;
