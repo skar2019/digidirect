@@ -60,17 +60,12 @@ class Canonical extends AbstractHelper
                     );
                 } elseif ($this->cmsPage->getIdentifier() == "find") {
                     $url = $this->urlInterface->getCurrentUrl();
-                    $this->logger->info('$url find: ' . $url);
                     $urlComponents = parse_url($url);
-                    
-                    $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
-                    $this->logger->info('$canonical find: ' . $canonical);
                     
                     if (!empty($urlComponents['query'])) {
                         $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-                        return $this->createLink($canonical);
                     }
-                    return $this->createLink($canonical);
+                    return $this->createLink("https://www.digidirect.com.au/find");
                     
                 } else {
                     return $this->createLink(
