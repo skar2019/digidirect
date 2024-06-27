@@ -145,8 +145,10 @@ $currentPage = $this->getRequest()->getFullActionName();
                 }
 
                 $finalQffPoints = $_product->getPoints();
-
-                $productUrl = $_product->getProductUrl();
+                
+                $url_arr = parse_url($_product->getProductUrl());
+                $query = $url_arr['query'];
+                $productUrl = str_replace(array($query,'?'), '', $_product->getProductUrl());
                 
                 if ($currentPage == "eaa_attribute_option_index") {
                     $explode1 = explode("/catalog/product/view/id", $productUrl);
