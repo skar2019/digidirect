@@ -53,7 +53,6 @@ class Canonical extends AbstractHelper
             if ($this->cmsPage->getId()) {
                 
                 //$this->logger->info('$this->cmsPage->getIdentifier() ' . $this->cmsPage->getIdentifier());
-
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
                          rtrim($this->scopeConfig->getValue('web/secure/base_url'), '/')
