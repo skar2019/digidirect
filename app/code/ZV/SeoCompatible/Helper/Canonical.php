@@ -53,18 +53,23 @@ class Canonical extends AbstractHelper
             if ($this->cmsPage->getId()) {
                 
                 //$this->logger->info('$this->cmsPage->getIdentifier() ' . $this->cmsPage->getIdentifier());
+
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
                          rtrim($this->scopeConfig->getValue('web/secure/base_url'), '/')
                     );
                 } elseif ($this->cmsPage->getIdentifier() == "find") {
                     $url = $this->urlInterface->getCurrentUrl();
+                    $this->logger->info('$url: ' . $url);
                     $urlComponents = parse_url($url);
                     
+                    $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                
                     if (!empty($urlComponents['query'])) {
                         $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
                     }
-                    return $this->createLink("https://www.digidirect.com.au/find");
+                    $this->logger->info('$canonical ' . $canonical);
+                    return $this->createLink($canonical);
                     
                 } else {
                     return $this->createLink(
@@ -95,7 +100,7 @@ class Canonical extends AbstractHelper
      */
     protected function createLink($url): string
     {
-        return '<link id="canonical-id" rel="canonical" href="' . $url . '" />';
+        return '<link rel="canonical" href="' . $url . '" />';
 
     }
 }
