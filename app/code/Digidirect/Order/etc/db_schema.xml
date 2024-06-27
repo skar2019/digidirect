@@ -4,5 +4,6 @@
         <column xsi:type="int" name="days_to_ship_last_order" nullable="true" comment="days_to_ship_last_order"/>
         <column xsi:type="int" name="pickup_email" nullable="true" default="0" comment="pickup_email"/>
         <column xsi:type="int" name="invoice_email" nullable="true" default="0" comment="invoice_email"/>
+        <column xsi:type="int" name="initial_sync" nullable="true" default="0" comment="initial_sync"/>
     </table>
 </schema>
