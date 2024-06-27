@@ -96,7 +96,7 @@ class Canonical extends AbstractHelper
      */
     protected function createLink($url): string
     {
-        return '<link rel="canonical" href="' . $url . '" />';
+        return '<link id="canonical-id" rel="canonical" href="' . $url . '" />';
 
     }
 }
