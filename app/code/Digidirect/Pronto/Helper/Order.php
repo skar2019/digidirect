@@ -1026,7 +1026,8 @@ class Order extends AbstractHelper
                 {
                     //check seller here
                     $mpTotal += $total;
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
                     {
@@ -1259,6 +1260,9 @@ class Order extends AbstractHelper
                 $islive = true;
                 if($islive)
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
+
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
                     $this->curl->addHeader("compcode", "DIG"); //live
@@ -1337,7 +1341,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 2)
+            if($counter >= 3)
             {
                 return true; //return after 3 orders
             }
@@ -1355,6 +1359,7 @@ class Order extends AbstractHelper
             ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval','processing')))
             ->addFieldToFilter('entity_id', array('gteq' => 4127042)) //615813
             ->addFieldToFilter('store_id', array('in' => array(1,5)))
+            ->addFieldToFilter('initial_sync', array('eq' => 0))
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
 
@@ -1371,6 +1376,7 @@ class Order extends AbstractHelper
             ->addFieldToFilter('status',array('eq' => 'processing'))
             ->addFieldToFilter('entity_id', array('gteq' => 4127042)) //615813
             ->addFieldToFilter('store_id', array('in' => array(1,5)))
+            ->addFieldToFilter('initial_sync', array('eq' => 0))
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
 
@@ -2067,7 +2073,8 @@ class Order extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($sell == $seller)
                     {
@@ -3042,7 +3049,8 @@ class Order extends AbstractHelper
                 {
                     //check seller here
                     $mpTotal += $total;
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
 
                     if($this->currentseller == $sell)
                     {
@@ -3275,6 +3283,9 @@ class Order extends AbstractHelper
                 $islive = true;
                 if($islive)
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
+
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
                     $this->curl->addHeader("compcode", "DIG"); //live
@@ -3353,7 +3364,7 @@ class Order extends AbstractHelper
 
             }
             //redeploy
-            if($counter >= 2)
+            if($counter >= 3)
             {
                 return true; //return after 3 orders
             }
