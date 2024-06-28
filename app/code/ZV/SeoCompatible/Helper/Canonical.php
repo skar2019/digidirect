@@ -76,7 +76,6 @@ class Canonical extends AbstractHelper
                         $this->scopeConfig->getValue('web/secure/base_url') . $this->cmsPage->getIdentifier()
                     );
                 }
-                
             }
             $checkModule = $this->http->getModuleName();
             if($checkModule == 'contact'){
