@@ -395,6 +395,8 @@ class Order extends AbstractHelper
             $method = $paymentInstance->getMethod();
             //clint Nov 23, 2023
             if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
+                $order->setData('initial_sync', 1);
+                $order->save();
                 continue;
             }
             $payment_type = $this->getPaymentType($paymentInstance);
@@ -726,12 +728,16 @@ class Order extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
             if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
+                $order->setData('initial_sync', 1);
+                $order->save();
                 continue;
             }
 
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
+                $order->setData('initial_sync', 1);
+                $order->save();
                 continue;
                 //}
 
@@ -772,6 +778,8 @@ class Order extends AbstractHelper
 
                 if(!$tosync)
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
                     continue;
                 }
 
@@ -804,6 +812,8 @@ class Order extends AbstractHelper
                 $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
                 if($payment_status == 'pending')
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
                     continue;
                 }
             }
@@ -2757,6 +2767,8 @@ class Order extends AbstractHelper
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
+                $order->setData('initial_sync', 1);
+                $order->save();
                 continue;
                 //}
 
@@ -2797,6 +2809,8 @@ class Order extends AbstractHelper
 
                 if(!$tosync)
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
                     continue;
                 }
 
@@ -2829,6 +2843,8 @@ class Order extends AbstractHelper
                 $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
                 if($payment_status == 'pending')
                 {
+                    $order->setData('initial_sync', 1);
+                    $order->save();
                     continue;
                 }
             }
