@@ -1383,7 +1383,7 @@ class Order extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('eq' => 'processing'))
+            ->addFieldToFilter('status',array('in' => array('processing','awaiting_product_delivery','processing_preorder')))
             ->addFieldToFilter('entity_id', array('gteq' => 4127042)) //615813
             ->addFieldToFilter('store_id', array('in' => array(1,5)))
             ->addFieldToFilter('initial_sync', array('eq' => 0))
