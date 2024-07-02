@@ -124,21 +124,36 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                     ];
                 }
 
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
                 try {
 
-                    $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
                     $this->_productRepository->setHasOptions(1);
                     $this->_productRepository->setCanSaveCustomOptions(true);
                     $product = $this->_productRepository;
-                    $option->setProductId($this->_productRepository->getData('row_id'))
+
+                    $option = $objectManager->create(\Magento\Catalog\Model\Product\Option::class)
+                        ->setProductId($product->getId())
                         ->setStoreId($product->getStoreId())
                         ->addData($optionsArray);
                     $option->save();
                     $product->addOption($option);
-                    $product->save();
+
+                    $objectManager->create('Magento\Catalog\Api\ProductRepositoryInterface')->save($product);
+
+//                    $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
+//                    $this->_productRepository->setHasOptions(1);
+//                    $this->_productRepository->setCanSaveCustomOptions(true);
+//                    $product = $this->_productRepository;
+//                    $option->setProductId($this->_productRepository->getData('row_id'))
+//                        ->setStoreId($product->getStoreId())
+//                        ->addData($optionsArray);
+//                    $option->save();
+//                    $product->addOption($option);
+//                    $product->save();
 
                 } catch (\Exception $exception) {
-                    //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
+                    throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
                 $x++;
             }

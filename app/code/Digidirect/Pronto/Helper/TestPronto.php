@@ -1423,7 +1423,7 @@ class TestPronto extends AbstractHelper
                     //check seller here
                     $productDetails->load($productDetails->getIdBySku($sku));
                     $sell = $productDetails->getMarketplacerSeller();
-                    echo "is MP - " .$sku."<br/>";
+                    echo "is MP - " .$sku." - seller : ".$sell."<br/>";
                     if($this->currentseller == $sell)
                     {
                         continue;

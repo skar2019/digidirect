@@ -15,7 +15,7 @@ class CreateOptions
      * @var CronCustomOption
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             CronCustomOption $helper)
@@ -26,11 +26,13 @@ class CreateOptions
 
     public function execute()
     {
-        
+
         try {
             $this->helper->saveCustomOption(); //use date today as parameter
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
+
+        exit;
     }
 }
