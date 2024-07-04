@@ -78,6 +78,7 @@ class Canonical extends AbstractHelper
                 }
             }
             $checkModule = $this->http->getModuleName();
+            $this->logger->info('$checkModule: ' . $checkModule);
             if($checkModule == 'contact'){
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
@@ -88,6 +89,17 @@ class Canonical extends AbstractHelper
                         $this->scopeConfig->getValue('web/secure/base_url') . $this->http->getModuleName()
                     );
                 }
+            } elseif ($checkModule == "customer") {
+                $url = $this->urlInterface->getCurrentUrl();
+                $this->logger->info('$url: ' . $url);
+                $urlComponents = parse_url($url);
+
+                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . '/customer/account/login';
+
+                $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
+                $this->logger->info('$canonical ' . $canonical);
+                return $this->createLink($canonical);
+
             }
         }
         return '';
