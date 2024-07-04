@@ -27,7 +27,8 @@
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "magento/product-enterprise-edition": "2.4.4-p9",
         "marketplacer/magento2-plugin-metapackage": "^2.2",
-        "marketplacer/magento2-plugin-seller-shipping": "^1.0"
+        "marketplacer/magento2-plugin-seller-shipping": "^1.0",
+        "vlucas/valitron": "^1.4"
     },
     "replace": {
         "klevu/module-mysqlcompat": "*",
