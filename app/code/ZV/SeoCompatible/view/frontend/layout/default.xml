@@ -10,6 +10,7 @@
                     </arguments>
                 </block>
             </container>
+            <block class="ZV\SeoCompatible\Block\Hreflang" name="default_hreflang" template="hreflang.phtml"/>
         </referenceBlock>
     </body>
 </page>

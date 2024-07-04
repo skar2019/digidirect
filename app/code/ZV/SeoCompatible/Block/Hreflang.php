@@ -23,10 +23,11 @@ class Hreflang extends Template
 
     public function getCurrentUrl()
     {
-        $product = $this->registry->registry('current_product');
+        /*$product = $this->registry->registry('current_product');
         if ($product) {
             return $this->catalogHelper->getProductUrl($product);
-        }
-        return $this->_urlBuilder->getCurrentUrl();
+        }*/
+        $currentUrl = rtrim($this->_urlBuilder->getCurrentUrl(), '/');
+        return $currentUrl;
     }
 }
