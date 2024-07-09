@@ -355,6 +355,10 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1279) {
+    
     .account .page-main {
         padding-top: 0 !important;
     }
@@ -405,6 +409,7 @@
     }
     
 }
+
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = 1280) {
     .account.page-layout-2columns-left .columns {
