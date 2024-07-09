@@ -349,6 +349,47 @@
 
 }
 
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    .account .page-main {
+        padding-top: 0 !important;
+    }
+
+    .account .navigation .block-collapsible-nav-title {
+        color: #fff !important;
+        background: #ff3c00;
+    }
+
+    .block-collapsible-nav {
+        position: relative !important;
+    }
+
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        position: relative !important;
+        background-color: #fff !important;
+    }
+
+    .secondary-nav .item:before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        fill: #e65300;
+    }
+
+    .block-collapsible-nav .title.active:after {
+        display: none;
+    }
+
+    .block-collapsible-nav .title:after {
+        display: none;
+    }
+    
+}
+
 //
 //  Tablet +
 //  ---------------------------------------------
@@ -412,6 +453,10 @@
         .column.main {
             min-height: 0;
         }
+    }
+    
+    .account.page-layout-2columns-left .columns {
+        width: calc(100% - 29%) !important;
     }
 }
 
