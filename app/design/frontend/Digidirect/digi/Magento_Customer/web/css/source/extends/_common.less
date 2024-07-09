@@ -354,7 +354,54 @@
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .account .page-main {
+        padding-top: 0 !important;
+    }
+
+    .account .navigation .block-collapsible-nav-title {
+        color: #fff !important;
+        background: #ff3c00 !important;
+    }
+
+    .block-collapsible-nav {
+        position: relative !important;
+        margin-top: 30px;
+        top: 0;
+    }
+
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        position: relative !important;
+        background-color: #fff !important;
+        padding: 0;
+    }
+
+    .secondary-nav .item:before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        fill: #e65300;    
+        border: none;
+    }
+
+    .block-collapsible-nav .title.active:after {
+        display: none;
+    }
+
+    .block-collapsible-nav .title:after {
+        display: none;
+    }
     
+    .form-digiclub-manage img {
+        display: none;
+    }
+    
+    form.form.form-digiclub-manage.block > div {
+        display: block !important;
+    }
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1279) {
