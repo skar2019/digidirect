@@ -366,6 +366,8 @@
 
     .block-collapsible-nav {
         position: relative !important;
+        margin-top: 30px;
+        top: 0;
     }
 
     .secondary-nav.collapsible .block-collapsible-nav-content {
@@ -402,6 +404,12 @@
         display: block !important;
     }
     
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = 1280) {
+    .account.page-layout-2columns-left .columns {
+        width: calc(100% - 29%) !important;
+    }
 }
 
 //
@@ -467,10 +475,6 @@
         .column.main {
             min-height: 0;
         }
-    }
-    
-    .account.page-layout-2columns-left .columns {
-        width: calc(100% - 29%) !important;
     }
 }
 
