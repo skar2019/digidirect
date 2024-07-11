@@ -218,7 +218,7 @@ class Config implements ConfigInterface
      *
      * @const
      */
-    const PAYMENT_METHOD_LOGO_ZIP = "https://static.zipmoney.com.au/logo/25px/zip.png";
+    const PAYMENT_METHOD_LOGO_ZIP = "https://static.zip.co/logo/25px/zip.png";
 
     /**
      * Error Codes Map
@@ -285,6 +285,11 @@ class Config implements ConfigInterface
     protected $_locale;
 
     protected $_moduleList;
+
+    /**
+     * @var \Magento\Framework\Registry
+     */
+    private $_urlBuilder;
 
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
