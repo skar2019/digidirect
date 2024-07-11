@@ -75,7 +75,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     public function execute()
     {
         if (!$this->formKeyValidator->validate($this->getRequest())) {
-            return $this->_redirect('customer/account/');
+            return $this->_redirect('customer/account');
         }
 
         $customerId = $this->customerSession->getCustomerId();
@@ -117,13 +117,18 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 //$customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
-                $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
+                
+                if ($isDigiClubParam) {
+                    return $this->_redirect('digiclubmember/customer/thankyou');
+                } else {
+                    $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
+                }
                 
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         }
     }
-        return $this->_redirect('digiclubmember/customer/index/');
+        return $this->_redirect('digiclubmember/customer/index');
     }
 
     /**

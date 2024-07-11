@@ -10,19 +10,22 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
     protected $_productRepository;
     protected $_giftCardHelper;
     protected $_productOptionFactory;
+    protected $_logger;
 
     public function __construct(
         \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Catalog\Model\Product $productRepository,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Psr\Log\LoggerInterface $logger
     ){
         $this->_productOptions = $productOptions;
         $this->_productRepositoryInterface = $productRepositoryInterface;
         $this->_productRepository = $productRepository;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_productOptionFactory = $productOptionFactory;
+        $this->_logger = $logger;
     }
 
     public function saveCustomOption(){
@@ -86,6 +89,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 134.95');
                 }
                 else if($price > 2000)
                 {
@@ -104,6 +108,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 284.95');
                 }
                 else
                 {
@@ -122,6 +127,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 89.95');
                 }
 
                 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
