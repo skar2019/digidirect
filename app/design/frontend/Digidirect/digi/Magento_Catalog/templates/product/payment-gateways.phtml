@@ -2,7 +2,8 @@
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
 $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
-$addToCartUrl =  $listBlock->getAddToCartUrl($product);
+$addToCartUrl = $listBlock->getAddToCartUrl($product);
+$seller = $product->getData('marketplacer_seller');
 ?>
 
 <div class="payment-gateways">
@@ -23,13 +24,18 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
         </form>
         <div id="paypal-custom">
         </div>
-        <div id="zip-custom">
-            <span class="zip-caption">
-                <span class="zip-interest">0% Interest for 6 Months</span>
-                <span id="zip-apply-now" class="zip-apply-now">APPLY NOW!</span>
-            </span>
-        </div>
     </div>
+    <?php if ($seller == 20329) { ?>
+        <div class="row-second">
+            <div id="zip-custom">
+                <span class="zip-caption">
+                    <img class="zip-logo-pg" src="https://static.zipmoney.com.au/assets/default/product-widget/img/zip-button-wht.svg">
+                    <span class="zip-interest">Interest free, flexible repayments</span> 
+                    <span id="zip-apply-now" class="zip-apply-now">APPLY NOW!</span>                  
+                </span>
+            </div>
+        </div>
+    <?php } ?>
 </div>
 
 <script>

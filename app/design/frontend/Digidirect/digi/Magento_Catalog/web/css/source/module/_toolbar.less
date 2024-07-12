@@ -30,7 +30,7 @@
         display: block;
         line-height: @toolbar-mode-icon-font-size + 2;
         margin: 0;
-        padding: 8px 0 0 45px;
+        padding: 8px 0 0 0;
         vertical-align: middle;
 
         .products.wrapper ~ .toolbar & {
@@ -40,7 +40,7 @@
 
     .toolbar-products {
         margin-bottom: @indent__xl;
-        padding: 0 @indent__s;
+        //padding: 0 @indent__s;
         text-align: center;
         &:extend(.abs-add-clearfix all);
 
@@ -63,7 +63,7 @@
         padding: 4px 0 0;
 
         .products.wrapper ~ .toolbar & {
-            display: none;
+            //display: none;
         }
 
         .sorter-action {
@@ -113,8 +113,40 @@
 
     .limiter {
         .page-products .toolbar & {
-            display: none;
+            display: none !important;
         }
+    }
+    
+    .products.wrapper~.toolbar .pages {
+        float: right !important;
+    }
+    
+    ul.items.pages-items {
+        margin-right: 35px !important;
+        margin-bottom: 50px !important;
+    }
+    
+    .pages strong.page {
+        background: #ff3c00 !important;
+        color: #fff !important;
+        padding: 0 14px !important;
+    }
+    
+    .pages a.page {
+        color: #ff3c00 !important;
+        padding: 0 14px !important;
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .toolbar-amount {
+        float: left;
+        padding-left: 5px;
+        padding-bottom: 10px;
     }
 }
 

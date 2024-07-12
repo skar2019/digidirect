@@ -28,6 +28,15 @@
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
+            <block class="Magento\Cms\Block\Block" name="digimarket.side.banner.ads">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">digimarket-side-banner-ads</argument>
+                </arguments>
+            </block>
+            <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
+                   name="digidirectextended.catalog.price.rule.product.view.core"
+                   before="-"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
             <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
@@ -47,10 +56,16 @@
                         <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
                     </container>
                 </container>
+                <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
             </container>
         </referenceBlock>
         
         <referenceContainer name="content">
+            <block class="Magento\Cms\Block\Block" name="digimarket.product.page">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">digimarket-product-page</argument>
+                </arguments>
+            </block>
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
                 <referenceBlock name="product.info.description">
@@ -163,12 +178,14 @@
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
         <move element="page.main.title" destination="product.info.main" before="-" />
+        <move element="digimarket.side.banner.ads" destination="product.info.main" before="page.main.title" />
         <move element="product.info.sku" destination="product.info.price" before="-"/>
         <move element="product.info.stock.sku" destination="product.info.price" after="-" />
         <move element="product.info.main" destination="product.view.top" after="-" />
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         <move element="frequently.bought.with" destination="content" before="-"/>
+        <move element="digimarket.product.page" destination="content" before="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" />
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
@@ -176,7 +193,6 @@
         <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
         <move element="product.info.options.wrapper" destination="product.info.options.wrapper.bottom" after="product.info.addtocart.additional"/>
-        <move element="product.info.marketplacer" destination="product.info.main" after="page.main.title" />
-        
+        <move element="product.info.marketplacer" destination="product.info.main" after="page.main.title" />       
     </body>
 </page>

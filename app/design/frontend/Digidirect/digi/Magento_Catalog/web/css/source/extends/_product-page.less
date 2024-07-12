@@ -379,7 +379,7 @@
         }
 
         .current-price-wrapper{
-            position: relative;
+            position: relative !important;
             padding-right: 0 !important;
         }
 
@@ -432,11 +432,11 @@
             margin-bottom: 0 !important;
             position: relative;
             left: 0;
-            padding-top: 15px !important;
+            padding-top: 5px !important;
             margin-top: 0 !important;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            padding-bottom: 15px;
+            padding-bottom: 5px;
         }
 
         .product-info-stock-sku{
@@ -1331,7 +1331,7 @@
     //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "0% Interest for 6 Months";
+        content: "Interest free, flexible repayments";
     }
 
     .zip-container:last-child:after {
@@ -1632,18 +1632,19 @@
     
     .catalog-product-view .section-center .product-basic > .media-area > .media {
         padding: 0 !important;
-        height: 550px;
+        //height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
-        margin: 20px;
+        margin-top: 0;
+        padding: 20px;
         max-width: unset;
-        //display: none;
+        border: 1px solid #cacaca;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
         margin: auto;
-        height: 550px;
+        //height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
@@ -1704,7 +1705,7 @@
     }
     
     .product-section.column.main {
-        margin-bottom: 80px !important;
+        //margin-bottom: 80px !important;
     }
     
     .fotorama__nav-wrap--horizontal {
@@ -1891,6 +1892,7 @@
     
     .brand-new-price-wrapper.old-price-wrapper {
         padding-top: 10px !important;
+        border-right: none;
     }
     
     .brand-new-price.old-price, .refurb-price.old-price {
@@ -2204,7 +2206,7 @@
         color: #cacaca;
     }
     
-    .testfreaks-badge {
+    .catalog-product-view .testfreaks-badge {
         z-index: 0 !important;
     }
     
@@ -2226,7 +2228,7 @@
 
     .row-first {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         column-gap: 5px;
     }
     
@@ -2234,12 +2236,24 @@
         border: 1px solid #cacaca;
         border-radius: 5px;
     }
+    
+    .row-second {
+        padding-top: 14px;
+        border: none !important;
+    }
+    
+    .row-second #zip-custom {
+        border: 1px solid #aa8fff;
+        border-radius: 5px;
+        padding: 0 !important;
+    }
 
     .credit-cards {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
         align-items: center;
-        padding: 0 5px;
+        width: 115px;
+        margin: 0 auto;
     }
 
     .credit-cards img {
@@ -2251,11 +2265,17 @@
         margin-right: auto;
     }
     
+    .payment-gateways .paypal-buttons {
+        height: unset !important;
+        margin-top: -5px;
+    }
+    
     #paypal-custom {
         border-radius: 20px;
         padding: 2px;
         background: #FFC439;
         border: none;
+        z-index: 1;
     }
 
     #paypal-custom:hover {
@@ -2279,22 +2299,34 @@
         background-size: contain;
         width: 75px;
         margin-top: 4px;
+        display: none;
     }
     
     .zip-caption {
-        text-align: center;
-        line-height: 10px;
-        margin-top: 1px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
     }
     
     .zip-interest {
-        font-size: 8px;
+        font-size: 10px;
+        margin-top: 10px;
+        text-align: center;
     }
     
     .zip-apply-now {
         font-size: 10px;
         font-weight: 600;
         color: #e40301;
+        margin-top: 9px;
+        margin-right: 20px;
+        margin-left: auto;
+    }
+    
+    .zip-logo-pg {
+        width: 75px;
+        margin-right: auto;
+        margin-left: 5px;
     }
     
     .payment-gateways-bottom {
@@ -2303,7 +2335,7 @@
     
     .row-bottom {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         column-gap: 5px;
     }
 
@@ -2564,7 +2596,7 @@
         color: #fff !important;
     }
     
-    .short-desc {
+    .short-desc-container .short-desc {
         text-align: left !important;
         overflow: hidden;
         display: -webkit-box;
@@ -2573,7 +2605,7 @@
         height: auto !important;
     }
 
-    .short-desc * {
+    .short-desc-container .short-desc * {
         font-size: 13px !important;
     }
 
@@ -2590,6 +2622,7 @@
         margin: 10px 0;
         font-weight: 500;
         color: #ff6602;
+        cursor: pointer;
     }   
     
     .fotorama__arr {
@@ -2600,10 +2633,59 @@
         margin-bottom: 0 !important;
     }
     
-    .mrkt-product-info-seller {
-        margin-bottom: 10px;
+    .fotorama__nav-wrap--vertical .fotorama__nav__shaft {
+        max-height: 565px !important;
+        overflow: scroll;
     }
     
+    .mrkt-product-info-seller {
+        margin-bottom: 10px;
+        line-height: 25px;
+    }
+    
+    .fotorama__nav__frame.fotorama__nav__frame--thumb.fotorama__active {
+        border: 1px solid #ff6602;
+    }
+    
+    .short-desc-container {
+        margin-top: 20px;
+    }
+
+    .short-desc-container a:hover {
+        text-decoration: none !important;
+    }
+    
+    .product.media .digiseconds-overlay {
+        //margin-left: 110px;
+    }
+    
+    .mrkt-product-info-seller .name {
+        font-size: 11px;
+    }
+    
+    .latitudepayments-popup {
+        display: none;
+    }
+    
+    .catalog-product-view .discount-price-wrapper {
+        display: none;
+    }
+    
+    //Hide Tabs On digiPrint
+    .digiprint-product .whatinthebox {
+        display: none !important;
+    }
+    .digiprint-product .reviews {
+        display: none !important;
+    }
+    .digiprint-product .qa {
+        display: none !important;
+    }
+    
+    .product-info-main .msiavailability-wrapper {
+        display: none !important;
+    }
+
 }
 
 //Redeploy
@@ -2725,6 +2807,13 @@
         .gallery-placeholder {
             max-width: 480px;
         }
+        
+        .catalog-product-view.category-digiseconds .product-item:nth-child(even), 
+        .catalog-product-view.category-openbox .product-item:nth-child(even), 
+        .catalog-product-view.category-preloved .product-item:nth-child(even), 
+        .catalog-product-view.category-refurb .product-item:nth-child(even)  {
+            margin-left: 0 !important;
+        }
     }
 }
 
@@ -2773,7 +2862,7 @@
 & when (@media-target = 'desktop'), (@media-target = 'all') {
     @media only screen and (min-width: 1280px) {
         .product-info-main .page-title-wrapper.product {
-            margin-left: -70px !important;
+            //margin-left: -70px !important;
         }
     }
 }
@@ -2790,8 +2879,8 @@
         }
 
         .paypal-buttons {
-            min-width: unset !important;
-            min-height: unset !important;
+            //min-width: unset !important;
+            //min-height: unset !important;
             overflow: hidden;
         }
 
@@ -3005,7 +3094,7 @@
 
     .zip-container span:first-of-type:before {
         visibility: visible !important;
-        content: "0% Interest for 6 Months" !important;
+        content: "Interest free, flexible repayments" !important;
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;
@@ -3076,7 +3165,7 @@
     }
 
     .media-area {
-        width: 60%;
+        width: 55%;
         flex-grow: 1;
         padding: 40px 50px 0;
     }
@@ -3098,8 +3187,8 @@
             margin: 0;
             padding: 0 !important;
             margin-top: -7px !important;
-            margin-left: -70px;
-            margin-bottom: 15px !important;
+            //margin-left: -70px;
+            //margin-bottom: 15px !important;
             
             
 
@@ -3233,7 +3322,7 @@
             flex-grow: 1;
             width: 60%;
             padding: 10px 60px;
-            border: 1px solid #cacaca;
+            //border: 1px solid #cacaca;
         }
     }
 
@@ -3782,7 +3871,7 @@
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media {
-        height: 350px !important;
+        //height: 350px !important;
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media>.gallery-placeholder>.fotorama>.fotorama__wrap>.fotorama__stage {
@@ -3836,7 +3925,10 @@
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
-        margin: 1px 0 !important;
+        //margin: 1px 0 !important;
+        height: 350px;
+        border: none !important;
+        padding: 0 !important;
     }
     
     .fotorama__active .fotorama__dot {
@@ -3963,8 +4055,8 @@
     }
 
     .paypal-buttons {
-        min-width: unset !important;
-        min-height: unset !important;
+        //min-width: unset !important;
+        //min-height: unset !important;
         overflow: hidden;
         max-height: 30px;
     }
@@ -4047,6 +4139,19 @@
     
     .mrkt-product-info-seller {
         margin-bottom: 0 !important;
+        margin-top: 10px;
+    }
+    
+    .product.media .digiseconds-overlay {
+        margin-left: 0 !important;
+    }
+    
+    .media-area {
+        margin-top: 10px;
+    }
+    
+    .catalog-product-view .current-price-wrapper.no-special-price {
+        left: unset !important;
     }
     
     
@@ -4066,7 +4171,7 @@
         //width: 40%;
         //padding: 30px 56px 0 0;
         width: 40% !important;
-        padding: 0 50px 0 100px !important;
+        padding: 0 25px 0 80px !important;
         max-width: 547px !important;
         
         float: unset;

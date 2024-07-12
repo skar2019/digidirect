@@ -14,6 +14,7 @@
         <move element="minicart" destination="main-header-wrapper" after="header.content.links"/>
         <!--    <move element="form.subscribe" destination="footer" />
         <move element="digi.footer.partners" destination="form.subscribe" />-->
+        
         <referenceContainer name="header.panel.wrapper" remove="true" />
         <referenceContainer name="header.panel" remove="true" />
         

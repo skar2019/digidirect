@@ -234,6 +234,15 @@
             }
         }
     }
+    
+    .filter-current ol li:not(:last-child) {
+        display: none;
+    }
+    
+    .show-more-options, .show-less-options {
+        text-align: center;
+        cursor: pointer;
+    }
 }
 
 //
@@ -283,6 +292,7 @@
     .page-products {
         .sidebar-main .filter.block {
             margin-bottom: 0;
+            width: 230px;
         }
     }
 

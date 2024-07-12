@@ -1,78 +1,46 @@
+<?php 
+    $currentUrl = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+    $order = 'product_list_order';
+    $dir = 'product_list_dir';
+    $and = '&&';
+    $filteredURL = preg_replace('~(\?|&)'.$order.'=[^&]*~', '', $currentUrl);
+    $filteredURL = preg_replace('~(\?|&)'.$dir.'=[^&]*~', '', $filteredURL);
+    $filteredURL = preg_replace('~(\?)'.$and.'=[^&]*~', '', $filteredURL);
+    $separator = (str_contains($filteredURL, '?')) ? '&' : '?';
+    
+    $urlProductNameAsc = $filteredURL . $separator . 'product_list_order=name&product_list_dir=asc';
+    $urlProductNameDesc = $filteredURL . $separator . 'product_list_order=name&product_list_dir=desc';
+    $urlPriceLowToHigh = $filteredURL . $separator . 'product_list_order=price&product_list_dir=asc';
+    $urlPriceHighToLow = $filteredURL . $separator . 'product_list_order=price&product_list_dir=desc';
+?>
+
 <div class="custom-sorter">
-    <div id="custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
-    <div id="custom-new-products"><i class="fas fa-star-of-life"></i>  New Products</div>
-    <div id="custom-best-sellers"><i class="fas fa-star"></i>  Best Sellers</div>
-    <div id="custom-product-name-asc"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</div>
-    <div id="custom-product-name-desc"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</div>
-    <div id="custom-price-asc"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</div>
-    <div id="custom-price-desc"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</div>
+    <div id="custom-product-name-asc"><a href="<?= $urlProductNameAsc ?>"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</a></div>
+    <div id="custom-product-name-desc"><a href="<?= $urlProductNameDesc ?>"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</a></div>
+    <div id="custom-price-asc"><a href="<?= $urlPriceLowToHigh ?>"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</a></div>
+    <div id="custom-price-desc"><a href="<?= $urlPriceHighToLow ?>"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</a></div>
 </div>
 
-<script>
-    require([
-        'jquery'
-    ],
-    function ($) {
-  
-        $("#custom-most-viewed").click(function() {
-            $('#sorter').val('most_viewed').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-most-viewed").addClass("custom-selected");
-        });
-        
-        $("#custom-new-products").click(function() {
-            $('#sorter').val('latest').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-new-products").addClass("custom-selected");
-        });
-        
-        $("#custom-best-sellers").click(function() {
-            $('#sorter').val('best_sellers').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-best-sellers").addClass("custom-selected");
-        });
-        
-        $("#custom-product-name-asc").click(function() {
-            $('#sorter').val('product_name_asc').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-product-name-asc").addClass("custom-selected");
-        });
-        
-        $("#custom-product-name-desc").click(function() {
-            $('#sorter').val('product_name_desc').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-product-name-desc").addClass("custom-selected");
-        });
-        
-        $("#custom-price-asc").click(function() {
-            $('#sorter').val('price_lowest_first').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-price-asc").addClass("custom-selected");
-        });
-        
-        $("#custom-price-desc").click(function() {
-            $('#sorter').val('price_highest_first').trigger('change');
-            $(".custom-sorter div").removeClass("custom-selected");
-            $("#custom-price-desc").addClass("custom-selected");
-        });
-        
-        $("#custom-most-viewed").addClass("custom-selected");
-        
-        
-    });
-</script>
-
 <style>
-    
     .custom-sorter {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         border: 1px solid #cacaca;
-        margin-left: -57px;
-        max-width: 1093px;
+        //margin-left: -57px;
+        //max-width: 1093px;
         justify-items: center;
-        margin-top: 12px;
+        //margin-top: 12px;
         cursor: pointer;
+        width: 100%;
+    }
+    
+    .custom-sorter a {
+        color: #727272;
+        text-decoration: none;
+    }
+    
+    .custom-sorter div:hover a {
+        color: #fff;
     }
     
     .custom-sorter div {

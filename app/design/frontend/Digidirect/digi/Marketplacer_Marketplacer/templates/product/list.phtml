@@ -1,6 +1,7 @@
 <?php
 use Magento\Framework\App\Action\Action;
 ?>
+
 <?php
 /**
  * Product list template
@@ -16,7 +17,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
 
 ?>
-<?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+<?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php
 $currentPage = $this->getRequest()->getFullActionName();
@@ -52,7 +53,7 @@ if ($currentPage != "catalogsearch_result_index") {
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?> product-count-<?= $_productCollection->count(); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -76,6 +77,17 @@ if ($currentPage != "catalogsearch_result_index") {
                 $secondsSavings = "";
 
                 $finalProductPrice = $_product->getFinalPrice();
+                $originalPrice = $_product->getPrice();
+                $marketplacesPrice = $_product->getMarketplacesPrice();
+                $wiserPrice = $_product->getData('wiser_price');
+                
+                $hasDiscountClass = "";
+                $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                $discountWiserPrice = 0;
+                if (!is_null($wiserPrice)) {
+                    $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                }
+                
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
 
@@ -121,7 +133,7 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $productUrl = $_product->getProductUrl();
                 
-                if ($currentPage == "eaa_attribute_option_index") {
+                /*if ($currentPage == "eaa_attribute_option_index") {
                     $explode1 = explode("/catalog/product/view/id", $productUrl);
                     $baseUrl = $explode1[0];
                     $explode2 = explode("/s/", $productUrl);
@@ -129,21 +141,16 @@ if ($currentPage != "catalogsearch_result_index") {
                     $explode3 = explode("/category/2", $explode2[1]);
                     $seoUrl = $explode3[0];
                     $productUrl = $baseUrl . "/" . $seoUrl;
-                }
+                }*/
 
                 ?>
-                <!-- <//?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?> -->
-                
+
                 <?php if ($is_digiPrint == 1): ?>
-
-                    <?= /* @escapeNotVerified */ '<li class="item product product-item test-class digiprint-product">' ?>
-
+                    <?= /* @escapeNotVerified */ '<li class="item product product-item digiprint-product">' ?>
                 <?php else: ?>
-
-                    <?= /* @escapeNotVerified */ '<li class="item product product-item test-class">' ?>
-
+                    <?= /* @escapeNotVerified */ '<li class="item product product-item">' ?>
                 <?php endif; ?>
-                
+
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
                      data-container="product-grid"
                      data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
@@ -159,11 +166,32 @@ if ($currentPage != "catalogsearch_result_index") {
                     <?php ?>
                     <a href="<?= $block->escapeUrl($productUrl); ?>"
                        title="<?= $block->escapeHtml($productName); ?>"
-                       class="product photo product-item-photo"
+                       class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
+                        
+                        <?php if ($is_digiPrint == 1): ?>
+                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <div class="digideals-overlay">
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <div class="digideals-overlay">
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
-                                <div class="digiseconds-overlay">
+                                <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                     <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
@@ -279,6 +307,12 @@ if ($currentPage != "catalogsearch_result_index") {
                             echo $block->getReviewsSummaryHtml($_product);
                             ?>
                         </div>
+                        <?= $this->getLayout()
+                            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                            ->setProduct($_product)
+                            ->toHtml();
+                        ?>
                         <?php if($blockMode === 'grid'):?>
                             <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
                                 <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
@@ -334,7 +368,7 @@ if ($currentPage != "catalogsearch_result_index") {
                                         <button type="submit"
                                                 title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
                                                 class="action tocart primary">
-                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
                                         </button>
                                     </form>
                                     <?php endif; ?>
@@ -398,7 +432,7 @@ if ($currentPage != "catalogsearch_result_index") {
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-                <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+                <?= /* @escapeNotVerified */ '</li>'?>
             <?php endforeach; ?>
         </ol>
     </div>

@@ -11,9 +11,9 @@ $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
 ?>
 <?php if ($block->isListPageMode()): ?>
-    <div class="blog-list blog-pg blogger blogjai1">
+    <div class="blog-list blog-pg blogger">
         <?php foreach ($block->getCollection() as $post): ?>
-            <article class="post-card item blogjai2">
+            <article class="post-card item">
                 <?php if (!empty($post->getImageUrl())): ?>
                 <a class="img-link" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>">
                     <picture>
@@ -22,12 +22,12 @@ $categoriesArrayNames = [];
                     </picture>
                 </a>
                 <?php endif; ?>
-                <div class="container blogjai3">
+                <div class="container">
                     <?php if ($block->isShowCategoryNames()) : ?>
                         <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
                         <?php $categoriesTitlesCount = count($categoriesArray); ?>
                         <?php if ($categoriesTitlesCount) : ?>
-                            <div class="categories blogjai3">
+                            <div class="categories">
                                 <?php /** @var $category \Digidirect\Blog\Model\Category*/ ?>
                                 <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
                                     <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
@@ -37,27 +37,21 @@ $categoriesArrayNames = [];
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <h2 class="title blogjai4">
+                    <h2 class="title">
                         <a class="link" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php echo $block->escapeHtml($post->getTitle()); ?>">
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
                     </h2>
-                    
-                    <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
-                        <div class="posted">
-                            <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
-                            <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
-                        </div>
-                    <?php endif; ?>
 
                     <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
 
-                    <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
-                        <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
+                    <!-- <a class="more" href="<//?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<//?php /* @escapeNotVerified */ echo __('Read More') ?>">
+                        <span class="more-title"><//?php /* @escapeNotVerified */ echo __('Read More') ?></span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
-                        </svg>
-                    </a>
+                        </svg> 
+                    </a> -->
+
                     <?php if($post->getTags()): ?>
                         <div class="tags">
                             <span class="label"><?php /* @escapeNotVerified */ echo __('Tags: ') ?></span>
@@ -66,6 +60,14 @@ $categoriesArrayNames = [];
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
+
+                    <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
+                        <div class="posted">
+                            <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
+                            <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
 
                 <a class="thumb" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>"></a>
@@ -118,20 +120,16 @@ $categoriesArrayNames = [];
                         <?php echo $block->escapeHtml($post->getTitle()); ?>
                     </a>
                 </h2>
-                    <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
-                        <div class="posted">
-                            <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
-                            <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
-                        </div>
-                    <?php endif; ?>
+
                 <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
 
-                    <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
-                        <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
+                    <!-- <a class="more" href="<//?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<//?php /* @escapeNotVerified */ echo __('Read More') ?>">
+                        <span class="more-title"><//?php /* @escapeNotVerified */ echo __('Read More') ?></span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
                         </svg>
-                    </a>
+                    </a> -->
+
                 <?php if($post->getTags()): ?>
                     <div class="tags">
                         <span class="label"><?php /* @escapeNotVerified */ echo __('Tags: ') ?></span>
@@ -140,6 +138,14 @@ $categoriesArrayNames = [];
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
+
+                <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
+                        <div class="posted">
+                            <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
+                            <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
+                        </div>
+                <?php endif; ?>
+
                 </div>
 
                 <a class="thumb" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>"></a>
@@ -154,7 +160,7 @@ $categoriesArrayNames = [];
     
 <?php if ($block->showPager() == true): ?>
 <div class="toolbar blog-toolbar">
-    <div class="pager">  
+    <div class="pager" id="blogPager">  
         <div class="pages">
             <strong class="label pages-label" id="paging-label">Page</strong> 
             <ul class="items pages-items" aria-labelledby="paging-label">    
