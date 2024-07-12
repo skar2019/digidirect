@@ -37,7 +37,7 @@ class Content extends Template {
     public function getAllFiles() {
         $paths = [];
         try {
-            $path = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR). '/export/email/';
+            $path = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR). '/export/';
             //read just that single directory
             $paths =  $this->driverFile->readDirectory($path);
         } catch (FileSystemException $e) {

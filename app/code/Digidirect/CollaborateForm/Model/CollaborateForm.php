@@ -2,7 +2,7 @@
 
 namespace Digidirect\CollaborateForm\Model;
 
-class CollaborateForm extends \Magento\Framework\Model\AbstractModel
+class Cform extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Initialize resource model

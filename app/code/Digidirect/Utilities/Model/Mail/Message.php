@@ -17,12 +17,12 @@ class Message implements \Magento\Framework\Mail\MessageInterface
     private $zendMessage;
 
     /**
-     * @var \Zend\Mime\Part[]
+     * @var \Laminas\Mime\Part[]
      */
     protected $parts = [];
 
     /**
-     * Could not use in constructor Zend\Mime and Zend\Mail - there are no such packages in 2.2.7-.
+     * Could not use in constructor Laminas\Mime and Zend\Mail - there are no such packages in 2.2.7-.
      *
      * @param string $charset
      */
@@ -41,10 +41,10 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyText($content)
     {
-        $textPart = new \Zend\Mime\Part();
+        $textPart = new \Laminas\Mime\Part();
 
         $textPart->setContent($content)
-            ->setType(\Zend\Mime\Mime::TYPE_TEXT)
+            ->setType(\Laminas\Mime\Mime::TYPE_TEXT)
             ->setCharset($this->zendMessage->getEncoding());
 
         $this->parts[] = $textPart;
@@ -60,10 +60,10 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyHtml($content)
     {
-        $htmlPart = new \Zend\Mime\Part();
+        $htmlPart = new \Laminas\Mime\Part();
 
         $htmlPart->setContent($content)
-            ->setType(\Zend\Mime\Mime::TYPE_HTML)
+            ->setType(\Laminas\Mime\Mime::TYPE_HTML)
             ->setCharset($this->zendMessage->getEncoding());
 
         $this->parts[] = $htmlPart;
@@ -81,13 +81,13 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyAttachment($content, $fileName, $fileType)
     {
-        $attachmentPart = new \Zend\Mime\Part();
+        $attachmentPart = new \Laminas\Mime\Part();
 
         $attachmentPart->setContent($content)
             ->setType($fileType)
             ->setFileName($fileName)
-            ->setDisposition(\Zend\Mime\Mime::DISPOSITION_ATTACHMENT)
-            ->setEncoding(\Zend\Mime\Mime::ENCODING_BASE64);
+            ->setDisposition(\Laminas\Mime\Mime::DISPOSITION_ATTACHMENT)
+            ->setEncoding(\Laminas\Mime\Mime::ENCODING_BASE64);
 
         $this->parts[] = $attachmentPart;
 
@@ -101,7 +101,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setPartsToBody()
     {
-        $mimeMessage = new \Zend\Mime\Message();
+        $mimeMessage = new \Laminas\Mime\Message();
         $mimeMessage->setParts($this->parts);
         $this->zendMessage->setBody($mimeMessage);
 
@@ -229,12 +229,12 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function createAttachment(
         $body,
-        $mimeType = \Zend\Mime\Mime::TYPE_OCTETSTREAM,
-        $disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT,
-        $encoding = \Zend\Mime\Mime::ENCODING_BASE64,
+        $mimeType = \Laminas\Mime\Mime::TYPE_OCTETSTREAM,
+        $disposition = \Laminas\Mime\Mime::DISPOSITION_ATTACHMENT,
+        $encoding = \Laminas\Mime\Mime::ENCODING_BASE64,
         $filename = null
     ) {
-        $attachmentPart = new \Zend\Mime\Part();
+        $attachmentPart = new \Laminas\Mime\Part();
 
         $attachmentPart->setContent($body)
             ->setType($mimeType)

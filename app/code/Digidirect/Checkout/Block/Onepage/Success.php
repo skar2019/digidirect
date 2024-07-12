@@ -2,8 +2,7 @@
 
 namespace Digidirect\Checkout\Block\Onepage;
 
-use
-    Magento\Customer\Model\Context;
+use Magento\Customer\Model\Context;
 use Magento\Sales\Model\Order;
 
 
@@ -129,8 +128,7 @@ class Success extends \Magento\Framework\View\Element\Template
         return $this->_storeManager->getStore()->getBaseUrl();
     }
 
-    public function testBlock()
-    {
-        return "tec";
+    public function getRealOrderDetail() {
+        return $this->_checkoutSession->getLastRealOrder();
     }
 }

@@ -22,15 +22,13 @@ $showWishlist = true;
             <span class="base" data-ui-id="page-title-wrapper">digiMarket</span>
         </h1> 
     </div>
-    <div class="page-main">
-        <div class="category-image">
-            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digimarket-banner.png" alt="Sale" title="Sale" class="image">
-        </div>
+    <div class="category-image">
+        <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digimarket-banner.png" alt="Sale" title="Sale" class="image">
     </div>
 </div>
 
 <div class="inner-search-container">
-    <input id="inner-search" type="text" placeholder="Search digiMarket" class="input-text" maxlength="128" autocomplete="off">
+    <input id="inner-search" type="text" placeholder="Explore Over 20 000 Products Including Fitness, Music, Home, Electronics, Toys and MORE!" class="input-text" maxlength="128" autocomplete="off">
     <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
 </div>
 
@@ -91,6 +89,18 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $brandNewProductPrice = "";
                 $brandNewProductUrl = "";
                 $secondsSavings = "";
+                
+                $finalProductPrice = $_product->getFinalPrice();
+                $originalPrice = $_product->getPrice();
+                $marketplacesPrice = $_product->getMarketplacesPrice();
+                $wiserPrice = $_product->getData('wiser_price');
+                $hasDiscountClass = "";
+                
+                $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                $discountWiserPrice = 0;
+                if (!is_null($wiserPrice)) {
+                    $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                }
 
                 $finalProductPrice = $_product->getFinalPrice();
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
@@ -167,9 +177,19 @@ $currentPage = $this->getRequest()->getFullActionName();
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
+                        
+                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                            <?php 
+                                $hasDiscountClass = "has-discount";
+                            ?>
+                            <div class="digideals-overlay">
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                            </div>
+                        <?php endif; ?>
+                        
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
-                                <div class="digiseconds-overlay">
+                                <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                     <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
@@ -330,7 +350,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                                         <button type="submit"
                                                 title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
                                                 class="action tocart primary">
-                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
                                         </button>
                                     </form>
                                     <?php endif; ?>

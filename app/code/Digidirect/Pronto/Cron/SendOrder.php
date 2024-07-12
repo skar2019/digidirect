@@ -12,7 +12,7 @@ class SendOrder
     protected $logger;
 
     /**
-     * @var Inventory
+     * @var Order
      */
     protected $helper;
 
@@ -27,13 +27,21 @@ class SendOrder
     public function execute()
     {
         //$this->helper->orderPost();
+        exit;
 
     }
 
     public function sendOrder()
     {
+        exit;
         $this->helper->orderPost();
 
     }
 
+    public function sendProcessingOrder()
+    {
+        exit;
+        $this->helper->orderProcessing();
+    }
+    //redeploy
 }

@@ -1,6 +1,0 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Framework\File\Uploader">
-        <plugin sortOrder="1" name="SvgUploader" type="Digidirect\SvgUploader\Plugin\File\UploaderPlugin"/>
-    </type>
-</config>

@@ -54,7 +54,7 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements TagInterface
      */
     public function getUrl()
     {
-        return $this->urlModel->getTagUrl($this->getName());
+        return rtrim($this->urlModel->getTagUrl($this->getName()), '/');
     }
 
     /**

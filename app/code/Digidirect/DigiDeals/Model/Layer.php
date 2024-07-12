@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MyCustomCollection
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
 namespace Digidirect\DigiDeals\Model;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
@@ -45,13 +53,14 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (!$this->_stateKey) {
             $this->_stateKey = $this->stateKeyGenerator->toString($this->getCurrentCategory());
         }
-        $this->logger->info("this->_stateKey: " . $this->_stateKey); 
+        //$this->logger->info("this->_stateKey: " . $this->_stateKey); 
         return $this->_stateKey;
     }
     
     public function getProductCollection()
     {
-        $defaultCategory = 2;
+        //$defaultCategory = 2;
+        $defaultCategory = 17;
         $productIdsArray = [];
         
         if (isset($this->_productCollections[$defaultCategory])) {
@@ -62,29 +71,11 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            //$collection->addMinimalPrice()->addFinalPrice();
-            //$collection->getSelect()->where("price_index.final_price < price_index.price");
+            $collection->addMinimalPrice()->addFinalPrice();
+            $collection->getSelect()->where("price_index.final_price < price_index.price")->orderRand();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
         }
-        
-        /*foreach ($collection as $product) {
-            $this->logger->info("Product: " . $product->getId());
-            if (!in_array($product->getId(), $productIdsArray))  {
-                array_push($productIdsArray, $product->getId());
-            }
-        }
-        
-        if (isset($this->_productCollections[$defaultCategory])) {
-            $collection = $this->_productCollections[$defaultCategory];
-        } else {
-            $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
-            $collection->addAttributeToSelect('*');
-            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter("entity_id", ["in"=>$productIdsArray]);
-        }*/
-        
         return $collection;
     }
     

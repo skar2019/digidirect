@@ -2,7 +2,7 @@
     "name": "magento/magento-cloud-template",
     "description": "eCommerce Platform for Growth (Enterprise Edition)",
     "type": "project",
-    "version": "2.4.4",
+    "version": "2.4.6",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -11,10 +11,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
+            "laminas/laminas-dependency-plugin": true,
+            "magento/composer-dependency-version-audit-plugin": true,
             "magento/magento-composer-installer": true,
             "magento/inventory-composer-installer": true,
-            "laminas/laminas-dependency-plugin": true,
-            "magento/composer-dependency-version-audit-plugin": true
+            "magento/composer-root-update-plugin": true
         }
     },
     "repositories": {
@@ -24,21 +25,20 @@
         }
     },
     "require": {
-        "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
-        "magento/product-enterprise-edition": "2.4.4-p9",
+        "classyllama/module-zendesk": "1.1.11",
+        "laminas/laminas-zendframework-bridge": "^1.8",
+        "livechat/module-magento-livechat": "dev-master",
+        "magento/composer-root-update-plugin": "~2.0",
+        "magento/extension-b2b": "^1.3",
+        "magento/magento-cloud-metapackage": "2.4.6",
+        "magento/zendframework1": "^1.15",
         "marketplacer/magento2-plugin-metapackage": "^2.2",
         "marketplacer/magento2-plugin-seller-shipping": "^1.0",
-        "vlucas/valitron": "^1.4"
-    },
-    "replace": {
-        "klevu/module-mysqlcompat": "*",
-        "magento/module-paypal": "*"
-    },
-    "suggest": {
-        "ext-pcntl": "Need for run processes in parallel mode"
-    },
-    "conflict": {
-        "gene/bluefoot": "*"
+        "swissup/attributepages": "^1.5",
+        "swissup/delete-orders": "^1.2",
+        "swissup/module-marketplace": "^1.10",
+        "vlucas/valitron": "^1.4",
+        "zendesk/zendesk_api_client_php": "^2.2"
     },
     "autoload": {
         "psr-4": {

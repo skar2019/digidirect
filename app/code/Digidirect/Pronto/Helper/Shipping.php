@@ -11,18 +11,18 @@ use Psr\Log\LoggerInterface;
 
 class Shipping extends AbstractHelper
 {
- 
+
     /**
     * @var Curl
     */
     protected $curl;
-    
+
     protected $_orderCollectionFactory;
     /**
      * @var OrderResource
      */
     protected $orderResource;
-    
+
     public function __construct(
                         Curl $curl,
                         OrderResource $orderResource,
@@ -38,7 +38,7 @@ class Shipping extends AbstractHelper
 
     }
 
-    public function getShipping($pronto) 
+    public function getShipping($pronto)
     {
         //get order data
         $orders = $this->getOrderCollection($pronto);
@@ -48,13 +48,13 @@ class Shipping extends AbstractHelper
         //    $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
-            
+
         //    if ($order->getState() == 'canceled') {
         //        continue;
         //    }
-            
+
         //    $prontoOrderNumber = $order->getData('pronto_order_number');
-            
+
             $this->logger->info('Pronto Order Shipping - '.$pronto);
 
             //TEST
@@ -64,7 +64,7 @@ class Shipping extends AbstractHelper
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
-            
+
             $this->curl->addHeader("Content-Type", "application/json");
             $this->curl->addHeader("Accept", "application/json");
             $this->curl->addHeader("compcode", "DIG"); //LIVE
@@ -74,10 +74,12 @@ class Shipping extends AbstractHelper
             //$this->curl->addHeader("compcode", "UA1"); //test
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+            $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
             $this->curl->get($url);
 
             $result = $this->curl->getBody();
-            
+
             if(!empty($result))
             {
 
@@ -114,27 +116,27 @@ class Shipping extends AbstractHelper
                     } else {
                         $this->logger->info('Cannot update Order Manifest Number');
                     }
-                    
+
                 }
             }
-            else 
+            else
             {
                 echo "no result";
             }
         }
-        
-    }   
-    
+
+    }
+
     public function getOrderCollection($pronto)
     {
-        
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('eq' => $pronto));
      return $collection;
-     
+
     }
-    
+
     public function getBulkOrderCollection()
     {
         $now = new \DateTime();
@@ -148,9 +150,9 @@ class Shipping extends AbstractHelper
             ->addFieldToFilter('created_at', array('lteq' => $toDate))
             ->setOrder('created_at', 'asc')
             ->setPageSize(25);
-        
+
      return $collection;
-     
+
     }
-    
-}      
+
+}

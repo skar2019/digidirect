@@ -14,7 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Digidirect\Digi\Helper\AbstractAttribute;
-use \Zend\Uri\Http as ZendUrlParser;
+use \Laminas\Uri\Http as ZendUrlParser;
 use \Digidirect\LayeredNavigation\Helper\UrlParser;
 
 /**
@@ -218,10 +218,11 @@ class SeoBrandDescription
             $this->pageConfig->setRobots($robotsMetaData);
             $this->setCanonical($this->getCanonicalUrl());
 
-            if (!$this->seoBrandEntity || !$this->seoBrandEntity->getMetaTitle()) {
-                $brandName = $this->getBrandLabel($this->getCurrentOption());
-                $this->setDefaultMetaTitle($brandName);
-            }
+            //clint comment out Nov 9, 2023
+//            if (!$this->seoBrandEntity || !$this->seoBrandEntity->getMetaTitle()) {
+//                $brandName = $this->getBrandLabel($this->getCurrentOption());
+//                $this->setDefaultMetaTitle($brandName);
+//            }
         } else {
             if ($this->isFiltered()) {
                 $this->setMetaTitle(

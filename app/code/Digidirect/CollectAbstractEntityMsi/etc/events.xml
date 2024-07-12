@@ -5,7 +5,7 @@
     <!-- Validate selected collect place for availability  -->
     <event name="digidirect_collect_before_apply_collect_place_to_items">
         <observer name="digidirect_collect_add_availability_to_collect_place"
-                  instance="Digidirect\CollectAbstractEntityMSI\Observer\Collect\ValidateCollectPlaceMsiSource" />
+                  instance="Digidirect\CollectAbstractEntityMsi\Observer\Collect\ValidateCollectPlaceMsiSource" />
     </event>
 
 </config>

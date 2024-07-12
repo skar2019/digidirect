@@ -1,13 +1,13 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMSI\Helper;
+namespace Digidirect\CollectAbstractEntityMsi\Helper;
 
-use Digidirect\CollectAbstractEntityMSI\Api\Data\CollectFields\Constants;
+use Digidirect\CollectAbstractEntityMsi\Api\Data\CollectFields\Constants;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 
 /**
  * Class Data
- * @package Digidirect\CollectAbstractEntityMSI\Helper
+ * @package Digidirect\CollectAbstractEntityMsi\Helper
  */
 class Data extends AbstractHelper
 {

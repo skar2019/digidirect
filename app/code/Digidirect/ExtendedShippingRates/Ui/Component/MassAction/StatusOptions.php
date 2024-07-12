@@ -1,7 +1,7 @@
 <?php
 namespace Digidirect\ExtendedShippingRates\Ui\Component\MassAction;
 
-use Zend\Stdlib\JsonSerializable;
+use Laminas\Stdlib\JsonSerializable;
 use Magento\Framework\UrlInterface;
 
 class StatusOptions implements JsonSerializable

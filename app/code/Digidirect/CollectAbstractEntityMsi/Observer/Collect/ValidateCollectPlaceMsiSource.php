@@ -1,17 +1,17 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMSI\Observer\Collect;
+namespace Digidirect\CollectAbstractEntityMsi\Observer\Collect;
 
 use Digidirect\Collect\Api\Data\CollectPlaceInterface;
 use Digidirect\Collect\Helper\Data;
 use Digidirect\Collect\Model\AddToCart\CollectException;
-use Digidirect\CollectAbstractEntityMSI\Model\MsiAvailability;
+use Digidirect\CollectAbstractEntityMsi\Model\MsiAvailability;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Quote\Model\Quote\Item;
 
 /**
  * Class ValidateCollectPlaceMsiSource
- * @package Digidirect\CollectAbstractEntityMSI\Observer\Collect
+ * @package Digidirect\CollectAbstractEntityMsi\Observer\Collect
  */
 class ValidateCollectPlaceMsiSource implements ObserverInterface
 {

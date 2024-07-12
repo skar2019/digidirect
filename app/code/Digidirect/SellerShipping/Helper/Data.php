@@ -49,6 +49,8 @@ class Data extends AbstractHelper
             //$this->logger->info('getSku: ' . $product->getSku());
             //$this->logger->info('getName: ' . $product->getName());
             //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
+            //$this->logger->info('getBrand: ' . $product->getBrand());
+            //$this->logger->info('getData(brand): ' . $product->getData('brand'));
             
             $seller = $product->getAttributeText('marketplacer_seller');
             
@@ -107,10 +109,10 @@ class Data extends AbstractHelper
             $nonDigidirectSeller = $nonDigidirectSeller + $standardShipping;
         }*/
         
-        $this->logger->info('$digidirectSellerCount: ' . $digidirectSellerCount);
-        $this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
-        $this->logger->info('$digidirectSeller: ' . $digidirectSeller);
-        $this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
+        //$this->logger->info('$digidirectSellerCount: ' . $digidirectSellerCount);
+        //$this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
+        //$this->logger->info('$digidirectSeller: ' . $digidirectSeller);
+        //$this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
         
         $sellerTotalShipping = $nonDigidirectSeller;
         //$sellerCount = count($sellers);

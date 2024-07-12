@@ -2,9 +2,9 @@
 
 namespace Digidirect\AI\Model\Lib\Connector\CurlHttpClient;
 
-use Zend\Http\ClientFactory as HttpClientFactory;
-use Zend\Http\Client as HttpClient;
-use Zend\Http\Request as HttpRequest;
+use Laminas\Http\ClientFactory as HttpClientFactory;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Http\Request as HttpRequest;
 use Digidirect\AI\Model\Lib\Connector\CurlHttpClient;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Filesystem\Driver\File as FileSystemDriver;

@@ -10,9 +10,11 @@ class Shipping {
     
     public function __construct(
         GetSourceItemsBySku $getSourceItemsBySku,
+        \Digidirect\SellerShipping\Helper\Data $helperData,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->helperData = $helperData;
         $this->logger = $logger;
     }
        
@@ -54,30 +56,37 @@ class Shipping {
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                $getQty = $sourceItem->getQuantity();
+                if ($getQty < 0) {
+                    $getQty = 0;
+                }
                 if ($sourceItem->getSourceCode() == 'SWHS') {
-                    $swhsQty = $swhsQty * $sourceItem->getQuantity();
+                    $swhsQty = $swhsQty * $getQty;
                 } elseif ($sourceItem->getSourceCode() == 'MELB') {
-                    $melbQty = $melbQty * $sourceItem->getQuantity();
+                    $this->logger->info($product->getSku() . ": " . $getQty);
+                    $melbQty = $melbQty * $getQty;
                 }
             }
         }
         
+        $this->logger->info("melbQty: " . $melbQty);
+        
         if ($carrierCode == 'nextdaydelivery') {
             if (($isSwhs == 1 && $swhsQty <= 0)) {
-                $this->logger->info("SWHS Next Day Delivery");
+                //$this->logger->info("SWHS Next Day Delivery");
                 return false;
             }
             if (($isMelb == 1 && $melbQty <= 0)) {
-                $this->logger->info("Melbourne Next Day Delivery");
+                //$this->logger->info("Melbourne Next Day Delivery");
                 return false;
             }
         }
         
-        /*if (($isSwhs == 1 && $carrierCode == 'nextdaydelivery' && $swhsQty <= 0) || 
-                ($isMelb == 1 && $carrierCode == 'nextdaydelivery' && $melbQty <= 0)) {
-            return false;
-        }*/
-        
+        if ($this->helperData->hasMarketplacerSeller()) {
+            if ($carrierCode == 'nextdaydelivery') {
+                return false;
+            }
+        }
         return $proceed($carrierCode, $request);
         
     }

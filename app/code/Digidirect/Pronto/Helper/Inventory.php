@@ -59,23 +59,25 @@ class Inventory extends AbstractHelper
         //$prontofilter = '05072021000000';
         // testing
 
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
+        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
         //live - port :8084
-        //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-//        $this->curl->addHeader("compcode", "DIG"); //live
-//        $this->curl->addHeader("user", "ewaveapi");
-//        $this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
+        $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+        $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
@@ -110,9 +112,78 @@ class Inventory extends AbstractHelper
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $oldprice = $prod->getPrice();
+                        if($oldprice != $retail)
+                        {
+                            $prod->setCustomAttribute('wiser_price', '0');
+                        }
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
 
+
+                    }
+
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            }
+
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+
+                    }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setCustomAttribute('awaiting_product', '1');
+                        $forLogs .= "Awaiting 1 \n";
+                    }
+                    else {
+                        $prod->setCustomAttribute('awaiting_product', '0');
+                        $forLogs .= "Awaiting 0 \n";
+                    }
+
+                    if($prodRes['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        $forLogs .= "Pre Order 1 \n";
+                        //echo "pre_order 1  <br/>";
+                    }
+
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
 
@@ -148,10 +219,10 @@ class Inventory extends AbstractHelper
                         }
                     }
 
-                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    }
+//                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
+//                    {
+//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                    }
                     $prod->setCustomAttribute('stock_condition', $prodRes['stk-condition-code']);
                     $this->productRepository->save($prod);
                 }
@@ -181,10 +252,27 @@ class Inventory extends AbstractHelper
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $oldprice = $prod->getPrice();
+                        if($oldprice != $retail)
+                        {
+                            $prod->setCustomAttribute('wiser_price', '0');
+                        }
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
-                        
+
                     }
+
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                    }
+
 
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -196,7 +284,19 @@ class Inventory extends AbstractHelper
                         //if blank, set to disable
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            }
+
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
@@ -218,7 +318,7 @@ class Inventory extends AbstractHelper
                         $forLogs .= "Awaiting 0 \n";
                     }
 
-                    if($prodRes['stk-abc-class'] == 'P')
+                    if($prodRes['stk-user-only-alpha4-1'] == 'P')
                     {
                         $prod->setCustomAttribute('pre_order', '1');
                         $prod->setCustomAttribute('preorder', '1');
@@ -253,7 +353,7 @@ class Inventory extends AbstractHelper
                             }
                         }
                     }
-                    
+
                     $this->productRepository->save($prod);
                     //echo $lastCode."<br>";
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
@@ -299,23 +399,25 @@ class Inventory extends AbstractHelper
         //$prontofilter = '05072021000000';
         // testing
 
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
+        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
         //live - port :8084
-        //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-//        $this->curl->addHeader("compcode", "DIG"); //live
-//        $this->curl->addHeader("user", "ewaveapi");
-//        $this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
+        $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+        $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
@@ -355,6 +457,19 @@ class Inventory extends AbstractHelper
 
                     }
 
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                    }
+
+
+                    echo "marketplacesprice - ".$marketplacesprice."<br/>";
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -367,13 +482,28 @@ class Inventory extends AbstractHelper
                         //if blank, set to disable
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                            echo "disable "."<br/>";
+//                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                            echo "disable "."<br/>";
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                             echo "disable N "."<br/>";
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                                echo "disable NDA "."<br/>";
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                                echo "do nothing "."<br/>";
+                            }
+
+
                         }
                         else {
                             //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
@@ -392,7 +522,7 @@ class Inventory extends AbstractHelper
                         echo "Awaiting 0" . "<br/>";
                     }
 
-                    if($prodRes['stk-abc-class'] == 'P')
+                    if($prodRes['stk-user-only-alpha4-1'] == 'P')
                     {
                         $prod->setCustomAttribute('pre_order', '1');
                         $prod->setCustomAttribute('preorder', '1');
@@ -469,6 +599,20 @@ class Inventory extends AbstractHelper
                         $this->productRepository->save($prod);
                     }
 
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                    }
+
+
+                    echo "marketplacesprice - ".$marketplacesprice."<br/>";
+
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -483,6 +627,19 @@ class Inventory extends AbstractHelper
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                             echo "disable "."<br/>";
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                                echo "do nothing "."<br/>";
+                            }
+
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
@@ -506,7 +663,7 @@ class Inventory extends AbstractHelper
                         echo "Awaiting 0" . "<br/>";
                     }
 
-                    if($prodRes['stk-abc-class'] == 'P')
+                    if($prodRes['stk-user-only-alpha4-1'] == 'P')
                     {
                         $prod->setCustomAttribute('pre_order', '1');
                         $prod->setCustomAttribute('preorder', '1');

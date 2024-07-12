@@ -33,6 +33,20 @@ class Item
 
     /**
      * @param QuoteItem $subject
+     * @param mixed $value
+     * @return array
+     */
+    public function beforeSetPrice(QuoteItem $subject, $value)
+    {
+        if ($this->_giftItem->isFreeGiftItem($subject)) {
+            $this->logger->info('This is free gift!');
+            return [0];
+        }
+        return [$value];
+    }
+
+    /**
+     * @param QuoteItem $subject
      * @param \Closure $proceed
      * @param Product $product
      * @return bool

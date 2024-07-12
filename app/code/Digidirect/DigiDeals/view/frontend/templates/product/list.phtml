@@ -17,18 +17,22 @@ $showWishlist = true;
 ?>
 
 <div class="category-view">
-    <div class="page-main">
-        <div class="category-image">
-            <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digideals-banner.png" alt="Sale" title="Sale" class="image">
-        </div>
+    <div class="page-title-wrapper">
+        <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+            <span class="base" data-ui-id="page-title-wrapper">digiDeals</span>
+        </h1> 
+    </div>
+    <div class="category-image">
+        <img src="https://www.digidirect.com.au/media/wysiwyg/category-header/digideals-new-banner.png" alt="Sale" title="Sale" class="image">
     </div>
 </div>
 
 <div class="inner-search-container">
     <input id="inner-search" type="text" placeholder="Search our deals" class="input-text" maxlength="128" autocomplete="off">
     <span id="inner-search-button"><i class="fas fa-search" style="margin-top: 3px;margin-right: 5px;"></i>Search</span>
-    <div id="suggested-products-search-result"></div>
 </div>
+
+<?php echo $this->getLayout()->createBlock("Magento\Catalog\Block\Product\ProductList\Toolbar")->setTemplate("Magento_Catalog::product/list/toolbar/toolbar.phtml")->toHtml() ?>
 
 <?= $block->getToolbarHtml() ?>
 <div class="toolbar toolbar-products">            
@@ -85,6 +89,18 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $brandNewProductPrice = "";
                 $brandNewProductUrl = "";
                 $secondsSavings = "";
+                
+                $finalProductPrice = $_product->getFinalPrice();
+                $originalPrice = $_product->getPrice();
+                $marketplacesPrice = $_product->getMarketplacesPrice();
+                $wiserPrice = $_product->getData('wiser_price');
+                $hasDiscountClass = "";
+                
+                $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                $discountWiserPrice = 0;
+                if (!is_null($wiserPrice)) {
+                    $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                }
 
                 $finalProductPrice = $_product->getFinalPrice();
                 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
@@ -143,7 +159,11 @@ $currentPage = $this->getRequest()->getFullActionName();
                 }
 
                 ?>
-                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <?php if ($is_digiPrint == 1): ?>
+                    <?= /* @escapeNotVerified */ '<li class="item product product-item digiprint-product">' ?>
+                <?php else: ?>
+                    <?= /* @escapeNotVerified */ '<li class="item product product-item">' ?>
+                <?php endif; ?>
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
                      data-container="product-grid"
                      data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
@@ -161,9 +181,19 @@ $currentPage = $this->getRequest()->getFullActionName();
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
+                        
+                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                            <?php 
+                                $hasDiscountClass = "has-discount";
+                            ?>
+                            <div class="digideals-overlay">
+                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                            </div>
+                        <?php endif; ?>
+                        
                         <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                             <?php if ($d2ItemCondition): ?>
-                                <div class="digiseconds-overlay">
+                                <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
                                     <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
@@ -263,6 +293,12 @@ $currentPage = $this->getRequest()->getFullActionName();
                             echo $block->getReviewsSummaryHtml($_product);
                             ?>
                         </div>
+                        <?= $this->getLayout()
+                            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                            ->setProduct($_product)
+                            ->toHtml();
+                        ?>
                         <?php if($blockMode === 'grid'):?>
                             <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
                                 <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
@@ -318,7 +354,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                                         <button type="submit"
                                                 title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
                                                 class="action tocart primary">
-                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
                                         </button>
                                     </form>
                                     <?php endif; ?>
@@ -368,12 +404,6 @@ $currentPage = $this->getRequest()->getFullActionName();
                 searchProducts();
             }
         });
-        
-        $('#inner-search').on('keyup',function (e){
-            if(e.which != 13) {
-                autocomplete();
-            }
-        });
     
         function searchProducts() {
             var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
@@ -410,31 +440,6 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $('.inner-search-preloader').hide();
                 $('.deals-index-index .pages').show();
                 $("#inner-search-result").hide();
-             }
-        }
-        
-        function autocomplete() {
-            var url = "<?php echo $block->getBaseUrl().'deals/index/autocomplete'?>";
-            var innerSearchInput = $("#inner-search").val();
-
-            if (innerSearchInput != ""){
-                $('#suggested-products-search-result').show();
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {
-                        innerSearchInput: innerSearchInput
-                    },
-                    success: function(data){
-                        console.log(data.output);
-                        $('#suggested-products-search-result').html(data.output);
-                    },
-                    error: function(){
-                        console.log("Error!");
-                    }
-                });
-             } else {
-                $('#suggested-products-search-result').hide();
              }
         }
         

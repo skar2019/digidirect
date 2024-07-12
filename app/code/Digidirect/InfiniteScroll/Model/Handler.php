@@ -25,6 +25,8 @@ class Handler
      * @var InfiniteScrollHelper
      */
     protected $_helper;
+    
+    protected $logger;
 
     /**
      * Handler constructor.
@@ -37,12 +39,14 @@ class Handler
         Context $context,
         InfiniteScrollConfig $config,
         ProcessorFactory $factory,
-        InfiniteScrollHelper $helper
+        InfiniteScrollHelper $helper,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->_context = $context;
         $this->_infiniteScrollConfig = $config;
         $this->_factory = $factory;
         $this->_helper = $helper;
+        $this->logger = $logger;
     }
 
     /**
@@ -62,6 +66,7 @@ class Handler
             if ($html) {
                 $this->_validateResponse($html);
                 $this->_sendResponse(json_encode($html));
+                //$this->logger->info('handleRequest HTML: '. json_encode($html));
             }
         }
 

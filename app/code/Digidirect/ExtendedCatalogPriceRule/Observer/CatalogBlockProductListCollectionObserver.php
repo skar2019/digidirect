@@ -32,6 +32,8 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        return;
+        //to disable everything below as recommended by magento support
         $productCollection = $observer->getEvent()->getCollection();
         if (!$productCollection instanceof \Magento\Catalog\Model\ResourceModel\Product\Collection) {
             return;
@@ -43,10 +45,11 @@ class CatalogBlockProductListCollectionObserver implements ObserverInterface
             return;
         }
 
-        foreach ($productCollection as $item) {
-            if (!empty($ruleData[$item->getId()])) {
-                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
-            }
-        }
+//        foreach ($productCollection as $item) {
+//            /*if (!empty($ruleData[$item->getId()])) {
+//                $item->setData('show_msg_extended_rule', $ruleData[$item->getId()]);
+//            }*/
+//        }
+        //redeploy again
     }
 }

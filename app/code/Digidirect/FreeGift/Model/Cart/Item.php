@@ -23,7 +23,6 @@ class Item extends QuoteItem
      * @var \Digidirect\FreeGift\Model\ResourceModel\Rule
      */
     protected $_resourceFreeGift;
-    
 
     /**
      * Item constructor.
@@ -108,9 +107,6 @@ class Item extends QuoteItem
      */
     public function isFreeGiftItem($item)
     {
-        //$this->logger->info('in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML]): ' . in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML]));
-        //$this->logger->info('$this->getRuleId($item): ' . $this->getRuleId($item));
-        
         if (in_array($this->_appState->getAreaCode(), [Area::AREA_ADMIN, Area::AREA_ADMINHTML])) {
             return false;
         }

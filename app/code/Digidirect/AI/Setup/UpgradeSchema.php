@@ -176,7 +176,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ['identity' => true, 'nullable' => false, 'primary' => true],
                 'Record ID'
             )->addColumn(
-                'id',
+                'log_id',
                 Table::TYPE_SMALLINT,
                 null,
                 ['nullable' => false],
@@ -190,11 +190,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
             )->addForeignKey(
                 $setup->getFkName(
                     $setup->getTable('digidirect_ai_queue_log'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id',
                 Table::ACTION_CASCADE
@@ -221,7 +221,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ['identity' => true, 'nullable' => false, 'primary' => true],
                 'Record ID'
             )->addColumn(
-                'id',
+                'log_id',
                 Table::TYPE_SMALLINT,
                 null,
                 ['nullable' => false],
@@ -259,11 +259,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
             )->addForeignKey(
                 $setup->getFkName(
                     $setup->getTable('digidirect_ai_logs_connector_data'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id',
                 Table::ACTION_CASCADE
@@ -359,7 +359,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '2.0.8') < 0) {
             $adapter->dropForeignKey($setup->getTable('digidirect_ai_queue_log'), $setup->getFkName(
                 $setup->getTable('digidirect_ai_queue_log'),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id'
             ));
@@ -367,15 +367,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $adapter
                 ->dropForeignKey($setup->getTable('digidirect_ai_logs_connector_data'), $setup->getFkName(
                     $setup->getTable('digidirect_ai_logs_connector_data'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ));
 
             $adapter->changeColumn(
                 $setup->getTable('digidirect_ai_logs_connector_data'),
-                'id',
-                'id',
+                'log_id',
+                'log_id',
                 [
                     'type' => Table::TYPE_INTEGER,
                     'nullable' => false,
@@ -385,8 +385,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
             $adapter->changeColumn(
                 $setup->getTable('digidirect_ai_queue_log'),
-                'id',
-                'id',
+                'log_id',
+                'log_id',
                 [
                     'type' => Table::TYPE_INTEGER,
                     'nullable' => false,
@@ -422,8 +422,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
             $adapter->changeColumn(
                 $setup->getTable('digidirect_ai_logs_details'),
-                'id',
-                'id',
+                'log_id',
+                'log_id',
                 [
                     'type' => Table::TYPE_INTEGER,
                     'nullable' => false,
@@ -433,12 +433,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $adapter->addForeignKey(
                 $setup->getFkName(
                     $setup->getTable('digidirect_ai_queue_log'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ),
                 $setup->getTable('digidirect_ai_queue_log'),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id',
                 Table::ACTION_CASCADE
@@ -446,12 +446,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $adapter->addForeignKey(
                 $setup->getFkName(
                     $setup->getTable('digidirect_ai_logs_connector_data'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ),
                 $setup->getTable('digidirect_ai_logs_connector_data'),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id',
                 Table::ACTION_CASCADE
@@ -513,21 +513,21 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $setup->getTable('digidirect_ai_logs_details'),
                 $setup->getIdxName(
                     $setup->getTable('digidirect_ai_logs_details'),
-                    ['id'],
+                    ['log_id'],
                     AdapterInterface::INDEX_TYPE_INDEX
                 ),
-                ['id'],
+                ['log_id'],
                 AdapterInterface::INDEX_TYPE_INDEX
             );
             $adapter->addForeignKey(
                 $setup->getFkName(
                     $setup->getTable('digidirect_ai_logs_details'),
-                    'id',
+                    'log_id',
                     $setup->getTable('digidirect_ai_logs'),
                     'id'
                 ),
                 $setup->getTable('digidirect_ai_logs_details'),
-                'id',
+                'log_id',
                 $setup->getTable('digidirect_ai_logs'),
                 'id',
                 Table::ACTION_CASCADE
@@ -543,10 +543,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $setup->getTable('digidirect_ai_queue_log'),
                 $setup->getIdxName(
                     $setup->getTable('digidirect_ai_queue_log'),
-                    ['id', 'queue_id'],
+                    ['log_id', 'queue_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
-                ['id', 'queue_id'],
+                ['log_id', 'queue_id'],
                 AdapterInterface::INDEX_TYPE_UNIQUE
             );
         }
@@ -667,7 +667,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $select->from(['t1' => $logsDetailsTable], [])
                 ->join(
                     ['t2' => $logsDetailsTable],
-                    't1.id = t2.id',
+                    't1.log_id = t2.log_id',
                     []
                 );
 
@@ -688,7 +688,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $createPkIdx = true;
             foreach ($indexList as $idxInfo) {
                 if ($idxInfo['type'] == AdapterInterface::INDEX_TYPE_PRIMARY) {
-                    if ($idxInfo['fields'] == ['id']) {
+                    if ($idxInfo['fields'] == ['log_id']) {
                         $createPkIdx = false;
                     } else {
                         $adapter->dropIndex($logsDetailsTable, $idxInfo['KEY_NAME']);
@@ -698,8 +698,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
             if ($createPkIdx) {
                 $adapter->addIndex(
                     $logsDetailsTable,
-                    $adapter->getIndexName($logsDetailsTable, ['id'], AdapterInterface::INDEX_TYPE_PRIMARY),
-                    ['id'],
+                    $adapter->getIndexName($logsDetailsTable, ['log_id'], AdapterInterface::INDEX_TYPE_PRIMARY),
+                    ['log_id'],
                     AdapterInterface::INDEX_TYPE_PRIMARY
                 );
             }
@@ -728,43 +728,17 @@ class UpgradeSchema implements UpgradeSchemaInterface
             //set new primary key - log id. one log could not have more than 1 queue element.
             $pkIndexName = $adapter->getIndexName(
                 $queueLogTable,
-                ['id'],
+                ['log_id'],
                 AdapterInterface::INDEX_TYPE_PRIMARY
             );
             $indexList = $adapter->getIndexList($queueLogTable);
             if (!isset($indexList[$pkIndexName])) {
-                $adapter->addIndex($queueLogTable, $pkIndexName, ['id'], AdapterInterface::INDEX_TYPE_PRIMARY);
+                $adapter->addIndex($queueLogTable, $pkIndexName, ['log_id'], AdapterInterface::INDEX_TYPE_PRIMARY);
             }
             //remove old unique index
             $unqIndexName = $adapter->getIndexName(
                 $queueLogTable,
-                ['id', 'queue_id'],
-                AdapterInterface::INDEX_TYPE_UNIQUE
-            );
-            if (isset($indexList[$unqIndexName])) {
-                $adapter->dropIndex($queueLogTable, $unqIndexName);
-            }
-        }
-
-        if (version_compare($context->getVersion(), '2.4.3') < 0) {
-            $queueLogTable = $setup->getTable('digidirect_ai_queue_log');
-            if ($adapter->tableColumnExists($queueLogTable, 'entity_id')) {
-                $adapter->dropColumn($queueLogTable, 'entity_id');
-            }
-            //set new primary key - log id. one log could not have more than 1 queue element.
-            $pkIndexName = $adapter->getIndexName(
-                $queueLogTable,
-                ['id'],
-                AdapterInterface::INDEX_TYPE_PRIMARY
-            );
-            $indexList = $adapter->getIndexList($queueLogTable);
-            if (!isset($indexList[$pkIndexName])) {
-                $adapter->addIndex($queueLogTable, $pkIndexName, ['id'], AdapterInterface::INDEX_TYPE_PRIMARY);
-            }
-            //remove old unique index
-            $unqIndexName = $adapter->getIndexName(
-                $queueLogTable,
-                ['id', 'queue_id'],
+                ['log_id', 'queue_id'],
                 AdapterInterface::INDEX_TYPE_UNIQUE
             );
             if (isset($indexList[$unqIndexName])) {

@@ -489,6 +489,8 @@ class TestPronto extends AbstractHelper
             $address = $order->getShippingAddress() ?? $order->getBillingAddress();
             $accountName = $address->getName();
         }
+        $aReplace = array('(', ')','[',']','{','}');
+        $accountName = str_replace($aReplace , '', $accountName);
         return $accountName;
     }
 
@@ -544,10 +546,11 @@ class TestPronto extends AbstractHelper
             if(is_numeric($prontoOrderNumber))
             {
                 echo "Has pronto ". $prontoOrderNumber."<br/>";
-//                if(!$test)
-//                {
-//                    continue;
-//                } redeploy
+                if(!$test)
+                {
+                    continue;
+                }
+
             }
 
             $orderId = $order->getIncrementId();
@@ -567,11 +570,11 @@ class TestPronto extends AbstractHelper
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
-            $newaccount = "";
 
             $this->logger->info('Pronto Order AccountName - '.$accountname);
             $this->logger->info('Pronto Order Account - '.$account);
 
+            $newaccount = "";
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
             $countryName = "";
@@ -583,8 +586,18 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            $amShipping = "";
+            if (strpos($orderId, 'REEB') !== false) {
 
-            $amShipping = $order->getShippingDescription();
+            }
+            else
+            {
+                $amShipping = $order->getShippingDescription();
+            }
+
+
+            $this->logger->info('Pronto Order Shipping - '.$amShipping);
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -606,7 +619,6 @@ class TestPronto extends AbstractHelper
                     //$territory = "AWHS";
                     $is_am_fba = true;
                 }
-
                 $territory = "MRKT";
                 $isMarketPlace = true;
 
@@ -619,6 +631,15 @@ class TestPronto extends AbstractHelper
                     $account = "EBAY00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
+
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $rep ="REEBELO";
+                        $account = "REEB00";
+                        $territory = "MRKT";
+                        $isMarketPlace = true;
+
+                        //redeploy
+                    }
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
@@ -680,6 +701,7 @@ class TestPronto extends AbstractHelper
             $customertype = "WG";
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
+                $this->logger->info('Pronto Order Customer Not Guest - '.$amShipping);
             }
 
             if(!$isMarketPlace)
@@ -801,30 +823,31 @@ class TestPronto extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
                     //check if all product has stock
+                    $delivery = $order->getShippingDescription();
                     if($payment_type == 'BT')
                     {
                         if ($order->getStatus() != 'fraud')
@@ -833,6 +856,13 @@ class TestPronto extends AbstractHelper
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                 $data['sales-order']['header']['set-on-status'] = "H";
+
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+
+                                }
 //                                if($grandTotal < 200)
 //                                {
 //                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -855,8 +885,17 @@ class TestPronto extends AbstractHelper
                             else
                             {
 
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "B";
+                                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+
+                                }
+                                else
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "B";
+                                }
                             }
 
                         }
@@ -874,9 +913,18 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
-                        if($instockInv == 1)
+                        $delivery = "";
+                        if (strpos($orderId, 'REEB') !== false) {
+                            $delivery = "";
+                        }
+                        else
                         {
                             $delivery = $order->getShippingDescription();
+                        }
+
+                        if($instockInv == 1)
+                        {
+
                             if($delivery == "Next Day Delivery")
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -898,13 +946,29 @@ class TestPronto extends AbstractHelper
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
+
+                                    if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+
+                                    }
                                 }
                             }
                         }
                         else
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "";
-                            $data['sales-order']['header']['set-on-status'] = "B";
+                            if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+
+                            }
+                            else
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "B";
+                            }
                         }
                     }
                 }
@@ -924,7 +988,7 @@ class TestPronto extends AbstractHelper
                         echo "latipay pending";
                         continue;
                     }
-                }
+            }
 
                 if($payment_type == 'VI')
                 {
@@ -941,15 +1005,21 @@ class TestPronto extends AbstractHelper
             $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            $strt = $address->getStreet();
-            if(is_array($strt))
+            $street = "";
+            if(!(is_null($address->getStreet())))
             {
-                $street = implode(",", $strt);
+                $strt = $address->getStreet();
+                if(is_array($strt))
+                {
+                    $street = implode(",", $strt);
+                }
+                else
+                {
+                    $street = $strt;
+                }
             }
-            else
-            {
-                $street = $strt;
-            }
+
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -973,7 +1043,13 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
+            if (strpos($orderId, 'REEB') !== false) {
+                $delivery = "";
+            }
+            else
+            {
+                $delivery = $order->getShippingDescription();
+            }
 
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
@@ -994,6 +1070,7 @@ class TestPronto extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = preg_replace('/[^A-Za-z0-9. -]/', '', $shipUnitNumber);
             }
 
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
@@ -1016,6 +1093,9 @@ class TestPronto extends AbstractHelper
 
             }
 
+            $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
+
+            //$shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
@@ -1150,6 +1230,14 @@ class TestPronto extends AbstractHelper
                     $catchRef = $orderId;
                     $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
+
+                    if (strpos($orderId, 'REEB') !== false) {
+                        $payment_type ="REEB";
+                        $catchRef = $orderId;
+                        $catchRef = str_replace("REEB","",$catchRef);
+                        $payment_reference = $catchRef;
+                    }
+
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $payment_type ="WW";
@@ -1209,9 +1297,9 @@ class TestPronto extends AbstractHelper
                 }
             }
             //pao's order 001313994-1 001313991-1
-            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            if($orderId == '001901158')
             {
-                $amount_tendered = 1604.10;
+                $amount_tendered = 1986.10;
             }
 
 
@@ -1236,6 +1324,8 @@ class TestPronto extends AbstractHelper
                 }
 
             }
+
+            $sellerdata['sales-order']['header']['order-total-inc-tax'] = $amount_tendered;
 
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
@@ -1312,11 +1402,12 @@ class TestPronto extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
                 echo "SKU - " .$sku."<br/>";
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
                     echo "is MP - " .$sku."<br/>";
                     if($this->currentseller == $sell)
                     {
@@ -1368,6 +1459,7 @@ class TestPronto extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $price = $price - $digiProtectTotal;
                     echo "digiprotect price ".$digiProtectPrice."<br/>";
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 }
@@ -1521,24 +1613,26 @@ class TestPronto extends AbstractHelper
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
                 //TEST
-                $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
                 //LIVE - port :8084
-                //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
                 if(!$test)
                 {
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
-//                $this->curl->addHeader("compcode", "DIG"); //live
-//                $this->curl->addHeader("user", "ewaveapi");
-//                $this->curl->addHeader("token", "904241bdbf10efa9");
+                    $this->curl->addHeader("compcode", "DIG"); //live
+                    $this->curl->addHeader("user", "ewaveapi");
+                    $this->curl->addHeader("token", "904241bdbf10efa9");
                     //
-                    $this->curl->addHeader("compcode", "UA1"); //test
-                    $this->curl->addHeader("user", "clint.mercado");
-                    $this->curl->addHeader("token", "849cd5080faff5ce");
+//                    $this->curl->addHeader("compcode", "UA1"); //test
+//                    $this->curl->addHeader("user", "clint.mercado");
+//                    $this->curl->addHeader("token", "849cd5080faff5ce");
 
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+                    $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
                     $this->curl->post($url, $xml);
 
                     $result = $this->curl->getBody();
@@ -1590,10 +1684,6 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-
-
-
-
             if($counter >= $size)
             {
                 return true; //return after 2 orders
@@ -1629,7 +1719,6 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-
             $prontoOrderNumber = $order->getData('pronto_order_number');
             /*if(is_numeric($prontoOrderNumber))
             {
@@ -1659,8 +1748,6 @@ class TestPronto extends AbstractHelper
             {
                 $account = $this->getAccount($order);
             }
-
-            $this->logger->info('Pronto Order Sync - '.$orderId);
 
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
@@ -1731,8 +1818,7 @@ class TestPronto extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
-
-
+            //redeploy
             $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
             $sellerdata['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
@@ -1745,7 +1831,7 @@ class TestPronto extends AbstractHelper
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
 
             $grandTotal = round($grandTotal, 2);
-            $sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
+            //$sellerdata['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
             if(is_array($strt))
@@ -2016,26 +2102,32 @@ class TestPronto extends AbstractHelper
 
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
-                //check seller here
-                $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
+
 
                 if(strpos($sku, 'mp-') !== false)
                 {
+                    //check seller here
+                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
 
                     if($sell == $seller)
                     {
                         $productSku = $sku;
+                        $gst = $price - ($price*100 / (100+10));
+                        $gst = number_format($gst,2);
+                        $costlessgst = $price - $gst;
+                        $commission = $costlessgst * 0.1;
+                        $exgstcost = $costlessgst - $commission;
                         $sellerdata['sales-order']['header']['set-on-status'] = "B";
                         $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                         $sellerdata['sales-order']['detail']['line'][$x]['stock-code'] = 'ZM00';//$productSku;
                         $sellerdata['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                         $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                         $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                        $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $sellerdata['sales-order']['detail']['line'][$x]['backordered'] = 0;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                         $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
-                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $price;
+                        $sellerdata['sales-order']['detail']['line'][$x]['item-cost'] = $exgstcost;
                         $x++;
                         $producttotal += $total;
                     }
@@ -2090,31 +2182,33 @@ class TestPronto extends AbstractHelper
 
             //if($test)
             //{
-                var_dump($sellerdata['sales-order']);
+            var_dump($sellerdata['sales-order']);
             //}
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($sellerdata, 'sales-orders');
 
             //TEST
-            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             if(!$test)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-//                $this->curl->addHeader("compcode", "DIG"); //live
-//                $this->curl->addHeader("user", "ewaveapi");
-//                $this->curl->addHeader("token", "904241bdbf10efa9");
+                $this->curl->addHeader("compcode", "DIG"); //live
+                $this->curl->addHeader("user", "ewaveapi");
+                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                $this->curl->addHeader("compcode", "UA1"); //test
-                $this->curl->addHeader("user", "clint.mercado");
-                $this->curl->addHeader("token", "849cd5080faff5ce");
+//                $this->curl->addHeader("compcode", "UA1"); //test
+//                $this->curl->addHeader("user", "clint.mercado");
+//                $this->curl->addHeader("token", "849cd5080faff5ce");
 
+                $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
+                $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
                 $this->curl->post($url, $xml);
 
                 $result = $this->curl->getBody();
@@ -2225,5 +2319,6 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
+
 
 }

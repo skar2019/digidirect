@@ -3,17 +3,19 @@
 namespace Digidirect\CollaborateForm\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class Index extends Action
 {
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        TransportBuilder $transportBuilder
         
     ) {
         parent::__construct($context);
+        $this->transportBuilder = $transportBuilder;
     }   
-
     public function execute()
     {
         $post = $this->getRequest()->getPostValue();
@@ -28,7 +30,7 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = array("jireh@kayweb.com.au");
+        $to = array("jireh@kayweb.com.au","community@digidirect.com.au");
         // $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "

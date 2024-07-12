@@ -19,6 +19,8 @@ define([
                 }
             },
             getLocatorBlock: function () {
+                console.log("getLocatorBlock() called!");
+                
                 var self = this;
 
                 $.ajax({
@@ -33,6 +35,7 @@ define([
                 });
             },
             onSuccessLoadLocatorBlock: function (data) {
+                console.log("onSuccessLoadLocatorBlock called!");
                 var $container = $(this.collectLocatorBlock, this.popUpForm.element);
 
                 $container.html(data.output).trigger('contentUpdated');
@@ -40,6 +43,7 @@ define([
                 this.isLocatorLoading(false);
             },
             onErrorLoadLocatorBlock: function () {
+                console.log("onErrorLoadLocatorBlock called!");
                 console.warn('Locator hasn\'t been loaded');
             },
             submitLocatorStore: function (item) {

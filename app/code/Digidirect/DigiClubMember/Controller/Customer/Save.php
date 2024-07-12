@@ -95,11 +95,11 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
                 $customerDob = $this->getRequest()->getParam('digiclub-dob');
                 
-                $this->logger->info('$customerFirstName: ' . $customerFirstName);
-                $this->logger->info('$customerLastName: ' . $customerLastName);
-                $this->logger->info('$customerEmail: ' . $customerEmail);
-                $this->logger->info('$customerContactNumber: ' . $customerContactNumber);
-                $this->logger->info('$customerDob: ' . $customerDob);
+                //$this->logger->info('$customerFirstName: ' . $customerFirstName);
+                //$this->logger->info('$customerLastName: ' . $customerLastName);
+                //$this->logger->info('$customerEmail: ' . $customerEmail);
+                //$this->logger->info('$customerContactNumber: ' . $customerContactNumber);
+                //$this->logger->info('$customerDob: ' . $customerDob);
                 
                 $this->setIgnoreValidationFlag($customer);
                 
@@ -123,7 +123,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         }
     }
-        return $this->_redirect('customer/account/edit/');
+        return $this->_redirect('digiclubmember/customer/index/');
     }
 
     /**

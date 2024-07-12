@@ -57,17 +57,13 @@ class ProductRepositoryPlugin
      * @param RuleFactory $resourceRuleFactory
      * @param ProductExtensionInterfaceFactory $extensionFactory
      */
-    protected $logger;
-
-
     public function __construct(
         ConfigHelper $configHelper,
         TimezoneInterface $localeDate,
         StoreManagerInterface $storeManager,
         RulePricesStorage $rulePricesStorage,
         RuleFactory $resourceRuleFactory,
-        ProductExtensionInterfaceFactory $extensionFactory,
-        \Psr\Log\LoggerInterface $logger
+        ProductExtensionInterfaceFactory $extensionFactory
     ) {
         $this->configHelper = $configHelper;
         $this->localeDate = $localeDate;
@@ -75,7 +71,6 @@ class ProductRepositoryPlugin
         $this->rulePricesStorage = $rulePricesStorage;
         $this->resourceRuleFactory = $resourceRuleFactory;
         $this->extensionFactory = $extensionFactory;
-        $this->logger = $logger;
     }
 
     /**
@@ -85,11 +80,11 @@ class ProductRepositoryPlugin
      */
     public function afterGet(ProductRepository $object, $result)
     {
-        $this->logger->info('Test Product API Override!');
-        //$result->setSku(substr($result->getSku(), 0, 3));
         if ($result instanceof Product && $this->configHelper->isSetDynamicPrice()) {
            $result = $this->setDynamicPrice($result);
         }
+
+        $result->setSku(substr($result->getSku(), 0, 50));
 
         return $result;
     }

@@ -28,24 +28,29 @@ class DisableProduct extends AbstractHelper
     public function toDisableProducts($test)
     {
 
-        echo "To Disable <br>";
+        //echo "To Disable <br>";
         try {
             $collection = $this->getProductCollection();
             //$storeId = $this->storeManager->getStore()->getId();
             $ids = [];
             $i = 0;
-            foreach ($collection as $item) {
-                if($test)
-                {
-                    echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+            $count = $collection->count();
+            if($count < 500)
+            {
+                foreach ($collection as $item) {
+                    if($test)
+                    {
+                        echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                    }
+                    $ids[$i] = $item->getEntityId();
+                    $i++;
                 }
-                $ids[$i] = $item->getEntityId();
-                $i++;
+                //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 0);
+                $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 1);
+                $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 5);
             }
-            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 0);
-            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 1);
-            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 5);
+            
 
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -91,7 +96,8 @@ class DisableProduct extends AbstractHelper
         $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',array('lteq' => $date));
+        ->addAttributeToFilter('updated_at',array('lteq' => $date));
+        //->addAttributeToFilter([['attribute'=>'date_update',array('lteq' => $date)],['attribute'=>'updated_at',array('lteq' => $date)]]);
         //->setPageSize(110); // fetching only 3 products
 
         return $collection;
@@ -100,16 +106,18 @@ class DisableProduct extends AbstractHelper
     public function getProductCollectionToEnable()
     {
 
-        $date = date("Y-m-d", strtotime("2022-05-01"));
+        $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',array('gteq' => $date))
-        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
-        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
-        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
+        ->addAttributeToFilter([['attribute'=>'date_update',array('gteq' => $date)],['attribute'=>'updated_at',array('gteq' => $date)]]);
+//        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
+//        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
+//        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
     }
+    
+    //redeploy
     
 }

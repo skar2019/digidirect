@@ -1,12 +1,12 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMSI\Api\Data;
+namespace Digidirect\CollectAbstractEntityMsi\Api\Data;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 
 /**
  * Interface ProductTypeHandlerInterface
- * @package Digidirect\CollectAbstractEntityMSI\Api
+ * @package Digidirect\CollectAbstractEntityMsi\Api
  */
 interface ProductTypeHandlerInterface
 {
