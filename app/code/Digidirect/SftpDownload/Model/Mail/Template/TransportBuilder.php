@@ -383,13 +383,14 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
     {
         $template = $this->getTemplate();
         $content = $template->processTemplate();
+
         switch ($template->getType()) {
             case TemplateTypesInterface::TYPE_TEXT:
-                $part['type'] = MimeInterface::TYPE_TEXT;
+                $partType = MimeInterface::TYPE_TEXT;
                 break;
 
             case TemplateTypesInterface::TYPE_HTML:
-                $part['type'] = MimeInterface::TYPE_HTML;
+                $partType = MimeInterface::TYPE_HTML;
                 break;
 
             default:
@@ -397,16 +398,24 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
                     new Phrase('Unknown template type')
                 );
         }
-        $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
-        $parts = count($this->attachments) ? array_merge([$mimePart], $this->attachments) : [$mimePart];
+
+        /** @var \Magento\Framework\Mail\MimePartInterface $mimePart */
+        $mimePart = $this->mimePartInterfaceFactory->create(
+            [
+                'content' => $content,
+                'type' => $partType
+            ]
+        );
+        $this->messageData['encoding'] = $mimePart->getCharset();
         $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
-            ['parts' => $parts]
+            ['parts' => [$mimePart]]
         );
 
         $this->messageData['subject'] = html_entity_decode(
             (string)$template->getSubject(),
             ENT_QUOTES
         );
+
         $this->message = $this->emailMessageInterfaceFactory->create($this->messageData);
 
         return $this;
