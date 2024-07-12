@@ -63,13 +63,13 @@ class Shipping {
                 if ($sourceItem->getSourceCode() == 'SWHS') {
                     $swhsQty = $swhsQty * $getQty;
                 } elseif ($sourceItem->getSourceCode() == 'MELB') {
-                    $this->logger->info($product->getSku() . ": " . $getQty);
+                    //$this->logger->info($product->getSku() . ": " . $getQty);
                     $melbQty = $melbQty * $getQty;
                 }
             }
         }
         
-        $this->logger->info("melbQty: " . $melbQty);
+        //$this->logger->info("melbQty: " . $melbQty);
         
         if ($carrierCode == 'nextdaydelivery') {
             if (($isSwhs == 1 && $swhsQty <= 0)) {

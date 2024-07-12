@@ -60,7 +60,7 @@ class Canonical extends AbstractHelper
                     );
                 } elseif ($this->cmsPage->getIdentifier() == "find") {
                     $url = $this->urlInterface->getCurrentUrl();
-                    $this->logger->info('$url: ' . $url);
+                    //$this->logger->info('$url: ' . $url);
                     $urlComponents = parse_url($url);
                     
                     $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
@@ -68,7 +68,7 @@ class Canonical extends AbstractHelper
                     if (!empty($urlComponents['query'])) {
                         $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
                     }
-                    $this->logger->info('$canonical ' . $canonical);
+                    //$this->logger->info('$canonical ' . $canonical);
                     return $this->createLink($canonical);
                     
                 } else {
@@ -78,7 +78,7 @@ class Canonical extends AbstractHelper
                 }
             }
             $checkModule = $this->http->getModuleName();
-            $this->logger->info('$checkModule: ' . $checkModule);
+            //$this->logger->info('$checkModule: ' . $checkModule);
             if($checkModule == 'contact'){
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(
@@ -91,13 +91,13 @@ class Canonical extends AbstractHelper
                 }
             } elseif ($checkModule == "customer") {
                 $url = $this->urlInterface->getCurrentUrl();
-                $this->logger->info('$url: ' . $url);
+                //$this->logger->info('$url: ' . $url);
                 $urlComponents = parse_url($url);
 
                 $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . '/customer/account/login';
 
                 $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-                $this->logger->info('$canonical ' . $canonical);
+                //$this->logger->info('$canonical ' . $canonical);
                 return $this->createLink($canonical);
 
             }
