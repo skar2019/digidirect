@@ -80,19 +80,13 @@ class OrderPlaceBefore implements ObserverInterface
             $this->preOrderHelper->getPreOrderFromDate($productId, $order->getStoreId()),
             $this->preOrderHelper->getPreOrderToDate($productId, $order->getStoreId())
         );
-
-        $salableQty = $this->preOrderHelper->getProductSalableQty($product, $product->getEntityId(), $item->getQtyOrdered());
         if ($isInStock) {
-            if ($item->getQtyOrdered() > $salableQty) {
+            $itemQtyOrdered = $item->getQtyOrdered();
+            $qtyProduct = $this->preOrderHelper->getProductSalableQty($product, $productId, $itemQtyOrdered);
+            if ($itemQtyOrdered > $qtyProduct) {
                 $isInStock = 0;
             }
-        } else {
-            $stockStatus = $this->preOrderHelper->getStockItem($productId)->getIsInStock();
-            if ($item->getQtyOrdered() == $salableQty && $stockStatus) {
-                $isInStock = 1;
-            }
         }
-
         if (($preOrder == Order::ORDER_YES && $this->preOrderHelper->isAvailablePreOrder($productId)) ||
             ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock == 0)) {
             $listProductPreOrder[$productId] = $message;

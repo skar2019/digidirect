@@ -14,6 +14,7 @@
         </referenceContainer>
         <container name="ga4.before.body.end" as="ga4_before_body_end" label="Gtm Before Body End" after="before.body.end">
             <block ifconfig="weltpixel_ga4/general/enable" class="WeltPixel\GA4\Block\Core" name="weltpixel_gtmga4_footer" after="-" template="WeltPixel_GA4::gtm_footer.phtml" />
+            <block ifconfig="weltpixel_ga4/meta_pixel_tracking/enable" class="WeltPixel\GA4\Block\MetaPixel\Common" name="weltpixel_ga4_metpixel_footer" after="-" template="WeltPixel_GA4::metapixel/footer.phtml" />
         </container>
         <!-- impressions -->
         <referenceBlock name="category.products.list" >
@@ -44,5 +45,29 @@
             </action>
         </referenceBlock>
         <!-- product clicks for cross, related, upsell -->
+        <referenceContainer name="before.body.end">
+            <block
+                ifconfig="weltpixel_ga4/serverside_measurement/enable"
+                class="WeltPixel\GA4\Block\Core"
+                name="weltpixel-ga4-server-product-click"
+                template="WeltPixel_GA4::serverside/product_click.phtml"
+            />
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block
+                ifconfig="weltpixel_ga4/serverside_measurement/enable"
+                class="WeltPixel\GA4\Block\Core"
+                name="weltpixel-ga4-server-view-item-list"
+                template="WeltPixel_GA4::serverside/view_item_list.phtml"
+            />
+        </referenceContainer>
+        <!-- Meta Pixel Tracking -->
+        <referenceBlock name="head.additional">
+            <block ifconfig="weltpixel_ga4/meta_pixel_tracking/enable" class="WeltPixel\GA4\Block\MetaPixel\Common" name="weltpixel_ga4_metapixel_head" before="-" template="WeltPixel_GA4::metapixel/head.phtml"/>
+        </referenceBlock>
+        <!-- Meta Pixel Tracking -->
+        <referenceBlock name="head.additional">
+            <block class="WeltPixel\GA4\Block\Core" name="weltpixel_ga4_common_head" before="-" template="WeltPixel_GA4::common.phtml"/>
+        </referenceBlock>
     </body>
 </page>

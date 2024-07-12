@@ -63,6 +63,12 @@ class Generate extends Action
                     trim($params['remarketing_enabled'] ?? ''),
                     trim($params['remarketing_conversion_code'] ?? ''),
                     trim($params['remarketing_conversion_label'] ?? ''),
+                    trim($params['enable_enhanced_conversion'] ?? ''),
+                    trim($params['enable_conversion_customer_acquisition'] ?? ''),
+                    trim($params['enable_conversion_cart_data'] ?? ''),
+                    trim($params['conversion_cart_merchant_center_id'] ?? ''),
+                    trim($params['conversion_cart_feed_country'] ?? ''),
+                    trim($params['conversion_cart_feed_language'] ?? ''),
                     trim($params['public_id'] ?? '')
                 );
                 $msg[] = __('Json was generated successfully. You can download the file by clicking on the Download Json button.');

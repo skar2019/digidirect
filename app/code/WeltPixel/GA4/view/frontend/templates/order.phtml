@@ -1,5 +1,8 @@
 <?php
 // @codingStandardsIgnoreFile
+$ga4ServerSideHelper = $this->helper('WeltPixel\GA4\Helper\ServerSideTracking');
+
+/** @var $block \WeltPixel\GA4\Block\Order */
 ?>
 <?php if($this->isEnabled()) : ?>
     <?php
@@ -8,14 +11,19 @@
     $order = $this->getOrder();
 
     $checkoutPaymentData = $helper->getGA4CheckoutPaymentData();
+    $multipleCheckoutPaymentData = $helper->popG4MultipleCheckoutPaymentData();
 
     if ($checkoutPaymentData && is_array($checkoutPaymentData)) {
         $this->setCustomDataLayerData($checkoutPaymentData[0]);
         $helper->invalidateGA4CheckoutPaymentData();
     }
 
+    if ($multipleCheckoutPaymentData && is_array($multipleCheckoutPaymentData) && !empty($multipleCheckoutPaymentData)) {
+        $this->setCustomDataLayerData($multipleCheckoutPaymentData);
+    }
 
-    if ($this->isFreeOrderTrackingAllowedForGoogleAnalytics()) :
+    if ($this->isOrderTrackingAllowedBasedOnOrderStatus($order) && $this->isFreeOrderTrackingAllowedForGoogleAnalytics() && !($ga4ServerSideHelper->isServerSideTrakingEnabled() && $ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_PURCHASE)
+        && $ga4ServerSideHelper->isDataLayerEventDisabled())) :
         $products = $this->getProducts();
 
         $this->setDataLayerOption('event', 'purchase');
@@ -34,6 +42,32 @@
         $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CONVERSION_VALUE, $this->getOrderTotal());
         $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_ORDER_ID, $order->getIncrementId());
     endif;
+
+    if ($helper->isAdWordConversionTrackingEnabled() && $helper->isEnhancedConversionsEnabled() ) :
+        $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_EMAIL, $order->getCustomerEmail());
+        $billingAddress = $order->getBillingAddress();
+        if ($billingAddress) {
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_PHONE, $billingAddress->getTelephone() ?? '');
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_FIRSTNAME, $billingAddress->getFirstname() ?? '');
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_LASTNAME, $billingAddress->getLastname() ?? '');
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_STREET, implode(",", $billingAddress->getStreet() ?? []));
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_CITY, $billingAddress->getCity() ?? '');
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_REGION, $billingAddress->getRegion() ?? '');
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_COUNTRY, $block->getCountryNameByCode($billingAddress->getCountryId()));
+            $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_POSTALCODE, $billingAddress->getPostcode() ?? '');
+        }
+    endif;
+
+    if ($helper->isAdWordConversionTrackingEnabled() && $helper->isAdWordNewCustomerAcquisitionEnabled()) {
+        $conversionTrackingNewCustomer = $this->getAdwordNewCustomer();
+        $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_NEW_CUSTOMER,$conversionTrackingNewCustomer);
+        $this->setDataLayerOption(\WeltPixel\GA4\Model\Api\ConversionTracking::FIELD_CONVERSION_TRACKING_CUSTOMER_LIFETIME_VALUE, $this->getAdwordCustomerLifetimeValue($conversionTrackingNewCustomer));
+    }
+
+    if ($helper->isAdWordConversionTrackingEnabled() && $helper->isConversionWithCartDataEnabled()) {
+        $this->setDataLayerOption('discount',floatval(number_format(abs($block->getOrderDiscountedAmount(true)), 2, '.', '')));
+        $this->setDataLayerOption('items', $block->getConversionCartDataItems());
+    }
 
     if ($helper->isAdWordsRemarketingEnabled() && $this->isFreeOrderAllowedForAdwordsRemarketing()):
         $remarketingData = [];

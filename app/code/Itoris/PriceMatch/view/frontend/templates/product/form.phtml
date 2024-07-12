@@ -22,17 +22,14 @@
  * @copyright  Copyright (c) 2018 ITORIS INC. (http://www.itoris.com)
  * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
  */
-
-?>
-
-<?php
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
     $is_digiPrint = $currentProduct->getData('is_digiprint');
+    $seller = $currentProduct->getData('marketplacer_seller');
 ?>
 
-<?php if($block->checkRenderLink() && !$is_digiPrint) : ?>
-    <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
+<?php if($block->checkRenderLink() && !$is_digiPrint && $seller == 20329) : ?>
+    <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 0; margin-top: 15px;">
         <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
             <div class="pricematch-caption">
                 <span>Found a better price? Click here and watch us try to beat it.</span>
@@ -40,7 +37,7 @@
         </a>
     </div>
     
-    <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
+    <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px;">
         <div data-itoris-placeholder="messages" style="display: none;"></div>
             <div class="itoris-custom-main-grid">
                 <div class="itoris-custom-image">

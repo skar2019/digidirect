@@ -20,34 +20,34 @@ use Studio19\Variants\Api\Data\ProductVariantPagedResultInterfaceFactory;
  * Product variants controller.
  */
 class Index extends Action {
-   
+
     /**
      * @var \Magento\Catalog\Api\CategoryRepositoryInterface
-     * 
+     *
      */
     private $categoryRepository;
 
     /**
      * @var \Magento\Framework\Controller\Result\JsonFactory
-     * 
+     *
      */
     protected $jsonResultFactory;
-  
+
     /**
      * @var \Magento\Framework\UrlInterface
-     * 
+     *
      */
     protected $urlBuilder;
-  
+
     /**
      * @var \Magento\Catalog\Helper\Image
-     * 
+     *
      */
     protected $imageHelper;
-  
+
     /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface
-     * 
+     *
      */
     protected $pricingHelper;
 
@@ -55,10 +55,10 @@ class Index extends Action {
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
     protected $collectionFactory;
-   
+
     /**
      * @var \Magento\Framework\AuthorizationInterface
-     * 
+     *
      */
     protected $authorisation;
 
@@ -128,19 +128,19 @@ class Index extends Action {
             ->addAttributeToFilter('type_id', ['in' => [
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE]]);
-        
+
         $select = $collection->getSelect();
-        
+
         // Filter out simple products which are linked to a configurable/bundled product; these will be included as variants of the
         // parent product.
-        
+
         if ($excludeLinked)
         {
             $select
                 ->joinLeft(['link_table' => 'catalog_product_super_link'], 'link_table.product_id = e.entity_id', ['product_id'])
                 ->where('link_table.product_id IS NULL');
         }
-        
+
         $select->limit($top, $skip);
         $items = $collection
             ->addCategoryIds()
@@ -189,10 +189,10 @@ class Index extends Action {
 
         if ($top == sizeof($items))
             $pagedResult->nextPage = $this->urlBuilder->getUrl('*/*/*', ['top' => $top, 'skip' => $top + $skip]);
-        
+
         $result->setData($pagedResult);
 
-        return $result;              
+        return $result;
     }
 
     /**
@@ -203,7 +203,10 @@ class Index extends Action {
     protected function prepareProductForResponse(ProductInterface $product)
     {
         $productData = $product->getData();
-        $productData['final_price_with_tax'] = $product->getFinalPrice();
+        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $final_price2 = $product->getFinalPrice();
+        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $productData['final_price_with_tax'] = $final_price3;//$product->getFinalPrice();
         $productData['image_url'] = $this->imageHelper->init($product, 'product_base_image')->constrainOnly(false)->keepAspectRatio(true)->keepFrame(false)->resize(500, 500)->getUrl();
         $productData['url'] = $product->getProductUrl();
         $productData['manufacturer_value'] = array_key_exists('manufacturer', $productData) ? $product->getAttributeText('manufacturer') : null;
@@ -247,16 +250,16 @@ class Index extends Action {
 
             $optionsByAttributeValues = array();
             $attributeCodes = array();
-            
+
             // Cache access to the prices for each attribute value.
             foreach ($attributes as $attribute) {
                 array_push($attributeCodes, $attribute->getProductAttribute()->getAttributeCode());
                 $options = $attribute->getOptions();
-                
+
                 foreach ($options as $option)
                     $optionsByAttributeValues[$option['value_index']] = $option['label'];
             }
-            
+
             $subProducts = $product->getTypeInstance(true)
                 ->getUsedProductCollection($product)
                 ->addAttributeToSelect(array_merge($attributeCodes, array('name', 'description', 'short_description', 'price', 'image')))
@@ -270,7 +273,7 @@ class Index extends Action {
                 // Collect attribute values for each appropriate attribute.
                 foreach ($attributes as $attribute) {
                     $code = $attribute->getProductAttribute()->getAttributeCode();
-                    
+
                     // If the key does not exist, it probably has not been set on the products, and is thus misconfigured, so it should not be added to output.
                     // Update 16/1/18 -- Extra condition check since Power Golf is giving out of bounds exception on the 'name' => ... line below.
                     // Update 15/5/18 -- Add try/catch since I can't work out why the code is failing
@@ -284,6 +287,9 @@ class Index extends Action {
                         $skip = true;
                 }
 
+                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $final_price2 = $product->getFinalPrice();
+                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 if (!$skip) {
                     array_push($productData['variants'], (object)[
                             'id' => $variantData['entity_id'],
@@ -292,7 +298,7 @@ class Index extends Action {
                             'description' => array_key_exists('description', $variantData) ? $variantData['description'] :
                                             (array_key_exists('short_description', $variantData) ? $variantData['short_description'] : null),
                             'attributes' => $attributeValues,
-                            'price' => $variant->getFinalPrice(),
+                            'price' => $final_price3,
                         ]);
                 }
             }

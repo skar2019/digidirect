@@ -2,6 +2,7 @@
 namespace WeltPixel\GA4\CustomerData;
 
 use Magento\Customer\CustomerData\SectionSourceInterface;
+use Magento\Framework\Event\ManagerInterface;
 
 /**
  * Gtm section
@@ -25,18 +26,23 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
     protected $customerSession;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * Constructor
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\Checkout\Model\Session $_checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param ManagerInterface $eventManager
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \Magento\Checkout\Model\Session $_checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
-        \WeltPixel\GA4\Helper\Data $gtmHelper,
+        ManagerInterface $eventManager,
         array $data = []
     )
     {
@@ -44,6 +50,7 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         $this->jsonHelper = $jsonHelper;
         $this->_checkoutSession = $_checkoutSession;
         $this->customerSession = $customerSession;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -53,6 +60,7 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
     {
 
         $data = [];
+        $metaPixelData = [];
 
         /** AddToCart data verifications */
         if ($this->_checkoutSession->getGA4AddToCartData()) {
@@ -101,8 +109,33 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         }
         $this->customerSession->setGA4LoginData(null);
 
-        return [
-            'datalayer' => $this->jsonHelper->jsonEncode($data)
+
+        /** MetaPixel Add To Cart  */
+        if ($this->_checkoutSession->getMetaPixelAddToCartData()) {
+            foreach ($this->_checkoutSession->getMetaPixelAddToCartData() as $metaPixelAddToCartData) {
+                $metaPixelData[] = $metaPixelAddToCartData;
+            }
+        }
+        $this->_checkoutSession->setMetaPixelAddToCartData(null);
+
+        /** MetaPixel Add To Wishlist  */
+        if ($this->customerSession->getMetaPixelAddToWishlistData()) {
+            foreach ($this->customerSession->getMetaPixelAddToWishlistData() as $metaPixelAddToWishlistData) {
+                $metaPixelData[] = $metaPixelAddToWishlistData;
+            }
+        }
+        $this->_checkoutSession->setMetaPixelAddToWishlistData(null);
+
+        $ga4SectionData = [
+            'datalayer' => $this->jsonHelper->jsonEncode($data),
+            'metapixel' => $this->jsonHelper->jsonEncode($metaPixelData)
         ];
+
+        $ga4SectionDataObject = new \Magento\Framework\DataObject(['section_data' =>$ga4SectionData ]);
+
+        $this->eventManager->dispatch('weltpixel_ga4_section_data', ['ga4_section_data' => $ga4SectionDataObject]);
+
+        return $ga4SectionDataObject->getData('section_data');
+
     }
 }

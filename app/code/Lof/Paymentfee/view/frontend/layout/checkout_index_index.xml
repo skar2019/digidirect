@@ -50,5 +50,9 @@
                 </argument>
             </arguments>
         </referenceBlock>
+        <referenceContainer name="header.panel" remove="true"/>
+        <referenceBlock name="top.search" remove="true"/>
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+        <referenceBlock name="catalog.topnav" remove="true"/>
     </body>
 </page>

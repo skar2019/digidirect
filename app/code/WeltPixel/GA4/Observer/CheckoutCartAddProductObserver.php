@@ -11,6 +11,11 @@ class CheckoutCartAddProductObserver implements ObserverInterface
     protected $helper;
 
     /**
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
+     */
+    protected $ga4ServerSideHelper;
+
+    /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $localeResolver;
@@ -23,14 +28,17 @@ class CheckoutCartAddProductObserver implements ObserverInterface
 
     /**
      * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Checkout\Model\Session $_checkoutSession
      */
     public function __construct(\WeltPixel\GA4\Helper\Data $helper,
+                                \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper,
                                 \Magento\Framework\Locale\ResolverInterface $localeResolver,
                                 \Magento\Checkout\Model\Session $_checkoutSession)
     {
         $this->helper = $helper;
+        $this->ga4ServerSideHelper = $ga4ServerSideHelper;
         $this->localeResolver = $localeResolver;
         $this->_checkoutSession = $_checkoutSession;
     }
@@ -41,7 +49,14 @@ class CheckoutCartAddProductObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $this->_checkoutSession->setAddProductTrigger(false);
+
         if (!$this->helper->isEnabled()) {
+            return $this;
+        }
+
+        if (($this->ga4ServerSideHelper->isServerSideTrakingEnabled() && $this->ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_ADD_TO_CART)
+            && $this->ga4ServerSideHelper->isDataLayerEventDisabled())) {
             return $this;
         }
 

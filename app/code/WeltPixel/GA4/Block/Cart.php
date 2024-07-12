@@ -77,7 +77,7 @@ class Cart extends \WeltPixel\GA4\Block\Core
             }
 
             $productDetail = [];
-            $productDetail['item_name'] = html_entity_decode($item->getName() ?? '');
+            $productDetail['item_name'] = html_entity_decode($productIdModel->getName() ?? '');
             $productDetail['affiliation'] = $this->helper->getAffiliationName();
             $productDetail['item_id'] = $this->helper->getGtmProductId($productIdModel);
             $productDetail['price'] = floatval(number_format($item->getPriceInclTax() ?? 0, 2, '.', ''));

@@ -70,6 +70,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
         $collection->addPriceData(
             $this->session->getCustomerGroupId(),
             $this->storeManager->getStore()->getWebsiteId()

@@ -3,8 +3,14 @@
 /**
  * Usage $this->helper('WeltPixel\GA4\Helper\Data')->addProductClick($_product, $index, 'List Value');
  */
+/** @var \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper */
+$ga4ServerSideHelper = $this->helper('WeltPixel\GA4\Helper\ServerSideTracking');
+/** @var \WeltPixel\GA4\Helper\Data $ga4Helper */
+$ga4Helper = $this->helper('WeltPixel\GA4\Helper\Data');
 ?>
-<?php if($this->isEnabled()) : ?>
+
+<?php if((!($ga4ServerSideHelper->isServerSideTrakingEnabled() && $ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_SELECT_ITEM)
+    && $ga4ServerSideHelper->isDataLayerEventDisabled())) && $this->isEnabled() && $ga4Helper->isDataLayerProductClickEnabled()) : ?>
     <?php $product = $this->getProduct(); ?>
     <?php $helper = $this->helper('WeltPixel\GA4\Helper\Data'); ?>
     <?php if (isset($product)) : ?>
@@ -40,7 +46,20 @@
         ];
 
         ?>
+        if (window.ga4AllowServices) {
         window.dataLayer.push({ecommerce: null});
         window.dataLayer.push(<?php echo $this->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data)); ?>);
+        }
+    <?php endif; ?>
+<?php endif; ?>
+<?php
+if ($ga4ServerSideHelper->isServerSideTrakingEnabled() && $ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_SELECT_ITEM)) :
+    $product = $this->getProduct();
+    if (isset($product)) :
+        $list = $this->getList();
+        $listId = $this->getListId();
+        $index = $this->getIndex();
+    ?>
+        window.wpGA4ServerSide.pushClick(<?= $product->getId() ?>, '<?= addslashes($listId) ?>', '<?= addslashes(str_replace('"','&quot;', $list)) ?>', <?= $index  ?> , this);
     <?php endif; ?>
 <?php endif; ?>

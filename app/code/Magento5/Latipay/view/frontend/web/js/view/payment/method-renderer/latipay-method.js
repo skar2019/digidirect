@@ -33,7 +33,6 @@ define(
             return window.checkoutConfig.payment.latipay.tooltip;
         },
         getData: function () {
-            $("label[for='latipay-method-wechat']").text("Unionpay");
             return {
                 "method": this.item.method,
                 "additional_data": {

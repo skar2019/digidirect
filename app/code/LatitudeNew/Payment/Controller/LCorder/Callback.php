@@ -102,12 +102,12 @@ class Callback extends \Magento\Framework\App\Action\Action
         $this->helper->log('****** SAVING LC INSTANT/SALE TRANSACTION ******', 'latitude');
         //change state from new to processing
         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
-       
+
         //Set transaction id
         $payment = $order->getPayment();
         $payment->setTransactionId($verifyResponse->transactionReference);
         $payment->setAdditionalInformation(
-            \Magento\Sales\Model\Order\Payment\Transaction::TXN_ID, 
+            \Magento\Sales\Model\Order\Payment\Transaction::TXN_ID,
             $verifyResponse->transactionReference
         );
         $payment->setAdditionalInformation('gateway_reference', $verifyResponse->gatewayReference);
@@ -120,7 +120,7 @@ class Callback extends \Magento\Framework\App\Action\Action
         );
         $transaction->setIsClosed(0);
         $transaction->save();
-        
+
         //$latitudeRef = $order->getCustomerNote();
         //add comment along and update status to processing
         $order->addStatusToHistory(
@@ -149,12 +149,12 @@ class Callback extends \Magento\Framework\App\Action\Action
         $this->helper->log('****** SAVING LC DEFERRED/AUTHORIZATION TRANSACTION ******', 'latitude');
         //change state from new to processing
         $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
-       
+
         //Set transaction id
         $payment = $order->getPayment();
         $payment->setTransactionId($verifyResponse->transactionReference);
         $payment->setAdditionalInformation(
-            \Magento\Sales\Model\Order\Payment\Transaction::TXN_ID, 
+            \Magento\Sales\Model\Order\Payment\Transaction::TXN_ID,
             $verifyResponse->transactionReference
         );
         $payment->setAdditionalInformation('gateway_reference', $verifyResponse->gatewayReference);
@@ -167,7 +167,7 @@ class Callback extends \Magento\Framework\App\Action\Action
         );
         $transaction->setIsClosed(0);
         $transaction->save();
-        
+
         // $latitudeRef = $order->getCustomerNote();
         //add comment along and update status to processing
         $order->addStatusToHistory(
@@ -186,7 +186,7 @@ class Callback extends \Magento\Framework\App\Action\Action
 
     /**
      * In case of failed payment from the gateway
-     * 
+     *
      * @param object $verifyResponse
      * @param object $order
      */
@@ -213,12 +213,12 @@ class Callback extends \Magento\Framework\App\Action\Action
 
             //add transaction
             $transaction = $payment->addTransaction(
-                \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE, 
-                null, 
+                \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
+                null,
                 false
             );
             $transaction->setAdditionalInformation(
-                \Magento\Sales\Model\Order\Payment\Transaction::ADDITIONAL_INFORMATION, 
+                \Magento\Sales\Model\Order\Payment\Transaction::ADDITIONAL_INFORMATION,
                 'Quote ID: '.$order->getQuoteId());
             $transaction->setIsClosed(0);
             $transaction->save();
@@ -235,7 +235,7 @@ class Callback extends \Magento\Framework\App\Action\Action
                 false  //isCustomerNotified, default false
             );
             $order->save();
-          
+
             //setup redirect to cart
             $this->messageManager->addErrorMessage($verifyResponse->message);
             $this->_redirect('checkout/cart');
@@ -273,14 +273,14 @@ class Callback extends \Magento\Framework\App\Action\Action
             //https://www.magentoextensions.org/documentation/class_magento_1_1_checkout_1_1_model_1_1_session.html#a858077761ba432c5496e062867a53542
             //but PlaceOrder in the method-renderer would override this and create new order anyway
             $this->checkoutSession->setLastRealOrderId($order->getIncrementId());
-          
+
             //setup redirect to cart
             $this->helper->log('Returned to cart from gateway', 'latitude');
             $this->messageManager->addErrorMessage('Returned to cart from gateway');
             $this->_redirect('checkout/cart');
         }
     }
-    
+
     /**
      * Main callback function
      */
@@ -319,7 +319,7 @@ class Callback extends \Magento\Framework\App\Action\Action
         }
 
         $verifyResponse = $this->latitudeApi->verifyLCPurchase($order_id, $transactionReference, $gatewayReference);
-        
+
         //validate query param, if mismatch, send back to cart with warning message
         if ($verifyResponse->status !== 200) {
             $this->helper->log("Error verifying purchase with status: $verifyResponse->status", 'latitude');
@@ -344,7 +344,7 @@ class Callback extends \Magento\Framework\App\Action\Action
 
                     $isAuthorization = $verifyResponse->transactionType === 'authorization';
                     //$isStatusPending = $order->getStatus() === 'pending_latitude_approval';
-                    $isStatusPending = $order->getStatus() === 'pending_latitude_approval' || $order->getStatus() === 'pending_preorder';
+                    $isStatusPending = ($order->getStatus() === 'pending_latitude_approval' || $order->getStatus() === 'pending_preorder');
 
                     //only process success scenario when status is pending approval ("Place Order" click)
                     if ($verifyResponse->transactionType === 'sale' && $isStatusPending) {
@@ -377,11 +377,11 @@ class Callback extends \Magento\Framework\App\Action\Action
                             $this->checkoutSession
                             ->setLastQuoteId($order->getQuoteId())
                             ->setLastSuccessQuoteId($order->getQuoteId());
-    
+
                             $this->checkoutSession->setLastOrderId($order->getId())
                             ->setLastRealOrderId($order->getIncrementId())
                             ->setLastOrderStatus($order->getStatus());
-    
+
                             $this->_redirect('checkout/onepage/success');
                         }
                     } elseif ($isAuthorization && $isStatusPending) {
@@ -392,11 +392,11 @@ class Callback extends \Magento\Framework\App\Action\Action
                             $this->checkoutSession
                             ->setLastQuoteId($order->getQuoteId())
                             ->setLastSuccessQuoteId($order->getQuoteId());
-    
+
                             $this->checkoutSession->setLastOrderId($order->getId())
                             ->setLastRealOrderId($order->getIncrementId())
                             ->setLastOrderStatus($order->getStatus());
-    
+
                             $this->_redirect('checkout/onepage/success');
                         }
                     } else {

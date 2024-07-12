@@ -12,7 +12,7 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Plugin\Order;
@@ -27,21 +27,13 @@ class Notice
     protected $helper;
 
     /**
-     * @var \Magento\Framework\App\Request\Http
-     */
-    private $request;
-
-    /**
      * OrderNotice constructor.
      * @param \Bss\PreOrder\Helper\Data $helper
-     * @param \Magento\Framework\App\Request\Http $request
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helper,
-        \Magento\Framework\App\Request\Http $request
+        \Bss\PreOrder\Helper\Data $helper
     ) {
         $this->helper = $helper;
-        $this->request = $request;
     }
 
     /**
@@ -55,26 +47,24 @@ class Notice
      */
     public function beforeGetItemHtml($subject, $item)
     {
-        $action = $this->request->getFullActionName();
         if ($this->helper->isEnable()) {
             if ($item->getProductType() == Configurable::TYPE_CODE) {
-                if (strpos($action, 'multishipping_checkout') !== false) {
-                    $product = $this->helper->getProductBySku($item->getSku());
-                } else {
-                    $product = $this->helper->getProductBySku($item->getProductOptionByCode('simple_sku'));
-                }
+                $product = $this->helper->getProductBySku($item->getProductOptionByCode('simple_sku'));
             } else {
                 $product = $this->helper->getProductById($item->getProductId());
             }
 
             if ($product && $product instanceof \Magento\Catalog\Api\Data\ProductInterface) {
+                $isInStock = $this->helper->getIsInStock($product->getId());
+                $preOrder = $product->getData('preorder');
 
                 $message = $this->helper->replaceVariableX(
                     $this->helper->getNote(),
                     $this->helper->formatDate($product->getData('pre_oder_from_date')),
                     $this->helper->formatDate($product->getData('pre_oder_to_date'))
                 );
-                if ($this->helper->checkPreOrderAvailability($product, $item)) {
+                $availabilityPreOrder = $this->helper->isAvailablePreOrder($product->getId());
+                if ($this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder)) {
                     return [$item->setDescription($message)];
                 }
             }

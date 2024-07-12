@@ -23,9 +23,8 @@ define(
             return Component.extend({
                 isSalable: function (row) {
                     window.labelNotPreOrder = $t('Add to Cart');
-                    if (row['add_to_cart_button']['pre-order'] || row['extension_attributes']['pre_order']) {
-                        row['is_salable'] = 1;
-                        this.label = row['add_to_cart_button']['pre-order'] ? row['add_to_cart_button']['pre-order'] : row['extension_attributes']['pre_order'];
+                    if (row['add_to_cart_button']['pre-order']) {
+                        this.label = row['add_to_cart_button']['pre-order'];
                     } else {
                         this.label = window.labelNotPreOrder;
                     }

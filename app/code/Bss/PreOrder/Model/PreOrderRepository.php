@@ -12,96 +12,97 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2021-2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Model;
 
-use Bss\PreOrder\Api\PreOrderRepositoryInterface;
-use Magento\Framework\Exception\LocalizedException;
+use Bss\PreOrder\Model\Attribute\Source\Order;
 
-class PreOrderRepository implements PreOrderRepositoryInterface
+class PreOrderRepository implements \Bss\PreOrder\Api\PreOrderRepositoryInterface
 {
-    const CONFIG_ENABLE = 'enable';
-    const CONFIG_ALLOW_MIXIN = 'mix';
-    const CONFIG_STOCK_STATUS_ONLY = 'display_oos_with_pre_status_only';
-    const DEFAULT_BUTTON_TEXT = 'button';
-    const CART_ORDER_NOTE = 'note';
-    const DEFAULT_PRODUCT_MESSAGE = 'mess';
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
     /**
      * @var \Bss\PreOrder\Helper\Data
      */
-    protected $helperData;
+    protected $data;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
-    protected $productRepository;
+    protected $productCollectionFactory;
 
     /**
      * PreOrderRepository constructor.
-     * @param \Bss\PreOrder\Helper\Data $helperData
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Bss\PreOrder\Helper\Data $data
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helperData,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Bss\PreOrder\Helper\Data $data,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
     ) {
-        $this->helperData = $helperData;
-        $this->productRepository = $productRepository;
+        $this->productFactory = $productFactory;
+        $this->data = $data;
+        $this->productCollectionFactory = $productCollectionFactory;
     }
 
     /**
-     * Get Product PreOrder data By Sku
-     *
      * @param string $sku
      * @param int|null $storeId
-     * @return array
-     * @throws LocalizedException
+     * @return bool
      */
-    public function get($sku, $storeId = null)
+    public function checkIsPreOrderProduct($sku, $storeId = null)
     {
-        try {
-            if ($sku) {
-                $product = $this->productRepository->get($sku, false, $storeId);
-                $messageProduct = $product->getData('message');
-                $messageProduct = $messageProduct !== null ? $messageProduct : '';
-                $templateMess = !empty(trim($messageProduct)) ? $messageProduct : $this->helperData->getMess();
-                return [[
-                    'preorder' => $product->getData('preorder'),
-                    'pre_oder_from_date' => $product->getData('pre_oder_from_date'),
-                    'pre_oder_to_date' => $product->getData('pre_oder_to_date'),
-                    'availability_message' => $product->getData('availability_message'),
-                    'message' => $product->getTypeId() == 'simple' ? $templateMess : null,
-                    'is_in_stock' =>  $product->getData('is_salable')
-                ]];
+        if ($sku) {
+            $product = $this->productFactory->create()->loadByAttribute('sku', $sku);
+            $product->setStoreId($storeId);
+            $isInStock = $product->getData('is_salable');
+            $preOrder = $product->getData('preorder');
+            $fromDate =  $product->getData('pre_oder_from_date');
+            $toDate =  $product->getData('pre_oder_to_date');
+            if ((
+                $preOrder == Order::ORDER_YES
+                    && $this->data->isAvailablePreOrderFromFlatData($fromDate, $toDate)
+            )
+                ||
+                ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock == 0)
+            ) {
+                return true;
             }
-        } catch (\Exception $exception) {
-            throw new  LocalizedException(__($exception->getMessage()));
         }
-        return [];
+        return false;
     }
 
     /**
-     * Get Pre order Configuration
-     *
      * @param int|null $storeId
-     * @return array
+     * @return int
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getConfig($storeId = null)
+    public function getListPreOrderProduct($storeId = null)
     {
-        try {
-            return [[
-                self::CONFIG_ENABLE => $this->helperData->isEnable($storeId),
-                self::CONFIG_ALLOW_MIXIN => $this->helperData->isMix($storeId),
-                self::CONFIG_STOCK_STATUS_ONLY => $this->helperData->getDisplayOutOfStock($storeId),
-                self::DEFAULT_BUTTON_TEXT => $this->helperData->getButton($storeId),
-                self::CART_ORDER_NOTE => $this->helperData->getNote($storeId),
-                self::DEFAULT_PRODUCT_MESSAGE => $this->helperData->getMess($storeId)
-            ]];
-        } catch (\Exception $exception) {
-            throw new  LocalizedException(__($exception->getMessage()));
+        $collection  = $this->productCollectionFactory->create();
+        $collection->addStoreFilter($storeId);
+        $collection->addAttributeToFilter('preorder', ['in' => ['1', '2']]);
+        $productSkus = [];
+        foreach ($collection as $product) {
+            $isInStock = $this->data->getIsInStock($product->getId());
+            $preorder = $product->getData('preorder');
+            $isAvailablePreOrder = $this->data->isAvailablePreOrderFromFlatData(
+                $product->getData('pre_oder_from_date'),
+                $product->getData('pre_oder_to_date')
+            );
+            if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK) ||
+                ($preorder == Order::ORDER_YES && $isAvailablePreOrder)
+            ) {
+                $productSkus[] = $product->getSku();
+            }
         }
-        return [];
+        return $this->data->serializeClass()->serialize($productSkus);
     }
 }

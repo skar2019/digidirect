@@ -7,6 +7,8 @@
                 <value id="weltpixel_ga4_gtm" type="host">https://www.googletagmanager.com</value>
                 <value id="weltpixel_ga4_gtmdebug" type="host">tagmanager.google.com</value>
                 <value id="weltpixel_ga4_analytics_google" type="host">analytics.google.com</value>
+                <value id="weltpixel_ga4_analytics_meta_pixel" type="host">*.facebook.net</value>
+                <value id="unpkg_com" type="host">unpkg.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -17,12 +19,19 @@
         <policy id="img-src">
             <values>
                 <value id="weltpixel_ga4_gstatic" type="host">*.gstatic.com</value>
+                <value id="weltpixel_ga4_metapixel" type="host">*.facebook.com</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
                 <value id="weltpixel_ga4_analytics" type="host">*.google-analytics.com</value>
                 <value id="weltpixel_ga4_analytics_google" type="host">analytics.google.com</value>
+                <value id="weltpixel_ga4_metapixel" type="host">*.facebook.net</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="weltpixel_ga4_metapixel_com" type="host">*.facebook.com</value>
             </values>
         </policy>
     </policies>

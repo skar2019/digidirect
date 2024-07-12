@@ -6,6 +6,9 @@
                 <enable>0</enable>
                 <gtm_code></gtm_code>
                 <gtm_nonjs_code></gtm_nonjs_code>
+                <enable_datalayer_preview>0</enable_datalayer_preview>
+                <datalayer_preview_ip_addresses></datalayer_preview_ip_addresses>
+                <loadlistingblock>0</loadlistingblock>
                 <id_selection>id</id_selection>
                 <enable_brand>0</enable_brand>
                 <enable_variant>0</enable_variant>
@@ -18,10 +21,12 @@
                 <persistentlayer_expiry>30</persistentlayer_expiry>
                 <exclude_tax_from_transaction>0</exclude_tax_from_transaction>
                 <parent_vs_child>parent</parent_vs_child>
+                <send_all_child_configurable>0</send_all_child_configurable>
                 <secure_cookies>0</secure_cookies>
                 <exclude_shipping_from_transaction>0</exclude_shipping_from_transaction>
                 <exclude_shipping_from_transaction_including_tax>0</exclude_shipping_from_transaction_including_tax>
                 <exclude_free_purchase>0</exclude_free_purchase>
+                <exclude_order_by_status_flag>0</exclude_order_by_status_flag>
                 <custom_dimension_customerid>1</custom_dimension_customerid>
                 <custom_dimension_customergroup>1</custom_dimension_customergroup>
                 <custom_dimension_pagename>1</custom_dimension_pagename>
@@ -42,6 +47,13 @@
                 <google_conversion_label>00000</google_conversion_label>
                 <google_conversion_currency_code>usd</google_conversion_currency_code>
                 <exclude_free_purchase>0</exclude_free_purchase>
+                <enable_enhanced_conversion>0</enable_enhanced_conversion>
+                <enable_new_customer_acquisition>0</enable_new_customer_acquisition>
+                <purchase_day_lapse>540</purchase_day_lapse>
+                <enable_cart_data>0</enable_cart_data>
+                <merchant_center_id></merchant_center_id>
+                <feed_country></feed_country>
+                <feed_language></feed_language>
             </adwords_conversion_tracking>
             <adwords_remarketing>
                 <enable>0</enable>
@@ -49,6 +61,22 @@
                 <conversion_label></conversion_label>
                 <exclude_free_purchase>0</exclude_free_purchase>
             </adwords_remarketing>
+            <serverside_measurement>
+                <enable>0</enable>
+                <measurement_id></measurement_id>
+                <api_secret></api_secret>
+                <events></events>
+                <send_user_id>1</send_user_id>
+                <disable_datalayer_events>1</disable_datalayer_events>
+                <enable_file_log>0</enable_file_log>
+                <enable_debug_collect>0</enable_debug_collect>
+            </serverside_measurement>
+            <meta_pixel_tracking>
+                <enable>0</enable>
+                <code_snippet></code_snippet>
+                <events></events>
+                <id_selection>id</id_selection>
+            </meta_pixel_tracking>
         </weltpixel_ga4>
     </default>
 </config>

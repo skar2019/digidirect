@@ -11,6 +11,11 @@ class SalesQuoteRemoveItemObserver implements ObserverInterface
     protected $helper;
 
     /**
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
+     */
+    protected $ga4ServerSideHelper;
+
+    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -23,14 +28,17 @@ class SalesQuoteRemoveItemObserver implements ObserverInterface
 
     /**
      * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper
      * @param \Magento\Catalog\Model\ProductRepository $productRepository,
      * @param \Magento\Checkout\Model\Session $_checkoutSession
      */
     public function __construct(\WeltPixel\GA4\Helper\Data $helper,
+                                \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper,
                                 \Magento\Catalog\Model\ProductRepository $productRepository,
                                 \Magento\Checkout\Model\Session $_checkoutSession)
     {
         $this->helper = $helper;
+        $this->ga4ServerSideHelper = $ga4ServerSideHelper;
         $this->_checkoutSession = $_checkoutSession;
         $this->productRepository = $productRepository;
     }
@@ -41,7 +49,19 @@ class SalesQuoteRemoveItemObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $addProductTrigger = $this->_checkoutSession->getAddProductTrigger();
+        $this->_checkoutSession->setAddProductTrigger(false);
+
+        if ($addProductTrigger) {
+            return $this;
+        }
+
         if (!$this->helper->isEnabled()) {
+            return $this;
+        }
+
+        if (($this->ga4ServerSideHelper->isServerSideTrakingEnabled() && $this->ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_REMOVE_FROM_CART)
+            && $this->ga4ServerSideHelper->isDataLayerEventDisabled())) {
             return $this;
         }
 

@@ -12,7 +12,7 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Helper;
@@ -123,8 +123,7 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
                     $childProduct['pre_oder_to_date']
                 );
 
-                $messageProduct = $messageProduct !== null ? $messageProduct : '';
-                $template_mess = !empty(trim($messageProduct)) ? $messageProduct : $this->helper->getMess();
+                $template_mess = !empty(trim($messageProduct))? $messageProduct : $this->helper->getMess();
                 $childProduct['message'] = $this->helper->replaceVariableX(
                     $template_mess,
                     $childProduct['pre_oder_from_date'],

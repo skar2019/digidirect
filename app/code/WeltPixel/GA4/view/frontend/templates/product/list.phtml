@@ -54,7 +54,7 @@ $ga4Helper = $this->helper('WeltPixel\GA4\Helper\Data');
                     }
                     ?>
                     <?php // Product Image?>
-                    <a <?php if ($ga4Helper->isProductClickTrackingEnabled()) :
+                    <a  aria-label="<?= __('Product Page Link') ?>"  <?php if ($ga4Helper->isProductClickTrackingEnabled()) :
                             echo $this->helper('WeltPixel\GA4\Helper\Data')->addProductClick($_product, $iterator-1);
                         endif; ?>
                             href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">

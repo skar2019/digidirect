@@ -11,11 +11,19 @@ class ProductClickEventObserver implements ObserverInterface
     protected $helper;
 
     /**
-     * @param \WeltPixel\GA4\Helper\Data $helper
+     * @var \WeltPixel\GA4\Helper\ServerSideTracking
      */
-    public function __construct(\WeltPixel\GA4\Helper\Data $helper)
+    protected $ga4ServerSideHelper;
+
+    /**
+     * @param \WeltPixel\GA4\Helper\Data $helper
+     * @param \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper
+     */
+    public function __construct(\WeltPixel\GA4\Helper\Data $helper,
+                                \WeltPixel\GA4\Helper\ServerSideTracking $ga4ServerSideHelper)
     {
         $this->helper = $helper;
+        $this->ga4ServerSideHelper = $ga4ServerSideHelper;
     }
 
     /**
@@ -24,7 +32,8 @@ class ProductClickEventObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        if (!$this->helper->isEnabled() || !$this->helper->isProductClickTrackingEnabled()) {
+        $serverSideTracking = $this->ga4ServerSideHelper->isServerSideTrakingEnabled() && $this->ga4ServerSideHelper->shouldEventBeTracked(\WeltPixel\GA4\Model\Config\Source\ServerSide\TrackingEvents::EVENT_SELECT_ITEM);
+        if (!$serverSideTracking && (!$this->helper->isEnabled() || !$this->helper->isProductClickTrackingEnabled())) {
             return $this;
         }
 

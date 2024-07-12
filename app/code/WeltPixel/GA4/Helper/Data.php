@@ -2,6 +2,8 @@
 
 namespace WeltPixel\GA4\Helper;
 
+use Magento\Store\Model\ScopeInterface;
+
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -38,6 +40,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var array
      */
     protected $storeCategories;
+
+    /**
+     * @var int
+     */
+    protected $rootCategoryId;
 
     /**
      * @var \Magento\Catalog\Model\ResourceModel\Category
@@ -127,6 +134,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $objectFactory;
 
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
+    protected $resourceConnection;
+
+    /**
+     * @var \Magento\Framework\App\Response\RedirectInterface
+     */
+    protected $redirect;
+
     protected const XML_PATH_DEV_MOVE_JS_TO_BOTTOM = 'dev/js/move_script_to_bottom';
 
     /**
@@ -153,6 +170,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\DataObject\Factory $objectFactory
+     * @param \Magento\Framework\App\ResourceConnection $resourceConnection
+     * @param \Magento\Framework\App\Response\RedirectInterface $redirect
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -176,7 +195,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
-        \Magento\Framework\DataObject\Factory $objectFactory
+        \Magento\Framework\DataObject\Factory $objectFactory,
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        \Magento\Framework\App\Response\RedirectInterface $redirect
     ) {
         parent::__construct($context);
         $this->_gtmOptions = $this->scopeConfig->getValue('weltpixel_ga4', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -202,6 +223,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->session = $session;
         $this->cookieManager = $cookieManager;
         $this->objectFactory = $objectFactory;
+        $this->resourceConnection = $resourceConnection;
+        $this->redirect = $redirect;
     }
 
     /**
@@ -213,11 +236,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return;
         }
 
-        $rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
+        $this->rootCategoryId = $this->storeManager->getStore()->getRootCategoryId();
         $storeId = $this->storeManager->getStore()->getStoreId();
 
         $isWpGA4CacheEnabled = $this->cacheState->isEnabled(\WeltPixel\GA4\Model\Cache\Type::TYPE_IDENTIFIER);
-        $cacheKey = self::CACHE_ID_CATEGORIES . '-' . $rootCategoryId . '-' . $storeId;
+        $cacheKey = self::CACHE_ID_CATEGORIES . '-' . $this->rootCategoryId . '-' . $storeId;
         if ($isWpGA4CacheEnabled) {
             $this->_eventManager->dispatch('weltpixel_ga4_cachekey_after', ['cache_key' => $cacheKey]);
 
@@ -230,7 +253,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $categories = $this->categoryCollectionFactory->create()
             ->setStoreId($storeId)
-            ->addAttributeToFilter('path', ['like' => "1/{$rootCategoryId}%"])
+            ->addAttributeToFilter('path', ['like' => "1/{$this->rootCategoryId}%"])
             ->addAttributeToSelect('name');
 
         foreach ($categories as $categ) {
@@ -251,7 +274,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return !$this->cookieHelper->isUserNotAllowSaveCookie() && $this->_gtmOptions['general']['enable'];
+        return $this->_gtmOptions['general']['enable'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentWebsiteId()
+    {
+        return $this->storeManager->getWebsite()->getId();
     }
 
     /**
@@ -270,7 +301,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!isset($this->_gtmOptions['general']['product_click_tracking'])) {
             return false;
         }
-        return !$this->cookieHelper->isUserNotAllowSaveCookie() && $this->_gtmOptions['general']['product_click_tracking'];
+        return $this->_gtmOptions['general']['product_click_tracking'];
     }
 
     /**
@@ -340,6 +371,51 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @return boolean
      */
+    public function excludeOrderByStatusFlag($storeId = null)
+    {
+        return $this->scopeConfig->getValue(
+            'weltpixel_ga4/general/exclude_order_by_status_flag',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getExcludeOrderByStatuses($storeId = null)
+    {
+        $excludedOrdersStatuses = $this->scopeConfig->getValue(
+            'weltpixel_ga4/general/exclude_order_by_statuses',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ) ?? '';
+        return explode(',', $excludedOrdersStatuses);
+    }
+
+    /**
+     * @param $order
+     * @return bool
+     */
+    public function isOrderTrackingAllowedBasedOnOrderStatus($order)
+    {
+        $orderStatuses = $this->getExcludeOrderByStatuses($order->getStoreId());
+        $excludeOrderByStatusFlag = $this->excludeOrderByStatusFlag($order->getStoreId());
+
+        if (!$excludeOrderByStatusFlag) {
+            return true;
+        }
+
+        if (!empty($orderStatuses) && in_array($order->getStatus(), $orderStatuses)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return boolean
+     */
     public function excludeFreeOrderFromAdwordsConversionTracking()
     {
         return $this->_gtmOptions['adwords_conversion_tracking']['exclude_free_purchase'];
@@ -360,6 +436,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getParentOrChildIdUsage()
     {
         return $this->_gtmOptions['general']['parent_vs_child'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function sendAllChildConfigurableProducts()
+    {
+        return (bool)$this->_gtmOptions['general']['send_all_child_configurable'];
     }
 
     /**
@@ -465,6 +549,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @param $blockName
+     * @param $template
+     * @return bool
+     */
+    public function createGA4Block($blockName, $templae)
+    {
+        return $this->createBlock($blockName, $templae);
+    }
+
+    /**
      * Set default gtm options based on configuration
      */
     public function addDefaultInformation()
@@ -507,6 +601,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
                 }
             }
+
 
             $this->storage->setData('pageType', $pageType);
         }
@@ -673,6 +768,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return;
         }
 
+
         $checkoutBlock = $this->createBlock('Checkout', 'checkout.phtml');
 
         if ($checkoutBlock) {
@@ -729,6 +825,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->isCustomDimensionPageTypeEnabled()) {
             $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_PURCHASE;
             $this->storage->setData('pageType', $pageType);
+        }
+
+        $serverSideOrderTracking = $this->createBlock('Track\\Order', 'serverside/checkout/success.phtml');
+        if ($serverSideOrderTracking) {
+            $order = $this->orderRepository->get($lastOrderId);
+            $serverSideOrderTracking->setOrder($order);
+            $serverSideOrderTracking->toHtml();
         }
     }
 
@@ -876,18 +979,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $displayOption = $this->getParentOrChildIdUsage();
         $productId = $this->getGtmProductId($product);
-
         if ($buyRequest instanceof \Magento\Framework\DataObject) {
             $buyRequest = $buyRequest->getData();
         }
+        $itemName = html_entity_decode($product->getName() ?? '');
 
         if ( ($displayOption == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && ($product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)) {
             $canditatesRequest = $this->objectFactory->create($buyRequest);
             $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($canditatesRequest, $product);
 
-            foreach ($cartCandidates as $candidate) {
-                if ($candidate->getParentProductId())  {
-                    $productId = $this->getGtmProductId($candidate);
+            if (is_array($cartCandidates) || is_object($cartCandidates)) {
+                foreach ($cartCandidates as $candidate) {
+                    if ($candidate->getParentProductId()) {
+                        $productId = $this->getGtmProductId($candidate);
+                        $itemName = html_entity_decode($candidate->getName() ?? '');
+                    }
                 }
             }
         }
@@ -897,14 +1003,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = $productId;
+        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         if ($this->checkoutSession->getGA4LastProductPrice()) {
             $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($this->checkoutSession->getGA4LastProductPrice()), 2, '.', ''));
             $this->checkoutSession->setGA4LastProductPrice(null);
         } else {
-            $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+            $numb = $product->getPriceInfo()->getPrice('final_price')->getValue();
+            if(!is_null($numb))
+            {
+                $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+            }
+            else
+            {
+                $productData['price'] = $numb;
+            }
+
         }
 
         if ($this->isBrandEnabled()) {
@@ -933,7 +1048,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $result['ecommerce']['currency'] =  $this->getCurrencyCode();
-        $result['ecommerce']['value'] = $productData['price'] * abs($qty);
+        $result['ecommerce']['value'] = $productData['price'] * abs($qty);;
         $result['ecommerce']['items'][] = $productData;
 
         return $result;
@@ -994,7 +1109,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getGtmProductId($product)
     {
-        $idOption = $this->_gtmOptions['general']['id_selection'];
+        $idOption = $this->getIdSelection();
         $gtmProductId = '';
 
         switch ($idOption) {
@@ -1017,7 +1132,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getGtmOrderItemId($item)
     {
-        $idOption = $this->_gtmOptions['general']['id_selection'];
+        $idOption = $this->getIdSelection();
         $gtmProductId = '';
 
         switch ($idOption) {
@@ -1031,6 +1146,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $gtmProductId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdSelection()
+    {
+        return $this->_gtmOptions['general']['id_selection'];
     }
 
     /**
@@ -1118,7 +1241,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_populateStoreCategories();
         }
 
-        $categoryId = $categoryIds[0];
+        $categoryIds = $this->_filterStoreCategories($categoryIds);
+        $categoryId = $categoryIds[0] ?? $this->rootCategoryId;
 
         $categoryPath = '';
         if (isset($this->storeCategories[$categoryId])) {
@@ -1126,6 +1250,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return str_replace('{#}', '/', $this->_buildCategoryPath($categoryPath));
+    }
+
+    /**
+     * @param array $categoryIds
+     * @return array
+     */
+    private function _filterStoreCategories($categoryIds)
+    {
+        $filteredCategoryIds = [];
+        foreach ($categoryIds as $categoryId) {
+            if (isset($this->storeCategories[$categoryId])) {
+                $filteredCategoryIds[] = $categoryId;
+            }
+        }
+
+        if (count($categoryIds) > 1) {
+            $filteredCategoryIds = array_diff_assoc($filteredCategoryIds, [$this->rootCategoryId]);
+            $filteredCategoryIds = array_values($filteredCategoryIds);
+        }
+
+        return $filteredCategoryIds;
     }
 
     /**
@@ -1163,6 +1308,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result = [];
 
         $productId = $this->getGtmProductId($product);
+        $itemName = html_entity_decode($product->getName() ?? '');
 
         $displayOption = $this->getParentOrChildIdUsage();
         if ( ($displayOption == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && ($product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)) {
@@ -1170,6 +1316,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 foreach ($quoteItem->getChildren() as $child) {
                     $childProduct = $child->getProduct();
                     $productId = $this->getGtmProductId($childProduct);
+                    $itemName = html_entity_decode($childProduct->getName() ?? '');
                 }
             }
         }
@@ -1179,9 +1326,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = $productId;
+        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($quoteItem->getPrice()), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
@@ -1227,8 +1374,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData = [];
         $productData['item_name'] = html_entity_decode($product->getName() ?? '');
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = $this->getGtmProductId($product);
-        $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+        $productId = $this->getGtmProductId($product);
+        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
+        if(is_null($product->getPriceInfo()->getPrice('final_price')->getValue()))
+        {
+            $productData['price'] = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        }
+        else
+        {
+            $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
+        }
+
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
         }
@@ -1271,7 +1427,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData = [];
         $productData['item_name'] = html_entity_decode($product->getName() ?? '');
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = $this->getGtmProductId($product);
+        $productId = $this->getGtmProductId($product);
+        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
@@ -1288,9 +1445,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param int $step
      * @param string $checkoutOption
+     * @param $order
      * @return array
      */
-    public function addCheckoutStepPushData($step, $checkoutOption)
+    public function addCheckoutStepPushData($step, $checkoutOption, $order = null)
     {
         $checkoutStepResult = [];
         $products = [];
@@ -1300,7 +1458,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($checkoutBlock) {
             $quote = $this->checkoutSession->getQuote();
             $checkoutBlock->setQuote($quote);
-            $products = $checkoutBlock->getProducts();
+            if ($order) {
+                $orderBlock = $this->createBlock('Order', 'order.phtml');
+                $orderBlock->setOrder($order);
+                $products = $orderBlock->getProducts();
+            } else {
+                $products = $checkoutBlock->getProducts();
+            }
             $couponCode = $quote->getCouponCode();
         }
 
@@ -1330,7 +1494,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $checkoutStepResult['event'] = $eventName;
         $checkoutStepResult['ecommerce'] = [];
         $checkoutStepResult['ecommerce']['currency'] = $this->getCurrencyCode();
-        $checkoutStepResult['ecommerce']['value'] = floatval(number_format($this->getCartTotal(), 2, '.', ''));
+        if ($order) {
+            $checkoutStepResult['ecommerce']['value'] = floatval(number_format($order->getGrandTotal(), 2, '.', ''));
+        } else {
+            $checkoutStepResult['ecommerce']['value'] = floatval(number_format($this->getCartTotal(), 2, '.', ''));
+        }
+
         $checkoutStepResult['ecommerce']['items'] = [];
         $checkoutStepResult['ecommerce']['items'] = $products;
         $checkoutStepResult['ecommerce'][$optionName] = $checkoutOption;
@@ -1435,6 +1604,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isAdWordConversionTrackingEnabled()
     {
         return $this->_gtmOptions['adwords_conversion_tracking']['enable'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnhancedConversionsEnabled()
+    {
+        return $this->_gtmOptions['adwords_conversion_tracking']['enable_enhanced_conversion'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAdWordNewCustomerAcquisitionEnabled()
+    {
+        return $this->_gtmOptions['adwords_conversion_tracking']['enable_new_customer_acquisition'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getCustomerPurchaseDayLapse()
+    {
+        return (int)$this->_gtmOptions['adwords_conversion_tracking']['purchase_day_lapse'] ?? 540;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isConversionWithCartDataEnabled()
+    {
+        return $this->_gtmOptions['adwords_conversion_tracking']['enable_cart_data'];
     }
 
     /**
@@ -1595,7 +1796,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_populateStoreCategories();
         }
 
-        $categoryId = $categoryIds[0];
+        $categoryIds = $this->_filterStoreCategories($categoryIds);
+        $categoryId = $categoryIds[0] ?? $this->rootCategoryId;
 
         $categoryPath = '';
         if (isset($this->storeCategories[$categoryId])) {
@@ -1679,7 +1881,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        return $attributeValue;
+        return $attributeValue ?? '';
     }
 
     /**
@@ -1704,5 +1906,148 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function invalidateGA4CheckoutPaymentData()
     {
         $this->checkoutSession->setGA4CheckoutPaymentData(null);
+    }
+
+    /**
+     * @return array
+     */
+    public function getGA4MultipleCheckoutPaymentData()
+    {
+        return $this->checkoutSession->getGA4MultipleCheckoutPaymentData() ?? [];
+    }
+
+    /**
+     * @param array $multipleCheckoutPaymentData
+     * @return void
+     */
+    public function setGA4MultipleCheckoutPaymentData($multipleCheckoutPaymentData)
+    {
+        $currentMultipleCheckoutPaymentData = $this->getGA4MultipleCheckoutPaymentData();
+        $currentMultipleCheckoutPaymentData[] = $multipleCheckoutPaymentData;
+
+        $this->checkoutSession->setGA4MultipleCheckoutPaymentData($currentMultipleCheckoutPaymentData);
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function popG4MultipleCheckoutPaymentData()
+    {
+        $currentMultipleCheckoutPaymentData = $this->getGA4MultipleCheckoutPaymentData();
+        if ($currentMultipleCheckoutPaymentData) {
+            $ga4MultipleCheckoutPaymentData = array_shift($currentMultipleCheckoutPaymentData);
+            $this->checkoutSession->setGA4MultipleCheckoutPaymentData($currentMultipleCheckoutPaymentData);
+            return $ga4MultipleCheckoutPaymentData[0];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param string $storageKey
+     * @param string $storageValue
+     * @return void
+     */
+    public function setStorageData($storageKey, $storageValue)
+    {
+        $this->storage->setData($storageKey, $storageValue);
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getStorageData()
+    {
+        return $this->storage->getData();
+    }
+
+    /**
+     * @return void
+     */
+    public function unsetStorageData()
+    {
+        $this->storage->unsetData();
+    }
+
+    /**
+     * @param $dataLayerData
+     * @return $this
+     */
+    public function setAdditionalDataLayerData($dataLayerData) {
+        $additionalDataLayerData = $this->storage->getData('additional_datalayer_option');
+        if (!$additionalDataLayerData) {
+            $additionalDataLayerData = [];
+        }
+        $additionalDataLayerData[] = $dataLayerData;
+        $this->storage->setData('additional_datalayer_option', $additionalDataLayerData);
+        return $this;
+    }
+
+    /**
+     * @param integer $customerId
+     * @return integer
+     */
+    public function getCustomerOrderCount($customerId)
+    {
+        $customerPurchaseDaylapse = $this->getCustomerPurchaseDayLapse();
+        $connection = $this->resourceConnection->getConnection();
+        $date = date('Y-m-d H:i:s', strtotime("-$customerPurchaseDaylapse days"));
+
+        $tableName = $this->resourceConnection->getTableName('sales_order');
+        $query = "
+        SELECT COUNT(*) AS total_orders
+        FROM `" . $tableName . "`
+        WHERE `created_at` > '" . $date . "' AND `customer_id` = " . $customerId;
+
+        $result = $connection->fetchOne($query);
+        return $result;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDatalayerPreviewEnabled()
+    {
+        return $this->_gtmOptions['general']['enable_datalayer_preview'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatalayerPreviewIpRestrictions()
+    {
+        return $this->_gtmOptions['general']['datalayer_preview_ip_addresses'] ?? '';
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDatalayerPreviewIpRestrictionEnabled()
+    {
+        $remoteIpAddress = $this->_remoteAddress->getRemoteAddress();
+        $ipRestrictions = $this->getDatalayerPreviewIpRestrictions();
+        if ($ipRestrictions) {
+            $ipRestrictionsArray = explode(',', $ipRestrictions);
+            $ipRestrictionsArray = array_map('trim', $ipRestrictionsArray);
+            return in_array($remoteIpAddress, $ipRestrictionsArray);
+        }
+
+        return true;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSmileElasticSuiteEnabled()
+    {
+        return $this->_moduleManager->isEnabled('Smile_ElasticsuiteCore');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLoadListingBlockEnabled()
+    {
+        return $this->_gtmOptions['general']['loadlistingblock'];
     }
 }

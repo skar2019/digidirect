@@ -38,13 +38,4 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Catalog\Model\Product">
-        <plugin name="bss_skip_check_saleable" disabled="true" />
-    </type>
-    <type name="Magento\Checkout\Model\Cart">
-        <plugin name="check_preorder_before_add" disabled="true" />
-    </type>
-    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable">
-        <plugin name="get_options_attribute" disabled="true" />
-    </type>
 </config>

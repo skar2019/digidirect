@@ -140,14 +140,10 @@ class Product extends Template
         $this->_getGroupedProductChildrens($this->_getCurrentProduct());
     }
 
-    public function _getCurrentProduct() {
+    private function _getCurrentProduct() {
         return $this->registry->registry('current_product');
     }
     
-    private function getCurrentProduct() {
-        return $this->registry->registry('current_product');
-    }
-
     private function convertAttrArray($arr) {
         $result = array_shift($arr);
 

@@ -17,6 +17,11 @@ class Core extends \Magento\Framework\View\Element\Template
     protected $storage;
 
     /**
+     * @var \WeltPixel\GA4\Model\ServerSideStorage
+     */
+    protected $serverSideStorage;
+
+    /**
      * @var \WeltPixel\GA4\Model\Dimension
      */
     protected $dimensionModel;
@@ -31,31 +36,50 @@ class Core extends \Magento\Framework\View\Element\Template
      */
     protected $orderCollectionFactory;
 
+    /**
+     * @var \WeltPixel\GA4\Model\ServerSide\JsonBuilder
+     */
+    protected $jsonBuilder;
+
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $countryFactory;
+
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \WeltPixel\GA4\Helper\Data $helper
      * @param \WeltPixel\GA4\Model\Storage $storage
+     * @param \WeltPixel\GA4\Model\ServerSideStorage $serverSideStorage
      * @param \WeltPixel\GA4\Model\Dimension $dimensionModel
      * @param \WeltPixel\GA4\Model\CookieManager $cookieManager
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \WeltPixel\GA4\Model\ServerSide\JsonBuilder $jsonBuilder
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \WeltPixel\GA4\Helper\Data $helper,
         \WeltPixel\GA4\Model\Storage $storage,
+        \WeltPixel\GA4\Model\ServerSideStorage $serverSideStorage,
         \WeltPixel\GA4\Model\Dimension $dimensionModel,
         \WeltPixel\GA4\Model\CookieManager $cookieManager,
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+        \WeltPixel\GA4\Model\ServerSide\JsonBuilder $jsonBuilder,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
         array $data = []
     )
     {
         $this->helper = $helper;
         $this->storage = $storage;
+        $this->serverSideStorage = $serverSideStorage;
         $this->dimensionModel = $dimensionModel;
         $this->cookieManager = $cookieManager;
         $this->orderCollectionFactory = $orderCollectionFactory;
+        $this->jsonBuilder = $jsonBuilder;
+        $this->countryFactory = $countryFactory;
         parent::__construct($context, $data);
     }
 
@@ -201,8 +225,13 @@ class Core extends \Magento\Framework\View\Element\Template
         $options = $this->_splitImpressions($options);
         $additionalDataLayerData = $this->storage->getData('additional_datalayer_option');
 
+
         if ($additionalDataLayerData) {
             foreach ($additionalDataLayerData as $dataOptions) {
+                if (isset($dataOptions['custom_datalayer_option'])) {
+                    $options = array_merge($options, $dataOptions['custom_datalayer_option']);
+                    unset($dataOptions['custom_datalayer_option']);
+                }
                 $dataOptions = $this->_splitImpressions($dataOptions);
                 $options = array_merge($options, $dataOptions);
             }
@@ -245,7 +274,10 @@ class Core extends \Magento\Framework\View\Element\Template
                     $originalImpressions = $impressions['items'];
                     $impressionsCount = count($originalImpressions);
                     if ($impressionsCount <= $chunkLimit) {
-                        $result[] = $options;
+                        if ($options) {
+                            $result[] = $options;
+                            $options = null;
+                        }
                         $result[] = [
                             'ecommerce' => $impressions,
                             'event' => 'view_item_list'
@@ -254,7 +286,11 @@ class Core extends \Magento\Framework\View\Element\Template
                     }
 
                     $impressionChunks = array_chunk($originalImpressions, $chunkLimit);
-                    $result[] = $options;
+
+                    if ($options) {
+                        $result[] = $options;
+                        $options = null;
+                    }
 
                     $chunkCount = count($impressionChunks);
                     for ($i = 0; $i<$chunkCount; $i++ ) {
@@ -295,10 +331,44 @@ class Core extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     */
+    public function getReviewRatingDimensions($product) {
+        return $this->dimensionModel->getReviewRatingDimensions($product, $this->helper);
+    }
+
+    /**
      * @return string
      */
     public function getWpGA4CookiesForJs() {
         $cookies = $this->cookieManager->getWpGA4Cookie();
         return implode(',', array_map(function ($a) { return "'" . $a . "'"; } ,$cookies));
+    }
+
+    /**
+     * @param $viewItemListData
+     * @return $this
+     */
+    public function setServerSideViewItemList($viewItemListData) {
+        $viewAllItemListData = $this->serverSideStorage->getData('serverside_view_item_list');
+        if (!$viewAllItemListData) {
+            $viewAllItemListData = [];
+        }
+        $viewAllItemListData[] = $viewItemListData;
+        $this->serverSideStorage->setData('serverside_view_item_list', $viewAllItemListData);
+        return $this;
+    }
+
+    /**
+     * @return false|string|null
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    public function getServerSideViewItemListUniqueId() {
+        $viewItemListData = $this->serverSideStorage->getData('serverside_view_item_list');
+        $jsonData = json_encode($viewItemListData);
+        $fileHash = $this->jsonBuilder->saveToFile($jsonData);
+
+        return $fileHash;
     }
 }
