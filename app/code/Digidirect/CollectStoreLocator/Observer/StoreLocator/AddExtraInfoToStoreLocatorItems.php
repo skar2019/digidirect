@@ -108,7 +108,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             
             foreach ($cartItems as $cartItem) {
 
-
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
