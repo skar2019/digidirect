@@ -11,7 +11,4 @@
     <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
         <plugin name="Custom_Checkout" type="Digidirect\Checkout\Block\Cart\LayoutProcessor" sortOrder="10"/>
     </type>
-    <type name="Magento\Checkout\Model\Cart">
-        <plugin name="limit_cart_quantity" type="Digidirect\Checkout\Plugin\Model\Cart"/>
-    </type>
 </config>
