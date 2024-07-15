@@ -191,12 +191,19 @@ define([
 
             //Rondel Custom Function
             _updateItemQtyIncrease: function(elem) {
-                var itemId = elem.data('cart-item');
-
-                this._ajax(this.options.url.update, {
-                    'item_id': itemId,
-                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) + 1
-                }, elem, this._updateItemQtyAfter);
+                var cartTotalQty = Number($('#cart-total-qty').html());
+                
+                if (cartTotalQty >= 10) {
+                    alert("Cart quantity limit reached!");
+                } else {
+                    var itemId = elem.data('cart-item');
+                    this._ajax(this.options.url.update, {
+                        'item_id': itemId,
+                        'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) + 1
+                    }, elem, this._updateItemQtyAfter);
+                }
+                
+                
             },
 
             //Rondel Custom Function
