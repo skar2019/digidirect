@@ -19,8 +19,8 @@ class Cart
     public function beforeAddProduct(\Magento\Checkout\Model\Cart $subject, $productInfo, $requestInfo = null)
     {
         $this->logger->info('beforeAddProduct()');
-        $cartQuantity = $this->checkoutSession->getQuote()->getItemsSummaryQty();
-        
+        $cartQuantity = $this->checkoutSession->getQuote()->getItemsQty();
+        $this->logger->info('$cartQuantity: ' . $cartQuantity);
         /*foreach ($items as $_item) {
             $this->logger->info(json_encode( $_item->getData()));
             $productList  = $this->productRepository->getById($_item->getProductId(), false, $storeId, true);
