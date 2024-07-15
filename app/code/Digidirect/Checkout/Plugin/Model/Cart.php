@@ -9,17 +9,15 @@ class Cart
     protected $logger;
     
     public function __construct(
-        \Magento\Framework\Session\SessionManagerInterface $checkoutSession, 
         \Psr\Log\LoggerInterface $loggerInterface
     ){
-        $this->checkoutSession = $checkoutSession;
         $this->logger = $loggerInterface;
     }
     
     public function beforeAddProduct(\Magento\Checkout\Model\Cart $subject, $productInfo, $requestInfo = null)
     {
         $this->logger->info('beforeAddProduct()');
-        $cartQuantity = $this->checkoutSession->getQuote()->getItemsQty();
+        $cartQuantity = $subject->getQuote()->getItemsQty();
         $this->logger->info('$cartQuantity: ' . $cartQuantity);
         /*foreach ($items as $_item) {
             $this->logger->info(json_encode( $_item->getData()));
