@@ -15,7 +15,12 @@ class Toolbar
     }
 
     public function aroundSetCollection(Productdata $subject, \Closure $proceed, $collection) {
-        $collection->getSelect()->order('created_at DESC');
+        $collection->getSelect()->joinLeft( 
+            'sales_order_item', 
+            'e.entity_id = sales_order_item.product_id', 
+            array('qty_ordered'=>'SUM(sales_order_item.qty_ordered)')) 
+            ->group('e.entity_id') 
+            ->order('qty_ordered DESC');
         return $proceed($collection);
     }
 
