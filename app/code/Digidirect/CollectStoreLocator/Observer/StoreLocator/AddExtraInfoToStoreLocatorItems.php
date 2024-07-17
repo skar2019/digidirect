@@ -108,7 +108,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             
             foreach ($cartItems as $cartItem) {
 
-
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
@@ -118,7 +117,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
-                    $this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
+                    //$this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
 
                     $getQty = $sourceItem->getQuantity();
                     $store = $sourceItem->getSourceCode();

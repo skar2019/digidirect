@@ -91,7 +91,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($this->_categoryHelper->canUseCanonicalTag()) {
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
-                $this->logger->info('$currentUrl: ' . $currentUrl);
+                //$this->logger->info('$currentUrl: ' . $currentUrl);
                 
                 $urlComponents = parse_url($currentUrl);
                 
@@ -120,7 +120,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                     }
                 }
                 
-                $this->logger->info('$canonical ' . $canonical);
+                //$this->logger->info('$canonical ' . $canonical);
                 
                 $this->pageConfig->addRemotePageAsset(
                     $canonical,
