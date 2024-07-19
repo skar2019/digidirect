@@ -8,6 +8,8 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
     protected $variable;
     
     protected $curl;
+    
+    protected $jsonSerializer;
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
@@ -15,11 +17,13 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
         array $data = []
     ) {        
         $this->_registry = $registry;
         $this->variable = $variable;
         $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
         parent::__construct($context, $data);
     }
     
