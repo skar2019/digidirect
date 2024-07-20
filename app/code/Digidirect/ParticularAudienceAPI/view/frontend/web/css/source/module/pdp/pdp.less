@@ -195,12 +195,53 @@ and open the template in the editor.
     #pa-digimarket-widget .product-item-info.product-item:last-child {
         display: none;
     }
+    
+    .digimarket-discover-more-mobile:after {
+        font-family: "Font Awesome 5 Free";
+        content: "\f103";
+        font-size: 15px;
+        font-weight: 600;
+        margin-left: 10px !important;
+    }
+
+    .digimarket-discover-more-mobile {
+        display: block !important;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        font-size: 17px;
+        color: #ff3c00;
+    }
 }
 
-@media only screen and (min-width: @screen__m) and (max-width: 1280px) {
+@media only screen and (max-width: 1280px) {
     
     #pa-digimarket-widget .product-item-actions {
         padding-bottom: 0;
+    }
+    
+}
+
+@media only screen and (max-width: 1680px) {
+    
+    #pa-digimarket-side-panel {
+        display: none !important;
+    }
+    
+    #pa-digimarket-widget { 
+        display: block;
+    }
+    
+}
+
+@media only screen and (min-width: 1680px) {
+    
+    #pa-digimarket-side-panel {
+        display: block !important;
+    }
+    
+    #pa-digimarket-widget { 
+        display: none;
     }
     
 }
