@@ -10,6 +10,8 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
     protected $curl;
     
     protected $jsonSerializer;
+    
+    protected $logger;
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
@@ -18,12 +20,14 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {        
         $this->_registry = $registry;
         $this->variable = $variable;
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->logger = $logger;
         parent::__construct($context, $data);
     }
     
@@ -61,6 +65,13 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
+        
+        $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        
+        foreach($slots as $key=>$value) {
+            $this->logger->info("key: " . $key . ", productId: " . $value['products']['refId']); 
+        }
+        
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $getRecommendationsResultJson;
     }
