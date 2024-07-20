@@ -16,6 +16,10 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
     protected $listProductBlock;
     
     protected $logger;
+    
+    protected $cookieManager;
+    
+    protected $cookieMetadataFactory;
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
@@ -26,6 +30,8 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -35,6 +41,8 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $this->jsonSerializer = $jsonSerializer;
         $this->listProductBlock = $listProductBlock;
         $this->logger = $logger;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
         parent::__construct($context, $data);
     }
     
@@ -55,7 +63,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $currentProductId = $this->getCurrentProduct()->getId();
         $this->logger->info("currentProductId: " . $currentProductId); 
         
-        $customerId = $_COOKIES['PAC'];
+        $customerId = $this->cookieManager->getCookie('PAC');
         $this->logger->info("customerId: " . $customerId); 
         
         $getRecommendationsUrl = 'https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false&refId='.$currentProductId.'customerId='.$customerId;
