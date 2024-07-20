@@ -13,6 +13,8 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
     
     protected $jsonSerializer;
     
+    protected $listProductBlock;
+    
     protected $logger;
         
     public function __construct(
@@ -22,6 +24,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {        
@@ -30,6 +33,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $this->variable = $variable;
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->listProductBlock = $listProductBlock;
         $this->logger = $logger;
         parent::__construct($context, $data);
     }
@@ -82,10 +86,13 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $recommendationsCollection = $this->productCollectionFactory->create();
         $recommendationsCollection->addAttributeToSelect('*');
         $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
-        $recommendationsCollection->setPageSize(4);
         
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
+    }
+    
+    public function getAddToCartPostParams($product){
+        return $this->listProductBlock->getAddToCartPostParams($product);
     }
     
 }
