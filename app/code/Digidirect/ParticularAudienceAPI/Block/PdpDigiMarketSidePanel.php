@@ -78,7 +78,11 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
             array_push($productIds, $productId);
         }
         
-        $recommendationsCollection = $this->productCollectionFactory->getIdFilter($productIds);
+        //$recommendationsCollection = $this->productCollectionFactory->getIdFilter($productIds);
+        $recommendationsCollection = $this->productCollectionFactory->create();
+        $recommendationsCollection->addAttributeToSelect('*');
+        $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+        $recommendationsCollection->setPageSize(4);
         
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
