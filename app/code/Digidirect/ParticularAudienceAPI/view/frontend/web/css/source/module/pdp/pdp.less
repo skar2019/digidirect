@@ -93,6 +93,73 @@ and open the template in the editor.
     #pa-digimarket-side-panel .digimarket-discover-more {
         margin-top: 0;
     }
+    
+    #pa-digimarket-widget .pa-product-widget-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .product-widget-header {
+        display: flex;
+    }
+
+    #pa-digimarket-widget .product-image-container {
+        display: unset;
+    }
+
+    #pa-digimarket-widget .product-image-wrapper {
+        height: auto;
+        padding: 0 !important;
+    }
+
+    #pa-digimarket-widget .product-image-photo {
+        height: 150px !important;
+        width: auto !important;
+        object-fit: contain;
+        position: static;
+        margin-top: 22px;
+    }
+
+    #pa-digimarket-widget .product-item-info.product-item {
+        width: unset !important;
+        margin-left: 0;
+        margin-right: 15px;
+        border-radius: 5px;
+        height: unset !important;
+    }
+
+    #pa-digimarket-widget .price-final_price {
+        margin: 0 !important;
+        min-height: 67px;
+        border: 1px solid #4e4e4e;
+        border-radius: 5px;
+        padding: 0;
+        margin-bottom: 10px !important;
+        position: relative;
+    }
+
+    #pa-digimarket-widget .final-price {
+        position: absolute !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        font-weight: 700;
+        color: #ff3c00;
+    }
+
+    #pa-digimarket-widget .product-item-info.product-item:last-child {
+        //margin-right: 0;
+    }
+
+    #pa-digimarket-widget .product-item-actions {
+        padding-bottom: 10px;
+    }
+
+    #pa-digimarket-widget .product-item-actions .actions-primary {
+        width: 100% !important;
+    }
+
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) 
