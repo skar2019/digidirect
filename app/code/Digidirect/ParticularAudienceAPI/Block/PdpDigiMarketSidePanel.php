@@ -69,7 +69,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
         
         foreach($slots as $key=>$value) {
-            $this->logger->info("key: " . $key . ", productId: " . $value['products']['refId']); 
+            $this->logger->info("key: " . $key . ", productId: " . $value['products'][0]['refId']); 
         }
         
         //$this->logger->info("Response: " . $webSignUpResult); 
