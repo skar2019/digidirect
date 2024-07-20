@@ -3,6 +3,8 @@ namespace Digidirect\ParticularAudienceAPI\Block;
 
 class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
 {
+    protected $productCollectionFactory;
+    
     protected $_registry;
     
     protected $variable;
@@ -15,7 +17,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
-        
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
@@ -23,6 +25,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {        
+        $this->productCollectionFactory = $productCollectionFactory;
         $this->_registry = $registry;
         $this->variable = $variable;
         $this->curl = $curl;
@@ -68,12 +71,17 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         
         $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
         
+        $productIds = [];
         foreach($slots as $key=>$value) {
-            $this->logger->info("key: " . $key . ", productId: " . $value['products'][0]['refId']); 
+            //$this->logger->info("key: " . $key . ", productId: " . $value['products'][0]['refId']); 
+            $productId = $value['products'][0]['refId'];
+            array_push($productIds, $productId);
         }
         
+        $recommendationsCollection = $this->productCollectionFactory->getIdFilter($productIds);
+        
         //$this->logger->info("Response: " . $webSignUpResult); 
-        return $getRecommendationsResultJson;
+        return $recommendationsCollection;
     }
     
 }

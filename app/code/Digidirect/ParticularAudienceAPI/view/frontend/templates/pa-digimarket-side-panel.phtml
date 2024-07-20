@@ -3,6 +3,8 @@
 ?>
 
 <div id="pa-digimarket-side-panel" style="display: none;">
-    <?= $recommendedProducts['recommendations']['route']['widgets'][0]['name']; ?>
+    <?php foreach ($recommendedProducts as $_product): ?>
+        <span><?= $_product->getName(); ?></span>
+    <?php endforeach; ?>
 </div>
 
