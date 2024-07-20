@@ -126,6 +126,7 @@ and open the template in the editor.
         margin-right: 15px;
         border-radius: 5px;
         height: unset !important;
+        border: 1px solid #cacaca;
     }
 
     #pa-digimarket-widget .price-final_price {
@@ -159,36 +160,50 @@ and open the template in the editor.
     #pa-digimarket-widget .product-item-actions .actions-primary {
         width: 100% !important;
     }
+    
+    .digimarket-discover-more-widget {
+        margin-right: 15px;
+        margin-left: auto;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        text-decoration-line: 
+        underline;color: #ff3c00;
+    }
 
 }
 
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) 
-{
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    #pa-digimarket-widget .pa-product-widget-container {
+        grid-template-columns: repeat(2, 1fr);    
+        row-gap: 10px;
+        column-gap: 15px;
+    }
+    
+    .digimarket-discover-more-widget {
+        display: none;
+    }
+    
+    #pa-digimarket-widget .product-item-info.product-item {
+        margin-right: 0;
+    }
+    
+    #pa-digimarket-widget .product-item-link {
+        text-align: center;
+    }
+    
+    #pa-digimarket-widget .product-item-info.product-item:last-child {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: @screen__m) and (max-width: 1280px) {
+    
+    #pa-digimarket-widget .product-item-actions {
+        padding-bottom: 0;
+    }
     
 }
-
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
-    
-}
-
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
-    
-}
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
-    
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs) { 
-    
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    
-}
-
 
 
 //
