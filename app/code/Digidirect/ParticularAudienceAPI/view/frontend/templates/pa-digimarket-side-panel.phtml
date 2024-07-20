@@ -1,9 +1,8 @@
 <?php
     $recommendedProducts = $block->getRecommendedProducts();
 ?>
-<?php if ($recommendedProducts) {  ?>
+<?php if ($recommendedProducts): ?>
     <div id="pa-digimarket-side-panel" style="display: none;">
-        <?php if ($recommendedProducts) {  ?>
         <h3 class="title">Looking for more? Explore digiMarket</h3>
         <?php foreach ($recommendedProducts as $_product): ?>
             <div class="product-item-info product-item">
@@ -28,5 +27,5 @@
         <?php endforeach; ?>
         <a href="https://www.digidirect.com.au/digimarket" class="digimarket-discover-more">DISCOVER MORE</a>
     </div>
-<?php }  ?>
+<?php endif; ?>
 
