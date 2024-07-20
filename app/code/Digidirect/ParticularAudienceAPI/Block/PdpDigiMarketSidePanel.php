@@ -52,19 +52,13 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
         
-        /*$getTokenUrl = '';
-        $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
+        $currentProductId = $this->getCurrentProduct()->getId();
+        $this->logger->info("currentProductId: " . $currentProductId); 
         
-        $this->curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
-        $this->curl->post($getTokenUrl, $getTokenParams);
-
-        $getTokenResult = $this->curl->getBody();
-
-        $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
+        $customerId = $_COOKIES['PAC'];
+        $this->logger->info("customerId: " . $customerId); 
         
-        //$this->logger->info("getTokenJson['access_token']: " . $getTokenJson['access_token']); */
-        
-        $getRecommendationsUrl = 'https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false';
+        $getRecommendationsUrl = 'https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false&refId='.$currentProductId.'customerId='.$customerId;
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
