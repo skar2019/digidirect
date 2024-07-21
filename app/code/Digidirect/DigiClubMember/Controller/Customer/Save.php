@@ -40,7 +40,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $cacheTypeList;
     
     protected $cacheFrontendPool;
-    
+
     protected $urlInterface;
 
     /**
@@ -95,13 +95,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 
                 $this->logger->info('$currentUrl: ' . $currentUrl);
                 
-                $parts = parse_url($currentUrl);
-                parse_str($parts['query'], $query);
-                //echo $query['email'];
-                
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
-                $isCompetition = $query['competition'];
-                
                 $customerFirstName = $this->getRequest()->getParam('digiclub-firstname');
                 $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
                 $customerEmail = $this->getRequest()->getParam('digiclub-email');
@@ -130,10 +124,6 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 //$customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
-                
-                if ($isCompetition) {
-                    return $this->_redirect('digiclubcompetition');
-                }
                 
                 if ($isDigiClubParam) {
                     return $this->_redirect('digiclubmember/customer/thankyou');
