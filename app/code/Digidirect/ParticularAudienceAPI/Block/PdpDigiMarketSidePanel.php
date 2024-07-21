@@ -61,12 +61,19 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $bearerToken = $variableData->getValue('text');
         
         $currentProductId = $this->getCurrentProduct()->getId();
-        $this->logger->info("currentProductId: " . $currentProductId); 
+        //$this->logger->info("currentProductId: " . $currentProductId); 
+        if ($currentProductId) {
+            $refIdParam = "&refId=".$currentProductId;
+        }
         
         $customerId = $this->cookieManager->getCookie('PAC');
-        $this->logger->info("customerId: " . $customerId); 
+        //$this->logger->info("customerId: " . $customerId); 
+        if ($customerId) {
+            $customerIdParam = "&customerId=".$customerId;
+        }
         
-        $getRecommendationsUrl = 'https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false&refId='.$currentProductId.'customerId='.$customerId;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false".$refIdParam.$customerIdParam;
+        $this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
