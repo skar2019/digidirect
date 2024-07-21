@@ -1,11 +1,44 @@
-<div class="competition-content">
-    <h2><span class="title-color-orange">digi</span>Club Competition</h2>
-    <img src="pic_trulli.jpg" alt="Trulli" width="500" height="333">
-    <img src="{{media url=wysiwyg/digiclub-competition/digiclub_competition_main_img.png}}">
-    <p>Login or Join digiClub and enter below for your chance</p>
-    <h2>to<span class="title-color-orange">Win </span>a</h2>
-    <h2>DJI Mini 4 Pro Drone</h2>
-    <h2>thanks to C.R.Kenndy Australia.</h2>
+<div class="competition-body">
+
+    <div class="competition-content">
+
+        <h2><span class="title-color-orange">digi</span>Club Competition</h2>
+
+        <img src="{{media url=wysiwyg/digiclub-competition/digiclub_competition_main_img.png}}">
+
+        <p>Login or Join digiClub and enter below for your chance</p>
+        <h2>to<span class="title-color-orange">Win </span>a</h2>
+        <h2>DJI Mini 4 Pro Drone</h2>
+        <h2>thanks to C.R.Kenndy Australia.</h2>
+
+        <div class="grid-container">
+          <div class="grid-item"> 
+              <img src="Images/facebook.png">
+              <p>Competition Closes<br><span>11 Aug 24</span></p>
+          </div>
+          <div class="grid-item">
+              <img src="Images/facebook.png">
+              <p>Winner announced<br><span>16 Aug 24</span></p>
+          </div>
+        </div>
+
+        <div class="competition-button">
+            <div class="login-digiclub-btn">
+              <a href="#" id="">Login to digiClub</a>
+            </div>
+            <div class="join-digiclub-btn">
+              <a href="#" id="">Join digiClub Now</a>
+            </div>
+        </div>
+
+         <div class="competition-terms">
+          <p>TERMS:<br>
+            For full terms and conditions, please visit here. Only digiClub members who are Australian residents may enter. The Promoter is Digital Imaging Express Pty Ltd (ABN 92 122 703 806) of 11 Burrows Road South, St Peters NSW 2044 (“Promoter”). Entrants must log in to their digiClub account (or alternatively join digiClub and log in). Entrants must remain a digiClub member until the date the competition is drawn. The competition commences on 22/07/24 at 12:00 AM and closes 11/08/24 at 11:59 PM. The winners will be randomly drawn from current members, at the Promoter’s Premises on 16/08/2024 at 11:00 AM. The total number of competition winners in this competition is one. The winners will be notified by email and their names will be published online on our winners page for 90 days from the date of verification of the winner. Only one entry per person will be permitted. Total prize value is up to $1,199 (including GST), as at 1/7/24.
+          </p>
+         </div>
+
+    </div>
+
 </div>
 
 
@@ -13,17 +46,87 @@
 <script></script>
 
 <style>
-.competition-content h2 {
+.competition-body {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.competition-body h2 {
     font-size: 18px;
+    font-weight: 700;
+}
+
+.competition-body p {
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .title-color-orange {
     color: #ff6600;
 }
 
-.competition-content {
-    border: 1px color #cccccc;
+.competition-body {
+    border: 0.5px solid #cccccc;
     background: #F6F6F6;
 }
 
+.competition-content {
+ text-align: center;
+ padding: 55px 85px;
+}
+
+.competition-content .grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.competition-content.grid-item {
+ /*height: //Whatever you want them to be*/
+}
+
+.grid-item > img, .grid-item > p {
+        display: inline-block;
+}
+
+.login-digiclub-btn {
+    background: #ff6600;
+    text-align: center;
+    width: 200px;
+    margin: 25px;
+    padding: 10px 0px;
+    border-radius: 15px;
+}
+
+.join-digiclub-btn {
+    /*background: #ff6600;*/
+    text-align: center;
+    width: 200px;
+    margin: 25px;
+    padding: 10px 0px;
+    border-radius: 15px;
+    border: 2px solid #ff6600;
+}
+
+.login-digiclub-btn a{
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.join-digiclub-btn a{
+  text-decoration: none;
+  color: #ff6600;
+  font-weight: 600;
+}
+
+
+.competition-button  {
+  display: flex;
+   justify-content: center;
+}
+
+.competition-terms {
+  text-align: left;
+  margin-top: 35px; 
+}
 </style>
