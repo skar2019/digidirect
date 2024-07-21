@@ -83,7 +83,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $this->redirect->redirect($controller->getResponse(), $page_url);
             //$this->logger->info('digiclub-member-deals');
             
-        } else if (!$this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index/digiclub/competition') {
+        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index/digiclub/competition' && $this->_customerSession->getCustomer()->getGroupId() == 10) {
             $url = $this->urlInterface->getUrl('digiclubcompetition');
             $this->redirect->redirect($controller->getResponse(), $page_url);
         } 
