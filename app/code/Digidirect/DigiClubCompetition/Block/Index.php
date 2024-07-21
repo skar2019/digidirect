@@ -35,12 +35,14 @@ class Index extends Template
     protected $customerRepository;
     
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,    
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
         \Magento\Framework\UrlInterface $urlInterface,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        array $data = []
             
     ) {
         $this->_customerSession = $customerSession;
@@ -49,6 +51,7 @@ class Index extends Template
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->customerRepository = $customerRepository;
+        parent::__construct($context, $data);
     }
     
     public function checkCustomerSession() {
@@ -58,13 +61,16 @@ class Index extends Template
     
     public function checkCustomerGroup() {
         $this->logger->info('checkCustomerGroup');
-        $customerId = $this->_customerSession->getCustomerId();
-        $customer = $this->customerRepository->getById($customerId);
-        $storeId = (int)$this->storeManager->getStore()->getId();
-        $customer->setStoreId($storeId);
-        $customerGroupId = $customer->getGroupId();
-        
-        return $customerGroupId;
+        if ($this->checkCustomerSession()) {
+            $customerId = $this->_customerSession->getCustomerId();
+            $customer = $this->customerRepository->getById($customerId);
+            $storeId = (int)$this->storeManager->getStore()->getId();
+            $customer->setStoreId($storeId);
+            $customerGroupId = $customer->getGroupId();
+
+            return $customerGroupId;
+        }
+        return false;
     }
 
     /*public function test()
