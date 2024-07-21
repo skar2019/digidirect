@@ -6,9 +6,8 @@
         </title>
     </head>
     <body>
-        <div>test</div>
         <referenceContainer name="content">
-            <block class="Magento\Backend\Block\Template" template="Digidirect_DigiClubCompetition::index.phtml" />
+            <block class="Digidirect\DigiClubCompetition\Block\Index" template="Digidirect_DigiClubCompetition::index.phtml" />
         </referenceContainer>
     </body>
 </page>
