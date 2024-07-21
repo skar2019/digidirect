@@ -4,7 +4,7 @@
 
         <h2><span class="title-color-orange">digi</span>Club Competition</h2>
 
-        <img src="{{media url=wysiwyg/digiclub-competition/digiclub_competition_main_img.png}}">
+        <img src="{{media url=wysiwyg/landing-pages/digiclub-competition/digiclub_competition_main_img2.png}}" width="350" height="250">
 
         <p>Login or Join digiClub and enter below for your chance</p>
         <h2>to<span class="title-color-orange">Win </span>a</h2>
@@ -13,12 +13,12 @@
 
         <div class="grid-container">
           <div class="grid-item"> 
-              <img src="Images/facebook.png">
-              <p>Competition Closes<br><span>11 Aug 24</span></p>
+            <img src="competition-closes.png" alt="Competition Closes" width="50" height="50">
+            <p><b>Competition Closes</b><br><span>11 Aug 24</span></p>
           </div>
           <div class="grid-item">
-              <img src="Images/facebook.png">
-              <p>Winner announced<br><span>16 Aug 24</span></p>
+              <img src="winner-aanounced.png" alt="Winner announced" width="50" height="50">
+              <p><b>Winner announced</b><br><span>16 Aug 24</span></p>
           </div>
         </div>
 
@@ -54,18 +54,27 @@
 <script></script>
 
 <style>
+.digiclubcompetition-index-index.page-layout-3columns .column.main {
+  width: unset !important;
+}
+
+.digiclubcompetition-index-index.page-layout-3columns .page-title {
+  display: none !important;
+}
+
 .competition-body {
-    width: 70%;
-    margin: 0 auto;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .competition-body h2 {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 700;
+    margin: auto;
 }
 
 .competition-body p {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -79,21 +88,28 @@
 }
 
 .competition-content {
- text-align: center;
- padding: 55px 85px;
+   text-align: center;
+   padding: 25px 85px;
 }
 
 .competition-content .grid-container {
   display: grid;
   grid-template-columns: auto auto;
+  margin-top: 55px;
+  margin-bottom: 25px;
 }
 
-.competition-content.grid-item {
+.competition-content.grid-item{
  /*height: //Whatever you want them to be*/
+
+}
+
+.grid-item p{
+   font-size: 22px;
 }
 
 .grid-item > img, .grid-item > p {
-        display: inline-block;
+   display: inline-block;
 }
 
 .login-digiclub-btn {
@@ -113,6 +129,7 @@
     padding: 10px 0px;
     border-radius: 15px;
     border: 2px solid #ff6600;
+
 }
 
 .login-digiclub-btn a{
@@ -135,6 +152,17 @@
 
 .competition-terms {
   text-align: left;
-  margin-top: 35px; 
+  margin-top: 55px; 
 }
+
+
+@media screen and (max-width: 780px) {
+  .competition-body {
+    width: 90% !important;
+    margin: 0 auto;
+  }
+
+}
+
+
 </style>

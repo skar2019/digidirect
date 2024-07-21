@@ -63,7 +63,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
                 $url = $this->urlInterface->getUrl('digiclubmember/customer/index/digiclub/1');
             }
             if ($isCompetition) {
-                $url = $this->urlInterface->getUrl('digiclubmember/customer/index/digiclub/competition');
+                $url = $this->urlInterface->getUrl('digiclubmember/customer/index/digiclub?competition=true');
             }
             $login_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $login_url);
@@ -83,7 +83,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $this->redirect->redirect($controller->getResponse(), $page_url);
             //$this->logger->info('digiclub-member-deals');
             
-        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index/digiclub/competition' && $this->_customerSession->getCustomer()->getGroupId() == 10) {
+        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclubmember/customer/index/digiclub?competition=true' && $this->_customerSession->getCustomer()->getGroupId() == 10) {
             $page_url = $this->urlInterface->getUrl('digiclubcompetition');
             $this->redirect->redirect($controller->getResponse(), $page_url);
         } 
