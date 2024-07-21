@@ -99,6 +99,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $recommendationsCollection = $this->productCollectionFactory->create();
         $recommendationsCollection->addAttributeToSelect('*');
         $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+        $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
         $recommendationsCollection->getSelect()->orderRand();
         
         //$this->logger->info("Response: " . $webSignUpResult); 
