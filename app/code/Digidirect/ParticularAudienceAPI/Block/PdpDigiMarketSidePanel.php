@@ -64,12 +64,16 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         //$this->logger->info("currentProductId: " . $currentProductId); 
         if ($currentProductId) {
             $refIdParam = "&refId=".$currentProductId;
+        } else {
+            $refIdParam = "";
         }
         
         $customerId = $this->cookieManager->getCookie('PAC');
         //$this->logger->info("customerId: " . $customerId); 
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
+        } else {
+            $customerIdParam = "";
         }
         
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false".$refIdParam.$customerIdParam;
