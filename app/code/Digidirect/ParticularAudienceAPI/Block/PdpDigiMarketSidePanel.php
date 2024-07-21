@@ -77,7 +77,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         }
         
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false".$refIdParam.$customerIdParam;
-        $this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
+        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
