@@ -23,12 +23,20 @@
         </div>
 
         <div class="competition-button">
-            <div class="login-digiclub-btn">
-              <a href="#" id="">Login to digiClub</a>
-            </div>
-            <div class="join-digiclub-btn">
-              <a href="#" id="">Join digiClub Now</a>
-            </div>
+            <?php if ($block->checkCustomerSession() && $block->checkCustomerGroup() == 10): ?>
+            
+            <?php elseif ($block->checkCustomerSession() && $block->checkCustomerGroup() != 10) : ?>
+                <div class="join-digiclub-btn">
+                   <a href="https://www.digidirect.com.au/digiclub" id="">Join digiClub Now</a>
+                </div>
+            <?php else: ?>
+                <div class="login-digiclub-btn">
+                   <a href="https://www.digidirect.com.au/customer/account/login/referer/aHR0cHM6Ly93d3cuZGlnaWRpcmVjdC5jb20uYXUvZGlnaWNsdWJtZW1iZXIvY3VzdG9tZXIvaW5kZXgvZGlnaWNsdWIvMS8%3D/digiclub/1/" id="">Login to digiClub</a>
+                </div>
+                <div class="join-digiclub-btn">
+                   <a href="https://www.digidirect.com.au/digiclub" id="">Join digiClub Now</a>
+                </div>
+            <?php endif; ?>
         </div>
 
          <div class="competition-terms">
