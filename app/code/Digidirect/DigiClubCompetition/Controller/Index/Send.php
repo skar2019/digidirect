@@ -6,8 +6,6 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 
 class Send extends Action
 {
-    protected $_resultPageFactory;
-    
     protected $logger;
 
     /**
@@ -17,12 +15,10 @@ class Send extends Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Psr\Log\LoggerInterface $logger,
         TransportBuilder $transportBuilder
     ) {
         parent::__construct($context);
-        $this->_resultPageFactory = $resultPageFactory;
         $this->logger = $logger;
         $this->transportBuilder = $transportBuilder;
     }
@@ -55,5 +51,7 @@ class Send extends Action
         $email->send();
 
         $this->messageManager->addSuccess(__('Form successfully submitted'));
+        
+        return true;
     }
 }
