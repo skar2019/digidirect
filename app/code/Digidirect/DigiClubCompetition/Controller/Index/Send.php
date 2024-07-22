@@ -8,7 +8,7 @@ class Send extends Action
 {
     protected $logger;
     
-    protected $customerSession;
+    protected $customerRepository;
 
     /**
      * Index constructor.
