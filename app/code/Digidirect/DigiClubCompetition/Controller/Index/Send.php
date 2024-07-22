@@ -45,8 +45,8 @@ class Send extends Action
         $email->setSubject("digiClub Competition Form"); 
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
-        $email->setFrom($from, $nameFrom);
-        $email->addTo($to, $nameTo);
+        $email->setFrom($from, $from);
+        $email->addTo($to, $to);
         // $email->addBcc($bcc);
         $email->send();
 
