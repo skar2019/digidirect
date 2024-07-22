@@ -27,33 +27,27 @@
         <div class="competition-button">
             <?php if ($block->checkCustomerSession() && $block->checkCustomerGroup() == 10): ?>
                 <div class="competition-message">
-                <form id="competitionForm">
-                   <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
-                   <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
-                   <p>
-                     <input type="checkbox" id="agree" />
-                     <label for="agree">
-                       <span class="termscon">I have an Australian postal address and I agree to the competition Terms and Conditions and the digiDirect Privacy Policy.</span>
-                     </label>
-                   </p>
-                  <!-- <button type="submit" id="add" title="" class="action submit-btn primary">SUBMIT</button> -->
+                    <form id="competitionForm">
+                       <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
+                       <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
+                       <p>
+                         <input type="checkbox" id="agree" />
+                         <label for="agree">
+                           <span class="termscon">I have an Australian postal address and I agree to the competition Terms and Conditions and the digiDirect Privacy Policy.</span>
+                         </label>
+                       </p>
+                      <!-- <button type="submit" id="add" title="" class="action submit-btn primary">SUBMIT</button> -->
 
-                 <?=$block->getChildHtml('form.additional.info') ?>
+                     <?=$block->getChildHtml('form.additional.info') ?>
 
-                 <div class="digiClubCompetitionForm primary">
-                   <input type="hidden" name="hideit" id="hideit" value="" />
-                   <button type="submit" id="add" title="" class="action submit-btn primary">
-                     <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
-                   </button>
+                     <div class="digiClubCompetitionForm primary">
+                       <input type="hidden" name="hideit" id="hideit" value="" />
+                       <button type="submit" id="add" title="" class="action submit-btn primary">
+                         <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
+                       </button>
+                     </div>
+                    </form>
                  </div>
-                </form>
-             </div>
-
-              <div class="competition-terms">
-               <p>TERMS:<br>
-                 For full terms and conditions, please visit <a href="/competition-terms-and-conditions">here</a>. Only digiClub members who are Australian residents may enter. The Promoter is Digital Imaging Express Pty Ltd (ABN 92 122 703 806) of 11 Burrows Road South, St Peters NSW 2044 (“Promoter”). Entrants must log in to their digiClub account (or alternatively join digiClub and log in). Entrants must remain a digiClub member until the date the competition is drawn. The competition commences on 23/07/24 at 12:00 AM and closes 18/08/24 at 11:59 PM. The winners will be randomly drawn from current members, at the Promoter’s Premises on 23/08/2024 at 11:00 AM. The total number of competition winners in this competition is one. The winners will be notified by email and their names will be published online on our winners page for 90 days from the date of verification of the winner. Only one entry per person will be permitted. Total prize value is up to $1,199 (including GST), as at 1/7/24.
-               </p>
-              </div>
             <?php elseif ($block->checkCustomerSession() && $block->checkCustomerGroup() != 10) : ?>
                 <div class="join-digiclub-btn">
                    <a href="https://www.digidirect.com.au/digiclub" id="">Join digiClub Now</a>
