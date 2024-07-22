@@ -133,9 +133,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->customerRepository->save($customer);
                 
                 if ($isDigiClubParam) {
-                    if ($refererUrl == "https://www.digidirect.com.au/digiclubmember/customer/index/digiclub/competition") {
+                    /*if ($refererUrl == "https://www.digidirect.com.au/digiclubmember/customer/index/digiclub/competition") {
                         return $this->_redirect('digiclubcompetition');
-                    }
+                    }*/
                     return $this->_redirect('digiclubmember/customer/thankyou');
                 } else {
                     $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
