@@ -28,9 +28,9 @@
                     <form id="competitionForm">
                        <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
                        <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
-                       <p>
-                         <input type="checkbox" id="agree" />
-                         <label for="agree">
+                       <p style="margin-top: 15px;">
+                         <input type="checkbox" id="agree" required/>
+                         <label for="agree" style="position: relative;">
                            <span class="termscon">I have an Australian postal address and I agree to the competition Terms and Conditions and the digiDirect Privacy Policy.</span>
                          </label>
                        </p>
@@ -74,7 +74,7 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#add").click(function(){
-        var customurl = "<?php echo $this->getUrl("digiclubcompetition/index/index") ?>";
+        var customurl = "<?php echo $this->getUrl("digiclubcompetition/index/send") ?>";
         $.ajax({
             url: customurl,
             type: "POST",
@@ -140,37 +140,8 @@ require(['jquery'],function($){
   margin-bottom: 25px;
 }
 
-.competition-content.grid-item{
- /*height: //Whatever you want them to be*/
-
-}
-
-.grid-item p{
-   font-size: 22px !important;
-}
-
 .grid-item > img, .grid-item > p {
    display: inline-block !important;
-}
-
-.login-digiclub-btn {
-    background: #ff6600 !important;
-    text-align: center !important;
-    width: 200px !important;
-    margin: 25px !important;
-    padding: 10px 0px !important;
-    border-radius: 15px !important;
-}
-
-.join-digiclub-btn {
-    /*background: #ff6600;*/
-    text-align: center !important;
-    width: 200px !important;
-    margin: 25px !important;
-    padding: 10px 0px !important;
-    border-radius: 15px !important;
-    border: 2px solid #ff6600 !important;
-
 }
 
 .login-digiclub-btn a{
@@ -212,6 +183,21 @@ require(['jquery'],function($){
     justify-content: center;
 }
 
+.grid-item img {
+    object-fit: contain;
+    height: 55px;
+}
+
+.grid-item p {
+    font-size: 22px;
+}
+
+#competitionForm input[type=checkbox]+label:before, input[type=checkbox]+label:after {
+    width: 15px;
+    height: 15px;
+}
+
+
 .competition-terms {
   text-align: left;
   margin-top: 55px; 
@@ -241,7 +227,7 @@ require(['jquery'],function($){
     width: 200px !important;
     margin-top: 25px !important;
     padding: 10px 0px !important;
-    border-radius: 15px !important;
+    border-radius: 50px !important;
     border: 2px solid transparent;
     color: #ffffff;
     font-weight: 700;
@@ -255,7 +241,7 @@ require(['jquery'],function($){
   width: 200px !important;
   margin-top: 25px !important;
   padding: 10px 0px !important;
-  border-radius: 15px !important;
+  border-radius: 50px !important;
   border: 2px solid transparent;
   color: #ffffff;
   font-weight: 700;

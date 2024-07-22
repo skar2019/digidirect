@@ -4,9 +4,11 @@ namespace Digidirect\DigiClubCompetition\Controller\Index;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Mail\Template\TransportBuilder;
 
-class Index extends Action
+class Send extends Action
 {
     protected $_resultPageFactory;
+    
+    protected $logger;
 
     /**
      * Index constructor.
@@ -16,24 +18,21 @@ class Index extends Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Psr\Log\LoggerInterface $logger,
         TransportBuilder $transportBuilder
     ) {
         parent::__construct($context);
         $this->_resultPageFactory = $resultPageFactory;
+        $this->logger = $logger;
         $this->transportBuilder = $transportBuilder;
     }
 
     public function execute() {
-        $resultPage = $this->_resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set("Competition");
-        return $resultPage;
-
-
         $post = $this->getRequest()->getPostValue();
-        
         // Get post values
         // $email = $this->getRequest()->getParam('email');
         $message = $this->getRequest()->getParam('message');
+        $this->logger->info('$message: ' . $message);
 
         // Send Mail functionality starts from here 
         $from = "jirehcapao@gmail.com";
