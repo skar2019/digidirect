@@ -55,15 +55,6 @@ class Index extends Action
         // $email->addBcc($bcc);
         $email->send();
 
-        // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        // $data = $objectManager->create('Digidirect\CollaborateForm\Model\CollaborateForm');
-        // $data->setData($post);
-        // $data->save();
-
-//        echo "success";
-        /* echo "hello";
-        exit; */
-
         $this->messageManager->addSuccess(__('Form successfully submitted'));
     }
 }
