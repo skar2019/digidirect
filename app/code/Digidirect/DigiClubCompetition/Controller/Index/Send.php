@@ -7,6 +7,8 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 class Send extends Action
 {
     protected $logger;
+    
+    protected $customerSession;
 
     /**
      * Index constructor.
@@ -16,11 +18,14 @@ class Send extends Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Psr\Log\LoggerInterface $logger,
-        TransportBuilder $transportBuilder
+        TransportBuilder $transportBuilder,
+        \Magento\Customer\Model\Session $customerSession
+    
     ) {
         parent::__construct($context);
         $this->logger = $logger;
         $this->transportBuilder = $transportBuilder;
+        $this->customerRepository = $customerRepository;
     }
 
     public function execute() {
@@ -31,7 +36,7 @@ class Send extends Action
         $this->logger->info('$message: ' . $message);
 
         // Send Mail functionality starts from here 
-        $from = "jirehcapao@gmail.com";
+        $from = $customerSession->getCustomer()->getEmail();
         // $from = $email;
         $to = array("rondel.d@digidirect.com.au","jireh.c@digidirect.com.au","community@digidirect.com.au");
         // $bcc = "orders@kayweb.com.au";
