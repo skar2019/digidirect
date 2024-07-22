@@ -3379,7 +3379,6 @@ class Order extends AbstractHelper
                 }
 
             }
-            //redeploy
             if($counter >= 3)
             {
                 return true; //return after 3 orders
