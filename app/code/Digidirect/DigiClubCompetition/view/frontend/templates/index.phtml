@@ -25,7 +25,7 @@
         <div class="competition-button">
             <?php if ($block->checkCustomerSession() && $block->checkCustomerGroup() == 10): ?>
                 <div class="competition-message">
-                    <form id="competitionForm">
+                    <form id="competitionForm" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digiclubcompetition/index/send")?>">
                        <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
                        <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
                        <p style="margin-top: 15px; position: relative;">
