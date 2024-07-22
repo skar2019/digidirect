@@ -4,8 +4,7 @@
 
         <h2><span class="title-color-orange">digi</span>Club Competition</h2>
 
-        <img src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>digiclub_competition_main_img2.png" width="350" height="250">
-
+        <img class="mainImg" src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>digiclub_competition_main_img2.png" width="350" height="250">
         <p>Login or Join digiClub and enter below for your chance</p>
         <h2>to<span class="title-color-orange">Win </span>a</h2>
         <h2>DJI Mini 4 Pro Drone</h2>
@@ -25,7 +24,7 @@
         <div class="competition-button">
             <?php if ($block->checkCustomerSession() && $block->checkCustomerGroup() == 10): ?>
                 <div class="competition-message">
-                    <form id="competitionForm" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digiclubcompetition/index/send")?>">
+                    <form id="competitionForm" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("competitions/index/send")?>">
                        <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
                        <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
                        <p style="margin-top: 15px; position: relative;">
@@ -74,7 +73,7 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#add").click(function(){
-        var customurl = "<?php echo $this->getUrl("digiclubcompetition/index/send") ?>";
+        var customurl = "<?php echo $this->getUrl("competitions/index/send") ?>";
         $.ajax({
             url: customurl,
             type: "POST",
@@ -93,11 +92,11 @@ require(['jquery'],function($){
 </script>
 
 <style>
-.digiclubcompetition-index-index.page-layout-3columns .column.main {
+.competitions-index-index.page-layout-3columns .column.main {
   width: unset !important;
 }
 
-.digiclubcompetition-index-index.page-layout-3columns .page-title {
+.competitions-index-index.page-layout-3columns .page-title {
   display: none !important;
 }
 
@@ -195,6 +194,15 @@ require(['jquery'],function($){
 #competitionForm input[type=checkbox]+label:before, input[type=checkbox]+label:after {
     width: 15px;
     height: 15px;
+}
+
+.competition-content img.mainImg {
+  margin: 35px 0;
+}
+
+input[type=checkbox]:checked+label:after {
+  width: 11px !important;
+  height: 6px !important;
 }
 
 

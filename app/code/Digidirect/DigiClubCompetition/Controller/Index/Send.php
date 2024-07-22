@@ -8,7 +8,7 @@ class Send extends Action
 {
     protected $logger;
     
-    protected $customerRepository;
+    protected $customerSession;
 
     /**
      * Index constructor.
@@ -16,16 +16,16 @@ class Send extends Action
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
         \Psr\Log\LoggerInterface $logger,
         TransportBuilder $transportBuilder,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Action\Context $context
     
     ) {
-        parent::__construct($context);
         $this->logger = $logger;
         $this->transportBuilder = $transportBuilder;
-        $this->customerRepository = $customerRepository;
+        $this->customerSession = $customerSession;
+        parent::__construct($context);
     }
 
     public function execute() {
