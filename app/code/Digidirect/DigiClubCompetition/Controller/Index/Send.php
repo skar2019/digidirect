@@ -36,7 +36,7 @@ class Send extends Action
         $this->logger->info('$message: ' . $message);
 
         // Send Mail functionality starts from here 
-        $from = $customerSession->getCustomer()->getEmail();
+        $from = $this->customerSession->getCustomer()->getEmail();
         // $from = $email;
         $to = array("rondel.d@digidirect.com.au","jireh.c@digidirect.com.au","community@digidirect.com.au");
         // $bcc = "orders@kayweb.com.au";
