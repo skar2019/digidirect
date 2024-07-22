@@ -41,6 +41,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     
     protected $cacheFrontendPool;
 
+    protected $urlInterface;
+    
+    protected $redirect;
+    
     /**
      * Initialize dependencies.
      *
@@ -53,17 +57,21 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\UrlInterface $urlInterface,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\App\Response\RedirectInterface $redirect,
         CustomerRepository $customerRepository
     ) {
         $this->storeManager = $storeManager;
+        $this->urlInterface = $urlInterface;
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
         $this->logger = $logger;
+        $this->redirect = $redirect;
         parent::__construct($context);
     }
 
@@ -87,6 +95,12 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $storeId = (int)$this->storeManager->getStore()->getId();
                 $customer->setStoreId($storeId);
                 $customerGroupId = $customer->getGroupId();
+                $currentUrl = rtrim($this->urlInterface->getCurrentUrl(), '/');
+                
+                $this->logger->info('$currentUrl: ' . $currentUrl);
+                
+                $refererUrl = $this->redirect->getRefererUrl();
+                $this->logger->info('$refererUrl: ' . $refererUrl);
                 
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
                 $customerFirstName = $this->getRequest()->getParam('digiclub-firstname');
@@ -119,6 +133,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->customerRepository->save($customer);
                 
                 if ($isDigiClubParam) {
+                    /*if ($refererUrl == "https://www.digidirect.com.au/digiclubmember/customer/index/digiclub/competition") {
+                        return $this->_redirect('digiclubcompetition');
+                    }*/
                     return $this->_redirect('digiclubmember/customer/thankyou');
                 } else {
                     $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));

@@ -1,0 +1,64 @@
+<?php
+    use Magento\Framework\App\Action\Action;
+    
+    $recommendedProducts = $block->getRecommendedProducts();
+    $productCount = 0;
+?>
+<?php if ($recommendedProducts): ?>
+    <div id="pa-digimarket-widget-wrapper">
+        <div id="pa-digimarket-widget">
+            <div class="product-widget-header">
+                <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Looking for more? Explore digiMarket</h3>
+                <a href="https://www.digidirect.com.au/digimarket" class="digimarket-discover-more-widget">Discover More</a>
+            </div>
+            <div class="pa-product-widget-container">
+                <?php foreach ($recommendedProducts as $_product): ?>
+                    <?php $productCount++; ?>
+                    <?php if ($productCount < 6): ?>
+                        <div class="product-item-info product-item">
+                            <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
+                                <span class="product-image-container" style="width: 240px;">
+                                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                        <img class="product-image-photo" src="<?= 'https://www.digidirect.com.au/media/catalog/product' . $_product->getData('thumbnail'); ?>" loading="lazy" width="240" height="300" alt="Product Image">
+                                    </span>
+                                </span> 
+                            </a> 
+                            <div class="product details product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $_product->getName(); ?>" href="<?= $_product->getProductUrl(); ?>" class="product-item-link">
+                                        <?= $_product->getName(); ?>
+                                    </a>
+                                </strong> 
+                                <div class="price-box price-final_price">
+                                    <div class="final-price"><?= '$' . number_format((float)$_product->getFinalPrice(), 2, '.', ''); ?></div>
+                                </div>
+                            </div>
+                            <div class="product actions product-item-actions">
+                                <div class="actions-primary">
+                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                    <form data-role="tocart-form"
+                                          data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
+                                          data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
+                                          action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post">
+                                        <input type="hidden"
+                                               name="product"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
+                                        <input type="hidden"
+                                               name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
+                                        <button type="submit"
+                                                title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
+                                                class="action tocart primary">
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <a href="https://www.digidirect.com.au/digimarket" class="digimarket-discover-more-mobile" style="display: none;">DISCOVER MORE</a>
+        </div>
+    </div>
+<?php endif; ?>
