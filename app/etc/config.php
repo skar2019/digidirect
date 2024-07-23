@@ -570,7 +570,7 @@ return [
                     'sort_order' => '-2',
                     'allowspecific' => '0',
                     'specificcountry' => null,
-                    'countrycreditcard' => '[]',
+                    'countrycreditcard' => [],
                     'verify_3dsecure' => '1',
                     'threshold_amount' => '10',
                     'verify_all_countries' => '0',
