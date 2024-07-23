@@ -4024,5 +4024,4 @@ class Product extends AbstractHelper
         return $getSubCategory;
     }
 
-    //redeploy
 }
