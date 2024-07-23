@@ -4,8 +4,7 @@
 
         <h2><span class="title-color-orange">digi</span>Club Competition</h2>
 
-        <img src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>digiclub_competition_main_img2.png" width="350" height="250">
-
+        <img class="mainImg" src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>digiclub_competition_main_img2.png" width="350" height="250">
         <p>Login or Join digiClub and enter below for your chance</p>
         <h2>to<span class="title-color-orange">Win </span>a</h2>
         <h2>DJI Mini 4 Pro Drone</h2>
@@ -13,76 +12,39 @@
 
         <div class="grid-container">
           <div class="grid-item"> 
-            <img src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>competition-closes.png" alt="Competition Closes" width="50" height="50">
-            <p><b>Competition Closes</b><br><span>11 Aug 24</span></p>
+          <img src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>competition-closes.png" alt="Competition Closes" width="50" height="50">
+              <p><b>Competition Closes</b><br><span>18 Aug 24</span></p>
           </div>
           <div class="grid-item">
               <img src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>winner-aanounced.png" alt="Winner announced" width="50" height="50">
-              <p><b>Winner announced</b><br><span>16 Aug 24</span></p>
+              <p><b>Winner announced</b><br><span>23 Aug 24</span></p>
           </div>
         </div>
 
         <div class="competition-button">
             <?php if ($block->checkCustomerSession() && $block->checkCustomerGroup() == 10): ?>
-                <div class="competition-body">
+                <div class="competition-message">
+                    <form id="competitionForm" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("competitions/index/send")?>">
+                       <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
+                       <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
+                       <p style="margin-top: 15px; position: relative;">
+                         <input type="checkbox" id="agree" required/>
+                         <label for="agree">
+                           <span class="termscon">I have an Australian postal address and I agree to the competition Terms and Conditions and the digiDirect Privacy Policy.</span>
+                         </label>
+                       </p>
+                      <!-- <button type="submit" id="add" title="" class="action submit-btn primary">SUBMIT</button> -->
 
-                    <div class="competition-content">
+                     <?=$block->getChildHtml('form.additional.info') ?>
 
-                        <h2><span class="title-color-orange">digi</span>Club Competition</h2>
-
-                        <!-- <img src="{{media url=wysiwyg/landing-pages/digiclub-competition/digiclub_competition_main_img2.png}}" width="350" height="250"> -->
-                        <img src="digiclub_competition_main_img2.png" alt="DJI Mini 4 Pro" width="350" height="250">
-
-                        <p>Login or Join digiClub and enter below for your chance</p>
-                        <h2>to<span class="title-color-orange">Win </span>a</h2>
-                        <h2>DJI Mini 4 Pro Drone</h2>
-                        <h2>thanks to C.R.Kenndy Australia.</h2>
-
-                        <div class="grid-container">
-                          <div class="grid-item"> 
-                              <!-- <img src="{{media url=wysiwyg/landing-pages/digiclub-competition/competition-closes.png}}" width="50" height="50"> -->
-                                <img src="competition-closes.png" alt="Competition Closes" width="50" height="50">
-                              <p><b>Competition Closes</b><br><span>18 Aug 24</span></p>
-                          </div>
-                          <div class="grid-item">
-                              <!-- <img src="{{media url=wysiwyg/landing-pages/digiclub-competition/winner-aanounced}}"> -->
-                              <img src="winner-aanounced.png" alt="Winner announced" width="50" height="50">
-                              <p><b>Winner announced</b><br><span>23 Aug 24</span></p>
-                          </div>
-                        </div>
-
-                        <div class="competition-message">
-                           <form id="competitionForm">
-                              <p><b>In 25 words or less, what would you capture with your new DJI drone?</b></p>
-                              <textarea  name="message" placeholder="Enter your answer in 25 words or less"></textarea>
-                              <p>
-                                <input type="checkbox" id="agree" />
-                                <label for="agree">
-                                  <span class="termscon">I have an Australian postal address and I agree to the competition Terms and Conditions and the digiDirect Privacy Policy.</span>
-                                </label>
-                              </p>
-                             <!-- <button type="submit" id="add" title="" class="action submit-btn primary">SUBMIT</button> -->
-                              
-                            <?=$block->getChildHtml('form.additional.info') ?>
-
-                            <div class="digiClubCompetitionForm primary">
-                              <input type="hidden" name="hideit" id="hideit" value="" />
-                              <button type="submit" id="add" title="" class="action submit-btn primary">
-                                <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
-                              </button>
-                            </div>
-                           </form>
-                        </div>
-
-                         <div class="competition-terms">
-                          <p>TERMS:<br>
-                            For full terms and conditions, please visit <a href="/competition-terms-and-conditions">here</a>. Only digiClub members who are Australian residents may enter. The Promoter is Digital Imaging Express Pty Ltd (ABN 92 122 703 806) of 11 Burrows Road South, St Peters NSW 2044 (“Promoter”). Entrants must log in to their digiClub account (or alternatively join digiClub and log in). Entrants must remain a digiClub member until the date the competition is drawn. The competition commences on 23/07/24 at 12:00 AM and closes 18/08/24 at 11:59 PM. The winners will be randomly drawn from current members, at the Promoter’s Premises on 23/08/2024 at 11:00 AM. The total number of competition winners in this competition is one. The winners will be notified by email and their names will be published online on our winners page for 90 days from the date of verification of the winner. Only one entry per person will be permitted. Total prize value is up to $1,199 (including GST), as at 1/7/24.
-                          </p>
-                         </div>
-
-                    </div>
-
-                </div>
+                     <div class="digiClubCompetitionForm primary">
+                       <input type="hidden" name="hideit" id="hideit" value="" />
+                       <button type="submit" id="add" title="" class="action submit-btn primary">
+                         <span><?= $block->escapeHtml(__('SUBMIT')) ?></span>
+                       </button>
+                     </div>
+                    </form>
+                 </div>
             <?php elseif ($block->checkCustomerSession() && $block->checkCustomerGroup() != 10) : ?>
                 <div class="join-digiclub-btn">
                    <a href="https://www.digidirect.com.au/digiclub" id="">Join digiClub Now</a>
@@ -99,7 +61,7 @@
 
          <div class="competition-terms">
           <p>TERMS:<br>
-            For full terms and conditions, please visit here. Only digiClub members who are Australian residents may enter. The Promoter is Digital Imaging Express Pty Ltd (ABN 92 122 703 806) of 11 Burrows Road South, St Peters NSW 2044 (“Promoter”). Entrants must log in to their digiClub account (or alternatively join digiClub and log in). Entrants must remain a digiClub member until the date the competition is drawn. The competition commences on 22/07/24 at 12:00 AM and closes 11/08/24 at 11:59 PM. The winners will be randomly drawn from current members, at the Promoter’s Premises on 16/08/2024 at 11:00 AM. The total number of competition winners in this competition is one. The winners will be notified by email and their names will be published online on our winners page for 90 days from the date of verification of the winner. Only one entry per person will be permitted. Total prize value is up to $1,199 (including GST), as at 1/7/24.
+          For full terms and conditions, please visit <a href="/competition-terms-and-conditions">here</a>. Only digiClub members who are Australian residents may enter. The Promoter is Digital Imaging Express Pty Ltd (ABN 92 122 703 806) of 11 Burrows Road South, St Peters NSW 2044 (“Promoter”). Entrants must log in to their digiClub account (or alternatively join digiClub and log in). Entrants must remain a digiClub member until the date the competition is drawn. The competition commences on 23/07/24 at 12:00 AM and closes 18/08/24 at 11:59 PM. The winners will be randomly drawn from current members, at the Promoter’s Premises on 23/08/2024 at 11:00 AM. The total number of competition winners in this competition is one. The winners will be notified by email and their names will be published online on our winners page for 90 days from the date of verification of the winner. Only one entry per person will be permitted. Total prize value is up to $1,199 (including GST), as at 1/7/24.
           </p>
          </div>
 
@@ -111,7 +73,7 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#add").click(function(){
-        var customurl = "<?php echo $this->getUrl("digiclubcompetition/index/index") ?>";
+        var customurl = "<?php echo $this->getUrl("competitions/index/send") ?>";
         $.ajax({
             url: customurl,
             type: "POST",
@@ -130,11 +92,11 @@ require(['jquery'],function($){
 </script>
 
 <style>
-.digiclubcompetition-index-index.page-layout-3columns .column.main {
+.competitions-index-index.page-layout-3columns .column.main {
   width: unset !important;
 }
 
-.digiclubcompetition-index-index.page-layout-3columns .page-title {
+.competitions-index-index.page-layout-3columns .page-title {
   display: none !important;
 }
 
@@ -177,37 +139,8 @@ require(['jquery'],function($){
   margin-bottom: 25px;
 }
 
-.competition-content.grid-item{
- /*height: //Whatever you want them to be*/
-
-}
-
-.grid-item p{
-   font-size: 22px !important;
-}
-
 .grid-item > img, .grid-item > p {
    display: inline-block !important;
-}
-
-.login-digiclub-btn {
-    background: #ff6600 !important;
-    text-align: center !important;
-    width: 200px !important;
-    margin: 25px !important;
-    padding: 10px 0px !important;
-    border-radius: 15px !important;
-}
-
-.join-digiclub-btn {
-    /*background: #ff6600;*/
-    text-align: center !important;
-    width: 200px !important;
-    margin: 25px !important;
-    padding: 10px 0px !important;
-    border-radius: 15px !important;
-    border: 2px solid #ff6600 !important;
-
 }
 
 .login-digiclub-btn a{
@@ -225,8 +158,53 @@ require(['jquery'],function($){
 
 .competition-button  {
   display: flex;
-   justify-content: center;
+  justify-content: center;
+  gap: 50px;
 }
+
+.join-digiclub-btn {
+    padding: 7px 25px;
+    font-size: 18px;
+    border-radius: 50px;
+    border: 2px solid #ff6600;
+}
+
+.login-digiclub-btn {
+    padding: 7px 25px;
+    font-size: 18px;
+    background: #ff6600;
+    border-radius: 50px;
+}
+
+.grid-item {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.grid-item img {
+    object-fit: contain;
+    height: 55px;
+}
+
+.grid-item p {
+    font-size: 22px;
+}
+
+#competitionForm input[type=checkbox]+label:before, input[type=checkbox]+label:after {
+    width: 15px;
+    height: 15px;
+}
+
+.competition-content img.mainImg {
+  margin: 35px 0;
+}
+
+input[type=checkbox]:checked+label:after {
+  width: 11px !important;
+  height: 6px !important;
+}
+
 
 .competition-terms {
   text-align: left;
@@ -257,7 +235,7 @@ require(['jquery'],function($){
     width: 200px !important;
     margin-top: 25px !important;
     padding: 10px 0px !important;
-    border-radius: 15px !important;
+    border-radius: 50px !important;
     border: 2px solid transparent;
     color: #ffffff;
     font-weight: 700;
@@ -271,7 +249,7 @@ require(['jquery'],function($){
   width: 200px !important;
   margin-top: 25px !important;
   padding: 10px 0px !important;
-  border-radius: 15px !important;
+  border-radius: 50px !important;
   border: 2px solid transparent;
   color: #ffffff;
   font-weight: 700;

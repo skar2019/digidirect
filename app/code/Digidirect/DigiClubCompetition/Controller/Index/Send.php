@@ -4,9 +4,11 @@ namespace Digidirect\DigiClubCompetition\Controller\Index;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Mail\Template\TransportBuilder;
 
-class Index extends Action
+class Send extends Action
 {
-    protected $_resultPageFactory;
+    protected $logger;
+    
+    protected $customerSession;
 
     /**
      * Index constructor.
@@ -14,29 +16,27 @@ class Index extends Action
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        TransportBuilder $transportBuilder
+        \Psr\Log\LoggerInterface $logger,
+        TransportBuilder $transportBuilder,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Action\Context $context
+    
     ) {
-        parent::__construct($context);
-        $this->_resultPageFactory = $resultPageFactory;
+        $this->logger = $logger;
         $this->transportBuilder = $transportBuilder;
+        $this->customerSession = $customerSession;
+        parent::__construct($context);
     }
 
     public function execute() {
-        $resultPage = $this->_resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set("Competition");
-        return $resultPage;
-
-
         $post = $this->getRequest()->getPostValue();
-        
         // Get post values
         // $email = $this->getRequest()->getParam('email');
         $message = $this->getRequest()->getParam('message');
+        $this->logger->info('$message: ' . $message);
 
         // Send Mail functionality starts from here 
-        $from = "jirehcapao@gmail.com";
+        $from = $this->customerSession->getCustomer()->getEmail();
         // $from = $email;
         $to = array("rondel.d@digidirect.com.au","jireh.c@digidirect.com.au","community@digidirect.com.au");
         // $bcc = "orders@kayweb.com.au";
@@ -50,11 +50,13 @@ class Index extends Action
         $email->setSubject("digiClub Competition Form"); 
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
-        $email->setFrom($from, $nameFrom);
-        $email->addTo($to, $nameTo);
+        $email->setFrom($from, $from);
+        $email->addTo($to, $to);
         // $email->addBcc($bcc);
         $email->send();
 
         $this->messageManager->addSuccess(__('Form successfully submitted'));
+        
+        return true;
     }
 }
