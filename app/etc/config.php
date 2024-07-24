@@ -570,7 +570,9 @@ return [
                     'sort_order' => '-2',
                     'allowspecific' => '0',
                     'specificcountry' => null,
-                    'countrycreditcard' => [],
+                    'countrycreditcard' => [
+
+                    ],
                     'verify_3dsecure' => '1',
                     'threshold_amount' => '10',
                     'verify_all_countries' => '0',
@@ -1943,7 +1945,9 @@ BQIDAQAB
                     'multiple_rates_price' => '0',
                 ],
                 'hide_methods' => [
-                    'hided_methods_relations' => [],
+                    'hided_methods_relations' => [
+
+                    ],
                 ],
             ],
             'custom_canonicals' => [
@@ -2946,7 +2950,9 @@ Disallow:
                     'address_data_file' => null,
                     'import_address_data_file' => null,
                     'api_key' => 'AIzaSyAQMJ4R2QcT0ohrTK3fvAq0AAAzffi8Xno',
-                    'postcode_length' => [],
+                    'postcode_length' => [
+
+                    ],
                 ],
             ],
             'itoris_core' => [
@@ -3665,7 +3671,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     'enable_vertex' => '0',
                 ],
                 'vertex_delivery_terms' => [
-                    'override' => [],
+                    'override' => [
+
+                    ],
                 ],
             ],
             'checkout' => [
@@ -3731,7 +3739,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     'merchant_checkbox_text' => null,
                     'merchant_checkbox_required' => '0',
                     'merchant_checkbox_checked' => '0',
-                    'custom_checkboxes' => [],
+                    'custom_checkboxes' => [
+
+                    ],
                     'business_id_attribute' => '0',
                 ],
                 'klarna_kco_design' => [
@@ -6631,17 +6641,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     'associated_canonical_grouped_product' => '0',
                     'associated_canonical_bundle_product' => '0',
                     'canonical_layered' => '0',
-                    'canonical_layered_config' => [],
+                    'canonical_layered_config' => [
+
+                    ],
                     'canonical_store_without_store_code' => '0',
                     'crossdomain' => '0',
                     'crossdomain_prefer_https' => '0',
                     'paginated_canonical' => '0',
                     'canonical_url_ignore_pages' => null,
-                    'noindex_pages2' => [],
+                    'noindex_pages2' => [
+
+                    ],
                     'https_noindex_pages' => '0',
                     'is_alternate_hreflang' => '0',
-                    'alternate_configurable' => [],
-                    'configurable_hreflang_x_default' => [],
+                    'alternate_configurable' => [
+
+                    ],
+                    'configurable_hreflang_x_default' => [
+
+                    ],
                     'is_hreflang_locale_code_automatical' => null,
                     'is_hreflang_cut_category_additional_data' => null,
                     'hreflang_locale_code' => null,
@@ -6766,7 +6784,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 ],
                 'extended' => [
                     'redirect_to_lowercase' => '0',
-                    'to_lowercase_allowed_types' => [],
+                    'to_lowercase_allowed_types' => [
+
+                    ],
                     'meta_title_page_number' => '1',
                 ],
                 'url' => [
@@ -7320,7 +7340,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             'soft_purge' => '1',
                             'enable_geoip' => '0',
                             'geoip_action' => 'dialog',
-                            'geoip_country_mapping' => [],
+                            'geoip_country_mapping' => [
+
+                            ],
                             'enable_fastly_edge_modules' => '1',
                         ],
                         'fastly_backend_settings' => [
@@ -8125,7 +8147,9 @@ zeta-telecom.com',
                         'key' => null,
                         'url' => null,
                         'test_connection' => null,
-                        'list' => [],
+                        'list' => [
+
+                        ],
                         'fields_tag' => '{"email":"email","name":"first_name","country":"country","ipaddress":"","referrer":"","gdpr":"","silent":"","hp":"","boolean":""}',
                     ],
                 ],
@@ -8735,7 +8759,9 @@ zeta-telecom.com',
                     'wishlist_automation' => '0',
                 ],
                 'order_status_automation' => [
-                    'program' => [],
+                    'program' => [
+
+                    ],
                 ],
                 'feefo_feedback_engine' => [
                     'logon' => null,
@@ -9106,7 +9132,9 @@ zeta-telecom.com',
                     'wrap_in_parent_tag' => '0',
                     'allowed_childs' => '+body[style],+div[*],+a[*],+span[*],+i[*]',
                     'allowed_tags' => 'svg[*],use[*],g[*],path[*],defs[*],mask[*],a[*]',
-                    'allowed_filetypes' => [],
+                    'allowed_filetypes' => [
+
+                    ],
                 ],
                 'sales_prefix' => [
                     'active' => '0',
@@ -9312,7 +9340,9 @@ zeta-telecom.com',
                     'last_order_id' => 'LAST_ORDER_ID',
                     'last_quote_id' => 'LAST_QUOTE_ID',
                     'abandoned_prod_name' => 'ABANDONED_PROD_NAME',
-                    'custom_attributes' => [],
+                    'custom_attributes' => [
+
+                    ],
                     'billing_city' => 'BILLING_CITY',
                 ],
                 'extra_data' => [
@@ -9478,7 +9508,9 @@ zeta-telecom.com',
                 'searchlanding' => [
                     'landenabled' => '2',
                     'relevance_label' => 'Relevance',
-                    'klevu_search_sort_orders' => [],
+                    'klevu_search_sort_orders' => [
+
+                    ],
                 ],
                 'image_setting' => [
                     'image_width' => '200',
@@ -9513,7 +9545,9 @@ zeta-telecom.com',
                 'general' => [
                     'enabled' => '2',
                     'api_key' => 'AIzaSyAKGpKARXYMcOCf34GFaTI7wrv-tVkl-L0',
-                    'postcode_length' => [],
+                    'postcode_length' => [
+
+                    ],
                 ],
             ],
             'ewave_ai' => [
@@ -9536,7 +9570,9 @@ zeta-telecom.com',
                 'queue' => [
                     'cron_expr' => '*/5 * * * *',
                     'number_of_attempts' => '5',
-                    'number_of_attempts_per_process' => [],
+                    'number_of_attempts_per_process' => [
+
+                    ],
                     'interval_of_attempts' => '300',
                     'interval_of_attempts_for_pending_depends' => '900',
                     'fail_emails' => null,
@@ -9641,7 +9677,9 @@ zeta-telecom.com',
                     'multiple_rates_price' => '0',
                 ],
                 'hide_methods' => [
-                    'hided_methods_relations' => [],
+                    'hided_methods_relations' => [
+
+                    ],
                 ],
             ],
             'ewave_mystorewidget' => [
@@ -9928,8 +9966,12 @@ zeta-telecom.com',
                 'config' => [
                     'iframe' => '0',
                     'show_path' => '0',
-                    'controller' => [],
-                    'path' => [],
+                    'controller' => [
+
+                    ],
+                    'path' => [
+
+                    ],
                     'home_page' => '0',
                     'in_body' => '1',
                 ],
