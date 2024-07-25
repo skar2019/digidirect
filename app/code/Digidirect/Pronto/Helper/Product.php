@@ -579,24 +579,24 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//
-//                    //$product->setCategoryIds($categoryIds);
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+
+                    //$product->setCategoryIds($categoryIds);
+                }
 
 
 
@@ -1013,22 +1013,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
         }
@@ -1522,22 +1522,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -1930,22 +1930,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
         }
@@ -2483,22 +2483,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            echo $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            echo $e->getMessage();
+                        }
+                    }
+                }
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -2893,21 +2893,21 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
         }
@@ -3464,22 +3464,22 @@ class Product extends AbstractHelper
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
 
 
@@ -3918,22 +3918,22 @@ class Product extends AbstractHelper
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
         }
@@ -4023,6 +4023,5 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-
     //redeploy
 }

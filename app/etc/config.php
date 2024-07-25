@@ -17,10 +17,26 @@ return [
                 'sort_order' => '0',
                 'default_group_id' => '1',
                 'is_default' => '1'
+            ],
+            'marketplaces' => [
+                'website_id' => '5',
+                'code' => 'marketplaces',
+                'name' => 'Marketplaces',
+                'sort_order' => '2',
+                'default_group_id' => '5',
+                'is_default' => '0'
+            ],
+            'retail_stores' => [
+                'website_id' => '7',
+                'code' => 'retail_stores',
+                'name' => 'Retail Stores',
+                'sort_order' => '0',
+                'default_group_id' => '10',
+                'is_default' => '0'
             ]
         ],
         'groups' => [
-            [
+            0 => [
                 'group_id' => '0',
                 'website_id' => '0',
                 'name' => 'Default',
@@ -28,13 +44,37 @@ return [
                 'default_store_id' => '0',
                 'code' => 'default'
             ],
-            [
+            1 => [
                 'group_id' => '1',
                 'website_id' => '1',
                 'name' => 'digiDirect AU',
                 'root_category_id' => '2',
                 'default_store_id' => '1',
                 'code' => 'digi_store_au'
+            ],
+            5 => [
+                'group_id' => '5',
+                'website_id' => '5',
+                'name' => 'Marketplaces Store',
+                'root_category_id' => '2',
+                'default_store_id' => '5',
+                'code' => 'mpstore'
+            ],
+            7 => [
+                'group_id' => '7',
+                'website_id' => '1',
+                'name' => 'Retail Store',
+                'root_category_id' => '2',
+                'default_store_id' => '13',
+                'code' => 'retail_store'
+            ],
+            10 => [
+                'group_id' => '10',
+                'website_id' => '7',
+                'name' => 'Retail Stores Store',
+                'root_category_id' => '2',
+                'default_store_id' => '19',
+                'code' => 'retail_stores_store'
             ]
         ],
         'stores' => [
@@ -55,6 +95,87 @@ return [
                 'name' => 'digiDirect AU',
                 'sort_order' => '0',
                 'is_active' => '1'
+            ],
+            'digidirectmarketplaces' => [
+                'store_id' => '5',
+                'code' => 'digidirectmarketplaces',
+                'website_id' => '5',
+                'group_id' => '5',
+                'name' => 'Marketplaces',
+                'sort_order' => '2',
+                'is_active' => '1'
+            ],
+            'retail_store_view' => [
+                'store_id' => '13',
+                'code' => 'retail_store_view',
+                'website_id' => '1',
+                'group_id' => '7',
+                'name' => 'Retail Store View',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'BOND' => [
+                'store_id' => '19',
+                'code' => 'BOND',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'BOND',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'BRISB' => [
+                'store_id' => '25',
+                'code' => 'BRISB',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'BRISB',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'CANN' => [
+                'store_id' => '28',
+                'code' => 'CANN',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'CANN',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'MELB' => [
+                'store_id' => '31',
+                'code' => 'MELB',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'MELB',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'MIRA' => [
+                'store_id' => '34',
+                'code' => 'MIRA',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'MIRA',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'PARR' => [
+                'store_id' => '37',
+                'code' => 'PARR',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'PARR',
+                'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'SYDN' => [
+                'store_id' => '40',
+                'code' => 'SYDN',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'SYDN',
+                'sort_order' => '0',
+                'is_active' => '1'
             ]
         ]
     ],
@@ -73,26 +194,29 @@ return [
                     'type' => 'server_side_compilation'
                 ],
                 'template' => [
-                    'minify_html' => '1',
-                    'allow_symlink' => '0'
+                    'allow_symlink' => '0',
+                    'minify_html' => '1'
                 ],
                 'js' => [
                     'merge_files' => '0',
+                    'enable_js_bundling' => '0',
                     'minify_files' => '0',
+                    'move_script_to_bottom' => '0',
+                    'translate_strategy' => 'dictionary',
+                    'session_storage_logging' => '0',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/',
+                        'cardinal_commerce' => '/v1/songbird',
                         'authorizenet_acceptjs' => '\\.authorize\\.net/v1/Accept'
-                    ],
-                    'session_storage_logging' => '0',
-                    'translate_strategy' => 'dictionary',
-                    'enable_js_bundling' => '0'
+                    ]
                 ],
                 'css' => [
+                    'merge_css_files' => '1',
                     'minify_files' => '1',
+                    'use_css_critical_path' => '0',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/'
-                    ],
-                    'merge_css_files' => '0'
+                    ]
                 ]
             ]
         ],
@@ -228,6 +352,9 @@ return [
         'Magento_TargetRule' => 1,
         'Magento_AdvancedRule' => 1,
         'Magento_BundleGraphQl' => 1,
+        'Magento_Elasticsearch' => 1,
+        'Magento_Elasticsearch6' => 1,
+        'Magento_Elasticsearch7' => 1,
         'Magento_WebsiteRestriction' => 1,
         'Magento_ElasticsearchCatalogPermissionsGraphQl' => 1,
         'Magento_Email' => 1,
@@ -555,7 +682,6 @@ return [
         'Digidirect_BestsellersProducts' => 1,
         'Digidirect_Blog' => 1,
         'Digidirect_InfiniteScroll' => 0,
-        'Digidirect_Canonical' => 0,
         'Digidirect_Catalog' => 1,
         'Digidirect_LayeredNavigation' => 0,
         'Digidirect_Checkout' => 1,
@@ -573,8 +699,10 @@ return [
         'Digidirect_Customer' => 1,
         'Digidirect_DealsTest' => 1,
         'Digidirect_MSI' => 1,
+        'Digidirect_DigiClubCompetition' => 1,
         'Digidirect_DigiClubMember' => 1,
         'Digidirect_DigiDeals' => 1,
+        'Digidirect_DigiEvent' => 1,
         'Digidirect_DigiMarketSeller' => 1,
         'Digidirect_DigiSecondsForm' => 0,
         'Digidirect_DigiSecondsMenu' => 1,
@@ -604,6 +732,7 @@ return [
         'Digidirect_OnSaleProducts' => 1,
         'Digidirect_Order' => 1,
         'Digidirect_PaSalesForceProductRecommendation' => 1,
+        'Digidirect_ParticularAudienceAPI' => 1,
         'Digidirect_PricePermissions' => 1,
         'Digidirect_ProductOverlay' => 1,
         'Digidirect_Pronto' => 1,
@@ -632,17 +761,6 @@ return [
         'Fastly_Cdn' => 1,
         'Itoris_Core' => 1,
         'Itoris_PriceMatch' => 1,
-        'Klarna_Base' => 0,
-        'Klarna_Backend' => 0,
-        'Klarna_Kco' => 0,
-        'Klarna_Keb' => 0,
-        'Klarna_Kp' => 0,
-        'Klarna_KpGraphQl' => 0,
-        'Klarna_Kss' => 0,
-        'Klarna_Logger' => 0,
-        'Klarna_Onsitemessaging' => 0,
-        'Klarna_Orderlines' => 0,
-        'Klarna_Support' => 0,
         'LatitudeNew_Payment' => 1,
         'LiveChat_LiveChat' => 0,
         'Lof_Paymentfee' => 1,
@@ -665,6 +783,16 @@ return [
         'Marketplacer_SellerApi' => 1,
         'Marketplacer_Seller' => 1,
         'Marketplacer_Marketplacer' => 1,
+        'Mirasvit_Core' => 1,
+        'Mirasvit_Seo' => 1,
+        'Mirasvit_SeoAi' => 1,
+        'Mirasvit_SeoAudit' => 1,
+        'Mirasvit_SeoAutolink' => 1,
+        'Mirasvit_SeoContent' => 1,
+        'Mirasvit_SeoFilter' => 1,
+        'Mirasvit_SeoMarkup' => 1,
+        'Mirasvit_SeoSitemap' => 1,
+        'Mirasvit_SeoToolbar' => 1,
         'OlegKoval_RegenerateUrlRewrites' => 1,
         'Onsport_CustomListing' => 1,
         'OuterEdge_StructuredData' => 1,
@@ -676,6 +804,7 @@ return [
         'Studio19_Variants' => 1,
         'Swissup_Attributepages' => 1,
         'Swissup_Core' => 1,
+        'Swissup_DeleteOrders' => 1,
         'Swissup_Marketplace' => 1,
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
@@ -684,13 +813,15 @@ return [
         'Webkul_MyCustomCollection' => 1,
         'WeltPixel_Backend' => 1,
         'WeltPixel_GA4' => 1,
+        'ZV_SeoCompatible' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],
     'admin_user' => [
         'locale' => [
             'code' => [
-                'en_AU'
+                'en_AU',
+                'en_US'
             ]
         ]
     ]
