@@ -4,4 +4,12 @@
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
         <plugin name="unit_number" type="Digidirect\Order\Plugin\Magento\Sales\Api\OrderGet"/>
     </type>
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="pronto_order_number" xsi:type="string">sales_order.pronto_order_number</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
 </config>
