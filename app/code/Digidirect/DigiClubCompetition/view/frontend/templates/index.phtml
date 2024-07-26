@@ -5,8 +5,8 @@
         <h2><span class="title-color-orange">digi</span>Club Competition</h2>
 
         <img class="mainImg" src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/digiclub-competition/")?>digiclub_competition_main_img2.png" width="350" height="250">
-        <p>Login or Join digiClub and enter below for your chance</p>
-        <h2>to<span class="title-color-orange">Win </span>a</h2>
+        <p class="title-color-black">Login or Join digiClub and enter below for your chance</p>
+        <h2>to <span class="title-color-orange">Win </span>a</h2>
         <h2>DJI Mini 4 Pro Drone</h2>
         <h2>thanks to C.R.Kenndy Australia.</h2>
 
@@ -122,6 +122,12 @@ require(['jquery'],function($){
     color: #ff6600;
 }
 
+.title-color-black {
+  color: #262626;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+}
+
 .competition-body {
     border: 0.5px solid #cccccc;
     background: #F6F6F6;
@@ -211,6 +217,15 @@ input[type=checkbox]:checked+label:after {
   margin-top: 55px; 
 }
 
+.competition-terms a {
+  color: #ff6600;
+}
+
+.competition-terms a:hover {
+  color: #ff6600;
+  text-decoration: none;
+}
+
 
 
 .competition-message textarea {
@@ -242,27 +257,27 @@ input[type=checkbox]:checked+label:after {
 }
 
 .competition-message .submit-btn:hover {
-  border: none !important;
-  opacity: 0.8;
-  background: #ff6600 !important;
-  text-align: center !important;
-  width: 200px !important;
-  margin-top: 25px !important;
-  padding: 10px 0px !important;
-  border-radius: 50px !important;
-  border: 2px solid transparent;
-  color: #ffffff;
-  font-weight: 700;
+    border: none !important;
+    opacity: 0.8;
+    background: #ff6600 !important;
+    text-align: center !important;
+    width: 200px !important;
+    margin-top: 25px !important;
+    padding: 10px 0px !important;
+    border-radius: 50px !important;
+    border: 2px solid transparent;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .agree-policy {
-  position: relative;
-  margin-top: 15px !important;
+    position: relative;
+    margin-top: 15px !important;
 }
 
 span.termscon {
-  margin-left: 35px;
-  line-height: 25px;
+    margin-left: 35px;
+    line-height: 25px;
 }
 
 .agree-policy input[type=checkbox] + label:before, input[type=checkbox] + label:after {
@@ -278,7 +293,6 @@ span.termscon {
 .agree-policy input[type=checkbox]:checked + label:after {
     width: 11px !important;
     height: 6px !important;
-  
 }
 
 
@@ -287,6 +301,25 @@ span.termscon {
   .competition-body {
     width: 90% !important;
     margin: 0 auto;
+    margin-top: 35px !important;
+    margin-bottom: 25px !important;
+  }
+
+  .competition-content {
+    text-align: center;
+    padding: 25px;
+  }
+  
+  .grid-item {
+    display: block !important;
+  }
+
+  .competition-button {
+    display: block;
+  }
+
+  .login-digiclub-btn {
+      margin-bottom: 15px !important;
   }
 
 }
