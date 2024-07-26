@@ -16,7 +16,7 @@ and open the template in the editor.
         color: #fff;
         border-radius: 5px;
         padding: 10px;
-        width: 340px !important;
+        //width: 340px !important;
         margin-left: -5px;
         margin-top: -15px;
     }
@@ -70,7 +70,8 @@ and open the template in the editor.
 
     #pa-blue-right-side-widget .product-item .price-box {
         border: none;
-        min-height: 32px !important;
+        min-height: 25px !important;
+        margin-bottom: 0 !important;
     }
 
     #pa-blue-right-side-widget .special-price .price {
@@ -93,6 +94,7 @@ and open the template in the editor.
     .pa-digidirect-product-widget-container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
+        column-gap: 15px;
     }
 
     .product-widget-header {
@@ -119,7 +121,7 @@ and open the template in the editor.
     #pa-digidirect-product-widget .product-item-info.product-item {
         width: unset !important;
         margin-left: 0;
-        margin-right: 15px;
+        margin-right: 0;
         border-radius: 5px;
         height: unset !important;
         border: 1px solid #cacaca;
@@ -152,7 +154,7 @@ and open the template in the editor.
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
-    #pa-digidirect-product-widget .pa-product-widget-container {
+    .pa-digidirect-product-widget-container {
         grid-template-columns: repeat(2, 1fr);    
         row-gap: 10px;
         column-gap: 15px;
