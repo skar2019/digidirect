@@ -58,6 +58,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
+        $paWidgetId = '94e9300c-023e-ec11-aae9-02dca44cceec';
         
         $customerId = $this->cookieManager->getCookie('PAC');
         //$this->logger->info("customerId: " . $customerId); 
@@ -67,7 +68,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
             $customerIdParam = "";
         }
         
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false".$customerIdParam;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false".$customerIdParam;
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
         
         $this->curl->addHeader("Content-Type", "application/json");
@@ -77,7 +78,15 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         
-        $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        //$slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        $widgets = $getRecommendationsResultJson['recommendations']['route']['widgets'];
+        
+        foreach($widgets as $key=>$value) {
+            $widgetId = $value['id'];
+            if ($widgetId == $paWidgetId) {
+                $slots = $value['slots'];
+            }
+        }
         
         $productIds = [];
         foreach($slots as $key=>$value) {
