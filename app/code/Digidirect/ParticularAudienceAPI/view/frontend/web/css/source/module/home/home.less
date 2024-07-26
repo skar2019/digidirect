@@ -78,7 +78,19 @@ and open the template in the editor.
         font-weight: 600;
     }
     
-    #pa-digidirect-product-widget .pa-product-widget-container {
+    #pa-blue-right-side-widget .price-label {
+        display: none !important;
+    }
+    
+    #pa-blue-right-side-widget .discount-price-wrapper {
+        display: none;
+    }
+    
+    #pa-blue-right-side-widget .current-price-wrapper {
+        margin-top: -5px;
+    }
+    
+    .pa-digidirect-product-widget-container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
     }
@@ -111,16 +123,7 @@ and open the template in the editor.
         border-radius: 5px;
         height: unset !important;
         border: 1px solid #cacaca;
-    }
-
-    #pa-digidirect-product-widget .price-final_price {
-        margin: 0 !important;
-        min-height: 67px;
-        border: 1px solid #4e4e4e;
-        border-radius: 5px;
-        padding: 0;
-        margin-bottom: 10px !important;
-        position: relative;
+        margin-top: 0;
     }
 
     #pa-digidirect-product-widget .final-price {
@@ -149,17 +152,30 @@ and open the template in the editor.
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
+    #pa-digidirect-product-widget .pa-product-widget-container {
+        grid-template-columns: repeat(2, 1fr);    
+        row-gap: 10px;
+        column-gap: 15px;
+    }
+    
+    #pa-digidirect-product-widget .product-item-info.product-item {
+        margin-right: 0;
+    }
+    
+    #pa-digidirect-product-widget .product-item-link {
+        text-align: center;
+    }
+    
+    #pa-digidirect-product-widget .product-item-info.product-item:last-child {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 1280px) {
     
-}
-
-@media only screen and (max-width: 1680px) {
-    
-}
-
-@media only screen and (min-width: 1680px) {
+    #pa-digidirect-product-widget .product-item-actions {
+        padding-bottom: 0;
+    }
     
 }
 
