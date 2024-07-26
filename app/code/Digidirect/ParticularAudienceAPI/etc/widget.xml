@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="pa_digidirect_blue_right_side_widget"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\BlueRightSide" ttl="86400">
+        <label translate="true">PA - Blue Right Side Widget (Homepage)</label>
+        <description translate="true">PA - Blue Right Side Widget (Homepage)</description>
+    </widget>
+</widgets>
