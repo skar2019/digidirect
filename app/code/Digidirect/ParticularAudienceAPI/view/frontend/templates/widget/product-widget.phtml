@@ -5,15 +5,15 @@
     $productCount = 0;
 ?>
 <?php if ($recommendedProducts): ?>
-    <div id="pa-digimarket-widget-wrapper">
-        <div id="pa-digimarket-widget">
+    <div id="pa-digidirect-product-widget-wrapper">
+        <div id="pa-digidirect-product-widget">
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;"><?= $block->getWidgetTitle(); ?></h3>
                 <?php if ($block->getViewAllLink()): ?>
                     <a href="<?= $block->getViewAllLink(); ?>" class="product-widget-view-all">View All</a>
                 <?php endif; ?>
             </div>
-            <div class="pa-product-widget-container">
+            <div class="pa-digidirect-product-widget-container">
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
                     <?php if ($productCount < 6): ?>
@@ -66,7 +66,6 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-            <a href="https://www.digidirect.com.au/digimarket" class="digimarket-discover-more-mobile" style="display: none;">DISCOVER MORE</a>
         </div>
     </div>
 <?php endif; ?>

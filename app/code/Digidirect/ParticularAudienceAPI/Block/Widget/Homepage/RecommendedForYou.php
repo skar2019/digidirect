@@ -31,6 +31,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -40,6 +41,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $this->logger = $logger;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->listProductBlock = $listProductBlock;
         parent::__construct($context, $data);
     }
     
@@ -50,7 +52,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     public function getViewAllLink() {
         return false;
     }
-
 
     public function getRecommendedProducts(){
         
@@ -94,6 +95,14 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
+    }
+    
+    public function getProductPrice($product){
+        return $this->listProductBlock->getProductPrice($product);
+    }
+    
+    public function getAddToCartPostParams($product){
+        return $this->listProductBlock->getAddToCartPostParams($product);
     }
     
 }
