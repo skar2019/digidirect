@@ -31,6 +31,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -40,7 +41,12 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         $this->logger = $logger;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->listProductBlock = $listProductBlock;
         parent::__construct($context, $data);
+    }
+    
+    public function getProductPrice($product){
+        return $this->listProductBlock->getProductPrice($product);
     }
     
     public function getRecommendedProducts(){
