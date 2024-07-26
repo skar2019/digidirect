@@ -1,0 +1,93 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 07 26, 24, 2:43:10 PM
+    Author     : rondel
+*/
+
+
+& when(@media-common = true){
+    
+    #pa-blue-right-side-widget-wrapper {
+        background: #004f67;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        width: 340px !important;
+        margin-left: -5px;
+        margin-top: -15px;
+    }
+
+    .pa-product-widget-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 10px;
+        padding-bottom: 4px;
+    }
+
+    #pa-blue-right-side-widget .title {
+        font-size: 14px;
+        margin-top: 0;
+    }
+
+    #pa-blue-right-side-widget-wrapper .product-item-info.product-item {
+        margin: 0;
+        padding: 0;
+        border: none;
+        width: unset !important;
+        display: block !important;
+        border-radius: 5px;
+    }
+
+    #pa-blue-right-side-widget .product-image-wrapper {
+        padding-bottom: 0 !important;
+        height: auto;
+    }
+
+    #pa-blue-right-side-widget .product-image-container {
+        width: 100% !important;
+        padding: 15px 15px 0;
+    }
+
+    #pa-blue-right-side-widget .product-image-photo {
+        height: 60px;
+        margin-bottom: 0;
+        margin-top: 5px;
+        position: static;
+        object-fit: contain;
+    }
+
+    #pa-blue-right-side-widget .product-item-details {
+        padding: 5px 3px;
+    }
+
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+}
+
+@media only screen and (max-width: 1280px) {
+    
+}
+
+@media only screen and (max-width: 1680px) {
+    
+}
+
+@media only screen and (min-width: 1680px) {
+    
+}
+
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
+}
+
