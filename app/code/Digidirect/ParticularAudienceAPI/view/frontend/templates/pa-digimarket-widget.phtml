@@ -62,10 +62,11 @@
                                         <?php 
                                             $hasDiscountClass = "has-discount";
                                         ?>
-                                        <div class="digideals-overlay">
-                                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                        </div>
-                                
+                                        <?php if ($isDigiSeconds == 0): ?>
+                                            <div class="digideals-overlay">
+                                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                            </div>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 <?php endif; ?>
                                 <?php if ($isDigiSeconds > 0): ?>
