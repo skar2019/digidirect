@@ -147,41 +147,41 @@
                             </div>
                             <div class="product actions product-item-actions">
                                 <div class="actions-primary">
-                                    <?php if ($_product->isSaleable()) { ?>
-                                            <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
 
-                                            <?php if ($is_digiPrint == 1): ?>
-                                                <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
-                                                    <button type="button"
-                                                        title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
-                                                        class="action btn-ordernow primary">
-                                                        Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
-                                                    </button>
-                                                </a>
-                                            <?php else: ?>
-                                                <form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
-                                                    <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
-                                                    <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
-                                                    <?php if ($formKey = $block->getProductFormKey()) { ?>
-                                                        <input name="form_key" type="hidden" value="<?= $formKey ?>" />
-                                                        <?php } else { ?>
-                                                        <?= $block->getBlockHtml('formkey')?>
-                                                        <?php } ?>
-                                                        <button type="submit"
-                                                        title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
-                                                        class="action tocart primary">
-                                                        <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
-                                                    </button>
-                                                </form>
-                                            <?php endif; ?>
+                                    <?php if ($is_digiPrint == 1): ?>
 
-                                    <?php } else { ?>
-                                            <?php if ($_product->getIsSalable()) { ?>
-                                                    <div class="stock available"><span><?= __('In stock') ?></span></div>
-                                            <?php } else { ?>
-                                                    <div class="stock unavailable"><span><?= __('Out of stock') ?></span></div>
-                                            <?php } ?>
-                                    <?php } ?>
+                                        <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
+                                            <button type="button"
+                                                title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
+                                                class="action btn-ordernow primary">
+                                                Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
+                                            </button>
+                                        </a>
+
+                                    <?php else: ?>
+                                    <form data-role="tocart-form"
+                                          data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
+                                          data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
+                                          action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
+                                    >
+                                        <input type="hidden"
+                                               name="product"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
+                                        <input type="hidden"
+                                               name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
+                                        <?= /* @escapeNotVerified */ $block->getBlockHtml('formkey'); ?>
+                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                            <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                        <?php endif; ?>
+                                        <button type="submit"
+                                                title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
+                                                class="action tocart primary">
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                        </button>
+                                    </form>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
