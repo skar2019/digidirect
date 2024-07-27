@@ -20,7 +20,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     protected $cookieMetadataFactory;
     
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/product-widget.phtml';
-
   
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
