@@ -19,8 +19,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     
     protected $cookieMetadataFactory;
     
-    protected $_urlInterface;
-    
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/product-widget.phtml';
 
   
@@ -34,7 +32,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
-        \Magento\Framework\UrlInterface $urlInterface,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -45,7 +42,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->listProductBlock = $listProductBlock;
-        $this->_urlInterface = $urlInterface;
         parent::__construct($context, $data);
     }
     
@@ -115,10 +111,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     
     public function getAddToCartPostParams($product){
         return $this->listProductBlock->getAddToCartPostParams($product);
-    }
-    
-    public function getUrl($path) {
-        return $this->_urlInterface->getUrl($path,[]);
     }
     
 }
