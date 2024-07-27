@@ -118,7 +118,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     }
     
     public function getUrl($path) {
-        return $this->_urlInterface->getUrl($path);
+        return $this->_urlInterface->getUrl($path,[]);
     }
     
 }
