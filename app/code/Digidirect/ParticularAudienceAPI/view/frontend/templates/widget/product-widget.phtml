@@ -393,9 +393,9 @@ function loadMoreProducts(widgetClass) {
     }
     var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .tile-hide'); 
     if (hiddenTilesCount.length == 0) {
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more').style.display = "none";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less').style.display = "block";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all').style.display = "block";  
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block";  
     }
 }
 
