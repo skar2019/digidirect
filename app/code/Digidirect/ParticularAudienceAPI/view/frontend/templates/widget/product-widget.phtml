@@ -187,8 +187,8 @@
                 <?php endforeach; ?>
             </div>
             <div class="pa-digidirect-product-widget-container mobile-widget">
+                <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
-                    <?php $productCount = 0;?>
                     <?php $productCount++; ?>
                         <?php
                         
@@ -223,7 +223,9 @@
                         ?>
                         <?php 
                             $hideProductItem = "";
-                            if ($productCount > 4) { $hideProductItem = "hide-product-item"; }
+                            if ($productCount > 4) { 
+                                $hideProductItem = "hide-product-item"; 
+                            }
                         ?>
                         <div class="product-item-info product-item <?= $hideProductItem; ?>">
                             <div class="wish-list-wrapper" data-role="add-to-links">
