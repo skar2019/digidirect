@@ -70,7 +70,8 @@ $classes              = $this->getOwlCarouselClasses();
                                                     
                                                         <?php               
                                                             $categoryIds = $_product->getCategoryIds();
-                                                            $digiSecondsIds = array(2564,2567,2570,2573);    
+                                                            $digiSecondsIds = array(2564,2567,2570,2573);
+                                                            $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));    
 
                                                             $d2ItemCondition = $_product->getData('item_codition');
                                                             $d2ItemRating = $_product->getData('item_rating');
