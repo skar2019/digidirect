@@ -18,7 +18,7 @@ and open the template in the editor.
         padding: 10px;
         margin-left: -5px;
         margin-top: -15px;
-        margin-bottom: 15px;
+        //margin-bottom: 15px;
     }
 
     .pa-product-widget-container {
@@ -141,6 +141,11 @@ and open the template in the editor.
         margin-top: 0;
         position: relative;
     }
+    
+    #pa-digidirect-product-widget .product-item-info.product-item:hover {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        transform: translate(0, -10px);
+    }
 
     #pa-digidirect-product-widget .final-price {
         position: absolute !important;
@@ -163,12 +168,25 @@ and open the template in the editor.
     #pa-digidirect-product-widget .product-item-actions .actions-primary {
         width: 100% !important;
     }
+    
+    .hide-product-item {
+        display: none;
+    }
+    
+    .pa-digidirect-product-widget-container.mobile-widget {
+        display: none;
+    }
 
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
     .pa-digidirect-product-widget-container {
+        display: none;
+    }
+    
+    .pa-digidirect-product-widget-container.mobile-widget {
+        display: grid !important;
         grid-template-columns: repeat(2, 1fr);    
         row-gap: 10px;
         column-gap: 15px;
