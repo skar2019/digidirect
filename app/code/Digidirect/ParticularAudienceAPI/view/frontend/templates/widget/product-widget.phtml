@@ -363,11 +363,13 @@
                             </div>
                         </div>
                 <?php endforeach; ?>
-                <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts(<?= $block->getWidgetClass(); ?>);"><div class="mgz-element-inner"><p>Load More</p></div></div>
-                <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts(<?= $block->getWidgetClass(); ?>);" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-                <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts(<?= $block->getWidgetClass(); ?>);" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
-            </div>
-        </div>
+                </div>
+                <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('<?= $block->getWidgetClass(); ?>');"><div class="mgz-element-inner"><p>Load More</p></div></div>
+                <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('<?= $block->getWidgetClass(); ?>');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
+                <?php if ($block->getViewAllLink()): ?>
+                    <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('<?= $block->getWidgetClass(); ?>');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
+                <?php endif; ?>
+                </div>
     </div>
 <?php endif; ?>
 <script type="text/x-magento-init">
@@ -391,9 +393,9 @@ function loadMoreProducts(widgetClass) {
     }
     var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .tile-hide'); 
     if (hiddenTilesCount.length == 0) {
-       document.querySelectorAll('.'+ widgetClass + ' ' + 'load-more').style.display = "none";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + 'view-less').style.display = "block";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + 'view-all').style.display = "block";  
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more').style.display = "none";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less').style.display = "block";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all').style.display = "block";  
     }
 }
 
