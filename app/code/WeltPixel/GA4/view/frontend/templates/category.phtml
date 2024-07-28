@@ -18,7 +18,12 @@ $helper = $this->helper('WeltPixel\GA4\Helper\Data');
                 <?php $categoryProduct['item_name'] = html_entity_decode($product->getName() ?? ''); ?>
                 <?php $categoryProduct['affiliation'] = $helper->getAffiliationName(); ?>
                 <?php $categoryProduct['item_id'] = $helper->getGtmProductId($product); ?>
-                <?php $categoryProduct['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '')); ?>
+                <?php if ($product->getPriceInfo()->getPrice('final_price')->getValue()) : ?>
+                    <?php $categoryProduct['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '')); ?>
+                <?php else: ?>
+                    <?php $categoryProduct['price'] = $product->getPriceInfo()->getPrice('final_price')->getValue(); ?>
+                <?php endif; ?>
+
                 <?php if ($helper->isBrandEnabled()) : ?>
                 <?php $categoryProduct['item_brand'] = $helper->getGtmBrand($product); ?>
                 <?php endif;?>
@@ -63,7 +68,11 @@ $helper = $this->helper('WeltPixel\GA4\Helper\Data');
             <?php $categoryProduct['item_name'] = html_entity_decode($product->getName() ?? ''); ?>
             <?php $categoryProduct['affiliation'] = $helper->getAffiliationName(); ?>
             <?php $categoryProduct['item_id'] = $helper->getGtmProductId($product); ?>
-            <?php $categoryProduct['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '')); ?>
+            <?php if ($product->getPriceInfo()->getPrice('final_price')->getValue()) : ?>
+                <?php $categoryProduct['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '')); ?>
+            <?php else: ?>
+                <?php $categoryProduct['price'] = $product->getPriceInfo()->getPrice('final_price')->getValue(); ?>
+            <?php endif; ?>
             <?php if ($helper->isBrandEnabled()) : ?>
                 <?php $categoryProduct['item_brand'] = $helper->getGtmBrand($product); ?>
             <?php endif;?>

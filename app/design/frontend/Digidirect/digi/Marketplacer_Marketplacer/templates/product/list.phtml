@@ -102,6 +102,7 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $categoryIds = $_product->getCategoryIds();
                 $digiSecondsIds = array(2564,2567,2570,2573);
+                $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));
 
                 // digiprint
                 $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
@@ -183,13 +184,15 @@ if ($currentPage != "catalogsearch_result_index") {
                                 <?php 
                                     $hasDiscountClass = "has-discount";
                                 ?>
-                                <div class="digideals-overlay">
-                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                </div>
+                                <?php if ($isDigiSeconds == 0): ?>
+                                    <div class="digideals-overlay">
+                                        <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                    </div>
+                                <?php endif; ?>
                             <?php endif; ?>
                         <?php endif; ?>
                         
-                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
+                        <?php if ($isDigiSeconds > 0): ?>
                             <?php if ($d2ItemCondition): ?>
                                 <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
