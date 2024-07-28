@@ -186,7 +186,7 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-            <div class="pa-digidirect-product-widget-container mobile-widget">
+            <div id="<?= $block->getWidgetClass(); ?>" class="pa-digidirect-product-widget-container mobile-widget">
                 <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
@@ -414,7 +414,6 @@
              productTiles[x].classList.add('hide-product-item');
           }
         }
-        document.querySelectorAll(widgetClass)[0].scrollIntoView();
         
         document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
         document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
@@ -423,6 +422,7 @@
         }
         catch(err) {
         }
+        document.getElementById(widgetClass).scrollIntoView();
 
     }
 
