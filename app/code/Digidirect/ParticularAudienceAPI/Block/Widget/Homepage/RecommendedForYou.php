@@ -48,6 +48,10 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         return 'Recommended For you';
     }
     
+    public function getWidgetClass() {
+        return 'recommended-for-you-widget';
+    }
+    
     public function getViewAllLink() {
         return false;
     }

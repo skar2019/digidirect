@@ -12,7 +12,7 @@
                     <a href="<?= $block->getViewAllLink(); ?>" class="product-widget-view-all">View All</a>
                 <?php endif; ?>
             </div>
-            <div class="pa-digidirect-product-widget-container">
+            <div class="pa-digidirect-product-widget-container <?= $block->getWidgetClass(); ?>">
                 <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
@@ -186,7 +186,7 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-            <div class="pa-digidirect-product-widget-container mobile-widget">
+            <div class="pa-digidirect-product-widget-container mobile-widget <?= $block->getWidgetClass(); ?>">
                 <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
@@ -363,6 +363,9 @@
                             </div>
                         </div>
                 <?php endforeach; ?>
+                <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts(<?= $block->getWidgetClass(); ?>);"><div class="mgz-element-inner"><p>Load More</p></div></div>
+                <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts(<?= $block->getWidgetClass(); ?>);" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
+                <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts(<?= $block->getWidgetClass(); ?>);" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
             </div>
         </div>
     </div>
@@ -375,4 +378,45 @@
         }
     }
 }
+</script>
+<script>
+
+function loadMoreProducts(widgetClass) {
+    var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
+    var ctr = 0;
+    for (let x = 0; x < hiddenTiles.length; x++) {
+      ctr++;
+      hiddenTiles[x].classList.remove('hide-product-item');
+      if (ctr == 4) break;
+    }
+    var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .tile-hide'); 
+    if (hiddenTilesCount.length == 0) {
+       document.querySelectorAll('.'+ widgetClass + ' ' + 'load-more').style.display = "none";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + 'view-less').style.display = "block";    
+       document.querySelectorAll('.'+ widgetClass + ' ' + 'view-all').style.display = "block";  
+    }
+}
+
+function viewLessProducts(widgetClass) {
+    var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .product-item'); 
+
+    var ctr = 0;
+    for (let x = 0; x < productTiles.length; x++) {
+      ctr++;
+      if (ctr > 4) {
+         productTiles[x].classList.add('hide-product-item');
+      }
+    }
+    document.querySelectorAll(widgetClass).scrollIntoView();
+
+    document.querySelectorAll('.'+ widgetClass + ' ' + 'load-more').style.display = "block";    
+    document.querySelectorAll('.'+ widgetClass + ' ' + 'view-less').style.display = "none";    
+    document.querySelectorAll('.'+ widgetClass + ' ' + 'view-all').style.display = "none";  
+
+}
+
+function shopDigimarketCatViewAllProducts(viewAllLink) {
+    window.location.href = viewAllLink;
+}
+
 </script>
