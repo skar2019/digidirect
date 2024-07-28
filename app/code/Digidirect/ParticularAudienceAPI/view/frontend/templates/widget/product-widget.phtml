@@ -12,7 +12,7 @@
                     <a href="<?= $block->getViewAllLink(); ?>" class="product-widget-view-all">View All</a>
                 <?php endif; ?>
             </div>
-            <div class="pa-digidirect-product-widget-container <?= $block->getWidgetClass(); ?>">
+            <div class="pa-digidirect-product-widget-container">
                 <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
@@ -186,7 +186,7 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-            <div class="pa-digidirect-product-widget-container mobile-widget <?= $block->getWidgetClass(); ?>">
+            <div class="pa-digidirect-product-widget-container mobile-widget">
                 <?php $productCount = 0;?>
                 <?php foreach ($recommendedProducts as $_product): ?>
                     <?php $productCount++; ?>
@@ -395,12 +395,17 @@
         if (hiddenTilesCount.length == 0) {
             document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
             document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block";  
+             
+            try {
+                document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
+            }
+            catch(err) {
+            }
         }
     }
 
     function viewLessProducts(widgetClass) {
-        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .product-item'); 
+        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + '.mobile-widget .product-item'); 
 
         var ctr = 0;
         for (let x = 0; x < productTiles.length; x++) {
@@ -413,7 +418,11 @@
         
         document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
         document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
+        try {
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
+        }
+        catch(err) {
+        }
 
     }
 

@@ -177,10 +177,6 @@ and open the template in the editor.
         display: none;
     }
     
-    #pa-digidirect-product-widget .load-more {
-        display: none;
-    }
-    
     #pa-digidirect-product-widget .product-tab-mobile-widget-load-more.grid-toggle-more, #pa-digidirect-product-widget .product-tab-mobile-widget-view-less.grid-toggle-more, #pa-digidirect-product-widget .product-tab-mobile-widget-view-all.grid-toggle-more {
         margin-top: 0 !important;
     }
@@ -226,7 +222,20 @@ and open the template in the editor.
 //  Desktop +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+    
+    #pa-digidirect-product-widget .load-more {
+        display: none !important;
+    }
+    
+    #pa-digidirect-product-widget .view-less {
+        display: none !important;
+    }
+    
+    #pa-digidirect-product-widget .view-all {
+        display: none !important;
+    }
     
 }
 
