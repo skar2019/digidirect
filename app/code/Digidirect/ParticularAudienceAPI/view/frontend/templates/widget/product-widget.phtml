@@ -5,7 +5,7 @@
 ?>
 <?php if ($recommendedProducts): ?>
     <div id="pa-digidirect-product-widget-wrapper">
-        <div id="pa-digidirect-product-widget">
+        <div id="pa-digidirect-product-widget" class="<?= $block->getWidgetClass(); ?>">
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;"><?= $block->getWidgetTitle(); ?></h3>
                 <?php if ($block->getViewAllLink()): ?>
