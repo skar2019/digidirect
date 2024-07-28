@@ -20,7 +20,6 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
     protected $cookieMetadataFactory;
     
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/product-widget.phtml';
-
   
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    
@@ -31,6 +30,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -40,6 +40,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $this->logger = $logger;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->listProductBlock = $listProductBlock;
         parent::__construct($context, $data);
     }
     
@@ -51,12 +52,12 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         return false;
     }
 
-
     public function getRecommendedProducts(){
         
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
+        $paWidgetId = '94e9300c-023e-ec11-aae9-02dca44cceec';
         
         $customerId = $this->cookieManager->getCookie('PAC');
         //$this->logger->info("customerId: " . $customerId); 
@@ -66,7 +67,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
             $customerIdParam = "";
         }
         
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=false".$customerIdParam;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false".$customerIdParam;
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
         
         $this->curl->addHeader("Content-Type", "application/json");
@@ -76,7 +77,15 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         
-        $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        //$slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        $widgets = $getRecommendationsResultJson['recommendations']['route']['widgets'];
+        
+        foreach($widgets as $key=>$value) {
+            $widgetId = $value['id'];
+            if ($widgetId == $paWidgetId) {
+                $slots = $value['slots'];
+            }
+        }
         
         $productIds = [];
         foreach($slots as $key=>$value) {
@@ -89,11 +98,18 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $recommendationsCollection = $this->productCollectionFactory->create();
         $recommendationsCollection->addAttributeToSelect('*');
         $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
-        $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
         $recommendationsCollection->getSelect()->orderRand();
         
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
+    }
+    
+    public function getProductPrice($product){
+        return $this->listProductBlock->getProductPrice($product);
+    }
+    
+    public function getAddToCartPostParams($product){
+        return $this->listProductBlock->getAddToCartPostParams($product);
     }
     
 }
