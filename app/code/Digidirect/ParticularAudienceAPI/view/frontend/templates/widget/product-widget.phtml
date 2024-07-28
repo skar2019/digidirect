@@ -382,43 +382,45 @@
 }
 </script>
 <script>
-
-function loadMoreProducts(widgetClass) {
-    var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
-    var ctr = 0;
-    for (let x = 0; x < hiddenTiles.length; x++) {
-      ctr++;
-      hiddenTiles[x].classList.remove('hide-product-item');
-      if (ctr == 4) break;
+    
+    function loadMoreProducts(widgetClass) {
+        var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
+        var ctr = 0;
+        for (let x = 0; x < hiddenTiles.length; x++) {
+          ctr++;
+          hiddenTiles[x].classList.remove('hide-product-item');
+          if (ctr == 4) break;
+        }
+        var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
+        if (hiddenTilesCount.length == 0) {
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block";  
+        }
     }
-    var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .tile-hide'); 
-    if (hiddenTilesCount.length == 0) {
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-       document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block";  
+
+    function viewLessProducts(widgetClass) {
+        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .product-item'); 
+
+        var ctr = 0;
+        for (let x = 0; x < productTiles.length; x++) {
+          ctr++;
+          if (ctr > 4) {
+             productTiles[x].classList.add('hide-product-item');
+          }
+        }
+        document.querySelectorAll(widgetClass)[0].scrollIntoView();
+        
+        document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
+        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
+        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
+
     }
-}
 
-function viewLessProducts(widgetClass) {
-    var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .product-item'); 
-
-    var ctr = 0;
-    for (let x = 0; x < productTiles.length; x++) {
-      ctr++;
-      if (ctr > 4) {
-         productTiles[x].classList.add('hide-product-item');
-      }
+    function shopDigimarketCatViewAllProducts(viewAllLink) {
+        window.location.href = viewAllLink;
     }
-    document.querySelectorAll(widgetClass).scrollIntoView();
 
-    document.querySelectorAll('.'+ widgetClass + ' ' + 'load-more').style.display = "block";    
-    document.querySelectorAll('.'+ widgetClass + ' ' + 'view-less').style.display = "none";    
-    document.querySelectorAll('.'+ widgetClass + ' ' + 'view-all').style.display = "none";  
 
-}
-
-function shopDigimarketCatViewAllProducts(viewAllLink) {
-    window.location.href = viewAllLink;
-}
 
 </script>
