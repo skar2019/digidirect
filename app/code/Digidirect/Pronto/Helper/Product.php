@@ -256,17 +256,17 @@ class Product extends AbstractHelper
 //                }
 
                 //stk-user-only-alpha4-3 is_qantas_product
-                if(isset($prod['stk-user-only-alpha4-3']))
-                {
-                    if($prod['stk-user-only-alpha4-3'] == "Q")
-                    {
-                        $product->setCustomAttribute('is_qantas_product', '1');
-                    }
-                    else
-                    {
-                        $product->setCustomAttribute('is_qantas_product', '0');
-                    }
-                }
+//                if(isset($prod['stk-user-only-alpha4-3']))
+//                {
+//                    if($prod['stk-user-only-alpha4-3'] == "Q")
+//                    {
+//                        $product->setCustomAttribute('is_qantas_product', '1');
+//                    }
+//                    else
+//                    {
+//                        $product->setCustomAttribute('is_qantas_product', '0');
+//                    }
+//                }
 
 
                 if(isset($prod['stock-division']))
@@ -309,12 +309,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -464,6 +464,8 @@ class Product extends AbstractHelper
 
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 //magento bug, need to save first then assign categories
@@ -576,11 +578,23 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+
                     //$product->setCategoryIds($categoryIds);
                 }
 
@@ -682,12 +696,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -700,7 +714,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
 
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -998,12 +1012,22 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -1241,12 +1265,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -1382,6 +1406,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('bulky_item', 0);
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
@@ -1495,12 +1521,22 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -1589,12 +1625,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -1606,7 +1642,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -1893,12 +1929,22 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -2168,12 +2214,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -2322,6 +2368,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('bulky_item', 0);
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
@@ -2435,12 +2482,22 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
-                    echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            echo $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -2530,12 +2587,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -2547,7 +2604,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -2835,12 +2892,21 @@ class Product extends AbstractHelper
                 }
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
-                    echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -3108,12 +3174,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -3176,21 +3242,20 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
                 //default source, dapat lagi meron
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);//in stock
-//                $sourceItem->setQuantity(0);
-//                $sourceItems[] = $sourceItem;
-//                 echo "default - 0";
-//                try {
-//                    $this->sourceItemsSaveInterface->execute($sourceItems);
-//                    //return true;
-//                } catch (\Exception $e) {
-//                    echo "error default source";
-//                }
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);//in stock
+                $sourceItem->setQuantity(0);
+                $sourceItems[] = $sourceItem;
+                 echo "default - 0";
+                try {
+                    $this->sourceItemsSaveInterface->execute($sourceItems);
+                    //return true;
+                } catch (\Exception $e) {
+                    echo "error default source";
+                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -3398,12 +3463,22 @@ class Product extends AbstractHelper
                 }
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
 
@@ -3509,12 +3584,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -3526,7 +3601,7 @@ class Product extends AbstractHelper
 
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -3842,12 +3917,22 @@ class Product extends AbstractHelper
                 }
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
+                //comment out for now until bugged category is fixed May 6, 2024
                 if (count($categoryIds)) {
 
                     $forLogs .= "Categories: ".$catList."\n";
                     //echo "update categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
                 }
 
             }
@@ -3938,6 +4023,5 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-
     //redeploy
 }

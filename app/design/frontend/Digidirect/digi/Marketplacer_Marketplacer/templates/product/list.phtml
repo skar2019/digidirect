@@ -1,6 +1,7 @@
 <?php
 use Magento\Framework\App\Action\Action;
 ?>
+
 <?php
 /**
  * Product list template
@@ -52,7 +53,7 @@ if ($currentPage != "catalogsearch_result_index") {
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?> product-count-<?= $_productCollection->count(); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -101,6 +102,7 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $categoryIds = $_product->getCategoryIds();
                 $digiSecondsIds = array(2564,2567,2570,2573);
+                $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));
 
                 // digiprint
                 $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
@@ -168,16 +170,29 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                            <?php 
-                                $hasDiscountClass = "has-discount";
-                            ?>
-                            <div class="digideals-overlay">
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                            </div>
+                        <?php if ($is_digiPrint == 1): ?>
+                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <div class="digideals-overlay">
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                <?php 
+                                    $hasDiscountClass = "has-discount";
+                                ?>
+                                <?php if ($isDigiSeconds == 0): ?>
+                                    <div class="digideals-overlay">
+                                        <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
                         
-                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
+                        <?php if ($isDigiSeconds > 0): ?>
                             <?php if ($d2ItemCondition): ?>
                                 <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>

@@ -823,26 +823,26 @@ class TestPronto extends AbstractHelper
 //                    }
 
                     //check if accessories group
-                    $is_acce = true;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-
-                        echo $item->getSku()."<br>";
-                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup))
-                        {
-
-                        }
-                        else
-                        {
-                            $accgroup = $stockgroup->getValue();
-                            if(!in_array($stockgroup,$this->acceGroup)){
-                                $is_acce = false; //order has one that is not accessories
-                                break;
-                            }
-                        }
-
-                    }
+                    $is_acce = false; //do check for acce - clint may 7 2024
+//                    foreach ($order->getAllVisibleItems() as $item) {
+//                        /* @var $item \Magento\Sales\Model\Order\Item */
+//
+//                        echo $item->getSku()."<br>";
+//                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+//                        if(is_null($stockgroup))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//                            $accgroup = $stockgroup->getValue();
+//                            if(!in_array($stockgroup,$this->acceGroup)){
+//                                $is_acce = false; //order has one that is not accessories
+//                                break;
+//                            }
+//                        }
+//
+//                    }
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
@@ -852,6 +852,7 @@ class TestPronto extends AbstractHelper
                     {
                         if ($order->getStatus() != 'fraud')
                         {
+
                             if($instockInv == 1)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
@@ -897,6 +898,8 @@ class TestPronto extends AbstractHelper
                                     $data['sales-order']['header']['set-on-status'] = "B";
                                 }
                             }
+
+
 
                         }
                         else
@@ -1005,15 +1008,21 @@ class TestPronto extends AbstractHelper
             $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            $strt = $address->getStreet();
-            if(is_array($strt))
+            $street = "";
+            if(!(is_null($address->getStreet())))
             {
-                $street = implode(",", $strt);
+                $strt = $address->getStreet();
+                if(is_array($strt))
+                {
+                    $street = implode(",", $strt);
+                }
+                else
+                {
+                    $street = $strt;
+                }
             }
-            else
-            {
-                $street = $strt;
-            }
+
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -1089,7 +1098,7 @@ class TestPronto extends AbstractHelper
 
             $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
 
-            $shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
+            //$shipstreet = preg_replace('/[^A-Za-z0-9. -]/', '', $shipstreet);
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
@@ -1189,6 +1198,17 @@ class TestPronto extends AbstractHelper
                 {
                     echo "pending paypal <br />";
                     continue;
+                }
+            }
+
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
             }
 
@@ -1401,8 +1421,9 @@ class TestPronto extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
-                    echo "is MP - " .$sku."<br/>";
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
+                    echo "is MP - " .$sku." - seller : ".$sell."<br/>";
                     if($this->currentseller == $sell)
                     {
                         continue;
@@ -1985,6 +2006,16 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+//            $liabilityShift = false;
+//            if (($payment_type == 'BT')) {
+//
+//                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+//                if($liabilityShifted == 'Yes')
+//                {
+//                    $liabilityShift = true;
+//                }
+//            }
+
 
             $withpaymentref = true;
             if(($payment_type == "Y"))
@@ -2154,25 +2185,25 @@ class TestPronto extends AbstractHelper
             }
 
             //fixed shipping price as interim
-            if($producttotal > 99)
-            {
-                $shippingprice = 0;
-                $shippingDesc = "Standard";
-            }
-            else
-            {
-                $shippingprice = 10;
-                $shippingDesc = "Free Shipping";
-            }
+//            if($producttotal > 99)
+//            {
+//                $shippingprice = 0;
+//                $shippingDesc = "Standard";
+//            }
+//            else
+//            {
+//                $shippingprice = 10;
+//                $shippingDesc = "Free Shipping";
+//            }
 
-            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //if($test)
             //{

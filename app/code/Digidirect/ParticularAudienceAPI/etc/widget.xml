@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="pa_digidirect_blue_right_side_widget"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\BlueRightSide" ttl="86400">
+        <label translate="true">PA - Blue Right Side Widget (Homepage)</label>
+        <description translate="true">PA - Blue Right Side Widget (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_recommended_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\RecommendedForYou" ttl="86400">
+        <label translate="true">PA - Recommended For You (Homepage)</label>
+        <description translate="true">PA - Recommended For You (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_digimarket_products_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingDigiMarketProducts" ttl="86400">
+        <label translate="true">PA - Trending digiMarket Products (Homepage)</label>
+        <description translate="true">PA - Trending digiMarket Products (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_shop_tech_and_more_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\ShopTechAndMore" ttl="86400">
+        <label translate="true">PA - Shop Tech And More (Homepage)</label>
+        <description translate="true">PA - Shop Tech And More (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_technology_products_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingTechnologyProductsForYou" ttl="86400">
+        <label translate="true">PA - Trending Technology Products For You (Homepage)</label>
+        <description translate="true">PA - Trending Technology Products For You (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_photography_products_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingPhotographyProductsForYou" ttl="86400">
+        <label translate="true">PA - Trending Photography Products For You (Homepage)</label>
+        <description translate="true">PA - Trending Photography Products For You (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_digimarket_products_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingDigiMarketProductsForYou" ttl="86400">
+        <label translate="true">PA - Trending digiMarket Products For You (Homepage)</label>
+        <description translate="true">PA - Trending digiMarket Products For You (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_digiseconds_products_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingDigiSecondsProductsForYou" ttl="86400">
+        <label translate="true">PA - Trending digiSeconds Products For You (Homepage)</label>
+        <description translate="true">PA - Trending digiSeconds Products For You (Homepage)</description>
+    </widget>
+    <widget id="pa_digidirect_trending_digiprint_products_for_you_home"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\Homepage\TrendingDigiPrintProductsForYou" ttl="86400">
+        <label translate="true">PA - Trending digiPrint Products For You (Homepage)</label>
+        <description translate="true">PA - Trending digiPrint Products For You (Homepage)</description>
+    </widget>
+</widgets>

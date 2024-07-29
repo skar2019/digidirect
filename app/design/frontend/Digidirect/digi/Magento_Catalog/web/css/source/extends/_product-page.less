@@ -2206,7 +2206,7 @@
         color: #cacaca;
     }
     
-    .testfreaks-badge {
+    .catalog-product-view .testfreaks-badge {
         z-index: 0 !important;
     }
     
@@ -2275,6 +2275,7 @@
         padding: 2px;
         background: #FFC439;
         border: none;
+        z-index: 1;
     }
 
     #paypal-custom:hover {
@@ -2805,6 +2806,13 @@
 
         .gallery-placeholder {
             max-width: 480px;
+        }
+        
+        .catalog-product-view.category-digiseconds .product-item:nth-child(even), 
+        .catalog-product-view.category-openbox .product-item:nth-child(even), 
+        .catalog-product-view.category-preloved .product-item:nth-child(even), 
+        .catalog-product-view.category-refurb .product-item:nth-child(even)  {
+            margin-left: 0 !important;
         }
     }
 }
@@ -4140,6 +4148,10 @@
     
     .media-area {
         margin-top: 10px;
+    }
+    
+    .catalog-product-view .product-info-price .current-price-wrapper.no-special-price {
+        left: unset !important;
     }
     
     

@@ -346,7 +346,136 @@
     .form-digiclub-manage .field>.label {
         font-weight: 700;
     }
+    
+    .account .page-title-wrapper .page-title {
+        background: none !important;
+    }
+    
+    .account .navigation .nav.item.-icon {
+        border: none !important;
+    }
+    
+    .account .navigation {
+        z-index: 1;
+    }
 
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .account .page-main {
+        padding-top: 0 !important;
+    }
+
+    .account .navigation .block-collapsible-nav-title {
+        color: #fff !important;
+        background: #ff3c00 !important;
+    }
+
+    .block-collapsible-nav {
+        position: relative !important;
+        margin-top: 30px;
+        top: 0;
+    }
+
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        position: relative !important;
+        background-color: #fff !important;
+        padding: 0;
+    }
+
+    .secondary-nav .item:before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        fill: #e65300;    
+        border: none;
+    }
+
+    .block-collapsible-nav .title.active:after {
+        display: none;
+    }
+
+    .block-collapsible-nav .title:after {
+        display: none;
+    }
+    
+    .form-digiclub-manage img {
+        display: none;
+    }
+    
+    form.form.form-digiclub-manage.block > div {
+        display: block !important;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1279) {
+    
+    .account .page-main {
+        padding-top: 0 !important;
+    }
+
+    .account .navigation .block-collapsible-nav-title {
+        color: #fff !important;
+        background: #ff3c00 !important;
+    }
+
+    .block-collapsible-nav {
+        position: relative !important;
+        margin-top: 30px;
+        top: 0;
+    }
+
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        position: relative !important;
+        background-color: #fff !important;
+        padding: 0;
+    }
+
+    .secondary-nav .item:before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        fill: #e65300;    
+        border: none;
+    }
+
+    .block-collapsible-nav .title.active:after {
+        display: none;
+    }
+
+    .block-collapsible-nav .title:after {
+        display: none;
+    }
+    
+    .form-digiclub-manage img {
+        display: none;
+    }
+    
+    form.form.form-digiclub-manage.block > div {
+        display: block !important;
+    }
+    
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        border-bottom: 1px solid #222;
+    }
+    
+}
+
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = 1280) {
+    
+    .account.page-layout-2columns-left .columns {
+        width: calc(100% - 29%) !important;
+    }
+    
 }
 
 //
@@ -354,6 +483,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
     .account {
         .page-main {
             padding-bottom: 40px;
@@ -413,6 +543,45 @@
             min-height: 0;
         }
     }
+    
+    .secondary-nav.collapsible .block-collapsible-nav-title {
+        position: relative;
+        width: 100%;
+        margin-top: 30px;
+        padding: 25px 15px;
+        background: #ff3c00;
+    }
+
+    .secondary-nav .svg-icon {
+        margin-right: 25px;
+    }
+
+    .secondary-nav.collapsible .block-collapsible-nav-content {
+        background: #fff;
+        position: relative;
+        padding: 0;
+    }
+
+    .secondary-nav.collapsible .nav.item a {
+        color: #222 !important;
+    }
+
+    .secondary-nav .item:before {
+        content: '';
+        position: absolute;
+        width: 30px;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        fill: #e65300;
+        border: none;
+    }
+
+    .account.page-layout-2columns-left .sidebar-main {
+        width: 100%;
+    }
+    
 }
 
 //

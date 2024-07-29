@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.main">
+            <block class="Digidirect\ParticularAudienceAPI\Block\PdpDigiMarketSidePanel" 
+                   name="pa.digimarket.side.panel" 
+                   template="Digidirect_ParticularAudienceAPI::pa-digimarket-side-panel.phtml" 
+                   before="page.main.title" />
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Digidirect\ParticularAudienceAPI\Block\PdpDigiMarketSidePanel" 
+                   name="pa.digimarket.widget" 
+                   template="Digidirect_ParticularAudienceAPI::pa-digimarket-widget.phtml" 
+                   before="-" />
+        </referenceContainer>
+    </body>
+</page>

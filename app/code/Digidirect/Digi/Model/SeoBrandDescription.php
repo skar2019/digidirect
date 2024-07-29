@@ -215,7 +215,7 @@ class SeoBrandDescription
     public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
         if ($this->isCategoryBrandPage()) {
-            $this->pageConfig->setRobots($robotsMetaData);
+            //$this->pageConfig->setRobots($robotsMetaData);
             $this->setCanonical($this->getCanonicalUrl());
 
             //clint comment out Nov 9, 2023
@@ -407,7 +407,7 @@ class SeoBrandDescription
                 }
             }
             $this->pageConfig->addRemotePageAsset(
-                $this->url->getCurrentUrl(),
+                'canonical-seo',
                 self::ASSET_CANONICAL,
                 ['attributes' => ['rel' => self::ASSET_CANONICAL]]
             );

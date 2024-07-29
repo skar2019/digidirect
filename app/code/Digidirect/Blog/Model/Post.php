@@ -175,7 +175,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements PostInterfa
      */
     public function getViewUrl()
     {
-        return $this->urlModel->getViewPostUrl($this);
+        return rtrim($this->urlModel->getViewPostUrl($this), '/');
     }
 
     /**

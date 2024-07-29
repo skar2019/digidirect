@@ -71,7 +71,8 @@ $htmlId               = $element->getHtmlId();
                                                     
                                     <?php               
                                         $categoryIds = $_product->getCategoryIds();
-                                        $digiSecondsIds = array(2564,2567,2570,2573);    
+                                        $digiSecondsIds = array(2564,2567,2570,2573);
+                                        $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));  
                                         
                                         $d2ItemCondition = $_product->getData('item_codition');
                                         $d2ItemRating = $_product->getData('item_rating');
@@ -158,10 +159,26 @@ $htmlId               = $element->getHtmlId();
 		                    	?>
 		                        <?= $imgHtml ?>
 		                    </a>
-                                    <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                                        <div class="digideals-overlay">
-                                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                        </div>
+                                    <?php if ($is_digiPrint == 1): ?>
+                                        <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                            <?php 
+                                                $hasDiscountClass = "has-discount";
+                                            ?>
+                                            <div class="digideals-overlay">
+                                                <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                            <?php 
+                                                $hasDiscountClass = "has-discount";
+                                            ?>
+                                            <?php if ($isDigiSeconds == 0): ?>
+                                                <div class="digideals-overlay">
+                                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     <?php endif; ?>
 							<?php } ?>
 							<div class="product details product-item-details">
