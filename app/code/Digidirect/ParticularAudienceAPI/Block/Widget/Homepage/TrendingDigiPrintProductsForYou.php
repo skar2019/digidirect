@@ -79,16 +79,6 @@ class TrendingDigiPrintProductsForYou extends \Magento\Framework\View\Element\Te
         $this->curl->get($getRecommendationsUrl);
         
         $getRecommendationsResult = $this->curl->getBody();
-        
-        if (!$getRecommendationsResult) {
-            $productIds = [62517,39328,62727,141171,12875];
-            $recommendationsCollection = $this->productCollectionFactory->create();
-            $recommendationsCollection->addAttributeToSelect('*');
-            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
-            $recommendationsCollection->getSelect()->limit(10);
-            return $recommendationsCollection;
-        }
-        
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         
         //$slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
@@ -101,20 +91,24 @@ class TrendingDigiPrintProductsForYou extends \Magento\Framework\View\Element\Te
             }
         }
         
-        $productIds = [];
-        foreach($slots as $key=>$value) {
-            //$this->logger->info("key: " . $key . ", productId: " . $value['products'][0]['refId']); 
-            $productId = $value['products'][0]['refId'];
-            array_push($productIds, $productId);
+        if (isset($slots)) {
+            $productIds = [];
+            foreach($slots as $key=>$value) {
+                $productId = $value['products'][0]['refId'];
+                array_push($productIds, $productId);
+            }
+            $recommendationsCollection = $this->productCollectionFactory->create();
+            $recommendationsCollection->addAttributeToSelect('*');
+            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+            $recommendationsCollection->getSelect()->orderRand();
+        } else {
+            $productIds = [62517,39328,62727,141171,12875];
+            $recommendationsCollection = $this->productCollectionFactory->create();
+            $recommendationsCollection->addAttributeToSelect('*');
+            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+            $recommendationsCollection->getSelect()->limit(10);
         }
         
-        //$recommendationsCollection = $this->productCollectionFactory->getIdFilter($productIds);
-        $recommendationsCollection = $this->productCollectionFactory->create();
-        $recommendationsCollection->addAttributeToSelect('*');
-        $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
-        $recommendationsCollection->getSelect()->orderRand();
-        
-        //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
     }
     
