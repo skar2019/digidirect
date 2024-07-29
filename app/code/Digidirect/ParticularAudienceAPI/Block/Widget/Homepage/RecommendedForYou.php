@@ -79,6 +79,16 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $this->curl->get($getRecommendationsUrl);
         
         $getRecommendationsResult = $this->curl->getBody();
+        
+        if (!$getRecommendationsResult) {
+            $productIds = [62517,39328,62727,141171,12875];
+            $recommendationsCollection = $this->productCollectionFactory->create();
+            $recommendationsCollection->addAttributeToSelect('*');
+            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+            $recommendationsCollection->getSelect()->limit(10);
+            return $recommendationsCollection;
+        }
+        
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         
         //$slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
