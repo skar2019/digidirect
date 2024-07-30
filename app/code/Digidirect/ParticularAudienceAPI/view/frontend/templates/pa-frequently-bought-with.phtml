@@ -48,7 +48,7 @@
                         <div class="product-item-info product-item">
                             <div class="pa-checkbox-container">
                                 <label class="pa-checkbox-label">
-                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" data-product-price="<?= $_product->getData('final_price'); ?>" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>
                                 </label>
                             </div>
                             <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
