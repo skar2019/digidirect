@@ -59,7 +59,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
-        $paWidgetId = '886fc4e3-a9f0-ee11-abf3-02bf4bf6447c';
+        $paWidgetId = '011987ea-124e-ef11-abf3-02bf4bf6447c';
         
         $currentProductId = $this->getCurrentProduct()->getId();
         //$this->logger->info("currentProductId: " . $currentProductId); 
