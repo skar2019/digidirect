@@ -68,7 +68,7 @@
                                     <a title="<?= $_product->getName(); ?>" href="<?= $_product->getProductUrl(); ?>" class="product-item-link">
                                         <?= $_product->getName(); ?>
                                     </a>
-                                </strong> 
+                                </strong>
                                 <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                             </div>
                             <div class="product actions product-item-actions">
@@ -100,21 +100,27 @@
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <div class="pa-bundle-container">
+                <div class="product-item-info product-item pa-bundle-container">
                     <div class="pa-checkbox-container pa-select-all-checkbox-container">
                         <span class="pa-select-all-label-text">Select All</span>
                         <label class="pa-checkbox-label pa-select-all-pa-checkbox-label">
                             <input type="checkbox" class="pa-checkbox-input pa-select-all-pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
                         </label>
                     </div>
-                    <div class="pa-bundle-summary">
-                        <div class="pa-bundle-price-summary">
-                            <div class="pa-bundle-total-price">
-                                <span name="label">Total Price:</span>
-                                <span id="pa-bundle-total" name="value"></span>
-                            </div>
+                    <a class="product photo product-item-photo" tabindex="-1">
+                    </a> 
+                    <div class="product details product-item-details">
+                        <span name="label">Total Price:</span>
+                        <span id="pa-bundle-total" name="value"></span>
+                    </div>
+                    <div class="product actions product-item-actions">
+                        <div class="actions-primary">
+                            <button type="submit"
+                                    title="<?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?>"
+                                    class="action tocart primary">
+                                <span><?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?></span>
+                            </button>
                         </div>
-                        <button class="pa-bundle-add-to-cart"><span>Add Bundle To Cart</span></button>
                     </div>
                 </div>
             </div>
