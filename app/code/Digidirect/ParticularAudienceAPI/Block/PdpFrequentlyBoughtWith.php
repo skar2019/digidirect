@@ -13,8 +13,6 @@ class PdpFrequentlyBoughtWith extends \Magento\Framework\View\Element\Template
     
     protected $jsonSerializer;
     
-    protected $listProductBlock;
-    
     protected $logger;
     
     protected $cookieManager;
