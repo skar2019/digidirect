@@ -48,7 +48,7 @@
                         <div class="product-item-info product-item">
                             <div class="pa-checkbox-container">
                                 <label class="pa-checkbox-label">
-                                    <input type="checkbox" data-product-id="67567" class="pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" class="pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
                                 </label>
                             </div>
                             <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
@@ -111,7 +111,7 @@
                     </a> 
                     <div class="product details product-item-details">
                         <span name="label">Total Price:</span>
-                        <span id="pa-bundle-total" name="value"></span>
+                        <span id="pa-bundle-total" name="value">$0.00</span>
                     </div>
                     <div class="product actions product-item-actions">
                         <div class="actions-primary">
