@@ -152,11 +152,15 @@
         $("#select-all-products-on-bundle").change(function() {
             if(this.checked) {
                 $('.pa-bundle-product').each(function(){
-                    $(this).prop("checked", true);
+                    if (!$(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
                 });
             } else {
                 $('.pa-bundle-product').each(function(){
-                    $(this).prop("checked", false);
+                    if ($(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
                 });
             }
         });
@@ -169,7 +173,7 @@
             } else {
                 var newBundleTotal = bundleTotal - bundleProductPrice;
             }
-            $("#pa-bundle-total").text('$' + newBundleTotal);
+            $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
         });
         
         $("#add-bundle-tocart").click(function(){
