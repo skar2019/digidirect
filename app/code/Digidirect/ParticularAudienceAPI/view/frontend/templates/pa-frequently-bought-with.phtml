@@ -48,7 +48,7 @@
                         <div class="product-item-info product-item">
                             <div class="pa-checkbox-container">
                                 <label class="pa-checkbox-label">
-                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" class="pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>
                                 </label>
                             </div>
                             <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
@@ -104,7 +104,7 @@
                     <div class="pa-checkbox-container pa-select-all-checkbox-container">
                         <span class="pa-select-all-label-text">Select All</span>
                         <label class="pa-checkbox-label pa-select-all-pa-checkbox-label">
-                            <input type="checkbox" class="pa-checkbox-input pa-select-all-pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                            <input id="select-all-products-on-bundle" type="checkbox" class="pa-checkbox-input pa-select-all-pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
                         </label>
                     </div>
                     <a class="product photo product-item-photo" tabindex="-1">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="product actions product-item-actions">
                         <div class="actions-primary">
-                            <button type="submit"
+                            <button id="add-bundle-tocart" type="submit"
                                     title="<?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?>"
                                     class="action tocart primary">
                                 <span><?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?></span>
@@ -127,6 +127,7 @@
         </div>
     </div>
 <?php endif; ?>
+
 <script type="text/x-magento-init">
 {
     "[data-role=tocart-form], .form.map.checkout": {
@@ -137,54 +138,40 @@
 }
 </script>
 <script>
-    
-    function loadMoreProducts(widgetClass) {
-        var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
-        var ctr = 0;
-        for (let x = 0; x < hiddenTiles.length; x++) {
-          ctr++;
-          hiddenTiles[x].classList.remove('hide-product-item');
-          if (ctr == 4) break;
-        }
-        var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
-        if (hiddenTilesCount.length == 0) {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-             
-            try {
-                document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
-            }
-            catch(err) {
-            }
-        }
-    }
+    require(['jquery'], function ($) {
 
-    function viewLessProducts(widgetClass) {
-        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + '.mobile-widget .product-item'); 
-
-        var ctr = 0;
-        for (let x = 0; x < productTiles.length; x++) {
-          ctr++;
-          if (ctr > 4) {
-             productTiles[x].classList.add('hide-product-item');
-          }
-        }
+        $("#select-all-products-on-bundle").change(function() {
+            if(this.checked) {
+                $('.pa-bundle-product').each(function(){
+                    $(this).prop("checked", true);
+                });
+            }
+        });
         
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
-        try {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
-        }
-        catch(err) {
-        }
-        document.getElementById(widgetClass).scrollIntoView();
-
-    }
-
-    function shopDigimarketCatViewAllProducts(viewAllLink) {
-        window.location.href = viewAllLink;
-    }
-
-
-
+        $("#add-bundle-tocart").click(function(){
+            $('.pa-bundle-product').each(function(){
+                if(this.checked) {
+                    console.log("data-product-id: " + this.attr("data-product-id"));
+                }
+            });
+        });
+        
+        /*var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
+        var productIds = [];
+        
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                productIds: productIds
+            },
+            success: function(data){
+                console.log(data.output);
+            },
+            error: function(){
+                console.log("Error!");
+            }
+        });*/
+        
+    });
 </script>
