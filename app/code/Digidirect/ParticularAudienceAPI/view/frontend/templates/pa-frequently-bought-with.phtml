@@ -145,13 +145,17 @@
                 $('.pa-bundle-product').each(function(){
                     $(this).prop("checked", true);
                 });
+            } else {
+                $('.pa-bundle-product').each(function(){
+                    $(this).prop("checked", false);
+                });
             }
         });
         
         $("#add-bundle-tocart").click(function(){
             $('.pa-bundle-product').each(function(){
                 if(this.checked) {
-                    console.log("data-product-id: " + this.attr("data-product-id"));
+                    console.log("data-product-id: " + $(this).attr("data-product-id"));
                 }
             });
         });
