@@ -824,27 +824,5 @@ return [
                 'en_US'
             ]
         ]
-    ],
-    'csp' => [
-        'mode' => [
-            'storefront_checkout_index_index' => [
-                'report_only' => '1'
-            ],
-            'admin_sales_order_create_index' => [
-                'report_only' => '1'
-            ]
-        ],
-        'policies' => [
-            'storefront_checkout_index_index' => [
-                'scripts' => [
-                    'inline' => '1'
-                ]
-            ],
-            'admin_sales_order_create_index' => [
-                'scripts' => [
-                    'inline' => '1'
-                ]
-            ]
-        ]
     ]
 ];
