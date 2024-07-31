@@ -177,29 +177,32 @@
         });
         
         $("#add-bundle-tocart").click(function(){
+            
+            var productIds = [];
+            
             $('.pa-bundle-product').each(function(){
                 if(this.checked) {
                     console.log("data-product-id: " + $(this).attr("data-product-id"));
+                    productIds.push($(this).attr("data-product-id"));
                 }
             });
+            
+            /*var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    productIds: productIds
+                },
+                success: function(data){
+                    console.log(data.result);
+                },
+                error: function(){
+                    console.log(data.result);
+                }
+            });*/
         });
-        
-        /*var url = "<?php echo $block->getBaseUrl().'deals/index/search'?>";
-        var productIds = [];
-        
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                productIds: productIds
-            },
-            success: function(data){
-                console.log(data.output);
-            },
-            error: function(){
-                console.log("Error!");
-            }
-        });*/
         
     });
 </script>
