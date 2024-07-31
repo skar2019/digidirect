@@ -110,5 +110,4 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         
         return $recommendationsCollection;
     }
-    
 }
