@@ -51,7 +51,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     
     public function getCookieValue(){
         $customerId = $this->cookieManager->getCookie('PAC');
-        echo $this->console_log("getCookie('PAC')", true);
+        $this->console_log("Test console_log()");
     }
     
     public function getRecommendedProducts(){
