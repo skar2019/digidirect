@@ -102,10 +102,12 @@ class TrendingPhotographyProductsForYou extends \Magento\Framework\View\Element\
             $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
             $recommendationsCollection->getSelect()->orderRand();
         } else {
-            $productIds = [62517,39328,62727,141171,12875];
+            $categories = [18];
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
-            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+            $recommendationsCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $recommendationsCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $recommendationsCollection->addCategoriesFilter(['in' => $categories]);
             $recommendationsCollection->getSelect()->limit(10);
         }
         

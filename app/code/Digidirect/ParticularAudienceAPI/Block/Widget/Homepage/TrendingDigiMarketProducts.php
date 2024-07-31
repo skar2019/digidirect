@@ -102,10 +102,12 @@ class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Templat
             $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
             $recommendationsCollection->getSelect()->orderRand();
         } else {
-            $productIds = [62517,39328,62727,141171,12875];
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
-            $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
+            $recommendationsCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $recommendationsCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
+            $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
             $recommendationsCollection->getSelect()->limit(10);
         }
         
