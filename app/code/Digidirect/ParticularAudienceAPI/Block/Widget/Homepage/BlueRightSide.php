@@ -55,7 +55,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     
     public function getRecommendedProducts(){
         
-        $this->console_log("getCookie('PAC')");
+        $this->console_log(getCookie('PAC'));
         
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
