@@ -51,7 +51,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     
     public function getCookieValue(){
         $customerId = $this->cookieManager->getCookie('PAC');
-        echo "js-cookie-" . "<script type='text/javascript'>console.log('Test JS from PHP!');</script>";
+        echo $this->console_log("getCookie('PAC')", true);
     }
     
     public function getRecommendedProducts(){
@@ -109,5 +109,14 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         }
         
         return $recommendationsCollection;
+    }
+
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+            ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 }
