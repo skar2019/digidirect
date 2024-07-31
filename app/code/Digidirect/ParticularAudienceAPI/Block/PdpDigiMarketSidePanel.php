@@ -59,6 +59,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
+        $paWidgetId = '011987ea-124e-ef11-abf3-02bf4bf6447c';
         
         $currentProductId = $this->getCurrentProduct()->getId();
         //$this->logger->info("currentProductId: " . $currentProductId); 
@@ -86,7 +87,14 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         
-        $slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
+        $widgets = $getRecommendationsResultJson['recommendations']['route']['widgets'];
+        
+        foreach($widgets as $key=>$value) {
+            $widgetId = $value['id'];
+            if ($widgetId == $paWidgetId) {
+                $slots = $value['slots'];
+            }
+        }
         
         $productIds = [];
         foreach($slots as $key=>$value) {
