@@ -51,7 +51,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     
     public function getCookieValue(){
         $customerId = $this->cookieManager->getCookie('PAC');
-        return $customerId;
+        return 'cookie-' . $_COOKIE['PAC'];
     }
     
     public function getRecommendedProducts(){
@@ -93,7 +93,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
             $productIds = [];
             foreach($slots as $key=>$value) {
                 $productId = $value['products'][0]['refId'];
-                $this->logger->info("productId: " . $productId); 
+                //$this->logger->info("productId: " . $productId); 
                 array_push($productIds, $productId);
             }
             $recommendationsCollection = $this->productCollectionFactory->create();
