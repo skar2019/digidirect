@@ -1,0 +1,208 @@
+<?php
+    use Magento\Framework\App\Action\Action;
+    
+    $recommendedProducts = $block->getRecommendedProducts();
+?>
+<?php if ($recommendedProducts): ?>
+    <div id="pa-digidirect-product-widget-wrapper" style="display: none;">
+        <div id="pa-digidirect-product-widget" class="pdp-frquently-bought-with">
+            <div class="product-widget-header">
+                <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Frequently Bought With</h3>
+            </div>
+            <div class="pa-digidirect-product-widget-container">
+                <?php $productCount = 0;?>
+                <?php foreach ($recommendedProducts as $_product): ?>
+                    <?php $productCount++; ?>
+                    <?php if ($productCount < 6): ?>
+                        <?php
+                        
+                            $finalProductPrice = $_product->getFinalPrice();
+                            $originalPrice = $_product->getPrice();
+                            $marketplacesPrice = $_product->getMarketplacesPrice();
+                            $wiserPrice = $_product->getData('wiser_price');
+
+                            $hasDiscountClass = "";
+                            $discountPrice = round($originalPrice - $finalProductPrice, 2);
+                            $discountWiserPrice = 0;
+                            if (!is_null($wiserPrice)) {
+                                $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
+                            }
+                            
+                            $d2BrandNewProductSKU = $_product->getData('d2newsku');
+                            $d2ItemCondition = $_product->getData('item_codition');
+                            $d2ItemDescription = $_product->getData('d2desc');
+                            $d2ItemRating = $_product->getData('item_rating');
+                            $d2PackageInclusion = $_product->getData('whats_in_the_box');
+
+                            $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
+                            
+                            $categoryIds = $_product->getCategoryIds();
+                            $digiSecondsIds = array(2564,2567,2570,2573);
+                            $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));
+
+                            // digiprint
+                            $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
+                            $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
+                            
+                            $finalPrice = $_product->getData('final_price');
+                            $wiserPrice = $_product->getData('wiser_price');
+                            
+                            if ($finalPrice < $wiserPrice) {
+                                $productPrice = $finalPrice;
+                            } else {
+                                $productPrice = $wiserPrice;
+                            }
+                        
+                        ?>
+                        <div class="product-item-info product-item">
+                            <div class="pa-checkbox-container">
+                                <label class="pa-checkbox-label">
+                                    <input type="checkbox" data-product-id="<?= $_product->getId(); ?>" data-product-price="<?= $productPrice; ?>" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                                </label>
+                            </div>
+                            <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                    <div class="digideals-overlay">
+                                        <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                    </div>
+                                <?php endif; ?>
+                                <span class="product-image-container" style="width: 240px;">
+                                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                        <img class="product-image-photo" src="<?= 'https://www.digidirect.com.au/media/catalog/product' . $_product->getData('thumbnail'); ?>" loading="lazy" width="240" height="300" alt="Product Image">
+                                    </span>
+                                </span> 
+                            </a> 
+                            <div class="product details product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $_product->getName(); ?>" href="<?= $_product->getProductUrl(); ?>" class="product-item-link">
+                                        <?= $_product->getName(); ?>
+                                    </a>
+                                </strong>
+                                <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                            </div>
+                            <div class="product actions product-item-actions">
+                                <div class="actions-primary">
+                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                    <form data-role="tocart-form"
+                                          data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
+                                          data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
+                                          action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
+                                    >
+                                        <input type="hidden"
+                                               name="product"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
+                                        <input type="hidden"
+                                               name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
+                                        <?= /* @escapeNotVerified */ $block->getBlockHtml('formkey'); ?>
+                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                            <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                        <?php endif; ?>
+                                        <button type="submit"
+                                                title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
+                                                class="action tocart primary">
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <div class="product-item-info product-item pa-bundle-container">
+                    <div class="pa-checkbox-container pa-select-all-checkbox-container">
+                        <span class="pa-select-all-label-text">Select All</span>
+                        <label class="pa-checkbox-label pa-select-all-pa-checkbox-label">
+                            <input id="select-all-products-on-bundle" type="checkbox" class="pa-checkbox-input pa-select-all-pa-checkbox-input"><span><i class="fas fa-clipboard fa-2x"></i></span>
+                        </label>
+                    </div>
+                    <a class="product photo product-item-photo" tabindex="-1">
+                    </a> 
+                    <div class="product details product-item-details">
+                        <span name="label">Total Price:</span>
+                        <span id="pa-bundle-total" name="value">$0.00</span>
+                    </div>
+                    <div class="product actions product-item-actions">
+                        <div class="actions-primary">
+                            <button id="add-bundle-tocart" type="submit"
+                                    title="<?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?>"
+                                    class="action tocart primary">
+                                <span><?= /* @escapeNotVerified */ __('Add Bundle To Cart'); ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+{
+    "[data-role=tocart-form], .form.map.checkout": {
+        "catalogAddToCart": {
+           "bindSubmit": true
+        }
+    }
+}
+</script>
+<script>
+    require(['jquery'], function ($) {
+
+        $("#select-all-products-on-bundle").change(function() {
+            if(this.checked) {
+                $('.pa-bundle-product').each(function(){
+                    if (!$(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            } else {
+                $('.pa-bundle-product').each(function(){
+                    if ($(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            }
+        });
+        
+        $(".pa-bundle-product").change(function() {
+            var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
+            var bundleProductPrice = Number($(this).attr("data-product-price"));
+            if(this.checked) {
+                var newBundleTotal = bundleTotal + bundleProductPrice;
+            } else {
+                var newBundleTotal = bundleTotal - bundleProductPrice;
+            }
+            $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
+        });
+        
+        $("#add-bundle-tocart").click(function(){
+            
+            var productIds = [];
+            
+            $('.pa-bundle-product').each(function(){
+                if(this.checked) {
+                    console.log("data-product-id: " + $(this).attr("data-product-id"));
+                    productIds.push($(this).attr("data-product-id"));
+                }
+            });
+            
+            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    productIds: productIds
+                },
+                success: function(data){
+                    console.log(data.result);
+                },
+                error: function(){
+                    console.log(data.result);
+                }
+            });
+        });
+        
+    });
+</script>

@@ -12,6 +12,10 @@
                    name="pa.digimarket.widget" 
                    template="Digidirect_ParticularAudienceAPI::pa-digimarket-widget.phtml" 
                    before="-" />
+            <block class="Digidirect\ParticularAudienceAPI\Block\PdpFrequentlyBoughtWith" 
+                   name="pa.frequently.bought.with" 
+                   template="Digidirect_ParticularAudienceAPI::pa-frequently-bought-with.phtml" 
+                   before="-" />
         </referenceContainer>
     </body>
 </page>
