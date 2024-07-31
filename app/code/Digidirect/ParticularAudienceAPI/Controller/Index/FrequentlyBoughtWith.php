@@ -40,7 +40,7 @@ class FrequentlyBoughtWith extends Action {
         
         if ($productIds) {
             
-            foreach($products as $item){
+            foreach($productIds as $item){
                 $params = array(
                     'form_key'  => $this->formKey->getFormKey(),
                     'product'   => $item,

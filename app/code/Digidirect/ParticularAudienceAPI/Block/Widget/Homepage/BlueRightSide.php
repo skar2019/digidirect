@@ -49,6 +49,11 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         return $this->listProductBlock->getProductPrice($product);
     }
     
+    public function getCookieValue(){
+        $customerId = $this->cookieManager->getCookie('PAC');
+        return $customerId;
+    }
+    
     public function getRecommendedProducts(){
         
         //Get token from custom variable
