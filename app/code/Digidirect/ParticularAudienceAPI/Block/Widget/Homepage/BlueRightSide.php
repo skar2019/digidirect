@@ -115,6 +115,6 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     }
     
     public function console_log($output) {
-        echo "<script>console.log(".json_encode($output).")</script>";
+        echo "<script>".json_encode($output)."</script>";
     }
 }
