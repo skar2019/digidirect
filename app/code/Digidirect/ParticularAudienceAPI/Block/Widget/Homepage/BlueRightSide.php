@@ -93,6 +93,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
             $productIds = [];
             foreach($slots as $key=>$value) {
                 $productId = $value['products'][0]['refId'];
+                $this->logger->info("productId: " . $productId); 
                 array_push($productIds, $productId);
             }
             $recommendationsCollection = $this->productCollectionFactory->create();
