@@ -51,10 +51,11 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     
     public function getCookieValue(){
         $customerId = $this->cookieManager->getCookie('PAC');
-        $this->console_log("Test console_log()!");
     }
     
     public function getRecommendedProducts(){
+        
+        $this->console_log("Test console_log()!");
         
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
@@ -111,7 +112,7 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         return $recommendationsCollection;
     }
     
-    function console_log($output) {
+    public function console_log($output) {
         echo "<script>console.log(".json_encode($output).")</script>";
     }
 }
