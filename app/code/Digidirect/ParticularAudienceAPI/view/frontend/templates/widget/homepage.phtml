@@ -2,6 +2,9 @@
     use Magento\Framework\App\Action\Action;
 ?>
 <script>
+    
+require(['jquery'], function ($) {
+    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -17,45 +20,31 @@
     
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
-    
-    async function getData() {
-        const data = await fetch(getRecommendationsUrl, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {return data})
-        .catch(error => console.error('Error fetching recommendations:', error));
 
-        return data;
-    }
+    var result;
 
-    const api_data = getData().then(data => { return data
-        //console.log('getData(): ' + data); 
-    });
-
-    //var recommendationsResult = getRecommendations();
-    //Working fetch, result on console.log()
-    /*fetch(getRecommendationsUrl, {
-        method: 'GET',
+    $.ajax({
+        url: getRecommendationsUrl,
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': "application/json"
+        },
+        type: "GET",
+        success: function(data){
+            result = data;
+            console.log(data);
+        },
+        error: function(){
+            console.log('AJAX Fail!');
         }
-    })
-    .then(response => response.json())
-    .then(data => console.log('Recommendations:', data))
-    .catch(error => console.error('Error fetching recommendations:', error));*/
+    });
     
-    //var parsedData = JSON.stringify(recommendationsResult);
-    console.log('api_data: ' + JSON.stringify(api_data));
-    /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
-    console.log('widget: ' + widgets);*/
-    
+    console.log('result: ' + JSON.stringify(result));
+        
+});
+
 </script>
+
 <?php
 ?>
 
