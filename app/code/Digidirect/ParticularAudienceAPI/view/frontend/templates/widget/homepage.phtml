@@ -30,7 +30,6 @@
     .then(response => response.json())
     .then(data => console.log('Recommendations:', data))
     .catch(error => console.error('Error fetching recommendations:', error));
-    
     /*var parsedData = JSON.stringify(recommendationsResult);
     console.log('parsedData: ' + parsedData);
     var widgets = parsedData['recommendations'][0]['route'][0]['name'];
