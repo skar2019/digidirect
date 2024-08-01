@@ -17,21 +17,23 @@
     
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
+    
+    function getRecommendations() {
+        fetch(getRecommendationsUrl, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {return data})
+        .then(() => console.log('Recommendations:', recommendationsResult))
+        .catch(error => console.error('Error fetching recommendations:', error));
+    }
 
-    var recommendationsResult;
-    
-    fetch(getRecommendationsUrl, {
-        method: 'GET',
-        headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(data => {recommendationsResult = data})
-    .then(() => console.log('Recommendations:', recommendationsResult))
-    .catch(error => console.error('Error fetching recommendations:', error));
-    
+    var recommendationsResult = getRecommendations();
+
     //Working fetch, result on console.log()
     /*fetch(getRecommendationsUrl, {
         method: 'GET',
