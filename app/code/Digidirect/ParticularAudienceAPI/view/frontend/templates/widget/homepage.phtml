@@ -24,6 +24,7 @@ require(['jquery'], function ($) {
     var result;
 
     $.ajax({
+        async: false,
         url: getRecommendationsUrl,
         headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -32,7 +33,7 @@ require(['jquery'], function ($) {
         type: "GET",
         success: function(data){
             result = data;
-            console.log(data);
+            console.log('success: ' + data);
         },
         error: function(){
             console.log('AJAX Fail!');
