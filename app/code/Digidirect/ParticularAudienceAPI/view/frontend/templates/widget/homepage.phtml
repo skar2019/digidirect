@@ -33,7 +33,9 @@
         return data;
     }
 
-    const api_data = getData();
+    const api_data = getData().then(data => {
+        console.log('getData(): ' + data); 
+    });;
 
     //var recommendationsResult = getRecommendations();
     //Working fetch, result on console.log()
@@ -49,7 +51,7 @@
     .catch(error => console.error('Error fetching recommendations:', error));*/
     
     //var parsedData = JSON.stringify(recommendationsResult);
-    console.log('api_data: ' + api_data);
+    //console.log('api_data: ' + api_data);
     /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);*/
     
