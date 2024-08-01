@@ -9,21 +9,35 @@
     }
     //console.log('PAC: ' + getCookie('PAC'));
     var customerId = getCookie('PAC');
+    var customerParam = "";
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerId;
-    const accessToken = <?= $block->getBearerToken(); ?>; // Replace with your actual access token
+    if (customerId) {
+        customerParam = "&customerId=" + customerId;
+    }
+    
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
+    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
+    var recommendationsResult;
+    
     fetch(getRecommendationsUrl, {
         method: 'GET',
+        mode: 'no-cors',
         headers: {
           "Authorization": `Bearer ${accessToken}`,
           "Content-Type": "application/json"
         }
     })
     .then(response => response.json())
-    .then(data => console.log('Recommendations:', data))
+    .then(data => {recommendationsResult = data;})
+    .then(() => {console.log(recommendationsResult);})
     .catch(error => console.error('Error fetching recommendations:', error));
-
+    
+    var parsedData = JSON.stringify(recommendationsResult);
+    console.log('parsedData: ' + parsedData);
+    var widgets = parsedData['recommendations'][0]['route'][0]['name'];
+    console.log('widget: ' + widgets);
+    
 </script>
 <?php
 ?>
