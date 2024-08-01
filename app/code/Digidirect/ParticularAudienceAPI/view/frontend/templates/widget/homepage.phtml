@@ -61,11 +61,11 @@
         obj = data;
     })
     .then(() => {
-        console.log('obj: ' + obj);
+        console.log('obj: ' + JSON.stringify(obj));
     });
     
-    var parsedData = JSON.stringify(recommendationsResult);
-    console.log('obj outside: ' + obj);
+    //var parsedData = JSON.stringify(recommendationsResult);
+    console.log('obj outside: ' + JSON.stringify(obj));
     /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);*/
 </script>
