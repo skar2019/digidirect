@@ -1,28 +1,28 @@
 <?php
 
-namespace Digidirect\ParticularAudienceAPI\Block\Widget\Homepage;
+namespace Digidirect\ParticularAudienceAPI\Block\Widget;
 
 
-class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class Homepage extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     protected $productCollectionFactory;
-
+    
     protected $variable;
-
+    
     protected $curl;
-
+    
     protected $jsonSerializer;
-
+    
     protected $logger;
-
+    
     protected $cookieManager;
-
+    
     protected $cookieMetadataFactory;
-
-    protected $_template = 'Digidirect_ParticularAudienceAPI::widget/product-widget.phtml';
-
+    
+    protected $_template = 'Digidirect_ParticularAudienceAPI::widget/homepage.phtml';
+  
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Template\Context $context,    
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
@@ -32,7 +32,7 @@ class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Templat
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         array $data = []
-    ) {
+    ) {        
         $this->productCollectionFactory = $productCollectionFactory;
         $this->variable = $variable;
         $this->curl = $curl;
@@ -43,54 +43,60 @@ class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Templat
         $this->listProductBlock = $listProductBlock;
         parent::__construct($context, $data);
     }
-
+    
+    public function getBearerToken() {
+        $variableData = $this->variable->loadByCode('pa_bearer_token');
+        $bearerToken = $variableData->getValue('text');
+        return $bearerToken;
+    }
+    
     public function getWidgetTitle() {
-        return 'Trending digiMarket Products';
+        return 'Recommended For you';
     }
-
+    
     public function getWidgetClass() {
-        return 'trending-digimarket-products-widget';
+        return 'recommended-for-you-widget';
     }
-
+    
     public function getViewAllLink() {
         return false;
     }
 
     public function getRecommendedProducts(){
-
+        
         //Get token from custom variable
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
-        $paWidgetId = '886fc4e3-a9f0-ee11-abf3-02bf4bf6447c';
-
+        $paWidgetId = '94e9300c-023e-ec11-aae9-02dca44cceec';
+        
         $customerId = $this->cookieManager->getCookie('PAC');
-        //$this->logger->info("customerId: " . $customerId);
+        //$this->logger->info("customerId: " . $customerId); 
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
         } else {
             $customerIdParam = "";
         }
-
+        
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false".$customerIdParam;
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
-
+        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl); 
+        
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getRecommendationsUrl);
-
+        
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
-
+        
         //$slots = $getRecommendationsResultJson['recommendations']['route']['widgets'][0]['slots'];
         $widgets = $getRecommendationsResultJson['recommendations']['route']['widgets'];
-
+        
         foreach($widgets as $key=>$value) {
             $widgetId = $value['id'];
             if ($widgetId == $paWidgetId) {
                 $slots = $value['slots'];
             }
         }
-
+        
         if (isset($slots)) {
             $productIds = [];
             foreach($slots as $key=>$value) {
@@ -102,25 +108,24 @@ class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Templat
             $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
             $recommendationsCollection->getSelect()->orderRand();
         } else {
-
+            $categories = [17];
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
             $recommendationsCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $recommendationsCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("neq" => 20329));
-            $recommendationsCollection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
+            $recommendationsCollection->addCategoriesFilter(['in' => $categories]);
             $recommendationsCollection->getSelect()->limit(10);
         }
-
+        
         return $recommendationsCollection;
     }
-
+    
     public function getProductPrice($product){
         return $this->listProductBlock->getProductPrice($product);
     }
-
+    
     public function getAddToCartPostParams($product){
         return $this->listProductBlock->getAddToCartPostParams($product);
     }
-
+    
 }

@@ -1,0 +1,44 @@
+<?php
+    use Magento\Framework\App\Action\Action;
+?>
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    //console.log('PAC: ' + getCookie('PAC'));
+    var customerId = getCookie('PAC');
+    
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerId;
+    const accessToken = <?= $block->getBearerToken(); ?>; // Replace with your actual access token
+
+    fetch(getRecommendationsUrl, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log('Recommendations:', data))
+    .catch(error => console.error('Error fetching recommendations:', error));
+
+</script>
+<?php
+?>
+
+<div class="home-main-banners">
+    <div class="home-main-banner-left">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
+    </div>
+    <div class="home-main-banner-right">
+        <div>
+            
+        </div>
+        <div>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
+        </div>
+    </div>
+</div>
+
