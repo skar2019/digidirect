@@ -1,5 +1,5 @@
 <?php
-use Magento\Framework\App\Action\Action;
+    use Magento\Framework\App\Action\Action;
 ?>
 <script>
     function getCookie(name) {
@@ -22,21 +22,20 @@ use Magento\Framework\App\Action\Action;
     
     fetch(getRecommendationsUrl, {
         method: 'GET',
-        mode: 'no-cors',
         headers: {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json"
         }
     })
     .then(response => response.json())
-    .then(data => {recommendationsResult = data;})
-    .then(() => {console.log(recommendationsResult);})
+    .then(data => console.log('Recommendations:', data))
     .catch(error => console.error('Error fetching recommendations:', error));
     
-    var parsedData = JSON.stringify(recommendationsResult);
+    /*var parsedData = JSON.stringify(recommendationsResult);
     console.log('parsedData: ' + parsedData);
     var widgets = parsedData['recommendations'][0]['route'][0]['name'];
-    console.log('widget: ' + widgets);
+    console.log('widget: ' + widgets);*/
+    
 </script>
 <?php
 ?>
@@ -47,7 +46,7 @@ use Magento\Framework\App\Action\Action;
     </div>
     <div class="home-main-banner-right">
         <div>
-
+            
         </div>
         <div>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
