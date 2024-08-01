@@ -18,8 +18,7 @@
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
     
-    /*async function getRecommendations() {
-        
+    async function getData() {
         fetch(getRecommendationsUrl, {
             method: 'GET',
             headers: {
@@ -27,14 +26,14 @@
                 "Content-Type": "application/json"
             }
         })
-        .then(response => response.json())
-        .then(data => {return data})
-        .then(() => console.log('Recommendations:', recommendationsResult))
+        .then(response => {return response.json()})
+        .then(data => console.log('Recommendations:', data))
         .catch(error => console.error('Error fetching recommendations:', error));
     }
 
-    var recommendationsResult = getRecommendations();*/
+    const api_data = await getData();
 
+    //var recommendationsResult = getRecommendations();
     //Working fetch, result on console.log()
     /*fetch(getRecommendationsUrl, {
         method: 'GET',
@@ -47,27 +46,11 @@
     .then(data => console.log('Recommendations:', data))
     .catch(error => console.error('Error fetching recommendations:', error));*/
     
-    var obj;
-    
-    fetch(getRecommendationsUrl, {
-        method: 'GET',
-        headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
-        }
-    })
-    .then(res => res.json())
-    .then(data => {
-        obj = data;
-    })
-    .then(() => {
-        console.log('obj: ' + JSON.stringify(obj));
-    });
-    
     //var parsedData = JSON.stringify(recommendationsResult);
-    console.log('obj outside: ' + JSON.stringify(obj));
+    console.log('api_data: ' + api_data);
     /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);*/
+    
 </script>
 <?php
 ?>
