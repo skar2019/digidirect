@@ -42,7 +42,7 @@ require(['jquery'], function ($) {
     
     console.log('result: ' + JSON.stringify(result));
     var recommendationsResult = JSON.stringify(result);
-    var routeId  = recommendationsResult['recommendations']['route']['id'];
+    var routeId  = recommendationsResult['recommendations']['route'][0]['id'];
     console.log('routeId: ' + routeId);
         
 });
