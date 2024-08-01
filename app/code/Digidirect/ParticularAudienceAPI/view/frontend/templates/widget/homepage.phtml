@@ -1,5 +1,5 @@
 <?php
-    use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 ?>
 <script>
     function getCookie(name) {
@@ -7,7 +7,7 @@
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    //console.log('PAC: ' + getCookie('PAC'));
+    console.log('PAC: ' + getCookie('PAC'));
     var customerId = getCookie('PAC');
     var customerParam = "";
     
@@ -24,8 +24,8 @@
         method: 'GET',
         mode: 'no-cors',
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
-          "Content-Type": "application/json"
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
         }
     })
     .then(response => response.json())
@@ -37,7 +37,6 @@
     console.log('parsedData: ' + parsedData);
     var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);
-    
 </script>
 <?php
 ?>
@@ -48,7 +47,7 @@
     </div>
     <div class="home-main-banner-right">
         <div>
-            
+
         </div>
         <div>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>

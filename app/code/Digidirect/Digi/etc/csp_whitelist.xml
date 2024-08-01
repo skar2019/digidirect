@@ -60,6 +60,7 @@
                 <value id="soretoscript" type="host">*.soreto.com</value>
                 <value id="kwscript" type="host">*.kayweb.com.au</value>
                 <value id="pascript" type="host">p-a.io</value>
+                <value id="particularaudienceapi" type="host">api-recs.particularaudience.com</value>
 
             </values>
         </policy>
@@ -169,6 +170,7 @@
                 <value id="paconnect" type="host">p-a.io</value>
                 <value id="qantasconnect" type="host">*.qantasloyalty.com</value>
                 <value id="qantasconnectserv" type="host">*.services.qantasloyalty.com</value>
+                <value id="particularaudienceapiconnect" type="host">api-recs.particularaudience.com</value>
             </values>
         </policy>
         <policy id="font-src">
