@@ -1,5 +1,5 @@
 <?php
-    use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 ?>
 <script>
     function getCookie(name) {
@@ -7,22 +7,22 @@
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    //console.log('PAC: ' + getCookie('PAC'));
     var customerId = getCookie('PAC');
-    
+    console.log('PAC: ' + customerId);
+
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerId;
-    const accessToken = <?= $block->getBearerToken(); ?>; // Replace with your actual access token
+    const accessToken = "<?= $block->getBearerToken(); ?>"; // Replace with your actual access token
 
     fetch(getRecommendationsUrl, {
         method: 'GET',
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
-          "Content-Type": "application/json"
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
         }
     })
-    .then(response => response.json())
-    .then(data => console.log('Recommendations:', data))
-    .catch(error => console.error('Error fetching recommendations:', error));
+        .then(response => response.json())
+        .then(data => console.log('Recommendations:', data))
+        .catch(error => console.error('Error fetching recommendations:', error));
 
 </script>
 <?php
@@ -34,7 +34,7 @@
     </div>
     <div class="home-main-banner-right">
         <div>
-            
+
         </div>
         <div>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
