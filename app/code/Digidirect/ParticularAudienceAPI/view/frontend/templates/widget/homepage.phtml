@@ -18,24 +18,9 @@
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
     
-    async function getRecommendations() {
+    /*async function getRecommendations() {
         
-        try {
-            const response = await fetch(getRecommendationsUrl, {
-                                        method: 'GET',
-                                        headers: {
-                                            "Authorization": `Bearer ${accessToken}`,
-                                            "Content-Type": "application/json"
-                                        }
-                                    });
-            const data = await response.json();
-            console.log(data);
-            return data
-        } catch(error) {
-            console.error(error);
-        }
-        
-        /*fetch(getRecommendationsUrl, {
+        fetch(getRecommendationsUrl, {
             method: 'GET',
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
@@ -45,10 +30,11 @@
         .then(response => response.json())
         .then(data => {return data})
         .then(() => console.log('Recommendations:', recommendationsResult))
-        .catch(error => console.error('Error fetching recommendations:', error));*/
+        .catch(error => console.error('Error fetching recommendations:', error));
     }
 
-    var recommendationsResult = getRecommendations();
+    var recommendationsResult = getRecommendations();*/
+
     //Working fetch, result on console.log()
     /*fetch(getRecommendationsUrl, {
         method: 'GET',
@@ -61,11 +47,27 @@
     .then(data => console.log('Recommendations:', data))
     .catch(error => console.error('Error fetching recommendations:', error));*/
     
+    var obj;
+    
+    fetch(getRecommendationsUrl, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        obj = data;
+    })
+    .then(() => {
+        console.log('obj: ' + obj);
+    });
+    
     var parsedData = JSON.stringify(recommendationsResult);
-    console.log('parsedData: ' + parsedData);
+    console.log('obj outside: ' + obj);
     /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);*/
-    
 </script>
 <?php
 ?>
