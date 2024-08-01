@@ -28,11 +28,25 @@
         }
     })
     .then(response => response.json())
-    .then(data => console.log('Recommendations:', data))
+    .then(data => {recommendationsResult = data})
+    .then(() => console.log('Recommendations:', recommendationsResult))
     .catch(error => console.error('Error fetching recommendations:', error));
-    /*var parsedData = JSON.stringify(recommendationsResult);
+    
+    //Working fetch, result on console.log()
+    /*fetch(getRecommendationsUrl, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log('Recommendations:', data))
+    .catch(error => console.error('Error fetching recommendations:', error));*/
+    
+    var parsedData = JSON.stringify(recommendationsResult);
     console.log('parsedData: ' + parsedData);
-    var widgets = parsedData['recommendations'][0]['route'][0]['name'];
+    /*var widgets = parsedData['recommendations'][0]['route'][0]['name'];
     console.log('widget: ' + widgets);*/
     
 </script>
