@@ -11,7 +11,7 @@
     var customerId = getCookie('PAC');
     
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerId;
-    const accessToken = <?= getBearerToken(); ?>; // Replace with your actual access token
+    const accessToken = <?= $block->getBearerToken(); ?>; // Replace with your actual access token
 
     fetch(getRecommendationsUrl, {
         method: 'GET',
