@@ -20,7 +20,7 @@ require(['jquery'], function ($) {
     }
     
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
-    const accessToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg5MjJCQzYzODc5NjIwMzUzNTE4OTNFODVGODU2MEZCIiwidHlwIjoiSldUIn0.eyJuYmYiOjE3MjI1NzY5NjIsImV4cCI6MTcyMjY2Njk2MiwiaXNzIjoiaHR0cHM6Ly9jb25mLnNocmRzcnZjcy5wLWEuaW8vYXV0aCIsImNsaWVudF9pZCI6IkRCRDZDODRGLTIzMzItRUMxMS1BQUU5LTAyRENBNDRDQ0VFQyIsImp0aSI6IjhGNURCQkMxNjNFRUUyMjg5RjgwRUYxQ0Q0MDBFMTVFIiwiaWF0IjoxNzIyNTc2OTYyLCJzY29wZSI6WyJhcGk6cmVjcyIsImFwaTpzZWFyY2giXX0.Vmiu3wOtj1Ejce0OcE60Ikb4UHYOV9DfXanNJrK40FGUxyPDK9oSc4H8aOmeZmEN4L8x7te7_nxoaqq6eylO5aAzqsMyUAX5Ofriumxjt1Jcy-aEHM__gMqKrdfHoJ4pSZl6ySddW2wH4-VEGfzC8WDZm--viRHTDJKPoIyBhZw2w_En22Xt5qfcALordVdH6Ho0oOyu90eWiPtaYZjahUB3VVt862bXAN5EmVOl0cuMdzzvLzJB-qFnmXQX0uJcoGw3F1eVFrCtlWgFZ2BANcGIKmr8ItseEARDkMoyB1NkUnROr9ZTN-rRFfYmJQpokEpxAJKeaSYO3E0FZUoQaA"; // Replace with your actual access token
+    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
     var result;
 
@@ -70,7 +70,7 @@ require(['jquery'], function ($) {
 </script>
 
 <?php
-    $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget();
+    $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget("<script> blueWidgetArr; </script>");
     $productCount = 0;
 ?>
 
