@@ -42,11 +42,18 @@ class Sold extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
+        $setQty = "";
+        if(isset($_GET["reset"])){
+            $setQty = "";
+        } else {
+            $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
+        }
+           
         $productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
             try {
                 $prod = $this->productRepository->get($product->getData('sku'));
-                $prod->setCustomAttribute('nb_sales', $this->getSoldQtyByProductId($product->getData('entity_id')));
+                $prod->setCustomAttribute('nb_sales', $setQty);
                 $this->productRepository->save($prod);
             }catch(Exception $e) {
                 $this->logger->info('Message: ' . $e->getMessage());
@@ -74,10 +81,18 @@ class Sold extends \Magento\Framework\App\Action\Action
         if(isset($_GET["cat"])){
             $cat = $_GET["cat"];
         }
+        $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        if(isset($_GET["cat"])){
+            $collection->addCategoriesFilter(['in' => $cat]);
+        }
+        
+        if(isset($_GET["reset"])){
+            $collection->addAttributeToFilter("nb_sales", array("null" => false));
+        }
+        
         //$collection->addAttributeToFilter("nb_sales", array("neq" => 0));
-        $collection->addCategoriesFilter(['in' => $cat]);
         //$collection->addAttributeToFilter("nb_sales", array("null" => true));
         return $collection;
     }
