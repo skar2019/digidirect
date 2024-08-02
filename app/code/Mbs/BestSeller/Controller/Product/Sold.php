@@ -42,15 +42,14 @@ class Sold extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $setQty = "";
-        if(isset($_GET["reset"])){
-            $setQty = "";
-        } else {
-            $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-        }
-           
         $productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
+            $setQty = "";
+            if(isset($_GET["reset"])){
+                $setQty = "";
+            } else {
+                $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
+            }
             try {
                 $prod = $this->productRepository->get($product->getData('sku'));
                 $prod->setCustomAttribute('nb_sales', $setQty);
