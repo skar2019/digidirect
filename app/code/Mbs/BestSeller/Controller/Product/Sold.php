@@ -57,7 +57,7 @@ class Sold extends \Magento\Framework\App\Action\Action
     
     public function getSoldQtyByProductId($productID = null) {
         $SoldProducts = $this->_reportCollectionFactory->create();
-        $SoldProdudctCOl = $SoldProducts->addOrderedQty()->addAttributeToFilter('product_id', $productID);
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty()->addAttributeToFilter('entity_id', $productID);
         /* If does have any product id 
          * then return false
          */
