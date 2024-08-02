@@ -78,7 +78,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         //$collection->addAttributeToFilter("nb_sales", array("neq" => 0));
         $collection->addCategoriesFilter(['in' => $cat]);
-        $collection->addAttributeToFilter("nb_sales", array("null" => true));
+        //$collection->addAttributeToFilter("nb_sales", array("null" => true));
         return $collection;
     }
     
