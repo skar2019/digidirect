@@ -70,9 +70,14 @@ class Sold extends \Magento\Framework\App\Action\Action
     }
     
     public function getProductCollections() {
+        $cat = "";
+        if(isset($_GET["cat"])){
+            $cat = $_GET["cat"];
+        }
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         //$collection->addAttributeToFilter("nb_sales", array("neq" => 0));
+        $collection->addCategoriesFilter(['in' => $cat]);
         $collection->addAttributeToFilter("nb_sales", array("null" => true));
         return $collection;
     }
