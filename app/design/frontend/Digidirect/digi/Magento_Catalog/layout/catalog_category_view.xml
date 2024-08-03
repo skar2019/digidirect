@@ -59,13 +59,6 @@
         </referenceBlock>
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
-   
-<!--        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background category-background">
-            <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
-                   after="-"
-                   template="Magento_Catalog::category/category-bg.phtml">
-            </block>
-        </referenceContainer>-->
         
         <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
         <move element="category.description" destination="main.content" after="-" />
