@@ -7,9 +7,6 @@
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>-->
-    <type name="Magento\Catalog\Block\Product\ListProduct">
-        <plugin name="sort_by_bestseller" type="Digidirect\Catalog\Plugin\Block\Product\ListProduct" />
-    </type>
     <preference for="Magento\Catalog\Block\Category\View" type="Digidirect\Catalog\Block\Category\View" />
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
