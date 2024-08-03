@@ -94,7 +94,6 @@ class Sold extends \Magento\Framework\App\Action\Action
         if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
         }
-        //$collection->addAttributeToFilter("nb_sales", array("neq" => 0));
         return $collection;
     }
 }
