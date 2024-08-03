@@ -55,7 +55,7 @@ class Sold extends \Magento\Framework\App\Action\Action
             }*/
             
             if ($setQty) {
-                $this->logger->info('id: ' . $product->getData('entity_id') . ", sold: " . $setQty);
+                $this->logger->info('sku: ' . $product->getData('sku') . ", sold: " . $setQty);
                 try {
                     $prod = $this->productRepository->get($product->getData('sku'));
                     $prod->setCustomAttribute('nb_sales', $setQty);
@@ -90,16 +90,14 @@ class Sold extends \Magento\Framework\App\Action\Action
         $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addAttributeToFilter("nb_sales", array("null" => true));
         if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
         }
-        
         if(isset($_GET["reset"])){
             $collection->addAttributeToFilter("nb_sales", array("null" => false));
         }
-        
         //$collection->addAttributeToFilter("nb_sales", array("neq" => 0));
-        //$collection->addAttributeToFilter("nb_sales", array("null" => true));
         return $collection;
     }
 }
