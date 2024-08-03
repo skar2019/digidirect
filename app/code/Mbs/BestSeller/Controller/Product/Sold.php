@@ -16,6 +16,8 @@ class Sold extends \Magento\Framework\App\Action\Action
     protected $_reportCollectionFactory;
     
     protected $productRepository;
+    
+    protected $request;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -26,7 +28,8 @@ class Sold extends \Magento\Framework\App\Action\Action
         \Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable $resourceConfigurable,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
-        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory
+        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory,
+        \Magento\Framework\App\RequestInterface $request
     )
     {
         $this->logger = $logger;
@@ -37,6 +40,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
         $this->_reportCollectionFactory = $reportCollectionFactory;
+        $this->request = $request;
         parent::__construct($context);
     }
 
@@ -44,18 +48,22 @@ class Sold extends \Magento\Framework\App\Action\Action
     {
         $productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
-            $setQty = "";
-            if(isset($_GET["reset"])){
+            $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
+            /*if(isset($_GET["reset"])){
                 $setQty = "";
             } else {
                 $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-            }
-            try {
-                $prod = $this->productRepository->get($product->getData('sku'));
-                $prod->setCustomAttribute('nb_sales', $setQty);
-                $this->productRepository->save($prod);
-            }catch(Exception $e) {
-                $this->logger->info('Message: ' . $e->getMessage());
+            }*/
+            
+            if ($setQty) {
+                $this->logger->info('id: ' . $product->getData('entity_id') . ", sold: " . $setQty);
+                try {
+                    $prod = $this->productRepository->get($product->getData('sku'));
+                    $prod->setCustomAttribute('nb_sales', $setQty);
+                    $this->productRepository->save($prod);
+                }catch(Exception $e) {
+                    $this->logger->info('Message: ' . $e->getMessage());
+                }
             }
         }
         print_r('Done!');
@@ -77,13 +85,13 @@ class Sold extends \Magento\Framework\App\Action\Action
     
     public function getProductCollections() {
         $cat = "";
-        if(isset($_GET["cat"])){
-            $cat = $_GET["cat"];
+        if($this->request->getParam('cat')){
+            $cat = $this->request->getParam('cat');
         }
         $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        if(isset($_GET["cat"])){
+        if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
         }
         
