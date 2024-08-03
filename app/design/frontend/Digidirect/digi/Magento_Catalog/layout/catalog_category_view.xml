@@ -63,5 +63,6 @@
         <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
         <move element="category.description" destination="main.content" after="-" />
         <move element="breadcrumbs" destination="columns.top" before="-"/>
+        
     </body>
 </page>
