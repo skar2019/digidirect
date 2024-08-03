@@ -26,7 +26,7 @@ class ListProduct
     public function afterGetLoadedProductCollection($subject, $result) {
         
         if (!$this->_subQueryApplied) {
-            $this->logger->info('afterGetLoadedProductCollection');
+            //$this->logger->info('afterGetLoadedProductCollection');
             /*$result->getSelect()->joinLeft( 
                 'sales_order_item', 
                 'e.entity_id = sales_order_item.product_id', 
