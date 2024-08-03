@@ -102,5 +102,4 @@ class Sold extends \Magento\Framework\App\Action\Action
         //$collection->addAttributeToFilter("nb_sales", array("null" => true));
         return $collection;
     }
-    
 }
