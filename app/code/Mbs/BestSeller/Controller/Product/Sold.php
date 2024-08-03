@@ -4,7 +4,6 @@ namespace Mbs\BestSeller\Controller\Product;
 
 class Sold extends \Magento\Framework\App\Action\Action
 {
-    /*Product collection variable*/ 
     protected $_productCollection;
 
     protected $stockFilter;
