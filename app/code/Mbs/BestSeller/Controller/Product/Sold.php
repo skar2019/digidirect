@@ -46,8 +46,11 @@ class Sold extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $productCollection = $this->getProductCollections();
+        $this->logger->info('$productCollection->count(): ' . $productCollection->count());
         $this->logger->info('Function start!');
+        $counter = 0;
         foreach ($productCollection as $product) {
+            $counter++;
             $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
             /*if(isset($_GET["reset"])){
                 $setQty = "";
@@ -60,7 +63,7 @@ class Sold extends \Magento\Framework\App\Action\Action
                     $prod = $this->productRepository->get($product->getData('sku'));
                     $prod->setCustomAttribute('nb_sales', $setQty);
                     $this->productRepository->save($prod);
-                    $this->logger->info('sku: ' . $product->getData('sku') . ", sold: " . $setQty);
+                    $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", sold: " . $setQty);
                 }catch(Exception $e) {
                     $this->logger->info('Message: ' . $e->getMessage());
                 }
