@@ -90,4 +90,5 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     public function getAddToCartPostParams($product){
         return $this->listProductBlock->getAddToCartPostParams($product);
     }
+    
 }
