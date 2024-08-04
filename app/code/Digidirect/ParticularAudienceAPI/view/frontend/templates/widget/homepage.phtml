@@ -70,8 +70,8 @@ require(['jquery'], function ($) {
 </script>
 
 <?php
-    echo "<script> blueWidgetArr; </script>";
-    $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget("<script> blueWidgetArr; </script>");
+    $blueWidgetArr = echo "<script> blueWidgetArr; </script>";
+    $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget($blueWidgetArr);
     $productCount = 0;
 ?>
 
