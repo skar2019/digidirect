@@ -63,13 +63,14 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     }
 
     public function getRecommendedProductsBlueWidget($productIds){
-        
-        if ($productIds) {
+        $prods = implode(",", $productIds);
+        $this->logger->info('$productIds: ' + $prods);
+        /*if ($productIds) {
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
             $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
             $recommendationsCollection->getSelect()->orderRand();
-        } else {
+        } else {*/
             $categories = [17];
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
@@ -77,7 +78,7 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
             $recommendationsCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
             $recommendationsCollection->addCategoriesFilter(['in' => $categories]);
             $recommendationsCollection->getSelect()->limit(10);
-        }
+        /*}*/
         
         return $recommendationsCollection;
     }
