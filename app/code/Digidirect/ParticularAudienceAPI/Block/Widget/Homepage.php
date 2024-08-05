@@ -91,4 +91,8 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
         return $this->listProductBlock->getAddToCartPostParams($product);
     }
     
+    public function runJs($output) {
+        echo "<script>".json_encode($output)."</script>";
+    }
+    
 }
