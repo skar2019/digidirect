@@ -56,21 +56,22 @@ require(['jquery'], function ($) {
 
     //console.log(blueWidget);
 
-    var blueWidgetArr = [];
-    var blueWidgetSlots = blueWidget.slots;
-    Object.keys(blueWidgetSlots).forEach(key => {
-        console.log(key, blueWidgetSlots[key].products[0].refId);
-        blueWidgetArr.push(blueWidgetSlots[key].products[0].refId);
-    });
-
-    console.log(blueWidgetArr);
+    function blueWidgetProducts() {
+        var blueWidgetArr = [];
+        var blueWidgetSlots = blueWidget.slots;
+        Object.keys(blueWidgetSlots).forEach(key => {
+            console.log(key, blueWidgetSlots[key].products[0].refId);
+            blueWidgetArr.push(blueWidgetSlots[key].products[0].refId);
+        });
+        return blueWidgetArr;
+    }
     
 });
 
 </script>
 
 <?php
-    $blueWidgetArr = $block->runJs('blueWidgetArr;');
+    $blueWidgetArr = $block->runJs("blueWidgetProducts()");
     $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget($blueWidgetArr);
     $productCount = 0;
 ?>
