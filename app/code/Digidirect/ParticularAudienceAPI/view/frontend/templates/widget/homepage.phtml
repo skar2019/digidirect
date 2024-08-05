@@ -1,30 +1,54 @@
 <?php
-use Magento\Framework\App\Action\Action;
+    use Magento\Framework\App\Action\Action;
 ?>
 <script>
+    
+require(['jquery'], function ($) {
+    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
+    console.log('PAC: ' + getCookie('PAC'));
     var customerId = getCookie('PAC');
-    console.log('PAC: ' + customerId);
+    var customerParam = "";
+    
+    if (customerId) {
+        customerParam = "&customerId=" + customerId;
+    }
+    
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerParam;
+    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=false"+customerId;
-    const accessToken = "<?= $block->getBearerToken(); ?>"; // Replace with your actual access token
+    var result;
 
-    fetch(getRecommendationsUrl, {
-        method: 'GET',
+    $.ajax({
+        async: false,
+        url: getRecommendationsUrl,
         headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': "application/json"
+        },
+        type: "GET",
+        success: function(data){
+            result = data;
+            console.log('success: ' + data);
+        },
+        error: function(){
+            console.log('AJAX Fail!');
         }
-    })
-        .then(response => response.json())
-        .then(data => console.log('Recommendations:', data))
-        .catch(error => console.error('Error fetching recommendations:', error));
+    });
+    
+    console.log('result: ' + JSON.stringify(result));
+    var recommendationsResult = result;
+    var routeId  = recommendationsResult.recommendations.route.id;
+    console.log('routeId: ' + routeId);
+        
+});
 
 </script>
+
 <?php
 ?>
 
@@ -34,7 +58,7 @@ use Magento\Framework\App\Action\Action;
     </div>
     <div class="home-main-banner-right">
         <div>
-
+            
         </div>
         <div>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
