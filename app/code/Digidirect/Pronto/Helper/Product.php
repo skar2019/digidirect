@@ -467,6 +467,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -1409,6 +1412,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -2371,6 +2377,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
