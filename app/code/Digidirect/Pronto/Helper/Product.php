@@ -26,6 +26,7 @@ class Product extends AbstractHelper
     protected $categoryLinkManagement;
     protected $categoryLinkRepository;
     protected $logger;
+    protected $_reportCollectionFactory;
 
     public function __construct(
         Curl $curl,
@@ -41,7 +42,8 @@ class Product extends AbstractHelper
         CategoryFactory $categoryFactory,
         CategoryLinkManagementInterface $categoryLinkManagement,
         CategoryLinkRepositoryInterface $categoryLinkRepository,
-        CategoryManagementInterface $categoryManagement
+        CategoryManagementInterface $categoryManagement,
+        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory
     ){
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -57,7 +59,7 @@ class Product extends AbstractHelper
         $this->categoryLinkManagement = $categoryLinkManagement;
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryManagement = $categoryManagement;
-
+        $this->_reportCollectionFactory = $reportCollectionFactory;
     }
 
 
@@ -465,6 +467,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -1407,6 +1412,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -2369,6 +2377,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
@@ -3349,6 +3361,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329); //digidirect seller code
+                
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -4024,4 +4039,20 @@ class Product extends AbstractHelper
         return $getSubCategory;
     }
     //redeploy
+    
+    public function getProductSales($entityId, $price) {
+        $SoldProducts = $this->_reportCollectionFactory->create();
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $entityId);
+        /* If does have any product id 
+         * then return false
+         */
+        if(!$SoldProdudctCOl->count()):
+            return false;
+        endif;
+        $SoldProdudctCOl->getSelect()->__toString();
+        $product = $SoldProdudctCOl->getFirstItem();
+        $productSales = (int)$product->getData('ordered_qty') * $price;
+        $this->logger->info('getProductSales, ' . $entityId . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        return $productSales;
+    }
 }

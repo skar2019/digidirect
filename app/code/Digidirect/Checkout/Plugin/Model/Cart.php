@@ -16,9 +16,9 @@ class Cart
     
     public function beforeAddProduct(\Magento\Checkout\Model\Cart $subject, $productInfo, $requestInfo = null)
     {
-        $this->logger->info('beforeAddProduct()');
+        //$this->logger->info('beforeAddProduct()');
         $cartQuantity = $subject->getQuote()->getItemsQty();
-        $this->logger->info('$cartQuantity: ' . $cartQuantity);
+        //$this->logger->info('$cartQuantity: ' . $cartQuantity);
         /*foreach ($items as $_item) {
             $this->logger->info(json_encode( $_item->getData()));
             $productList  = $this->productRepository->getById($_item->getProductId(), false, $storeId, true);
@@ -26,7 +26,7 @@ class Cart
         }*/
         
         if ($cartQuantity >= 10) { 
-            $this->logger->info('Cart quantity limit reached!');
+            //$this->logger->info('Cart quantity limit reached!');
             throw new \Magento\Framework\Exception\LocalizedException(__('Cart quantity limit reached!'));
             return $this;
         }

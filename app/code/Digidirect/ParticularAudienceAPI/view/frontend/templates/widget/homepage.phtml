@@ -10,6 +10,7 @@ require(['jquery'], function ($) {
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
+    
     console.log('PAC: ' + getCookie('PAC'));
     var customerId = getCookie('PAC');
     var customerParam = "";
@@ -42,14 +43,37 @@ require(['jquery'], function ($) {
     
     console.log('result: ' + JSON.stringify(result));
     var recommendationsResult = result;
-    var routeId  = recommendationsResult.recommendations.route.id;
-    console.log('routeId: ' + routeId);
-        
+    var widgets  = recommendationsResult.recommendations.route.widgets;
+    //console.log('routeId: ' + widgets);
+
+    /*Object.keys(widgets).forEach(key => {
+      console.log(key, widgets[key]);
+    });*/
+
+    var blueWidget = widgets.find(obj => {
+        return obj.id === '458d80ed-033e-ec11-aae9-02dca44cceec';
+    })
+
+    //console.log(blueWidget);
+
+    function blueWidgetProducts() {
+        var blueWidgetArr = [];
+        var blueWidgetSlots = blueWidget.slots;
+        Object.keys(blueWidgetSlots).forEach(key => {
+            console.log(key, blueWidgetSlots[key].products[0].refId);
+            blueWidgetArr.push(blueWidgetSlots[key].products[0].refId);
+        });
+        return blueWidgetArr;
+    }
+    
 });
 
 </script>
 
 <?php
+    $blueWidgetArr = $block->runJs("blueWidgetProducts()");
+    $recommendedProductsBlueWidget = $block->getRecommendedProductsBlueWidget($blueWidgetArr);
+    $productCount = 0;
 ?>
 
 <div class="home-main-banners">
@@ -58,7 +82,39 @@ require(['jquery'], function ($) {
     </div>
     <div class="home-main-banner-right">
         <div>
-            
+            <?php if ($recommendedProductsBlueWidget): ?>
+                <div id="pa-blue-right-side-widget-wrapper">
+                    <div id="pa-blue-right-side-widget">
+                        <div class="product-widget-header">
+                            <h3 class="title">Welcome Back! Continue Shopping!</h3>
+                        </div>
+                        <div class="pa-product-widget-container">
+                            <?php foreach ($recommendedProductsBlueWidget as $_product): ?>
+                                <?php $productCount++; ?>
+                                <?php if ($productCount < 4): ?>
+                                    <div class="product-item-info product-item">
+                                        <a href="<?= $_product->getProductUrl(); ?>" class="product photo product-item-photo" tabindex="-1">
+                                            <span class="product-image-container" style="width: 240px;">
+                                                <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                                    <img class="product-image-photo" src="<?= 'https://www.digidirect.com.au/media/catalog/product' . $_product->getData('thumbnail'); ?>" loading="lazy" width="240" height="300" alt="Product Image">
+                                                </span>
+                                            </span> 
+                                        </a> 
+                                        <div class="product details product-item-details">
+                                            <strong class="product-item-name">
+                                                <a title="<?= $_product->getName(); ?>" href="<?= $_product->getProductUrl(); ?>" class="product-item-link">
+                                                    <?= $_product->getName(); ?>
+                                                </a>
+                                            </strong>
+                                            <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
         <div>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
