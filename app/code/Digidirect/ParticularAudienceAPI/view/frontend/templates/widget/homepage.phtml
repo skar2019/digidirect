@@ -58,7 +58,6 @@ require(['jquery'], function ($) {
         var productObj = "";
         var url = "<?php echo $block->getBaseUrl().'particularaudienceapi/index/product'?>";
         $.ajax({
-            async: false,
             url: url,
             type: "GET",
             data: {
