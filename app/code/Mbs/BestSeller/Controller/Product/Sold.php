@@ -75,16 +75,18 @@ class Sold extends \Magento\Framework\App\Action\Action
     
     public function getSoldQtyByProductId($productID = null) {
         $SoldProducts = $this->_reportCollectionFactory->create();
-        $SoldProdudctCOl = $SoldProducts->addOrderedQty()->addAttributeToFilter('product_id', $productID);
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $entityId);
         /* If does have any product id 
          * then return false
          */
         if(!$SoldProdudctCOl->count()):
-            return false;
+            return 0;
         endif;
         $SoldProdudctCOl->getSelect()->__toString();
         $product = $SoldProdudctCOl->getFirstItem();
-        return (int)$product->getData('ordered_qty');
+        $productSales = (int)$product->getData('ordered_qty') * $price;
+        $this->logger->info('getProductSales, ' . $entityId . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        return $productSales;
     }
     
     public function getProductCollections() {
