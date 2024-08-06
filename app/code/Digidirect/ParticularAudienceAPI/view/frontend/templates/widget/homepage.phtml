@@ -88,7 +88,7 @@ require(['jquery'], function ($) {
     blueWidgetArr.forEach(function (id) {
         let product = checkProduct(id);
         console.log("blueWidgetArr", JSON.stringify(product));
-        $('.pa-product-widget-container').append(`<div class="row">`product.name`</div>`);
+        $('.pa-product-widget-container').append('<div class="row">' + product.name + '</div>');
     });
     
 });
