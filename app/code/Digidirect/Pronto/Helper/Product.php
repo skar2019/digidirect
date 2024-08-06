@@ -4047,7 +4047,7 @@ class Product extends AbstractHelper
          * then return false
          */
         if(!$SoldProdudctCOl->count()):
-            return false;
+            return 0;
         endif;
         $SoldProdudctCOl->getSelect()->__toString();
         $product = $SoldProdudctCOl->getFirstItem();
