@@ -63,8 +63,30 @@ require(['jquery'], function ($) {
     //return blueWidgetArr;
     //}
     
+    function checkProduct(id) {
+        var productObj = "";
+        var url = "<?php echo $block->getBaseUrl().'particularaudienceapi/index/product'?>";
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function(data){
+                console.log("checkProduct", JSON.stringify(data));
+                productObj = data;
+            },
+            error: function(){
+                console.log("Error!");
+            }
+        });
+        
+        return productObj;
+    }
+    
     blueWidgetArr.forEach(function (id) {
-        $('.pa-product-widget-container').append(`<div class="row"><?= $block->getProductById(${id})->getName(); ?></div>`);
+        let product = checkProduct(id);
+        console.log("blueWidgetArr", JSON.stringify(product));
     });
     
 });
