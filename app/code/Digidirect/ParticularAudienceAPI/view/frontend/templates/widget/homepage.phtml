@@ -88,7 +88,25 @@ require(['jquery'], function ($) {
     blueWidgetArr.forEach(function (id) {
         let product = checkProduct(id);
         console.log("blueWidgetArr", JSON.stringify(product));
-        $('.pa-product-widget-container').append('<div class="row">' + product.name + '</div>');
+        let productItem = '<div class="pa-product-widget-container">' + 
+                        '<div class="product-item-info product-item">' +
+                            '<a href="https://www.digidirect.com.au/' + product.url_key + '" class="product photo product-item-photo" tabindex="-1">' +
+                                '<span class="product-image-container" style="width: 240px;">' +
+                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                        '<img class="product-image-photo" src="https://www.digidirect.com.au' + product.thumbnail + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                    '</span>' +
+                                '</span>' +
+                            '</a>' + 
+                            '<div class="product details product-item-details">' +
+                                '<strong class="product-item-name">' +
+                                    '<a title="https://www.digidirect.com.au' + product.name + '" href="https://www.digidirect.com.au/' + product.url_key + '" class="product-item-link">' +
+                                        product.name +
+                                    '</a>' +
+                                '</strong>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+        $('.pa-product-widget-container').append(productItem);
     });
     
 });
