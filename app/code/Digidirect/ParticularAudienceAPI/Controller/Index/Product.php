@@ -38,7 +38,6 @@ class Product extends Action {
             $result->setData($product);
             return $result;
         }
-        
     }
 
 }
