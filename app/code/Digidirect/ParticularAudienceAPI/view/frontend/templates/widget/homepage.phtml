@@ -67,13 +67,14 @@ require(['jquery'], function ($) {
         var productObj = "";
         var url = "<?php echo $block->getBaseUrl().'particularaudienceapi/index/product'?>";
         $.ajax({
+            async: false,
             url: url,
             type: "GET",
             data: {
                 id: id
             },
             success: function(data){
-                console.log("checkProduct", JSON.stringify(data));
+                //console.log("checkProduct", JSON.stringify(data));
                 productObj = data;
             },
             error: function(){
@@ -87,6 +88,7 @@ require(['jquery'], function ($) {
     blueWidgetArr.forEach(function (id) {
         let product = checkProduct(id);
         console.log("blueWidgetArr", JSON.stringify(product));
+        $('.pa-product-widget-container').append(`<div class="row">`product.name`</div>`);
     });
     
 });
