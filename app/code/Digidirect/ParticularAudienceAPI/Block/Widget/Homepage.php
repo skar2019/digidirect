@@ -19,6 +19,8 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     
     protected $cookieMetadataFactory;
     
+    protected $_productRepository;
+    
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/homepage.phtml';
   
     public function __construct(
@@ -31,6 +33,7 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -41,7 +44,13 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->listProductBlock = $listProductBlock;
+        $this->_productRepository = $productRepository;
         parent::__construct($context, $data);
+    }
+    
+    public function getProductById($id) {
+        $product = $this->_productRepository->getById($id);
+        return $product;
     }
     
     public function getBearerToken() {
@@ -63,8 +72,8 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     }
 
     public function getRecommendedProductsBlueWidget($productIds){
-        $prods = implode(",", $productIds);
-        $this->logger->info('$productIds: ' + $prods);
+        //$prods = implode(",", $productIds);
+        $this->logger->info('$productIds: ' . $productIds);
         /*if ($productIds) {
             $recommendationsCollection = $this->productCollectionFactory->create();
             $recommendationsCollection->addAttributeToSelect('*');
@@ -94,5 +103,4 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     public function runJs($output) {
         echo "<script>".json_encode($output)."</script>";
     }
-    
 }
