@@ -88,13 +88,100 @@ require(['jquery'], function ($) {
                             '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
-                                    '<a title="https://www.digidirect.com.au' + product.name + '" href="https://www.digidirect.com.au/' + product.url_key + '" class="product-item-link">' +
+                                    '<a title="' + product.name + '" href="https://www.digidirect.com.au/' + product.url_key + '" class="product-item-link">' +
                                         product.name +
                                     '</a>' +
                                 '</strong>' +
                             '</div>' +
                         '</div>'
         $('#pa-blue-right-side-widget .pa-product-widget-container').append(productItem);
+    });
+    
+    //Recommended For You
+    widgetObject('94e9300c-023e-ec11-aae9-02dca44cceec').forEach(function (id) {
+        
+        let product = checkProduct(id);
+        let digiDealsLogo = "";
+        
+        let addToCart = "";
+        
+        if (product.is_digiprint) {
+            if ((product.wiser_price < product.price) || (product.marketplaces_price > product.price) || (product.item_codition == "") || (product.item_codition == null)) {
+                digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+            }
+            addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
+                            '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+                                'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                            '</button>' +
+                        '</a>'
+        } else {
+            addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
+                            '<button type="button" title="Add To Cart" class="action btn-ordernow primary">' +
+                                'Add To Cart <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                            '</button>' +
+                        '</a>'
+        }
+        
+        let digiSeconds = "";
+        let digiSecondsOverlay = "";
+        let digiSecondsRating = "";
+        
+        if (product.item_codition) {
+        
+            if (product.item_codition == "PRELOVED") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+            } else if (product.item_codition == "OPENBOX") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+            } else if (product.item_codition == "REFURB") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+            }
+            
+            if (product.item_rating == 5) {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (product.item_rating == 4) {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (product.item_rating == 3) {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (product.item_rating == 2) {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (product.item_rating == 1) {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            }
+            
+            digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
+        }
+        
+        let productItem = '<div class="product-item-info product-item">' +
+                        '<div class="wish-list-wrapper" data-role="add-to-links">' +
+                            '<a href="#"' +
+                            'data-post=""' +
+                            'class="action towishlist" data-action="add-to-wishlist"' +
+                            'title="Add to Wish List">' +
+                            '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
+                            '</a>' +
+                        '</div>' +
+                        '<a href="https://www.digidirect.com.au/' + product.url_key + '" class="product photo product-item-photo" tabindex="-1">' +
+                            digiDealsLogo + digiSeconds +
+                            '<span class="product-image-container" style="width: 240px;">' +
+                                '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                    '<img class="product-image-photo" src="https://www.digidirect.com.au/media/catalog/product' + product.thumbnail + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                '</span>' +
+                            '</span>' +
+                        '</a>' + 
+                        '<div class="product details product-item-details">' +
+                            '<strong class="product-item-name">' +
+                                '<a title="' + product.name + '" href="https://www.digidirect.com.au/' + product.url_key + '" class="product-item-link">' +
+                                    product.name +
+                                '</a>' +
+                            '</strong>' +
+                        '</div>' +
+                        '<div class="product actions product-item-actions">' +
+                            '<div class="actions-primary">' +
+                                addToCart +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+        $('.recommended-for-you-widget .pa-digidirect-product-widget-container').append(productItem);
     });
     
 });
@@ -123,3 +210,11 @@ require(['jquery'], function ($) {
     </div>
 </div>
 
+<div id="pa-digidirect-product-widget-wrapper">
+    <div id="pa-digidirect-product-widget" class="recommended-for-you-widget">
+        <div class="product-widget-header">
+            <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
+        </div>
+        <div class="pa-digidirect-product-widget-container"></div>
+    </div>
+</div>
