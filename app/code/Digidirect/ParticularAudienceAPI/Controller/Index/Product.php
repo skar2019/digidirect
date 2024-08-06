@@ -35,8 +35,10 @@ class Product extends Action {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             $product = $this->_productRepository->getById($id);
-            return $product;
+            $result->setData($product);
+            return $result;
         }
+        
     }
 
 }
