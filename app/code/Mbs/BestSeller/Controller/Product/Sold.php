@@ -51,8 +51,8 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getPriceInfo()->getPrice('final_price')->getValue());
-            $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getPriceInfo()->getPrice('final_price')->getValue() . ", " . $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue() . ", sales: " . $setSales);
+            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getFinalPrice());
+            $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getFinalPrice() . ", sales: " . $setSales);
             if ($setSales) {
                 try {
                     $prod = $this->productRepository->get($product->getData('sku'));
@@ -91,6 +91,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addMinimalPrice()->addFinalPrice();
         //$collection->addAttributeToFilter("nb_sales", array("null" => false));
         if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
