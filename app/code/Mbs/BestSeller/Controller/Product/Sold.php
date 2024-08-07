@@ -53,14 +53,12 @@ class Sold extends \Magento\Framework\App\Action\Action
             $counter++;
             $setSales = $this->getProductSales($product->getData('entity_id'), $product->getFinalPrice());
             $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getFinalPrice() . ", sales: " . $setSales);
-            if ($setSales) {
-                try {
-                    $prod = $this->productRepository->get($product->getData('sku'));
-                    $prod->setCustomAttribute('nb_sales', $setSales);
-                    $this->productRepository->save($prod);
-                }catch(Exception $e) {
-                    $this->logger->info('Message: ' . $e->getMessage());
-                }
+            try {
+                $prod = $this->productRepository->get($product->getData('sku'));
+                $prod->setCustomAttribute('nb_sales', $setSales);
+                $this->productRepository->save($prod);
+            }catch(Exception $e) {
+                $this->logger->info('Message: ' . $e->getMessage());
             }
         }
         $this->logger->info('Function end!');
