@@ -21,7 +21,8 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute() {
         $resultPage = $this->_resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set("Marketplace");
+        $resultPage->getConfig()->getTitle()->set("Buy & Sell Pre-Owned Photography Gear at digiMarket now!");
+        $resultPage->getConfig()->setDescription("Discover digiMarket for buying and selling pre-owned camera gear. Great deals on quality equipment. Explore digiDirect's marketplace today!");
         return $resultPage;
     }
 }
