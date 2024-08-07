@@ -51,19 +51,14 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-            /*if(isset($_GET["reset"])){
-                $setQty = "";
-            } else {
-                $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-            }*/
+            $setSales = $this->getSoldQtyByProductId($product->getData('entity_id'), $product->getPrice());
             
-            if ($setQty) {
+            if ($setSales) {
                 try {
                     $prod = $this->productRepository->get($product->getData('sku'));
-                    $prod->setCustomAttribute('nb_sales', $setQty);
+                    $prod->setCustomAttribute('nb_sales', $setSales);
                     $this->productRepository->save($prod);
-                    $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", sold: " . $setQty);
+                    $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", sales: " . $setSales);
                 }catch(Exception $e) {
                     $this->logger->info('Message: ' . $e->getMessage());
                 }
@@ -73,7 +68,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         print_r('Done!');
     }
     
-    public function getSoldQtyByProductId($productID = null) {
+    public function getSoldQtyByProductId($productID = null, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
         $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $productID);
         /* If does have any product id 
