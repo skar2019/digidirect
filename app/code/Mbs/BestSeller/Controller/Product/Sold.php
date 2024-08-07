@@ -75,7 +75,7 @@ class Sold extends \Magento\Framework\App\Action\Action
     
     public function getSoldQtyByProductId($productID = null) {
         $SoldProducts = $this->_reportCollectionFactory->create();
-        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $entityId);
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $productID);
         /* If does have any product id 
          * then return false
          */
@@ -97,7 +97,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addAttributeToFilter("nb_sales", array("null" => false));
+        //$collection->addAttributeToFilter("nb_sales", array("null" => false));
         if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
         }
