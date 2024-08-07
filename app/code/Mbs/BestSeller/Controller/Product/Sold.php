@@ -51,8 +51,8 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getPriceInfo()->getPrice('regular_price')->getValue());
-            $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getPriceInfo()->getPrice('regular_price')->getValue() . ", sales: " . $setSales);
+            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getPriceInfo()->getPrice('final_price')->getValue());
+            $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getPriceInfo()->getPrice('final_price')->getValue() . ", " . $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue() . ", sales: " . $setSales);
             if ($setSales) {
                 try {
                     $prod = $this->productRepository->get($product->getData('sku'));
