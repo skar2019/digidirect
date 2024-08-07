@@ -51,7 +51,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setSales = $this->getSoldQtyByProductId($product->getData('entity_id'), $product->getPrice());
+            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getPrice());
             
             if ($setSales) {
                 try {
@@ -68,7 +68,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         print_r('Done!');
     }
     
-    public function getSoldQtyByProductId($productID = null, $price) {
+    public function getProductSales($productID, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
         $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $productID);
         /* If does have any product id 
@@ -80,7 +80,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $SoldProdudctCOl->getSelect()->__toString();
         $product = $SoldProdudctCOl->getFirstItem();
         $productSales = (int)$product->getData('ordered_qty') * $price;
-        $this->logger->info('getProductSales, ' . $entityId . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        $this->logger->info('getProductSales, ' . $productID . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
         return $productSales;
     }
     
