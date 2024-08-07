@@ -51,7 +51,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getPrice());
+            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getData('price'));
             
             if ($setSales) {
                 try {
@@ -80,7 +80,7 @@ class Sold extends \Magento\Framework\App\Action\Action
         $SoldProdudctCOl->getSelect()->__toString();
         $product = $SoldProdudctCOl->getFirstItem();
         $productSales = (int)$product->getData('ordered_qty') * $price;
-        $this->logger->info('getProductSales, ' . $productID . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        //$this->logger->info('getProductSales, ' . $productID . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
         return $productSales;
     }
     
