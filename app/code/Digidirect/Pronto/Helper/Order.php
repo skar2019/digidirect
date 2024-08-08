@@ -2131,27 +2131,27 @@ class Order extends AbstractHelper
             {
                 if($surcharge != "0.0000")
                 {
-                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                    $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
-                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
-                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
                     $x++; // for shipping counter
                 }
 
                 if($coupon != "")
                 {
-                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                    $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                     $x++; // for shipping counter
                 }
 
@@ -2189,19 +2189,23 @@ class Order extends AbstractHelper
                 {
                     $shippingDesc = "Australia Post – eParcel";
                 }
+                else
+                {
+                    $shippingDesc = "";
+                }
                 //shipping details clint Mar 3 23
                 if($disregardshipping)
                 {
                     $shippingprice = 0;
                 }
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+                $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+                $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
             }
 
 
@@ -2237,14 +2241,14 @@ class Order extends AbstractHelper
 //                $shippingDesc = "Free Shipping";
 //            }
 //
-            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //create xml of order data here
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
