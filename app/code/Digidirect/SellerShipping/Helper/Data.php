@@ -162,6 +162,10 @@ class Data extends AbstractHelper
             
             $sellerShipping = 8.95;
             
+            if ($seller == "LatestBuy") {
+                $sellerShipping = 0;
+            }
+            
             if (!in_array($seller, $sellersArray))  {
                 array_push($sellersArray, [$seller,$sellerShipping]);
             }
