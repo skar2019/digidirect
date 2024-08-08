@@ -3,7 +3,7 @@
 namespace Digidirect\ParticularAudienceAPI\Block\Widget;
 
 
-class Homepage extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class TestHomepage extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     protected $productCollectionFactory;
     
@@ -21,7 +21,7 @@ class Homepage extends \Magento\Framework\View\Element\Template implements \Mage
     
     protected $_productRepository;
     
-    protected $_template = 'Digidirect_ParticularAudienceAPI::widget/homepage.phtml';
+    protected $_template = 'Digidirect_ParticularAudienceAPI::widget/test-homepage.phtml';
   
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,    

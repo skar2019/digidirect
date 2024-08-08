@@ -95,6 +95,9 @@ class Data extends AbstractHelper
             
             if ($seller == "digiDirect") {
                 $digidirectSellerCount++;
+            } elseif ($seller == "LatestBuy") {
+                //$nonDigidirectSeller += 0;
+                $nonDigidirectSellerCount++;
             } else {
                 $nonDigidirectSeller += $standardShipping;
                 $nonDigidirectSellerCount++;
@@ -161,6 +164,10 @@ class Data extends AbstractHelper
             }
             
             $sellerShipping = 8.95;
+            
+            if ($seller == "LatestBuy") {
+                $sellerShipping = 0;
+            }
             
             if (!in_array($seller, $sellersArray))  {
                 array_push($sellersArray, [$seller,$sellerShipping]);

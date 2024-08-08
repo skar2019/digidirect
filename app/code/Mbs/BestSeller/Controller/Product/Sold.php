@@ -51,40 +51,34 @@ class Sold extends \Magento\Framework\App\Action\Action
         $counter = 0;
         foreach ($productCollection as $product) {
             $counter++;
-            $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-            /*if(isset($_GET["reset"])){
-                $setQty = "";
-            } else {
-                $setQty = $this->getSoldQtyByProductId($product->getData('entity_id'));
-            }*/
-            
-            if ($setQty) {
-                try {
-                    $prod = $this->productRepository->get($product->getData('sku'));
-                    $prod->setCustomAttribute('nb_sales', $setQty);
-                    $this->productRepository->save($prod);
-                    $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", sold: " . $setQty);
-                }catch(Exception $e) {
-                    $this->logger->info('Message: ' . $e->getMessage());
-                }
+            $setSales = $this->getProductSales($product->getData('entity_id'), $product->getFinalPrice());
+            $this->logger->info('$counter: ' . $counter . ', sku: ' . $product->getData('sku') . ", price: " . $product->getFinalPrice() . ", sales: " . $setSales);
+            try {
+                $prod = $this->productRepository->get($product->getData('sku'));
+                $prod->setCustomAttribute('nb_sales', $setSales);
+                $this->productRepository->save($prod);
+            }catch(Exception $e) {
+                $this->logger->info('Message: ' . $e->getMessage());
             }
         }
         $this->logger->info('Function end!');
         print_r('Done!');
     }
     
-    public function getSoldQtyByProductId($productID = null) {
+    public function getProductSales($productID, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
-        $SoldProdudctCOl = $SoldProducts->addOrderedQty()->addAttributeToFilter('product_id', $productID);
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $productID);
         /* If does have any product id 
          * then return false
          */
         if(!$SoldProdudctCOl->count()):
-            return false;
+            return 0;
         endif;
         $SoldProdudctCOl->getSelect()->__toString();
         $product = $SoldProdudctCOl->getFirstItem();
-        return (int)$product->getData('ordered_qty');
+        $productSales = (int)$product->getData('ordered_qty') * $price;
+        //$this->logger->info('getProductSales, ' . $productID . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        return $productSales;
     }
     
     public function getProductCollections() {
@@ -95,7 +89,8 @@ class Sold extends \Magento\Framework\App\Action\Action
         $this->logger->info('$cat: ' . $cat);
         $collection = $this->_productCollection->create();
         $collection->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addAttributeToFilter("nb_sales", array("null" => true));
+        $collection->addMinimalPrice()->addFinalPrice();
+        //$collection->addAttributeToFilter("nb_sales", array("null" => false));
         if($this->request->getParam('cat')){
             $collection->addCategoriesFilter(['in' => $cat]);
         }
