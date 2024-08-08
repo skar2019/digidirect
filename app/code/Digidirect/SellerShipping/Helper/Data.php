@@ -95,6 +95,9 @@ class Data extends AbstractHelper
             
             if ($seller == "digiDirect") {
                 $digidirectSellerCount++;
+            } elseif ($seller == "LatestBuy") {
+                //$nonDigidirectSeller += 0;
+                $nonDigidirectSellerCount++;
             } else {
                 $nonDigidirectSeller += $standardShipping;
                 $nonDigidirectSellerCount++;
