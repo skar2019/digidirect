@@ -20,7 +20,7 @@ require(['jquery'], function ($) {
     
     console.log('customerId', customerId);
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true"+customerParam;
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/home-page-pa&expandProductDetails=true"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
     var result;
@@ -102,7 +102,7 @@ require(['jquery'], function ($) {
                             '<a href="https://www.digidirect.com.au/' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="https://www.digidirect.com.au/media/catalog/product' + 'product.thumbnail' + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
                             '</a>' + 
@@ -239,7 +239,7 @@ require(['jquery'], function ($) {
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="https://www.digidirect.com.au/media/catalog/product' + product.thumbnail + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
                             '</a>' + 
@@ -298,48 +298,44 @@ require(['jquery'], function ($) {
     </div>
 </div>
 
-<div id="pa-digidirect-product-widget-wrapper">
-    <div id="pa-digidirect-product-widget" class="recommended-for-you-widget">
-        <div class="product-widget-header">
-            <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
-        </div>
-        <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container real-container"></div>
-        <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
-        <div id="recommended-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
-        <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
-        <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
+<div class="pa-digidirect-product-widget recommended-for-you-widget">
+    <div class="product-widget-header">
+        <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
     </div>
+    <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+    <div class="pa-digidirect-product-widget-container widget-placeholder">
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+    </div>
+    <div id="recommended-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+    <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
+    <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
+    <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
 </div>
 
 <div class="shop-by-widget-container">
-    <div class="home-main-banner-left">
+    <div class="shop-by-widget">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-shop-technology')->toHtml(); ?>
     </div>
-    <div id="pa-digidirect-product-widget-wrapper">
-        <div id="pa-digidirect-product-widget" class="trending-technology-products-for-you-widget">
-            <div class="product-widget-header">
-                <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending Technology Products For You</h3>
-            </div>
-            <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container"></div>
-            <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
+    <div class="pa-digidirect-product-widget trending-technology-products-for-you-widget">
+        <div class="product-widget-header">
+            <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending Technology Products For You</h3>
         </div>
-            <div id="trending-technology-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
-            <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-technology-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
-            <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-            <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
-        </div>
+        <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+        <div class="pa-digidirect-product-widget-container widget-placeholder">
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+        <div class="product-item-info product-item " style="height: 381px !important;"></div>
+    </div>
+        <div id="trending-technology-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+        <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-technology-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
+        <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
+        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
 
