@@ -275,12 +275,10 @@ require(['jquery'], function ($) {
 
 </script>
 
-<div class="homepage-row" style="margin-bottom: 40px;">
+<div class="homepage-row main-banner" style="margin-bottom: 40px;">
     <div class="home-main-banners">
         <div class="home-main-banner-left">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
-        </div>
-        <div class="home-main-banner-left">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
         </div>
         <div class="home-main-banner-right">
