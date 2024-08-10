@@ -133,6 +133,25 @@ require(['jquery'], function ($) {
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
+            
+            let digiSeconds = "";
+            let digiSecondsOverlay = "";
+            let digiSecondsRating = "";
+            
+            let attribute = product.attributes.find(obj => {
+                return obj.name === 'Categories';
+            })
+            
+            if (attribute.options[0].value == "PRELOVED") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+            } else if (attribute.options[0].value == "OPENBOX") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+            } else if (attribute.options[0].value == "REFURB") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+            }
+            
+            digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
+            //console.log(attribute);
 
             if (product.is_digiprint) {
                 addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
@@ -194,34 +213,6 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            let digiSeconds = "";
-            let digiSecondsOverlay = "";
-            let digiSecondsRating = "";
-
-            if (product.item_codition) {
-
-                if (product.item_codition == "PRELOVED") {
-                    digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-                } else if (product.item_codition == "OPENBOX") {
-                    digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-                } else if (product.item_codition == "REFURB") {
-                    digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
-                }
-
-                if (product.item_rating == 5) {
-                    digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
-                } else if (product.item_rating == 4) {
-                    digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
-                } else if (product.item_rating == 3) {
-                    digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
-                } else if (product.item_rating == 2) {
-                    digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
-                } else if (product.item_rating == 1) {
-                    digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
-                }
-
-                digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
-            }
             let hideProductItem = "";
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
@@ -275,15 +266,16 @@ require(['jquery'], function ($) {
     productTile('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-mobile', true);
     productTile('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
     productTile('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-mobile', true);
-    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
-    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-mobile', true);
-    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
+    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
+    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
+    productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
 });
 
 </script>
-<div class="homepage-row">
+
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="home-main-banners">
         <div class="home-main-banner-left">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
@@ -311,7 +303,7 @@ require(['jquery'], function ($) {
         </div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 15px;">
     <div class="pa-digidirect-product-widget recommended-for-you-widget">
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
@@ -330,7 +322,7 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="pa-digidirect-product-widget trending-digimarket-products-widget">
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiMarket Products</h3>
@@ -349,17 +341,17 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="home-banner-ad">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('homepage-banner-ad')->toHtml(); ?>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-digiservices')->toHtml(); ?>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="pa-digidirect-product-widget shop-tech-and-more-widget">
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Shop Tech and More</h3>
@@ -378,7 +370,7 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('shop-tech-and-more-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 80px;">
     <div class="current-promotions-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('new-current-promotions-slider')->toHtml(); ?>
     </div>
@@ -407,7 +399,7 @@ require(['jquery'], function ($) {
         </div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="shop-by-widget-container">
         <div class="shop-by-widget">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-shop-photography')->toHtml(); ?>
@@ -431,7 +423,7 @@ require(['jquery'], function ($) {
         </div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="shop-by-widget-container">
         <div class="shop-by-widget">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-shop-digimarket')->toHtml(); ?>
@@ -455,7 +447,7 @@ require(['jquery'], function ($) {
         </div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="shop-by-widget-container">
         <div class="shop-by-widget">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-shop-digiseconds')->toHtml(); ?>
@@ -479,7 +471,7 @@ require(['jquery'], function ($) {
         </div>
     </div>
 </div>
-<div class="homepage-row">
+<div class="homepage-row" style="margin-bottom: 40px;">
     <div class="shop-by-widget-container">
         <div class="shop-by-widget">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-shop-digiprint')->toHtml(); ?>
