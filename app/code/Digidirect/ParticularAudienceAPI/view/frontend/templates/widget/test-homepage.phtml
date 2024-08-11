@@ -20,7 +20,7 @@ require(['jquery'], function ($) {
     
     console.log('customerId', customerId);
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/home-page-pa&expandProductDetails=true"+customerParam;
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
     var result;
