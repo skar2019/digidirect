@@ -99,7 +99,7 @@ require(['jquery'], function ($) {
             }
             
             productItem = '<div class="product-item-info product-item">' +
-                            '<a href="https://www.digidirect.com.au/' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
@@ -108,7 +108,7 @@ require(['jquery'], function ($) {
                             '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="https://www.digidirect.com.au/' + product.url + '" class="product-item-link">' +
+                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
                                         product.name +
                                     '</a>' +
                                 '</strong>' +
