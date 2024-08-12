@@ -45,7 +45,7 @@
                             $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
                             
                             if ($finalProductPrice < $wiserPrice) {
-                                $productPrice = $finalPrice;
+                                $productPrice = $finalProductPrice;
                             } else {
                                 $productPrice = $wiserPrice;
                             }
