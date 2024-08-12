@@ -105,7 +105,7 @@ class PdpFrequentlyBoughtWith extends \Magento\Framework\View\Element\Template
         $recommendationsCollection = $this->productCollectionFactory->create();
         $recommendationsCollection->addAttributeToSelect('*');
         $recommendationsCollection->addFieldToFilter('entity_id', ['in' => $productIds]);
-        $recommendationsCollection->getSelect()->orderRand();
+        $recommendationsCollection->addMinimalPrice()->addFinalPrice();
         
         //$this->logger->info("Response: " . $webSignUpResult); 
         return $recommendationsCollection;
