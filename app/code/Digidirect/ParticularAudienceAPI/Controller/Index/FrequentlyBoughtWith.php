@@ -18,6 +18,8 @@ class FrequentlyBoughtWith extends Action {
     private $json;
 
     private $configurableType;
+    
+    protected $_resultJsonFactory;
 
     protected $logger;
 
@@ -28,6 +30,7 @@ class FrequentlyBoughtWith extends Action {
         \Magento\Quote\Api\CartRepositoryInterface $cartRepository,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->checkoutSession = $checkoutSession;
@@ -35,6 +38,7 @@ class FrequentlyBoughtWith extends Action {
         $this->productRepository = $productRepository;
         $this->json = $json;
         $this->configurableType = $configurableType;
+        $this->_resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
         parent::__construct($context);
     }
@@ -45,6 +49,7 @@ class FrequentlyBoughtWith extends Action {
     */
     public function execute()
     {
+        $result = $this->_resultJsonFactory->create();
         $productIds = $this->getRequest()->getParam('productIds');
 
         $session = $this->checkoutSession->create();
@@ -59,6 +64,7 @@ class FrequentlyBoughtWith extends Action {
         $this->cartRepository->save($quote);
         $session->replaceQuote($quote)->unsLastRealOrderId();
 
-        return true;
+        $result->setData(['result' => 'Success!']);
+        return $result;
     }
     }
