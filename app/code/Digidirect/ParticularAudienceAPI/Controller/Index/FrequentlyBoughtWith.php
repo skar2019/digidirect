@@ -65,8 +65,8 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
         $result = $this->_resultJsonFactory->create();
         $productIds = $this->getRequest()->getParam('productIds');
 
-        $session = $this->checkoutSession->create();
-        $quote = $session->getQuote();
+        //$session = $this->checkoutSession->create();
+        //$quote = $session->getQuote();
 
         foreach($productIds as $item) {
             
@@ -77,7 +77,7 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
             );
             
             $this->logger->info("item: " . $item);
-            $product = $this->product->load($item);
+            $product = $this->productItem->load($item);
             $this->cart->addProduct($product, $params);
             
         }     
