@@ -23,6 +23,12 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
     protected $_resultJsonFactory;
 
     protected $logger;
+    
+    protected $formKey;
+    
+    protected $cart;
+    
+    protected $productItem;
 
     public function __construct(
         Context $context,
@@ -32,6 +38,9 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Magento\Framework\Data\Form\FormKey $formKey,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Catalog\Model\Product $productItem,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->checkoutSession = $checkoutSession;
@@ -40,6 +49,9 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
         $this->json = $json;
         $this->configurableType = $configurableType;
         $this->_resultJsonFactory = $resultJsonFactory;
+        $this->formKey = $formKey;
+        $this->cart = $cart;
+        $this->productItem = $productItem;
         $this->logger = $logger;
         parent::__construct($context);
     }
@@ -57,15 +69,38 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
         $quote = $session->getQuote();
 
         foreach($productIds as $item) {
+            
+            $params = array(
+                'form_key' => $this->formKey->getFormKey(),
+                'product' => $item, //product Id
+                'qty' => 1 //product quantity                 
+            );
+            
             $this->logger->info("item: " . $item);
-            $product = $this->productRepository->getById($item);
-            $quote->addProduct($product, 1);
-        }
-
-        $this->cartRepository->save($quote);
-        $session->replaceQuote($quote)->unsLastRealOrderId();
-
+            $product = $this->product->load($item);
+            $this->cart->addProduct($product, $params);
+            
+        }     
+        $this->cart->save();
+        
         $result->setData(['result' => 'Success!']);
         return $result;
-    }
-    }
+        
+        /*$this->cartRepository->save($quote);
+        $session->replaceQuote($quote)->unsLastRealOrderId();
+
+        
+        foreach($products as $item){
+        $params = array(
+            'form_key' => $this->formKey->getFormKey(),
+            'product' => $item, //product Id
+            'qty' => 1 //product quantity                 
+             );
+
+            //Load the product based on product Id   
+            $productToAdd = $this->product->load($productId);       
+            $this->cart->addProduct($productToAdd, $params);
+        }     
+        $this->cart->save();*/
+  }
+}
