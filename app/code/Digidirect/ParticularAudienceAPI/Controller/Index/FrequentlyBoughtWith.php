@@ -4,10 +4,11 @@ namespace Digidirect\ParticularAudienceAPI\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-class FrequentlyBoughtWith extends Action {
+class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
     
     private $checkoutSession;
 
