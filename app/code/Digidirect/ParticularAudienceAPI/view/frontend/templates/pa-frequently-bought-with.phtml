@@ -44,16 +44,13 @@
                             $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
                             $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
                             
-                            $finalPrice = $_product->getData('final_price');
-                            $wiserPrice = $_product->getData('wiser_price');
-                            
-                            if ($finalPrice < $wiserPrice) {
-                                $productPrice = $finalPrice;
+                            if ($finalProductPrice < $wiserPrice) {
+                                $productPrice = $finalProductPrice;
                             } else {
                                 $productPrice = $wiserPrice;
                             }
-                        
                         ?>
+                
                         <div class="product-item-info product-item">
                             <div class="pa-checkbox-container">
                                 <label class="pa-checkbox-label">

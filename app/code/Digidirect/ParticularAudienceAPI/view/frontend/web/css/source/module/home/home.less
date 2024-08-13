@@ -193,6 +193,92 @@ and open the template in the editor.
         text-decoration: underline;
         color: #ff3c00;
     }
+    
+    .pa-digidirect-product-widget .product-image-container {
+        display: unset;
+    }
+
+    .pa-digidirect-product-widget .product-image-wrapper {
+        height: auto;
+        padding: 0 !important;
+    }
+    
+    .pa-digidirect-product-widget .wish-list-wrapper {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+    }
+
+    .pa-digidirect-product-widget .product-image-photo {
+        height: 150px !important;
+        width: auto !important;
+        object-fit: contain;
+        position: static;
+        margin-top: 22px;
+    }
+
+    .pa-digidirect-product-widget .product-item-info.product-item {
+        width: unset !important;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 5px;
+        height: unset !important;
+        border: 1px solid #cacaca;
+        margin-top: 0;
+        position: relative;
+    }
+    
+    .pa-digidirect-product-widget .product-item-info.product-item:hover {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        transform: translate(0, -10px);
+    }
+
+    .pa-digidirect-product-widget .final-price {
+        position: absolute !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        font-weight: 700;
+        color: #ff3c00;
+    }
+
+    .pa-digidirect-product-widget .product-item-info.product-item:last-child {
+        //margin-right: 0;
+    }
+
+    .pa-digidirect-product-widget .product-item-actions {
+        padding-bottom: 10px;
+    }
+
+    .pa-digidirect-product-widget .product-item-actions .actions-primary {
+        width: 100% !important;
+    }
+    
+    .hide-product-item {
+        display: none !important;
+    }
+    
+    .pa-digidirect-product-widget-container.mobile-widget {
+        display: none;
+    }
+    
+    .pa-digidirect-product-widget .product-tab-mobile-widget-load-more.grid-toggle-more, .pa-digidirect-product-widget .product-tab-mobile-widget-view-less.grid-toggle-more, .pa-digidirect-product-widget .product-tab-mobile-widget-view-all.grid-toggle-more {
+        margin-top: 0 !important;
+    }
+    
+    .pa-digidirect-product-widget .product-widget-header {
+        position: relative;
+    }
+
+    .pa-digidirect-product-widget .product-widget-view-all {
+        position: absolute;
+        right: 0;
+        bottom: 9px;
+        font-size: 14px;
+        text-decoration: underline;
+        color: #ff3c00;
+    }
 
 }
 
@@ -226,6 +312,26 @@ and open the template in the editor.
     }
 
     #pa-digidirect-product-widget .product-widget-view-all {
+        display: none;
+    }
+    
+    .pa-digidirect-product-widget .product-item-info.product-item {
+        margin-right: 0;
+    }
+    
+    .pa-digidirect-product-widget .product-item-link {
+        text-align: center;
+    }
+    
+    .pa-digidirect-product-widget .load-more {
+        display: block;
+    }
+    
+    .pa-digidirect-product-widget-wrapper {
+        margin: 0 -10px;
+    }
+
+    .pa-digidirect-product-widget .product-widget-view-all {
         display: none;
     }
 
@@ -267,6 +373,10 @@ and open the template in the editor.
         padding-bottom: 0;
     }
     
+    .pa-digidirect-product-widget .product-item-actions {
+        padding-bottom: 0;
+    }
+    
 }
 
 
@@ -286,6 +396,18 @@ and open the template in the editor.
     }
     
     #pa-digidirect-product-widget .view-all {
+        display: none !important;
+    }
+    
+    .pa-digidirect-product-widget .load-more {
+        display: none !important;
+    }
+    
+    .pa-digidirect-product-widget .view-less {
+        display: none !important;
+    }
+    
+    .pa-digidirect-product-widget .view-all {
         display: none !important;
     }
     

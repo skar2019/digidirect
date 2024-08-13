@@ -20,7 +20,7 @@ require(['jquery'], function ($) {
     
     console.log('customerId', customerId);
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true"+customerParam;
+    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/home-page-pa&expandProductDetails=true"+customerParam;
     const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
     var result;
@@ -99,7 +99,7 @@ require(['jquery'], function ($) {
             }
             
             productItem = '<div class="product-item-info product-item">' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<a href="https://www.digidirect.com.au/' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
@@ -108,7 +108,7 @@ require(['jquery'], function ($) {
                             '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                    '<a title="' + product.name + '" href="https://www.digidirect.com.au/' + product.url + '" class="product-item-link">' +
                                         product.name +
                                     '</a>' +
                                 '</strong>' +
@@ -275,78 +275,10 @@ require(['jquery'], function ($) {
 
 </script>
 
-<div class="homepage-row main-banner" style="margin-bottom: 40px;">
-    <div class="home-main-banners">
-        <div class="home-main-banner-left">
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
-        </div>
-        <div class="home-main-banner-right">
-            <div>
-                <div id="pa-blue-right-side-widget-wrapper">
-                    <div id="pa-blue-right-side-widget">
-                        <div class="product-widget-header">
-                            <h3 class="title">Welcome Back! Continue Shopping!</h3>
-                        </div>
-                        <div class="pa-product-widget-container real-container">
-                        </div>
-                        <div class="pa-product-widget-container widget-placeholder">
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lower-right-side-banner')->toHtml(); ?>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="homepage-row" style="margin-bottom: 15px;">
-    <div class="pa-digidirect-product-widget recommended-for-you-widget">
-        <div class="product-widget-header">
-            <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
-        </div>
-        <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
-        <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
-        <div id="recommended-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
-        <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
-        <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
-    </div>
-</div>
 <div class="homepage-row" style="margin-bottom: 40px;">
-    <div class="pa-digidirect-product-widget trending-digimarket-products-widget">
-        <div class="product-widget-header">
-            <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiMarket Products</h3>
-        </div>
-        <div id="trending-digimarket-products-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
-        <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
-        <div id="trending-digimarket-products-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
-        <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digimarket-products-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
-        <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
-    </div>
+    <h2 class="header-404">Oops, this page was not found</h2>
 </div>
-<div class="homepage-row" style="margin-bottom: 40px;">
-    <div class="home-banner-ad">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('homepage-banner-ad')->toHtml(); ?>
-    </div>
-</div>
+
 <div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('test-digiservices')->toHtml(); ?>
@@ -555,4 +487,5 @@ require(['jquery'], function ($) {
     function shopDigimarketCatViewAllProducts(viewAllLink) {
         window.location.href = viewAllLink;
     }
+
 </script>
