@@ -49,7 +49,7 @@ class FrequentlyBoughtWith extends Action implements HttpGetActionInterface {
 
          foreach($productIds as $item) {
              $product = $this->productRepository->getById($item);
-             $quote->addProduct($product, $qty);
+             $quote->addProduct($product, 1);
          }
 
          $this->cartRepository->save($quote);
