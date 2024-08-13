@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_InfiniteScroll:etc/infinitescroll.xsd">
-    <scroll name="ewave_storelocator_index_index">
-        <config handle="ewave_storelocator_index_index" instance="Ewave\StoreLocatorInfiniteScroll\Model\InfiniteScroll\Processor" selector=".storelocator-infinite"/>
-    </scroll>
-</config>

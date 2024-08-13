@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_Collect:etc/placestorage.xsd">
-    <placestorage name="abstract_entity_collect_store">
-        <config handle="abstract_entity_store"
-                instance="Ewave\CollectAbstractEntity\Model\CollectPlaceRepository"
-                source="Ewave\CollectAbstractEntity\Model\CollectPlaceStock"/>
-    </placestorage>
-</config>
