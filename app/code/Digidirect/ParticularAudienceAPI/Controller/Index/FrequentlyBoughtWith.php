@@ -65,19 +65,18 @@ class FrequentlyBoughtWith extends Action implements HttpPostActionInterface {
         $result = $this->_resultJsonFactory->create();
         $productIds = $this->getRequest()->getParam('productIds');
         
-        foreach($productIds as $item) {
-            
+        /*foreach($productIds as $item) {
             $params = array(
                 'form_key' => $this->formKey->getFormKey(),
                 'product' => $item,
                 'qty' => 1             
             );
-            
             $this->logger->info("item: " . $item);
             $product = $this->productItem->load($item);
             $this->cart->addProduct($product, $params);
-            
-        }     
+        }*/   
+        
+        $this->cart->addProductsByIds($productIds);
         $this->cart->save();
         
         $result->setData(['result' => 'Success!']);
