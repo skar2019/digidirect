@@ -776,7 +776,6 @@ return [
         'Magezon_PageBuilderIconBox' => 1,
         'Magezon_PageBuilderPageableContainer' => 1,
         'Magezon_PageBuilderPreview' => 1,
-        'Magezon_UiBuilder' => 0,
         'Marketplacer_Base' => 1,
         'Marketplacer_BrandApi' => 1,
         'Marketplacer_Brand' => 1,
