@@ -831,7 +831,6 @@ return [
         'Magezon_Core' => 1,
         'Magezon_Builder' => 1,
         'Magezon_Newsletter' => 1,
-        'Magezon_NinjaMenus' => 1,
         'Magezon_PageBuilder' => 1,
         'Magezon_PageBuilderIconBox' => 1,
         'Magezon_PageBuilderPageableContainer' => 1,
