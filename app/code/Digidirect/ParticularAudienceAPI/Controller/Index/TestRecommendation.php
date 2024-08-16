@@ -87,8 +87,7 @@ class TestRecommendation extends Action implements HttpPostActionInterface {
         }
 
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/home-page-pa&expandProductDetails=true".$customerIdParam;
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
-
+        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getRecommendationsUrl);
