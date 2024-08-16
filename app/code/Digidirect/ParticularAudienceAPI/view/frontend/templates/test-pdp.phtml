@@ -21,7 +21,7 @@ require(['jquery'], function ($) {
     console.log('customerId', customerId);
     
     const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=true"+customerParam;
-    const accessToken = "<?php $block->getBearerToken() ?>"; // Replace with your actual access token
+    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
 
     var result;
 
