@@ -762,7 +762,7 @@ return [
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 1,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
-        'Digidirect_AttributesCollection' => 0,
+        'Digidirect_AttributesCollection' => 1,
         'EthanYehuda_CronjobManager' => 1,
         'Experius_WysiwygDownloads' => 1,
         'Fastly_Cdn' => 1,
