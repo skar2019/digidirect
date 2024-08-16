@@ -3,6 +3,7 @@
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
+        <referenceBlock name="livesearch.product.listing" remove="true" />
         
         <move element="page.main.title" destination="category.view.container" before="-"/>
         
