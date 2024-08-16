@@ -96,6 +96,7 @@ class TestRecommendation extends Action implements HttpPostActionInterface {
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
 
-        return $getRecommendationsResultJson;
+        $result->setData($getRecommendationsResultJson);
+        return $result;
     }
 }
