@@ -12,27 +12,18 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
-    var customerParam = "";
-    
-    if (customerId) {
-        customerParam = "&customerId=" + customerId;
-    }
     
     console.log('customerId', customerId);
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=true"+customerParam;
-    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
-
     var result;
 
     $.ajax({
         async: false,
-        url: getRecommendationsUrl,
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': "application/json"
+        url: "https://www.digidirect.com.au/particularaudienceapi/index/productpage", //getRecommendationsUrl,
+        type: "POST",
+        data: {
+            customerId: customerId
         },
-        type: "GET",
         success: function(data){
             result = data;
         },
@@ -40,7 +31,7 @@ require(['jquery'], function ($) {
             console.log('AJAX Fail!');
         }
     });
-    
+    console.log('result', result);
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
 

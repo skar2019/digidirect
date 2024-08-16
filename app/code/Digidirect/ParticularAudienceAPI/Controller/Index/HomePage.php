@@ -8,7 +8,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-class TestRecommendation extends Action implements HttpPostActionInterface {
+class HomePage extends Action implements HttpPostActionInterface {
     
     protected $_resultJsonFactory;
 
@@ -54,7 +54,7 @@ class TestRecommendation extends Action implements HttpPostActionInterface {
             $customerIdParam = "";
         }
 
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/home-page-pa&expandProductDetails=true".$customerIdParam;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true".$customerIdParam;
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
