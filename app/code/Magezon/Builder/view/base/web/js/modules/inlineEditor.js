@@ -26,7 +26,8 @@ define(["jquery", "angular"], function ($, angular) {
                 ngModel.$render = function () {
                     element.html(
                         magezonBuilderFilter.encodeContent(
-                            ngModel.$viewValue
+                            ngModel.$viewValue,
+                            true
                         ) || ""
                     );
                 };
@@ -47,7 +48,7 @@ define(["jquery", "angular"], function ($, angular) {
                             config,
                             function (value) {
                                 ngModel.$setViewValue(
-                                    magezonBuilderFilter.decodeContent(value)
+                                    magezonBuilderFilter.decodeContent(magezonBuilderFilter.convertImageToDirective(value))
                                 );
                             }
                         );

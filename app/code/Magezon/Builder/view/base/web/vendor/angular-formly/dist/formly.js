@@ -1886,6 +1886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var superWrapper = _angularFix2['default'].element('<a></a>'); // this allows people not have to have a single root in wrappers
 	    superWrapper.append(wrapper);
 	    var transcludeEl = superWrapper.find('formly-transclude');
+	    //console.log(superWrapper.find('div[formly-transclude]'));
 	    if (!transcludeEl.length) {
 	      // try it using our custom find function
 	      transcludeEl = formlyUtil.findByNodeName(superWrapper, 'formly-transclude');

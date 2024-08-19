@@ -17,12 +17,13 @@ define([
 
         self.initTinymce = function (id, config, onChange, onInit) {
             $timeout(function () {
-                self.setupTinymce5(id, config, onChange, onInit);
-                // if (self.wysiwyg.tinymce4) {
-                // 	self.setupTinymce4(id, config, onChange, onInit);
-                // } else {
-                // 	self.setupTinymce3(id, config, onChange, onInit);
-                // }
+                if (self.wysiwyg.tinymce4) {
+                	self.setupTinymce4(id, config, onChange, onInit);
+                } else if (self.wysiwyg.tinymce5) {
+                	self.setupTinymce5(id, config, onChange, onInit);
+                } else {
+                	self.setupTinymce3(id, config, onChange, onInit);
+                }
             }, 100);
         };
         self.setupTinymce5 = function (id, config, onChange, onInit) {
@@ -35,7 +36,6 @@ define([
                     var deferred;
 
                     self.addPluginToToolbar(config, plugin.name, "|");
-
                     if (!plugin.src) {
                         return;
                     }
@@ -75,23 +75,19 @@ define([
          * @param {String} separator
          */
         self.addPluginToToolbar = function (config, plugin, separator) {
-            var plugins = config.tinymce.plugins
-                    .replace("magentowidget", "")
-                    .split(" "),
-                toolbar = config.tinymce.toolbar
-                    .replace("magentowidget", "")
-                    .split(" ");
+            var plugins = config.tinymce.plugins.split(' '),
+                toolbar = config.tinymce.toolbar.split(' ');
 
             if (plugins.indexOf(plugin) === -1) {
                 plugins.push(plugin);
             }
 
             if (toolbar.indexOf(plugin) === -1) {
-                toolbar.push(separator || "", plugin);
+                toolbar.push(separator || '', plugin);
             }
 
-            config.tinymce.plugins = plugins.join(" ");
-            config.tinymce.toolbar = toolbar.join(" ");
+            config.tinymce.plugins = plugins.join(' ');
+            config.tinymce.toolbar = toolbar.join(' ');
         };
 
         self.getTinymce5Settings = function (id, config, onChange, onInit) {
@@ -259,6 +255,7 @@ define([
                 verify_html: false,
                 menubar: false,
                 adapter: this,
+                content_css: config.tinymce4.content_css,
                 setup: function (editor) {
                     editor.on("BeforeSetContent", function (evt) {
                         if (evt.content) {
@@ -319,7 +316,7 @@ define([
 
             var plugins = [];
             //var plugins = config.plugins ? config.plugins.split(' ') : [];
-            var toolbar = config.plugins ? config.toolbar.split(" ") : [];
+            var toolbar = config.tinymce4.toolbar ? config.tinymce4.toolbar.split(" ") : [];
 
             if (config.plugins) {
                 config.plugins.forEach(function (plugin) {

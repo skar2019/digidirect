@@ -9,12 +9,15 @@
 //  _____________________________________________
 
 @active-nav-indent: 54px;
-
 //
 //  Common
 //  _____________________________________________
 
 & when (@media-common = true) {
+    
+    .nav-sections-item-content>.navigation {
+        display: none !important;
+    }
 
     .ninjamenus1-drilldown-container{
         width: 100%;

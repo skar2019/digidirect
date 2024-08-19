@@ -16,21 +16,15 @@ namespace Magezon\Newsletter\Block;
 
 class Subscribe extends \Magento\Framework\View\Element\Template
 {
-    /**
-     * @var string
-     */
     protected $_id;
 
-    /**
-     * @var string
-     */
     protected $_template = 'Magezon_Newsletter::subscriber.phtml';
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magezon\Core\Helper\Data $coreHelper
-     * @param array $data
+     * @var \Magezon\Core\Helper\Data
      */
+    protected $coreHelper;
+
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magezon\Core\Helper\Data $coreHelper,
@@ -94,15 +88,13 @@ class Subscribe extends \Magento\Framework\View\Element\Template
         $styles['height'] = $this->coreHelper->getStyleProperty($this->getData('height'));
         $styles['font-size'] = $this->coreHelper->getStyleProperty($this->getData('font_size'));
         $styleHtml .= $this->coreHelper->getStyles(
-            ['.' . $this->getHtmlId() . ' .mgz-newsletter-btn', '.' . $this->getHtmlId() . ' input'],
+            ['.' . $this->getHtmlId() . ' .mgz-newsletter-btn',
+                '.' . $this->getHtmlId() . ' input'],
             $styles
         );
         return $styleHtml;
     }
 
-    /**
-     * @return string
-     */
     public function getHtmlId()
     {
         if ($this->_id == null) {

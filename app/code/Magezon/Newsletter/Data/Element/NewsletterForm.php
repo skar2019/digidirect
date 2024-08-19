@@ -416,7 +416,7 @@ class NewsletterForm extends \Magezon\Builder\Data\Element\AbstractElement
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getLayoutTypeOptions()
     {

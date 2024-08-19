@@ -72,16 +72,16 @@ class ProductList
     protected $stockHelper;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface                     $storeManager             
-     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory 
-     * @param \Magento\Catalog\Model\Product\Visibility                      $catalogProductVisibility 
-     * @param \Magento\Catalog\Model\Config                                  $catalogConfig            
-     * @param \Magento\CatalogWidget\Model\Rule                              $rule                     
-     * @param \Magento\Rule\Model\Condition\Sql\Builder                      $sqlBuilder               
-     * @param \Magento\Framework\App\ResourceConnection                      $resource                 
-     * @param \Magento\Reports\Model\Event\TypeFactory                       $eventTypeFactory         
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface           $localeDate               
-     * @param \Magento\Widget\Helper\Conditions                              $conditionsHelper         
+     * @param \Magento\Store\Model\StoreManagerInterface                     $storeManager
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility                      $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config                                  $catalogConfig
+     * @param \Magento\CatalogWidget\Model\Rule                              $rule
+     * @param \Magento\Rule\Model\Condition\Sql\Builder                      $sqlBuilder
+     * @param \Magento\Framework\App\ResourceConnection                      $resource
+     * @param \Magento\Reports\Model\Event\TypeFactory                       $eventTypeFactory
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface           $localeDate
+     * @param \Magento\Widget\Helper\Conditions                              $conditionsHelper
      * @param \Magento\CatalogInventory\Helper\Stock                         $stockHelper
      */
     public function __construct(
@@ -122,10 +122,10 @@ class ProductList
         if ($conditions) {
             $conditions = $this->conditionsHelper->decode($conditions);
             foreach ($conditions as $key => $condition) {
-                    if (!empty($condition['attribute'])
+                if (!empty($condition['attribute'])
                         && in_array($condition['attribute'], ['special_from_date', 'special_to_date'])
                     ) {
-                        $conditions[$key]['value'] = date('Y-m-d H:i:s', strtotime($condition['value']));
+                    $conditions[$key]['value'] = date('Y-m-d H:i:s', strtotime($condition['value']));
                 }
             }
             $this->rule->loadPost(['conditions' => $conditions]);
@@ -137,57 +137,57 @@ class ProductList
 
         switch ($source) {
             case 'latest':
-            $collection->getSelect()->order('created_at DESC');
-            break;
+                $collection->getSelect()->order('created_at DESC');
+                break;
 
             case 'new':
-            $this->_getNewProductCollection($collection);
-            break;
+                $this->_getNewProductCollection($collection);
+                break;
 
             case 'bestseller':
-            $this->_getBestSellerProductCollection($collection, $store->getId());
-            break;
+                $this->_getBestSellerProductCollection($collection, $store->getId());
+                break;
 
             case 'onsale':
-            $this->_getOnsaleProductCollection($collection, $store->getId());
-            break;
+                $this->_getOnsaleProductCollection($collection, $store->getId());
+                break;
 
             case 'mostviewed':
-            $this->_getMostViewedProductCollection($collection, $store->getId());
-            break;
+                $this->_getMostViewedProductCollection($collection, $store->getId());
+                break;
 
             case 'wishlisttop':
-            $this->_getWishlisttopProductCollection($collection, $store->getId());
-            break;
+                $this->_getWishlisttopProductCollection($collection, $store->getId());
+                break;
 
             case 'free':
-            $collection->getSelect()->where('price_index.price = ?', 0);
-            $collection->addAttributeToFilter('type_id', [
+                $collection->getSelect()->where('price_index.price = ?', 0);
+                $collection->addAttributeToFilter('type_id', [
                 'in' => [
                     \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                     \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
                     \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ]
-            ]);
-            break;
+                ]);
+                break;
 
             case 'featured':
-            $collection->addAttributeToFilter('featured', ['eq' => 1]);
-            break;
+                $collection->addAttributeToFilter('featured', ['eq' => 1]);
+                break;
 
             case 'toprated':
-            $this->_getTopRatedProductCollection($collection, $store->getId());
-            break;
+                $this->_getTopRatedProductCollection($collection, $store->getId());
+                break;
 
             case 'random':
-            $collection->getSelect()->order('RAND()');
-            break;
+                $collection->getSelect()->order('RAND()');
+                break;
         }
 
         if ($order!='default') {
             switch ($order) {
                 case 'alphabetically':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->setOrder('name', 'ASC');
                     // usort($items, function($a, $b) {
                     //     return $a['name'] > $b['name'];
@@ -195,7 +195,7 @@ class ProductList
                     break;
 
                 case 'price_low_to_high':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->setOrder('price', 'ASC');
                     // usort($items, function($a, $b) {
                     //     return $a['price'] > $b['price'];
@@ -203,7 +203,7 @@ class ProductList
                     break;
 
                 case 'price_high_to_low':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->setOrder('price', 'DESC');
                     // usort($items, function($a, $b) {
                     //     return $a['price'] < $b['price'];
@@ -211,12 +211,12 @@ class ProductList
                     break;
 
                 case 'random':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->getSelect()->order('RAND()');
                     break;
 
                 case 'newestfirst':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->setOrder('entity_id', 'DESC');
                     // usort($items, function($a, $b) {
                     //     $aval = strtotime($a['created_at']);
@@ -229,7 +229,7 @@ class ProductList
                     break;
 
                 case 'oldestfirst':
-                    $collection->getSelect()->reset(\Zend_Db_Select::ORDER);
+                    $collection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
                     $collection->setOrder('entity_id', 'ASC');
                     // usort($items, function($a, $b) {
                     //     $aval = strtotime($a['created_at']);
@@ -265,7 +265,7 @@ class ProductList
             'at_review.store_id=' . (int) $storeId,
             'review > 0',
             'left'
-            );
+        );
         $collection->getSelect()->order(['review DESC', 'e.created_at']);
     }
 
@@ -298,10 +298,9 @@ class ProductList
                 ['attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null')],
             ]
         )->addAttributeToSort(
-                'news_from_date',
-                'desc'
+            'news_from_date',
+            'desc'
         );
-
     }
 
     protected function _getBestSellerProductCollection($collection, $storeId)
@@ -311,8 +310,8 @@ class ProductList
                 [
                     'aggregation' => $this->_resource->getTableName('sales_bestsellers_aggregated_monthly'),
                 ],
-                    "e.entity_id = aggregation.product_id AND aggregation.store_id={$storeId} AND qty_ordered >0",
-                [   
+                "e.entity_id = aggregation.product_id AND aggregation.store_id={$storeId} AND qty_ordered >0",
+                [
                     'sold_quantity' => 'SUM(aggregation.qty_ordered)'
                 ]
             )->group(
@@ -325,30 +324,18 @@ class ProductList
 
     protected function _getWishlisttopProductCollection($collection, $storeId)
     {
-        $eventTypes = $this->_eventTypeFactory->create()->getCollection();
-        foreach ($eventTypes as $eventType) {
-            if ($eventType->getEventName() == 'wishlist_add_product') {
-                $wishlistEvent = (int)$eventType->getId();
-                break;
-            }
-        }
-
         $collection->getSelect()
         ->join(
             [
-                'report_table_views' => $this->_resource->getTableName('report_event'),
+                'wi' => $this->_resource->getTableName('wishlist_item'),
             ],
-                'e.entity_id = report_table_views.object_id AND report_table_views.event_type_id = ' . $wishlistEvent,
+            'e.entity_id = wi.product_id',
             [
-                'views' => 'COUNT(report_table_views.event_id)'
+                'count' => 'COUNT(wi.wishlist_item_id)'
             ]
         )
         ->group('e.entity_id')
-        ->order(['views DESC'])
-        ->having(
-            'COUNT(report_table_views.event_id) > ?',
-            0
-        );
+        ->order(['count DESC']);
     }
 
     protected function _getMostViewedProductCollection($collection, $storeId)
@@ -366,7 +353,7 @@ class ProductList
             [
                 'report_table_views' => $this->_resource->getTableName('report_event'),
             ],
-                'e.entity_id = report_table_views.object_id AND report_table_views.event_type_id = ' . $productViewEvent,
+            'e.entity_id = report_table_views.object_id AND report_table_views.event_type_id = ' . $productViewEvent,
             [
                 'views' => 'COUNT(report_table_views.event_id)'
             ]

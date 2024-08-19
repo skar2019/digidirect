@@ -28,7 +28,7 @@ define([
             });
         },
 
-        ajaxSubmit: function (form) {
+        ajaxSubmit: function(form) {
             form.addClass('loading');
             form.find('button').attr('disabled', 'disabled');
             var self = this;
@@ -38,7 +38,7 @@ define([
                 data: $(form).serialize(),
                 type: 'post',
                 dataType: 'json',
-                success: function (res) {
+                success: function(res) {
                     form.find('button').removeAttr('disabled', 'disabled');
                     form.removeClass('loading');
                     form.parent().children('.mgz-newsletter-message').remove();
@@ -52,7 +52,7 @@ define([
                             data: data,
                             type: 'post',
                             dataType: 'json',
-                            success: function (res) {
+                            success: function(res) {
                                 if (res.status) {
 
                                 }

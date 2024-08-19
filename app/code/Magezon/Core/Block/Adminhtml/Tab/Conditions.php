@@ -14,9 +14,10 @@
 
 namespace Magezon\Core\Block\Adminhtml\Tab;
 
-use Magento\Ui\Component\Layout\Tabs\TabInterface;
 use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Block\Widget\Form\Renderer\Fieldset;
 use Magento\Framework\App\ObjectManager;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 class Conditions extends Generic implements TabInterface
 {
@@ -50,6 +51,7 @@ class Conditions extends Generic implements TabInterface
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Rule\Block\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
+     * @param \Magento\SalesRule\Model\RuleFactory $ruleFactory
      * @param array $data
      */
     public function __construct(
@@ -58,10 +60,12 @@ class Conditions extends Generic implements TabInterface
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
+        \Magento\SalesRule\Model\RuleFactory $ruleFactory,
         array $data = []
     ) {
-        $this->rendererFieldset = $rendererFieldset;
         $this->conditions = $conditions;
+        $this->rendererFieldset = $rendererFieldset;
+        $this->ruleFactory = $ruleFactory;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -203,7 +207,8 @@ class Conditions extends Generic implements TabInterface
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
-        $renderer = $this->rendererFieldset->setTemplate(
+        $renderer = $this->getLayout()->createBlock(Fieldset::class);
+        $renderer->setTemplate(
             'Magento_CatalogRule::promo/fieldset.phtml'
         )->setNewChildUrl(
             $newChildUrl
@@ -216,7 +221,7 @@ class Conditions extends Generic implements TabInterface
             [
                 'legend' => __(
                     'Apply the rule only if the following conditions are met (leave blank for all products).'
-                )
+                ),
             ]
         )->setRenderer(
             $renderer
@@ -229,7 +234,7 @@ class Conditions extends Generic implements TabInterface
                 'label' => __('Conditions'),
                 'title' => __('Conditions'),
                 'required' => true,
-                'data-form-part' => $formName
+                'data-form-part' => $formName,
             ]
         )->setRule(
             $model

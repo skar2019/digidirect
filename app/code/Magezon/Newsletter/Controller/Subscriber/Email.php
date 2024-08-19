@@ -33,9 +33,6 @@ class Email extends \Magento\Framework\App\Action\Action
         $this->subscriberFactory = $subscriberFactory;
     }
 
-    /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
-     */
     public function execute()
     {
         $result['status'] = false;
@@ -55,11 +52,11 @@ class Email extends \Magento\Framework\App\Action\Action
                     $result['status'] = true;
                 }
             } catch (\Exception $e) {
-                $result['status'] = false;
             }
         }
         $this->getResponse()->representJson(
             $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
         );
+        return;
     }
 }
