@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "104ea19ec84ec9cda871152e56190d1d",
+    "content-hash": "b5693460864bbc287eeb90d044314cc5",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -19042,6 +19042,70 @@
             "description": "Product price data exporter"
         },
         {
+            "name": "magento/module-product-recommendations-admin",
+            "version": "6.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-product-recommendations-admin/magento-module-product-recommendations-admin-6.0.2.0.zip",
+                "shasum": "a882114301bd383dadc819d25b8e7776f2400ec0"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0.0||^7.3.0",
+                "magento/framework": ">=103.0.4 <104.0.0",
+                "magento/module-backend": ">=102.0.0 <103.0.0",
+                "magento/module-catalog": ">=103.0.0 <105.0.0",
+                "magento/module-store": ">=101.0.0 <101.2.0",
+                "magento/services-id": "^3.1.2",
+                "php": "~8.1.0||~8.2.0||~8.3.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ProductRecommendationsAdmin\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Product Recommendations admin interface."
+        },
+        {
+            "name": "magento/module-product-recommendations-layout",
+            "version": "6.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-product-recommendations-layout/magento-module-product-recommendations-layout-6.0.2.0.zip",
+                "shasum": "e2637b43280c93ccb36ee54c6e61d277e881f027"
+            },
+            "require": {
+                "magento/data-services": "^7.3.1",
+                "magento/framework": ">=102.0.0 <104.0.0",
+                "magento/module-catalog": ">=103.0.0 <105.0.0",
+                "magento/module-product-recommendations-admin": "^6.0.2",
+                "magento/module-services-id": "^3.1.2",
+                "magento/module-store": ">=101.0.0 <101.2.0",
+                "php": "~8.1.0||~8.2.0||~8.3.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ProductRecommendationsLayout\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Product Recommendations storefront layout."
+        },
+        {
             "name": "magento/module-product-variant-data-exporter",
             "version": "103.3.9",
             "dist": {
@@ -24536,6 +24600,71 @@
                 "proprietary"
             ],
             "description": "eCommerce Platform for Growth (Enterprise Edition)"
+        },
+        {
+            "name": "magento/product-recommendations",
+            "version": "6.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/product-recommendations/magento-product-recommendations-6.0.2.0.zip",
+                "shasum": "9e4958a44693bfa5f6d70c2e72b6c0e804ae7b45"
+            },
+            "require": {
+                "magento/module-bundle-product-data-exporter": "^103.0.0",
+                "magento/module-bundle-product-override-data-exporter": "^103.0.0",
+                "magento/module-catalog-inventory-data-exporter": "^103.0.0",
+                "magento/module-catalog-url-rewrite-data-exporter": "^103.0.0",
+                "magento/module-configurable-product-data-exporter": "^103.0.0",
+                "magento/module-gift-card-product-data-exporter": "^103.0.0",
+                "magento/module-parent-product-data-exporter": "^103.0.0",
+                "magento/module-product-recommendations-layout": "^6.0.2",
+                "magento/module-saas-catalog": "^103.0.0",
+                "magento/module-saas-common": "^103.0.0",
+                "magento/module-saas-price": "^103.0.0",
+                "magento/module-saas-product-override": "^103.0.0",
+                "magento/module-saas-scopes": "^103.0.0",
+                "magento/product-recommendations-admin": "^6.0.2",
+                "php": "~8.1.0||~8.2.0||~8.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.5.0"
+            },
+            "suggest": {
+                "magento/module-page-builder-product-recommendations": "Enable Product Recommendations for PageBuilder. Supported in Magento Commerce 2.4.4 and later.",
+                "magento/module-visual-product-recommendations": "Enable Visual Product Recommendations."
+            },
+            "type": "metapackage",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Product Recommendations metapackage"
+        },
+        {
+            "name": "magento/product-recommendations-admin",
+            "version": "6.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/product-recommendations-admin/magento-product-recommendations-admin-6.0.2.0.zip",
+                "shasum": "2d94a4937cc76b1e71e4f61eb845fe8d683cf8ce"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0.0||^7.3.0",
+                "magento/framework": ">=102.0.0 <104.0.0",
+                "magento/module-catalog-sync-admin": "^3.0.0",
+                "magento/module-product-recommendations-admin": "6.0.2",
+                "magento/services-id": "^3.1.2",
+                "php": "~8.1.0||~8.2.0||~8.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.5.0"
+            },
+            "type": "metapackage",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Product Recommendations Admin metapackage"
         },
         {
             "name": "magento/quality-patches",
@@ -30660,5 +30789,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
