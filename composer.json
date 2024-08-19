@@ -25,6 +25,7 @@
         "magento/extension-b2b": "^1.3",
         "magento/live-search": "^4.2",
         "magento/magento-cloud-metapackage": "2.4.4",
+        "magento/product-recommendations": "^6.0",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
         "swissup/attributepages": "^1.5",
         "swissup/delete-orders": "^1.2",
