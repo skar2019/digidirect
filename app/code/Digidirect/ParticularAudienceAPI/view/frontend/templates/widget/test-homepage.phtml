@@ -169,9 +169,11 @@ require(['jquery'], function ($) {
                                 '</button>' +
                             '</form>'
             }
-            
+            console.log(product.name, sellerName);
             if (!isDigiSeconds) {
-                if (sellerName != "20329" && (sellerName != "" || !!sellerName)) {
+                if (sellerName != "20329") {
+                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                } else if (sellerName == '' || !sellerName) {
                     digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
                 } else {
                     digiDealsLogo = '';
