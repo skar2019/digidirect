@@ -13,8 +13,6 @@ define([
         },
 
         decreaseQty: function() {
-            
-            
             var newQty = this.qty() - 1;
             if (newQty < 1) {
                 newQty = 1;
@@ -23,14 +21,16 @@ define([
         },
 
         increaseQty: function() {
+            
             var cartTotalQty = Number($('#cart-total-qty').html());
                 
-            if (cartTotalQty >= 10) {
+            if (cartTotalQty + this.qty() >= 10) {
                 alert("Cart quantity limit reached!");
             } else {
                 var newQty = this.qty() + 1;
                 return this.qty(newQty);
             }
+            
         }
 
     });
