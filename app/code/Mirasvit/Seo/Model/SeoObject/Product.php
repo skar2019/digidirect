@@ -232,9 +232,11 @@ class Product extends \Mirasvit\Seo\Model\SeoObject\AbstractObject
             if ($productMetaDescription) {
                 $this->setMetaDescription($this->parse($productMetaDescription));
             } elseif ($this->product->getDescription()) {
-                $this->setMetaDescription($this->string->substr($this->product->getDescription(), 0, 255));
+                $desc = "Shop ".$this->product->getName()." online at digiDirect - the camera, computer & electrical experts. Afterpay Available.";
+                $this->setMetaDescription($this->string->substr($desc, 0, 255));
             } else {
-                $this->setMetaDescription($this->product->getName());
+                $desc = "Shop ".$this->product->getName()." online at digiDirect - the camera, computer & electrical experts. Afterpay Available.";
+                $this->setMetaDescription($desc);
             }
         }
     }

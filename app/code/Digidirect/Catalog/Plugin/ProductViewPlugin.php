@@ -30,7 +30,7 @@ class ProductViewPlugin
                 // Set the product name as the meta description
                 $productName = $product->getName();
                 $Title = "Buy ".$productName. " | digiDirect";
-                $this->pageConfig->setTitle($Title);
+                $this->pageConfig->setMetaTitle($Title);
             }
 
             // Check if the meta description is empty
