@@ -1,7 +1,8 @@
 define([
+    'jquery',
     'ko',
     'uiComponent'
-], function (ko, Component) {
+], function ($, ko, Component) {
     'use strict';
 
     return Component.extend({
@@ -12,6 +13,8 @@ define([
         },
 
         decreaseQty: function() {
+            
+            
             var newQty = this.qty() - 1;
             if (newQty < 1) {
                 newQty = 1;
@@ -20,8 +23,14 @@ define([
         },
 
         increaseQty: function() {
-            var newQty = this.qty() + 1;
-            return this.qty(newQty);
+            var cartTotalQty = Number($('#cart-total-qty').html());
+                
+            if (cartTotalQty >= 10) {
+                alert("Cart quantity limit reached!");
+            } else {
+                var newQty = this.qty() + 1;
+                return this.qty(newQty);
+            }
         }
 
     });
