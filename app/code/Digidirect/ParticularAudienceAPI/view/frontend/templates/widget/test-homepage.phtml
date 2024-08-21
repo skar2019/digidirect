@@ -171,10 +171,8 @@ require(['jquery'], function ($) {
             }
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
-                if (sellerName != "20329") {
+                if (sellerName != "20329" && (sellerName !== undefined) {
                     digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
-                } else if (sellerName === undefined || sellerName === null) {
-                    digiDealsLogo = '';
                 } else {
                     digiDealsLogo = '';
                 }
