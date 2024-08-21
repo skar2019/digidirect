@@ -140,6 +140,9 @@ require(['jquery'], function ($) {
             
             sellerName = seller.stringValue;
             
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+            
             if (categories.options[0].value == "PRELOVED") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
             } else if (categories.options[0].value == "OPENBOX") {
@@ -167,12 +170,17 @@ require(['jquery'], function ($) {
                             '</form>'
             }
             
-            if (product.prices[0].discountPrice) {
-                
-                if (sellerName == "20329") {
-                    digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
-                } else {
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName != "") {
                     digiDealsLogo = '<div class="online-only"><span style="color: #F15923;">Online </span>Only</div>';
+                } else {
+                    digiDealsLogo = '';
+                }
+            }
+            
+            if (product.prices[0].discountPrice) {
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
