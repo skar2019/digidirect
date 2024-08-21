@@ -171,7 +171,7 @@ require(['jquery'], function ($) {
             }
             
             if (!isDigiSeconds) {
-                if (sellerName != "20329" && sellerName != "") {
+                if (sellerName != "20329" && (sellerName != "" || !!sellerName)) {
                     digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
                 } else {
                     digiDealsLogo = '';
