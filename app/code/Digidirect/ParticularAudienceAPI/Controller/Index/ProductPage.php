@@ -29,8 +29,7 @@ class ProductPage extends Action implements HttpPostActionInterface {
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
-        \Magento\Framework\Registry $registry,
-        array $data = []
+        \Magento\Framework\Registry $registry
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
@@ -38,7 +37,6 @@ class ProductPage extends Action implements HttpPostActionInterface {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
     }
 
     /**
