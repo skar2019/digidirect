@@ -207,14 +207,6 @@ require(['jquery'], function ($) {
             
             let hideProductItem = "";
             productItem = '<div class="product-item-info product-item ' + hideProductItem + '">' +
-                            '<div class="wish-list-wrapper" data-role="add-to-links">' +
-                                '<a href="#"' +
-                                'data-post=""' +
-                                'class="action towishlist" data-action="add-to-wishlist"' +
-                                'title="Add to Wish List">' +
-                                '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
-                                '</a>' +
-                            '</div>' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
                                     '<input type="checkbox" data-product-id="'+ product.refId +'" data-product-price="'+ finalPrice +'" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>' +
@@ -401,7 +393,8 @@ require(['jquery'], function ($) {
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     digiMarketSidePanel('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-side-panel');
-    frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with');
+    frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
+    frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-mobile');
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-mobile', true);
     productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-desktop', false);
