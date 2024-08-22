@@ -15,7 +15,7 @@
                    name="pa.digimarket.widget" 
                    template="Digidirect_ParticularAudienceAPI::pa-digimarket-widget.phtml" 
                    before="-" />
-            <block class="Digidirect\ParticularAudienceAPI\Block\PdpFrequentlyBoughtWith" 
+            <block class="Magento\Framework\View\Element\Template" 
                    name="pa.frequently.bought.with" 
                    template="Digidirect_ParticularAudienceAPI::pa-frequently-bought-with.phtml" 
                    before="-" />
