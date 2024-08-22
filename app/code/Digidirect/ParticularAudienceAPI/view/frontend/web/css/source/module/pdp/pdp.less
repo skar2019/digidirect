@@ -405,6 +405,41 @@ and open the template in the editor.
         font-size: 17px;
         color: #ff3c00;
     }
+    
+    .pdp-frquently-bought-with .title {
+        color: #fff !important;
+    }
+
+    .pa-select-all-checkbox-container {
+        display: block !important;
+        color: #fff !important;
+    }
+
+    #pdp-frquently-bought-with-desktop {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        column-gap: 15px;
+    }
+
+    .pdp-frquently-bought-with {
+        background-color: #ff3c00 !important;
+        margin: 0 -9999rem !important;
+        padding: 2rem 9999rem 3rem !important;
+    }
+
+    #pdp-frquently-bought-with-desktop .product-item-info.product-item:nth-child(5) {
+        display: none;
+    }
+
+    .product-item-info .pa-select-all-checkbox-container {
+        display: none !important;
+    }
+
+    .product-item-info.product-item.pa-bundle-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
 }
 
 @media only screen and (max-width: 1280px) {
