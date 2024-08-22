@@ -297,6 +297,26 @@ and open the template in the editor.
         color: #ff3c00;
     }
     
+    .product-widget-header .pa-checkbox-label input:checked~span:after {
+        display: block;
+    }
+    
+    .product-widget-header .pa-checkbox-label span:after {
+        font-family: Font Awesome\ 5 Free;
+        content: "\F00C";
+        position: absolute;
+        display: none;
+        right: 2px;
+        top: 5px;
+        font-size: 12px;
+        font-weight: 900;
+        color: #fff;
+    }
+    
+    .product-widget-header .pa-select-all-pa-checkbox-label span:after {
+        color: #ff3c00 !important;
+    }
+    
     .pdp-frquently-bought-with .product-item-info.product-item:hover {
         box-shadow: unset !important;
         transform: unset !important;

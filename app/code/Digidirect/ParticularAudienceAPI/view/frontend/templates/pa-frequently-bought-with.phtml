@@ -1,7 +1,7 @@
 
 <div style="display: none;">
     <div class="pa-digidirect-product-widget pdp-frquently-bought-with">
-        <div class="product-widget-header pa-bundle-container">
+        <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Frequently Bought With</h3>
             <div class="pa-checkbox-container pa-select-all-checkbox-container" style="display: none;">
                 <span class="pa-select-all-label-text">Select All</span>
@@ -99,6 +99,7 @@
         $(".pa-bundle-product").change(function() {
             var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
             var bundleProductPrice = Number($(this).attr("data-product-price"));
+            console.log(bundleTotal, bundleProductPrice);
             if(this.checked) {
                 var newBundleTotal = bundleTotal + bundleProductPrice;
             } else {
