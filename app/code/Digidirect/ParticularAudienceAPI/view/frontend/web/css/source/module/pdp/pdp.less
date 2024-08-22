@@ -176,7 +176,6 @@ and open the template in the editor.
     }
     
     .digimarket-discover-more-widget {
-        margin-right: 15px;
         margin-left: auto;
         margin-top: 15px;
         margin-bottom: 10px;
@@ -306,6 +305,63 @@ and open the template in the editor.
     #pa-digimarket-side-panel .product-item-info:nth-child(1n+5) {
         display: none;
     }
+    
+    .pa-digidirect-product-widget .product-item .price-box {
+        border: 1px solid #4e4e4e;
+        border-radius: 5px;
+        padding: 0;
+        margin-bottom: 10px !important;
+        position: relative;
+        min-height: 67px;
+    }
+
+    .digidirectprice {
+        display: none !important;
+    }
+
+    .pa-digidirect-product-widget .discount-price-wrapper {
+        display: block !important;
+        margin-top: 2px;
+    }
+
+    .pa-digidirect-product-widget .desktop-widget .product-item-info.product-item:nth-child(1n+6) {
+        display: none;
+    }
+    
+    .old-price .price-label {
+        margin-right: 5px;
+    }
+    
+    .product-item-info.product-item .loader {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border-top: 3px solid #cacaca;
+        border-right: 3px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        margin: 65% auto;
+    }
+
+    #pa-digimarket-side-panel .product-item-info.product-item .loader {
+        width: 30px;
+        height: 30px;
+        margin: 70% auto;
+    }
+    
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    } 
 
 }
 
