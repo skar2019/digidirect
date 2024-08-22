@@ -48,16 +48,16 @@ class ProductPage extends Action implements HttpPostActionInterface {
     {
         $result = $this->_resultJsonFactory->create();
         $customerId = $this->getRequest()->getParam('customerId');
-        //$currentProductId = $this->_registry->registry('current_product')->getId();
+        $productId = $this->getRequest()->getParam('productId');
         
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
         
-        /*if ($currentProductId) {
-            $refIdParam = "&refId=".$currentProductId;
+        if ($productId) {
+            $refIdParam = "&refId=".$productId;
         } else {
             $refIdParam = "";
-        }*/
+        }
         
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
@@ -65,7 +65,7 @@ class ProductPage extends Action implements HttpPostActionInterface {
             $customerIdParam = "";
         }
 
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=true".$customerIdParam;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-products-pdp&expandProductDetails=true".$refIdParam.$customerIdParam;
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);

@@ -1,5 +1,6 @@
 <?php
     use Magento\Framework\App\Action\Action;
+    $productId = $block->getCurrentProduct()->getId();
 ?>
 <script>
     
@@ -22,7 +23,8 @@ require(['jquery'], function ($) {
         url: "https://www.digidirect.com.au/particularaudienceapi/index/productpage", //getRecommendationsUrl,
         type: "POST",
         data: {
-            customerId: customerId
+            customerId: customerId,
+            productId: <?= $productId; ?>
         },
         success: function(data){
             result = data;
