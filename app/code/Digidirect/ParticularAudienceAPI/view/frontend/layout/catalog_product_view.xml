@@ -19,6 +19,10 @@
                    name="pa.frequently.bought.with" 
                    template="Digidirect_ParticularAudienceAPI::pa-frequently-bought-with.phtml" 
                    before="-" />
+            <block class="Magento\Framework\View\Element\Template" 
+                   name="pa.also.viewed.widget" 
+                   template="Digidirect_ParticularAudienceAPI::pa-also-viewed-widget.phtml" 
+                   before="-" />
         </referenceContainer>
     </body>
 </page>
