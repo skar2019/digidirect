@@ -48,7 +48,7 @@ class ProductPage extends Action implements HttpPostActionInterface {
     {
         $result = $this->_resultJsonFactory->create();
         $customerId = $this->getRequest()->getParam('customerId');
-        $currentProductId = $this->getCurrentProduct()->getId();
+        $currentProductId = $this->_registry->registry('current_product')->getId();
         
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
@@ -76,9 +76,5 @@ class ProductPage extends Action implements HttpPostActionInterface {
 
         $result->setData($getRecommendationsResultJson);
         return $result;
-    }
-    
-    public function getCurrentProduct(){         
-        return $this->_registry->registry('current_product');
     }
 }
