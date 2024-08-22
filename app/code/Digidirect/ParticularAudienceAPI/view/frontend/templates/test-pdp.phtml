@@ -460,6 +460,67 @@ require(['jquery'], function ($) {
     
 </script>
 
+<script>
+    require(['jquery'], function ($) {
+
+        $(".select-all-products-on-bundle").change(function() {
+            if(this.checked) {
+                $('.pa-bundle-product').each(function(){
+                    if (!$(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            } else {
+                $('.pa-bundle-product').each(function(){
+                    if ($(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            }
+        });
+        
+        $(".pa-bundle-product").change(function() {
+            var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
+            var bundleProductPrice = Number($(this).attr("data-product-price"));
+            console.log(bundleTotal, bundleProductPrice);
+            if(this.checked) {
+                var newBundleTotal = bundleTotal + bundleProductPrice;
+            } else {
+                var newBundleTotal = bundleTotal - bundleProductPrice;
+            }
+            $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
+        });
+        
+        $("#add-bundle-tocart").click(function(){
+            
+            var productIds = [];
+            
+            $('.pa-bundle-product').each(function(){
+                if(this.checked) {
+                    console.log("data-product-id: " + $(this).attr("data-product-id"));
+                    productIds.push($(this).attr("data-product-id"));
+                }
+            });
+            
+            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    productIds: productIds
+                },
+                success: function(data){
+                    console.log("Success!");
+                },
+                error: function(){
+                    console.log("Fail!");
+                }
+            });
+        });
+    });
+</script>
+
 <script type="text/x-magento-init">
 {
     "[data-block='minicart']" : {
