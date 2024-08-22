@@ -20,53 +20,5 @@
         </div>
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('people-who-viewed-this-item-also-viewed');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('people-who-viewed-this-item-also-viewed');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('people-who-viewed-this-item-also-viewed');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
-
-<script>
-    
-    function loadMoreProducts(widgetClass) {
-        var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
-        var ctr = 0;
-        for (let x = 0; x < hiddenTiles.length; x++) {
-          ctr++;
-          hiddenTiles[x].classList.remove('hide-product-item');
-          if (ctr == 4) break;
-        }
-        var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
-        if (hiddenTilesCount.length == 0) {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-             
-            try {
-                document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
-            }
-            catch(err) {
-            }
-        }
-    }
-
-    function viewLessProducts(widgetClass) {
-        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + '.mobile-widget .product-item'); 
-
-        var ctr = 0;
-        for (let x = 0; x < productTiles.length; x++) {
-          ctr++;
-          if (ctr > 4) {
-             productTiles[x].classList.add('hide-product-item');
-          }
-        }
-        
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
-        try {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
-        }
-        catch(err) {
-        }
-        document.getElementById(widgetClass).scrollIntoView();
-
-    }
-    
-</script>
