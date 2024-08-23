@@ -134,7 +134,7 @@ and open the template in the editor.
         margin-top: 22px;
     }
 
-    #pa-digimarket-widget .product-item-info.product-item {
+    /*#pa-digimarket-widget .product-item-info.product-item {
         width: unset !important;
         margin-left: 0;
         margin-right: 15px;
@@ -151,7 +151,7 @@ and open the template in the editor.
         padding: 0;
         margin-bottom: 10px !important;
         position: relative;
-    }
+    }*/
 
     #pa-digimarket-widget .final-price {
         position: absolute !important;
@@ -176,7 +176,6 @@ and open the template in the editor.
     }
     
     .digimarket-discover-more-widget {
-        margin-right: 15px;
         margin-left: auto;
         margin-top: 15px;
         margin-bottom: 10px;
@@ -298,6 +297,26 @@ and open the template in the editor.
         color: #ff3c00;
     }
     
+    .product-widget-header .pa-checkbox-label input:checked~span:after {
+        display: block;
+    }
+    
+    .product-widget-header .pa-checkbox-label span:after {
+        font-family: Font Awesome\ 5 Free;
+        content: "\F00C";
+        position: absolute;
+        display: none;
+        right: 2px;
+        top: 5px;
+        font-size: 12px;
+        font-weight: 900;
+        color: #fff;
+    }
+    
+    .product-widget-header .pa-select-all-pa-checkbox-label span:after {
+        color: #ff3c00 !important;
+    }
+    
     .pdp-frquently-bought-with .product-item-info.product-item:hover {
         box-shadow: unset !important;
         transform: unset !important;
@@ -306,6 +325,63 @@ and open the template in the editor.
     #pa-digimarket-side-panel .product-item-info:nth-child(1n+5) {
         display: none;
     }
+    
+    .pa-digidirect-product-widget .product-item .price-box {
+        border: 1px solid #4e4e4e;
+        border-radius: 5px;
+        padding: 0;
+        margin-bottom: 10px !important;
+        position: relative;
+        min-height: 67px;
+    }
+
+    .digidirectprice {
+        display: none !important;
+    }
+
+    .pa-digidirect-product-widget .discount-price-wrapper {
+        display: block !important;
+        margin-top: 2px;
+    }
+
+    .pa-digidirect-product-widget .desktop-widget .product-item-info.product-item:nth-child(1n+6) {
+        display: none;
+    }
+    
+    .old-price .price-label {
+        margin-right: 5px;
+    }
+    
+    .product-item-info.product-item .loader {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border-top: 3px solid #cacaca;
+        border-right: 3px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        margin: 65% auto;
+    }
+
+    #pa-digimarket-side-panel .product-item-info.product-item .loader {
+        width: 30px;
+        height: 30px;
+        margin: 50% auto;
+    }
+    
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    } 
 
 }
 
@@ -348,6 +424,41 @@ and open the template in the editor.
         margin-bottom: 20px;
         font-size: 17px;
         color: #ff3c00;
+    }
+    
+    .pdp-frquently-bought-with .title {
+        color: #fff !important;
+    }
+
+    .pa-select-all-checkbox-container {
+        display: block !important;
+        color: #fff !important;
+    }
+
+    #pdp-frquently-bought-with-desktop {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        column-gap: 15px;
+    }
+
+    .pdp-frquently-bought-with {
+        background-color: #ff3c00 !important;
+        margin: 0 -9999rem !important;
+        padding: 2rem 9999rem 3rem !important;
+    }
+
+    #pdp-frquently-bought-with-desktop .product-item-info.product-item:nth-child(5) {
+        display: none;
+    }
+
+    .product-item-info .pa-select-all-checkbox-container {
+        display: none !important;
+    }
+
+    .product-item-info.product-item.pa-bundle-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
     }
 }
 

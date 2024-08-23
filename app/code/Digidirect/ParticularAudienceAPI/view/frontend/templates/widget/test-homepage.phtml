@@ -128,16 +128,26 @@ require(['jquery'], function ($) {
             let digiSeconds = "";
             let digiSecondsOverlay = "";
             let digiSecondsRating = "";
+            let sellerName = "";
             
-            let attribute = product.attributes.find(obj => {
+            let categories = product.attributes.find(obj => {
                 return obj.name === 'Categories';
             })
             
-            if (attribute.options[0].value == "PRELOVED") {
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+            
+            sellerName = seller.stringValue;
+            
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+            
+            if (categories.options[0].value == "PRELOVED") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (attribute.options[0].value == "OPENBOX") {
+            } else if (categories.options[0].value == "OPENBOX") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (attribute.options[0].value == "REFURB") {
+            } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
             
@@ -159,9 +169,20 @@ require(['jquery'], function ($) {
                                 '</button>' +
                             '</form>'
             }
+            //console.log(product.name, sellerName);
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                } else {
+                    digiDealsLogo = '';
+                }
+            }
             
             if (product.prices[0].discountPrice) {
-                digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                }
+                
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
@@ -590,7 +611,7 @@ require(['jquery'], function ($) {
 
     }
 
-    function shopDigimarketCatViewAllProducts(viewAllLink) {
+    function viewAllProducts(viewAllLink) {
         window.location.href = viewAllLink;
     }
 </script>
