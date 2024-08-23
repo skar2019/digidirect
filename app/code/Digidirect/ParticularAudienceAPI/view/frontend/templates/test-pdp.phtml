@@ -720,7 +720,6 @@ require(['jquery'], function ($) {
         $("#add-bundle-overlay-tocart").click(function(){
             
             var productIds = [];
-            
             $('.pa-bundle-overlay-product').each(function(){
                 if(this.checked) {
                     console.log("data-product-id: " + $(this).attr("data-product-id"));
