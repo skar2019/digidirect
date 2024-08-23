@@ -2049,6 +2049,7 @@ class Order extends AbstractHelper
             // for redeploy
             $x = 0;
             $producttotal = 0;
+            $gotdigi = 0;
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -2079,7 +2080,6 @@ class Order extends AbstractHelper
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
 
-                $gotdigi = 0;
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
@@ -2114,14 +2114,12 @@ class Order extends AbstractHelper
                     else
                     {
                         $gotdigi = 1;
-                        continue;
                     }
 
                 }
                 else //
                 {
                     $gotdigi = 1;
-                    continue;
 
                 }
 
