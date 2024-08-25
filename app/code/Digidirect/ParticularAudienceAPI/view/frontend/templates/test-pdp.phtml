@@ -700,9 +700,14 @@ require(['jquery'], function ($) {
                 },
                 success: function(data){
                     console.log("Success!");
-                    $('.action.showcart').addClass("-active");
-                    $('#minicartSidebar').addClass("-active");
-                    $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                    $('.minicart-wrapper').on('contentLoading', function (event) {
+                        $('[data-block="minicart"]').on('contentUpdated', function () {
+                            $('.action.showcart').addClass("-active");
+                            $('#minicartSidebar').addClass("-active");
+                            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                            //console.log('jQuery Test On Minicart PHTML');
+                        });
+                    });
                 },
                 error: function(){
                     console.log("Fail!");
