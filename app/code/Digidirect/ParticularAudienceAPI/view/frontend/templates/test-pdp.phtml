@@ -700,6 +700,9 @@ require(['jquery'], function ($) {
                 },
                 success: function(data){
                     console.log("Success!");
+                    $('.action.showcart').addClass("-active");
+                    $('#minicartSidebar').addClass("-active");
+                    $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
                 },
                 error: function(){
                     console.log("Fail!");
