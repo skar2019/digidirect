@@ -557,8 +557,6 @@ require(['jquery'], function ($) {
         });
     }
     
-    
-    
     digiMarketSidePanel('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-side-panel');
     frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
@@ -568,6 +566,27 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
+    
+    // Create a new MutationObserver 
+    const observer = new MutationObserver((mutations) => { 
+        if ($("#pa-minicart-desktop").length) {
+            console.log("MutationObserver!");
+            productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
+            stopMutationObserver();
+        }
+    }); 
+
+    // Configure the observer to watch for changes 
+    const config = { attributes: true, childList: true, subtree: true }; 
+    observer.observe(document.body, config); 
+    
+    function stopMutationObserver() {
+        observer.disconnect(); 
+        console.log("observer.disconnect()");
+    }
+    
+    // Later, you can disconnect the observer when you no longer need it 
+    // observer.disconnect(); 
 });
 </script>
 
@@ -754,10 +773,15 @@ require(['jquery'], function ($) {
     });
 </script>
 
-<script type="text/x-magento-init">
-{
-    "[data-block='minicart']" : {
-       "Digidirect_ParticularAudienceAPI/js/view/minicartopen" : {}
-    }
-}
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('.minicart-wrapper').on('contentLoading', function (event) {
+            $('[data-block="minicart"]').on('contentUpdated', function () {
+                $('.action.showcart').addClass("-active");
+                $('#minicartSidebar').addClass("-active");
+                $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                //console.log('jQuery Test On Minicart PHTML');
+            });
+        });
+    });
 </script>
