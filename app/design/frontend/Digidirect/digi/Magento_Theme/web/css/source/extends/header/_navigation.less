@@ -9,12 +9,15 @@
 //  _____________________________________________
 
 @active-nav-indent: 54px;
-
 //
 //  Common
 //  _____________________________________________
 
 & when (@media-common = true) {
+
+    .nav-sections-item-content>.navigation {
+        display: none !important;
+    }
 
     .ninjamenus1-drilldown-container{
         width: 100%;
@@ -402,15 +405,6 @@
         margin-top: 0;
     }
 
-    .menu-second-level > h6, .menu-third-level h6  {
-        font-size: 16px;
-        font-weight: 500;
-        color: #ff3c00;
-        text-transform: uppercase;
-        margin-bottom: 15px;
-        margin-top: 0;
-    }
-
     .menu-third-level {
         padding: 30px;
         width: 100%;
@@ -418,10 +412,6 @@
     }
 
     .menu-third-level h3 {
-        margin-top: 10px;
-    }
-
-    .menu-third-level h6 {
         margin-top: 10px;
     }
 
@@ -1536,23 +1526,6 @@
         float: right;
     }
 
-    .return-to-second-layer h6 {
-        font-size: 14px !important;
-        text-transform: none !important;
-        color: #000 !important;
-        margin: 5px 0 0 20px;
-        float: right;
-    }
-
-
-    h4, h5, h6 {
-        font-size: 14px !important;
-        text-transform: none !important;
-        color: #000 !important;
-        margin: 5px 0 0 20px;
-        float: right;
-    }
-
     //New changes on Mobile Menu Top Brands
     .cameras-tab-brands,
     .lenses-brand-tab,
@@ -2580,14 +2553,6 @@
     }
 
     .return-to-second-layer h3 {
-        font-size: 14px !important;
-        text-transform: none !important;
-        color: #000 !important;
-        margin: 5px 0 0 20px;
-        float: right;
-    }
-
-    .return-to-second-layer h6 {
         font-size: 14px !important;
         text-transform: none !important;
         color: #000 !important;
