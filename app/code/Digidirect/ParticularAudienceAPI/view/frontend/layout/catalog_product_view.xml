@@ -3,6 +3,11 @@
     <body>
         <referenceContainer name="page.wrapper">
             <block class="Digidirect\ParticularAudienceAPI\Block\TestPdp" template="Digidirect_ParticularAudienceAPI::test-pdp.phtml" />
+            <container name="bundle.overlay.container" htmlTag="div" htmlClass="bundle-overlay-container" htmlId="bundle-overlay-container" after="-">
+                <block class="Magento\Framework\View\Element\Template" 
+                       name="bundle.overlay" 
+                       template="Digidirect_ParticularAudienceAPI::pa-bundle-overlay.phtml" />
+            </container>
         </referenceContainer>
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ParticularAudienceAPI\Block\PdpDigiMarketSidePanel" 
