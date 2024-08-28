@@ -570,7 +570,7 @@ require(['jquery'], function ($) {
     // Create a new MutationObserver 
     const observer = new MutationObserver((mutations) => { 
         if ($("#pa-minicart-desktop").length) {
-            console.log("MutationObserver!");
+            //console.log("MutationObserver!");
             productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
             stopMutationObserver();
         }
@@ -582,7 +582,7 @@ require(['jquery'], function ($) {
     
     function stopMutationObserver() {
         observer.disconnect(); 
-        console.log("observer.disconnect()");
+        //console.log("observer.disconnect()");
     }
     
     // Later, you can disconnect the observer when you no longer need it 
@@ -642,7 +642,6 @@ require(['jquery'], function ($) {
         catch(err) {
         }
         document.getElementById(widgetClass).scrollIntoView();
-
     }
     
 </script>
@@ -771,41 +770,41 @@ require(['jquery'], function ($) {
             //$("#bundle-overlay-container").show();
         });
         
-        try {
+        // Create a new MutationObserver 
+        const observerMinicart = new MutationObserver((mutations) => {
+            console.log("MutationObserver!");
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    $('.action.showcart').addClass("-active");
+                    $('#minicartSidebar').addClass("-active");
+                    $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                }
+            });
+            //stopMutationObserverMinicart();
+        }); 
+
+        function stopMutationObserverMinicart() {
+            observerMinicart.disconnect(); 
+            console.log("observer.disconnect()");
+        }
+
+        // Later, you can disconnect the observer when you no longer need it 
+        // observer.disconnect();
+        
+        $(window).on("load", function(){
+            console.log("Window Load!");
             var miniCart = $("#mini-cart")[0];
             console.log("miniCart0", miniCart.length);
             console.log("miniCart", $("#mini-cart").length);
-            // Create a new MutationObserver 
-            const observerMinicart = new MutationObserver((mutations) => {
-                console.log("MutationObserver!");
-                mutations.forEach(function(mutation) {
-                    if (mutation.type === 'childList') {
-                        $('.action.showcart').addClass("-active");
-                        $('#minicartSidebar').addClass("-active");
-                        $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-                    }
-                });
-                //stopMutationObserverMinicart();
-            }); 
-
             // Configure the observer to watch for changes 
             const configMinicart = { attributes: true, childList: true, subtree: true }; 
-            observerMinicart.observe(miniCart, configMinicart); 
-
-            function stopMutationObserverMinicart() {
-                observerMinicart.disconnect(); 
-                console.log("observer.disconnect()");
-            }
-
-            // Later, you can disconnect the observer when you no longer need it 
-            // observer.disconnect();
-        }
-        catch(err) {
-            console.log("Observer Error!");
-        }
-        
-        $(window).on("load", function(){
             
+            try {
+                observerMinicart.observe(miniCart, configMinicart); 
+            }
+            catch(err) {
+                console.log("observerMinicart Error!");
+            }
         });
         
     });
