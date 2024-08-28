@@ -430,6 +430,18 @@ and open the template in the editor.
         background: #ff3c00;
     }
     
+    #pa-minicart-desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .pa-minicart .product-item-info.product-item:nth-child(1n+4) {
+        display: none;
+    }
+
+    .pa-minicart .action.tocart.primary {
+        height: unset;
+    }
+    
     @keyframes fadeIn {
         0% { opacity: 0; }
         100% { opacity: 1; }
@@ -443,7 +455,6 @@ and open the template in the editor.
             transform: rotate(360deg);
         }
     } 
-
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
@@ -501,6 +512,9 @@ and open the template in the editor.
         grid-template-columns: 1fr 1fr;
         row-gap: 10px;
         column-gap: 15px;
+        height: 785px;
+        overflow: scroll;
+        overflow-x: hidden;
     }
 
     .pdp-frquently-bought-with {
@@ -510,7 +524,7 @@ and open the template in the editor.
     }
 
     #pdp-frquently-bought-with-desktop .product-item-info.product-item:nth-child(5) {
-        display: none;
+        //display: none;
     }
 
     .product-item-info .pa-select-all-checkbox-container {
@@ -521,12 +535,96 @@ and open the template in the editor.
         grid-column-start: 1;
         grid-column-end: 3;
     }
+    
+    .pa-digidirect-product-widget.pa-minicart {
+        display: none;
+    }
+
+    .pdp-bundle-overlay .product-widget-header .pa-checkbox-container {
+        top: -5px;
+    }
+    
+    #pdp-bundle-overlay-desktop {
+        display: grid !important;
+    }
+    
+    .pdp-bundle-overlay .title {
+        color: #fff;
+        text-align: left;
+    }
+    
+}
+
+@media only screen and (max-width: 1180px) {
+    
+    .pa-digidirect-product-widget.pdp-bundle-overlay {
+        background: #ff3c00;
+    }
+
+    .pdp-bundle-overlay .title {
+        color: #fff;
+    }
+    
+    #pdp-bundle-overlay-desktop {
+        display: grid !important;
+        height: 85vh;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .pdp-bundle-overlay .product-widget-header .pa-checkbox-container {
+        display: block !important;
+        color: #fff !important;
+        top: -5px;
+        right: 0;
+    }
+
+    .pa-bundle-container .pa-checkbox-container.pa-select-all-checkbox-container {
+        display: none !important;
+    }
+    
+    .pa-digidirect-product-widget-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+
+    .pa-digidirect-product-widget.pdp-bundle-overlay {
+        width: unset !important;
+        position: relative;
+        top: unset;
+        left: unset;
+        transform: unset;
+        margin: 10px;
+    }
+    
+    .pa-digidirect-product-widget .product-widget-header {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .pdp-bundle-overlay .product-widget-header .pa-checkbox-container {
+        top: -5px;
+    }
+    
+    .pdp-bundle-overlay .product-item-info.product-item.pa-bundle-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    
 }
 
 @media only screen and (max-width: 1280px) {
     
     #pa-digimarket-widget .product-item-actions {
         padding-bottom: 0;
+    }
+    
+    #pa-minicart-desktop {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pa-minicart .product-item-info.product-item:nth-child(1n+3) {
+        display: none;
     }
     
 }
