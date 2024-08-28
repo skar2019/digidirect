@@ -49,9 +49,6 @@ class Robots
     public function beforeRenderMetadata(Renderer $subject) {
         $fullActionName = $this->request->getFullActionName();
         if ($fullActionName == 'catalog_product_view') {
-            $this->logger->info('$fullActionName: ' . $fullActionName);
-            $this->logger->info('getCurrentUrl: ' . $this->getCurrentUrl());
-            $this->logger->info('$this->getCurrentProduct()->getProductUrl(): ' . $this->getCurrentProduct()->getProductUrl());
             if ($this->getCurrentUrl() != $this->getCurrentProduct()->getProductUrl()) {
                 $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
             }
