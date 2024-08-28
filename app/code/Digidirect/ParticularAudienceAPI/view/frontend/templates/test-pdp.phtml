@@ -678,6 +678,23 @@ require(['jquery'], function ($) {
             $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
         });
         
+        const observerMinicart = new MutationObserver((mutations) => {
+            console.log("MutationObserver!");
+            $('.action.showcart').addClass("-active");
+            $('#minicartSidebar').addClass("-active");
+            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+        }); 
+        
+        var miniCart = $("#minicartSidebar");
+        const configMinicart = { attributes: true, childList: true, subtree: true }; 
+
+        /*try {
+            observerMinicart.observe(miniCart, configMinicart); 
+        }
+        catch(err) {
+            console.log("error", err);
+        }*/
+        
         $("#add-bundle-tocart").click(function(){
             
             var productIds = [];
@@ -699,11 +716,13 @@ require(['jquery'], function ($) {
                 },
                 success: function(data){
                     console.log("Success!");
+                    observerMinicart.observe(miniCart, configMinicart);
                 },
                 error: function(){
                     console.log("Fail!");
                 }
             });
+            observerMinicart.disconnect();
         });
         
         //Bundle Overlay
@@ -769,40 +788,6 @@ require(['jquery'], function ($) {
         $("#product-addtocart-button").click(function(){
             //$("#bundle-overlay-container").show();
         });
-        
-        // Create a new MutationObserver 
-        const observerMinicart = new MutationObserver((mutations) => {
-            console.log("MutationObserver!");
-            /*mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList') {
-                    $('.action.showcart').addClass("-active");
-                    $('#minicartSidebar').addClass("-active");
-                    $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-                }
-            });*/
-            //stopMutationObserverMinicart();
-            $('.action.showcart').addClass("-active");
-            $('#minicartSidebar').addClass("-active");
-            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-        }); 
-
-        function stopMutationObserverMinicart() {
-            observerMinicart.disconnect(); 
-            console.log("observer.disconnect()");
-        }
-        // Later, you can disconnect the observer when you no longer need it 
-        // observer.disconnect();
-        
-        var miniCart = $(".minicart-wrapper");
-        // Configure the observer to watch for changes 
-        const configMinicart = { attributes: true, childList: true, subtree: true }; 
-
-        try {
-            observerMinicart.observe(miniCart, configMinicart); 
-        }
-        catch(err) {
-            console.log("error", err);
-        }
         
     });
     
