@@ -566,6 +566,7 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
+    productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
     
 });
 </script>
@@ -752,18 +753,16 @@ require(['jquery'], function ($) {
         
         var miniCart = document.getElementById("mini-cart");
         // Create a new MutationObserver 
-        const observer = new MutationObserver((mutations) => { 
-            if ($("#pa-minicart-desktop").length) {
-                console.log("MutationObserver!");
-                mutations.forEach(function(mutation) {
-                    if (mutation.type === 'childList') {
-                        $('.action.showcart').addClass("-active");
-                        $('#minicartSidebar').addClass("-active");
-                        $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-                    }
-                });
-                stopMutationObserver();
-            }
+        const observer = new MutationObserver((mutations) => {
+            console.log("MutationObserver!");
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    $('.action.showcart').addClass("-active");
+                    $('#minicartSidebar').addClass("-active");
+                    $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                }
+            });
+            stopMutationObserver();
         }); 
 
         // Configure the observer to watch for changes 
