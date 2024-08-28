@@ -773,6 +773,8 @@ require(['jquery'], function ($) {
         
         try {
             var miniCart = $("#mini-cart")[0];
+            console.log("miniCart0", miniCart.length);
+            console.log("miniCart", $("#mini-cart").length);
             // Create a new MutationObserver 
             const observerMinicart = new MutationObserver((mutations) => {
                 console.log("MutationObserver!");
@@ -783,7 +785,7 @@ require(['jquery'], function ($) {
                         $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
                     }
                 });
-                stopMutationObserverMinicart();
+                //stopMutationObserverMinicart();
             }); 
 
             // Configure the observer to watch for changes 
