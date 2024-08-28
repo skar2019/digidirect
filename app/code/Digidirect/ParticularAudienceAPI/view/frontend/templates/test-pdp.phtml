@@ -773,14 +773,17 @@ require(['jquery'], function ($) {
         // Create a new MutationObserver 
         const observerMinicart = new MutationObserver((mutations) => {
             console.log("MutationObserver!");
-            mutations.forEach(function(mutation) {
+            /*mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList') {
                     $('.action.showcart').addClass("-active");
                     $('#minicartSidebar').addClass("-active");
                     $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
                 }
-            });
+            });*/
             //stopMutationObserverMinicart();
+            $('.action.showcart').addClass("-active");
+            $('#minicartSidebar').addClass("-active");
+            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
         }); 
 
         function stopMutationObserverMinicart() {
