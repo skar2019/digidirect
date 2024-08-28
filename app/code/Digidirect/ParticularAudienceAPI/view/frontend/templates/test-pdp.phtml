@@ -685,7 +685,7 @@ require(['jquery'], function ($) {
             $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
         }); 
         
-        var miniCart = $(".minicart-wrapper");
+        var miniCart = document.querySelector('.minicart-wrapper');
         const configMinicart = { attributes: true, childList: true, subtree: true }; 
 
         /*try {
