@@ -52,7 +52,9 @@ class Robots
             $this->logger->info('$fullActionName: ' . $fullActionName);
             $this->logger->info('getCurrentUrl: ' . $this->getCurrentUrl());
             $this->logger->info('$this->getCurrentProduct()->getProductUrl(): ' . $this->getCurrentProduct()->getProductUrl());
-            //$this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
+            if ($this->getCurrentUrl() != $this->getCurrentProduct()->getProductUrl()) {
+                $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
+            }
         }
     }
     
