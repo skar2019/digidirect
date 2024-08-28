@@ -774,11 +774,13 @@ require(['jquery'], function ($) {
                 },
                 success: function(data){
                     console.log("Success!");
+                    observerMinicart.observe(miniCart, configMinicart);
                 },
                 error: function(){
                     console.log("Fail!");
                 }
             });
+            observerMinicart.disconnect();
         });
         
         $("#bundle-overlay-exit").click(function(){
