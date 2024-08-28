@@ -792,9 +792,7 @@ require(['jquery'], function ($) {
         
         $(window).on("load", function(){
             console.log("Window Load!");
-            var miniCart = $("#mini-cart")[0];
-            console.log("miniCart0", miniCart.length);
-            console.log("miniCart", $("#mini-cart").length);
+            var miniCart = $("#minicartSidebar");
             // Configure the observer to watch for changes 
             const configMinicart = { attributes: true, childList: true, subtree: true }; 
             
