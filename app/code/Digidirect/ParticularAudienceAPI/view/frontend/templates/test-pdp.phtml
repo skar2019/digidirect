@@ -686,7 +686,7 @@ require(['jquery'], function ($) {
         }); 
         
         var miniCart = document.querySelector('.minicart-wrapper');
-        const configMinicart = { attributes: true, childList: true, subtree: true }; 
+        const configMinicart = { attributes: false, childList: true, subtree: true }; 
 
         /*try {
             observerMinicart.observe(miniCart, configMinicart); 
