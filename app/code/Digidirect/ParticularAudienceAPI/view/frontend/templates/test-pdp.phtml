@@ -793,19 +793,16 @@ require(['jquery'], function ($) {
         // Later, you can disconnect the observer when you no longer need it 
         // observer.disconnect();
         
-        $(window).on("load", function(){
-            console.log("Window Load!");
-            var miniCart = $("#minicartSidebar");
-            // Configure the observer to watch for changes 
-            const configMinicart = { attributes: true, childList: true, subtree: true }; 
-            
-            try {
-                observerMinicart.observe(miniCart, configMinicart); 
-            }
-            catch(err) {
-                console.log("observerMinicart Error!");
-            }
-        });
+        var miniCart = $("#minicartSidebar");
+        // Configure the observer to watch for changes 
+        const configMinicart = { attributes: true, childList: true, subtree: true }; 
+
+        try {
+            observerMinicart.observe(miniCart, configMinicart); 
+        }
+        catch(err) {
+            console.log("observerMinicart Error!");
+        }
         
     });
     
