@@ -8,6 +8,9 @@
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>-->
     <preference for="Magento\Catalog\Block\Category\View" type="Digidirect\Catalog\Block\Category\View" />
+    <type name="Magento\Framework\View\Page\Config\Renderer">
+        <plugin name="override_robots" type="Digidirect\Catalog\Plugin\Robots"/>
+    </type>
     <type name="Magento\Catalog\Pricing\Price\FinalPrice">
         <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
     </type>
