@@ -793,7 +793,7 @@ require(['jquery'], function ($) {
         // Later, you can disconnect the observer when you no longer need it 
         // observer.disconnect();
         
-        var miniCart = $("#minicartSidebar");
+        var miniCart = $(".minicart-wrapper");
         // Configure the observer to watch for changes 
         const configMinicart = { attributes: true, childList: true, subtree: true }; 
 
@@ -801,7 +801,7 @@ require(['jquery'], function ($) {
             observerMinicart.observe(miniCart, configMinicart); 
         }
         catch(err) {
-            console.log("observerMinicart Error!");
+            console.log("error", err);
         }
         
     });
