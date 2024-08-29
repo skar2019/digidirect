@@ -781,6 +781,7 @@ require(['jquery'], function ($) {
                 }
             });
             observerMinicart.disconnect();
+            $("#bundle-overlay-container").hide();
         });
         
         $("#bundle-overlay-exit").click(function(){
@@ -788,7 +789,7 @@ require(['jquery'], function ($) {
         });
         
         $("#product-addtocart-button").click(function(){
-            //$("#bundle-overlay-container").show();
+            $("#bundle-overlay-container").show();
         });
         
     });
