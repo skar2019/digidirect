@@ -171,7 +171,7 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($seller != "digiDirect"): ?>
+                        <?php if ($seller != "digiDirect" && $seller != ""): ?>
                             <div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>
                         <?php else: ?>
                             <?php if ($is_digiPrint == 1): ?>
