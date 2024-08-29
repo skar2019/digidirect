@@ -916,8 +916,7 @@ return [
         'WeltPixel_Backend' => 1,
         'WeltPixel_GA4' => 1,
         'ZV_SeoCompatible' => 1,
-        'Zendesk_Zendesk' => 1,
-        'Zip_ZipPayment' => 1
+        'Zendesk_Zendesk' => 1
     ],
     'admin_user' => [
         'locale' => [
