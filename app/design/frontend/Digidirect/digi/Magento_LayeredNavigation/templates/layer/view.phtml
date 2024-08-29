@@ -4,7 +4,6 @@
  * See COPYING.txt for license details.
  */
 ?>
-
 <?php
 /**
  * Category layered navigation
@@ -24,7 +23,11 @@ $categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory')
 $categoryDigiPrint = $categoryFactory->create()->load(2881);
 $allChildrenCategoryIdsDigiPrint = $categoryDigiPrint->getAllChildren(true);
 
-$priorityAttributes = ["Price", "Color", "Brand", "Category"];
+if ($currentPage == "eaa-attribute_option-index") {
+    $priorityAttributes = ["Price", "Color", "Category"];
+} else {
+    $priorityAttributes = ["Price", "Color", "Brand", "Category"];
+}
 $digiPrintAttributes = ["Price", "Category", "Canvas Prints", "Metal Prints", "Photo Prints", "Wide Format & Fine Art"];
 ?>
 

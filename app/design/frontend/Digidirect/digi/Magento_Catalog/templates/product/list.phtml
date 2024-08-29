@@ -104,6 +104,7 @@ if ($currentPage != "catalogsearch_result_index") {
                 $digiSecondsIds = array(2564,2567,2570,2573);
                 $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));
 
+                $seller = $_product->getAttributeText('marketplacer_seller');
                 // digiprint
                 $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
                 $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
@@ -170,24 +171,28 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($is_digiPrint == 1): ?>
-                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
-                                <?php 
-                                    $hasDiscountClass = "has-discount";
-                                ?>
-                                <div class="digideals-overlay">
-                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                </div>
-                            <?php endif; ?>
+                        <?php if ($seller != "digiDirect" && $seller != ""): ?>
+                            <div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>
                         <?php else: ?>
-                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                                <?php 
-                                    $hasDiscountClass = "has-discount";
-                                ?>
-                                <?php if ($isDigiSeconds == 0): ?>
+                            <?php if ($is_digiPrint == 1): ?>
+                                <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                    <?php 
+                                        $hasDiscountClass = "has-discount";
+                                    ?>
                                     <div class="digideals-overlay">
                                         <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
                                     </div>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                    <?php 
+                                        $hasDiscountClass = "has-discount";
+                                    ?>
+                                    <?php if ($isDigiSeconds == 0): ?>
+                                        <div class="digideals-overlay">
+                                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php endif; ?>

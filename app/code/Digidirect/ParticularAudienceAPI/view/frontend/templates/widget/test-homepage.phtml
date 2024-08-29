@@ -12,27 +12,18 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
-    var customerParam = "";
-    
-    if (customerId) {
-        customerParam = "&customerId=" + customerId;
-    }
     
     console.log('customerId', customerId);
     
-    const getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true"+customerParam;
-    const accessToken = "<?= $block->getBearerToken() ?>"; // Replace with your actual access token
-
     var result;
 
     $.ajax({
         async: false,
-        url: getRecommendationsUrl,
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': "application/json"
+        url: "https://www.digidirect.com.au/particularaudienceapi/index/homepage", //getRecommendationsUrl,
+        type: "POST",
+        data: {
+            customerId: customerId
         },
-        type: "GET",
         success: function(data){
             result = data;
         },
@@ -40,7 +31,7 @@ require(['jquery'], function ($) {
             console.log('AJAX Fail!');
         }
     });
-    
+    console.log('result', result);
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
 
@@ -137,16 +128,26 @@ require(['jquery'], function ($) {
             let digiSeconds = "";
             let digiSecondsOverlay = "";
             let digiSecondsRating = "";
+            let sellerName = "";
             
-            let attribute = product.attributes.find(obj => {
+            let categories = product.attributes.find(obj => {
                 return obj.name === 'Categories';
             })
             
-            if (attribute.options[0].value == "PRELOVED") {
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+            
+            sellerName = seller.stringValue;
+            
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+            
+            if (categories.options[0].value == "PRELOVED") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (attribute.options[0].value == "OPENBOX") {
+            } else if (categories.options[0].value == "OPENBOX") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (attribute.options[0].value == "REFURB") {
+            } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
             
@@ -168,9 +169,20 @@ require(['jquery'], function ($) {
                                 '</button>' +
                             '</form>'
             }
+            //console.log(product.name, sellerName);
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                } else {
+                    digiDealsLogo = '';
+                }
+            }
             
             if (product.prices[0].discountPrice) {
-                digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                }
+                
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
@@ -276,7 +288,7 @@ require(['jquery'], function ($) {
 </script>
 
 <div class="homepage-row main-banner" style="margin-bottom: 40px;">
-    <div class="home-main-banners">
+    <div class="home-main-banners" style="display: grid; grid-template-columns: 75% 25%;">
         <div class="home-main-banner-left">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
@@ -291,9 +303,9 @@ require(['jquery'], function ($) {
                         <div class="pa-product-widget-container real-container">
                         </div>
                         <div class="pa-product-widget-container widget-placeholder">
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
-                            <div class="product-item-info product-item" style="height: 183px;"></div>
+                            <div class="product-item-info product-item" style="height: 183px;"><div class="loader"></div></div>
+                            <div class="product-item-info product-item" style="height: 183px;"><div class="loader"></div></div>
+                            <div class="product-item-info product-item" style="height: 183px;"><div class="loader"></div></div>
                         </div>
                     </div>
                 </div>
@@ -311,13 +323,19 @@ require(['jquery'], function ($) {
         </div>
         <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
         </div>
         <div id="recommended-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+        <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+        </div>
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -330,13 +348,19 @@ require(['jquery'], function ($) {
         </div>
         <div id="trending-digimarket-products-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
         </div>
         <div id="trending-digimarket-products-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+        <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+        </div>
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digimarket-products-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -359,13 +383,19 @@ require(['jquery'], function ($) {
         </div>
         <div id="shop-tech-and-more-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
         </div>
         <div id="shop-tech-and-more-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+        <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+        </div>
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('shop-tech-and-more-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('shop-tech-and-more-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('shop-tech-and-more-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -387,13 +417,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-technology-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-technology-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -411,13 +447,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-photography-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-photography-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-photography-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-photography-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-photography-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -435,13 +477,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digimarket-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digimarket-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digimarket-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digimarket-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -459,13 +507,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digiseconds-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digiseconds-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digiseconds-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digiseconds-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digiseconds-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -483,20 +537,25 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digiprint-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digiprint-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digiprint-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digiprint-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digiprint-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
         </div>
     </div>
 </div>
-
 <script type="text/x-magento-init">
 {
     "[data-role=tocart-form], .form.map.checkout": {
@@ -552,7 +611,7 @@ require(['jquery'], function ($) {
 
     }
 
-    function shopDigimarketCatViewAllProducts(viewAllLink) {
+    function viewAllProducts(viewAllLink) {
         window.location.href = viewAllLink;
     }
 </script>

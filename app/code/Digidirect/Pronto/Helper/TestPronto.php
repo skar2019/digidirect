@@ -2098,6 +2098,7 @@ class TestPronto extends AbstractHelper
             // for redeploy
             $x = 0;
             $producttotal = 0;
+            $gotdigi = 0;
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -2158,30 +2159,98 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
-                        continue;
+                        $gotdigi = 1;
                     }
 
                 }
                 else //
                 {
-                    continue;
+                    $gotdigi = 1;
 
                 }
 
             } //end of product line
 
 
-            if($coupon != "")
+            if($gotdigi == 0)
             {
+                if($surcharge != "0.0000")
+                {
+                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                    $x++; // for shipping counter
+                }
+
+                if($coupon != "")
+                {
+                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                    $x++; // for shipping counter
+                }
+
+
+                $shippingprice = (double) $order->getShippingAmount();
+                $shippingDesc = $order->getShippingDescription();
+
+                if (strpos($orderId, 'REEB') !== false) {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else
+                {
+                    if (strpos($shippingDesc, '|') !== false) {
+                        $marketplacesShipping = explode('|', $shippingDesc);
+                        $shippingDesc = $marketplacesShipping[1];
+                    }
+                }
+                if($shippingDesc == "Express - (1 to 3 Days)")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "Standard - (4 to 7 Days)")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else if($rep == 'WESTFIELD')
+                {
+                    $shippingDesc = "Click and Collect";
+                }
+                else if($shippingDesc == "AU_ExpressPostParcelSignature")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else
+                {
+                    $shippingDesc = "";
+                }
+                //shipping details clint Mar 3 23
+                if($disregardshipping)
+                {
+                    $shippingprice = 0;
+                }
                 $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
                 $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                $x++; // for shipping counter
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
             }
 
             //fixed shipping price as interim
