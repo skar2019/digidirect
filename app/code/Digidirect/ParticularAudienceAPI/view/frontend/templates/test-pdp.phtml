@@ -91,6 +91,7 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         if (!widgetSlots.length) {
+            $(".pa-digidirect-product-widget.pdp-frquently-bought-with").remove();
             return
         }
         Object.keys(widgetSlots).forEach(key => {
@@ -407,6 +408,7 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         if (!widgetSlots.length) {
+            $("#bundle-overlay-container").remove();
             return
         }
         Object.keys(widgetSlots).forEach(key => {
@@ -687,13 +689,6 @@ require(['jquery'], function ($) {
         
         var miniCart = document.querySelector('.minicart-wrapper');
         const configMinicart = { attributes: false, childList: true, subtree: true }; 
-
-        /*try {
-            observerMinicart.observe(miniCart, configMinicart); 
-        }
-        catch(err) {
-            console.log("error", err);
-        }*/
         
         $("#add-bundle-tocart").click(function(){
             
