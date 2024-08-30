@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="ewave_faq_category_save_after">
-        <observer name="process_url_rewrite_saving" instance="Ewave\Faq\Observer\ProcessUrlRewriteSavingObserver" />
-    </event>
-</config>

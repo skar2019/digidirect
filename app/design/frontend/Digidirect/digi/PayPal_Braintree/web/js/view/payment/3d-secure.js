@@ -79,6 +79,8 @@ define([
             let firstName = this.escapeNonAsciiCharacters(billingAddress.firstname);
             let lastName = this.escapeNonAsciiCharacters(billingAddress.lastname);
 
+            let challengeRequested = this.getChallengeRequested();
+
             fullScreenLoader.startLoader();
 
             let setup3d = function(clientInstance) {
@@ -110,7 +112,7 @@ define([
                         nonce: context.paymentMethodNonce,
                         bin: context.creditCardBin,
                         collectDeviceData: true,
-                        challengeRequest: true,
+                        challengeRequested: challengeRequested,
                         billingAddress: {
                             givenName: firstName,
                             surname: lastName,
@@ -175,18 +177,6 @@ define([
                             state.reject($t('Please try again with another form of payment.'));
                         }
                     });
-
-                    // When customer cancel 3d secure popup, invalidate the re-captcha v2.
-                    let isReCaptchaEnabled = window.checkoutConfig.recaptcha_braintree;
-                    if (isReCaptchaEnabled) {
-                        let recaptchaCheckBox = $("#recaptcha-checkout-braintree-wrapper input[name='recaptcha-validate-']");
-
-                        threeDSecureInstance.on('customer-canceled', function () {
-                            if (recaptchaCheckBox.prop('checked') === true) {
-                                recaptchaCheckBox.prop('checked', false);
-                            }
-                        });
-                    }
                 });
             };
 
@@ -241,6 +231,13 @@ define([
             }
 
             return false;
+        },
+
+        /**
+         * @returns {Boolean}
+         */
+        getChallengeRequested: function () {
+            return this.config.challengeRequested;
         }
     };
 });

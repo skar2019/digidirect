@@ -61,6 +61,8 @@
                 <value id="kwscript" type="host">*.kayweb.com.au</value>
                 <value id="pascript" type="host">p-a.io</value>
                 <value id="particularaudienceapi" type="host">api-recs.particularaudience.com</value>
+                <value id="luckyorangeclickstream" type="host">d10lpsik1i8c69.cloudfront.net</value>
+
 
             </values>
         </policy>
@@ -171,6 +173,7 @@
                 <value id="qantasconnect" type="host">*.qantasloyalty.com</value>
                 <value id="qantasconnectserv" type="host">*.services.qantasloyalty.com</value>
                 <value id="particularaudienceapiconnect" type="host">api-recs.particularaudience.com</value>
+                <value id="luckyorangeclickconnect" type="host">d10lpsik1i8c69.cloudfront.net</value>
             </values>
         </policy>
         <policy id="font-src">

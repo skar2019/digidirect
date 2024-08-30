@@ -12,15 +12,13 @@ define(
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/model/payment/place-order-hooks',
-        'underscore',
-        'Magento_Checkout/js/model/totals',
-        'Magento_Checkout/js/model/quote'
+        'underscore'
     ],
-    function (storage, errorProcessor, fullScreenLoader, customerData, hooks, _, totals, quote) {
+    function (storage, errorProcessor, fullScreenLoader, customerData, hooks, _) {
         'use strict';
 
         return function (serviceUrl, payload, messageContainer) {
-            var headers = {};
+            var headers = {}, redirectURL = '';
 
             fullScreenLoader.startLoader();
             _.each(hooks.requestModifiers, function (modifier) {
@@ -32,8 +30,15 @@ define(
             ).fail(
                 function (response) {
                     errorProcessor.process(response, messageContainer);
+                    redirectURL = response.getResponseHeader('errorRedirectAction');
+
+                    if (redirectURL) {
+                        setTimeout(function () {
+                            errorProcessor.redirectTo(redirectURL);
+                        }, 3000);
+                    }
                 }
-            ).success(
+            ).done(
                 function (response) {
                     var clearData = {
                         'selectedShippingAddress': null,
