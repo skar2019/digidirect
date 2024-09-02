@@ -72,7 +72,6 @@ class Product extends AbstractHelper
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
 
         $this->attributeOptions = $this->getOptionHash('brand');
-        $forLogs = "";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -105,6 +104,7 @@ class Product extends AbstractHelper
         //date_update
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
             if(!isset($prod['code']))
             {
                 exit;
@@ -1027,15 +1027,18 @@ class Product extends AbstractHelper
 //                }
 
             }
+
+            $this->logger->info($forLogs);
+
         }
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            $forLogs .= $json['response']['message'];
+            $this->logger->info($json['response']['message']);
 
         }
 
-        $this->logger->info($forLogs);
+        //$this->logger->info($forLogs);
 
         $this->productSyncContinue($lastCode);
 
@@ -1046,7 +1049,7 @@ class Product extends AbstractHelper
 
         $lastCode = $startItem;
         $this->attributeOptions = $this->getOptionHash('brand');
-        $forLogs = "";
+
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -1080,6 +1083,8 @@ class Product extends AbstractHelper
 
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
+
             if(!isset($prod['code']))
             {
                 exit;
@@ -1944,14 +1949,15 @@ class Product extends AbstractHelper
 //                }
 
             }
+            $this->logger->info($forLogs);
         }
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            $forLogs .= $json['response']['message'];
+            $this->logger->info($json['response']['message']);;
         }
 
-        $this->logger->info($forLogs);
+        //$this->logger->info($forLogs);
 
         if($startItem == $lastCode)
         {
@@ -1964,15 +1970,15 @@ class Product extends AbstractHelper
     public function productProntoBulk($startItem, $endItem)
     {
 
-        set_time_limit(300);
+        set_time_limit(1500);
         $lastCode = 0;
-        $forLogs = "";
+
         $this->attributeOptions = $this->getOptionHash('brand');
         echo "start <br/>";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         //live port :8084
@@ -2009,6 +2015,7 @@ class Product extends AbstractHelper
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
 
             if(!isset($prod['code']))
             {
@@ -2910,8 +2917,10 @@ class Product extends AbstractHelper
                 }
 
             }
+
+            $this->logger->info($forLogs);
         }
-        $this->logger->info($forLogs);
+
         return true;
     }
 
