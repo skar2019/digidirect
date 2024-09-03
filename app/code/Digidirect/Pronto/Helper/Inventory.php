@@ -109,9 +109,9 @@ class Inventory extends AbstractHelper
                 try
                 {
                     $prod = $this->productRepository->get($sku);
-                    if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                    if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                     {
-                        $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $retail = $prodRes['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                         $oldprice = $prod->getPrice();
                         if($oldprice != $retail)
                         {
@@ -119,8 +119,22 @@ class Inventory extends AbstractHelper
                         }
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
+                    }
+                    else
+                    {
+                        if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                        {
+                            $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                            $oldprice = $prod->getPrice();
+                            if($oldprice != $retail)
+                            {
+                                $prod->setCustomAttribute('wiser_price', '0');
+                            }
+                            $prod->setPrice($retail);
+                            $forLogs .= "Price - ".$retail."\n";
 
 
+                        }
                     }
 
                     if($prodRes['stk-condition-code'] == 'O')
@@ -176,15 +190,30 @@ class Inventory extends AbstractHelper
                     }
 
                     $marketplacesprice = 0;
-                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                     {
-                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                         if(empty($marketplacesprice))
                         {
                             $marketplacesprice = 0;
                         }
+                        $forLogs .= "Marketplace price -". $marketplacesprice."\n";
                         $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
+                    else
+                    {
+                        if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                        {
+                            $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                            if(empty($marketplacesprice))
+                            {
+                                $marketplacesprice = 0;
+                            }
+                            $forLogs .= "Marketplace price -". $marketplacesprice."\n";
+                            $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                        }
+                    }
+
 
 
 
