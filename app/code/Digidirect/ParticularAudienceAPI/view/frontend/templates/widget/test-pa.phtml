@@ -35,6 +35,27 @@ require(['jquery'], function ($) {
     console.log('result', result);
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
+    
+    
+    var configCustomerId;
+    var configSessionId;
+
+    $.ajax({
+        async: false,
+        url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+        type: "POST",
+        data: {
+            customerId: customerId
+        },
+        success: function(data){
+            console.log(data);
+            configCustomerId = data.payload.customerId;
+            configSessionId = data.payload.session.id
+        },
+        error: function(){
+            console.log('AJAX Fail!');
+        }
+    });
 
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
@@ -285,26 +306,6 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
-    
-    var configCustomerId;
-    var configSessionId;
-
-    $.ajax({
-        async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-        type: "POST",
-        data: {
-            customerId: customerId
-        },
-        success: function(data){
-            console.log(data);
-            configCustomerId = data.payload.customerId;
-            configSessionId = data.payload.session.id
-        },
-        error: function(){
-            console.log('AJAX Fail!');
-        }
-    });
 
     var routeId  = recommendationsResult.recommendations.route.id;
 
