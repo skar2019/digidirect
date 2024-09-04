@@ -36,6 +36,8 @@ require(['jquery'], function ($) {
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
     
+    var routeId  = recommendationsResult.recommendations.route.id;
+    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
     
     var configCustomerId;
     var configSessionId;
@@ -129,7 +131,6 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -284,7 +285,6 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -306,11 +306,11 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
-
-    var routeId  = recommendationsResult.recommendations.route.id;
-
-    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
-
+    
+    $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+        slots($(this).attr("product-id"));
+    });
+    
     function slots(productId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
