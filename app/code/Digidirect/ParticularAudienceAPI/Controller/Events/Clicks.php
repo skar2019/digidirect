@@ -43,7 +43,7 @@ class Clicks extends Action implements HttpPostActionInterface {
     public function execute()
     {
         $result = $this->_resultJsonFactory->create();
-        $eventData = $this->getRequest()->getParam('eventData');
+        $eventData = json_encode($this->getRequest()->getParam('eventData'));
         
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
