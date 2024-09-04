@@ -90,7 +90,7 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" product-url="' + product.url + '" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<div href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -108,6 +108,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -230,7 +231,7 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" product-url="' + product.url + '" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -262,6 +263,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            slots(product.refId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -283,6 +285,49 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
+    
+    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+        
+    function slots(productId) {
+
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const slotData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    refId: productId,
+                    widgetId: widgetId,
+                    routeId: routeId
+                }
+            ]
+        };
+
+        console.log(JSON.stringify(slotData));
+
+        /*$.ajax({
+            //async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+            type: "POST",
+            data: {
+                eventData: slotData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+    }
     
 });
 
@@ -569,94 +614,92 @@ require(['jquery'], function ($) {
 
 <script>
     
-    var configCustomerId;
-    var configSessionId;
-
-    $.ajax({
-        async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-        type: "POST",
-        data: {
-            customerId: customerId
-        },
-        success: function(data){
-            console.log(data);
-            configCustomerId = data.payload.customerId;
-            configSessionId = data.payload.session.id
-        },
-        error: function(){
-            console.log('AJAX Fail!');
-        }
-    });
-
-    //console.log(configCustomerId);
-    //console.log(configSessionId);
-
-    function uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-        .replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0, 
-                v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-    
-    var result;
-    
-    var routeId  = recommendationsResult.recommendations.route.id;
-    
-    $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
-
-        var productUrl = $(this).attr("product-url");
-        var productId = $(this).attr("product-id");
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
-
-        var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
-
-        console.log(new Date(now_utc));
-        console.log(date.toISOString());
+    require(['jquery'], function ($) {
         
-        var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+        var configCustomerId;
+        var configSessionId;
 
-        const clickData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    clickId: uuidv4(),
-                    refId: productId,
-                    actionType: 1,
-                    contextType: 1,
-                    routeId: routeId,
-                    widgetId: widgetId
-                }
-            ]
-        };
-
-        console.log(JSON.stringify(clickData));
-
-        /*$.ajax({
+        $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
             type: "POST",
             data: {
-                eventData: clickData
+                customerId: customerId
             },
             success: function(data){
                 console.log(data);
+                configCustomerId = data.payload.customerId;
+                configSessionId = data.payload.session.id
             },
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
+        //console.log(configCustomerId);
+        //console.log(configSessionId);
+
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+            .replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0, 
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        var routeId  = recommendationsResult.recommendations.route.id;
+
+        var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+
+        $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
+
+            var productId = $(this).attr("product-id");
+            var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+            var date = new Date();
+            var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                    date.getUTCDate(), date.getUTCHours(),
+                    date.getUTCMinutes(), date.getUTCSeconds());
+                    
+            const clickData = {
+                customerId: configCustomerId,
+                sessionId: configSessionId,
+                events: [
+                    {
+                        currentUrl: currentUrl,
+                        eventTime: date.toISOString(),
+                        clickId: uuidv4(),
+                        refId: productId,
+                        actionType: 1,
+                        contextType: 1,
+                        routeId: routeId,
+                        widgetId: widgetId
+                    }
+                ]
+            };
+
+            console.log(JSON.stringify(clickData));
+
+            $.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+                type: "POST",
+                data: {
+                    eventData: clickData
+                },
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
+                }
+            });
+
+        });
+        
     });
-    
+
     function loadMoreProducts(widgetClass) {
         var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
         var ctr = 0;
@@ -669,7 +712,7 @@ require(['jquery'], function ($) {
         if (hiddenTilesCount.length == 0) {
             document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
             document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-             
+
             try {
                 document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
             }
@@ -688,7 +731,7 @@ require(['jquery'], function ($) {
              productTiles[x].classList.add('hide-product-item');
           }
         }
-        
+
         document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
         document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
         try {
@@ -703,4 +746,5 @@ require(['jquery'], function ($) {
     function viewAllProducts(viewAllLink) {
         window.location.href = viewAllLink;
     }
+    
 </script>
