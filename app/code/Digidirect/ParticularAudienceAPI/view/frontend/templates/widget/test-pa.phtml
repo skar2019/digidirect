@@ -286,49 +286,6 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
-        
-    function slots(productId) {
-
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
-
-        var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
-
-        const slotData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    refId: productId,
-                    widgetId: widgetId,
-                    routeId: routeId
-                }
-            ]
-        };
-
-        console.log(JSON.stringify(slotData));
-
-        /*$.ajax({
-            //async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
-            type: "POST",
-            data: {
-                eventData: slotData
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });*/
-    }
-    
 });
 
 </script>
@@ -651,6 +608,47 @@ require(['jquery'], function ($) {
         var routeId  = recommendationsResult.recommendations.route.id;
 
         var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+        
+        function slots(productId) {
+
+            var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+            var date = new Date();
+            var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                    date.getUTCDate(), date.getUTCHours(),
+                    date.getUTCMinutes(), date.getUTCSeconds());
+
+            const slotData = {
+                customerId: configCustomerId,
+                sessionId: configSessionId,
+                events: [
+                    {
+                        currentUrl: currentUrl,
+                        eventTime: date.toISOString(),
+                        refId: productId,
+                        widgetId: widgetId,
+                        routeId: routeId
+                    }
+                ]
+            };
+
+            console.log(JSON.stringify(slotData));
+
+            /*$.ajax({
+                //async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+                type: "POST",
+                data: {
+                    eventData: slotData
+                },
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
+                }
+            });*/
+        }
 
         $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
