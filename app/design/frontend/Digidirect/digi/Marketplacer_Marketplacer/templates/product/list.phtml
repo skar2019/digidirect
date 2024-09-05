@@ -439,6 +439,11 @@ if ($currentPage != "catalogsearch_result_index") {
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
+                    
+                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                        <?= $rentBlock->toHtml(); ?>
+                    <?php endif; ?>
+
                 </div>
                 <?= /* @escapeNotVerified */ '</li>'?>
             <?php endforeach; ?>
