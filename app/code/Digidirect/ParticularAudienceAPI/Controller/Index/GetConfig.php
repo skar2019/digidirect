@@ -7,6 +7,10 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Session\SessionManagerInterface;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class GetConfig extends Action implements HttpPostActionInterface {
     
@@ -20,6 +24,18 @@ class GetConfig extends Action implements HttpPostActionInterface {
 
     protected $jsonSerializer;
     
+    public const COOKIE_NAME = "pa_session_id";
+
+    protected $_cookieManager;
+
+    protected $_cookieMetadataFactory;
+
+    protected $_sessionManager;
+
+    protected $_objectManager;
+    
+    protected $_remoteAddressInstance;
+    
     public function __construct(
         Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
@@ -27,12 +43,23 @@ class GetConfig extends Action implements HttpPostActionInterface {
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
+        SessionManagerInterface $sessionManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
         $this->variable = $variable;
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
+        $this->_cookieManager = $cookieManager;
+        $this->_cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_sessionManager = $sessionManager;
+        $this->_objectManager = $objectManager;
+        $this->_remoteAddressInstance = $this->_objectManager->get(
+            'Magento\Framework\HTTP\PhpEnvironment\RemoteAddress'
+        );
         parent::__construct($context);
     }
 
@@ -62,8 +89,34 @@ class GetConfig extends Action implements HttpPostActionInterface {
 
         $getConfigResult = $this->curl->getBody();
         $getConfigResultJson = $this->jsonSerializer->unserialize($getConfigResult);
-
         $result->setData($getConfigResultJson);
+        
+        $this->setSessionId($getConfigResultJson['payload']['session']['id']);
+        
         return $result;
+    }
+
+    public function setSessionId($value, $duration = 1800) {
+        $metadata = $this->_cookieMetadataFactory
+            ->createPublicCookieMetadata()
+            ->setDuration($duration)
+            ->setPath($this->_sessionManager->getCookiePath())
+            ->setDomain($this->_sessionManager->getCookieDomain());
+
+        $this->_cookieManager->setPublicCookie(
+            self::COOKIE_NAME,
+            $value,
+            $metadata
+        );
+    }
+    
+    public function deleteSessionId() {
+        $this->_cookieManager->deleteCookie(
+            self::COOKIE_NAME,
+            $this->_cookieMetadataFactory
+                ->createCookieMetadata()
+                ->setPath($this->_sessionManager->getCookiePath())
+                ->setDomain($this->_sessionManager->getCookieDomain())
+        );
     }
 }

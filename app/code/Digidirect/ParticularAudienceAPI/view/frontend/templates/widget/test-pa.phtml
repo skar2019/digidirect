@@ -16,7 +16,7 @@ require(['jquery'], function ($) {
     console.log('customerId', customerId);
     
     var result;
-
+    
     $.ajax({
         async: false,
         url: "https://www.digidirect.com.au/particularaudienceapi/index/homepage", //getRecommendationsUrl,
@@ -41,23 +41,33 @@ require(['jquery'], function ($) {
     
     var configCustomerId;
     var configSessionId;
+    
+    var sessionId = getCookie('pa_session_id');
+    console.log('sessionId', sessionId);
+    
+    if (!sessionId) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                configCustomerId = data.payload.customerId;
+                configSessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+    } else {
+        configCustomerId = customerId;
+        configSessionId = sessionId;
+    }
 
-    $.ajax({
-        async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-        type: "POST",
-        data: {
-            customerId: customerId
-        },
-        success: function(data){
-            console.log(data);
-            configCustomerId = data.payload.customerId;
-            configSessionId = data.payload.session.id
-        },
-        error: function(){
-            console.log('AJAX Fail!');
-        }
-    });
+    
 
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
