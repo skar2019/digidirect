@@ -16,7 +16,7 @@ class Jsonld extends \Magento\Framework\View\Element\Template
     public const PAGE_TYPE_ABOUTPAGE      = "AboutPage";
     public const PAGE_TYPE_SEARCHPAGE     = "SearchResultsPage";
     public const PAGE_TYPE_COLLECTIONPAGE = "CollectionPage";
-    public const PAGE_TYPE_ITEMPAGE       = "Product";//"ItemPage";
+    public const PAGE_TYPE_ITEMPAGE       = "ItemPage";
     public const PAGE_TYPE_CONTACTPAGE    = "ContactPage";
     public const PAGE_TYPE_CHECKOUTPAGE   = "CheckoutPage";
 
