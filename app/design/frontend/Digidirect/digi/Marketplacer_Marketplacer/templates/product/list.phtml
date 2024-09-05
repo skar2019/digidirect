@@ -443,9 +443,6 @@ if ($currentPage != "catalogsearch_result_index") {
                     <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
                         <?= $rentBlock->toHtml(); ?>
                     <?php endif; ?>
-                    <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                        <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                    <?php endif; ?>
 
                 </div>
                 <?= /* @escapeNotVerified */ '</li>'?>
