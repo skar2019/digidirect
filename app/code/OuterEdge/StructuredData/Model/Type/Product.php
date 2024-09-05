@@ -2,9 +2,13 @@
 
 namespace OuterEdge\StructuredData\Model\Type;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Helper\Data as TaxHelper;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Model\Stock;
+use Magento\CatalogInventory\Api\StockStateInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Module\Manager as ModuleManager;
@@ -16,59 +20,14 @@ use Magento\Review\Model\ResourceModel\Review\CollectionFactory as ReviewCollect
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ObjectManager;
+use Magento\Catalog\Model\Product\Visibility;
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\Serialize\SerializerInterface;
+use OuterEdge\StructuredData\Model\Cache\Type\StructuredDataCache;
+use Magento\Framework\View\Element\Template;
 
 class Product
 {
-    /**
-     * @var Escaper
-     */
-    protected $_escaper;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
-     * @var ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @var SummaryFactory
-     */
-    protected $_reviewSummaryFactory;
-
-    /**
-     * @var RatingOptionVoteFactory
-     */
-    protected $_ratingOptionVoteFactory;
-
-    /**
-     * @var ReviewCollectionFactory
-     */
-    protected $_reviewCollectionFactory;
-
-    /**
-     * @var ModuleManager
-     */
-    protected $_moduleManager;
-
-    /**
-     * @var ImageHelper
-     */
-    protected $imageHelper;
-
-    /**
-     * @var PricingHelper
-     */
-    protected $pricingHelper;
-
     /**
      * @var ProductModel
      */
@@ -127,28 +86,23 @@ class Product
      * @param PricingHelper $pricingHelper
      */
 	public function __construct(
-        Escaper $escaper,
-        ScopeConfigInterface $scopeConfig,
-        StoreManagerInterface $storeManager,
-        ProductFactory $productFactory,
-        SummaryFactory $reviewSummaryFactory,
-        RatingOptionVoteFactory $ratingOptionVoteFactory,
-        ReviewCollectionFactory $reviewCollectionFactory,
-        ModuleManager $moduleManager,
-        ImageHelper $imageHelper,
-        PricingHelper $pricingHelper
-	)
-	{
-        $this->_escaper = $escaper;
-        $this->_scopeConfig = $scopeConfig;
-        $this->_storeManager = $storeManager;
-        $this->_productFactory = $productFactory;
-        $this->_reviewSummaryFactory = $reviewSummaryFactory;
-        $this->_ratingOptionVoteFactory = $ratingOptionVoteFactory;
-        $this->_reviewCollectionFactory = $reviewCollectionFactory;
-        $this->_moduleManager = $moduleManager;
-        $this->imageHelper = $imageHelper;
-        $this->pricingHelper = $pricingHelper;
+        protected Escaper $_escaper,
+        protected ScopeConfigInterface $_scopeConfig,
+        protected StoreManagerInterface $_storeManager,
+        protected ProductFactory $_productFactory,
+        protected StockStateInterface $_stockState,
+        protected SummaryFactory $_reviewSummaryFactory,
+        protected RatingOptionVoteFactory $_ratingOptionVoteFactory,
+        protected ReviewCollectionFactory $_reviewCollectionFactory,
+        protected ModuleManager $_moduleManager,
+        protected ImageHelper $imageHelper,
+        protected PricingHelper $pricingHelper,
+        protected TaxHelper $taxHelper,
+        protected ProductRepositoryInterface $productRepository,
+        protected CacheInterface $cache,
+        protected SerializerInterface $serializer,
+        protected Template $template
+	) {
 	}
 
     public function getSchemaData(ProductModel $product)
@@ -163,7 +117,7 @@ class Product
             "@id" => $this->escapeUrl(strtok($this->_product->getUrlInStore(), '?'))."#Product",
             "name" => $this->escapeQuote((string)strip_tags($this->_product->getName())),
             "sku" => $this->escapeQuote((string)strip_tags($this->_product->getSku())),
-            "description" => $this->escapeHtml((string)strip_tags($this->getDescription())),
+            "description" => $this->escapeHtml((string)$this->template->stripTags($this->getDescription())),
             "image" => $this->escapeUrl(strip_tags($this->getImageUrl($this->_product, 'product_page_image_medium')))
         ];
 
@@ -174,7 +128,9 @@ class Product
             ];
         }
 
-        if ($this->getReviewsCount()) {
+        if ($this->_moduleManager->isEnabled('Magento_Review') &&
+            $this->getConfig('structureddata/product/include_reviews') &&
+            $this->getReviewsCount()) {
             $data['aggregateRating'] = [
                 "@type" => "AggregateRating",
                 "bestRating" => "100",
@@ -183,104 +139,83 @@ class Product
                 "reviewCount" => $this->escapeQuote((string)$this->getReviewsCount())
             ];
 
-            if ($this->getConfig('structureddata/product/include_reviews')) {
-                $data['review'] = [];
-                foreach ($this->getReviewCollection() as $review) {
-                    $votes = $this->getVoteCollection($review->getId());
+            $data['review'] = [];
+            foreach ($this->getReviewCollection() as $review) {
+                $votes = $this->getVoteCollection($review->getId());
 
-                    $averageRating = 0;
-                    $ratingCount = count($votes);
-                    foreach ($votes as $vote) {
-                        $averageRating = $averageRating + $vote->getValue();
-                    }
+                $averageRating = 0;
+                $ratingCount = count($votes);
+                foreach ($votes as $vote) {
+                    $averageRating = $averageRating + $vote->getValue();
+                }
+
+                $reviewData = [
+                    "@type" => "Review",
+                    "author" => [
+                    "@type" => "Person",
+                    "name" => $this->escapeQuote((string)$review->getData('nickname'))
+                    ],
+                    "datePublished" => $this->escapeQuote($review->getCreatedAt()),
+                    "name" => $this->escapeQuote((string)$review->getTitle()),
+                    "reviewBody" => $this->escapeQuote((string)$review->getDetail())
+                ];
+
+                if ($ratingCount > 0) {
                     $finalRating = $averageRating / $ratingCount;
 
-                    $data['review'][] = [
-                        "@type" => "Review",
-                        "author" => [
-                        "@type" => "Person",
-                        "name" => $this->escapeQuote((string)$review->getData('nickname'))
-                        ],
-                        "datePublished" => $this->escapeQuote($review->getCreatedAt()),
-                        "name" => $this->escapeQuote((string)$review->getTitle()),
-                        "reviewBody" => $this->escapeQuote((string)$review->getDetail()),
-                        "reviewRating" => [
-                            "@type" => "Rating",
-                            "ratingValue" => $finalRating,
-                            "bestRating" => "5",
-                            "worstRating" => "1"
-                        ]
+                    $reviewData["reviewRating"] = [
+                        "@type" => "Rating",
+                        "ratingValue" => $finalRating,
+                        "bestRating" => "5",
+                        "worstRating" => "1"
                     ];
                 }
+
+                $data['review'][] = $reviewData;
             }
-        }
-
-        if ($this->_product->getMpn()) {
-            $data['mpn'] = $this->escapeQuote((string)strip_tags($this->_product->getMpn()));
-        }
-
-        if ($this->_product->getMaterial()) {
-            $data['material'] = $this->escapeQuote((string)$this->getAttributeText('material'));
-        }
-
-        if ($this->_product->getColor()) {
-            $data['color'] = $this->escapeQuote((string)$this->getAttributeText('color'));
-        } elseif ($this->_product->getColour()) {
-            $data['color'] = $this->escapeQuote((string)$this->_product->getColour());
         }
 
         if ($this->getGtin()) {
             $data['gtin'] = $this->escapeQuote((string)strip_tags($this->getGtin()));
         }
 
-        $children = $this->getChildren();
-        if (empty($children)) {
-            $this->weight = $this->_product->getWeight();
-            $data['offers'] = $this->getOffer($this->_product);
-        } else {
-            $offers  = [];
-            $lastKey = key(array_slice($children, -1, 1, true));
-
-            foreach ($children as $key => $_product) {
-                $productFinalPrice = $_product->getFinalPrice();
-                $productWeight     = $_product->getWeight();
-
-                $this->minPrice  = $productFinalPrice < $this->minPrice || $this->minPrice === null ? $productFinalPrice : $this->minPrice;
-                $this->maxPrice  = $productFinalPrice > $this->maxPrice || $this->maxPrice === null ? $productFinalPrice : $this->maxPrice;
-
-                $this->minWeight = $productWeight < $this->minWeight || $this->minWeight === null ? $productWeight : $this->minWeight;
-                $this->maxWeight = $productWeight > $this->maxWeight || $this->maxWeight === null ? $productWeight : $this->maxWeight;
-
-                $offers[] = $this->getOffer($_product);
-                $key == $lastKey ? '' : ',';
-            }
-
-            $data['offers'] = [
-                '@type' => "AggregateOffer",
-                'priceCurrency' => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                'offerCount' => is_countable($children) ? count($children) : 0,
-                'offers' => $offers
-            ];
-
-            if ($this->minWeight == $this->maxWeight) {
-                $this->weight = $this->minWeight;
-                $this->minWeight = null;
-                $this->maxWeight = null;
-            }
-
-            if ($product->getTypeId() == 'bundle') {
-                $rangeBundle = $this->getBundlePriceRange($product->getId());
-                $this->minPrice = $rangeBundle['minPrice'];
-                $this->maxPrice = $rangeBundle['maxPrice'];
-            } else {
-                $this->minPrice = $this->pricingHelper->currency($this->minPrice, false, false);
-                $this->maxPrice = $this->pricingHelper->currency($this->maxPrice, false, false);
-            }
-
-            $data['offers']['lowPrice'] = $this->escapeQuote((string)$this->minPrice);
-            $data['offers']['highPrice'] = $this->escapeQuote((string)$this->maxPrice);
+        if ($this->getMpn()) {
+            $data['mpn'] = $this->escapeQuote((string)strip_tags($this->getMpn()));
         }
 
+        if ($this->getIsbn()) {
+            $data['isbn'] = $this->escapeQuote((string)strip_tags($this->getIsbn()));
+        }
+
+        if ($this->getSize()) {
+            $data['size'] = $this->escapeQuote((string)strip_tags($this->getSize()));
+        }
+
+        if ($this->getMaterial()) {
+            $data['material'] = $this->escapeQuote((string)strip_tags($this->getMaterial()));
+        }
+
+        if ($this->getColor()) {
+            $data['color'] = $this->escapeQuote((string)strip_tags($this->getColor()));
+        }
+
+        if ($this->getKeywords()) {
+            $data['keywords'] = $this->escapeQuote((string)strip_tags($this->getKeywords()));
+        }
+
+        if ($this->_product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+            || !$this->getConfig('structureddata/product/include_children')
+        ) {
+            $this->weight = $this->_product->getWeight();
+            $data = $this->includeWeight($data);
+            $data['offers'] = $this->getOffer($this->_product);
+        }
+
+        return $data;
+    }
+
+    protected function includeWeight($data)
+    {
         if ($this->getConfig('structureddata/product/include_weight')) {
             $data['weight'] = [
                 '@type' => "QuantitativeValue",
@@ -301,56 +236,127 @@ class Product
         return $data;
     }
 
-    protected function getOffer(ProductModel $product) {
-        $availability = $product->isAvailable() ? 'InStock' : 'OutOfStock';
-        $preorder = $product->getPreorder();
-        if($preorder == 1)
-        {
-            $availability = "preorder";
-            $dateInTwoWeeks = strtotime('+2 weeks');
-            $availabilityDate = date("Y-m-dTh:mZ",$dateInTwoWeeks);
-            $data = [
-                "@type" => "Offer",
-                "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
-                "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
-                "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                "availability" => "http://schema.org/$availability",
-                "availabilityStarts" =>$availabilityDate,
-                "itemCondition" => "http://schema.org/NewCondition",
-                "priceSpecification" => [
-                    "@type" => "UnitPriceSpecification",
-                    "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
-                    "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                    "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded())
-                ]
+    public function getChildOffers($product)
+    {
+        $this->_product = $product;
+
+        $children = $this->getChildren();
+        if ($children) {
+            $offers = $data = [];
+            $lastKey = key(array_slice($children, -1, 1, true));
+
+            foreach ($children as $key => $_childProduct) {
+                $productFinalPrice = $_childProduct->getFinalPrice();
+                $productWeight     = $_childProduct->getWeight();
+
+                $this->minPrice  = $productFinalPrice < $this->minPrice || $this->minPrice === null ? $productFinalPrice : $this->minPrice;
+                $this->maxPrice  = $productFinalPrice > $this->maxPrice || $this->maxPrice === null ? $productFinalPrice : $this->maxPrice;
+
+                $this->minWeight = $productWeight < $this->minWeight || $this->minWeight === null ? $productWeight : $this->minWeight;
+                $this->maxWeight = $productWeight > $this->maxWeight || $this->maxWeight === null ? $productWeight : $this->maxWeight;
+
+                $offers[] = $this->getOffer($_childProduct);
+                $offers[$key]['sku'] = $_childProduct->getSku();
+
+                if ($_childProduct->getVisibility() == Visibility::VISIBILITY_NOT_VISIBLE) {
+                    $offers[$key]['url'] = $this->_product->getProductUrl();
+                }
+                $key == $lastKey ? '' : ',';
+            }
+
+            $data['offers'] = [
+                '@type' => "AggregateOffer",
+                'priceCurrency' => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+                'offerCount' => is_countable($children) ? count($children) : 0,
+                'offers' => $offers
             ];
-        }
-        else
-        {
-            $data = [
-                "@type" => "Offer",
-                "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
-                "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
-                "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                "availability" => "http://schema.org/$availability",
-                "itemCondition" => "http://schema.org/NewCondition",
-                "priceSpecification" => [
-                    "@type" => "UnitPriceSpecification",
-                    "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
-                    "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
-                    "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded())
-                ]
-            ];
+
+            if ($this->minWeight == $this->maxWeight) {
+                $this->weight = $this->minWeight;
+                $this->minWeight = null;
+                $this->maxWeight = null;
+            }
+
+            if ($product->getTypeId() == 'bundle') {
+                $rangeBundle = $this->getBundlePriceRange($this->_product->getId());
+                $this->minPrice = $rangeBundle['minPrice']->getValue();
+                $this->maxPrice = $rangeBundle['maxPrice']->getValue();
+            }
+
+            $minPricewithTax = $this->taxHelper->getTaxPrice($this->_product, $this->minPrice, $this->checkTaxIncluded());
+            $maxPricewithTax = $this->taxHelper->getTaxPrice($this->_product, $this->maxPrice, $this->checkTaxIncluded());
+
+            $data['offers']['lowPrice'] = $this->escapeQuote((string)$this->pricingHelper->currency($minPricewithTax, false, false));
+            $data['offers']['highPrice'] = $this->escapeQuote((string)$this->pricingHelper->currency($maxPricewithTax, false, false));
+            $data = $this->includeWeight($data);
         }
 
+        return $data;
+    }
 
+    public function getOffer(ProductModel $product)
+    {
+        if ($result = $this->getCache($product->getId())) {
+            return $result;
+        }
+
+        $availability      = 'OutOfStock';
+        $product           = $this->productRepository->getById($product->getId());
+        $quantityAvailable = $this->_stockState->getStockQty($product->getId());
+        $backorderStatus   = null;
+
+        if ($stockItem = $product->getExtensionAttributes()->getStockItem()) {
+            $backorderStatus = $stockItem->getBackorders();
+        }
+
+        if ($product->isAvailable()) {
+            $availability = 'InStock';
+
+            if ($quantityAvailable <= 0 && $backorderStatus == Stock::BACKORDERS_YES_NOTIFY) {
+                $availability = 'BackOrder';
+            }
+        }
+
+        $pricewithTax = $this->taxHelper->getTaxPrice($product, $product->getFinalPrice(), $this->checkTaxIncluded());
+
+        $data = [
+            "@type" => "Offer",
+            "url" => $this->escapeUrl(strtok($product->getUrlInStore(), '?')),
+            "price" => $this->escapeQuote((string)$this->pricingHelper->currency($pricewithTax, false, false)),
+            "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+            "availability" => "http://schema.org/$availability",
+            "itemCondition" => "http://schema.org/NewCondition",
+            "priceSpecification" => [
+                "@type" => "UnitPriceSpecification",
+                "price" => $this->escapeQuote((string)$this->pricingHelper->currency($pricewithTax, false, false)),
+                "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
+                "valueAddedTaxIncluded" => $this->escapeQuote($this->checkTaxIncluded() ? 'true' : 'false')
+            ]
+        ];
 
         if ($product->getFinalPrice() < $product->getPrice() && $product->getSpecialToDate()) {
             $priceToDate = date_create($product->getSpecialToDate());
             $data['priceValidUntil'] = $this->escapeQuote($priceToDate->format('Y-m-d'));
         }
 
+        $this->saveCache($product->getId(), $data);
         return $data;
+    }
+
+    public function getDescription()
+    {
+        if ($this->getConfig('structureddata/product/use_short_description')
+            && $this->_product->getShortDescription()) {
+            $description = nl2br($this->_product->getShortDescription());
+        } else {
+            $description = nl2br((string) $this->_product->getDescription());
+        }
+
+        if ($description) {
+            $description = preg_replace('/([\r\n\t])/', ' ', $description);
+        }
+
+        return substr($description, 0, 5000);
     }
 
     public function getBrand()
@@ -376,27 +382,76 @@ class Product
         return $this->brand;
     }
 
-    public function getDescription()
-    {
-        if ($this->getConfig('structureddata/product/use_short_description')
-            && $this->_product->getShortDescription()) {
-            $description = nl2br($this->_product->getShortDescription());
-        } else {
-            $description = nl2br((string) $this->_product->getDescription());
-        }
-
-        if ($description) {
-            $description = preg_replace('/([\r\n\t])/', ' ', $description);
-        }
-
-        return substr($description, 0, 5000);
-    }
-
     public function getGtin()
     {
         if ($field = $this->getConfig('structureddata/product/product_gtin_field')) {
-            if ($value = $this->_product->getData($field)) {
-                return $value;
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        }
+        return false;
+    }
+
+    public function getMpn()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_mpn')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        }
+        return false;
+    }
+
+    public function getIsbn()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_isbn')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        }
+        return false;
+    }
+
+    public function getColor()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_color')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        } elseif ($this->_product->getColor()) { // removing these lines will require a major version bump
+            $data['color'] = $this->escapeQuote((string)$this->getAttributeText('color'));
+       	} elseif ($this->_product->getColour()) {
+            $data['color'] = $this->escapeQuote((string)$this->getAttributeText('colour'));
+        }
+
+        return false;
+    }
+
+    public function getSize()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_size')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        }
+        return false;
+    }
+
+    public function getMaterial()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_material')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
+            }
+        }
+        return false;
+    }
+
+    public function getKeywords()
+    {
+        if ($field = $this->getConfig('structureddata/product/field_keywords')) {
+            if (!empty($this->_product->getData($field))) {
+                return $this->getAttributeText($field);
             }
         }
         return false;
@@ -491,7 +546,7 @@ class Product
         return false;
     }
 
-    public function getChildren()
+    protected function getChildren()
     {
         if (!$this->getConfig('structureddata/product/include_children')) {
             return [];
@@ -548,10 +603,10 @@ class Product
     public function checkTaxIncluded()
     {
         $taxDisplayType = $this->getConfig('tax/display/type');
-        if ($taxDisplayType == 2) {
-            return 'true';
+        if ($taxDisplayType == 2 || $taxDisplayType == 3) {
+            return true;
         } else {
-            return 'false';
+            return false;
         }
     }
 
@@ -596,5 +651,25 @@ class Product
     public function escapeQuote($data)
     {
         return htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, null, false);
+    }
+
+    protected function saveCache($productId, $data)
+    {
+        $cacheId  = StructuredDataCache::TYPE_IDENTIFIER .'_'. $productId;
+        $this->cache->save(
+            $this->serializer->serialize($data),
+            $cacheId,
+            [StructuredDataCache::CACHE_TAG]
+        );
+    }
+
+    protected function getCache($productId)
+    {
+        $cacheId  = StructuredDataCache::TYPE_IDENTIFIER .'_'. $productId;
+
+        if ($result = $this->cache->load($cacheId)) {
+            return $this->serializer->unserialize($result);
+        }
+        return false;
     }
 }

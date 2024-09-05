@@ -324,6 +324,14 @@ $currentPage = $this->getRequest()->getFullActionName();
                             <?php endif; ?>
                         </div>
                     </div>
+
+                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                        <?= $rentBlock->toHtml(); ?>
+                    <?php endif; ?>
+                    <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                        <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                    <?php endif; ?>
+                    
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>

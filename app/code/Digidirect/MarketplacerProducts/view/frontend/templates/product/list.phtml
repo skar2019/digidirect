@@ -386,6 +386,11 @@ $currentPage = $this->getRequest()->getFullActionName();
                             <?php endif; ?>
                         </div>
                     </div>
+
+                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                        <?= $rentBlock->toHtml(); ?>
+                    <?php endif; ?>
+
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
