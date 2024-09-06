@@ -10,9 +10,8 @@ define([
             checkoutEvent: function () {
                 
                 console.log("checkoutEvent On JS Mixin");
-                var customerId = getCookie('PAC');
+                /*var customerId = getCookie('PAC');
                 var sessionId = getCookie('pa_session_id');
-                var currentUrl = window.location.href;
 
                 var configCustomerId;
                 var configSessionId;
@@ -20,8 +19,10 @@ define([
                 configCustomerId = customerId;
                 configSessionId = sessionId;
 
-                var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+                var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';*/
 
+                var currentUrl = window.location.href;
+                
                 var date = new Date();
                 var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
                         date.getUTCDate(), date.getUTCHours(),
@@ -50,8 +51,8 @@ define([
                             currentUrl: currentUrl,
                             eventTime: date.toISOString(),
                             products: products,
-                            widgetId: widgetId,
-                            routeId: routeId
+                            //widgetId: widgetId,
+                            //routeId: routeId
                         }
                     ]
                 };
