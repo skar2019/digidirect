@@ -40,7 +40,6 @@ class CheckoutCartAddObserver implements ObserverInterface {
         $this->serializer = $serializer;
         $this->logger = $logger;
     }
-    
     /**
      * execute
      *
