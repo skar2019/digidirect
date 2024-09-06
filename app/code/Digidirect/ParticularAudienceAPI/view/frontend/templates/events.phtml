@@ -23,64 +23,68 @@ require(['jquery'], function ($) {
     configSessionId = sessionId;
     
     //$(".pa-digidirect-product-widget .action.tocart").click(function(){
-    $("#test-trigger").click(function(){
+    $(document).ready(function() {
         
-        console.log("Test Trigger!");
-        
-        /*var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        $("#test-trigger").click(function(){
+            
+            console.log("Test Trigger!");
 
-        var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
-        var products = [];
-        
-        $("#mini-cart .product-item").each(function() {
-            
-            var productItem;
-            
-            var refId = $(this).find("[pa-option-label='refId']").attr("pa-option-value"); 
-            var quantity = $(this).find(".cart-item-qty").attr("data-item-qty"); 
-            var routeId = $(this).find("[pa-option-label='routeId']").attr("pa-option-value"); 
-            var widgetId = $(this).find("[pa-option-label='widgetId']").attr("pa-option-value"); 
-            
-            productItem = {"refId": refId, "quantity": quantity, "routeId": routeId, "widgetId": widgetId};
-            products.push(productItem);
-            
-        });
+            /*var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
-        const checkoutData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    products: products,
-                    widgetId: widgetId,
-                    routeId: routeId
+            var date = new Date();
+            var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                    date.getUTCDate(), date.getUTCHours(),
+                    date.getUTCMinutes(), date.getUTCSeconds());
+            var products = [];
+
+            $("#mini-cart .product-item").each(function() {
+
+                var productItem;
+
+                var refId = $(this).find("[pa-option-label='refId']").attr("pa-option-value"); 
+                var quantity = $(this).find(".cart-item-qty").attr("data-item-qty"); 
+                var routeId = $(this).find("[pa-option-label='routeId']").attr("pa-option-value"); 
+                var widgetId = $(this).find("[pa-option-label='widgetId']").attr("pa-option-value"); 
+
+                productItem = {"refId": refId, "quantity": quantity, "routeId": routeId, "widgetId": widgetId};
+                products.push(productItem);
+
+            });
+
+            const checkoutData = {
+                customerId: configCustomerId,
+                sessionId: configSessionId,
+                events: [
+                    {
+                        currentUrl: currentUrl,
+                        eventTime: date.toISOString(),
+                        products: products,
+                        widgetId: widgetId,
+                        routeId: routeId
+                    }
+                ]
+            };
+
+            console.log("checkoutData", JSON.stringify(checkoutData));*/
+
+            /*$.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+                type: "POST",
+                data: {
+                    eventData: clickData
+                },
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
                 }
-            ]
-        };
+            });*/
 
-        console.log("checkoutData", JSON.stringify(checkoutData));*/
-
-        /*$.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
-            type: "POST",
-            data: {
-                eventData: clickData
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });*/
-
+        });
     });
+    
     
 });
 
