@@ -52,7 +52,6 @@ class CheckoutCartAddObserver implements ObserverInterface {
         
         //$this->logger->info("CheckoutCartAddObserver");
         $postValue = $this->_request->getParams();
-        
         $item = $observer->getQuoteItem();
         
         $refId = [];
