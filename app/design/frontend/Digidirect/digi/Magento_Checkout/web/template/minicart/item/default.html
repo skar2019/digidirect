@@ -42,8 +42,12 @@
                         <strong class="subtitle"><!-- ko i18n: 'Options Details' --><!-- /ko --></strong>
                         <dl class="product options list">
                             <!-- ko foreach: { data: options, as: 'option' } -->
-                            <dt class="label"><!-- ko text: option.label --><!-- /ko --></dt>
-                            <dd class="values">
+                            <span class="pa-option">
+                                <span class="pa-option-label"><!-- ko text: option.label --><!-- /ko --></span>
+                                <span class="pa-option-value"><!-- ko text: option.value --><!-- /ko --></span>
+                            </span>
+                            <dt class="label" style="display: none;"><!-- ko text: option.label --><!-- /ko --></dt>
+                            <dd class="values" style="display: none;">
                                 <!-- ko if: Array.isArray(option.value) -->
                                 <span data-bind="html: option.value.join('<br>')"></span>
                                 <!-- /ko -->
