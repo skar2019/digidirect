@@ -348,6 +348,10 @@ if ($currentPage != "catalogsearch_result_index") {
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
 
                                     <?php if ($is_digiPrint == 1): ?>
+                                        <div class="s19-rental-price-target">
+                                            <p style="font-size: 13px; font-weight: 600;">Buy now pay later</p>
+                                            <p style="font-size: 13px;">Option Available</p>
+                                        </div>
 
                                         <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
                                             <button type="button"
@@ -359,8 +363,8 @@ if ($currentPage != "catalogsearch_result_index") {
 
                                     <?php else: ?>
                                     <div class="s19-rental-price-target">
-                                        <p style="font-size: 14px; font-weight: 600; text-transform: uppercase;">Buy now pay later</p>
-                                        <p style="font-size: 13px; text-transform: uppercase;">Option Available</p>
+                                        <p style="font-size: 13px; font-weight: 600;">Buy now pay later</p>
+                                        <p style="font-size: 13px;">Option Available</p>
                                     </div>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
