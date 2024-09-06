@@ -115,14 +115,14 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
                     date.getUTCMinutes(), date.getUTCSeconds());
             var products = [];
 
-            _jquery("#mini-cart .product-item").each(function() {
+            $("#mini-cart .product-item").each(function() {
 
                 var productItem;
 
-                var refId = _jquery(this).find("[pa-option-label='refId']").attr("pa-option-value"); 
-                var quantity = _jquery(this).find(".cart-item-qty").attr("data-item-qty"); 
-                var routeId = _jquery(this).find("[pa-option-label='routeId']").attr("pa-option-value"); 
-                var widgetId = _jquery(this).find("[pa-option-label='widgetId']").attr("pa-option-value"); 
+                var refId = $(this).find("[pa-option-label='refId']").attr("pa-option-value"); 
+                var quantity = $(this).find(".cart-item-qty").attr("data-item-qty"); 
+                var routeId = $(this).find("[pa-option-label='routeId']").attr("pa-option-value"); 
+                var widgetId = $(this).find("[pa-option-label='widgetId']").attr("pa-option-value"); 
 
                 productItem = {"refId": refId, "quantity": quantity, "routeId": routeId, "widgetId": widgetId};
                 products.push(productItem);
