@@ -86,6 +86,10 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
 
         closeSidebar: function closeSidebar() {
             this.Store.emit(this.Events.MINICART_CLOSE);
+        },
+        
+        checkoutEvent: function checkoutEvent() {
+            console.log("Test Trigger On checkoutEvent()!");
         }
     };
 
