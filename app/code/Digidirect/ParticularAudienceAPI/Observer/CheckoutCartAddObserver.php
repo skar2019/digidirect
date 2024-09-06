@@ -62,7 +62,6 @@ class CheckoutCartAddObserver implements ObserverInterface {
         ]);
 
         if (isset($postValue['route_id']) && $postValue['route_id']) {
-            $this->logger->info("route_id: " . $postValue['route_id']);
             $routeId = [];
             $routeId[] = ['label' => 'route_id', 'value' => $postValue['route_id']];
             if (count($routeId) > 0) {
@@ -75,7 +74,6 @@ class CheckoutCartAddObserver implements ObserverInterface {
         }
         
         if (isset($postValue['widget_id']) && $postValue['widget_id']) {
-            $this->logger->info("widget_id: " . $postValue['widget_id']);
             $widgetId = [];
             $widgetId[] = ['label' => 'widgetId', 'value' => $postValue['widget_id']];
             if (count($widgetId) > 0) {
