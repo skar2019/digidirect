@@ -42,7 +42,7 @@
                         <strong class="subtitle"><!-- ko i18n: 'Options Details' --><!-- /ko --></strong>
                         <dl class="product options list">
                             <!-- ko foreach: { data: options, as: 'option' } -->
-                            <span class="pa-option" data-bind="attr: { pa-option-label: option.label, pa-option-value: option.value }"></span>
+                            <span class="pa-option" data-bind="attr: { 'pa-option-label': option.label, 'pa-option-value': option.value }"></span>
                             <dt class="label"><!-- ko text: option.label --><!-- /ko --></dt>
                             <dd class="values">
                                 <!-- ko if: Array.isArray(option.value) -->
