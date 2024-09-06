@@ -50,7 +50,6 @@ class CheckoutCartAddObserver implements ObserverInterface {
      */
     public function execute(EventObserver $observer) {
         
-        //$this->logger->info("CheckoutCartAddObserver");
         $postValue = $this->_request->getParams();
         $item = $observer->getQuoteItem();
         
