@@ -40,6 +40,7 @@ class CheckoutCartAddObserver implements ObserverInterface {
         $this->serializer = $serializer;
         $this->logger = $logger;
     }
+    
     /**
      * execute
      *
@@ -52,36 +53,27 @@ class CheckoutCartAddObserver implements ObserverInterface {
         $postValue = $this->_request->getParams();
         $item = $observer->getQuoteItem();
         
-        $refId = [];
-        $refId[] = ['label' => 'refId', 'value' => $item->getProductId()];
-        $item->addOption([
-            'product_id' => $item->getProductId(),
-            'code' => 'additional_options',
-            'value' => $this->serializer->serialize($refId),
-        ]);
+        $customOptions = [];
+        
+        $refId = ['label' => 'refId', 'value' => $item->getProductId()];
+        array_push($customOptions, $refId);
 
         if (isset($postValue['route_id']) && $postValue['route_id']) {
             $routeId = [];
-            $routeId[] = ['label' => 'route_id', 'value' => $postValue['route_id']];
-            if (count($routeId) > 0) {
-                $item->addOption([
-                    'product_id' => $item->getProductId(),
-                    'code' => 'additional_options',
-                    'value' => $this->serializer->serialize($routeId),
-                ]);
-            }
+            $routeId = ['label' => 'routeId', 'value' => $postValue['route_id']];
+            array_push($customOptions, $routeId);
         }
         
         if (isset($postValue['widget_id']) && $postValue['widget_id']) {
             $widgetId = [];
-            $widgetId[] = ['label' => 'widgetId', 'value' => $postValue['widget_id']];
-            if (count($widgetId) > 0) {
-                $item->addOption([
-                    'product_id' => $item->getProductId(),
-                    'code' => 'additional_options',
-                    'value' => $this->serializer->serialize($widgetId),
-                ]);
-            }
+            $widgetId = ['label' => 'widgetId', 'value' => $postValue['widget_id']];
+            array_push($customOptions, $widgetId);
         }
+        
+        $item->addOption([
+            'product_id' => $item->getProductId(),
+            'code' => 'additional_options',
+            'value' => $this->serializer->serialize($customOptions),
+        ]);
     }
 }
