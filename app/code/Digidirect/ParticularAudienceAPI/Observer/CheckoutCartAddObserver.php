@@ -52,27 +52,35 @@ class CheckoutCartAddObserver implements ObserverInterface {
         
         //$this->logger->info("CheckoutCartAddObserver");
         $postValue = $this->_request->getParams();
+        
+        $item = $observer->getQuoteItem();
+        
+        $refId = [];
+        $refId[] = ['label' => 'refId', 'value' => $item->getProductId()];
+        $item->addOption([
+            'product_id' => $item->getProductId(),
+            'code' => 'additional_options',
+            'value' => $this->serializer->serialize($refId),
+        ]);
 
-        if (isset($postValue['ref_id']) && $postValue['ref_id']) {
-            $this->logger->info("ref_id: " . $postValue['ref_id']);
-            $item = $observer->getQuoteItem();
-            $refId = [];
-            $refId[] = ['label' => 'refId', 'value' => $postValue['ref_id']];
-            if (count($refId) > 0) {
+        if (isset($postValue['route_id']) && $postValue['route_id']) {
+            $this->logger->info("route_id: " . $postValue['route_id']);
+            $routeId = [];
+            $routeId[] = ['label' => 'route_id', 'value' => $postValue['route_id']];
+            if (count($routeId) > 0) {
                 $item->addOption([
                     'product_id' => $item->getProductId(),
                     'code' => 'additional_options',
-                    'value' => $this->serializer->serialize($refId),
+                    'value' => $this->serializer->serialize($routeId),
                 ]);
             }
         }
         
         if (isset($postValue['widget_id']) && $postValue['widget_id']) {
             $this->logger->info("widget_id: " . $postValue['widget_id']);
-            $item = $observer->getQuoteItem();
             $widgetId = [];
             $widgetId[] = ['label' => 'widgetId', 'value' => $postValue['widget_id']];
-            if (count($refId) > 0) {
+            if (count($widgetId) > 0) {
                 $item->addOption([
                     'product_id' => $item->getProductId(),
                     'code' => 'additional_options',

@@ -199,10 +199,10 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                    '<input type="text" name="ref_id" value="'+ product.refId +'" />' +
-                                    '<input type="text" name="qty" value="1" />' +
-                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" />' +
-                                    '<input type="text" name="route_id" value="'+ routeId +'" />' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
