@@ -7,6 +7,7 @@ define([
     return function (target) {
         
         return target.extend({
+            
             checkoutEvent: function () {
                 
                 console.log("checkoutEvent On JS Mixin");
