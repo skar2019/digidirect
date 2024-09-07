@@ -69,7 +69,6 @@ define([
                 if (products) {
                     console.log("checkoutData", JSON.stringify(checkoutData));
                 }
-                
             }
         });
     };
