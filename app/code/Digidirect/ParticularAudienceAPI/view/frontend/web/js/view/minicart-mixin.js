@@ -10,18 +10,22 @@ define([
             checkoutEvent: function () {
                 
                 console.log("checkoutEvent On JS Mixin");
-                /*var customerId = getCookie('PAC');
+                
+                function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+
+                var customerId = getCookie('PAC');
                 var sessionId = getCookie('pa_session_id');
+                var currentUrl = window.location.href;
 
                 var configCustomerId;
                 var configSessionId;
 
                 configCustomerId = customerId;
                 configSessionId = sessionId;
-
-                var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';*/
-
-                var currentUrl = window.location.href;
                 
                 var date = new Date();
                 var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
@@ -44,20 +48,22 @@ define([
                 });
 
                 const checkoutData = {
-                    //customerId: configCustomerId,
-                    //sessionId: configSessionId,
+                    customerId: configCustomerId,
+                    sessionId: configSessionId,
                     events: [
                         {
                             currentUrl: currentUrl,
                             eventTime: date.toISOString(),
                             products: products,
-                            //widgetId: widgetId,
-                            //routeId: routeId
+                            widgetId: widgetId,
+                            routeId: routeId
                         }
                     ]
                 };
-
-                console.log("checkoutData", JSON.stringify(checkoutData));
+                
+                if (products) {
+                    console.log("checkoutData", JSON.stringify(checkoutData));
+                }
             }
         });
         
