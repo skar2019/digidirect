@@ -12,7 +12,7 @@ define([
                 
                 console.log("checkoutEvent On JS Mixin");
                 
-                function getCookie(name) {
+                /*function getCookie(name) {
                     const value = `; ${document.cookie}`;
                     const parts = value.split(`; ${name}=`);
                     if (parts.length === 2) return parts.pop().split(';').shift();
@@ -68,7 +68,7 @@ define([
                 
                 if (products) {
                     console.log("checkoutData", JSON.stringify(checkoutData));
-                }
+                }*/
                 
             }
         });
