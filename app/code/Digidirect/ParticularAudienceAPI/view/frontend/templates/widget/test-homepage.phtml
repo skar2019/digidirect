@@ -128,7 +128,6 @@ require(['jquery'], function ($) {
             
             let digiSeconds = "";
             let digiSecondsOverlay = "";
-            let digiSecondsRating = "";
             let sellerName = "";
             
             let categories = product.attributes.find(obj => {
@@ -137,6 +136,18 @@ require(['jquery'], function ($) {
             
             let seller = product.attributes.find(obj => {
                 return obj.name === 'DDR_Seller_Id';
+            })
+            
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
+            let digiSecondsRating = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
             })
             
             sellerName = seller.stringValue;
@@ -150,13 +161,13 @@ require(['jquery'], function ($) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
-}
+            }
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
+            if (digiPrint) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLink + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
