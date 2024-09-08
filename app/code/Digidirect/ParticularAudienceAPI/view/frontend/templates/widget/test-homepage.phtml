@@ -146,9 +146,23 @@ require(['jquery'], function ($) {
                 return obj.name === 'digiprint_customlink';
             })
             
-            let digiSecondsRating = product.attributes.find(obj => {
+            let digiSecondsRatingValue = product.attributes.find(obj => {
                 return obj.name === 'item_rating';
             })
+            
+            let digiSecondsRating = "";            
+            
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            }
             
             sellerName = seller.stringValue;
             
@@ -165,10 +179,13 @@ require(['jquery'], function ($) {
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
+            
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
 
-            if (digiPrint) {
-                addToCart = '<a class="ordernow-link" href="' + digiPrintLink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            if (digiPrintValue) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
