@@ -33,10 +33,81 @@ require(['jquery'], function ($) {
             console.log('AJAX Fail!');
         }
     });
+    
     console.log('result', result);
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
+    
+    var routeId  = recommendationsResult.recommendations.route.id;
+    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+    
+    var configCustomerId;
+    var configSessionId;
+    
+    var sessionId = getCookie('pa_session_id');
+    console.log('sessionId', sessionId);
+    
+    if (!sessionId) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                configCustomerId = data.payload.customerId;
+                configSessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+    } else {
+        configCustomerId = customerId;
+        configSessionId = sessionId;
+    }
+    
+    function viewProduct(productId) {
+        
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
 
+        const viewProductData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    refId: productId
+                }
+            ]
+        };
+
+        console.log("viewProductData", JSON.stringify(viewProductData));
+
+        /*$.ajax({
+            //async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/viewproduct",
+            type: "POST",
+            data: {
+                eventData: viewProductData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+    }
+    
+    viewProduct(<?= $productId; ?>);
+    
     function digiMarketSidePanel(widgetId, appendTo) {
         let productItem = "";
         let priceBlock = "";
@@ -61,7 +132,7 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item">' +
+            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -79,6 +150,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            slots(product.refId);
         });
         $('.product-item-container.widget-placeholder').remove();
     }
@@ -150,7 +222,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
                 } else {
                     digiDealsLogo = '';
                 }
@@ -210,7 +282,7 @@ require(['jquery'], function ($) {
             }
             
             let hideProductItem = "";
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '">' +
+            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
                                     '<input type="checkbox" data-product-id="'+ product.refId +'" data-product-price="'+ finalPrice +'" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>' +
@@ -239,6 +311,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(prependTo).prepend(productItem);
+            slots(product.refId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
         $('#pdp-frquently-bought-with-desktop').show();
@@ -285,7 +358,7 @@ require(['jquery'], function ($) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
-            }
+}
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
@@ -308,7 +381,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
                 } else {
                     digiDealsLogo = '';
                 }
@@ -365,7 +438,7 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '">' +
+            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -397,6 +470,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            slots(product.refId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -468,7 +542,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
                 } else {
                     digiDealsLogo = '';
                 }
@@ -477,6 +551,9 @@ require(['jquery'], function ($) {
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
                     digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
+                    }
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
@@ -528,7 +605,7 @@ require(['jquery'], function ($) {
             }
             
             let hideProductItem = "";
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '">' +
+            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
                                     '<input type="checkbox" data-product-id="'+ product.refId +'" data-product-price="'+ finalPrice +'" class="pa-checkbox-input pa-bundle-overlay-product"><span><i class="fas fa-clipboard fa-2x"></i></span>' +
@@ -557,6 +634,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(prependTo).prepend(productItem);
+            slots(product.refId);
         });
     }
     
@@ -569,6 +647,186 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
+    
+    function slots(productId) {
+
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const slotData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    refId: productId,
+                    widgetId: widgetId,
+                    routeId: routeId
+                }
+            ]
+        };
+
+        console.log(JSON.stringify(slotData));
+
+        /*$.ajax({
+            //async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+            type: "POST",
+            data: {
+                eventData: slotData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+    }
+    
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+        .replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, 
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
+
+        var productId = $(this).attr("product-id");
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const clickData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    clickId: uuidv4(),
+                    refId: productId,
+                    actionType: 1,
+                    contextType: 1,
+                    routeId: routeId,
+                    widgetId: widgetId
+                }
+            ]
+        };
+
+        console.log(JSON.stringify(clickData));
+
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+
+    });
+    
+    $(".pa-digidirect-product-widget .action.tocart").click(function(){
+
+        var productId = $(this).attr("product-id");
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const productData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: [{"refId": productId, "quantity": 1}],
+                    widgetId: widgetId,
+                    routeId: routeId,
+                }
+            ]
+        };
+
+        console.log("productData", JSON.stringify(productData));
+
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+
+    });
+    
+    $("#product-addtocart-button").click(function(){
+
+        var productId = <?= $productId; ?>;
+        var quantity = $("#qty").attr();
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const productData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: [{"refId": productId, "quantity": quantity}]
+                }
+            ]
+        };
+
+        console.log("productData", JSON.stringify(productData));
+
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
+
+    });
     
     // Create a new MutationObserver 
     const observer = new MutationObserver((mutations) => { 

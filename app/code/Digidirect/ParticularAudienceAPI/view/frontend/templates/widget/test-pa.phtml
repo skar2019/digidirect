@@ -12,8 +12,7 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
-    
-    console.log('customerId', customerId);
+    var sessionId = getCookie('pa_session_id');
     
     var result;
     
@@ -39,36 +38,13 @@ require(['jquery'], function ($) {
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = "<?= $block->getCurrentUrl(); ?>";
     
+    
     var configCustomerId;
     var configSessionId;
     
-    var sessionId = getCookie('pa_session_id');
-    console.log('sessionId', sessionId);
+    configCustomerId = customerId;
+    configSessionId = sessionId;
     
-    if (!sessionId) {
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-            type: "POST",
-            data: {
-                customerId: customerId
-            },
-            success: function(data){
-                console.log(data);
-                configCustomerId = data.payload.customerId;
-                configSessionId = data.payload.session.id
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-    } else {
-        configCustomerId = customerId;
-        configSessionId = sessionId;
-    }
-
-    
-
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
         let priceBlock = "";
@@ -211,7 +187,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
                 } else {
                     digiDealsLogo = '';
                 }
