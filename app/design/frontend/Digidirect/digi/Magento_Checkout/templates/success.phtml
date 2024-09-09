@@ -79,11 +79,18 @@
         
         //Prepare data for checkout event
         var subTotal = <?= $lastOrder->getSubtotal(); ?>;
+        console.log("subTotal", subTotal);
         var discount = <?= $lastOrder->getDiscountAmount(); ?>;
+        if (!discount) {
+            discount = 0;
+        }
+        console.log("discount", discount);
         var totalPrice = <?= $lastOrder->getGrandTotal(); ?>;
+        console.log("totalPrice", totalPrice);
         var deliveryFee = <?= $lastOrder->getShippingAmount(); ?>;
+        console.log("deliveryFee", deliveryFee);
 
-        const checkoutData = {
+        /*const checkoutData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
             events: [
@@ -99,7 +106,7 @@
                 }
             ]
         };
-        console.log("checkoutData", JSON.stringify(checkoutData));
+        console.log("checkoutData", JSON.stringify(checkoutData));*/
         
         //Prepare data for purchase event
         var orderId = "<?= $lastOrder->getIncrementId(); ?>";
