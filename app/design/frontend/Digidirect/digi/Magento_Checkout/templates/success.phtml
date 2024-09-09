@@ -38,6 +38,12 @@
         <?php
 
             foreach ($items as $item) { ?>
+                    
+                <?php 
+                    $options = $item->getProductOptions();
+                ?>    
+                console.log("options", JSON.stringify(<?= $options; ?>));
+                    
                 var productItem;
 
                 var refId = "<?= $item->getProductId(); ?>"; 
