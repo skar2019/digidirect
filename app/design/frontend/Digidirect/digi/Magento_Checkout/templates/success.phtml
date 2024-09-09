@@ -33,7 +33,8 @@
         var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
                 date.getUTCDate(), date.getUTCHours(),
                 date.getUTCMinutes(), date.getUTCSeconds());
-        var products = [];
+        var productsCheckout = [];
+        var productsPurchase = [];
         
         <?php
 
@@ -41,40 +42,77 @@
                     
                 <?php 
                     $options = $item->getProductOptions();
-                ?>    
-                console.log("options", JSON.stringify(<?= json_encode($options); ?>));
-                    
-                var productItem;
-
+                    if(!empty($options["info_buyRequest"])) {
+                        if(!empty($options["info_buyRequest"]["widget_id"])) {
+                            $widgetId = $options["info_buyRequest"]["widget_id"];
+                        }
+                        if(!empty($options["info_buyRequest"]["route_id"])) {
+                            $routeId = $options["info_buyRequest"]["route_id"];
+                        }
+                    }
+                ?>
+                        
                 var refId = "<?= $item->getProductId(); ?>"; 
                 var quantity = <?= $item->getQtyOrdered(); ?>; 
+                        
+                var productItemCheckout;
+                var widgetId = <?= $widgetId; ?>;
+                var routeId = <?= $routeId; ?>;
+                productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
+                productsCheckout.push(productItemCheckout);
+                    
+                var productItemPurchase;
                 var price = <?= $item->getPrice(); ?>;
-
-                productItem = {"refId": refId, "quantity": quantity, "price": price};
-                products.push(productItem);
+                productItemPurchase = {"refId": refId, "quantity": quantity, "price": price};
+                productsPurchase.push(productItemPurchase);
                 
         <?php       
             }
         ?>
+        
+        //Prepare data for checkout event
+        var subTotal = <?= $lastOrder->getSubtotal(); ?>;
+        var discount = <?= $lastOrder->getDiscountAmount(); ?>;
+        var totalPrice = <?= $lastOrder->getGrandTotal(); ?>;
+        var deliveryFee = <?= $lastOrder->getShippingAmount(); ?>;
 
-        var orderId = "<?= $lastOrder->getIncrementId(); ?>";
-        var paymentMethod = "<?= $lastOrder->getPayment()->getMethod(); ?>";
-
-        const orderData = {
+        const checkoutData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
             events: [
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    products: products,
+                    products: productsCheckout,
+                    subTotal: subTotal,
+                    discount: discount,
+                    totalPrice: totalPrice,
+                    currencyCode: "AUD",
+                    deliveryFee: deliveryFee
+                }
+            ]
+        };
+        console.log("checkoutData", JSON.stringify(checkoutData));
+        
+        //Prepare data for purchase event
+        var orderId = "<?= $lastOrder->getIncrementId(); ?>";
+        var paymentMethod = "<?= $lastOrder->getPayment()->getMethod(); ?>";
+
+        const purchaseData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    products: productsPurchase,
                     orderId: orderId,
                     paymentMethod: paymentMethod,
                     currencyCode: "AUD"
                 }
             ]
         };
-        console.log("orderData", JSON.stringify(orderData));
+        console.log("purchaseData", JSON.stringify(purchaseData));
         
     });
 
