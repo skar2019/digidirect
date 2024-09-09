@@ -40,7 +40,7 @@
             foreach ($items as $item) { ?>
                 var productItem;
 
-                var refId = <?= $item->getProductId(); ?>; 
+                var refId = "<?= $item->getProductId(); ?>"; 
                 var quantity = <?= $item->getQtyOrdered(); ?>; 
                 var price = <?= $item->getPrice(); ?>;
 
@@ -51,7 +51,7 @@
             }
         ?>
 
-        var orderId = <?= $lastOrder->getIncrementId(); ?>;
+        var orderId = "<?= $lastOrder->getIncrementId(); ?>";
         var paymentMethod = "<?= $lastOrder->getPayment()->getMethod(); ?>";
 
         const orderData = {
@@ -68,7 +68,6 @@
                 }
             ]
         };
-
         console.log("orderData", JSON.stringify(orderData));
         
     });
