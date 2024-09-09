@@ -42,7 +42,7 @@
                 <?php 
                     $options = $item->getProductOptions();
                 ?>    
-                console.log("options", JSON.stringify(<?= $options; ?>));
+                console.log("options", JSON.stringify(<?= json_encode($options); ?>));
                     
                 var productItem;
 
