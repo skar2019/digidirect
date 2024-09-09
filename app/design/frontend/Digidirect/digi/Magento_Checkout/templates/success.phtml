@@ -56,14 +56,15 @@
                 var quantity = <?= $item->getQtyOrdered(); ?>; 
                         
                 var productItemCheckout;
-                var widgetId = <?= $widgetId; ?>;
-                var routeId = <?= $routeId; ?>;
                 
-                if (widgetId && routeId) {
-                    productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
-                } else {
-                    productItemCheckout = {"refId": refId, "quantity": quantity};
-                }
+                <?php
+                    if (isset($widgetId) && isset($routeId)) { ?>
+                        var widgetId = <?= $widgetId; ?>;
+                        var routeId = <?= $routeId; ?>;
+                        productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
+                <?php } else { ?>
+                        productItemCheckout = {"refId": refId, "quantity": quantity};
+                <?php } ?>
                 
                 productsCheckout.push(productItemCheckout);
                     
