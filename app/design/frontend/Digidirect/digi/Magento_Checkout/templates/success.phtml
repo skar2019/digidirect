@@ -52,7 +52,7 @@
         ?>
 
         var orderId = <?= $lastOrder->getIncrementId(); ?>;
-        var paymentMethod = <?= $lastOrder->getPayment()->getMethod(); ?>;
+        var paymentMethod = "<?= $lastOrder->getPayment()->getMethod(); ?>";
 
         const orderData = {
             customerId: configCustomerId,
