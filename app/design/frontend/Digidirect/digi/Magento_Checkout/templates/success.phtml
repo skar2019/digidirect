@@ -58,7 +58,13 @@
                 var productItemCheckout;
                 var widgetId = <?= $widgetId; ?>;
                 var routeId = <?= $routeId; ?>;
-                productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
+                
+                if (widgetId && routeId) {
+                    productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
+                } else {
+                    productItemCheckout = {"refId": refId, "quantity": quantity};
+                }
+                
                 productsCheckout.push(productItemCheckout);
                     
                 var productItemPurchase;
