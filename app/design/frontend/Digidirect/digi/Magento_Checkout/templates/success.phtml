@@ -4,8 +4,21 @@
     $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
     $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
     $googleConversion = $this->helper('Digidirect\Digi\Helper\GoogleConversion');
+    $lastOrder = $block->getRealOrderDetail();
+    $items = $lastOrder->getAllItems();
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<script>
+    <?php
+
+        foreach ($items as $item) { ?>
+            console.log("refId", <?= $item->getProductId(); ?>);
+            console.log("quantity", <?= $item->getQtyOrdered(); ?>);
+            console.log("price", <?= $item->getPrice(); ?>);
+    <?php       
+        }
+?>
+</script>
 <div class="checkout-success">
     <?php if ($block->getOrderId()): ?>
         <?php if ($block->getShippingDetails() == "Pick Up in Store - Click and Collect Shipping"): ?>
