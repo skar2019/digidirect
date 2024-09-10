@@ -2531,7 +2531,6 @@ class ProductCategory extends AbstractHelper
 
         return $getSubCategory;
     }
-    //redeploy
 
     public function getProductSales($entityId, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
