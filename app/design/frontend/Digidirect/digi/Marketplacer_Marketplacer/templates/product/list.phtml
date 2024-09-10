@@ -172,7 +172,7 @@ if ($currentPage != "catalogsearch_result_index") {
                        tabindex="-1">
                         
                         <?php if ($seller != "digiDirect" && $seller != ""): ?>
-                            <div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>
+                            <div class="ribbon-online">ONLINE ONLY</div>
                         <?php else: ?>
                             <?php if ($is_digiPrint == 1): ?>
                                 <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
@@ -348,7 +348,10 @@ if ($currentPage != "catalogsearch_result_index") {
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
 
                                     <?php if ($is_digiPrint == 1): ?>
-
+                                        <div class="s19-rental-price-target">
+                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p>
+                                        </div>
                                         <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
                                             <button type="button"
                                                 title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
@@ -358,6 +361,10 @@ if ($currentPage != "catalogsearch_result_index") {
                                         </a>
 
                                     <?php else: ?>
+                                        <div class="s19-rental-price-target">
+                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p>
+                                        </div>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
                                           data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
@@ -438,10 +445,6 @@ if ($currentPage != "catalogsearch_result_index") {
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
-                    <?php endif; ?>
-                    
-                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                        <?= $rentBlock->toHtml(); ?>
                     <?php endif; ?>
 
                 </div>

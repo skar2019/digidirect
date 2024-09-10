@@ -12,11 +12,10 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
-    
-    console.log('customerId', customerId);
+    var sessionId = getCookie('pa_session_id');
     
     var result;
-
+    
     $.ajax({
         async: false,
         url: "https://www.digidirect.com.au/particularaudienceapi/index/homepage", //getRecommendationsUrl,
@@ -39,26 +38,13 @@ require(['jquery'], function ($) {
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = "<?= $block->getCurrentUrl(); ?>";
     
+    
     var configCustomerId;
     var configSessionId;
-
-    $.ajax({
-        async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-        type: "POST",
-        data: {
-            customerId: customerId
-        },
-        success: function(data){
-            console.log(data);
-            configCustomerId = data.payload.customerId;
-            configSessionId = data.payload.session.id
-        },
-        error: function(){
-            console.log('AJAX Fail!');
-        }
-    });
-
+    
+    configCustomerId = customerId;
+    configSessionId = sessionId;
+    
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
         let priceBlock = "";
@@ -189,7 +175,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -197,7 +187,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="online-only"><span style="color: #F15923; margin-right: 3px;">Online</span>Only</div>';
+                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
                 } else {
                     digiDealsLogo = '';
                 }
@@ -392,7 +382,7 @@ require(['jquery'], function ($) {
 
         console.log(JSON.stringify(clickData));
 
-        $.ajax({
+        /*$.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
@@ -405,7 +395,50 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });
+        });*/
+
+    });
+    
+    $(".pa-digidirect-product-widget .action.tocart").click(function(){
+
+        var productId = $(this).attr("product-id");
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+
+        const productData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: [{"refId": productId, "quantity": 1}],
+                    widgetId: widgetId,
+                    routeId: routeId,
+                }
+            ]
+        };
+
+        console.log("productData", JSON.stringify(productData));
+
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
 
     });
     

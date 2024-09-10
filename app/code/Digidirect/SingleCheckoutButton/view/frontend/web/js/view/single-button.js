@@ -107,6 +107,10 @@ define([
         singleButtonAction: function () {
             this.activeStep() === 'shipping' ? this.shippingStepAction() : this.paymentStepAction();
         },
+        
+        checkoutTrigger: function () {
+            console.log("Checkout Trigger!");
+        },
 
         /**
          * Shipping step action
