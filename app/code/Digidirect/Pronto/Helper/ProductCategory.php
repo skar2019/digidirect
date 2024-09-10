@@ -2532,6 +2532,7 @@ class ProductCategory extends AbstractHelper
         return $getSubCategory;
     }
 
+    //redeploy
     public function getProductSales($entityId, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
         $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $entityId);
