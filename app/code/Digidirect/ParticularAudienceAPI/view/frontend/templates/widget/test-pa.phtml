@@ -53,6 +53,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         Object.keys(widgetSlots).forEach(key => {
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            
             //widgetSlots[key].products[0].refId;
             
             if (product.prices[0].discountPrice) {
@@ -98,7 +102,7 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
