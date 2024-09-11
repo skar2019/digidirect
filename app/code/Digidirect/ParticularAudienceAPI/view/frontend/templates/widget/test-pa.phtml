@@ -135,6 +135,9 @@ require(['jquery'], function ($) {
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -196,7 +199,7 @@ require(['jquery'], function ($) {
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
 
-            if (digiPrintValue || digiPrintValue != '0') {
+            if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
@@ -278,7 +281,7 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -310,7 +313,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -333,7 +336,7 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    function slots(productId) {
+    function slots(productId, recommenderId, campaignId, tacticId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
@@ -351,7 +354,10 @@ require(['jquery'], function ($) {
                     eventTime: date.toISOString(),
                     refId: productId,
                     widgetId: widgetId,
-                    routeId: routeId
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
@@ -386,6 +392,10 @@ require(['jquery'], function ($) {
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
@@ -405,7 +415,10 @@ require(['jquery'], function ($) {
                     actionType: 1,
                     contextType: 1,
                     routeId: routeId,
-                    widgetId: widgetId
+                    widgetId: widgetId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
@@ -432,6 +445,9 @@ require(['jquery'], function ($) {
     $(".pa-digidirect-product-widget .action.tocart").click(function(){
 
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
@@ -448,7 +464,10 @@ require(['jquery'], function ($) {
                     eventTime: date.toISOString(),
                     product: [{"refId": productId, "quantity": 1}],
                     widgetId: widgetId,
-                    routeId: routeId,
+                    routeId: routeId,,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
