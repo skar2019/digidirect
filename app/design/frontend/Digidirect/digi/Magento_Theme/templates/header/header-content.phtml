@@ -59,7 +59,7 @@
     require(['jquery', 'owl_carousel'],
         function ($) {
             $(".mobile-menu-main-exit").click(function(){
-                $("#nav-sections-id").removeClass("nav-mobile-menu");
+                $("html").removeClass("nav-before-open nav-open");
             });
             /*$(window).scroll(function() {
                 if ($(window).scrollTop() + $(window).height() > $(document).height() - 400) {
