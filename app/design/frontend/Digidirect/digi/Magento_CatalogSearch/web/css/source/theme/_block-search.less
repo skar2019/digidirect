@@ -220,15 +220,6 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .block-search {
-        /*.action.search {
-            display: none;
-        }
-
-        input {
-            width: 100%;
-        }*/
-
-
         & {
             padding: 0 90px;
             margin-left: 0;
@@ -306,10 +297,10 @@
             padding: 0 45px 0 15px;
             background: linear-gradient(90deg,#f5f5f5 93%,#222 10%);
         }
-
-
-
-
+    }
+    
+    .livesearch.products-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
