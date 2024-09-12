@@ -25,8 +25,10 @@
     }
     
     .livesearch.product-result img {
-        max-height: 100px;
+        height: 50px;
         object-fit: contain;
+        border: 1px solid #cacaca;
+        padding: 12px;
     }
     
     .livesearch.product-price {
@@ -71,6 +73,7 @@
     .livesearch.product-result > div {
         align-self: start;
         font-size: 15px;
+        margin-left: 20px;
     }
 }
 
@@ -205,12 +208,40 @@
         margin-top: 15px;
     }
     
-    .livesearch.product-price {
-        margin-top: 40px;
-    }
-    
     .livesearch.popover-container {
         height: unset !important;
+    }
+    
+    .livesearch.products-container {
+        grid-template-columns: 1fr;
+    }
+
+    .livesearch.product-result {
+        grid-template-areas:
+            "image productName"
+            "image price";
+        grid-template-columns: 1fr 4fr;
+        grid-template-rows: unset;
+        column-gap: 16px;
+        align-self: center;
+        height: unset;
+        min-width: 192px;
+        box-sizing: inherit;
+        display: grid;
+        padding: unset;
+    }
+
+    .livesearch.product-price {
+        margin-top: 0;
+    }
+
+    .livesearch.product-result img {
+        height: 70px;
+        padding: 5px;
+    }
+    
+    .livesearch.product-result * {
+        text-align: left;
     }
 }
 
@@ -300,7 +331,7 @@
     }
     
     .livesearch.products-container {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -393,6 +424,12 @@
             padding: 0 45px 0 15px;
             background: linear-gradient(90deg,#f5f5f5 93%,#222 10%);;
         }
+    }
+    
+    
+    
+    .livesearch.products-container {
+        grid-template-columns: repeat(3, 1fr) !important;
     }
 }
 
