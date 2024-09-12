@@ -171,6 +171,14 @@ require(['jquery'], function ($) {
                 return obj.name === 'DDR_Seller_Id';
             })
             
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
             sellerName = seller.stringValue;
             
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
@@ -187,9 +195,12 @@ require(['jquery'], function ($) {
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+            
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -197,7 +208,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -388,7 +403,7 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
-                                    '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -529,6 +544,14 @@ require(['jquery'], function ($) {
                 return obj.name === 'DDR_Seller_Id';
             })
             
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
             sellerName = seller.stringValue;
             
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
@@ -544,10 +567,12 @@ require(['jquery'], function ($) {
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
-
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+            
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -555,7 +580,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
