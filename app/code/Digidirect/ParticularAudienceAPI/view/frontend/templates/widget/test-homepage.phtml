@@ -359,9 +359,9 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log(JSON.stringify(slotData));
+        //console.log(JSON.stringify(slotData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
@@ -374,7 +374,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
     }
     
     function uuidv4() {
@@ -417,9 +417,9 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log(JSON.stringify(clickData));
+        //console.log(JSON.stringify(clickData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
@@ -432,7 +432,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
@@ -463,14 +463,14 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log("productData", JSON.stringify(productData));
+        //console.log("productData", JSON.stringify(productData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: productData
             },
             success: function(data){
                 console.log(data);
@@ -478,7 +478,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
