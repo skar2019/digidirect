@@ -299,6 +299,7 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $forLogs .= "Marketplace price -". $marketplacesprice."\n";
                         $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
@@ -494,6 +495,7 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $forLogs .= "Marketplace price -". $marketplacesprice."\n";
                         $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
@@ -636,6 +638,7 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $forLogs .= "Marketplace price -". $marketplacesprice."\n";
                         $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
