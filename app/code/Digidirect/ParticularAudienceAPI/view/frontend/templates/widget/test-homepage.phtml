@@ -362,14 +362,14 @@ require(['jquery'], function ($) {
         //console.log(JSON.stringify(slotData));
 
         $.ajax({
-            async: false,
+            //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
             data: {
                 eventData: slotData
             },
             success: function(data){
-                console.log(data);
+                //console.log(data);
             },
             error: function(){
                 console.log('AJAX Fail!');
