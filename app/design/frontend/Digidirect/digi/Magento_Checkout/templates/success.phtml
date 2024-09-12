@@ -79,7 +79,7 @@
         
         //Prepare data for checkout event
         var subTotal = <?= $lastOrder->getSubtotal(); ?>;
-        var discount = <?= $lastOrder->getDiscountAmount(); ?>;
+        var discount = <?= abs($lastOrder->getDiscountAmount()); ?>;
         if (!discount) {
             discount = 0;
         }
@@ -103,6 +103,20 @@
             ]
         };
         console.log("checkoutData", JSON.stringify(checkoutData));
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/checkout",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
         
         //Prepare data for purchase event
         var orderId = "<?= $lastOrder->getIncrementId(); ?>";
@@ -123,6 +137,20 @@
             ]
         };
         console.log("purchaseData", JSON.stringify(purchaseData));
+        /*$.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/purchase",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });*/
         
     });
 
