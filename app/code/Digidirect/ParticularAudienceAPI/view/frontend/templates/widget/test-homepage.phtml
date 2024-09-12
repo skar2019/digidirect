@@ -445,7 +445,7 @@ require(['jquery'], function ($) {
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-
+        var product = [{"refId": productId, "quantity": 1}];
         const productData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
@@ -453,7 +453,7 @@ require(['jquery'], function ($) {
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    product: [{"refId": productId, "quantity": 1}],
+                    product: product,
                     widgetId: widgetId,
                     routeId: routeId,   
                     recommenderId: recommenderId,
@@ -463,7 +463,7 @@ require(['jquery'], function ($) {
             ]
         };
 
-        //console.log("productData", JSON.stringify(productData));
+        console.log("productData", JSON.stringify(productData));
 
         $.ajax({
             async: false,
