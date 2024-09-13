@@ -15,6 +15,25 @@ require(['jquery'], function ($) {
     var customerId = getCookie('PAC');
     var sessionId = getCookie('pa_session_id');
     
+    if (!sessionId || sessionId === undefined) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                customerId = data.payload.customerId;
+                sessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Get Config Fail!');
+            }
+        });
+    }
+    
     var result;
 
     $.ajax({
@@ -480,14 +499,14 @@ require(['jquery'], function ($) {
                                 '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
                                 '</a>' +
                             '</div>' +
-                            '<div href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</div>' + 
+                            '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
                                     '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
