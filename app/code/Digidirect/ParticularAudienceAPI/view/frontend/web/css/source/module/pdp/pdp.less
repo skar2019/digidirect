@@ -184,7 +184,9 @@ and open the template in the editor.
     }
     
     .pdp-frquently-bought-with .pa-digidirect-product-widget-container {
-        grid-template-columns: repeat(6, 1fr);
+        //grid-template-columns: repeat(6, 1fr);
+        display: flex;
+        justify-content: center;
     }
 
     .pdp-frquently-bought-with .pa-checkbox-container {
@@ -625,6 +627,14 @@ and open the template in the editor.
     .pdp-bundle-overlay .product-item-info.product-item.pa-bundle-container {
         grid-column-start: 1;
         grid-column-end: 3;
+    }
+    
+}
+
+@media only screen and (min-width: 1181px) {
+    
+    .pdp-frquently-bought-with .product-item-info.product-item {
+        width: 210.83px !important;
     }
     
 }
