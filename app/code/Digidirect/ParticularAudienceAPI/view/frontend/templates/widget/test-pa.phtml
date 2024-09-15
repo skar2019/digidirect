@@ -14,6 +14,25 @@ require(['jquery'], function ($) {
     var customerId = getCookie('PAC');
     var sessionId = getCookie('pa_session_id');
     
+    if (!sessionId || sessionId === undefined) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                customerId = data.payload.customerId;
+                sessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Get Config Fail!');
+            }
+        });
+    }
+    
     var result;
     
     $.ajax({
@@ -53,6 +72,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         Object.keys(widgetSlots).forEach(key => {
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            
             //widgetSlots[key].products[0].refId;
             
             if (product.prices[0].discountPrice) {
@@ -98,7 +121,7 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -116,7 +139,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            //slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -131,6 +154,9 @@ require(['jquery'], function ($) {
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -192,7 +218,7 @@ require(['jquery'], function ($) {
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
 
-            if (digiPrintValue || digiPrintValue != '0') {
+            if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
@@ -206,7 +232,7 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
-                                    '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -274,7 +300,14 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
+            var view = "";
+            if (isMobile) {
+                view = "-mobile";
+            } else {
+                view = "-desktop";
+            }
+            var tileId = 'product-' + product.refId + view;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -300,13 +333,13 @@ require(['jquery'], function ($) {
                                 priceBlock +
                             '</div>' +
                             '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p></div>' +
+                                '<div class="actions-primary">' +
                                     addToCart +
                                 '</div>' +
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -329,14 +362,11 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    function slots(productId) {
+    function slots(productId, recommenderId, campaignId, tacticId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const slotData = {
             customerId: configCustomerId,
@@ -347,7 +377,10 @@ require(['jquery'], function ($) {
                     eventTime: date.toISOString(),
                     refId: productId,
                     widgetId: widgetId,
-                    routeId: routeId
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
@@ -355,14 +388,14 @@ require(['jquery'], function ($) {
         console.log(JSON.stringify(slotData));
 
         /*$.ajax({
-            async: false,
+            //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
             data: {
                 eventData: slotData
             },
             success: function(data){
-                console.log(data);
+                //console.log(data);
             },
             error: function(){
                 console.log('AJAX Fail!');
@@ -381,13 +414,15 @@ require(['jquery'], function ($) {
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
+        var tileId = $(this).attr("id");
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const clickData = {
             customerId: configCustomerId,
@@ -401,10 +436,23 @@ require(['jquery'], function ($) {
                     actionType: 1,
                     contextType: 1,
                     routeId: routeId,
-                    widgetId: widgetId
+                    widgetId: widgetId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
+
+        var thisElement = document.getElementById(tileId);
+        let rect = thisElement.getBoundingClientRect();
+        // get the height of the window 
+        let viewPortBottom = window.innerHeight || document.documentElement.clientHeight;
+        // get the width of the window 
+        let viewPortRight = window.innerWidth || document.documentElement.clientWidth;
+
+        //console.log("Product ID id ", tileId, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+        //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
 
         console.log(JSON.stringify(clickData));
 
@@ -428,13 +476,13 @@ require(['jquery'], function ($) {
     $(".pa-digidirect-product-widget .action.tocart").click(function(){
 
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
-
+        var product = {"refId": productId, "quantity": 1};
         const productData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
@@ -442,21 +490,24 @@ require(['jquery'], function ($) {
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    product: [{"refId": productId, "quantity": 1}],
+                    product: product,
                     widgetId: widgetId,
-                    routeId: routeId,
+                    routeId: routeId,   
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
 
-        console.log("productData", JSON.stringify(productData));
+        //console.log("productData", JSON.stringify(productData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: productData
             },
             success: function(data){
                 console.log(data);
@@ -464,9 +515,52 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
+    
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+        // get the height of the window 
+        let viewPortBottom = window.innerHeight || document.documentElement.clientHeight;
+        // get the width of the window 
+        let viewPortRight = window.innerWidth || document.documentElement.clientWidth;
+
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(productId, recommenderId, campaignId, tacticId)
+        }
+    }
+
+
+    var timer = null;
+    window.addEventListener('scroll', function() {
+        if(timer !== null) {
+            clearTimeout(timer);        
+        }
+        timer = setTimeout(function() {
+            $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+                var element = $(this).attr("id");
+                //console.log("tileId", tileId);
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
+        }, 2000);
+    }, false);
+    
+    /*$(window).scroll(function() {
+        $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+            var element = $(this).attr("id");
+            //console.log("tileId", tileId);
+            isElementInViewPort(element);
+        });
+    });*/
     
 });
 

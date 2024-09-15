@@ -13,8 +13,26 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
+    var sessionId = getCookie('pa_session_id');
     
-    console.log('customerId', customerId);
+    if (!sessionId || sessionId === undefined) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                customerId = data.payload.customerId;
+                sessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Get Config Fail!');
+            }
+        });
+    }
     
     var result;
 
@@ -39,42 +57,20 @@ require(['jquery'], function ($) {
     var widgets  = recommendationsResult.recommendations.route.widgets;
     
     var routeId  = recommendationsResult.recommendations.route.id;
-    var currentUrl = "<?= $block->getCurrentUrl(); ?>";
+    var currentUrl = window.location.href;
     
     var configCustomerId;
     var configSessionId;
     
-    var sessionId = getCookie('pa_session_id');
-    console.log('sessionId', sessionId);
+    var configCustomerId;
+    var configSessionId;
     
-    if (!sessionId) {
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-            type: "POST",
-            data: {
-                customerId: customerId
-            },
-            success: function(data){
-                console.log(data);
-                configCustomerId = data.payload.customerId;
-                configSessionId = data.payload.session.id
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-    } else {
-        configCustomerId = customerId;
-        configSessionId = sessionId;
-    }
+    configCustomerId = customerId;
+    configSessionId = sessionId;
     
     function viewProduct(productId) {
         
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const viewProductData = {
             customerId: configCustomerId,
@@ -88,10 +84,10 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log("viewProductData", JSON.stringify(viewProductData));
+        //console.log("viewProductData", JSON.stringify(viewProductData));
 
-        /*$.ajax({
-            //async: false,
+        $.ajax({
+            async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/viewproduct",
             type: "POST",
             data: {
@@ -103,7 +99,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
     }
     
     viewProduct(<?= $productId; ?>);
@@ -117,6 +113,9 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         Object.keys(widgetSlots).forEach(key => {
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             //widgetSlots[key].products[0].refId;
             
             if (product.prices[0].discountPrice) {
@@ -150,7 +149,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.product-item-container.widget-placeholder').remove();
     }
@@ -169,6 +168,9 @@ require(['jquery'], function ($) {
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -188,6 +190,14 @@ require(['jquery'], function ($) {
                 return obj.name === 'DDR_Seller_Id';
             })
             
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
             sellerName = seller.stringValue;
             
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
@@ -204,9 +214,12 @@ require(['jquery'], function ($) {
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+            
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -214,7 +227,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -311,7 +328,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(prependTo).prepend(productItem);
-            slots(product.refId);
+            slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
         $('#pdp-frquently-bought-with-desktop').show();
@@ -324,19 +341,18 @@ require(['jquery'], function ($) {
         })
         let widgetSlots = widget.slots;
         var productCtr = 0;
-        if (!widgetSlots.length) {
-            return
-        }
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
             
             let digiSeconds = "";
             let digiSecondsOverlay = "";
-            let digiSecondsRating = "";
             let sellerName = "";
             
             let categories = product.attributes.find(obj => {
@@ -346,6 +362,32 @@ require(['jquery'], function ($) {
             let seller = product.attributes.find(obj => {
                 return obj.name === 'DDR_Seller_Id';
             })
+            
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
+            let digiSecondsRatingValue = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
+            })
+            
+            let digiSecondsRating = "";            
+            
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            }
             
             sellerName = seller.stringValue;
             
@@ -363,9 +405,12 @@ require(['jquery'], function ($) {
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -373,7 +418,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -390,6 +439,9 @@ require(['jquery'], function ($) {
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
                     digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
+                    }
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
@@ -438,7 +490,7 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '" product-id="'+ product.refId +'" widget-id="' + widgetId + '">' +
+            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -464,13 +516,13 @@ require(['jquery'], function ($) {
                                 priceBlock +
                             '</div>' +
                             '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary">' +
+                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p></div>' +
                                     addToCart +
                                 '</div>' +
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -489,6 +541,9 @@ require(['jquery'], function ($) {
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -508,6 +563,14 @@ require(['jquery'], function ($) {
                 return obj.name === 'DDR_Seller_Id';
             })
             
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
             sellerName = seller.stringValue;
             
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
@@ -523,10 +586,12 @@ require(['jquery'], function ($) {
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
-
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+            
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -534,7 +599,11 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -634,7 +703,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(prependTo).prepend(productItem);
-            slots(product.refId);
+            slots(product.refId, recommenderId, campaignId, tacticId);
         });
     }
     
@@ -648,14 +717,11 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
     
-    function slots(productId) {
+    function slots(productId, recommenderId, campaignId, tacticId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const slotData = {
             customerId: configCustomerId,
@@ -666,14 +732,17 @@ require(['jquery'], function ($) {
                     eventTime: date.toISOString(),
                     refId: productId,
                     widgetId: widgetId,
-                    routeId: routeId
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
 
-        console.log(JSON.stringify(slotData));
+        //console.log(JSON.stringify(slotData));
 
-        /*$.ajax({
+        $.ajax({
             //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
@@ -681,12 +750,12 @@ require(['jquery'], function ($) {
                 eventData: slotData
             },
             success: function(data){
-                console.log(data);
+                //console.log(data);
             },
             error: function(){
-                console.log('AJAX Fail!');
+                //console.log('AJAX Fail!');
             }
-        });*/
+        });
     }
     
     function uuidv4() {
@@ -701,12 +770,13 @@ require(['jquery'], function ($) {
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const clickData = {
             customerId: configCustomerId,
@@ -720,14 +790,17 @@ require(['jquery'], function ($) {
                     actionType: 1,
                     contextType: 1,
                     routeId: routeId,
-                    widgetId: widgetId
+                    widgetId: widgetId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
 
-        console.log(JSON.stringify(clickData));
+        //console.log(JSON.stringify(clickData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
@@ -740,20 +813,20 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
     $(".pa-digidirect-product-widget .action.tocart").click(function(){
 
         var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
-
+        var product = {"refId": productId, "quantity": 1};
         const productData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
@@ -761,21 +834,24 @@ require(['jquery'], function ($) {
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    product: [{"refId": productId, "quantity": 1}],
+                    product: product,
                     widgetId: widgetId,
-                    routeId: routeId,
+                    routeId: routeId,   
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
                 }
             ]
         };
 
-        console.log("productData", JSON.stringify(productData));
+        //console.log("productData", JSON.stringify(productData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: productData
             },
             success: function(data){
                 console.log(data);
@@ -783,19 +859,16 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
     $("#product-addtocart-button").click(function(){
 
         var productId = <?= $productId; ?>;
-        var quantity = $("#qty").attr();
+        var quantity = $("#qty").attr("value");
 
         var date = new Date();
-        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
-                date.getUTCDate(), date.getUTCHours(),
-                date.getUTCMinutes(), date.getUTCSeconds());
 
         const productData = {
             customerId: configCustomerId,
@@ -804,19 +877,19 @@ require(['jquery'], function ($) {
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    product: [{"refId": productId, "quantity": quantity}]
+                    product: {"refId": productId, "quantity": quantity}
                 }
             ]
         };
 
-        console.log("productData", JSON.stringify(productData));
+        //console.log("productData", JSON.stringify(productData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: productData
             },
             success: function(data){
                 console.log(data);
@@ -824,7 +897,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     

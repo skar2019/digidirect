@@ -189,7 +189,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $endis = "Enabled = 0";
@@ -680,7 +680,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
@@ -1168,7 +1168,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
@@ -1616,7 +1616,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brands
@@ -2106,7 +2106,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
                 echo $marketplacesprice. " marketplacesprice <br/>";
                 $endis = "nochange";
@@ -2581,7 +2581,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
@@ -3059,7 +3059,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //if true, do not enable
@@ -3582,7 +3582,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
                 echo "marketplacesprice - ".$marketplacesprice;
                 echo "<br />";
@@ -3723,7 +3723,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
