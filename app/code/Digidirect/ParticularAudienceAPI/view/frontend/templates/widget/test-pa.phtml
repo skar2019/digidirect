@@ -519,7 +519,7 @@ require(['jquery'], function ($) {
 
     });
     
-    function isElementInViewPort(element){
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId)){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
         // get the height of the window 
@@ -531,7 +531,7 @@ require(['jquery'], function ($) {
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(product.refId, recommenderId, campaignId, tacticId)
+            slots(productId, recommenderId, campaignId, tacticId)
         }
     }
 
