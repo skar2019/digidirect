@@ -730,7 +730,7 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
     
-    $("#pa-digimarket-side-panel .product-item-info.product-item").each(function() {
+    $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -738,7 +738,7 @@ require(['jquery'], function ($) {
         var tacticId = $(this).attr("tactic-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
     });
-    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container)").each(function() {
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -941,32 +941,27 @@ require(['jquery'], function ($) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(productId, recommenderId, campaignId, tacticId)
+            $(thisElement).addClass("slot");
         }
     }
 
-    var timer = null;
     window.addEventListener('scroll', function() {
-        if(timer !== null) {
-            clearTimeout(timer);        
-        }
-        timer = setTimeout(function() {
-            $("#pa-digimarket-side-panel .product-item-info.product-item").each(function() {
-                var element = $(this).attr("id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
-            });
-            $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container)").each(function() {
-                var element = $(this).attr("id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
-            });
-        }, 2000);
+        $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
     }, false);
     
     //Frequently Bought With
