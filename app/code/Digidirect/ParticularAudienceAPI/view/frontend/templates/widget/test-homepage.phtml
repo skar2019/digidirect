@@ -121,7 +121,8 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            var tileId = 'product-' + product.refId;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -139,7 +140,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            //slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -300,7 +301,14 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            var view = "";
+            if (isMobile) {
+                view = "-mobile";
+            } else {
+                view = "-desktop";
+            }
+            var tileId = 'product-' + product.refId + view;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -332,7 +340,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId, recommenderId, campaignId, tacticId);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -354,6 +362,23 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
+    
+    $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
     
     function slots(productId, recommenderId, campaignId, tacticId) {
 
@@ -378,7 +403,7 @@ require(['jquery'], function ($) {
             ]
         };
 
-        //console.log(JSON.stringify(slotData));
+        console.log(JSON.stringify(slotData));
 
         $.ajax({
             //async: false,
@@ -500,6 +525,44 @@ require(['jquery'], function ($) {
         });
 
     });
+    
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(productId, recommenderId, campaignId, tacticId)
+        }
+    }
+
+
+    var timer = null;
+    window.addEventListener('scroll', function() {
+        if(timer !== null) {
+            clearTimeout(timer);        
+        }
+        timer = setTimeout(function() {
+            $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
+            $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
+        }, 2000);
+    }, false);
     
 });
 
