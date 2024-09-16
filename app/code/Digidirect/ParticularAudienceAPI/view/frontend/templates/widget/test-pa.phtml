@@ -121,7 +121,8 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            var tileId = 'product-' + product.refId;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -316,14 +317,14 @@ require(['jquery'], function ($) {
                                 '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
                                 '</a>' +
                             '</div>' +
-                            '<div href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</div>' + 
+                            '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
                                     '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
@@ -362,6 +363,23 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
+    $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    
     function slots(productId, recommenderId, campaignId, tacticId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
@@ -387,7 +405,7 @@ require(['jquery'], function ($) {
 
         console.log(JSON.stringify(slotData));
 
-        /*$.ajax({
+        $.ajax({
             //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
@@ -400,7 +418,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
     }
     
     function uuidv4() {
@@ -414,7 +432,6 @@ require(['jquery'], function ($) {
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
-        var tileId = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -444,19 +461,9 @@ require(['jquery'], function ($) {
             ]
         };
 
-        var thisElement = document.getElementById(tileId);
-        let rect = thisElement.getBoundingClientRect();
-        // get the height of the window 
-        let viewPortBottom = window.innerHeight || document.documentElement.clientHeight;
-        // get the width of the window 
-        let viewPortRight = window.innerWidth || document.documentElement.clientWidth;
+        //console.log(JSON.stringify(clickData));
 
-        //console.log("Product ID id ", tileId, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
-        //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-
-        console.log(JSON.stringify(clickData));
-
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
@@ -469,7 +476,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
@@ -522,14 +529,10 @@ require(['jquery'], function ($) {
     function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
-        // get the height of the window 
-        let viewPortBottom = window.innerHeight || document.documentElement.clientHeight;
-        // get the width of the window 
-        let viewPortRight = window.innerWidth || document.documentElement.clientWidth;
 
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
-            console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(productId, recommenderId, campaignId, tacticId)
         }
@@ -542,9 +545,16 @@ require(['jquery'], function ($) {
             clearTimeout(timer);        
         }
         timer = setTimeout(function() {
+            $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
             $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
                 var element = $(this).attr("id");
-                //console.log("tileId", tileId);
                 var productId = $(this).attr("product-id");
                 var recommenderId = $(this).attr("recommender-id");
                 var campaignId = $(this).attr("campaign-id");
@@ -553,14 +563,6 @@ require(['jquery'], function ($) {
             });
         }, 2000);
     }, false);
-    
-    /*$(window).scroll(function() {
-        $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
-            var element = $(this).attr("id");
-            //console.log("tileId", tileId);
-            isElementInViewPort(element);
-        });
-    });*/
     
 });
 
