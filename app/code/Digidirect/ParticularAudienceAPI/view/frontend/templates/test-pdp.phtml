@@ -131,7 +131,7 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            var view = "digimarket";
+            var view = "-digimarket";
             var tileId = 'product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
@@ -301,7 +301,7 @@ require(['jquery'], function ($) {
             }
             
             let hideProductItem = "";
-            var view = "fbw";
+            var view = "-fbw";
             var tileId = 'product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="pa-checkbox-container">' +
@@ -685,7 +685,7 @@ require(['jquery'], function ($) {
             }
             
             let hideProductItem = "";
-            var view = "bundle";
+            var view = "-bundle";
             var tileId = 'product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="pa-checkbox-container">' +
@@ -932,6 +932,7 @@ require(['jquery'], function ($) {
     });
     
     function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+        console.log("element", element);
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -942,7 +943,6 @@ require(['jquery'], function ($) {
             slots(productId, recommenderId, campaignId, tacticId)
         }
     }
-
 
     var timer = null;
     window.addEventListener('scroll', function() {
@@ -968,6 +968,150 @@ require(['jquery'], function ($) {
             });
         }, 2000);
     }, false);
+    
+    //Frequently Bought With
+    $(".select-all-products-on-bundle").change(function() {
+        if(this.checked) {
+            $('.pa-bundle-product').each(function(){
+                if (!$(this).is(":checked")) {
+                    $(this).trigger('click');
+                }
+            });
+        } else {
+            $('.pa-bundle-product').each(function(){
+                if ($(this).is(":checked")) {
+                    $(this).trigger('click');
+                }
+            });
+        }
+    });
+
+    $(".pa-bundle-product").change(function() {
+        var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
+        var bundleProductPrice = Number($(this).attr("data-product-price"));
+        console.log(bundleTotal, bundleProductPrice);
+        if(this.checked) {
+            var newBundleTotal = bundleTotal + bundleProductPrice;
+        } else {
+            var newBundleTotal = bundleTotal - bundleProductPrice;
+        }
+        $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
+    });
+
+    const observerMinicart = new MutationObserver((mutations) => {
+        console.log("MutationObserver!");
+        $('.action.showcart').addClass("-active");
+        $('#minicartSidebar').addClass("-active");
+        $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+    }); 
+
+    var miniCart = document.querySelector('.minicart-wrapper');
+    const configMinicart = { attributes: false, childList: true, subtree: true }; 
+
+    $("#add-bundle-tocart").click(function(){
+
+        var productIds = [];
+
+        $('.pa-bundle-product').each(function(){
+            if(this.checked) {
+                console.log("data-product-id: " + $(this).attr("data-product-id"));
+                productIds.push($(this).attr("data-product-id"));
+            }
+        });
+
+        var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                productIds: productIds
+            },
+            success: function(data){
+                console.log("Success!");
+                observerMinicart.observe(miniCart, configMinicart);
+            },
+            error: function(){
+                console.log("Fail!");
+            }
+        });
+        observerMinicart.disconnect();
+    });
+
+    //Bundle Overlay
+    $(".select-all-products-on-bundle-overlay").change(function() {
+        if(this.checked) {
+            $('.pa-bundle-overlay-product').each(function(){
+                if (!$(this).is(":checked")) {
+                    $(this).trigger('click');
+                }
+            });
+        } else {
+            $('.pa-bundle-overlay-product').each(function(){
+                if ($(this).is(":checked")) {
+                    $(this).trigger('click');
+                }
+            });
+        }
+    });
+
+    $(".pa-bundle-overlay-product").change(function() {
+        var bundleTotal = Number($("#pa-bundle-overlay-total").text().substring(1));
+        var bundleProductPrice = Number($(this).attr("data-product-price"));
+        console.log(bundleTotal, bundleProductPrice);
+        if(this.checked) {
+            var newBundleTotal = bundleTotal + bundleProductPrice;
+        } else {
+            var newBundleTotal = bundleTotal - bundleProductPrice;
+        }
+        $("#pa-bundle-overlay-total").text('$' + Number(newBundleTotal).toFixed(2));
+    });
+
+    $("#add-bundle-overlay-tocart").click(function(){
+
+        var productIds = [];
+        $('.pa-bundle-overlay-product').each(function(){
+            if(this.checked) {
+                console.log("data-product-id: " + $(this).attr("data-product-id"));
+                productIds.push($(this).attr("data-product-id"));
+            }
+        });
+
+        var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                productIds: productIds
+            },
+            success: function(data){
+                console.log("Success!");
+                observerMinicart.observe(miniCart, configMinicart);
+            },
+            error: function(){
+                console.log("Fail!");
+            }
+        });
+        observerMinicart.disconnect();
+        $("#bundle-overlay-container").hide();
+    });
+
+    $("#bundle-overlay-exit").click(function(){
+        $("#bundle-overlay-container").hide();
+    });
+
+    $("#product-addtocart-button").click(function(){
+        $("#bundle-overlay-container").show();
+        $("#pdp-bundle-overlay-desktop .product-item-info.product-item").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+    });
     
     // Create a new MutationObserver 
     const observer = new MutationObserver((mutations) => { 
@@ -1045,156 +1189,5 @@ require(['jquery'], function ($) {
         }
         document.getElementById(widgetClass).scrollIntoView();
     }
-    
-</script>
-
-<script>
-    require(['jquery'], function ($) {
-        
-        //Frequently Bought With
-        $(".select-all-products-on-bundle").change(function() {
-            if(this.checked) {
-                $('.pa-bundle-product').each(function(){
-                    if (!$(this).is(":checked")) {
-                        $(this).trigger('click');
-                    }
-                });
-            } else {
-                $('.pa-bundle-product').each(function(){
-                    if ($(this).is(":checked")) {
-                        $(this).trigger('click');
-                    }
-                });
-            }
-        });
-        
-        $(".pa-bundle-product").change(function() {
-            var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
-            var bundleProductPrice = Number($(this).attr("data-product-price"));
-            console.log(bundleTotal, bundleProductPrice);
-            if(this.checked) {
-                var newBundleTotal = bundleTotal + bundleProductPrice;
-            } else {
-                var newBundleTotal = bundleTotal - bundleProductPrice;
-            }
-            $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
-        });
-        
-        const observerMinicart = new MutationObserver((mutations) => {
-            console.log("MutationObserver!");
-            $('.action.showcart').addClass("-active");
-            $('#minicartSidebar').addClass("-active");
-            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-        }); 
-        
-        var miniCart = document.querySelector('.minicart-wrapper');
-        const configMinicart = { attributes: false, childList: true, subtree: true }; 
-        
-        $("#add-bundle-tocart").click(function(){
-            
-            var productIds = [];
-            
-            $('.pa-bundle-product').each(function(){
-                if(this.checked) {
-                    console.log("data-product-id: " + $(this).attr("data-product-id"));
-                    productIds.push($(this).attr("data-product-id"));
-                }
-            });
-            
-            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    productIds: productIds
-                },
-                success: function(data){
-                    console.log("Success!");
-                    observerMinicart.observe(miniCart, configMinicart);
-                },
-                error: function(){
-                    console.log("Fail!");
-                }
-            });
-            observerMinicart.disconnect();
-        });
-        
-        //Bundle Overlay
-        $(".select-all-products-on-bundle-overlay").change(function() {
-            if(this.checked) {
-                $('.pa-bundle-overlay-product').each(function(){
-                    if (!$(this).is(":checked")) {
-                        $(this).trigger('click');
-                    }
-                });
-            } else {
-                $('.pa-bundle-overlay-product').each(function(){
-                    if ($(this).is(":checked")) {
-                        $(this).trigger('click');
-                    }
-                });
-            }
-        });
-        
-        $(".pa-bundle-overlay-product").change(function() {
-            var bundleTotal = Number($("#pa-bundle-overlay-total").text().substring(1));
-            var bundleProductPrice = Number($(this).attr("data-product-price"));
-            console.log(bundleTotal, bundleProductPrice);
-            if(this.checked) {
-                var newBundleTotal = bundleTotal + bundleProductPrice;
-            } else {
-                var newBundleTotal = bundleTotal - bundleProductPrice;
-            }
-            $("#pa-bundle-overlay-total").text('$' + Number(newBundleTotal).toFixed(2));
-        });
-        
-        $("#add-bundle-overlay-tocart").click(function(){
-            
-            var productIds = [];
-            $('.pa-bundle-overlay-product').each(function(){
-                if(this.checked) {
-                    console.log("data-product-id: " + $(this).attr("data-product-id"));
-                    productIds.push($(this).attr("data-product-id"));
-                }
-            });
-            
-            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    productIds: productIds
-                },
-                success: function(data){
-                    console.log("Success!");
-                    observerMinicart.observe(miniCart, configMinicart);
-                },
-                error: function(){
-                    console.log("Fail!");
-                }
-            });
-            observerMinicart.disconnect();
-            $("#bundle-overlay-container").hide();
-        });
-        
-        $("#bundle-overlay-exit").click(function(){
-            $("#bundle-overlay-container").hide();
-        });
-        
-        $("#product-addtocart-button").click(function(){
-            $("#bundle-overlay-container").show();
-            $("#pdp-bundle-overlay-desktop .product-item-info.product-item").each(function() {
-                var element = $(this).attr("id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
-            });
-        });
-        
-    });
     
 </script>
