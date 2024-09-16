@@ -738,7 +738,7 @@ require(['jquery'], function ($) {
         var tacticId = $(this).attr("tactic-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
     });
-    $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -932,7 +932,7 @@ require(['jquery'], function ($) {
     });
     
     function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
-        console.log("element", element);
+        //console.log("element", element);
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -958,7 +958,7 @@ require(['jquery'], function ($) {
                 var tacticId = $(this).attr("tactic-id");
                 isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
             });
-            $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+            $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container)").each(function() {
                 var element = $(this).attr("id");
                 var productId = $(this).attr("product-id");
                 var recommenderId = $(this).attr("recommender-id");
