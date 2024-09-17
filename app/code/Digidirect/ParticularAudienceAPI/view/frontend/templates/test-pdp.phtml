@@ -873,7 +873,7 @@ require(['jquery'], function ($) {
             
             var view = "-minicart";
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item minicart-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -1151,7 +1151,7 @@ require(['jquery'], function ($) {
             var tacticId = $(this).attr("tactic-id");
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
         });
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .minicart-item, .slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
@@ -1305,7 +1305,6 @@ require(['jquery'], function ($) {
         });
     });
     
-    // Create a new MutationObserver 
     const observer = new MutationObserver((mutations) => { 
         if ($("#pa-minicart-desktop").length) {
             //console.log("MutationObserver!");
@@ -1314,17 +1313,31 @@ require(['jquery'], function ($) {
         }
     }); 
     
-    // Configure the observer to watch for changes 
     const config = { attributes: true, childList: true, subtree: true }; 
     observer.observe(document.body, config); 
     
     function stopMutationObserver() {
         observer.disconnect(); 
-        //console.log("observer.disconnect()");
     }
     
-    // Later, you can disconnect the observer when you no longer need it 
-    // observer.disconnect(); 
+    var minicart = $("#minicartSidebar");
+    
+    const minicartObserver = new MutationObserver((mutations) => { 
+        if (minicart.hasClass("-active")) {
+            $(".pa-digidirect-product-widget .product-item-info.product-item.minicart-item:not(.slot)").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
+        }
+    }); 
+    
+    const minicartConfig = { attributes: true, childList: false, subtree: false }; 
+    minicartObserver.observe(minicart, minicartConfig); 
+    
 });
 </script>
 
