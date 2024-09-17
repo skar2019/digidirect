@@ -300,7 +300,6 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            let hideProductItem = "";
             var view = "-fbw";
             var tileId = 'product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
@@ -501,7 +500,7 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item '+ hideProductItem +'" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -510,14 +509,14 @@ require(['jquery'], function ($) {
                                 '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
                                 '</a>' +
                             '</div>' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<div href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</a>' + 
+                            '</div>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
                                     '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
@@ -798,7 +797,8 @@ require(['jquery'], function ($) {
     }
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
-
+        
+        var tileId = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -827,6 +827,12 @@ require(['jquery'], function ($) {
                 }
             ]
         };
+        
+        var thisElement = document.getElementById(tileId);
+        let rect = thisElement.getBoundingClientRect();
+
+        // check if element is completely visible inside the viewport
+        console.log("Product ID id ", element, "The bounding Rect of element is ", rect);
 
         //console.log(JSON.stringify(clickData));
 
@@ -940,7 +946,7 @@ require(['jquery'], function ($) {
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId)
+            slots(productId, recommenderId, campaignId, tacticId);
             $(thisElement).addClass("slot");
         }
     }
