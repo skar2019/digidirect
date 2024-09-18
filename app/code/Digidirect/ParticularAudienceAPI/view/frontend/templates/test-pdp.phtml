@@ -1189,14 +1189,28 @@ require(['jquery'], function ($) {
         $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
     });
     
-    /*$("#pdp-frquently-bought-with-desktop input").each(function() {
+    $("#pdp-frquently-bought-with-desktop input").each(function() {
         $(this).prop("checked", true);
     });
     
+    var fbwBundleTotal = 0;
+    $("#pdp-frquently-bought-with-desktop .pa-bundle-product").each(function() {
+        let bundleProductPrice = Number($(this).attr("data-product-price"));
+        fbwBundleTotal += bundleProductPrice;
+    });
+    $("#pa-bundle-total").text('$' + Number(fbwBundleTotal).toFixed(2));
+    
     $("#pdp-bundle-overlay-desktop input").each(function() {
         $(this).prop("checked", true);
-    });*/
+    });
 
+    var overlayBundleTotal = 0;
+    $("#pdp-frquently-bought-with-desktop .pa-bundle-product").each(function() {
+        let bundleProductPrice = Number($(this).attr("data-product-price"));
+        overlayBundleTotal += bundleProductPrice;
+    });
+    $("#pa-bundle-overlay-total").text('$' + Number(overlayBundleTotal).toFixed(2));
+    
     const observerMinicart = new MutationObserver((mutations) => {
         console.log("MutationObserver!");
         $('.action.showcart').addClass("-active");
