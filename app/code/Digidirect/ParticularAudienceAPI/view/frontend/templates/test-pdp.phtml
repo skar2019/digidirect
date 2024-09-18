@@ -1190,13 +1190,13 @@ require(['jquery'], function ($) {
         $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
     });
     
-    $("#pdp-frquently-bought-with-desktop input").each(function() {
+    /*$("#pdp-frquently-bought-with-desktop input").each(function() {
         $(this).prop("checked", true);
     });
     
     $("#pdp-bundle-overlay-desktop input").each(function() {
         $(this).prop("checked", true);
-    });
+    });*/
 
     const observerMinicart = new MutationObserver((mutations) => {
         console.log("MutationObserver!");
