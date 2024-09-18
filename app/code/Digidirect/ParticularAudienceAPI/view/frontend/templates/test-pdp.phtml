@@ -37,7 +37,7 @@ require(['jquery'], function ($) {
     var result;
 
     $.ajax({
-        async: false,
+        //async: false,
         url: "https://www.digidirect.com.au/particularaudienceapi/index/productpage", //getRecommendationsUrl,
         type: "POST",
         data: {
@@ -1027,7 +1027,7 @@ require(['jquery'], function ($) {
         //console.log(JSON.stringify(clickData));
 
         $.ajax({
-            async: false,
+            //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
             data: {
