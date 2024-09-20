@@ -41,7 +41,7 @@ $isShippingLonger = count(array_intersect($categoryIds, $mpCategories));
             </i>
         <?php endif ?>
     </strong>
-    <strong class="name" style="display: block;">
+    <strong class="name" style="display: block;" <?= $mpBrand;?> <?= $isShippingLonger;?>>
         <?php if ($mpBrand == "Cameron Sino" && $isShippingLonger): ?>
             Shipping may take a little longer than usual
         <?php endif ?>
