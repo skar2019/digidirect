@@ -23,6 +23,10 @@ $sellerName = $seller->getName();
 $sellerLogo = $seller->getLogo();
 $sellerPolicies = $seller->getPolicies();
 $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
+$mpBrand = $product->getAttributeText('marketplacer_seller');
+$categoryIds = $product->getCategoryIds();
+$mpCategories = array(3147);
+$isShippingLonger = count(array_intersect($categoryIds, $mpCategories));
 ?>
 
 <div class="mrkt-product-info-seller">
@@ -37,12 +41,16 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
             </i>
         <?php endif ?>
     </strong>
+    <strong class="name" style="display: block;">
+        <?php if ($mpBrand == "Cameron Sino" && $isShippingLonger): ?>
+            Shipping may take a little longer than usual
+        <?php endif ?>
+    </strong>
     <?php if ($sellerLogo): ?>
         <span class="image" style="display: none;">
             <img src="<?= $escaper->escapeUrl($sellerLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($sellerName) ?>"/>
         </span>
     <?php endif ?>
-    <br/>
     <?php if ($sellerPolicies): ?>
         <a class="policy" href="<?= $escaper->escapeUrl($sellerPolicies) ?>" style="display: none;">
             <?= $escaper->escapeHtml(__('Policies')) ?>
