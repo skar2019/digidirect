@@ -297,7 +297,7 @@ class Sender extends \Magento\Company\Model\Email\Sender
     {
 //        $this->logger->info("sendAdminNotificationEmail Preference!");
         $toCode = $this->emailTemplateConfig->getCompanyCreateRecipient(ScopeInterface::SCOPE_STORE);
-        $toEmail = "bsitjirehcapao@outlook.com";
+        $toEmail = "business@digidirect.com.au";
         $toName = $this->scopeConfig->getValue('trans_email/ident_' . $toCode . '/name', ScopeInterface::SCOPE_STORE);
 
         $copyTo = "jireh.c@digidirect.com.au";
