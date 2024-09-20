@@ -297,7 +297,7 @@ class Sender extends \Magento\Company\Model\Email\Sender
     {
 //        $this->logger->info("sendAdminNotificationEmail Preference!");
         $toCode = $this->emailTemplateConfig->getCompanyCreateRecipient(ScopeInterface::SCOPE_STORE);
-        $toEmail = "business@digidirect.com.au";
+        $toEmail = "bsitjirehcapao@outlook.com";
         $toName = $this->scopeConfig->getValue('trans_email/ident_' . $toCode . '/name', ScopeInterface::SCOPE_STORE);
 
         $copyTo = "jireh.c@digidirect.com.au";
@@ -340,6 +340,7 @@ class Sender extends \Magento\Company\Model\Email\Sender
                     'job_title' => $companyData['job_title'],
                     'company' => $companyName,
                     'legal' => $companyData['legal_name'],
+                    'abn' => $companyData['abn'],
                     'company_email' => $companyData['company_email'],
                     'phone' => $companyData['telephone'],
                     'admin' => $toName,
@@ -349,15 +350,6 @@ class Sender extends \Magento\Company\Model\Email\Sender
                     'country' => $country,
                     'state' => $state,
                     'postal' => $postal
-                    //'street' => $customer->getstreet(),
-                    //'city' => $customer->getCity(),
-                    //'country' => $customer->getCountryId(),
-                    //'state' => $customer->getState(),
-                    //'postal' => $customer->getPostcode()
-                //    'city' => $companyData['city']
-                    // 'country' => $companyData['country_id'],
-                    // 'state' => $companyData['state'],
-                    // 'postal' => $companyData['postal']
                 ],
                 $storeId,
                 ($copyTo && $copyMethod == 'bcc') ? explode(',', $copyTo) : []
