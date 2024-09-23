@@ -100,7 +100,7 @@ class Inventory extends AbstractHelper
                 {
                     exit;
                 }
-
+                $forLogs = "";
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
                 $forLogs .= "SKU - ".$sku."\n";
@@ -259,6 +259,8 @@ class Inventory extends AbstractHelper
                 {
                     $forLogs .= "SKU not exist - ".$sku."\n";
                 }
+
+                $this->logger->info($forLogs);
             }
         }
         else
@@ -270,7 +272,7 @@ class Inventory extends AbstractHelper
                 {
                     exit;
                 }
-
+                $forLogs = "";
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
                 $forLogs .= "SKU - ".$sku."\n";
@@ -389,10 +391,12 @@ class Inventory extends AbstractHelper
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     $forLogs .= "SKU not exist - ".$sku."\n";
                 }
+
+                $this->logger->info($forLogs);
             }
         }
 
-        $this->logger->info($forLogs);
+
 
         if($startitem == $lastCode)
         {
