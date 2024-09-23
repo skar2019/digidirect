@@ -21,6 +21,26 @@
 
         var customerId = getCookie('PAC');
         var sessionId = getCookie('pa_session_id');
+
+        if (!sessionId || sessionId === undefined) {
+            $.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+                type: "POST",
+                data: {
+                    customerId: customerId
+                },
+                success: function(data){
+                    console.log(data);
+                    customerId = data.payload.customerId;
+                    sessionId = data.payload.session.id
+                },
+                error: function(){
+                    console.log('AJAX Get Config Fail!');
+                }
+            });
+        }
+        
         var currentUrl = window.location.href;
 
         var configCustomerId;
@@ -100,12 +120,12 @@
             ]
         };
         console.log("checkoutData", JSON.stringify(checkoutData));
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/checkout",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: checkoutData
             },
             success: function(data){
                 console.log(data);
@@ -113,7 +133,7 @@
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
         
         //Prepare data for purchase event
         var orderId = "<?= $lastOrder->getIncrementId(); ?>";
@@ -134,12 +154,12 @@
             ]
         };
         console.log("purchaseData", JSON.stringify(purchaseData));
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/purchase",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: purchaseData
             },
             success: function(data){
                 console.log(data);
@@ -147,10 +167,10 @@
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
         
     });
-
+    
 </script>
 <div class="checkout-success">
     <?php if ($block->getOrderId()): ?>

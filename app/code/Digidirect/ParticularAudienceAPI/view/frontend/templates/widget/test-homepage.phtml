@@ -14,6 +14,25 @@ require(['jquery'], function ($) {
     var customerId = getCookie('PAC');
     var sessionId = getCookie('pa_session_id');
     
+    if (!sessionId || sessionId === undefined) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                customerId = data.payload.customerId;
+                sessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Get Config Fail!');
+            }
+        });
+    }
+    
     var result;
     
     $.ajax({
@@ -102,7 +121,8 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            var tileId = 'product-' + product.refId;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -120,7 +140,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId);
+            //slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -213,7 +233,7 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
-                                    '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
@@ -281,7 +301,14 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            var view = "";
+            if (isMobile) {
+                view = "-mobile";
+            } else {
+                view = "-desktop";
+            }
+            var tileId = 'product-' + product.refId + view;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item '+ hideProductItem +'" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -290,14 +317,14 @@ require(['jquery'], function ($) {
                                 '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
                                 '</a>' +
                             '</div>' +
-                            '<div href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</div>' + 
+                            '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
                                     '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
@@ -307,13 +334,13 @@ require(['jquery'], function ($) {
                                 priceBlock +
                             '</div>' +
                             '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p></div>' +
+                                '<div class="actions-primary">' +
                                     addToCart +
                                 '</div>' +
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
-            slots(product.refId, recommenderId, campaignId, tacticId);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -335,6 +362,23 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
+    
+    $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
     
     function slots(productId, recommenderId, campaignId, tacticId) {
 
@@ -361,20 +405,20 @@ require(['jquery'], function ($) {
 
         console.log(JSON.stringify(slotData));
 
-        /*$.ajax({
-            async: false,
+        $.ajax({
+            //async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
             type: "POST",
             data: {
                 eventData: slotData
             },
             success: function(data){
-                console.log(data);
+                //console.log(data);
             },
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
     }
     
     function uuidv4() {
@@ -417,9 +461,9 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log(JSON.stringify(clickData));
+        //console.log(JSON.stringify(clickData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
@@ -432,7 +476,7 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
     
@@ -445,7 +489,7 @@ require(['jquery'], function ($) {
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-
+        var product = {"refId": productId, "quantity": 1};
         const productData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
@@ -453,7 +497,7 @@ require(['jquery'], function ($) {
                 {
                     currentUrl: currentUrl,
                     eventTime: date.toISOString(),
-                    product: [{"refId": productId, "quantity": 1}],
+                    product: product,
                     widgetId: widgetId,
                     routeId: routeId,   
                     recommenderId: recommenderId,
@@ -463,14 +507,14 @@ require(['jquery'], function ($) {
             ]
         };
 
-        console.log("productData", JSON.stringify(productData));
+        //console.log("productData", JSON.stringify(productData));
 
-        /*$.ajax({
+        $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
-                eventData: clickData
+                eventData: productData
             },
             success: function(data){
                 console.log(data);
@@ -478,9 +522,41 @@ require(['jquery'], function ($) {
             error: function(){
                 console.log('AJAX Fail!');
             }
-        });*/
+        });
 
     });
+    
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(productId, recommenderId, campaignId, tacticId);
+            $(thisElement).addClass("slot");
+        }
+    }
+
+    window.addEventListener('scroll', function() {
+        $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+    }, false);
     
 });
 

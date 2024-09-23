@@ -53,6 +53,6 @@ abstract class AbstractCommentType extends Template
      */
     public function getPostId()
     {
-        return $this->getPost()->getId();
+        return $this->getPost() ? $this->getPost()->getId() : null;
     }
 }

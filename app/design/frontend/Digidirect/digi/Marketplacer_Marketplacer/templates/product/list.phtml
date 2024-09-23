@@ -349,8 +349,10 @@ if ($currentPage != "catalogsearch_result_index") {
 
                                     <?php if ($is_digiPrint == 1): ?>
                                         <div class="s19-rental-price-target">
-                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p>
-                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p>
+                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Get creative with</p>
+                                            <p>
+                                                <img width="75" src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/services/digiprint/")?>digiPrint__k__x48.png"/>
+                                            </p>
                                         </div>
                                         <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
                                             <button type="button"
@@ -359,11 +361,10 @@ if ($currentPage != "catalogsearch_result_index") {
                                                 Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
                                             </button>
                                         </a>
-
                                     <?php else: ?>
                                         <div class="s19-rental-price-target">
-                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p>
-                                            <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p>
+                                            <p style="font-size: 13px; font-weight: 550;">Buy now pay later</p>
+                                            <p style="font-size: 13px; font-weight: 550;">options available</p>
                                         </div>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"

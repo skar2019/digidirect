@@ -41,8 +41,8 @@ class Save extends \Digidirect\ProductOverlay\Controller\Adminhtml\Overlays
             $id = (int)$request->getParam(Overlays::OVERLAY_ID);
 
             try {
-                $inputFilter = new \Zend_Filter_Input(
-                    ['from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter],
+                $inputFilter = new \Magento\Framework\Filter\FilterInput(
+                    ['date_from' => $this->_dateFilter, 'date_to' => $this->_dateFilter],
                     [],
                     $data
                 );

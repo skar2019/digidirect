@@ -62,8 +62,7 @@
                 <value id="pascript" type="host">p-a.io</value>
                 <value id="particularaudienceapi" type="host">api-recs.particularaudience.com</value>
                 <value id="luckyorangeclickstream" type="host">d10lpsik1i8c69.cloudfront.net</value>
-
-
+                <value id="gtmscriptsrc" type="host">gtm.js</value>
             </values>
         </policy>
         <policy id="style-src">
