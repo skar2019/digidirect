@@ -1440,7 +1440,7 @@
         left: 10px;
     }
     
-    .ribbon-online {
+    .ribbon-digideals {
         position: absolute;
         top: 16px;
         left: -16px;
@@ -1450,6 +1450,45 @@
         background: #F15923;
         border-bottom: 14px solid #A93C15;
         border-right: 10px solid #F15923;
+        clip-path: polygon(0 0, 0 calc(77%), 17px 100%, 17px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
+    }
+    
+    .ribbon-digideals {
+        font-size: 25px;
+        font-weight: 500;
+        color: #fff;
+    }
+    
+    .product-item-info .ribbon-digideals {
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .product-item-info .ribbon-digideals {
+        position: absolute;
+        top: 8px;
+        left: -8px;
+        z-index: 1;
+        line-height: 1.7;
+        background: #f15923;
+        border-bottom: 7px solid #a93c15;
+        border-right: 6px solid #f15923;
+        clip-path: polygon(0 0, 0 calc(77%), 8px 100%, 8px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
+        font-size: 13px;
+        padding: 0 20px 0 15px;
+    }
+    
+    .ribbon-online {
+        position: absolute;
+        top: 16px;
+        left: -16px;
+        z-index: 1;
+        padding-inline: 40px;
+        line-height: 1.8;
+        background: #262626;
+        border-bottom: 14px solid #A93C15;
+        border-right: 10px solid #262626;
         clip-path: polygon(0 0, 0 calc(77%), 17px 100%, 17px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
     }
     
@@ -1470,12 +1509,13 @@
         top: 8px;
         left: -8px;
         z-index: 1;
-        padding-inline: 6px;
         line-height: 1.7;
-        background: #f15923;
+        background: #262626;
         border-bottom: 7px solid #a93c15;
-        border-right: 6px solid #f15923;
+        border-right: 6px solid #262626;
         clip-path: polygon(0 0, 0 calc(77%), 8px 100%, 8px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
+        font-size: 13px;
+        padding: 0 20px 0 15px;
     }
     
 } //end common
