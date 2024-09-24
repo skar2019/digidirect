@@ -231,7 +231,7 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<li class="item product product-item" style="display: none;">' +
+            productItem = '<li class="item product product-item">' +
                         '<div id="'+ tileId +'" class="pa-product product-item-info" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
@@ -240,7 +240,7 @@ require(['jquery'], function ($) {
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</a>' +
+                            '</a><div class="testfreaks-items"></div>' +
                             '<strong class="product name product-item-name -grid default-product-name">' +
                                 '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
                                     product.name +
@@ -264,7 +264,7 @@ require(['jquery'], function ($) {
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
-    productTile('a5e0340d-25be-ed11-aae9-02dca44cceec', '.products.items.product-items.-grid', false);
+    productTile('069747ae-13be-ed11-aae9-02dca44cceec', '.products.items.product-items.-grid', false);
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
