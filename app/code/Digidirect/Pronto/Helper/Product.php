@@ -116,83 +116,83 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $product->setStockStatus($prod['stk-stock-status']);
-//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-//                $product->setName($prodname);
+//                $product->setStockStatus($prod['stk-stock-status']);
+////                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+////                $product->setName($prodname);
                 $price = 0;
-                $tax = 10;
+//                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
-                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region']['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-
-                $pricetocost = floatval($price);
-                $tax = floatval($tax);
-                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                if(isset($prod['stk-replacement-cost']))
-                {
-
-                    $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                    {
-                        if(isset($prod['stk-current-buy']))
-                        {
-                            $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                            {
-                                if(isset($prod['whse-avg-cost-swhs']))
-                                {
-                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                                    {
-                                        $pricetocost = floatval($price);
-                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-                echo "cost price ".$cost."<br/>";
-                $product->setCustomAttribute('cost', $cost);
-
-                $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
-                {
-                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
-                    if(empty($marketplacesprice))
-                    {
-                        $marketplacesprice = 0;
-                    }
-                }
-                else
-                {
-                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
-                    {
-                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                        if(empty($marketplacesprice))
-                        {
-                            $marketplacesprice = 0;
-                        }
-                    }
-                }
-                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
-                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
-
-                $endis = "Enabled = 0";
+//
+//                $pricetocost = floatval($price);
+//                $tax = floatval($tax);
+//                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                if(isset($prod['stk-replacement-cost']))
+//                {
+//
+//                    $cost = $prod['stk-replacement-cost'];
+//                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                    {
+//                        if(isset($prod['stk-current-buy']))
+//                        {
+//                            $cost = $prod['stk-current-buy'];
+//                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                            {
+//                                if(isset($prod['whse-avg-cost-swhs']))
+//                                {
+//                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+//
+//                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                                    {
+//                                        $pricetocost = floatval($price);
+//                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                echo "cost price ".$cost."<br/>";
+//                $product->setCustomAttribute('cost', $cost);
+//
+//                $marketplacesprice = 0;
+//                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
+//                {
+//                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
+//                    if(empty($marketplacesprice))
+//                    {
+//                        $marketplacesprice = 0;
+//                    }
+//                }
+//                else
+//                {
+//                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+//                    {
+//                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+//                        if(empty($marketplacesprice))
+//                        {
+//                            $marketplacesprice = 0;
+//                        }
+//                    }
+//                }
+//                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
+//                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+//
+//                $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -243,19 +243,19 @@ class Product extends AbstractHelper
                     }
 
                 }
-                $forLogs .= $endis."\n";
-                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
+//                $forLogs .= $endis."\n";
+//                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
 
                 //stk-user-only-alpha4-3 is_qantas_product
 //                if(isset($prod['stk-user-only-alpha4-3']))
@@ -271,25 +271,25 @@ class Product extends AbstractHelper
 //                }
 
 
-                if(isset($prod['stock-division']))
-                {
-                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
-                }
-
-                if(isset($prod['stock-department']))
-                {
-                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
-                }
-
-                if(isset($prod['stock-category']))
-                {
-                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
-                }
-
-                if(isset($prod['stock-class']))
-                {
-                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
-                }
+//                if(isset($prod['stock-division']))
+//                {
+//                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+//                }
+//
+//                if(isset($prod['stock-department']))
+//                {
+//                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+//                }
+//
+//                if(isset($prod['stock-category']))
+//                {
+//                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+//                }
+//
+//                if(isset($prod['stock-class']))
+//                {
+//                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+//                }
 
                 //$forLogs .= $awaiting."\n";
                 //set to pre order
@@ -338,7 +338,6 @@ class Product extends AbstractHelper
                 }
 
 
-
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -370,32 +369,32 @@ class Product extends AbstractHelper
                 }
 
 
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('stock_group', $prod['stock-group']);
+//                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+//                $product->setCustomAttribute('stock_group', $prod['stock-group']);
+//
+//                if(isset($prod['qff-store-product-name']))
+//                {
+//                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
+//                }
+//                if(isset($prod['qff-store-price']))
+//                {
+//                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
+//                }
 
-                if(isset($prod['qff-store-product-name']))
-                {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
-                }
-                if(isset($prod['qff-store-price']))
-                {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
-                }
-
-                if($prod['stk-condition-code'] == 'T')
-                {
-                    $stock_condition = 181;
-                }
-                else if ($prod['stk-condition-code'] == 'O')
-                {
-                    $stock_condition = 179;
-                }
-                else
-                {
-                    $stock_condition = 183;
-                }
-
-                $product->setCustomAttribute('stock_condition', $stock_condition);
+//                if($prod['stk-condition-code'] == 'T')
+//                {
+//                    $stock_condition = 181;
+//                }
+//                else if ($prod['stk-condition-code'] == 'O')
+//                {
+//                    $stock_condition = 179;
+//                }
+//                else
+//                {
+//                    $stock_condition = 183;
+//                }
+//
+//                $product->setCustomAttribute('stock_condition', $stock_condition);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
@@ -1095,84 +1094,84 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $product->setStockStatus($prod['stk-stock-status']);
+                //$product->setStockStatus($prod['stk-stock-status']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
                 $price = 0;
                 $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
-                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region']['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
-                $pricetocost = floatval($price);
-                $tax = floatval($tax);
-                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                if(isset($prod['stk-replacement-cost']))
-                {
-
-                    $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '')
-                    {
-                        if(isset($prod['stk-current-buy']))
-                        {
-                            $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '')
-                            {
-                                if(isset($prod['whse-avg-cost-swhs']))
-                                {
-                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                                    if ($cost == '0' || $cost == '')
-                                    {
-                                        $pricetocost = floatval($price);
-                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                                    }
-                                }
-
-
-                            }
-                        }
-                    }
-                }
-
-                $product->setCustomAttribute('cost', $cost);
-
-                $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
-                {
-                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
-                    if(empty($marketplacesprice))
-                    {
-                        $marketplacesprice = 0;
-                    }
-                }
-                else
-                {
-                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
-                    {
-                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                        if(empty($marketplacesprice))
-                        {
-                            $marketplacesprice = 0;
-                        }
-                    }
-                }
-                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
-                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+//                $pricetocost = floatval($price);
+//                $tax = floatval($tax);
+//                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                if(isset($prod['stk-replacement-cost']))
+//                {
+//
+//                    $cost = $prod['stk-replacement-cost'];
+//                    if($cost == '0' || $cost == '')
+//                    {
+//                        if(isset($prod['stk-current-buy']))
+//                        {
+//                            $cost = $prod['stk-current-buy'];
+//                            if ($cost == '0' || $cost == '')
+//                            {
+//                                if(isset($prod['whse-avg-cost-swhs']))
+//                                {
+//                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+//
+//                                    if ($cost == '0' || $cost == '')
+//                                    {
+//                                        $pricetocost = floatval($price);
+//                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                                    }
+//                                }
+//
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                $product->setCustomAttribute('cost', $cost);
+//
+//                $marketplacesprice = 0;
+//                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
+//                {
+//                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
+//                    if(empty($marketplacesprice))
+//                    {
+//                        $marketplacesprice = 0;
+//                    }
+//                }
+//                else
+//                {
+//                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+//                    {
+//                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+//                        if(empty($marketplacesprice))
+//                        {
+//                            $marketplacesprice = 0;
+//                        }
+//                    }
+//                }
+//                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
+//                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
-                $endis = "Enabled = 0";
+                //$endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -1211,51 +1210,51 @@ class Product extends AbstractHelper
                     }
 
                 }
-                $forLogs .= $endis."\n";
+                //$forLogs .= $endis."\n";
                 //comment out for now 13-05-24
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('awaiting_product', '1');
-                    $awaiting = "Awaiting Product = 1";
-                }
-                else {
-                    //$product->setData('awaiting_product', '0');
-                    $product->setCustomAttribute('awaiting_product', '0');
-                    $awaiting = "Awaiting Product = 0";
-                }
-                $forLogs .= $awaiting."\n";
-
-                if(isset($prod['stock-division']))
-                {
-                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
-                }
-
-                if(isset($prod['stock-department']))
-                {
-                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
-                }
-
-                if(isset($prod['stock-category']))
-                {
-                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
-                }
-
-                if(isset($prod['stock-class']))
-                {
-                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
-                }
-
-                //set to pre order
-                if($prod['stk-user-only-alpha4-1'] == 'P')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
-                    $forLogs .= "Pre Order 1 \n";
-                    //echo "pre_order 1  <br/>";
-                }
+//                if($prod['stk-user-only-alpha4-1'] == 'A')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('awaiting_product', '1');
+//                    $awaiting = "Awaiting Product = 1";
+//                }
+//                else {
+//                    //$product->setData('awaiting_product', '0');
+//                    $product->setCustomAttribute('awaiting_product', '0');
+//                    $awaiting = "Awaiting Product = 0";
+//                }
+//                $forLogs .= $awaiting."\n";
+//
+//                if(isset($prod['stock-division']))
+//                {
+//                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+//                }
+//
+//                if(isset($prod['stock-department']))
+//                {
+//                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+//                }
+//
+//                if(isset($prod['stock-category']))
+//                {
+//                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+//                }
+//
+//                if(isset($prod['stock-class']))
+//                {
+//                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+//                }
+//
+//                //set to pre order
+//                if($prod['stk-user-only-alpha4-1'] == 'P')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('pre_order', '1');
+//                    $product->setCustomAttribute('preorder', '1');
+//                    $forLogs .= "Pre Order 1 \n";
+//                    //echo "pre_order 1  <br/>";
+//                }
 
                 //set brands
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -1329,21 +1328,21 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
-                if($prod['stk-condition-code'] == 'T')
-                {
-                    $stock_condition = 181;
-                }
-                else if ($prod['stk-condition-code'] == 'O')
-                {
-                    $stock_condition = 179;
-                }
-                else
-                {
-                    $stock_condition = 183;
-                }
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('stock_group', $prod['stock-group']);
-                $product->setCustomAttribute('stock_condition', $stock_condition);
+//                if($prod['stk-condition-code'] == 'T')
+//                {
+//                    $stock_condition = 181;
+//                }
+//                else if ($prod['stk-condition-code'] == 'O')
+//                {
+//                    $stock_condition = 179;
+//                }
+//                else
+//                {
+//                    $stock_condition = 183;
+//                }
+//                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+//                $product->setCustomAttribute('stock_group', $prod['stock-group']);
+//                $product->setCustomAttribute('stock_condition', $stock_condition);
 
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
