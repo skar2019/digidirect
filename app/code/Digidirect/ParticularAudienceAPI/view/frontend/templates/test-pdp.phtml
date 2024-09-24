@@ -34,6 +34,37 @@ require(['jquery'], function ($) {
         });
     }
     
+    var currentUrl = window.location.href;
+    
+    var date = new Date();
+
+    const viewProductData = {
+        customerId: customerId,
+        sessionId: sessionId,
+        events: [
+            {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                refId: <?= $productId; ?>
+            }
+        ]
+    };
+    
+    $.ajax({
+        async: false,
+        url: "https://www.digidirect.com.au/particularaudienceapi/events/viewproduct",
+        type: "POST",
+        data: {
+            eventData: viewProductData
+        },
+        success: function(data){
+            console.log(data);
+        },
+        error: function(){
+            console.log('AJAX Fail!');
+        }
+    });
+    
     var result;
 
     $.ajax({
@@ -53,56 +84,10 @@ require(['jquery'], function ($) {
     });
     
     console.log('result', result);
+    
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
-    
     var routeId  = recommendationsResult.recommendations.route.id;
-    var currentUrl = window.location.href;
-    
-    var configCustomerId;
-    var configSessionId;
-    
-    var configCustomerId;
-    var configSessionId;
-    
-    configCustomerId = customerId;
-    configSessionId = sessionId;
-    
-    function viewProduct(productId) {
-        
-        var date = new Date();
-
-        const viewProductData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    refId: productId
-                }
-            ]
-        };
-
-        //console.log("viewProductData", JSON.stringify(viewProductData));
-
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/viewproduct",
-            type: "POST",
-            data: {
-                eventData: viewProductData
-            },
-            success: function(data){
-                console.log(data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-    }
-    
-    viewProduct(<?= $productId; ?>);
     
     function digiMarketSidePanel(widgetId, appendTo) {
         let productItem = "";
