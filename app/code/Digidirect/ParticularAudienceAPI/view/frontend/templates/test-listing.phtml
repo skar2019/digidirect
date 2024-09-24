@@ -66,7 +66,6 @@ require(['jquery'], function ($) {
     
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
-    var widgetId  = recommendationsResult.recommendations.route.widgets.id;
     var routeId  = recommendationsResult.recommendations.route.id;
     
     function productTile(widgetId, prependTo, isMobile) {
@@ -269,7 +268,7 @@ require(['jquery'], function ($) {
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
-    productTile(widgetId, '.products.items.product-items.-grid', false);
+    productTile('a5e0340d-25be-ed11-aae9-02dca44cceec', '.products.items.product-items.-grid', false);
     
     $(".pa-product.product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
