@@ -431,7 +431,7 @@ require(['jquery'], function ($) {
 
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
-            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect);
+            console.log("Product ID id ", element, "The bounding Rect of element is ", rect);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(productId, recommenderId, campaignId, tacticId);
             $(thisElement).addClass("slot");
