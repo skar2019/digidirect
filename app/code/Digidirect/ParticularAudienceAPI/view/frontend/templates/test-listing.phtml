@@ -231,15 +231,8 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<li id="'+ tileId +'" class="pa-product product-item-info product-item '+ hideProductItem +'" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" style="display: none;">' +
-                            '<div class="wish-list-wrapper" data-role="add-to-links">' +
-                                '<a href="#"' +
-                                'data-post=""' +
-                                'class="action towishlist" data-action="add-to-wishlist"' +
-                                'title="Add to Wish List">' +
-                                '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
-                                '</a>' +
-                            '</div>' +
+            productItem = '<li class="item product product-item" style="display: none;">' +
+                        '<div id="'+ tileId +'" class="pa-product product-item-info" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +
@@ -247,21 +240,24 @@ require(['jquery'], function ($) {
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</a>' + 
+                            '</a>' +
+                            '<strong class="product name product-item-name -grid default-product-name">' +
+                                '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                    product.name +
+                                '</a>' +
+                            '</strong>' +
                             '<div class="product details product-item-details">' +
-                                '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
-                                        product.name +
-                                    '</a>' +
-                                '</strong>' +
                                 priceBlock +
-                            '</div>' +
-                            '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
-                                    addToCart +
+                                '<div class="product-item-inner">' +
+                                    '<div class="product actions product-item-actions">' +
+                                        '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                            addToCart +
+                                        '</div>' +
+                                    '</div>' +
                                 '</div>' +
                             '</div>' +
-                        '</li>'
+                        '</div>' +
+                    '</div>'
             $(prependTo).prepend(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
@@ -270,7 +266,7 @@ require(['jquery'], function ($) {
     
     productTile('a5e0340d-25be-ed11-aae9-02dca44cceec', '.products.items.product-items.-grid', false);
     
-    $(".pa-product.product-item-info.product-item:not(.slot)").each(function() {
+    $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -329,7 +325,7 @@ require(['jquery'], function ($) {
         });
     }
 
-    $(".pa-product.product-item-info.product-item").click(function(){
+    $(".pa-product.product-item-info").click(function(){
         
         var tileId = $(this).attr("id");
         var productId = $(this).attr("product-id");
@@ -439,7 +435,7 @@ require(['jquery'], function ($) {
     }
 
     window.addEventListener('scroll', function() {
-        $(".pa-product.product-item-info.product-item:not(.slot)").each(function() {
+        $(".pa-product.product-item-info:not(.slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
