@@ -304,9 +304,9 @@ class TestPronto extends AbstractHelper
     public function getWarehouse(OrderInterface $order) {
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
-
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                    echo "collect place id ".$collectPlaceId;
                     $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
@@ -333,7 +333,7 @@ class TestPronto extends AbstractHelper
             }
             return '';
         }
-        //echo 'Rep - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+        echo 'WHSE - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
         return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
     }
 
@@ -559,6 +559,7 @@ class TestPronto extends AbstractHelper
             $isMarketPlace = false;
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
+            echo 'wrehs '.$wrehs;
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
@@ -568,6 +569,11 @@ class TestPronto extends AbstractHelper
                 }
 
             }
+            else
+            {
+                $wrehs = "MELB";
+            }
+
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
 
