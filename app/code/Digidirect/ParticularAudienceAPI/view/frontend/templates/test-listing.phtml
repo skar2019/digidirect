@@ -40,8 +40,35 @@ require(['jquery'], function ($) {
     
     var categoryId = <?= $categoryId;?>;
     
+    var paWidgetId = "";
+    
     if (categoryId == 37) {
         urlPath = "/cameras/mirrorless-cameras-pa";
+        paWidgetId = "069747ae-13be-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 49) {
+        urlPath = "/cameras/instant-cameras-pa";
+        paWidgetId = "813a0ca1-35be-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 47) {
+        urlPath = "/cameras/film-cameras-pa";
+        paWidgetId = "0b3c5603-c0be-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 39) {
+        urlPath = "/cameras/compact-cameras-pa";
+        paWidgetId = "d9ff9312-1dbe-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 57) {
+        urlPath = "/lenses/mirrorless-lenses-pa";
+        paWidgetId = "a5e0340d-25be-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 67) {
+        urlPath = "/lenses/lens-filters-pa";
+        paWidgetId = "55992e84-4ebe-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 61) {
+        urlPath = "/lenses/digital-cine-lenses-pa";
+        paWidgetId = "92d40659-38be-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 49) {
+        urlPath = "/lenses/lens-accessories-pa";
+        paWidgetId = "c26e5450-4cbe-ed11-aae9-02dca44cceec";
+    } else if (categoryId == 1903) {
+        urlPath = "/clearance-pa";
+        paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
     }
     
     var result;
@@ -220,10 +247,6 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            let hideProductItem = "";
-            if (isMobile && productCtr > 4) {
-                hideProductItem = "hide-product-item";
-            }
             var view = "";
             if (isMobile) {
                 view = "-mobile";
@@ -263,8 +286,9 @@ require(['jquery'], function ($) {
         });
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
-    
-    productTile('069747ae-13be-ed11-aae9-02dca44cceec', '.products.items.product-items.-grid', false);
+    if (paWidgetId != "") {
+        productTile(paWidgetId, '.products.items.product-items.-grid', false);
+    }
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
