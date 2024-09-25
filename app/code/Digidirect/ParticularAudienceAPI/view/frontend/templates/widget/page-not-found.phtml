@@ -12,14 +12,32 @@ require(['jquery'], function ($) {
     }
     
     var customerId = getCookie('PAC');
+    var sessionId = getCookie('pa_session_id');
     
-    console.log('customerId', customerId);
+    if (!sessionId || sessionId === undefined) {
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            type: "POST",
+            data: {
+                customerId: customerId
+            },
+            success: function(data){
+                console.log(data);
+                customerId = data.payload.customerId;
+                sessionId = data.payload.session.id
+            },
+            error: function(){
+                console.log('AJAX Get Config Fail!');
+            }
+        });
+    }
     
     var result;
-
+    
     $.ajax({
         async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/testrecommendation", //getRecommendationsUrl,
+        url: "https://www.digidirect.com.au/particularaudienceapi/index/homepage", //getRecommendationsUrl,
         type: "POST",
         data: {
             customerId: customerId
@@ -31,10 +49,20 @@ require(['jquery'], function ($) {
             console.log('AJAX Fail!');
         }
     });
+    
     console.log('result', result);
     var recommendationsResult = result;
     var widgets  = recommendationsResult.recommendations.route.widgets;
-
+    
+    var routeId  = recommendationsResult.recommendations.route.id;
+    var currentUrl = window.location.href;
+    
+    var configCustomerId;
+    var configSessionId;
+    
+    configCustomerId = customerId;
+    configSessionId = sessionId;
+    
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
         let priceBlock = "";
@@ -44,6 +72,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         Object.keys(widgetSlots).forEach(key => {
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            
             //widgetSlots[key].products[0].refId;
             
             if (product.prices[0].discountPrice) {
@@ -89,8 +121,9 @@ require(['jquery'], function ($) {
                             '</div>';
             }
             
-            productItem = '<div class="product-item-info product-item">' +
-                            '<a href="https://www.digidirect.com.au/' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+            var tileId = 'product-' + product.refId;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
@@ -99,7 +132,7 @@ require(['jquery'], function ($) {
                             '</a>' + 
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="https://www.digidirect.com.au/' + product.url + '" class="product-item-link">' +
+                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
                                         product.name +
                                     '</a>' +
                                 '</strong>' +
@@ -107,6 +140,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            //slots(product.refId);
         });
         $('.pa-product-widget-container.widget-placeholder').remove();
     }
@@ -121,32 +155,73 @@ require(['jquery'], function ($) {
         Object.keys(widgetSlots).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
             
             let digiSeconds = "";
             let digiSecondsOverlay = "";
-            let digiSecondsRating = "";
+            let sellerName = "";
             
-            let attribute = product.attributes.find(obj => {
+            let categories = product.attributes.find(obj => {
                 return obj.name === 'Categories';
             })
             
-            if (attribute.options[0].value == "PRELOVED") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (attribute.options[0].value == "OPENBOX") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (attribute.options[0].value == "REFURB") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+            
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
+            let digiSecondsRatingValue = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
+            })
+            
+            let digiSecondsRating = "";            
+            
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             }
+            
+            sellerName = seller.stringValue;
+            
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+            
+            if (categories.options[0].value == "PRELOVED") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+            } else if (categories.options[0].value == "OPENBOX") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+            } else if (categories.options[0].value == "REFURB") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+}
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
-            if (product.is_digiprint) {
-                addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action btn-ordernow primary">' +
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
@@ -154,14 +229,32 @@ require(['jquery'], function ($) {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary">' +
+                                    '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                    '<input type="text" name="qty" value="1" hidden/>' +
+                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
             }
+            //console.log(product.name, sellerName);
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                } else {
+                    digiDealsLogo = '';
+                }
+            }
             
             if (product.prices[0].discountPrice) {
-                digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                    }
+                }
+                
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
@@ -208,7 +301,14 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
-            productItem = '<div class="product-item-info product-item ' + hideProductItem + '">' +
+            var view = "";
+            if (isMobile) {
+                view = "-mobile";
+            } else {
+                view = "-desktop";
+            }
+            var tileId = 'product-' + product.refId + view;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item '+ hideProductItem +'" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -240,6 +340,7 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>'
             $(appendTo).append(productItem);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
@@ -262,13 +363,208 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
+    $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+    });
+    
+    function slots(productId, recommenderId, campaignId, tacticId) {
+
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+
+        const slotData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    refId: productId,
+                    widgetId: widgetId,
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
+                }
+            ]
+        };
+
+        console.log(JSON.stringify(slotData));
+
+        $.ajax({
+            //async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+            type: "POST",
+            data: {
+                eventData: slotData
+            },
+            success: function(data){
+                //console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+    }
+    
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+        .replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, 
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
+
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+
+        const clickData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    clickId: uuidv4(),
+                    refId: productId,
+                    actionType: 1,
+                    contextType: 1,
+                    routeId: routeId,
+                    widgetId: widgetId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
+                }
+            ]
+        };
+
+        //console.log(JSON.stringify(clickData));
+
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+
+    });
+    
+    $(".pa-digidirect-product-widget .action.tocart").click(function(){
+
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        var product = {"refId": productId, "quantity": 1};
+        const productData = {
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [
+                {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: product,
+                    widgetId: widgetId,
+                    routeId: routeId,   
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId
+                }
+            ]
+        };
+
+        //console.log("productData", JSON.stringify(productData));
+
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            type: "POST",
+            data: {
+                eventData: productData
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+
+    });
+    
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(productId, recommenderId, campaignId, tacticId);
+            $(thisElement).addClass("slot");
+        }
+    }
+
+    window.addEventListener('scroll', function() {
+        $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        });
+    }, false);
+    
 });
 
 </script>
 
 <div class="homepage-row" style="margin-bottom: 40px;">
     <h2 class="header-404">Oops, this page was not found</h2>
-</div>
+        </div>
 
 <div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
@@ -282,13 +578,19 @@ require(['jquery'], function ($) {
         </div>
         <div id="shop-tech-and-more-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
         </div>
         <div id="shop-tech-and-more-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+        <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+        </div>
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('shop-tech-and-more-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('shop-tech-and-more-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('shop-tech-and-more-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -310,13 +612,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-technology-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-technology-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-technology-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -334,13 +642,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-photography-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-photography-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-photography-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-photography-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-photography-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -358,13 +672,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digimarket-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digimarket-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digimarket-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digimarket-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -382,13 +702,19 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digiseconds-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digiseconds-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digiseconds-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digiseconds-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digiseconds-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
@@ -406,20 +732,25 @@ require(['jquery'], function ($) {
             </div>
             <div id="trending-digiprint-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-            <div class="product-item-info product-item " style="height: 381px !important;"></div>
-        </div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div id="trending-digiprint-products-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
+            <div class="pa-digidirect-product-widget-container widget-placeholder mobile-widget">
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+                <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
+            </div>
             <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('trending-digiprint-products-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
             <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('trending-digiprint-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
             <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digiprint-products-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
         </div>
     </div>
 </div>
-
 <script type="text/x-magento-init">
 {
     "[data-role=tocart-form], .form.map.checkout": {
@@ -431,7 +762,7 @@ require(['jquery'], function ($) {
 </script>
 
 <script>
-    
+
     function loadMoreProducts(widgetClass) {
         var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
         var ctr = 0;
@@ -444,7 +775,7 @@ require(['jquery'], function ($) {
         if (hiddenTilesCount.length == 0) {
             document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
             document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
-             
+
             try {
                 document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
             }
@@ -463,7 +794,7 @@ require(['jquery'], function ($) {
              productTiles[x].classList.add('hide-product-item');
           }
         }
-        
+
         document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
         document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
         try {
@@ -475,8 +806,8 @@ require(['jquery'], function ($) {
 
     }
 
-    function shopDigimarketCatViewAllProducts(viewAllLink) {
+    function viewAllProducts(viewAllLink) {
         window.location.href = viewAllLink;
     }
-
+    
 </script>

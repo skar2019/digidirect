@@ -241,7 +241,7 @@ require(['jquery'], function ($) {
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
+                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                 } else {
                     digiDealsLogo = '';
                 }
@@ -249,9 +249,9 @@ require(['jquery'], function ($) {
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
+                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
-                        digiDealsLogo = '<div class="ribbon-online">ONLINE ONLY</div>';
+                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
                 }
                 

@@ -138,16 +138,14 @@ $classes              = $this->getOwlCarouselClasses();
 		                        <?= $imgHtml ?>
 		                    </a>
                                     <?php if ($seller != "digiDirect" && $seller != ""): ?>
-                                        <div class="ribbon-online">ONLINE ONLY</div>
+                                        <div class="ribbon-online">Online only</div>
                                     <?php else: ?>
                                         <?php if ($is_digiPrint == 1): ?>
                                             <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
                                                 <?php 
                                                     $hasDiscountClass = "has-discount";
                                                 ?>
-                                                <div class="digideals-overlay">
-                                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                                </div>
+                                                <div class="ribbon-digideals">digiDeals</div>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
@@ -155,9 +153,7 @@ $classes              = $this->getOwlCarouselClasses();
                                                     $hasDiscountClass = "has-discount";
                                                 ?>
                                                 <?php if ($isDigiSeconds == 0): ?>
-                                                    <div class="digideals-overlay">
-                                                        <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                                    </div>
+                                                    <div class="ribbon-digideals">digiDeals</div>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         <?php endif; ?>
@@ -189,8 +185,8 @@ $classes              = $this->getOwlCarouselClasses();
 										<?php if ($showCart) { ?>
 											<div class="actions-primary">
                                                                                             <div class="s19-rental-price-target">
-                                                                                                <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Buy now pay later</p>
-                                                                                                <p style="font-size: 13px; font-weight: 500; text-transform: uppercase;">Options Available</p>
+                                                                                                <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                                                                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                                                                                             </div>
 												<?php if ($_product->isSaleable()) { ?>
 													<?php $postParams = $block->getAddToCartPostParams($_product); ?>

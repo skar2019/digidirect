@@ -63,6 +63,10 @@
                 <value id="particularaudienceapi" type="host">api-recs.particularaudience.com</value>
                 <value id="luckyorangeclickstream" type="host">d10lpsik1i8c69.cloudfront.net</value>
                 <value id="gtmscriptsrc" type="host">gtm.js</value>
+                <value id="studentbeansconnect" type="host">*.connect.studentbeans.com</value>
+                <value id="studentbeanscdn" type="host">*.studentbeans.com</value>
+                <!-- <value id="studentbeansId" type="host">*.beansid.com</value> -->
+                 <value id="ig" type="host">*.instagram.com</value>
             </values>
         </policy>
         <policy id="style-src">
