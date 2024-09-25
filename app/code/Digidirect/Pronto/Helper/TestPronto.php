@@ -304,11 +304,11 @@ class TestPronto extends AbstractHelper
     public function getWarehouse(OrderInterface $order) {
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
+
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    echo "collect place id ".$collectPlaceId;
-                    //$whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
-                    $whse = $this->repCodeForPickUp[$collectPlaceId];
+                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
 //                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
@@ -327,7 +327,7 @@ class TestPronto extends AbstractHelper
     public function getRep(OrderInterface $order) {
         if ($order->getShippingMethod() == 'collect_collect') {
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                //echo "collectPlaceId -".$collectPlaceId."<br/>";
+                echo "collectPlaceId -".$collectPlaceId."<br/>";
                 $mapping = $this->repCodeForPickUp;
                 return $mapping[$collectPlaceId] ?? '';
             }
@@ -567,11 +567,11 @@ class TestPronto extends AbstractHelper
                 {
                     $territory = $wrehs;
                 }
+                else
+                {
+                    $wrehs = 'MELB';
+                }
 
-            }
-            else
-            {
-                $wrehs = "MELB";
             }
 
             $accountname = $this->getAccountName($order);
