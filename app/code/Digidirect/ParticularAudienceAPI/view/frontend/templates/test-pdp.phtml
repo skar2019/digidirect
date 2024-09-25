@@ -6,6 +6,9 @@
     
 require(['jquery'], function ($) {
     
+    let iphone16s = [388575,388578,388581,388584,388587,388590,388593,388596,388599,388602,388605,388608,388611,388614,388623,390369,390372,390375,390378,390381,390384,390387,390390,390393,390396,390399,390402,390405,390408,390411,390414,390417,390420,390447,390453,390456,390459,390462,390465,390468,390471,390474,390477,390480,390483,390486,390489,390492,390495,390498,390501,390504,390507,390510,390513,390516,390519,390522,395268,395271,395274,395277,395280,395283,395286,395289];    
+    let isIphone16 = iphone16s.includes(<?= $productId; ?>);
+    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -388,7 +391,7 @@ require(['jquery'], function ($) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
-}
+            }
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
@@ -896,14 +899,19 @@ require(['jquery'], function ($) {
     }
     
     digiMarketSidePanel('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-side-panel');
-    frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
+    if (isIphone16) {
+        frequentlyBoughtWith('0a147ac5-047a-ef11-abf3-02bf4bf6447c', '#pdp-frquently-bought-with-desktop');
+        bundleOverlay('ff513e77-387a-ef11-abf3-02bf4bf6447c', '#pdp-bundle-overlay-desktop');
+    } else {
+        frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
+        bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
+    }
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-mobile', true);
     productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-desktop', false);
     productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-mobile', true);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
-    bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
     
     $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
