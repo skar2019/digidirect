@@ -4,7 +4,7 @@
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
         
-        <move element="page.main.title" destination="category.view.container" before="-"/>
+        <move element="page.main.title" destination="content" before="-"/>
         
         <referenceContainer name="content">
             <block class="Magento\Cms\Block\Block" name="pdp.banner" before="category.products">
