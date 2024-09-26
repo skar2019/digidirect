@@ -6,7 +6,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\ScopeInterface;
 
-class Title extends \Magento\Theme\Block\Html\Title
+class Title extends Template
 {
     /**
      * Config path to 'Translate Title' header settings
