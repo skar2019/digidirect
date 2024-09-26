@@ -1468,8 +1468,32 @@ class Order extends AbstractHelper
 
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    //$whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
+                    switch ($collectPlaceId) {
+                        case '1':
+                            $whse = 'SYDN';
+                            break;
+                        case '7':
+                            $whse = 'SYDN';
+                            break;
+                        case '10':
+                            $whse = 'BRIS';
+                            break;
+                        case '13':
+                            $whse = 'MIRA';
+                            break;
+                        case '16':
+                            $whse = 'CANN';
+                            break;
+                        case '31':
+                            $whse = 'BOND';
+                        case '32':
+                            $whse = 'PARR';
+                            break;
+                        default:
+                            break;
+                    }
                 }
             } elseif ($order->getShippingAddress()) {
 //                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
