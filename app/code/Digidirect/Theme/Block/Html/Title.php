@@ -117,12 +117,15 @@ class Title extends Template
         try {
             $currentCategory = $this->_registry->registry('current_category');
             if ($currentCategory) {
+                $this->logger->info("currentCategory is true!");
                return $currentCategory; 
             }
         }
         catch(Exception $e) {
             return false;
+            $this->logger->info("currentCategory is false!");
         }
         return false;
+        $this->logger->info("currentCategory is false!");
     }
 }
