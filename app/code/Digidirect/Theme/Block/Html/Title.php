@@ -101,7 +101,9 @@ class Title extends Template
         );
     }
     
-    public function getCurrentCategory(){         
+    public function getCurrentCategory(){     
+        
         return $this->_registry->registry('current_category');
+        
     }
 }
