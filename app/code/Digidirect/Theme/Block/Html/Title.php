@@ -6,16 +6,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Html page title block
- *
- * @method $this setTitleId($titleId)
- * @method $this setTitleClass($titleClass)
- * @method string getTitleId()
- * @method string getTitleClass()
- * @api
- * @since 100.0.2
- */
 class Title extends Magento\Theme\Block\Html\Title
 {
     /**
