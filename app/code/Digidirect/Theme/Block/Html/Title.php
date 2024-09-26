@@ -25,6 +25,8 @@ class Title extends Template
      */
     protected $pageTitle;
     
+    protected $categoryFactory;
+    
     protected $logger;
     
     protected $_registry;
@@ -39,11 +41,13 @@ class Title extends Template
     public function __construct(
         Template\Context $context,
         ScopeConfigInterface $scopeConfig, 
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Registry $registry,
         array $data = []
     ) {
-        $this->scopeConfig = $scopeConfig;       
+        $this->scopeConfig = $scopeConfig;  
+        $this->categoryFactory = $categoryFactory;        
         $this->logger = $logger;
         $this->_registry = $registry;
         parent::__construct($context, $data);
@@ -101,9 +105,24 @@ class Title extends Template
         );
     }
     
+    public function getCategory($id){     
+        $category = $this->categoryFactory->create()->load($id);
+        if ($category) {
+           return $category; 
+        }
+        return false;
+    }
+    
     public function getCurrentCategory(){     
-        
-        return $this->_registry->registry('current_category');
-        
+        try {
+            $currentCategory = $this->_registry->registry('current_category');
+            if ($currentCategory) {
+               return $currentCategory; 
+            }
+        }
+        catch(Exception $e) {
+            return false;
+        }
+        return false;
     }
 }
