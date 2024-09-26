@@ -75,6 +75,12 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
             
             //widgetSlots[key].products[0].refId;
             
@@ -122,7 +128,7 @@ require(['jquery'], function ($) {
             }
             
             var tileId = 'product-' + product.refId;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -158,6 +164,13 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -308,7 +321,7 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -363,24 +376,36 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
+    $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac);
     });
-    $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac);
     });
     
-    function slots(productId, recommenderId, campaignId, tacticId) {
+    function slots(productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
@@ -398,7 +423,14 @@ require(['jquery'], function ($) {
                     routeId: routeId,              
                     recommenderId: recommenderId,
                     campaignId: campaignId,
-                    tacticId: tacticId
+                    tacticId: tacticId,
+                    adSetId: adSetId,
+                    adSetVersion: adSetVersion,
+                    costPerClick: costPerClick,
+                    timeStamp: timeStamp,
+                    hmacSalt: hmacSalt,
+                    hmac: hmac,
+                    keywordId: uuidv4()
                 }
             ]
         };
@@ -429,6 +461,11 @@ require(['jquery'], function ($) {
             return v.toString(16);
         });
     }
+    
+    //Product Info Add To Cart
+    $(".product-item-details").click(function() {
+        $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
+    });
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
@@ -436,6 +473,12 @@ require(['jquery'], function ($) {
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
         
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
@@ -456,7 +499,14 @@ require(['jquery'], function ($) {
                     widgetId: widgetId,              
                     recommenderId: recommenderId,
                     campaignId: campaignId,
-                    tacticId: tacticId
+                    tacticId: tacticId,
+                    adSetId: adSetId,
+                    adSetVersion: adSetVersion,
+                    costPerClick: costPerClick,
+                    timeStamp: timeStamp,
+                    hmacSalt: hmacSalt,
+                    hmac: hmac,
+                    keywordId: uuidv4()
                 }
             ]
         };
@@ -526,7 +576,7 @@ require(['jquery'], function ($) {
 
     });
     
-    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -534,34 +584,40 @@ require(['jquery'], function ($) {
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId)
+            slots(productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac);
+            $(thisElement).addClass("slot");
         }
     }
 
-
-    var timer = null;
     window.addEventListener('scroll', function() {
-        if(timer !== null) {
-            clearTimeout(timer);        
-        }
-        timer = setTimeout(function() {
-            $("#pa-blue-right-side-widget .product-item-info.product-item").each(function() {
-                var element = $(this).attr("id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
-            });
-            $(".pa-digidirect-product-widget .product-item-info.product-item").each(function() {
-                var element = $(this).attr("id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
-            });
-        }, 2000);
+        $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac);
+        });
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac);
+        });
     }, false);
     
 });
