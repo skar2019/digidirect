@@ -304,11 +304,37 @@ class TestPronto extends AbstractHelper
     public function getWarehouse(OrderInterface $order) {
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
+
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    echo "collect place id ".$collectPlaceId;
                     //$whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
-                    $whse = $this->repCodeForPickUp[$collectPlaceId];
+
+                    echo 'debug collectPlaceId -'.$collectPlaceId.' whse - '.$whse;
+                    switch ($collectPlaceId) {
+                        case '1':
+                            $whse = 'SYDN';
+                            break;
+                        case '7':
+                            $whse = 'SYDN';
+                            break;
+                        case '10':
+                            $whse = 'BRIS';
+                            break;
+                        case '13':
+                            $whse = 'MIRA';
+                            break;
+                        case '16':
+                            $whse = 'CANN';
+                            break;
+                        case '31':
+                            $whse = 'BOND';
+                        case '32':
+                            $whse = 'PARR';
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
             } elseif ($order->getShippingAddress()) {
 //                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
@@ -327,7 +353,7 @@ class TestPronto extends AbstractHelper
     public function getRep(OrderInterface $order) {
         if ($order->getShippingMethod() == 'collect_collect') {
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                //echo "collectPlaceId -".$collectPlaceId."<br/>";
+                echo "collectPlaceId -".$collectPlaceId."<br/>";
                 $mapping = $this->repCodeForPickUp;
                 return $mapping[$collectPlaceId] ?? '';
             }
@@ -567,11 +593,12 @@ class TestPronto extends AbstractHelper
                 {
                     $territory = $wrehs;
                 }
+                else
+                {
+                    //check shipping
+                    $wrehs = 'MELB';
+                }
 
-            }
-            else
-            {
-                $wrehs = "MELB";
             }
 
             $accountname = $this->getAccountName($order);
