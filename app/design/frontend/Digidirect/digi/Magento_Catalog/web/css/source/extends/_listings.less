@@ -807,13 +807,14 @@
     
     .catalog-category-view .banner-desktop {
         position: relative;
+        display: block !important;
     }
 
     .catalog-category-view .page-title-wrapper {
         margin: 0;
         position: absolute;
         top: 30%;
-        padding: 10px;
+        padding: 10px !important;
         background: #ff3c00;
     }
 
@@ -967,6 +968,14 @@
     .category-description {
         margin-right: 15px !important;
         margin-bottom: 15px !important;
+    }
+    
+    .category-page-banner img {
+        display: none;
+    }
+
+    .catalog-category-view .page-title-wrapper {
+        position: relative;
     }
 }
 
