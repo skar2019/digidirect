@@ -1,10 +1,10 @@
 <?php
 
 $category = $block->getCurrentCategory();
-$categoryId = $category->getId();
 
 if ($category) {
     
+    $categoryId = $category->getId();
     $categoryCameras = $block->getCategory(17);
     $allChildrenCategoryIdsCameras = $categoryCameras->getAllChildren(true);
     
