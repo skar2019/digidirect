@@ -1,8 +1,9 @@
 <?php
 
-$categoryId = $block->getCurrentCategory()->getId();
+$category = $block->getCurrentCategory();
+$categoryId = $category->getId();
 
-if ($categoryId) {
+if ($category) {
     
     $categoryCameras = $block->getCategory(17);
     $allChildrenCategoryIdsCameras = $categoryCameras->getAllChildren(true);
@@ -56,7 +57,7 @@ if (trim($block->getPageHeading())) {
 }
 ?>
 
-<?php if ($categoryId) : ?>
+<?php if ($category) : ?>
     <div class="category-page-banner" style="margin-right: 0;margin-left: auto;display: none;">
         <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
         <div class="banner-desktop" style="display: none;">
