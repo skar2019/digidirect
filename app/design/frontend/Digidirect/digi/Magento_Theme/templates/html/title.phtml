@@ -1,5 +1,5 @@
 <?php
-$categoryId = $block->getCurrentCategory()->getId();
+//$categoryId = $block->getCurrentCategory()->getId();
 $cssClass = $block->getCssClass() ? ' ' . $block->getCssClass() : '';
 $titleHtml = '';
 if (trim($block->getPageHeading())) {
@@ -11,7 +11,7 @@ if (trim($block->getPageHeading())) {
 }
 ?>
 <?php if ($titleHtml) : ?>
-<div class="page-title-wrapper<?= $block->escapeHtmlAttr($cssClass) ?>" test-attr="rondel" <?= $categoryId; ?>>
+<div class="page-title-wrapper<?= $block->escapeHtmlAttr($cssClass) ?>" test-attr="rondel">
     <h1 class="page-title"
         <?php if ($block->getId()) : ?> id="<?= $block->escapeHtmlAttr($block->getId()) ?>" <?php endif; ?>
         <?php if ($block->getAddBaseAttributeAria()) : ?>
