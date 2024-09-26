@@ -308,6 +308,7 @@ class TestPronto extends AbstractHelper
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                     $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    echo 'debug collectPlaceId -'.$collectPlaceId.' whse - '.$whse;
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
@@ -569,6 +570,7 @@ class TestPronto extends AbstractHelper
                 }
                 else
                 {
+                    //check shipping
                     $wrehs = 'MELB';
                 }
 
