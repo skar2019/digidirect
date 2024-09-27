@@ -34,7 +34,7 @@ class CreateOrderFile extends \Magento\Framework\App\Action\Action
             $test = $_GET["test"];
         }
 
-        $this->helper->getOrderItems($orderId);
+        $this->helper->getOrderFile($orderId);
     }
 
     public function OrderFile()
