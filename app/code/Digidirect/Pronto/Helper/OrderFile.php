@@ -112,7 +112,7 @@ class OrderFile extends AbstractHelper
     }
 
 
-    public function getOrderCollection()
+    public function getOrderCollection($orderId)
     {
 //        $collection = $this->_orderCollectionFactory->create()
 //            ->addAttributeToSelect('*')
@@ -122,17 +122,17 @@ class OrderFile extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('status',array('eq' => 'complete'))
-            ->addFieldToFilter('entity_id', array('gteq' => 1505857
+            ->addFieldToFilter('entity_id', array('gteq' => $orderId
             ));
-        $collection->setPageSize(7000); // fetching only x records
+        $collection->setPageSize(5000); // fetching only x records
 
         return $collection;
     }
 
-    public function getOrderItems()
+    public function getOrderItems($orderId)
     {
 
-        $filepath = 'export/sales_order_items_56.csv';
+        $filepath = 'export/sales_order_items_'.$orderId.'.csv';
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
@@ -151,9 +151,8 @@ class OrderFile extends AbstractHelper
         $stream->writeCsv($header);
 
         //get order data
-        $orders = $this->getOrderCollection();
-        $counter = 0;
-        $orderid = 0;
+        $orders = $this->getOrderCollection($orderId);
+        $order_id = 0;
         foreach ($orders as $order)
         {
             if ($order->getState() == 'canceled') {
@@ -163,7 +162,7 @@ class OrderFile extends AbstractHelper
             foreach ($order->getAllVisibleItems() as $item) {
                 //$sku = $item->getSku() .",";
 
-                $orderid = $item->getOrderId();
+                $order_id = $item->getOrderId();
                 $data = [];
                 $data[] = $item->getItemId();
                 $data[] = $item->getOrderId();
@@ -228,20 +227,20 @@ class OrderFile extends AbstractHelper
             }
 
 
-
+            echo $order_id . "\n";
 //            if($counter == 1)
 //            {
 //                return true; //return after 2 orders
 //            }
 
         }
-        echo $orderid;
+
     }
 
-    public function getOrderFile()
+    public function getOrderFile($orderId)
     {
 
-        $filepath = 'export/salesorder_3_62.csv';
+        $filepath = 'export/salesorder_'.$orderId.'.csv';
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
@@ -266,7 +265,7 @@ class OrderFile extends AbstractHelper
         $stream->writeCsv($header);
 
         //get order data
-        $orders = $this->getOrderCollection();
+        $orders = $this->getOrderCollection($orderId);
         $counter = 0;
         foreach ($orders as $order)
         {
@@ -279,6 +278,7 @@ class OrderFile extends AbstractHelper
                 $sku .= $item->getSku() .",";
             }
             $sku = rtrim($sku, ",");
+            $order_id = $order->getId();
             $data = [];
             $data[] = $order->getId();
             $data[] = $order->getCustomerId();
@@ -425,7 +425,7 @@ class OrderFile extends AbstractHelper
 
             $stream->writeCsv($data);
 
-
+            echo $order_id . "\n";
 //            if($counter == 1)
 //            {
 //                return true; //return after 2 orders
