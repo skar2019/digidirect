@@ -67,6 +67,14 @@ return [
                 'root_category_id' => '2',
                 'default_store_id' => '13',
                 'code' => 'retail_store'
+            ],
+            10 => [
+                'group_id' => '10',
+                'website_id' => '7',
+                'name' => 'Retail Stores Store',
+                'root_category_id' => '2',
+                'default_store_id' => '19',
+                'code' => 'retail_stores_store'
             ]
         ],
         'stores' => [
