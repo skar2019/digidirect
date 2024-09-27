@@ -128,23 +128,29 @@ require(['jquery'], function ($) {
             }
             
             var tileId = 'product-' + product.refId;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                                '<span class="product-image-container" style="width: 240px;">' +
-                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
-                                    '</span>' +
-                                '</span>' +
-                            '</a>' + 
-                            '<div class="product details product-item-details">' +
-                                '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
-                                        product.name +
-                                    '</a>' +
-                                '</strong>' +
-                                priceBlock +
-                            '</div>' +
-                        '</div>'
+            
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">';
+            if (adSetId !== undefined) {
+                productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">';
+            }
+            
+            productItem = productItemDiv +
+                    '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                        '<span class="product-image-container" style="width: 240px;">' +
+                            '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                            '</span>' +
+                        '</span>' +
+                    '</a>' + 
+                    '<div class="product details product-item-details">' +
+                        '<strong class="product-item-name">' +
+                            '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                product.name +
+                            '</a>' +
+                        '</strong>' +
+                        priceBlock +
+                    '</div>' +
+                '</div>'
             $(appendTo).append(productItem);
             //slots(product.refId);
         });
@@ -321,37 +327,43 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">' +
-                            '<div class="wish-list-wrapper" data-role="add-to-links">' +
-                                '<a href="#"' +
-                                'data-post=""' +
-                                'class="action towishlist" data-action="add-to-wishlist"' +
-                                'title="Add to Wish List">' +
-                                '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
-                                '</a>' +
-                            '</div>' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                                digiDealsLogo + digiSeconds +
-                                '<span class="product-image-container" style="width: 240px;">' +
-                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
-                                    '</span>' +
+            
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">';
+            if (adSetId !== undefined) {
+                productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '">';
+            }
+                
+            productItem = productItemDiv +
+                        '<div class="wish-list-wrapper" data-role="add-to-links">' +
+                            '<a href="#"' +
+                            'data-post=""' +
+                            'class="action towishlist" data-action="add-to-wishlist"' +
+                            'title="Add to Wish List">' +
+                            '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
+                            '</a>' +
+                        '</div>' +
+                        '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                            digiDealsLogo + digiSeconds +
+                            '<span class="product-image-container" style="width: 240px;">' +
+                                '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                    '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                 '</span>' +
-                            '</a>' + 
-                            '<div class="product details product-item-details">' +
-                                '<strong class="product-item-name">' +
-                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
-                                        product.name +
-                                    '</a>' +
-                                '</strong>' +
-                                priceBlock +
+                            '</span>' +
+                        '</a>' + 
+                        '<div class="product details product-item-details">' +
+                            '<strong class="product-item-name">' +
+                                '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                    product.name +
+                                '</a>' +
+                            '</strong>' +
+                            priceBlock +
+                        '</div>' +
+                        '<div class="product actions product-item-actions">' +
+                            '<div class="actions-primary">' +
+                                addToCart +
                             '</div>' +
-                            '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary">' +
-                                    addToCart +
-                                '</div>' +
-                            '</div>' +
-                        '</div>'
+                        '</div>' +
+                    '</div>'
             $(appendTo).append(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
@@ -410,29 +422,41 @@ require(['jquery'], function ($) {
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                refId: productId,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId
+            }
+        if (adSetId !== undefined) {
+            events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                refId: productId,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: uuidv4()
+            }
+        }
 
         const slotData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    refId: productId,
-                    widgetId: widgetId,
-                    routeId: routeId,              
-                    recommenderId: recommenderId,
-                    campaignId: campaignId,
-                    tacticId: tacticId,
-                    adSetId: adSetId,
-                    adSetVersion: adSetVersion,
-                    costPerClick: costPerClick,
-                    timeStamp: timeStamp,
-                    hmacSalt: hmacSalt,
-                    hmac: hmac,
-                    keywordId: uuidv4()
-                }
-            ]
+            events: [events]
         };
 
         console.log(JSON.stringify(slotData));
@@ -445,7 +469,7 @@ require(['jquery'], function ($) {
                 eventData: slotData
             },
             success: function(data){
-                //console.log(data);
+                console.log("slots", data);
             },
             error: function(){
                 console.log('AJAX Fail!');
@@ -483,32 +507,47 @@ require(['jquery'], function ($) {
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                clickId: uuidv4(),
+                refId: productId,
+                actionType: 1,
+                contextType: 1,
+                routeId: routeId,
+                widgetId: widgetId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId
+            }
+        if (adSetId !== undefined) {
+            events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                clickId: uuidv4(),
+                refId: productId,
+                actionType: 1,
+                contextType: 1,
+                routeId: routeId,
+                widgetId: widgetId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: uuidv4()
+            }
+        }
 
         const clickData = {
             customerId: configCustomerId,
             sessionId: configSessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    clickId: uuidv4(),
-                    refId: productId,
-                    actionType: 1,
-                    contextType: 1,
-                    routeId: routeId,
-                    widgetId: widgetId,              
-                    recommenderId: recommenderId,
-                    campaignId: campaignId,
-                    tacticId: tacticId,
-                    adSetId: adSetId,
-                    adSetVersion: adSetVersion,
-                    costPerClick: costPerClick,
-                    timeStamp: timeStamp,
-                    hmacSalt: hmacSalt,
-                    hmac: hmac,
-                    keywordId: uuidv4()
-                }
-            ]
+            events: [events]
         };
 
         //console.log(JSON.stringify(clickData));
@@ -521,7 +560,7 @@ require(['jquery'], function ($) {
                 eventData: clickData
             },
             success: function(data){
-                console.log(data);
+                console.log("clicks", data);
             },
             error: function(){
                 console.log('AJAX Fail!');

@@ -804,7 +804,26 @@
     .catalogsearch-result-index .page-title {
         display: none !important;
     }
+    
+    .catalog-category-view .banner-desktop {
+        position: relative;
+        display: block !important;
+    }
 
+    .catalog-category-view .page-title-wrapper {
+        margin: 0;
+        position: absolute;
+        top: 30%;
+        padding: 10px !important;
+        background: #ff3c00;
+    }
+
+    .catalog-category-view .page-title {
+        font-size: 23px;
+        font-weight: 500;
+        color: #fff;
+        margin: 0;
+    }
 }
 
 //
@@ -892,6 +911,11 @@
     .product-item-inner {
         padding-bottom: 7px;
     }
+    
+    .category-page-banner .banner-desktop {
+        display: block !important;
+        margin-bottom: 10px;
+    }
 }
 
 //
@@ -939,12 +963,20 @@
     }
     
     .category-page-banner {
-        display: none !important;
+        //display: none !important;
     }
     
     .category-description {
         margin-right: 15px !important;
         margin-bottom: 15px !important;
+    }
+    
+    .category-page-banner img {
+        display: none;
+    }
+
+    .catalog-category-view .page-title-wrapper {
+        position: relative !important;
     }
 }
 
@@ -1394,7 +1426,7 @@
     }
 
     .discount-price-wrapper {
-        font-size: 10px !important;
+        //font-size: 10px !important;
     }
 
     .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box {
@@ -1404,6 +1436,10 @@
     .products-widget .product-items .action.primary {
         font-size: 11px !important;
         padding: 5px !important;
+    }
+    
+    .catalog-category-view .discount-price-wrapper {
+        margin-top: -2px;
     }
     
 }
@@ -1443,10 +1479,6 @@
 
     .product-item-info.-list .product-item-photo {
         margin-right: 40px;
-    }
-    
-    .category-page-banner .banner-desktop {
-        display: block !important;
     }
     
     //digiSeconds
@@ -1527,7 +1559,7 @@
 
 @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
     .category-page-banner .banner-tablet {
-        display: block !important;
+        //display: block !important;
     }
 }
 
