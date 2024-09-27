@@ -332,6 +332,7 @@ class TestPronto extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
+                            $whse = 'SWHS';
                             break;
                     }
 
