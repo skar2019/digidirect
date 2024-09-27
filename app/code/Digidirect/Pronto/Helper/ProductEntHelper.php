@@ -69,7 +69,7 @@ class ProductEntHelper extends AbstractHelper
 
     public function execute()
     {
-        $filepath = 'export/catalog_product_entity_2_6.csv';
+        $filepath = 'export/catalog_product_entity.csv';
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();

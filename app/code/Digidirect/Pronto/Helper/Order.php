@@ -1492,6 +1492,7 @@ class Order extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
+                            $whse = 'SWHS';
                             break;
                     }
                 }

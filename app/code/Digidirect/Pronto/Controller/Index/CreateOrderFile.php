@@ -34,6 +34,28 @@ class CreateOrderFile extends \Magento\Framework\App\Action\Action
             $test = $_GET["test"];
         }
 
-        $this->helper->getOrderItems();
+        $this->helper->getOrderFile($orderId);
+    }
+
+    public function OrderFile()
+    {
+
+        if(isset($_GET["order"])){
+            $orderId = $_GET["order"];
+        }
+        if(isset($_GET["date"])){
+            $date = $_GET["date"];
+        }
+        if(isset($_GET["page"])){
+            $page = $_GET["page"];
+        }
+        if(isset($_GET["size"])){
+            $size = $_GET["size"];
+        }
+        if(isset($_GET["test"])){
+            $test = $_GET["test"];
+        }
+
+        $this->helper->getOrderFile($orderId);
     }
 }
