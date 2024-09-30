@@ -207,8 +207,7 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
         }
         return (string) $columnData;
     }
-
-
+    
     /**
      *
      * @param \Magento\Catalog\Model\Product $_productItem
