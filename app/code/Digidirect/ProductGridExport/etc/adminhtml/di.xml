@@ -5,6 +5,11 @@
             <argument name="metadataProvider" xsi:type="object">Digidirect\ProductGridExport\Model\Export\MetadataProvider</argument>
         </arguments>
     </type>
+    <type name="Magento\Ui\Model\Export\ConvertToCsv">
+        <arguments>
+            <argument name="metadataProvider" xsi:type="object">Magento\Ui\Model\Export\MetadataProvider</argument>
+        </arguments>
+    </type>
     <type name="Digidirect\ProductGridExport\Model\Export\ConvertToXls">
         <arguments>
             <argument name="metadataProvider" xsi:type="object">Digidirect\ProductGridExport\Model\Export\MetadataProvider</argument>

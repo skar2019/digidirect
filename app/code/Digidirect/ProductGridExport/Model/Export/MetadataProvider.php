@@ -9,6 +9,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Ui\Model\BookmarkManagement;
 use Magento\Eav\Api\AttributeSetRepositoryInterface as AttributeSetRepository;
 use Magento\Store\Api\WebsiteRepositoryInterface as WebsiteRepository;
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
 {
@@ -26,6 +27,11 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
      */
     protected $columnsType;
 
+    protected $logger;
+    
+    protected $getSourceItemsBySku;
+    
+    protected $sourceDataBySku;
     /**
      * MetadataProvider constructor.
      * @param Filter $filter
@@ -37,7 +43,10 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
      * @param WebsiteRepository $websiteRepository
      * @param array $data
      */
-    public function __construct(
+    public function __construct( 
+        \Psr\Log\LoggerInterface $logger,
+        GetSourceItemsBySku $getSourceItemsBySku,
+        \Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku $sourceDataBySku,
         Filter $filter,
         TimezoneInterface $localeDate,
         ResolverInterface $localeResolver,
@@ -50,7 +59,10 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
         parent::__construct($filter, $localeDate, $localeResolver, $dateFormat, $data);
         $this->_bookmarkManagement = $bookmarkManagement;
         $this->attributeSetRepository = $attributeSetRepository;
-        $this->websiteRepository = $websiteRepository;
+        $this->websiteRepository = $websiteRepository;       
+        $this->logger = $logger;
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->sourceDataBySku = $sourceDataBySku;
     }
 
     protected function getActiveColumns($component){
@@ -155,9 +167,25 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
         $value = $document->getData($field);
 
         if (is_array($value)) {
+            $this->logger->info(implode('field: ' . $field . ', value:' . $value));
             return implode(', ', $value);
         }
-
+        $this->logger->info('field: ' . $field . ', value:' . $value);
+        
+        if ($field == "quantity_per_source") {
+            $sku = $document->getData('sku');
+            $sourceItems = $this->sourceDataBySku->execute($sku);
+            $qps = '';
+            foreach ($sourceItems as $sourceItem) {
+                $this->logger->info($sourceItem['name']);
+                $getQty = $sourceItem['quantity'];
+                $store = $sourceItem['name'];
+                $this->logger->info('store: ' . $store . ', getQty:' . $getQty);
+                $qps .= $store . ": " . $getQty . ",";
+            }
+            return rtrim($qps, ",");
+        }
+        
         return $value;
     }
 

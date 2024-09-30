@@ -14,10 +14,12 @@ class GridToXls extends Action
      * @param ConvertToXls $converter
      * @param FileFactory $fileFactory
      */
+    
     public function __construct(
         Context $context,
         protected ConvertToXls $converter,
-        protected FileFactory $fileFactory
+        protected FileFactory $fileFactory,
+
     ){
         parent::__construct($context);
     }
@@ -28,9 +30,11 @@ class GridToXls extends Action
      * @throws \Magento\Framework\Exception\LocalizedException
      * @return \Magento\Framework\App\ResponseInterface
      */
+
     public function execute()
     {
-        return $this->fileFactory->create('export.xls', $this->converter->getXlsFile(), 'var');
+        $dateCreated = date('YmdHis');
+        return $this->fileFactory->create('products_info_as_of_'.$dateCreated.'.xls', $this->converter->getXlsFile(), 'var');
     }
 
 }

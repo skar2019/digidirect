@@ -24,4 +24,17 @@
             </argument>
         </exportButton>
     </listingToolbar>
+
+    <columns name="product_columns">
+        <column name="salable_quantity"
+                class="Magento\InventorySalesAdminUi\Ui\Component\Listing\Column\SalableQuantity"
+                component="Magento_InventorySalesAdminUi/js/product/grid/cell/salable-quantity"
+                sortOrder="77">
+            <settings>
+                <filter>false</filter>
+                <sortable>false</sortable>
+                <label translate="true">Salable Quantity</label>
+            </settings>
+        </column>
+    </columns>
 </listing>
