@@ -26,7 +26,8 @@ class ConvertToXls extends ConvertToXml
      */
     public function getXlsFile()
     {
-        $component = $this->filter->getComponent();
+        
+        $component          = $this->filter->getComponent();
 
         $name = md5(microtime());
         $file = 'export/'. $component->getName() . $name . '.xls';

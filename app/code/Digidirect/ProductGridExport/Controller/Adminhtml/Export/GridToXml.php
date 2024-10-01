@@ -30,7 +30,8 @@ class GridToXml extends Action
      */
     public function execute()
     {
-        return $this->fileFactory->create('export.xml', $this->converter->getXmlFile(), 'var');
+        $dateCreated = date('YmdHis');
+        return $this->fileFactory->create('products_info_as_of_'.$dateCreated.'.xml', $this->converter->getXmlFile(), 'var');
     }
 
 }

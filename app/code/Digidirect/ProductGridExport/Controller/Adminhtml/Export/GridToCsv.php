@@ -5,7 +5,7 @@ namespace Digidirect\ProductGridExport\Controller\Adminhtml\Export;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Response\Http\FileFactory;
-use Digidirect\ProductGridExport\Model\Export\ConvertToCsv;
+use Magento\Ui\Model\Export\ConvertToCsv;
 
 class GridToCsv extends Action
 {

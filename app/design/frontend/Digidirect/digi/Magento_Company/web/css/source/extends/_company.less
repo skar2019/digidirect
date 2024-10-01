@@ -166,26 +166,35 @@
 
         * {
             box-sizing: border-box;
-          }
+        }
           
           /* Create two equal columns that floats next to each other */
-          .b2b-column, .field-name-firstname, .field-name-lastname, .gender {
+        .b2b-column, .field-name-firstname, .field-name-lastname, .gender {
             float: left;
             width: 50% !important;
             // padding-right: 10px;
             // height: 300px; /* Should be removed. Only for demonstration */
-          }
+        }
           
-          /* Clear floats after the columns */
-          .b2b-row:after {
+        /* Clear floats after the columns */
+        .b2b-row:after {
             content: "";
             display: table;
             clear: both;
-          }
+        }
 
-          .p-r, .field-name-firstname {
+        .p-r, .field-name-firstname {
             padding-right: 10px;
-          }
+        }
+
+        .actions-toolbar > .primary, .actions-toolbar > .secondary {
+            text-align: left !important;
+            vertical-align: middle !important;
+        }
+
+        .actions-toolbar .primary {
+            float: unset !important;
+        }
 
     }
 
