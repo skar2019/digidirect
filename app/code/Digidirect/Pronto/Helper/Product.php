@@ -2635,13 +2635,13 @@ class Product extends AbstractHelper
                                     $barcode1 = $gtin['id'];
                                     break;
                                 case 2:
-                                    $barcode2 = $gtin['id'];
+                                    $barcode4 = $gtin['id'];
                                     break;
                                 case 3:
                                     $barcode3 = $gtin['id'];
                                     break;
                                 case 4:
-                                    $barcode4 = $gtin['id'];
+                                    $barcode2 = $gtin['id'];
                                     break;
                                 default:
 
