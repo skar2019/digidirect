@@ -740,7 +740,6 @@ return [
         'Magento_Ups' => 0,
         'Magento_CatalogUrlRewriteDataExporter' => 1,
         'Magento_CatalogUrlRewriteGraphQl' => 0,
-        'Magento_TwoFactorAuth' => 0,
         'Magento_AsynchronousOperations' => 1,
         'Magento_Usps' => 0,
         'Magento_CatalogInventoryStaging' => 1,
