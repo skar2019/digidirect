@@ -309,7 +309,6 @@ class TestPronto extends AbstractHelper
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                     //$whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
 
-                    echo 'debug collectPlaceId -'.$collectPlaceId.' whse - '.$whse;
                     switch ($collectPlaceId) {
                         case '1':
                             $whse = 'SYDN';
@@ -328,6 +327,7 @@ class TestPronto extends AbstractHelper
                             break;
                         case '31':
                             $whse = 'BOND';
+                            break;
                         case '32':
                             $whse = 'PARR';
                             break;
@@ -335,6 +335,8 @@ class TestPronto extends AbstractHelper
                             $whse = 'SWHS';
                             break;
                     }
+
+                    echo 'debug collectPlaceId -'.$collectPlaceId.' whse - '.$whse;
 
                 }
             } elseif ($order->getShippingAddress()) {
