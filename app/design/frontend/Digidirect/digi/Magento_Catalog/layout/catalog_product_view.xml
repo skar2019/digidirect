@@ -97,6 +97,7 @@
         </referenceContainer>
         
         <referenceContainer name="page.wrapper">
+            <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
                     <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
