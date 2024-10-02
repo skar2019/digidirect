@@ -29,7 +29,11 @@ $mainImageData = $mainImage ?
 ?>
 
 <div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
-    <div class="pdp-custom-preloader"></div>
+    <div class="gallery-placeholder__image fotorama__stage__shaft fotorama__grab grid-parent" tabindex="0" data-gallery-role="stage-shaft">
+        <div class="fotorama__stage__frame fotorama__active fotorama_vertical_ratio fotorama__loaded fotorama__loaded--img" aria-hidden="false" data-active="true">
+            <img src="<?= /* @noEscape */ $mainImageData ?>" alt="main product photo" class="fotorama__img" aria-hidden="false">
+        </div>
+    </div>
 </div>
 
 <script type="text/x-magento-init">
@@ -46,29 +50,3 @@ $mainImageData = $mainImage ?
         }
     }
 </script>
-
-<style type="text/css">
-    
-    .pdp-custom-preloader {
-        margin: 40% auto;
-        vertical-align: middle;
-        border: 7px solid #f5f5f5;
-        border-radius: 50%;
-        border-top: 7px solid #000;
-        width: 50px;
-        height: 50px;
-        -webkit-animation: spin 2s linear infinite; /* Safari */
-        animation: spin 2s linear infinite;
-    }
-    
-    @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-</style>

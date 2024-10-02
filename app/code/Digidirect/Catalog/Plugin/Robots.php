@@ -53,6 +53,9 @@ class Robots
                 $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
             }
         }
+        if (str_contains($this->getCurrentUrl(), '___store')) {
+            $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
+        }
     }
     
     public function getCurrentProduct() {        
