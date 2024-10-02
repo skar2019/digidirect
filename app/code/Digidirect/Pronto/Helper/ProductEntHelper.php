@@ -703,7 +703,7 @@ class ProductEntHelper extends AbstractHelper
                 $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 if(is_null($final_price3))
                 {
-                    $final_price3 = 0;
+                    $final_price3 = $final_price2;
                 }
 
                 $product->setCustomAttribute('custom_final_price', $final_price3);
