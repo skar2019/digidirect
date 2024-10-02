@@ -1488,6 +1488,7 @@ class Order extends AbstractHelper
                             break;
                         case '31':
                             $whse = 'BOND';
+                            break;
                         case '32':
                             $whse = 'PARR';
                             break;
