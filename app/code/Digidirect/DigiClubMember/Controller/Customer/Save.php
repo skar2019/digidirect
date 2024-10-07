@@ -127,7 +127,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customer->setData('lastname', $customerLastName);
                 $customer->setData('email', $customerEmail);
                 $customer->setCustomAttribute('contact_number', $customerContactNumber);
-                $customer->setData('dob', $customerDob);
+                if ($customerDob) {
+                    $customer->setData('dob', $customerDob);
+                }
                 //$customer->setData('contact_number', $customerContactNumber);
                 
                 $this->customerRepository->save($customer);
