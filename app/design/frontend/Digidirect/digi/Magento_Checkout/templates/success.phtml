@@ -58,7 +58,23 @@
             foreach ($items as $item) { ?>
                     
                 <?php 
+                
+                    $widgetId = "";
+                    $routeId = "";
+                    $recommenderId = "";
+                    $campaignId = "";
+                    $tacticId = "";
+                    $retailBoostCollectionCampaignId = "";
+                    $adSetId = "";
+                    $adSetVersion = "";
+                    $costPerClick = "";
+                    $timeStamp = "";
+                    $hmacSalt = "";
+                    $hmac = "";
+                    $keywordId = "";
+                    
                     $options = $item->getProductOptions();
+                    
                     if(!empty($options["info_buyRequest"])) {
                         if(!empty($options["info_buyRequest"]["widget_id"]) && $options["info_buyRequest"]["widget_id"] != "undefined") {
                             $widgetId = $options["info_buyRequest"]["widget_id"];
