@@ -562,11 +562,27 @@ require(['jquery'], function ($) {
 
 </script>
 
+<?php
+    $isDigiClub = false;
+    $customer = $block->checkCustomer();
+    if ($customer->isLoggedIn()) {
+        $customerGroupId = $customer->getCustomer()->getGroupId();
+        if ($customerGroupId == 10) {
+            $isDigiClub = true;
+        }
+    }
+?>
+
 <div class="homepage-row main-banner" style="margin-bottom: 40px;">
     <div class="home-main-banners" style="display: grid; grid-template-columns: 75% 25%;">
         <div class="home-main-banner-left">
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
+            <?php if ($isDigiClub) :?>
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner-digiclub')->toHtml(); ?>
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner-digiclub')->toHtml(); ?>
+            <?php else : ?> 
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
+            <?php endif; ?>
         </div>
         <div class="home-main-banner-right">
             <div>
@@ -678,7 +694,11 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row" style="margin-bottom: 80px;">
     <div class="current-promotions-row">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('new-current-promotions-slider')->toHtml(); ?>
+        <?php if ($isDigiClub) :?>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('new-current-promotions-slider-digiclub')->toHtml(); ?>
+        <?php else : ?> 
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('new-current-promotions-slider')->toHtml(); ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class="homepage-row shop-by-row technology" style="margin-bottom: 50px;">

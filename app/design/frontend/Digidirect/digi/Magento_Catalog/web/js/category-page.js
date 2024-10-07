@@ -15,5 +15,5 @@ define([
             $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
         }, 3000);
     });
-    
+
 });

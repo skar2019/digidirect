@@ -21,6 +21,8 @@ class TestHomepage extends \Magento\Framework\View\Element\Template implements \
     
     protected $_productRepository;
     
+    protected $customer;
+    
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/test-homepage.phtml';
   
     public function __construct(
@@ -34,6 +36,7 @@ class TestHomepage extends \Magento\Framework\View\Element\Template implements \
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Catalog\Block\Product\ListProduct $listProductBlock,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = []
     ) {        
         $this->productCollectionFactory = $productCollectionFactory;
@@ -45,6 +48,7 @@ class TestHomepage extends \Magento\Framework\View\Element\Template implements \
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->listProductBlock = $listProductBlock;
         $this->_productRepository = $productRepository;
+        $this->customer = $customerSession;
         parent::__construct($context, $data);
     }
     
@@ -90,5 +94,9 @@ class TestHomepage extends \Magento\Framework\View\Element\Template implements \
     
     public function runJs($output) {
         echo "<script>".json_encode($output)."</script>";
+    }
+    
+    public function checkCustomer() {
+        return $this->customer;
     }
 }
