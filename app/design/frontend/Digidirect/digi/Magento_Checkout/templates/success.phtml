@@ -60,43 +60,43 @@
                 <?php 
                     $options = $item->getProductOptions();
                     if(!empty($options["info_buyRequest"])) {
-                        if(!empty($options["info_buyRequest"]["widget_id"])) {
+                        if(!empty($options["info_buyRequest"]["widget_id"]) && $options["info_buyRequest"]["widget_id"] != "undefined") {
                             $widgetId = $options["info_buyRequest"]["widget_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["route_id"])) {
+                        if(!empty($options["info_buyRequest"]["route_id"]) && $options["info_buyRequest"]["route_id"] != "undefined") {
                             $routeId = $options["info_buyRequest"]["route_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["recommender_id"])) {
+                        if(!empty($options["info_buyRequest"]["recommender_id"]) && $options["info_buyRequest"]["recommender_id"] != "undefined") {
                             $recommenderId = $options["info_buyRequest"]["recommender_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["campaign_id"])) {
+                        if(!empty($options["info_buyRequest"]["campaign_id"]) && $options["info_buyRequest"]["campaign_id"] != "undefined") {
                             $campaignId = $options["info_buyRequest"]["campaign_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["tactic_id"])) {
+                        if(!empty($options["info_buyRequest"]["tactic_id"]) && $options["info_buyRequest"]["tactic_id"] != "undefined") {
                             $tacticId = $options["info_buyRequest"]["tactic_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["retail_boost_collection_campaign_id"])) {
+                        if(!empty($options["info_buyRequest"]["retail_boost_collection_campaign_id"]) && $options["info_buyRequest"]["retail_boost_collection_campaign_id"] != "undefined") {
                             $retailBoostCollectionCampaignId = $options["info_buyRequest"]["retail_boost_collection_campaign_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["adset_id"])) {
+                        if(!empty($options["info_buyRequest"]["adset_id"]) && $options["info_buyRequest"]["adset_id"] != "undefined") {
                             $adSetId = $options["info_buyRequest"]["adset_id"];
                         }
-                        if(!empty($options["info_buyRequest"]["adset_version"])) {
+                        if(!empty($options["info_buyRequest"]["adset_version"]) && $options["info_buyRequest"]["adset_version"] != "undefined") {
                             $adSetVersion = $options["info_buyRequest"]["adset_version"];
                         }
-                        if(!empty($options["info_buyRequest"]["cost_per_click"])) {
+                        if(!empty($options["info_buyRequest"]["cost_per_click"]) && $options["info_buyRequest"]["cost_per_click"] != "undefined") {
                             $costPerClick = $options["info_buyRequest"]["cost_per_click"];
                         }
-                        if(!empty($options["info_buyRequest"]["timestamp"])) {
+                        if(!empty($options["info_buyRequest"]["timestamp"]) && $options["info_buyRequest"]["timestamp"] != "undefined") {
                             $timeStamp = $options["info_buyRequest"]["timestamp"];
                         }
-                        if(!empty($options["info_buyRequest"]["hmac_salt"])) {
+                        if(!empty($options["info_buyRequest"]["hmac_salt"]) && $options["info_buyRequest"]["hmac_salt"] != "undefined") {
                             $hmacSalt = $options["info_buyRequest"]["hmac_salt"];
                         }
-                        if(!empty($options["info_buyRequest"]["hmac"])) {
+                        if(!empty($options["info_buyRequest"]["hmac"]) && $options["info_buyRequest"]["hmac"] != "undefined") {
                             $hmac = $options["info_buyRequest"]["hmac"];
                         }
-                        if(!empty($options["info_buyRequest"]["keyword_id"])) {
+                        if(!empty($options["info_buyRequest"]["keyword_id"]) && $options["info_buyRequest"]["keyword_id"] != "undefined") {
                             $keywordId = $options["info_buyRequest"]["keyword_id"];
                         }
                     }
