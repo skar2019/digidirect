@@ -233,10 +233,10 @@
         });
         
         var dataForm = $('#form-validate');
-        var ignore = <?= /* @escapeNotVerified */ $_dob->isEnabled() && !$block->getCustomer()->getDob() ? '\'input[id$="full"]\'' : 'null' ?>;
+        var ignore = <?= /* @escapeNotVerified */ $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null' ?>;
 
         dataForm.mage('validation', {
-        <?php if ($_dob->isEnabled() && !$block->getCustomer()->getDob()): ?>
+        <?php if ($_dob->isEnabled()): ?>
             errorPlacement: function(error, element) {
                 if (element.prop('id').search('full') !== -1) {
                     var dobElement = $(element).parents('.customer-dob'),
@@ -267,9 +267,9 @@
         },
         "*": {
             "Magento_CustomerCustomAttributes/validation": {
-                "ignore": <?= (int) (($_dob->isEnabled() && !$block->getCustomer()->getDob()) || $userDefinedAttributes->hasUserDefinedAttributes()) ?>,
+                "ignore": <?= (int) ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()) ?>,
                 "hasUserDefinedAttributes": <?= (int) $userDefinedAttributes->hasUserDefinedAttributes() ?>,
-                "isDobEnabled": <?= (int) ($_dob->isEnabled() && !$block->getCustomer()->getDob()) ?>,
+                "isDobEnabled": <?= (int) $_dob->isEnabled() ?>,
                 "mixins": [
                     "Magento_CustomerCustomAttributes/error-placement",
                     "Magento_CustomerCustomAttributes/validation-ignore"
