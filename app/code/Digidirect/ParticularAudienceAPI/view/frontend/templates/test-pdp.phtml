@@ -1014,41 +1014,41 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     
     $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
-        let element = $(this).attr("id");
-        let productId = $(this).attr("product-id");
-        let recommenderId = $(this).attr("recommender-id");
-        let campaignId = $(this).attr("campaign-id");
-        let tacticId = $(this).attr("tactic-id");
-        let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        let adSetId = $(this).attr("adset-id");
-        let adSetVersion = $(this).attr("adset-version");
-        let costPerClick = $(this).attr("cost-per-click");
-        let timeStamp = $(this).attr("timestamp");
-        let hmacSalt = $(this).attr("hmac-salt");
-        let hmac = $(this).attr("hmac");
-        let keywordId = $(this).attr("keyword-id");
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
-        let element = $(this).attr("id");
-        let productId = $(this).attr("product-id");
-        let recommenderId = $(this).attr("recommender-id");
-        let campaignId = $(this).attr("campaign-id");
-        let tacticId = $(this).attr("tactic-id");
-        let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        let adSetId = $(this).attr("adset-id");
-        let adSetVersion = $(this).attr("adset-version");
-        let costPerClick = $(this).attr("cost-per-click");
-        let timeStamp = $(this).attr("timestamp");
-        let hmacSalt = $(this).attr("hmac-salt");
-        let hmac = $(this).attr("hmac");
-        let keywordId = $(this).attr("keyword-id");
+        var element = $(this).attr("id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     
     function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
-        let widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -1135,20 +1135,20 @@ require(['jquery'], function ($) {
     });
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
-        let productId = $(this).attr("product-id");
-        let recommenderId = $(this).attr("recommender-id");
-        let campaignId = $(this).attr("campaign-id");
-        let tacticId = $(this).attr("tactic-id");
-        let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        let adSetId = $(this).attr("adset-id");
-        let adSetVersion = $(this).attr("adset-version");
-        let costPerClick = $(this).attr("cost-per-click");
-        let timeStamp = $(this).attr("timestamp");
-        let hmacSalt = $(this).attr("hmac-salt");
-        let hmac = $(this).attr("hmac");
-        let keywordId = $(this).attr("keyword-id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
         
-        let widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -1227,20 +1227,20 @@ require(['jquery'], function ($) {
     
     $(".pa-digidirect-product-widget .action.tocart").click(function(){
 
-        let productId = $(this).attr("product-id");
-        let recommenderId = $(this).attr("recommender-id");
-        let campaignId = $(this).attr("campaign-id");
-        let tacticId = $(this).attr("tactic-id");
-        let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        let adSetId = $(this).attr("adset-id");
-        let adSetVersion = $(this).attr("adset-version");
-        let costPerClick = $(this).attr("cost-per-click");
-        let timeStamp = $(this).attr("timestamp");
-        let hmacSalt = $(this).attr("hmac-salt");
-        let hmac = $(this).attr("hmac");
-        let keywordId = $(this).attr("keyword-id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
         
-        let widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         var product = {"refId": productId, "quantity": 1};
@@ -1353,6 +1353,7 @@ require(['jquery'], function ($) {
     });
     
     function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+        console.log("element", element);
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -1366,36 +1367,20 @@ require(['jquery'], function ($) {
     }
 
     window.addEventListener('scroll', function() {
-        $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
-            let element = $(this).attr("id");
-            let productId = $(this).attr("product-id");
-            let recommenderId = $(this).attr("recommender-id");
-            let campaignId = $(this).attr("campaign-id");
-            let tacticId = $(this).attr("tactic-id");
-            let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-            let adSetId = $(this).attr("adset-id");
-            let adSetVersion = $(this).attr("adset-version");
-            let costPerClick = $(this).attr("cost-per-click");
-            let timeStamp = $(this).attr("timestamp");
-            let hmacSalt = $(this).attr("hmac-salt");
-            let hmac = $(this).attr("hmac");
-            let keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-        });
         $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
-            let element = $(this).attr("id");
-            let productId = $(this).attr("product-id");
-            let recommenderId = $(this).attr("recommender-id");
-            let campaignId = $(this).attr("campaign-id");
-            let tacticId = $(this).attr("tactic-id");
-            let retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-            let adSetId = $(this).attr("adset-id");
-            let adSetVersion = $(this).attr("adset-version");
-            let costPerClick = $(this).attr("cost-per-click");
-            let timeStamp = $(this).attr("timestamp");
-            let hmacSalt = $(this).attr("hmac-salt");
-            let hmac = $(this).attr("hmac");
-            let keywordId = $(this).attr("keyword-id");
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
