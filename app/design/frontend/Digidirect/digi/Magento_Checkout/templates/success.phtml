@@ -72,22 +72,24 @@
                 var refId = "<?= $item->getProductId(); ?>"; 
                 var quantity = <?= $item->getQtyOrdered(); ?>; 
                         
-                var productItemCheckout;
+                var productItemCheckout = {"refId": refId, "quantity": quantity};    
                 
-                <?php
-                    if (isset($widgetId) && isset($routeId)) { ?>
-                        var widgetId = "<?= $widgetId; ?>";
-                        var routeId = "<?= $routeId; ?>";
-                        productItemCheckout = {"refId": refId, "quantity": quantity, "widgetId": widgetId, "routeId": routeId};
-                <?php } else { ?>
-                        productItemCheckout = {"refId": refId, "quantity": quantity};
-                <?php } ?>
+                var price = <?= $item->getPrice(); ?>;
+                var productItemPurchase = {"refId": refId, "quantity": quantity, "price": price};
+                
+                var widgetId = "<?= $widgetId; ?>";
+                var routeId = "<?= $routeId; ?>";
+                
+                if (widgetId) {
+                    productItemCheckout.widgetId = widgetId;
+                    productItemPurchase.widgetId = widgetId;
+                }
+                if (routeId) {
+                    productItemCheckout.routeId = routeId;
+                    productItemPurchase.routeId = routeId;
+                }
                 
                 productsCheckout.push(productItemCheckout);
-                    
-                var productItemPurchase;
-                var price = <?= $item->getPrice(); ?>;
-                productItemPurchase = {"refId": refId, "quantity": quantity, "price": price};
                 productsPurchase.push(productItemPurchase);
                 
         <?php       
