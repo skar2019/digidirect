@@ -58,67 +58,67 @@ class CheckoutCartAddObserver implements ObserverInterface {
         $refId = ['label' => 'refId', 'value' => $item->getProductId()];
         array_push($customOptions, $refId);
 
-        if (isset($postValue['route_id']) && $postValue['route_id']) {
+        if (isset($postValue['route_id']) && $postValue['route_id'] && $postValue['route_id'] != "undefined") {
             $routeId = [];
             $routeId = ['label' => 'routeId', 'value' => $postValue['route_id']];
             array_push($customOptions, $routeId);
         }
-        if (isset($postValue['widget_id']) && $postValue['widget_id']) {
+        if (isset($postValue['widget_id']) && $postValue['widget_id'] && $postValue['widget_id'] != "undefined") {
             $widgetId = [];
             $widgetId = ['label' => 'widgetId', 'value' => $postValue['widget_id']];
             array_push($customOptions, $widgetId);
         }
-        if (isset($postValue['recommender_id']) && $postValue['recommender_id']) {
+        if (isset($postValue['recommender_id']) && $postValue['recommender_id'] && $postValue['recommender_id'] != "undefined") {
             $recommenderId = [];
             $recommenderId = ['label' => 'recommenderId', 'value' => $postValue['recommender_id']];
             array_push($customOptions, $recommenderId);
         }
-        if (isset($postValue['campaign_id']) && $postValue['campaign_id']) {
+        if (isset($postValue['campaign_id']) && $postValue['campaign_id'] && $postValue['campaign_id'] != "undefined") {
             $campaignId = [];
             $campaignId = ['label' => 'campaignId', 'value' => $postValue['campaign_id']];
             array_push($customOptions, $campaignId);
         }
-        if (isset($postValue['tactic_id']) && $postValue['tactic_id']) {
+        if (isset($postValue['tactic_id']) && $postValue['tactic_id'] && $postValue['tactic_id'] != "undefined") {
             $tacticId = [];
             $tacticId = ['label' => 'tacticId', 'value' => $postValue['tactic_id']];
             array_push($customOptions, $tacticId);
         }
-        if (isset($postValue['retail_boost_collection_campaign_id']) && $postValue['retail_boost_collection_campaign_id']) {
+        if (isset($postValue['retail_boost_collection_campaign_id']) && $postValue['retail_boost_collection_campaign_id'] && $postValue['retail_boost_collection_campaign_id'] != "undefined") {
             $retailBoostCollectionCampaignId = [];
             $retailBoostCollectionCampaignId = ['label' => 'retailBoostCollectionCampaignId', 'value' => $postValue['retail_boost_collection_campaign_id']];
             array_push($customOptions, $retailBoostCollectionCampaignId);
         }
-        if (isset($postValue['adset_id']) && $postValue['adset_id']) {
+        if (isset($postValue['adset_id']) && $postValue['adset_id'] && $postValue['adset_id'] != "undefined") {
             $adSetId = [];
             $adSetId = ['label' => 'adSetId', 'value' => $postValue['adset_id']];
             array_push($customOptions, $adSetId);
         }
-        if (isset($postValue['adset_version']) && $postValue['adset_version']) {
+        if (isset($postValue['adset_version']) && $postValue['adset_version'] && $postValue['adset_version'] != "undefined") {
             $adSetVersion = [];
             $adSetVersion = ['label' => 'adSetVersion', 'value' => $postValue['adset_version']];
             array_push($customOptions, $adSetVersion);
         }
-        if (isset($postValue['cost_per_click']) && $postValue['cost_per_click']) {
+        if (isset($postValue['cost_per_click']) && $postValue['cost_per_click'] && $postValue['cost_per_click'] != "undefined") {
             $costPerClick = [];
             $costPerClick = ['label' => 'costPerClick', 'value' => $postValue['cost_per_click']];
             array_push($customOptions, $costPerClick);
         }
-        if (isset($postValue['timestamp']) && $postValue['timestamp']) {
+        if (isset($postValue['timestamp']) && $postValue['timestamp'] && $postValue['timestamp'] != "undefined") {
             $timeStamp = [];
             $timeStamp = ['label' => 'timeStamp', 'value' => $postValue['timestamp']];
             array_push($customOptions, $timeStamp);
         }
-        if (isset($postValue['hmac_salt']) && $postValue['hmac_salt']) {
+        if (isset($postValue['hmac_salt']) && $postValue['hmac_salt'] && $postValue['hmac_salt'] != "undefined") {
             $hmacSalt = [];
             $hmacSalt = ['label' => 'hmacSalt', 'value' => $postValue['hmac_salt']];
             array_push($customOptions, $hmacSalt);
         }
-        if (isset($postValue['hmac']) && $postValue['hmac']) {
+        if (isset($postValue['hmac']) && $postValue['hmac'] && $postValue['hmac'] != "undefined") {
             $hmac = [];
             $hmac = ['label' => 'hmac', 'value' => $postValue['hmac']];
             array_push($customOptions, $hmac);
         }
-        if (isset($postValue['keyword_id']) && $postValue['keyword_id']) {
+        if (isset($postValue['keyword_id']) && $postValue['keyword_id'] && $postValue['keyword_id'] != "undefined") {
             $keywordId = [];
             $keywordId = ['label' => 'keywordId', 'value' => $postValue['keyword_id']];
             array_push($customOptions, $keywordId);
