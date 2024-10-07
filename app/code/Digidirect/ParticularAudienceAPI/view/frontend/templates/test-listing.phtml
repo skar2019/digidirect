@@ -36,6 +36,12 @@ require(['jquery'], function ($) {
     
     var currentUrl = window.location.href;
     
+    var configCustomerId;
+    var configSessionId;
+    
+    configCustomerId = customerId;
+    configSessionId = sessionId;
+    
     var urlPath = "";
     
     var categoryId = <?= $categoryId;?>;
