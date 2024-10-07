@@ -18,6 +18,16 @@
         <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
         <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
         <?php if ($_dob->isEnabled()): ?>
+            <?php if ($block->getCustomer()->getData("dob")): ?>
+                <div class="dob-fixed" style="margin-bottom: 30px;">
+                    <div class="label">
+                        <span style="font-weight: 700;">Date of Birth</span> 
+                    </div>
+                    <div class="control"><?= $block->getCustomer()->getData("dob") ?></div>
+                </div>
+            <?php else : ?>
+                <?= $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
+            <?php endif ?>
             <?= $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
         <?php endif ?>
         <?php if ($_taxvat->isEnabled()): ?>
