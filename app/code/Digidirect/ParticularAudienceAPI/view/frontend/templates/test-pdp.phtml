@@ -107,6 +107,14 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
             //widgetSlots[key].products[0].refId;
             
             if (product.prices[0].discountPrice) {
@@ -124,7 +132,7 @@ require(['jquery'], function ($) {
             
             var view = "-digimarket";
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
                                     '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
@@ -164,6 +172,15 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+            
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -224,6 +241,17 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                    '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                    '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                    '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                    '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                    '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                    '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                    '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                    '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                    '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                    '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
@@ -293,7 +321,7 @@ require(['jquery'], function ($) {
             
             var view = "-fbw";
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
                                     '<input type="checkbox" data-product-id="'+ product.refId +'" data-product-price="'+ finalPrice +'" class="pa-checkbox-input pa-bundle-product"><span><i class="fas fa-clipboard fa-2x"></i></span>' +
@@ -341,6 +369,15 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+            
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -416,6 +453,17 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                    '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                    '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                    '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                    '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                    '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                    '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                    '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                    '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                    '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                    '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
@@ -491,7 +539,7 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item '+ hideProductItem +'" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -545,6 +593,15 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+            
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -604,6 +661,17 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                    '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                    '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                    '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                    '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                    '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                    '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                    '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                    '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                    '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                    '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
@@ -677,7 +745,7 @@ require(['jquery'], function ($) {
             let hideProductItem = "";
             var view = "-bundle";
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
                                     '<input type="checkbox" data-product-id="'+ product.refId +'" data-product-price="'+ finalPrice +'" class="pa-checkbox-input pa-bundle-overlay-product"><span><i class="fas fa-clipboard fa-2x"></i></span>' +
@@ -723,6 +791,15 @@ require(['jquery'], function ($) {
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+            
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
@@ -798,6 +875,17 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                    '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                    '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                    '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                    '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                    '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                    '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                    '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                    '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                    '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                    '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
@@ -864,7 +952,7 @@ require(['jquery'], function ($) {
             
             var view = "-minicart";
             var tileId = 'product-' + product.refId + view;
-            productItem = '<div id="'+ tileId +'" class="product-item-info product-item minicart-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
                                 'data-post=""' +
@@ -925,7 +1013,15 @@ require(['jquery'], function ($) {
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
         var element = $(this).attr("id");
@@ -933,30 +1029,71 @@ require(['jquery'], function ($) {
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
+        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     
-    function slots(productId, recommenderId, campaignId, tacticId) {
+    function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                refId: productId,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: keywordId
+            }
+            
+        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+            delete events['retailBoostCollectionCampaignId']; 
+        }
+        if (!adSetId || adSetId == "undefined") {
+            delete events['adSetId']; 
+        }
+        if (!adSetVersion || adSetVersion == "undefined") {
+            delete events['adSetVersion']; 
+        }
+        if (!costPerClick || costPerClick == "undefined") {
+            delete events['costPerClick']; 
+        }
+        if (!timeStamp || timeStamp == "undefined") {
+            delete events['timeStamp']; 
+        }
+        if (!hmacSalt || hmacSalt == "undefined") {
+            delete events['hmacSalt']; 
+        }
+        if (!hmac || hmac == "undefined") {
+            delete events['hmac']; 
+        }
+        if (!keywordId || keywordId == "undefined") {
+            delete events['keywordId']; 
+        }
 
         const slotData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    refId: productId,
-                    widgetId: widgetId,
-                    routeId: routeId,              
-                    recommenderId: recommenderId,
-                    campaignId: campaignId,
-                    tacticId: tacticId
-                }
-            ]
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [events]
         };
 
         console.log(JSON.stringify(slotData));
@@ -969,7 +1106,7 @@ require(['jquery'], function ($) {
                 eventData: slotData
             },
             success: function(data){
-                //console.log(data);
+                console.log("slots", data);
             },
             error: function(){
                 console.log('AJAX Fail!');
@@ -986,54 +1123,94 @@ require(['jquery'], function ($) {
         });
     }
 
+    //Product Info Add To Cart
+    $(".product-item-details").click(function() {
+        $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
+    });
+
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
-        
-        var tileId = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
         
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                clickId: uuidv4(),
+                refId: productId,
+                actionType: 1,
+                contextType: 1,
+                routeId: routeId,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: keywordId
+            }
+            
+        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+            delete events['retailBoostCollectionCampaignId']; 
+        }
+        if (!adSetId || adSetId == "undefined") {
+            delete events['adSetId']; 
+        }
+        if (!adSetVersion || adSetVersion == "undefined") {
+            delete events['adSetVersion']; 
+        }
+        if (!costPerClick || costPerClick == "undefined") {
+            delete events['costPerClick']; 
+        }
+        if (!timeStamp || timeStamp == "undefined") {
+            delete events['timeStamp']; 
+        }
+        if (!hmacSalt || hmacSalt == "undefined") {
+            delete events['hmacSalt']; 
+        }
+        if (!hmac || hmac == "undefined") {
+            delete events['hmac']; 
+        }
+        if (!keywordId || keywordId == "undefined") {
+            delete events['keywordId']; 
+        }
 
         const clickData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    clickId: uuidv4(),
-                    refId: productId,
-                    actionType: 1,
-                    contextType: 1,
-                    routeId: routeId,
-                    widgetId: widgetId,              
-                    recommenderId: recommenderId,
-                    campaignId: campaignId,
-                    tacticId: tacticId
-                }
-            ]
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [events]
         };
-        
-        /*var thisElement = document.getElementById(tileId);
-        let rect = thisElement.getBoundingClientRect();
-
-        console.log("Product ID id ", element, "The bounding Rect of element is ", rect);*/
 
         //console.log(JSON.stringify(clickData));
 
         $.ajax({
-            //async: false,
+            async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
             type: "POST",
             data: {
                 eventData: clickData
             },
             success: function(data){
-                console.log(data);
+                console.log("clicks", data);
             },
             error: function(){
                 console.log('AJAX Fail!');
@@ -1048,27 +1225,70 @@ require(['jquery'], function ($) {
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
         var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
+        
         var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         var product = {"refId": productId, "quantity": 1};
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                product: product,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: keywordId
+            }
+            
+        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+            delete events['retailBoostCollectionCampaignId']; 
+        }
+        if (!adSetId || adSetId == "undefined") {
+            delete events['adSetId']; 
+        }
+        if (!adSetVersion || adSetVersion == "undefined") {
+            delete events['adSetVersion']; 
+        }
+        if (!costPerClick || costPerClick == "undefined") {
+            delete events['costPerClick']; 
+        }
+        if (!timeStamp || timeStamp == "undefined") {
+            delete events['timeStamp']; 
+        }
+        if (!hmacSalt || hmacSalt == "undefined") {
+            delete events['hmacSalt']; 
+        }
+        if (!hmac || hmac == "undefined") {
+            delete events['hmac']; 
+        }
+        if (!keywordId || keywordId == "undefined") {
+            delete events['keywordId']; 
+        }
+        
         const productData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    product: product,
-                    widgetId: widgetId,
-                    routeId: routeId,   
-                    recommenderId: recommenderId,
-                    campaignId: campaignId,
-                    tacticId: tacticId
-                }
-            ]
+            customerId: configCustomerId,
+            sessionId: configSessionId,
+            events: [events]
         };
-
+        
         //console.log("productData", JSON.stringify(productData));
 
         $.ajax({
@@ -1078,7 +1298,7 @@ require(['jquery'], function ($) {
             data: {
                 eventData: productData
             },
-            success: function(data){
+            success: function("addtocart", data){
                 console.log(data);
             },
             error: function(){
@@ -1094,17 +1314,17 @@ require(['jquery'], function ($) {
         var quantity = $("#qty").attr("value");
 
         var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                product: {"refId": productId, "quantity": quantity}
+            }
 
         const productData = {
             customerId: customerId,
             sessionId: sessionId,
-            events: [
-                {
-                    currentUrl: currentUrl,
-                    eventTime: date.toISOString(),
-                    product: {"refId": productId, "quantity": quantity}
-                }
-            ]
+            events: [events]
         };
 
         //console.log("productData", JSON.stringify(productData));
@@ -1117,7 +1337,7 @@ require(['jquery'], function ($) {
                 eventData: productData
             },
             success: function(data){
-                console.log(data);
+                console.log("addtocart", data);
             },
             error: function(){
                 console.log('AJAX Fail!');
@@ -1126,36 +1346,51 @@ require(['jquery'], function ($) {
 
     });
     
-    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId){
-        //console.log("element", element);
+    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
-            console.log("Product ID id ", element, "The bounding Rect of element is ", rect);
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId);
+            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             $(thisElement).addClass("slot");
         }
     }
 
     window.addEventListener('scroll', function() {
-        $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
+        $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
             var tacticId = $(this).attr("tactic-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .minicart-item, .slot)").each(function() {
+        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
             var tacticId = $(this).attr("tactic-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
     
