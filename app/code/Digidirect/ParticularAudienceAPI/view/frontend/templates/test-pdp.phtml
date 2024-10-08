@@ -42,12 +42,6 @@ require(['jquery'], function ($) {
     
     var currentUrl = window.location.href;
     
-    var configCustomerId;
-    var configSessionId;
-    
-    configCustomerId = customerId;
-    configSessionId = sessionId;
-    
     var date = new Date();
 
     const viewProductData = {
@@ -1097,8 +1091,8 @@ require(['jquery'], function ($) {
         }
 
         const slotData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -1201,8 +1195,8 @@ require(['jquery'], function ($) {
         }
 
         const clickData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -1290,8 +1284,8 @@ require(['jquery'], function ($) {
         }
         
         const productData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
         
