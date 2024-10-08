@@ -165,6 +165,7 @@ class ReadytoPickup extends AbstractHelper
         $this->logger = $logger;
     }
     public function sendReadytoPickupEmail() {
+        $this->logger->info("sendReadytoPickupEmail()");
         //get order data
         $orders = $this->getOrderCollection();
         $counter = 0;
@@ -215,6 +216,7 @@ class ReadytoPickup extends AbstractHelper
     
     public function getOrderCollection()
     {
+        $this->logger->info("getOrderCollection()");
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1139532))
