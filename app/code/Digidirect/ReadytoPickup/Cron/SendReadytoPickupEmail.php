@@ -20,8 +20,8 @@ class SendReadytoPickupEmail {
     }
 
     public function execute() {
-        $this->logger->info("send_readytopickup_email");
-        //$this->helper->sendReadytoPickupEmail();
+        //$this->logger->info("send_readytopickup_email");
+        $this->helper->sendReadytoPickupEmail();
     }
     
 }

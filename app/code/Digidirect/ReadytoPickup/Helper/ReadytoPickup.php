@@ -165,9 +165,9 @@ class ReadytoPickup extends AbstractHelper
         $this->logger = $logger;
     }
     public function sendReadytoPickupEmail() {
-        $this->logger->info("sendReadytoPickupEmail()");
+        //$this->logger->info("sendReadytoPickupEmail()");
         //get order data
-        /*$orders = $this->getOrderCollection();
+        $orders = $this->getOrderCollection();
         $counter = 0;
         foreach ($orders as $order)
         {
@@ -210,7 +210,7 @@ class ReadytoPickup extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-        }*/
+        }
         return true;
     }
     
