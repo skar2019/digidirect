@@ -167,7 +167,7 @@ class ReadytoPickup extends AbstractHelper
     public function sendReadytoPickupEmail() {
         $this->logger->info("sendReadytoPickupEmail()");
         //get order data
-        $orders = $this->getOrderCollection();
+        /*$orders = $this->getOrderCollection();
         $counter = 0;
         foreach ($orders as $order)
         {
@@ -193,7 +193,7 @@ class ReadytoPickup extends AbstractHelper
                     $customerEmail, $customerFirstName
                 )->setTemplateVars(
                     $templateParams
-                )->setFromByScope(
+                )->setFrom(
                     'general'
                 )->addBcc(
                     'rondel.d@digidirect.com.au'
@@ -210,7 +210,7 @@ class ReadytoPickup extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-        }
+        }*/
         return true;
     }
     
