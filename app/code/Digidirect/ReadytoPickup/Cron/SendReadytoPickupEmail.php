@@ -26,7 +26,6 @@ class SendReadytoPickupEmail
 
     public function execute()
     {
-        $this->logger->info("execute()");
         $this->helper->sendReadytoPickupEmail();
 
     }

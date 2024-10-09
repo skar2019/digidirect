@@ -193,7 +193,7 @@ class ReadytoPickup extends AbstractHelper
                     $customerEmail, $customerFirstName
                 )->setTemplateVars(
                     $templateParams
-                )->setFrom(
+                )->setFromByScope(
                     'general'
                 )->addBcc(
                     'rondel.d@digidirect.com.au'
@@ -216,7 +216,6 @@ class ReadytoPickup extends AbstractHelper
     
     public function getOrderCollection()
     {
-        $this->logger->info("getOrderCollection()");
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1139532))
