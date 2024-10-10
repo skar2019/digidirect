@@ -52,40 +52,40 @@
                     <label class="label" for="digiclub-firstname"><span>First Name</span></label>
                     <div class="control">
                         <input type="text" id="digiclub-firstname"
-                               name="digiclub-firstname"
-                               value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
-                               title="First Name"
-                               class="input-text digiclub-field" required/>
+                            name="digiclub-firstname"
+                            value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
+                            title="First Name"
+                            class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field field-name-lastname _required">
                     <label class="label" for="digiclub-lastname"><span>Last Name</span></label>
                     <div class="control">
                         <input type="text" id="digiclub-lastname"
-                               name="digiclub-lastname"
-                               value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
-                               title="Last Name"
-                               class="input-text digiclub-field" required/>
+                            name="digiclub-lastname"
+                            value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
+                            title="Last Name"
+                            class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field email _required" data-container="change-email">
                     <label class="label" for="digiclub-email"><span>Email</span></label>
                     <div class="control">
                         <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                               value="<?= $customerSession->getCustomer()->getEmail() ?>"
-                               title="Email"
-                               class="input-text digiclub-field"
-                               data-validate="{required:true, 'validate-email':true}" required/>
+                            value="<?= $customerSession->getCustomer()->getEmail() ?>"
+                            title="Email"
+                            class="input-text digiclub-field"
+                            data-validate="{required:true, 'validate-email':true}" required/>
                     </div>
                 </div>
                 <div class="field contact-number _required">
                     <label class="label" for="digiclub-contact-number"><span>Contact Number</span></label> 
                     <div class="control">
                         <input type="number" id="digiclub-contact-number" 
-                               name="digiclub-contact-number" 
-                               value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
-                               title="Contact Number"
-                               class="input-text digiclub-field" required/>
+                            name="digiclub-contact-number" 
+                            value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
+                            title="Contact Number"
+                            class="input-text digiclub-field" required/>
                     </div>
                 </div>
                 <div class="field dob">
@@ -95,14 +95,14 @@
                     </label> 
                     <div class="control">
                         <input type="date" id="digiclub-dob" 
-                               name="digiclub-dob" 
-                               value="<?= $customerSession->getCustomer()->getData("dob") ?>"
-                               title="Date of Birth"
-                               class="input-text digiclub-field"
-                               style="padding: 22px 12px !important;"/>
+                            name="digiclub-dob" 
+                            value="<?= $customerSession->getCustomer()->getData("dob") ?>"
+                            title="Date of Birth"
+                            class="input-text digiclub-field"
+                            style="padding: 22px 12px !important;" <?php echo $customerSession->getCustomer()->getData("dob") ? 'disabled' : ''; ?>/>
                     </div>
                 </div>
-
+                
             </div>
 
             <div class="field choice">

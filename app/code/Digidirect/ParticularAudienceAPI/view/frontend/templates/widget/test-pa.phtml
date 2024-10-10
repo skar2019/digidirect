@@ -253,6 +253,17 @@ require(['jquery'], function ($) {
                                     '<input type="text" name="qty" value="1" hidden/>' +
                                     '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                    '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                    '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                    '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                    '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                    '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                    '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                    '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                    '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                    '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                    '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                    '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                     '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
@@ -678,8 +689,8 @@ require(['jquery'], function ($) {
             data: {
                 eventData: productData
             },
-            success: function(data){
-                console.log(data);
+            success: function(){
+                console.log("addtocart", data);
             },
             error: function(){
                 console.log('AJAX Fail!');
