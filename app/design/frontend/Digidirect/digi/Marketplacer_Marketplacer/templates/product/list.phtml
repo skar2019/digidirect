@@ -478,13 +478,10 @@ if ($currentPage != "catalogsearch_result_index") {
                 }
             });*/
             
-            
-            $(".product-item-details").each(function() {
-                //Product Info Add To Cart
-                $(this).click(function() {
-                    console.log("Test Click!");
-                    $(this).find('.action.tocart.primary').trigger('click');
-                });
+            //Product Info Add To Cart
+            $(".product-item-details").click(function() {
+                console.log("test!");
+                $(this).children('.product-item-inner').find('.action.tocart.primary').trigger('click');
             });
 
     });
