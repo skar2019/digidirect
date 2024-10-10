@@ -129,13 +129,16 @@ class CheckoutCartAddObserver implements ObserverInterface {
         }
         
         $productExist = $this->checkoutSession->getQuote()->hasProductId($item->getProductId());
+        $options = $item->getProductOptions();
         
-        if (!$productExist) {
-            $item->addOption([
-                'product_id' => $item->getProductId(),
-                'code' => 'additional_options',
-                'value' => $this->serializer->serialize($customOptions),
-            ]);
+        if(empty($options["info_buyRequest"])) {
+            if (!$productExist) {
+                $item->addOption([
+                    'product_id' => $item->getProductId(),
+                    'code' => 'additional_options',
+                    'value' => $this->serializer->serialize($customOptions),
+                ]);
+            }
         }
         
     }
