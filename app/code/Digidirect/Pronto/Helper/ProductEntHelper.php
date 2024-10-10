@@ -710,5 +710,29 @@ class ProductEntHelper extends AbstractHelper
 
     }
 
+    public function testCustomFinalPrice()
+    {
+
+        $collection = $this->getProductCollection();
+        foreach ($collection as $product) {
+
+            $seller = $product->getData('marketplacer_seller');
+            echo $seller;
+            echo "<br /> \n";
+            if($seller == '20329' || $seller == 20329)
+            {
+
+                $final_price = $product->getData('final_price');
+                echo "final price: ".$final_price;
+                $product->setCustomAttribute('custom_final_price', $final_price);
+                $this->productRepository->save($product);
+
+            }
+
+        exit;
+        }
+
+    }
+
 
 }
