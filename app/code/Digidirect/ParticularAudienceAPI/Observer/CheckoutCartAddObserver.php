@@ -16,6 +16,8 @@ class CheckoutCartAddObserver implements ObserverInterface {
     
     protected $_request;
     
+    protected $checkoutSession;
+    
     protected $logger;
     
     /**
@@ -32,12 +34,14 @@ class CheckoutCartAddObserver implements ObserverInterface {
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Serialize\SerializerInterface $serializer,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->_layout = $layout;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->serializer = $serializer;
+        $this->checkoutSession = $checkoutSession;
         $this->logger = $logger;
     }
     
@@ -124,10 +128,15 @@ class CheckoutCartAddObserver implements ObserverInterface {
             array_push($customOptions, $keywordId);
         }
         
-        $item->addOption([
-            'product_id' => $item->getProductId(),
-            'code' => 'additional_options',
-            'value' => $this->serializer->serialize($customOptions),
-        ]);
+        $productExist = $this->checkoutSession->getQuote()->hasProductId($item->getProductId());
+        
+        if (!$productExist) {
+            $item->addOption([
+                'product_id' => $item->getProductId(),
+                'code' => 'additional_options',
+                'value' => $this->serializer->serialize($customOptions),
+            ]);
+        }
+        
     }
 }
