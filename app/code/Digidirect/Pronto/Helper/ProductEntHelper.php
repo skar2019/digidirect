@@ -723,7 +723,17 @@ class ProductEntHelper extends AbstractHelper
             {
 
                 $final_price = $product->getData('final_price');
-                echo "final price: ".$final_price;
+                echo "final price 1: ".$final_price;
+                $finalprice2 = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                echo "<br /> \n";
+                echo "final price 2: ".$finalprice2;
+                $finalprice3 = $product->getFinalPrice();
+                echo "<br /> \n";
+                echo "final price 3: ".$finalprice3;
+                $finalprice4 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+                echo "<br /> \n";
+                echo "final price 4: ".$finalprice4;
+                exit;
                 $product->setCustomAttribute('custom_final_price', $final_price);
                 $this->productRepository->save($product);
 
