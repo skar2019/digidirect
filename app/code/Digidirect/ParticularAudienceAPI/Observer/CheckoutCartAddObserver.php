@@ -131,7 +131,15 @@ class CheckoutCartAddObserver implements ObserverInterface {
         $productExist = $this->checkoutSession->getQuote()->hasProductId($item->getProductId());
         $options = $item->getProductOptions();
         
-        if(empty($options["info_buyRequest"])) {
+        $foundInCart = false;
+        foreach($this->checkoutSession->getQuote()->getAllVisibleItems() as $item) {
+            if ($item->getData('product_id') == $item->getProductId()) {
+                $foundInCart = true;
+                break;
+            }
+        }
+        
+        if(!$foundInCart) {
             $item->addOption([
                 'product_id' => $item->getProductId(),
                 'code' => 'additional_options',
