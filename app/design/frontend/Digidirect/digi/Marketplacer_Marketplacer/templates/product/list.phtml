@@ -479,9 +479,12 @@ if ($currentPage != "catalogsearch_result_index") {
             });*/
             
             
-            //Product Info Add To Cart
-            $(".product-item-details").click(function() {
-                $(this).find('.action.tocart.primary').trigger('click');
+            $(".product-item-details").each(function() {
+                //Product Info Add To Cart
+                $(this).click(function() {
+                    console.log("Test Click!");
+                    $(this).find('.action.tocart.primary').trigger('click');
+                });
             });
 
     });
