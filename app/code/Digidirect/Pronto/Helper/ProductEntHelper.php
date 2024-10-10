@@ -695,10 +695,10 @@ class ProductEntHelper extends AbstractHelper
         foreach ($collection as $product) {
 
             $seller = $product->getData('marketplacer_seller');
-            if($seller == '20329')
+            if($seller == '20329' || $seller == 20329)
             {
 
-                $final_price = $product->getData('marketplacer_seller');
+                $final_price = $product->getData('final_price');
 
                 $product->setCustomAttribute('custom_final_price', $final_price);
                 $this->productRepository->save($product);
