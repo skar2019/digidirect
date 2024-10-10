@@ -464,19 +464,25 @@ if ($currentPage != "catalogsearch_result_index") {
 <?php endif; ?>
 
 <script>
-    /*require([
+    require([
             'jquery'
         ],
         function ($) {
 
-            $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
+            /*$('.product-category-listing li .product-item-info .product-item-photo').each(function(){
                 if ($(this).find('.product-overlay').length) {
                     $(this).find('.overlay-container').append($(this).find('.product-overlay'));
                 }
                 if ($(this).find('.digiseconds-overlay').length) {
                     $(this).find('.overlay-container').attr("style", "top: 65px;");
                 }
+            });*/
+            
+            
+            //Product Info Add To Cart
+            $(".product-item-details").click(function() {
+                $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
             });
 
-    });*/
+    });
 </script>
