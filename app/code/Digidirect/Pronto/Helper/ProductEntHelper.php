@@ -721,7 +721,7 @@ class ProductEntHelper extends AbstractHelper
             echo "<br /> \n";
             if($seller == '20329' || $seller == 20329)
             {
-
+                echo $product->getSku();
                 $final_price = $product->getData('final_price');
                 echo "final price 1: ".$final_price;
                 $finalprice2 = $product->getPriceInfo()->getPrice('final_price')->getValue();
