@@ -173,7 +173,7 @@ if ($currentPage != "catalogsearch_result_index") {
                         
                         <?php if ($seller != "digiDirect" && $seller != ""): ?>
                             <div class="ribbon-online">Online only</div>
-                        <?php else: ?>
+                        <?php else: ?> 
                             <?php if ($is_digiPrint == 1): ?>
                                 <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
                                     <?php 
@@ -304,7 +304,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </a>
                         </strong>
                     <?php endif;?>
-                        <div class="product details product-item-details marketplacer-product" onclick="triggerAddToCart('<?= $_product->getSku(); ?>');">
+                    <div class="product details product-item-details marketplacer-product">
                         <div class="no-display">
                             <?php
                             // Must be called for Preorder plugin
@@ -443,7 +443,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-                    
+
                 </div>
                 <?= /* @escapeNotVerified */ '</li>'?>
             <?php endforeach; ?>
@@ -464,7 +464,19 @@ if ($currentPage != "catalogsearch_result_index") {
 <?php endif; ?>
 
 <script>
-    function triggerAddToCart(sku) {
-        document.querySelectorAll('[data-product-sku='+ sku +'] button').click();
-    }
+    /*require([
+            'jquery'
+        ],
+        function ($) {
+
+            $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
+                if ($(this).find('.product-overlay').length) {
+                    $(this).find('.overlay-container').append($(this).find('.product-overlay'));
+                }
+                if ($(this).find('.digiseconds-overlay').length) {
+                    $(this).find('.overlay-container').attr("style", "top: 65px;");
+                }
+            });
+
+    });*/
 </script>
