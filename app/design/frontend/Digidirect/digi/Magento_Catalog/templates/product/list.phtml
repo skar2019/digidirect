@@ -304,7 +304,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </a>
                         </strong>
                     <?php endif;?>
-                    <div class="product details product-item-details marketplacer-product">
+                        <div class="product details product-item-details marketplacer-product" onclick="triggerAddToCart('<?= $_product->getSku(); ?>');">
                         <div class="no-display">
                             <?php
                             // Must be called for Preorder plugin
@@ -464,25 +464,7 @@ if ($currentPage != "catalogsearch_result_index") {
 <?php endif; ?>
 
 <script>
-    require([
-            'jquery'
-        ],
-        function ($) {
-
-            /*$('.product-category-listing li .product-item-info .product-item-photo').each(function(){
-                if ($(this).find('.product-overlay').length) {
-                    $(this).find('.overlay-container').append($(this).find('.product-overlay'));
-                }
-                if ($(this).find('.digiseconds-overlay').length) {
-                    $(this).find('.overlay-container').attr("style", "top: 65px;");
-                }
-            });*/
-        
-            //Product Info Add To Cart
-            $(".product-category-listing .product-item .product-item-details").click(function() {
-                console.log("test new!");
-                $(this).children('.product-item-inner').find('.action.tocart.primary').trigger('click');
-            });
-
-    });
+    function triggerAddToCart(sku) {
+        document.querySelectorAll('[data-product-sku='+ sku +'] button').click();
+    }
 </script>
