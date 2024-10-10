@@ -481,7 +481,7 @@ if ($currentPage != "catalogsearch_result_index") {
             
             //Product Info Add To Cart
             $(".product-item-details").click(function() {
-                $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
+                $(this).find('.action.tocart.primary').trigger('click');
             });
 
     });
