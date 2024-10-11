@@ -60,7 +60,7 @@ class WiserPrice implements ObserverInterface
         //(optional) get the parent item, if exists
         $item = ($item->getParentItem() ? $item->getParentItem() : $item);
         
-        $price = $product->getData('final_price');
+        $price = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
         $basePrice = $product->getPrice();
         

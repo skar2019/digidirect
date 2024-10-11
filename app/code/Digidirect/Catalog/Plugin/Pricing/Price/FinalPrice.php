@@ -19,7 +19,7 @@ class FinalPrice
     public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
     {
         $product = $subject->getProduct();
-        $price = $product->getData('final_price');
+        $price = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
         
         $isDigiPrint = $product->getData('is_digiprint');
