@@ -9,15 +9,15 @@ use Digidirect\FreeGift\Model\Cart\Item as CartItem;
 class WiserPrice implements ObserverInterface
 {
     protected $customer;
-    
+
     protected $logger;
-    
+
     protected $_productOptions;
-    
+
     protected $_productRepositoryInterface;
-    
+
     protected $_productRepository;
-    
+
     protected $_giftItem;
 
     public function __construct(
@@ -35,44 +35,44 @@ class WiserPrice implements ObserverInterface
         $this->_giftItem = $giftItem;
         $this->logger = $logger;
     }
-    
+
     public function execute(\Magento\Framework\Event\Observer $observer) {
-        
+
         //get the item just added to cart
         $item = $observer->getEvent()->getData('quote_item');
         $product = $observer->getEvent()->getData('product');
         $sku = $product->getData('sku');
-        
+
         $discount2 = []; //[122428,124928,130029,133828,135538,135790,137132,137431,139609,139908,142338,144625,144626,146718,146719,146818,146876,147859,148028,148817,149367,149381,152803,153589,153590,154948,154953,155161,155162,155166,155212,155520,155973];
         $discount5 = []; //[137376,137952,139517,141539,142768,149131,149132,149133,149950,153379,153380,153381,155158,155159,156474,156475,156476,156477,117561,117562,134146,117492,117494,122574,149496,149497];
         $discount10 = []; //[154979,154784,154782,154783,154785,151173,151169,141197,136339,148815,148728,155243,155244];
         $discount15 = []; //[133160,147857,130998,117586,153643,153642];
-        
+
         $isDigiClub = 0;
-        
+
         if ($this->customer->isLoggedIn()) {
             $customerGroupId = $this->customer->getCustomer()->getGroupId();
             if ($customerGroupId == 10) {
                 $isDigiClub = 1;
             }
         }
-        
+
         //(optional) get the parent item, if exists
         $item = ($item->getParentItem() ? $item->getParentItem() : $item);
-        
-        $price = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+
+        $price = $product->getData('final_price');//$product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
         $basePrice = $product->getPrice();
-        
+
         $isDigiPrint = $product->getData('is_digiprint');
-            
+
         $this->_productRepositoryInterface->getById($product->getId());
         $this->_productRepository->load($product->getId());
 
         $finalPrice = $price;
-        
+
         $finalProductPrice = $finalPrice;
-        
+
         //$this->logger->info('$basePrice: ' . $basePrice . ', $finalPrice: ' . $finalPrice .', $wiserPrice: ' . $wiserPrice);
             if ($this->_giftItem->isFreeGiftItem($item)) {
                 $finalProductPrice = 0;
@@ -109,7 +109,7 @@ class WiserPrice implements ObserverInterface
                                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.10);
                                     } elseif ((in_array($sku, $discount15)) && $isDigiClub) {
                                         $wiserPrice = $wiserPrice - ($wiserPrice * 0.15);
-                                    } 
+                                    }
                                     $finalPrice = $wiserPrice;
                                 }
                             } else {
@@ -126,7 +126,7 @@ class WiserPrice implements ObserverInterface
                     }
                 }
             }
-        
+
         $item->setCustomPrice($finalProductPrice);
         $item->setOriginalCustomPrice($finalProductPrice);
         $item->getProduct()->setIsSuperMode(true);
