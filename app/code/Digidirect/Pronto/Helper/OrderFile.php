@@ -124,7 +124,7 @@ class OrderFile extends AbstractHelper
             ->addFieldToFilter('status',array('eq' => 'complete'))
             ->addFieldToFilter('entity_id', array('gteq' => $orderId
             ));
-        $collection->setPageSize(5000); // fetching only x records
+        $collection->setPageSize(8000); // fetching only x records
 
         return $collection;
     }
@@ -337,6 +337,7 @@ class OrderFile extends AbstractHelper
             if(is_null($shipaddress))
             {
                 $data[] = "NULL";//$shipaddress->getPrefix();
+                $data[] = "NULL";
                 $data[] = "NULL";
                 $data[] = "NULL";
                 $data[] = "NULL";
