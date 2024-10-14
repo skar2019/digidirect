@@ -113,7 +113,7 @@ class Coupon
             ->setIsActive(1)
             ->setSimpleAction(Rule::BY_FIXED_ACTION)
             ->setDiscountAmount($priceDiff)
-            ->setDiscountQty(9999)
+            ->setDiscountQty(1)
             ->setWebsiteIds($websiteId)
             ->setProductIds($productId)
             ->setCouponType(Rule::COUPON_TYPE_SPECIFIC)
