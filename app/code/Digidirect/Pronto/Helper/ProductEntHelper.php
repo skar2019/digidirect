@@ -748,8 +748,8 @@ class ProductEntHelper extends AbstractHelper
                 exit;
             }
 
-        exit;
         }
+        exit;
 
     }
 
