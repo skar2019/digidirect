@@ -705,8 +705,9 @@ class ProductEntHelper extends AbstractHelper
 
             }
 
-
         }
+
+        exit;
 
     }
 
@@ -714,6 +715,7 @@ class ProductEntHelper extends AbstractHelper
     {
 
         $collection = $this->getProductCollection();
+        $counter = 0;
         foreach ($collection as $product) {
 
             $seller = $product->getData('marketplacer_seller');
@@ -736,10 +738,14 @@ class ProductEntHelper extends AbstractHelper
                 $finalprice4 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 echo "<br /> \n";
                 echo "final price 4: ".$finalprice4;
-                exit;
                 $product->setCustomAttribute('custom_final_price', $final_price);
                 $this->productRepository->save($product);
+                $counter++;
+            }
 
+            if($counter > 50)
+            {
+                exit;
             }
 
         exit;
