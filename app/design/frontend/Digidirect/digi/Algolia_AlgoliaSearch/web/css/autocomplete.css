@@ -62,14 +62,17 @@ html {
 }
 
 @media (min-width: 769px) {
+    
     #algolia-autocomplete-container .aa-dropdown-menu, .aa-Panel {
         width: 71.1%;
         min-width: 680px;
         padding-left: 8px;
     }
+    
     .aa-Panel{
         /*left: auto !important;*/
     }
+    
     .aa-Panel.productColumn1 section:nth-child(1) .aa-List {
         columns: 2;
         -webkit-columns: 2;
