@@ -178,6 +178,24 @@
     
 }
 
+@media only screen and (max-width: 1280px) {
+    
+    #algoliaAutocomplete {
+        position: absolute;
+        width: calc(100% - 30px) !important;
+        margin-top: 60px !important;
+    }
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1280px) {
+    
+    .aa-SubmitButton {
+        padding: 30px 15px;
+    }
+    
+}
+
 @media only screen and (min-width: 768px) and (max-width: 1439px) {
     
     .columns.algolia-instant-replaced-content {
@@ -247,6 +265,16 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    #algoliaAutocomplete .aa-SubmitButton {
+        z-index: 2;
+        padding: 10px;
+    }
+    
+    .homepage-row.main-banner {
+        margin-top: 10px !important;
+    }
+    
 }
 
 //
