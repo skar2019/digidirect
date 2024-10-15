@@ -1,0 +1,246 @@
+//
+//  Algolia Search
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+& when (@media-common = true) {
+    
+    //InstantSearch
+    
+    .algolia-instant-replaced-content {
+        display: none !important;
+    }
+    
+    .ais-Hits-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 15px !important;
+    }
+
+    .ais-Hits-item {
+        width: calc(~'(100% - 55px) / 5');
+        margin-left: 13.6px;
+    }
+
+    #algolia_instant_selector .col-md-4 {
+        width: unset !important;
+        float: none !important;
+        border-radius: 5px;
+        border: 1px solid #e6e6e6;
+    }
+    
+    .result-wrapper {
+        padding: 15px 0 !important;
+    }
+    
+    .result-thumbnail {
+        height: 180px;
+        text-decoration: none;
+    }
+    
+    .ais-Hits-item img {
+        height: 150px !important;
+        width: auto !important;
+        max-height: 130px !important;
+        margin-top: 30px !important;
+        object-fit: contain;
+    }
+    
+    .ais-Hits-item .product-reviews-summary {
+        margin: 0 !important;
+    }
+    
+    .result-title.text-ellipsis {
+        width: 100%;
+        line-height: 2rem;
+        max-height: 4rem;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden !important;
+        -webkit-line-clamp: 2;
+        white-space: unset !important;
+        color: #222;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 14px !important;
+        height: 53px;
+        margin-bottom: 20px;
+    }
+    
+    .ais-Hits-item .price-wrapper {
+        margin: 0 !important;
+        justify-content: center;
+        margin-top: -15px !important;
+        margin-bottom: 10px !important;
+        border: 1px solid #4e4e4e;
+        border-radius: 5px;
+        width: unset;
+        display: block;
+        height: 67px;
+        position: relative;
+        min-height: 37px;
+        padding: 0 0 15px;
+    }
+    
+    .ais-Hits-item .price-wrapper > div {
+        position: absolute !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .ais-Hits-item .after_special {
+        color: #ff3c00;
+        font-weight: 700;
+        font-size: 16px;
+    }
+    
+    .ais-Hits-item .action.tocart.primary {
+        width: 100%;
+        margin: 0 !important;
+    }
+    
+    //Autocomplete
+    
+    .aa-Form {
+        position: relative;
+    }
+    
+    .aa-SubmitButton {
+        padding: 13px;
+    }
+    
+    .aa-Panel .algoliasearch-autocomplete-price {
+        color: #ff3c00 !important;
+        font-weight: 700;
+    }
+
+    .aa-Panel .aa-ItemLink.algolia-suggestions:has(svg.algolia-glass-suggestion) svg.algolia-glass-suggestion.magnifying-glass {
+        fill: #ff3c00 !important;
+        stroke: #ff3c00 !important;
+    }
+    
+    .aa-Panel .algoliasearch-autocomplete-hit .thumb img {
+        width: 70px !important;
+        object-fit: contain;
+    }
+
+    .algoliasearch-autocomplete-hit .info {
+        margin-left: 75px !important;
+    }
+
+    .aa-List {
+        columns: unset !important;
+    }
+
+    .aa-List li {
+        width: 100% !important;
+    }
+
+    .aa-Item .thumb {
+        width: 70px !important;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .aa-SourceFooter a {
+        color: #ff3c00 !important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    
+    .algolia-instant-selector-results {
+        padding: 15px;
+    }
+    
+    .ais-Hits-item {
+        width: calc(~'(100% - 15px) / 2') !important; 
+    }
+    
+    .ais-Hits-item:nth-child(2n+1) {
+        margin-left: 0 !important;
+    }
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1439px) {
+    
+    .columns.algolia-instant-replaced-content {
+        display: none !important;
+    }
+    
+}
+
+@media only screen and (min-width: 991px) and (max-width: 1366px) {
+    
+    .algolia-instant-selector-results {
+        padding: 50px !important;
+    }
+    
+    .ais-Hits-item {
+        width: calc(~'(100% - 41px) / 4') !important;
+    }
+    
+    .ais-Hits-item:nth-child(4n+1) {
+        margin-left: 0 !important;
+    }
+    
+}
+
+@media only screen and (min-width: 1367px) {
+    
+    .ais-Hits-item:nth-child(5n+1) {
+        margin-left: 0;
+    }
+    
+}
+
+//
+//  Mobile above
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    
+}
+
+//
+//  Tablet and above
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+    
+}
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    
+}
