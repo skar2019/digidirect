@@ -15,7 +15,35 @@ and open the template in the editor.
 //
 //  Common
 //  ---------------------------------------------
+
 & when (@media-common = true) {
+    
+    .page-layout-1column .breadcrumbs {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 1440px !important;
+        padding: 0 50px;
+    }
+
+    li.item:has([title="digiDirect"]) {
+        display: none;
+    }
+
+    li.item:has([title="Sample Business"]) {
+        display: none;
+    }
+
+    .mrkt-seller-top-info {
+        padding: 0 50px;
+    }
+
+    .mrkt-seller-top-info .mrkt-seller-desc-list {
+        display: none;
+    }
+
+    .mrkt-seller-top-info .category-page-banner {
+        display: none !important;
+    }
     
 }
 
