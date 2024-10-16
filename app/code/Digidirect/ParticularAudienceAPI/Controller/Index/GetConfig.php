@@ -24,7 +24,9 @@ class GetConfig extends Action implements HttpPostActionInterface {
 
     protected $jsonSerializer;
     
-    public const COOKIE_NAME = "pa_session_id";
+    public const PA_CUSTOMER_ID = "pa_customer_id";
+    
+    public const PA_SESSION_ID = "pa_session_id";
 
     protected $_cookieManager;
 
@@ -91,9 +93,23 @@ class GetConfig extends Action implements HttpPostActionInterface {
         $getConfigResultJson = $this->jsonSerializer->unserialize($getConfigResult);
         $result->setData($getConfigResultJson);
         
+        $this->setCustomerId($getConfigResultJson['payload']['customerId']);
         $this->setSessionId($getConfigResultJson['payload']['session']['id']);
         
         return $result;
+    }
+
+    public function setCustomerId($value) {
+        $metadata = $this->_cookieMetadataFactory
+            ->createPublicCookieMetadata()
+            ->setPath($this->_sessionManager->getCookiePath())
+            ->setDomain($this->_sessionManager->getCookieDomain());
+
+        $this->_cookieManager->setPublicCookie(
+            self::PA_CUSTOMER_ID,
+            $value,
+            $metadata
+        );
     }
 
     public function setSessionId($value, $duration = 1800) {
@@ -104,19 +120,9 @@ class GetConfig extends Action implements HttpPostActionInterface {
             ->setDomain($this->_sessionManager->getCookieDomain());
 
         $this->_cookieManager->setPublicCookie(
-            self::COOKIE_NAME,
+            self::PA_SESSION_ID,
             $value,
             $metadata
-        );
-    }
-    
-    public function deleteSessionId() {
-        $this->_cookieManager->deleteCookie(
-            self::COOKIE_NAME,
-            $this->_cookieMetadataFactory
-                ->createCookieMetadata()
-                ->setPath($this->_sessionManager->getCookiePath())
-                ->setDomain($this->_sessionManager->getCookieDomain())
         );
     }
 }

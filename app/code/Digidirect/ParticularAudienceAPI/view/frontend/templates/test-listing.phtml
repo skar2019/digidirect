@@ -12,10 +12,10 @@ require(['jquery'], function ($) {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
     
-    var customerId = getCookie('PAC');
+    var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    if (!sessionId || sessionId === undefined) {
+    if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
         $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
