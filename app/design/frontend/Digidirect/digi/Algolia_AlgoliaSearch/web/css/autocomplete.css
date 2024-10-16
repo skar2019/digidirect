@@ -57,7 +57,7 @@ html {
 }
 @media (min-width: 992px) {
     #algolia-autocomplete-container .aa-dropdown-menu, .aa-Panel {
-        min-width: 800px !important;
+        /*min-width: 800px !important;*/
     }
 }
 
@@ -65,7 +65,7 @@ html {
     
     #algolia-autocomplete-container .aa-dropdown-menu, .aa-Panel {
         width: 71.1%;
-        min-width: 680px;
+        /*min-width: 680px;*/
         padding-left: 8px;
     }
     
@@ -559,7 +559,7 @@ html {
 @media (min-width: 992px) {
     .aa-Panel.productColumn2 .aa-PanelLayout section:nth-child(2), .aa-Panel.productColumn1 .aa-PanelLayout section:nth-child(1){
         margin-left: 2.5rem !important;
-        min-width: 570px !important;
+        /*min-width: 570px !important;*/
     }
     .aa-Panel.productColumn2 .aa-PanelLayout section:nth-child(1),
     .aa-Panel.productColumn1 .aa-PanelLayout section:nth-child(2),
@@ -578,7 +578,7 @@ html {
     .aa-Panel.productColumn2 .aa-PanelLayout section:nth-child(1){
         grid-area: 1 / 1 / 2 / 2;
         padding-top: 20px;
-        width: 180px;
+        /*width: 180px;*/
     }
     .aa-Panel.productColumn2 .aa-PanelLayout section:nth-child(2){
         border-left: 1px solid #BBB;
