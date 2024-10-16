@@ -566,7 +566,7 @@ html {
     .aa-Panel .aa-PanelLayout section:nth-child(3),
     .aa-Panel .aa-PanelLayout section:nth-child(4),
     .aa-Panel .aa-PanelLayout section:nth-child(5){
-        width: 220px !important;
+        /*width: 220px !important;*/
     }
 }
 @media (max-width: 768px) {
@@ -583,8 +583,8 @@ html {
     .aa-Panel.productColumn2 .aa-PanelLayout section:nth-child(2){
         border-left: 1px solid #BBB;
         margin-bottom: 0px;
-        margin-left: 1.5rem;
-        min-width: 480px;
+        margin-left: 0 !important;
+        min-width: 0;
         grid-area: 1 / 2 / 5 / 3;
     }
 
