@@ -189,6 +189,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
         $quote->setGrandTotal($newGrandTotal);
         $quote->setBaseGrandTotal($newGrandTotal);
         $quote->save();
+        $this->checkoutSession->getQuote()->collectTotals()->save();
         
         $customOptions = [];
 
