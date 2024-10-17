@@ -183,6 +183,13 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
         $item->setOriginalCustomPrice($finalProductPrice);
         $item->getProduct()->setIsSuperMode(true);
         
+        $quote = $this->checkoutSession->getQuote();
+        
+        $newGrandTotal = $quote->getGrandTotal() + $finalProductPrice;
+        $quote->setGrandTotal($newGrandTotal);
+        $quote->setBaseGrandTotal($newGrandTotal);
+        $quote->save();
+        
         $customOptions = [];
 
         $refId = ['label' => 'refId', 'value' => $item->getProductId()];
