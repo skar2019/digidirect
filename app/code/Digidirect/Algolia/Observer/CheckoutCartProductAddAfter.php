@@ -86,52 +86,14 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
     public function execute(Observer $observer): void
     {
         $this->logger->info("Algolia Observer Override!");
-        /** @var Item $quoteItem */
-        $quoteItem = $observer->getEvent()->getData('quote_item');
-        /** @var Product $product */
-        $product = $observer->getEvent()->getData('product');
-        $storeId = $quoteItem->getStoreId();
-
-        $isAddToCartTracked = $this->insightsHelper->isAddedToCartTracked($storeId);
-
-        if (!$isAddToCartTracked
-            && !$this->insightsHelper->isOrderPlacedTracked($storeId)
-            || !$this->insightsHelper->getUserAllowedSavedCookie()) {
-            return;
-        }
-
-        $eventProcessor = $this->insightsHelper->getEventProcessor();
-
-        $queryId = $this->_request->getParam('queryID');
-
-        // Adding algolia_query_param to the items to track the conversion when product is added to the cart
-        if ($this->insightsHelper->isConversionTrackedPlaceOrder($storeId) && $queryId) {
-            $this->addQueryIdToQuoteItems($product, $quoteItem, $queryId);
-        }
-
-        // This logic handles both perso and conversion tracking
-        if ($isAddToCartTracked) {
-            try {
-                $eventProcessor->convertAddToCart(
-                    __('Added to Cart'),
-                    $this->productHelper->getIndexName($storeId),
-                    $quoteItem,
-                    // A queryID should *only* be sent for conversions
-                    // See https://www.algolia.com/doc/guides/sending-events/concepts/event-types/
-                    $this->insightsHelper->isConversionTrackedAddToCart($storeId) ? $queryId : null
-                );
-            } catch (AlgoliaException $e) {
-                $this->logger->critical("Unable to send add to cart event due to Algolia events model misconfiguration: " . $e->getMessage());
-            } catch (LocalizedException $e) {
-                $this->logger->error("Error tracking conversion for add to cart event: " . $e->getMessage());
-            }
-        }
         
         $postValue = $this->_request->getParams();
         //get the item just added to cart
         $item = $observer->getEvent()->getData('quote_item');
         $product = $observer->getEvent()->getData('product');
         $sku = $product->getData('sku');
+        
+        $this->logger->info("Algolia SKU: " . $sku);
 
         $discount2 = []; //[122428,124928,130029,133828,135538,135790,137132,137431,139609,139908,142338,144625,144626,146718,146719,146818,146876,147859,148028,148817,149367,149381,152803,153589,153590,154948,154953,155161,155162,155166,155212,155520,155973];
         $discount5 = []; //[137376,137952,139517,141539,142768,149131,149132,149133,149950,153379,153380,153381,155158,155159,156474,156475,156476,156477,117561,117562,134146,117492,117494,122574,149496,149497];
@@ -299,6 +261,47 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
             'code' => 'additional_options',
             'value' => $this->serializer->serialize($customOptions),
         ]);
+        
+        /** @var Item $quoteItem */
+        $quoteItem = $observer->getEvent()->getData('quote_item');
+        /** @var Product $product */
+        $product = $observer->getEvent()->getData('product');
+        $storeId = $quoteItem->getStoreId();
+
+        $isAddToCartTracked = $this->insightsHelper->isAddedToCartTracked($storeId);
+
+        if (!$isAddToCartTracked
+            && !$this->insightsHelper->isOrderPlacedTracked($storeId)
+            || !$this->insightsHelper->getUserAllowedSavedCookie()) {
+            return;
+        }
+
+        $eventProcessor = $this->insightsHelper->getEventProcessor();
+
+        $queryId = $this->_request->getParam('queryID');
+
+        // Adding algolia_query_param to the items to track the conversion when product is added to the cart
+        if ($this->insightsHelper->isConversionTrackedPlaceOrder($storeId) && $queryId) {
+            $this->addQueryIdToQuoteItems($product, $quoteItem, $queryId);
+        }
+
+        // This logic handles both perso and conversion tracking
+        if ($isAddToCartTracked) {
+            try {
+                $eventProcessor->convertAddToCart(
+                    __('Added to Cart'),
+                    $this->productHelper->getIndexName($storeId),
+                    $quoteItem,
+                    // A queryID should *only* be sent for conversions
+                    // See https://www.algolia.com/doc/guides/sending-events/concepts/event-types/
+                    $this->insightsHelper->isConversionTrackedAddToCart($storeId) ? $queryId : null
+                );
+            } catch (AlgoliaException $e) {
+                $this->logger->critical("Unable to send add to cart event due to Algolia events model misconfiguration: " . $e->getMessage());
+            } catch (LocalizedException $e) {
+                $this->logger->error("Error tracking conversion for add to cart event: " . $e->getMessage());
+            }
+        }
         
     }
 }
