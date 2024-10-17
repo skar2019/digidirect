@@ -12,10 +12,10 @@ require(['jquery'], function ($) {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
     
-    var customerId = getCookie('PAC');
+    var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    if (!sessionId || sessionId === undefined) {
+    if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
         $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
@@ -43,36 +43,34 @@ require(['jquery'], function ($) {
     configSessionId = sessionId;
     
     var urlPath = "";
-    
     var categoryId = <?= $categoryId;?>;
-    
     var paWidgetId = "";
     
-    if (categoryId == 37) {
+    if (currentUrl == "https://www.digidirect.com.au/cameras/mirrorless-cameras") {
         urlPath = "/cameras/mirrorless-cameras-pa";
         paWidgetId = "069747ae-13be-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 49) {
+    } else if (currentUrl == "https://www.digidirect.com.au/cameras/instant-cameras") {
         urlPath = "/cameras/instant-cameras-pa";
         paWidgetId = "813a0ca1-35be-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 47) {
+    } else if (currentUrl == "https://www.digidirect.com.au/cameras/film-cameras") {
         urlPath = "/cameras/film-cameras-pa";
         paWidgetId = "0b3c5603-c0be-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 39) {
+    } else if (currentUrl == "https://www.digidirect.com.au/cameras/compact-cameras") {
         urlPath = "/cameras/compact-cameras-pa";
         paWidgetId = "d9ff9312-1dbe-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 57) {
+    } else if (currentUrl == "https://www.digidirect.com.au/lenses/mirrorless-lenses") {
         urlPath = "/lenses/mirrorless-lenses-pa";
         paWidgetId = "a5e0340d-25be-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 67) {
+    } else if (currentUrl == "https://www.digidirect.com.au/lenses/lens-filters") {
         urlPath = "/lenses/lens-filters-pa";
         paWidgetId = "55992e84-4ebe-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 61) {
+    } else if (currentUrl == "https://www.digidirect.com.au/lenses/digital-cine-lenses") {
         urlPath = "/lenses/digital-cine-lenses-pa";
         paWidgetId = "92d40659-38be-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 49) {
+    } else if (currentUrl == "https://www.digidirect.com.au/lenses/lens-accessories") {
         urlPath = "/lenses/lens-accessories-pa";
         paWidgetId = "c26e5450-4cbe-ed11-aae9-02dca44cceec";
-    } else if (categoryId == 1903) {
+    } else if (currentUrl == "https://www.digidirect.com.au/clearance") {
         urlPath = "/clearance-pa";
         paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
     }
@@ -281,7 +279,7 @@ require(['jquery'], function ($) {
             }
             var tileId = 'product-' + product.refId + view;
             productItem = '<li class="item product product-item">' +
-                        '<div id="'+ tileId +'" class="pa-product product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                        '<div id="'+ tileId +'" class="pa-product product-item-info" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 digiDealsLogo + digiSeconds +
                                 '<span class="product-image-container" style="width: 240px;">' +

@@ -19,6 +19,8 @@
         }
     },
     "require": {
+        "algolia/algoliasearch-inventory-magento-2": "^1.1",
+        "algolia/algoliasearch-magento-2": "^3.14",
         "classyllama/module-zendesk": "^1.1",
         "laminas/laminas-zendframework-bridge": "^1.8",
         "livechat/module-magento-livechat": "dev-master",
@@ -27,7 +29,6 @@
         "magento/magento-cloud-metapackage": "2.4.6",
         "magento/product-recommendations": "^6.0",
         "magento/zendframework1": "^1.15",
-        "magento/live-search": "^4.2",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
         "swissup/attributepages": "^1.5",
         "swissup/delete-orders": "^1.2",
