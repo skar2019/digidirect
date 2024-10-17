@@ -85,7 +85,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
      */
     public function execute(Observer $observer): void
     {
-        $this->logger->error("Algolia Observer Override!");
+        $this->logger->info("Algolia Observer Override!");
         /** @var Item $quoteItem */
         $quoteItem = $observer->getEvent()->getData('quote_item');
         /** @var Product $product */
@@ -102,7 +102,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
 
         $eventProcessor = $this->insightsHelper->getEventProcessor();
 
-        $queryId = $this->request->getParam('queryID');
+        $queryId = $this->_request->getParam('queryID');
 
         // Adding algolia_query_param to the items to track the conversion when product is added to the cart
         if ($this->insightsHelper->isConversionTrackedPlaceOrder($storeId) && $queryId) {
