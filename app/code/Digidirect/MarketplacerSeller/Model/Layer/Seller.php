@@ -61,7 +61,7 @@ class Seller extends Category
     public function getProductCollection()
     {
         $seller = $this->getCurrentSeller();
-        $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
+        /*$this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
         if (isset($this->_productCollections[$seller->getOptionId()])) {
             $collection = $this->_productCollections[$seller->getOptionId()];
         } else {
@@ -74,7 +74,26 @@ class Seller extends Category
         }
         
         $this->logger->info('$collection->count(): ' . $collection->count());
-        $this->logger->info('$collection->getSize(): ' . $collection->getSize());
+        $this->logger->info('$collection->getSize(): ' . $collection->getSize());*/
+        
+        $defaultCategory = 2;
+        $productIdsArray = [];
+        
+        $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
+        
+        if (isset($this->_productCollections[$defaultCategory])) {
+            $collection = $this->_productCollections[$defaultCategory];
+        } else {
+            $category = $this->categoryRepo->get($defaultCategory, 1);
+            $collection = $this->collectionProvider->getCollection($category);
+            $collection->addAttributeToSelect('*');
+            $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+            $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addAttributeToFilter("marketplacer_seller", array("eq" => $seller->getOptionId()));
+            $collection->getSelect()->orderRand();
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$defaultCategory] = $collection;
+        }
 
         return $collection;
     }
