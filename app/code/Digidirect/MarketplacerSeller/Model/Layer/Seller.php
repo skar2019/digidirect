@@ -46,11 +46,13 @@ class Seller extends Category
         CategoryRepositoryInterface $categoryRepository,
         SellerAttributeRetrieverInterface $sellerAttributeRetriever,
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepo,
         array $data = []
     ) {
         parent::__construct($context, $layerStateFactory, $attributeCollectionFactory, $catalogProduct, $storeManager,
             $registry, $categoryRepository, $data);
         $this->logger = $logger;
+        $this->categoryRepo = $categoryRepo;
         $this->sellerAttributeRetriever = $sellerAttributeRetriever;
     }
 
