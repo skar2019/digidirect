@@ -63,7 +63,8 @@ class Seller extends Category
     public function getProductCollection()
     {
         $seller = $this->getCurrentSeller();
-        /*$this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
+        
+        $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
         if (isset($this->_productCollections[$seller->getOptionId()])) {
             $collection = $this->_productCollections[$seller->getOptionId()];
         } else {
@@ -75,13 +76,11 @@ class Seller extends Category
             $this->_productCollections[$seller->getOptionId()] = $collection;
         }
         
-        $this->logger->info('$collection->count(): ' . $collection->count());
-        $this->logger->info('$collection->getSize(): ' . $collection->getSize());*/
-        
-        $defaultCategory = 2;
-        $productIdsArray = [];
-        
+        $this->logger->info('$this->sellerAttributeRetriever->getAttributeCode(): ' . $this->sellerAttributeRetriever->getAttributeCode());
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
+        
+        /*$defaultCategory = 2;
+        $productIdsArray = [];
         
         if (isset($this->_productCollections[$defaultCategory])) {
             $collection = $this->_productCollections[$defaultCategory];
@@ -91,11 +90,14 @@ class Seller extends Category
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-            $collection->addAttributeToFilter("marketplacer_seller", array("eq" => $seller->getOptionId()));
+            $collection->addAttributeToFilter("marketplacer_seller", $seller->getOptionId());
             $collection->getSelect()->orderRand();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$defaultCategory] = $collection;
-        }
+        }*/
+        
+        $this->logger->info('$collection->count(): ' . $collection->count());
+        $this->logger->info('$collection->getSize(): ' . $collection->getSize());
 
         return $collection;
     }
