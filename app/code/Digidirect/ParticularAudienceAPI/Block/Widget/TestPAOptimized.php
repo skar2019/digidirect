@@ -28,6 +28,8 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/test-pa-optimized.phtml';
     
     protected $variable;
+    
+    protected $customer;
   
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,  
@@ -36,6 +38,7 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
         SessionManagerInterface $sessionManager,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Variable\Model\Variable $variable,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = []
     ) {        
         $this->_cookieManager = $cookieManager;
@@ -46,6 +49,7 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
             'Magento\Framework\HTTP\PhpEnvironment\RemoteAddress'
         );
         $this->variable = $variable;
+        $this->customer = $customerSession;
         parent::__construct($context, $data);
     }
     
@@ -99,8 +103,37 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
             return $getConfigResultJson;
         }
         
-        return $customerId;
+        return;
         
+    }
+    
+    public function getRecommendations(){
+        
+        $this->getConfig();
+
+        $customerId = $this->getCookie(self::PA_CUSTOMER_ID);
+        $bearerToken = $this->getBearerToken();
+        
+        if ($customerId) {
+            $customerIdParam = "&customerId=".$customerId;
+        } else {
+            $customerIdParam = "";
+        }
+
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-home-page&expandProductDetails=true".$customerIdParam;
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
+        $this->curl->get($getRecommendationsUrl);
+
+        $getRecommendationsResult = $this->curl->getBody();
+        $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
+        
+        return $getRecommendationsResultJson;
+
+    }
+    
+    public function checkCustomer() {
+        return $this->customer;
     }
     
 }
