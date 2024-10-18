@@ -4,6 +4,6 @@
         <observer name="wiser_price_add_to_cart" instance="Digidirect\Catalog\Observer\WiserPrice" disabled="true"/>
     </event>
     <event name="controller_action_predispatch_checkout_cart_add">
-        <observer name="check_before_add_to_cart" instance="Digidirect\Catalog\Observer\BeforeAddToCart" />
+        <observer name="check_before_add_to_cart" instance="Digidirect\Catalog\Observer\BeforeAddToCart" disabled="true"/>
     </event>
 </config>
