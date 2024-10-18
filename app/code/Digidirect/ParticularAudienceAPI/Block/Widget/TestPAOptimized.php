@@ -7,7 +7,6 @@ use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
 use Magento\Framework\Stdlib\CookieManagerInterface;
 
-
 class TestPAOptimized extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     
