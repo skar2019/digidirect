@@ -14,7 +14,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Marketplacer\Seller\Api\Data\SellerInterface;
 use Marketplacer\SellerApi\Api\SellerAttributeRetrieverInterface;
 
-class Seller extends \Marketplacer\Seller\Model\Layer\Seller
+class Seller extends Category
 {
     const LAYER_NAME = 'seller_category_layer';
 
