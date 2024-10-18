@@ -112,7 +112,7 @@ return [
                 'group_id' => '7',
                 'name' => 'Retail Store View',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'BOND' => [
                 'store_id' => '19',
@@ -121,7 +121,7 @@ return [
                 'group_id' => '10',
                 'name' => 'BOND',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'BRISB' => [
                 'store_id' => '25',
@@ -130,7 +130,7 @@ return [
                 'group_id' => '10',
                 'name' => 'BRISB',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'CANN' => [
                 'store_id' => '28',
@@ -139,7 +139,7 @@ return [
                 'group_id' => '10',
                 'name' => 'CANN',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'MELB' => [
                 'store_id' => '31',
@@ -148,7 +148,7 @@ return [
                 'group_id' => '10',
                 'name' => 'MELB',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'MIRA' => [
                 'store_id' => '34',
@@ -157,7 +157,7 @@ return [
                 'group_id' => '10',
                 'name' => 'MIRA',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'PARR' => [
                 'store_id' => '37',
@@ -166,7 +166,7 @@ return [
                 'group_id' => '10',
                 'name' => 'PARR',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ],
             'SYDN' => [
                 'store_id' => '40',
@@ -175,7 +175,7 @@ return [
                 'group_id' => '10',
                 'name' => 'SYDN',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '0'
             ]
         ]
     ],
