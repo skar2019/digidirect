@@ -113,4 +113,5 @@ class Seller extends Category
         }
         return $currentSeller;
     }
+    
 }
