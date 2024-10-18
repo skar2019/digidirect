@@ -30,6 +30,10 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
     protected $variable;
     
     protected $customer;
+    
+    protected $curl;
+    
+    protected $jsonSerializer;
   
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,  
@@ -39,6 +43,8 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Variable\Model\Variable $variable,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
         array $data = []
     ) {        
         $this->_cookieManager = $cookieManager;
@@ -50,6 +56,8 @@ class TestPAOptimized extends \Magento\Framework\View\Element\Template implement
         );
         $this->variable = $variable;
         $this->customer = $customerSession;
+        $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
         parent::__construct($context, $data);
     }
     

@@ -15,7 +15,7 @@ require(['jquery'], function ($) {
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    var recommendationsResult = <?= $block->getRecommendations(); ?>;
+    var recommendationsResult = <?= json_encode($block->getRecommendations()); ?>;
     var widgets  = recommendationsResult.recommendations.route.widgets;
     
     var routeId  = recommendationsResult.recommendations.route.id;
