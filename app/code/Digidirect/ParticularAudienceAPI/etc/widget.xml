@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="pa_digidirect_homepage_optimized"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\HomepageOptimized" ttl="86400">
+        <label translate="true">Homepage Optimized</label>
+        <description translate="true">Homepage Optimized</description>
+    </widget>
+    <widget id="pa_digidirect_testpaoptimized"
+            class="Digidirect\ParticularAudienceAPI\Block\Widget\TestPAOptimized" ttl="86400">
+        <label translate="true">Test PA Optimized</label>
+        <description translate="true">Test PA Optimized</description>
+    </widget>
     <widget id="pa_digidirect_testpa"
             class="Digidirect\ParticularAudienceAPI\Block\Widget\TestPA" ttl="86400">
         <label translate="true">PA - Test PA</label>
