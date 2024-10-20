@@ -84,7 +84,6 @@ class GetConfig extends Action implements HttpPostActionInterface {
         }
 
         $getConfigUrl = "https://api-recs.particularaudience.com/3.0/config".$customerIdParam;
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getConfigUrl);
