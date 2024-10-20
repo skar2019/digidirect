@@ -314,7 +314,7 @@ class TestPronto extends AbstractHelper
                             $whse = 'SYDN';
                             break;
                         case '7':
-                            $whse = 'SYDN';
+                            $whse = 'MELB';
                             break;
                         case '10':
                             $whse = 'BRIS';
