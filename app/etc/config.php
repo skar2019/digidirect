@@ -113,42 +113,6 @@ return [
                 'name' => 'Retail Store View',
                 'sort_order' => '0',
                 'is_active' => '0'
-            ],
-            'BOND' => [
-                'store_id' => '19',
-                'code' => 'BOND',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'BOND',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'BRISB' => [
-                'store_id' => '25',
-                'code' => 'BRISB',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'BRISB',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'CANN' => [
-                'store_id' => '28',
-                'code' => 'CANN',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'CANN',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'MELB' => [
-                'store_id' => '31',
-                'code' => 'MELB',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'MELB',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
