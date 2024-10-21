@@ -23,11 +23,12 @@
     $originalPrice = number_format((float)$block->getSaleableItem()->getPrice(), 2, '.', '');
     $promoPrice = number_format((float)$block->getSaleableItem()->getFinalPrice(), 2, '.', '');
     $wiserPrice = number_format((float)$block->getSaleableItem()->getWiserPrice(), 2, '.', '');
+    $discountWiserPrice = round($originalPrice - $wiserPrice, 2);
     
     if (is_null($wiserPrice) || $wiserPrice == 0) {
         $discountPrice = round($originalPrice - $promoPrice, 2);
     } else {
-        if ($wiserPrice < $promoPrice) {
+        if (($wiserPrice < $promoPrice) && $discountWiserPrice >= 10) {
             $discountPrice = round($originalPrice - $wiserPrice, 2);
         } else {
             $discountPrice = round($originalPrice - $promoPrice, 2);

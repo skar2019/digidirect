@@ -26,9 +26,15 @@
     }
     
     .ais-SearchBox-reset {
-        padding: 13px;
         background: #fff !important;
-        margin: 1px 10px;
+    }
+    
+    .ais-SearchBox-reset:focus {
+        background: #fff !important;
+    }
+    
+    .ais-SearchBox-reset:hover {
+        background: #fff !important;
     }
     
     .ais-ClearRefinements {
@@ -163,7 +169,7 @@
     }
     
     .ais-SearchBox-input {
-        font-size: 14px;
+        font-size: 14px !important;
     }
     
     .aa-Form {
@@ -336,6 +342,11 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+    .ais-SearchBox-reset {
+        padding: 13px !important;
+        margin: 1px 10px;
+    }
     
 }
 
