@@ -25,10 +25,20 @@
         border: 1px solid #cacaca !important;
     }
     
-    button.ais-SearchBox-reset {
-        padding: 13px;
-        background: #fff;
-        margin: 1px;
+    .ais-SearchBox-reset {
+        background: #fff !important;
+    }
+    
+    .ais-SearchBox-reset:focus {
+        background: #fff !important;
+    }
+    
+    .ais-SearchBox-reset:hover {
+        background: #fff !important;
+    }
+    
+    .ais-ClearRefinements {
+        margin-bottom: 15px;
     }
     
     .ais-RangeSlider {
@@ -155,6 +165,11 @@
     
     #algoliaAutocomplete input {
         border: 1px solid #cacaca;
+        font-size: 14px;
+    }
+    
+    .ais-SearchBox-input {
+        font-size: 14px !important;
     }
     
     .aa-Form {
@@ -262,7 +277,7 @@
     
 }
 
-@media only screen and (min-width: 1281px) and (max-width: 1380px) {
+@media only screen and (min-width: 1281px) and (max-width: 1365px) {
     
     .algolia-instant-selector-results {
         padding: 50px !important;
@@ -298,6 +313,14 @@
     
 }
 
+@media only screen and (min-width: 1681px) {
+    
+    .algolia-instant-selector-results {
+        padding: 50px !important;
+    }
+    
+}
+
 //
 //  Mobile above
 //  ---------------------------------------------
@@ -320,6 +343,11 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     
+    .ais-SearchBox-reset {
+        padding: 13px !important;
+        margin: 1px 10px;
+    }
+    
 }
 
 //
@@ -335,6 +363,12 @@
     
     .homepage-row.main-banner {
         margin-top: 10px !important;
+    }
+    
+    .ais-SearchBox-reset {
+        padding: 0 !important;
+        height: unset !important;
+        margin: 5px !important;
     }
     
 }

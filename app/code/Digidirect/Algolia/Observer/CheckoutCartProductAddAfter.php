@@ -115,6 +115,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
         $price = $product->getData('final_price');//$product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
         $basePrice = $product->getPrice();
+        $discountWiserPrice = round($basePrice - $wiserPrice, 2);
 
         $isDigiPrint = $product->getData('is_digiprint');
 
@@ -129,7 +130,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
         if ($this->_giftItem->isFreeGiftItem($item)) {
             $finalProductPrice = 0;
         } else {
-            if ($wiserPrice == 0 || empty($wiserPrice)) {
+            if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
                 $finalProductPrice = $finalPrice;
             } else {
                 $digiProtectPrice = 0;
