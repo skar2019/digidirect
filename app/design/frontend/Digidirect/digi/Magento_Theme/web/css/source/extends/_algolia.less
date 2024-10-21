@@ -18,11 +18,29 @@
     }
 
     .catalogsearch-result-index .sidebar-main {
-            display: none !important;
+        display: none !important;
+    }
+    
+    .ais-SearchBox-input {
+        border: 1px solid #cacaca !important;
+    }
+    
+    button.ais-SearchBox-reset {
+        padding: 13px;
+        background: #fff;
+        margin: 1px;
+    }
+    
+    .ais-RangeSlider {
+        margin: 0 30px !important;
     }
     
     .algolia-instant-replaced-content {
         display: none !important;
+    }
+    
+    .ais-SortBy-select {
+        font-family: 'Poppins';
     }
     
     .ais-Hits-list {
@@ -236,11 +254,23 @@
     
 }
 
-@media only screen and (min-width: 991px) and (max-width: 1366px) {
+@media only screen and (min-width: 991px) and (max-width: 1280px) {
+    
+    .algolia-instant-selector-results {
+        padding: 50px 15px !important;
+    }
+    
+}
+
+@media only screen and (min-width: 1281px) and (max-width: 1380px) {
     
     .algolia-instant-selector-results {
         padding: 50px !important;
     }
+    
+}
+
+@media only screen and (min-width: 991px) and (max-width: 1480px) {
     
     .ais-Hits-item {
         width: calc(~'(100% - 41px) / 4') !important;
@@ -260,10 +290,10 @@
     
 }
 
-@media only screen and (min-width: 1381px) {
+@media only screen and (min-width: 1381px) and (max-width: 1680px) {
     
     .catalogsearch-result-index #maincontent {
-        padding: 50px !important;
+        padding: 50px 0 !important;
     }
     
 }
