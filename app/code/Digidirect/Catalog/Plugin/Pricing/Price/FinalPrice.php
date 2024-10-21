@@ -21,6 +21,8 @@ class FinalPrice
         $product = $subject->getProduct();
         $price = $product->getData('final_price');//$product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
+        $basePrice = $product->getPrice();
+        $discountWiserPrice = round($basePrice - $wiserPrice, 2);
 
         $isDigiPrint = $product->getData('is_digiprint');
 
@@ -41,8 +43,8 @@ class FinalPrice
         }
 
         if ($product) {
-            if ($wiserPrice >= 10 && !empty($wiserPrice)) {
-                if ($wiserPrice < $price) {
+            if (($wiserPrice > 0 && !empty($wiserPrice))) {
+                if (($wiserPrice < $price) && $discountWiserPrice >= 10) {
                     if (!$isDigiPrint) {
                         if ((in_array($sku, $discount2)) && $isDigiClub) {
                             $wiserPrice = $wiserPrice - ($wiserPrice * 0.02);
