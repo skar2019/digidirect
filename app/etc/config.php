@@ -149,24 +149,6 @@ return [
                 'name' => 'MELB',
                 'sort_order' => '0',
                 'is_active' => '0'
-            ],
-            'MIRA' => [
-                'store_id' => '34',
-                'code' => 'MIRA',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'MIRA',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'PARR' => [
-                'store_id' => '37',
-                'code' => 'PARR',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'PARR',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
