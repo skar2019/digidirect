@@ -41,7 +41,7 @@ class FinalPrice
         }
 
         if ($product) {
-            if ($wiserPrice > 0 && !empty($wiserPrice)) {
+            if ($wiserPrice >= 10 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
                     if (!$isDigiPrint) {
                         if ((in_array($sku, $discount2)) && $isDigiClub) {

@@ -90,7 +90,7 @@ class WiserPrice implements ObserverInterface
         if ($this->_giftItem->isFreeGiftItem($item)) {
             $finalProductPrice = 0;
         } else {
-            if ($wiserPrice == 0 || empty($wiserPrice)) {
+            if ($wiserPrice == 0 || empty($wiserPrice) || $wiserPrice < 10) {
                 $finalProductPrice = $finalPrice;
             } else {
                 $digiProtectPrice = 0;
