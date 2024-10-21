@@ -167,15 +167,6 @@ return [
                 'name' => 'PARR',
                 'sort_order' => '0',
                 'is_active' => '0'
-            ],
-            'SYDN' => [
-                'store_id' => '40',
-                'code' => 'SYDN',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'SYDN',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
