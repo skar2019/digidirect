@@ -113,6 +113,15 @@ return [
                 'name' => 'Retail Store View',
                 'sort_order' => '0',
                 'is_active' => '0'
+            ],
+            'BOND' => [
+                'store_id' => '19',
+                'code' => 'BOND',
+                'website_id' => '7',
+                'group_id' => '10',
+                'name' => 'BOND',
+                'sort_order' => '0',
+                'is_active' => '0'
             ]
         ]
     ],
