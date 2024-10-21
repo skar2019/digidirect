@@ -473,6 +473,23 @@ and open the template in the editor.
             transform: rotate(360deg);
         }
     } 
+    
+    .catalog-product-view .pa-digidirect-product-widget .digiseconds-overlay {
+        display: none;
+        position: absolute;
+        padding: 0;
+        z-index: 97;
+        max-width: 75px;
+        top: 7px;
+        left: 7px;
+    }
+    
+    .catalog-product-view .pa-digidirect-product-widget .digiseconds-rating {
+        margin-left: 30px;
+        margin-top: -21px;
+        color: #ffae00;
+        font-size: 8px;
+    }
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
