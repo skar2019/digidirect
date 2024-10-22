@@ -1,6 +1,7 @@
 <?php
     use Magento\Framework\App\Action\Action;
     $productId = $block->getCurrentProduct()->getId();
+    $block->getConfig();
 ?>
 <script>
     
@@ -18,28 +19,8 @@ require(['jquery'], function ($) {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
     
-    var customerId = getCookie('PAC');
+    var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
-    
-    if (!sessionId || sessionId === undefined) {
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
-            type: "POST",
-            data: {
-                customerId: customerId
-            },
-            success: function(data){
-                console.log(data);
-                customerId = data.payload.customerId;
-                sessionId = data.payload.session.id
-            },
-            error: function(){
-                console.log('AJAX Get Config Fail!');
-            }
-        });
-    }
-    
     var currentUrl = window.location.href;
     
     var date = new Date();
@@ -57,7 +38,6 @@ require(['jquery'], function ($) {
     };
     
     $.ajax({
-        async: false,
         url: "https://www.digidirect.com.au/particularaudienceapi/events/viewproduct",
         type: "POST",
         data: {
@@ -66,32 +46,12 @@ require(['jquery'], function ($) {
         success: function(data){
             console.log("viewProduct", data);
         },
-        error: function(){
-            console.log('AJAX Fail!');
+        error: function(data){
+            console.log('AJAX Fail!', data);
         }
     });
     
-    var result;
-
-    $.ajax({
-        async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/productpage", //getRecommendationsUrl,
-        type: "POST",
-        data: {
-            customerId: customerId,
-            productId: <?= $productId; ?>
-        },
-        success: function(data){
-            result = data;
-        },
-        error: function(){
-            console.log('AJAX Fail!');
-        }
-    });
-    
-    console.log('result', result);
-    
-    var recommendationsResult = result;
+    var recommendationsResult = <?= json_encode($block->getRecommendations()); ?>;
     var widgets  = recommendationsResult.recommendations.route.widgets;
     var routeId  = recommendationsResult.recommendations.route.id;
     
