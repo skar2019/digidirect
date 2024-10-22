@@ -47,7 +47,6 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
-        \Magento\Backend\Block\Template\Context $context, 
         \Magento\Framework\Registry $registry,
         \Magento\Framework\UrlInterface $urlInterface,
         array $data = []
