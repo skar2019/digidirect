@@ -122,60 +122,6 @@ return [
                 'name' => 'BOND',
                 'sort_order' => '0',
                 'is_active' => '0'
-            ],
-            'BRISB' => [
-                'store_id' => '25',
-                'code' => 'BRISB',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'BRISB',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'CANN' => [
-                'store_id' => '28',
-                'code' => 'CANN',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'CANN',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'MELB' => [
-                'store_id' => '31',
-                'code' => 'MELB',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'MELB',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'MIRA' => [
-                'store_id' => '34',
-                'code' => 'MIRA',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'MIRA',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'PARR' => [
-                'store_id' => '37',
-                'code' => 'PARR',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'PARR',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'SYDN' => [
-                'store_id' => '40',
-                'code' => 'SYDN',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'SYDN',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
