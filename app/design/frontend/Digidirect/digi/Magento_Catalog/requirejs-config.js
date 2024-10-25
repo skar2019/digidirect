@@ -9,8 +9,7 @@ var config = {
     map: {
         '*': {
             'cashbackLabel': 'Magento_Catalog/js/product/price/cashback-label',
-            'reposition': 'Magento_Catalog/js/product/price/reposition',
-            'categoryPageRender': 'Magento_Catalog/js/category-page'
+            'reposition': 'Magento_Catalog/js/product/price/reposition'
         }
     }
 };
