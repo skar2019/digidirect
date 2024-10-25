@@ -42,4 +42,5 @@ class Observer implements ObserverInterface
             $response->setBody($html);
         }
     }
+    
 }
