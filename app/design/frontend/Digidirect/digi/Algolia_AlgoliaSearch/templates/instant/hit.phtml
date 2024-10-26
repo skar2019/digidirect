@@ -11,7 +11,6 @@ $baseFormatedVar = $block->escapeHtml('price' . $priceKey . '_formated');
 $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated');
 
 ?>
-
 <script type="text/template" id="instant-hit-template">
     <div class="col-md-4 col-sm-6" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
@@ -61,7 +60,7 @@ $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated'
                                     <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     <div class="price-wrapper">
                                         <div>
-                                            <span class="after_special custom_final_price" style="display: none;">{{custom_final_price}}</span>
+                                            <span id="custom_final_price" class="after_special custom_final_price" style="display: none;">{{custom_final_price}}</span>
                                             <span class="after_special
                                                     {{#<?php echo $origFormatedVar; ?>}}
                                                         promotion
@@ -103,4 +102,7 @@ $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated'
             </a>
         </div>
     </div>
+</script>
+<script>
+  console.log(document.getElementById("custom_final_price").innerHTML);
 </script>
