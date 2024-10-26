@@ -61,10 +61,6 @@ $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated'
                                     <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     <div class="price-wrapper">
                                         <div>
-                                            <script>
-                                                console.log({{<?php echo $baseFormatedVar; ?>}});
-                                                console.log({{custom_final_price}});
-                                            </script>
                                             <span class="after_special custom_final_price" style="display: none;">{{custom_final_price}}</span>
                                             <span class="after_special
                                                     {{#<?php echo $origFormatedVar; ?>}}
