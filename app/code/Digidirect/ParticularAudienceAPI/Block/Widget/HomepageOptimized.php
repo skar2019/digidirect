@@ -107,12 +107,7 @@ class HomepageOptimized extends \Magento\Framework\View\Element\Template impleme
 
             $this->setCookie(self::PA_CUSTOMER_ID, $getConfigResultJson['payload']['customerId']);
             $this->setCookie(self::PA_SESSION_ID, $getConfigResultJson['payload']['session']['id']);
-            
-            return $getConfigResultJson;
         }
-        
-        return;
-        
     }
     
     public function getRecommendations(){
