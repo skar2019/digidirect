@@ -520,7 +520,6 @@ class TestPronto extends AbstractHelper
         }
         $aReplace = array('(', ')','[',']','{','}');
         $accountName = str_replace($aReplace , '', $accountName);
-        $accountName = preg_replace("/[^a-zA-Z]+/", " ", $accountName);
         return $accountName;
     }
 

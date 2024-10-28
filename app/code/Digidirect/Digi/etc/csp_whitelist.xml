@@ -187,7 +187,6 @@
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
-                <value id="gstaticfont" type="host">fonts.gstatic.com</value>
                 <value id="similarincfont" type="host">*.similarinc.com</value>
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
                 <value id="digizendfont" type="host">*.zendesk.com</value>
