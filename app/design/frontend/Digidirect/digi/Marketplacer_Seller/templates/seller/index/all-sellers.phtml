@@ -44,20 +44,28 @@ $sellers = $block->getAllDisplayedSellers();
                 <li class="item">
                     <div class="mrkt-sellers-item" itemscope itemtype="http://schema.org/Store">
                         <?php if ($sellerLogoSrc): ?>
+                            <?php /*
                             <a class="image"
                                href="<?= $escaper->escapeUrl($sellerUrl); ?>"
                                title="<?= $escaper->escapeHtmlAttr($sellerLabel); ?>">
+                           */ ?>
                                 <img src="<?= $escaper->escapeUrl($sellerLogoSrc); ?>"
                                      alt="<?= $escaper->escapeHtmlAttr($sellerLabel); ?>"
                                      itemprop="logo"/>
+                        <?php /*
                             </a>
+                        */ ?>
                         <?php endif; ?>
                         <h3 class="name">
-                            <a href="<?= $escaper->escapeUrl($sellerUrl); ?>"
+                        <?php /*    
+                        <a href="<?= $escaper->escapeUrl($sellerUrl); ?>"
                                title="<?= $escaper->escapeHtmlAttr($sellerLabel) ?>"
                                itemprop="url">
+                        */ ?>
                                 <span itemprop="name"><?= $escaper->escapeHtml($sellerLabel); ?></span>
+                        <?php /*
                             </a>
+                        */ ?>
                         </h3>
                     </div>
                 </li>
