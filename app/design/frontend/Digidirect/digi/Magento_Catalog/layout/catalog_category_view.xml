@@ -1,20 +1,27 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="breadcrumbs" remove="false"/>
-        <referenceBlock name="category.cms" remove="true"/>
-        
+        <referenceContainer name="columns.top">
+            <container name="category.view.container" htmlTag="div" htmlClass="category-view" after="-">
+                <block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml">
+                    <arguments>
+                        <argument name="image" xsi:type="object">Magento\Catalog\ViewModel\Category\Image</argument>
+                        <argument name="output" xsi:type="object">Magento\Catalog\ViewModel\Category\Output</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Category\View" name="category.description" template="Magento_Catalog::category/description.phtml"/>
+                <block class="Magento\Catalog\Block\Category\View" name="category.cms" template="Magento_Catalog::category/cms.phtml"/>
+            </container>
+        </referenceContainer>
         <referenceContainer name="content">
-            <block class="Magento\Cms\Block\Block" name="pdp.banner" before="category.products">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">pdp-banner</argument>
-                </arguments>
-            </block>
             <block class="Magento\Catalog\Block\Category\View" name="category.products" template="Magento_Catalog::category/products.phtml">
                 <block class="Magento\Catalog\Block\Product\ListProduct" name="category.products.list" as="product_list" template="Magento_Catalog::product/list.phtml">
-                    <action method="setDefaultDirection">
-                        <argument name="dir" xsi:type="string">desc</argument>
-                    </action>
                     <container name="category.product.list.additional" as="additional" />
                     <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
                         <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
@@ -40,26 +47,17 @@
                 </arguments>
             </block>
         </referenceContainer>
-        
-        <referenceContainer name="content">
-            <block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="Magento_Theme::html/title.phtml"/>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-featured-banner.phtml" name="custom-featured-banner" after="banner-category"/>  
-        </referenceContainer>
-
-        <referenceBlock name="category.products.list">
-            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
-                </arguments>
-            </block>
+        <referenceBlock name="page.main.title">
+            <arguments>
+                <argument name="id" xsi:type="string">page-title-heading</argument>
+                <argument name="add_base_attribute_aria" xsi:type="string">page-title-heading toolbar-amount</argument>
+            </arguments>
+            <block class="Magento\Catalog\Block\Category\Rss\Link" name="rss.link" template="Magento_Catalog::category/rss.phtml"/>
         </referenceBlock>
-
-        <referenceContainer name="div.sidebar.additional" remove="true" />
-        
-        <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
-        <move element="category.description" destination="main.content" after="-" />
-        <move element="breadcrumbs" destination="columns.top" before="-"/>
-        
+        <referenceBlock name="category.products.list">
+            <arguments>
+                <argument name="viewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\OptionsData</argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>
