@@ -78,7 +78,6 @@
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
                 <value id="usercentrics" type="host">*.usercentrics.eu</value>
-                <value id="fontsgoogle" type="host">fonts.googleapis.com</value>
                 <value id="stackadapt" type="host">tags.srv.stackadapt.com</value>
                 <value id="similarincstyle" type="host">*.similarinc.com</value>
                 <value id="zipstyle" type="host">*.zipmoney.com.au</value>
