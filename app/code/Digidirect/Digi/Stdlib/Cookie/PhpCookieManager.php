@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\Framework\Stdlib\Cookie;
+namespace Digidirect\Digi\Stdlib\Cookie;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\InputException;
