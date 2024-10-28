@@ -37,5 +37,5 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <preference for="Magento\Framework\Stdlib\Cookie\PhpCookieManager" type="Digidirect\Digi\Stdlib\Cookie\PhpCookieManager" />
+    <preference for="Magento\Framework\Stdlib\Cookie\PhpCookieManager" type="Digidirect\Digi\Stdlib\Cookie\PhpCookieManager" disabled="true"/>
 </config>
