@@ -90,7 +90,6 @@
     
   }
 
-  
   .input-placeholder {
     position: relative;
   }
@@ -100,11 +99,16 @@
   }
 
   .input-placeholder input:valid + .placeholder {
-    display: none;
+      display: none;
+  }
+
+
+  .placeholder-remove + .placeholder{
+    display: none !important;
   }
 
   .select-title>select:valid ~ .title-label {
-    display: none;
+      display: none;
   }
 
   .placeholder {
@@ -126,6 +130,12 @@
       color: red;
     }
   }
+
+  #faxnumber {
+    display: none;
+  }
+
+  .error {color: #FF0000;}
 
 }
 

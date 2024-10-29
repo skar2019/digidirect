@@ -18,7 +18,6 @@
                 <value id="google-maps-api" type="host">maps.googleapis.com</value>
                 <!--Functions-->
                 <value id="cloudfront" type="host">*.cloudfront.net</value>
-                <value id="testfreaks" type="host">*.testfreaks.com</value>
                 <value id="cfjump" type="host">*.cfjump.com</value>
                 <value id="fbevents" type="host">*.facebook.net</value>
                 <value id="benchmarketingsmarttag" type="host">*.benchplatform.com</value>
@@ -197,7 +196,6 @@
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
-                <value id="gstaticfont" type="host">fonts.gstatic.com</value>
                 <value id="similarincfont" type="host">*.similarinc.com</value>
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
                 <value id="digizendfont" type="host">*.zendesk.com</value>

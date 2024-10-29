@@ -13,11 +13,6 @@
                 <value id="googleFontsApi" type="host">https://fonts.googleapis.com</value>
             </values>
         </policy>
-        <policy id="font-src">
-            <values>
-                <value id="googleFontsStatic" type="host">https://fonts.gstatic.com</value>
-            </values>
-        </policy>
         <policy id="img-src">
             <values>
                 <value id="data-image" type="host">data:</value>

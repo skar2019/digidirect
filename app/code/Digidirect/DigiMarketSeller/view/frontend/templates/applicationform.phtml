@@ -18,7 +18,6 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$emailcc = $_POST["emailcc"];
 	$phone = $_POST["phone"];
 	$remittancedetails = $_POST["remittancedetails"];
-	$categories = $_POST["categories"];
 	$categories = implode(", ", $_POST['categories']);
 	$category_other = $_POST["category_other"];
 	$website = $_POST["website"];
@@ -35,6 +34,8 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$from_email = $_POST["businessname"]; //from mail, sender email address
 
 	// $note = $_POST["message"]; //body of the email
+
+	$honeypot = $_POST['faxnumber'];
 	
 
 	//Get uploaded file data using $_FILES array
@@ -127,16 +128,25 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 
 	}
 
-	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
+	if( ! empty( $honeypot ) ){
 
-	if($sentMailResult ){
-		echo "<p class='successmessage'>Successfully Sent. Thank You"." ".$companyAdmin."!."."</p>";
-		// unlink($name); // delete the file after attachment sent.
+		echo '<script>window.location.href = "https://www.youtube.com/";</script>';
+
+	}else {
+
+		$sentMailResult = mail($recipient_email, $subject, $body, $headers);
+
+		if($sentMailResult ){
+			echo "<p class='successmessage'>Successfully Sent. Thank You"." ".$companyAdmin."!."."</p>";
+			// unlink($name); // delete the file after attachment sent.
+		}
+		else{
+			die("Sorry but the email could not be sent.
+						Please go back and try again!");
+		}
+
 	}
-	else{
-		die("Sorry but the email could not be sent.
-					Please go back and try again!");
-	}
+
 }
 ?>
 
@@ -234,7 +244,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                       </div>
                       <div class="row1">
 							<div class="control input-placeholder">
-								<input type="text" id="phone" name="phone" required/>
+								<input type="number" id="phone" name="phone" required/>
 								<div class="placeholder">Contact Number<span>*</span></div>
 							</div>
                       </div>
@@ -315,7 +325,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 				</div>
 
 				<div class="control input-placeholder">
-					<input type="text" id="website" name="website" required />
+					<input type="url" id="website" name="website" required />
 					<div class="placeholder">Your Website<span>*</span></div>
 				</div>
 
@@ -456,6 +466,8 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 							</div>
                       </div>
                 </div>
+
+				<input type="text" id="faxnumber" name="faxnumber"/>
 
 				<br>
 
@@ -621,6 +633,77 @@ require(['jquery', 'jquery/ui'], function($){
 		});
 
 	});
+
+});
+
+</script>
+
+
+<script>
+
+require(['jquery', 'jquery/ui'], function($){
+
+	jQuery(document).ready( function() {
+		$('input').keyup(function () {
+			if ($.trim($(this).val()).length) {
+				$(this).addClass('placeholder-remove');
+				} else {
+				$(this).removeClass('placeholder-remove');
+			}
+		});
+
+		var required = $('input,textarea,select').filter('[required]:visible');
+
+		$("input[type='submit']").click(function(){
+        // ID = $(this).parent().parent().attr('id');
+			// alert("button");
+			var allRequired = true;
+			required.each(function(){
+				if($(this).val() == ''){
+					allRequired = false;
+				}
+			});
+
+			if(!allRequired){
+				//DO SOMETHING HERE... POPUP AN ERROR MESSAGE, ALERT , ETC.
+				alert("Please Fill up the required fields*");
+			}
+
+			var url = document.getElementById('website');
+
+			if (!url.value || !url.checkValidity()) {
+				alert("Please enter valid URL");
+				url.focus()
+				return
+			}
+			
+
+			function ValidateEmail(email) {
+				var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				return expr.test(email);
+			};
+
+			if (!ValidateEmail($("#adminEmail").val())) {
+				alert("Please enter your valid admin email address");
+			}
+
+			
+			if (!ValidateEmail($("#purchasingEmail").val())) {
+				alert("Please enter your valid purchasing email address");
+			}
+
+			if (!ValidateEmail($("#businessEmail").val())) {
+				alert("Please enter your valid business email address");
+			}
+			
+
+		}); 
+	});
+
+	// jQuery('.btn-primary"').on('click', function() {
+	// 	jQuery('input:invalid').css('background-color','red');
+	// 	jQuery('input:valid').css('background-color','green');
+	// });
 
 });
 
