@@ -67,6 +67,12 @@
                 <value id="studentbeanscdn" type="host">*.studentbeans.com</value>
                 <!-- <value id="studentbeansId" type="host">*.beansid.com</value> -->
                  <value id="ig" type="host">*.instagram.com</value>
+                <value id="jqueryscr" type="host">*.jquery.com</value>
+                <value id="jqueryscr" type="host">*.jquery.com</value>
+                <value id="adobetmsrc" type="host">*.adobedtm.com</value>
+                <value id="adobesrc" type="host">*.adobed.com</value>
+                <value id="latitudesrc" type="host">*.latitudefinancial.com</value>
+
             </values>
         </policy>
         <policy id="style-src">
@@ -121,6 +127,7 @@
                 <value id="paimg" type="host">p-a.io</value>
                 <value id="particularaudienceimg" type="host">*.particularaudience.com</value>
                 <value id="qantasimg" type="host">*.services.qantasloyalty.com</value>
+                <value id="adobetmimg" type="host">*.adobedtm.com</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -177,6 +184,9 @@
                 <value id="qantasconnectserv" type="host">*.services.qantasloyalty.com</value>
                 <value id="particularaudienceapiconnect" type="host">api-recs.particularaudience.com</value>
                 <value id="luckyorangeclickconnect" type="host">d10lpsik1i8c69.cloudfront.net</value>
+                <value id="demdexconnect" type="host">*.demdex.net</value>
+                <value id="xipconnect" type="host">*.zip.co</value>
+
             </values>
         </policy>
         <policy id="font-src">
