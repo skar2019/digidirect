@@ -18,7 +18,6 @@
                 <value id="google-maps-api" type="host">maps.googleapis.com</value>
                 <!--Functions-->
                 <value id="cloudfront" type="host">*.cloudfront.net</value>
-                <value id="testfreaks" type="host">*.testfreaks.com</value>
                 <value id="cfjump" type="host">*.cfjump.com</value>
                 <value id="fbevents" type="host">*.facebook.net</value>
                 <value id="benchmarketingsmarttag" type="host">*.benchplatform.com</value>
@@ -147,6 +146,7 @@
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
                 <value id="gaconnect" type="host">*.google-analytics.com</value>
                 <value id="tagssvrconnect" type="host">tags.srv.stackadapt.com</value>
+                <value id="studio19connect" type="host">secure.studio19.com.au</value>
                 <value id="polygroupconnect" type="host">secure.polygongroup.com.au</value>
                 <value id="bamcellconnect" type="host">bam-cell.nr-data.net</value>
                 <value id="similarinccon" type="host">*.similarinc.com</value>
