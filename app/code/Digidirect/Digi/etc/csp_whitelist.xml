@@ -147,7 +147,6 @@
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
                 <value id="gaconnect" type="host">*.google-analytics.com</value>
                 <value id="tagssvrconnect" type="host">tags.srv.stackadapt.com</value>
-                <value id="studio19connect" type="host">secure.studio19.com.au</value>
                 <value id="polygroupconnect" type="host">secure.polygongroup.com.au</value>
                 <value id="bamcellconnect" type="host">bam-cell.nr-data.net</value>
                 <value id="similarinccon" type="host">*.similarinc.com</value>
