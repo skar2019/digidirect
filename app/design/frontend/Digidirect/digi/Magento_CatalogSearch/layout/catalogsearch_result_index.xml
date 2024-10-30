@@ -5,12 +5,7 @@
         
         <referenceBlock name="sidebar.main" remove="true"/>
         <referenceBlock name="sidebar.additional" remove="true"/>
-        <referenceBlock name="catalog.leftnav" remove="true"/>
+        <referenceBlock name="catalogsearch.leftnav" remove="true"/>
         
-        <referenceBlock name="catalogsearch.leftnav">
-            <action ifconfig="algoliasearch_instant/instant/backend_rendering_enable" method="setTemplate">
-                <argument name="template" xsi:type="string">Algolia_AlgoliaSearch::layer/view.phtml</argument>
-            </action>
-        </referenceBlock>
     </body>
 </page>
