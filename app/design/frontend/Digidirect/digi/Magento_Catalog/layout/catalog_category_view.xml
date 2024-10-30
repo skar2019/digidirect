@@ -3,6 +3,8 @@
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
+        <referenceBlock name="sidebar.main" remove="true"/>
+        <referenceBlock name="sidebar.additional" remove="true"/>
         
         <referenceContainer name="content">
             <block class="Magento\Cms\Block\Block" name="pdp.banner" before="category.products">
