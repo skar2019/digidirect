@@ -57,15 +57,3 @@
         </div>
     </div>
 </script>
-
-<script>
-    require(['jquery'],
-        function ($) {
-            $(".custom_final_price").each(function() {
-                var customFinalPrice = $(this).text();
-                var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
-                $(this).text('$' + customFinalPriceFormatted);
-            });
-        }
-    );
-</script>
