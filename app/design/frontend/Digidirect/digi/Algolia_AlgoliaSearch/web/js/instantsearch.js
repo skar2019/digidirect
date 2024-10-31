@@ -100,7 +100,6 @@ define([
             '<div class="algolia-instant-selector-results"></div>'
         );
         $('.algolia-instant-selector-results')
-
             .html(
                 wrapperTemplate.render({
                     second_bar      : algoliaConfig.instant.enabled,
@@ -560,16 +559,9 @@ define([
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
-                        //item.customFinalPrice = algoliaConfig.instant.customFinalPrice;
                         item.algoliaConfig = window.algoliaConfig;
                         return item;
                     });
-                    /*$(".custom_final_price").each(function() {
-                        var customFinalPrice = $(this).text();
-                        console.log('customFinalPrice', customFinalPrice);
-                        var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
-                        $(this).text('$' + customFinalPriceFormatted);
-                    });*/
                 },
             };
 
