@@ -554,6 +554,13 @@ define([
         getShippingAddress: function () {
             var address = quote.shippingAddress();
 
+            if (_.isNull(address)) {
+                return {};
+            }
+            if (!address.street) {
+                address.street = ['', '', ''];
+            }
+
             return {
                 recipientName: address.firstname + ' ' + address.lastname,
                 line1: typeof address.street[0] === 'undefined' ? ' ' : address.street[0],
