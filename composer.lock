@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b8f85fc4ff2c637916ff4be2b7a963a",
+    "content-hash": "9a813f8a0fcda8c0aeb184c2d497a235",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -82,6 +82,103 @@
             },
             "type": "metapackage",
             "description": "Metapackage contains references to Adobe Commerce Extensions"
+        },
+        {
+            "name": "afterpay-global/module-afterpay",
+            "version": "5.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/afterpay/afterpay-magento-2.git",
+                "reference": "d3f3c33eb45e86d2bedf5ca6c5011a4d39ac9ec1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/afterpay/afterpay-magento-2/zipball/d3f3c33eb45e86d2bedf5ca6c5011a4d39ac9ec1",
+                "reference": "d3f3c33eb45e86d2bedf5ca6c5011a4d39ac9ec1",
+                "shasum": ""
+            },
+            "require": {
+                "afterpay-global/module-cash-app-pay": "^5",
+                "magento/framework": "^103.0",
+                "magento/module-checkout": "100.4.*",
+                "magento/module-payment": "100.4.*",
+                "magento/module-quote-graph-ql": "100.4.*",
+                "magento/module-sales": "103.0.*",
+                "magento/module-weee": "100.4.*",
+                "php": ">=7.4.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Afterpay\\Afterpay\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Afterpay",
+                    "homepage": "https://www.afterpay.com"
+                }
+            ],
+            "description": "Magento 2 Afterpay Payment Module",
+            "support": {
+                "source": "https://github.com/afterpay/afterpay-magento-2/tree/v5.4.1"
+            },
+            "time": "2024-08-27T04:13:25+00:00"
+        },
+        {
+            "name": "afterpay-global/module-cash-app-pay",
+            "version": "5.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/afterpay/cash-app-pay-magento-2.git",
+                "reference": "1f7a6ab754a388f3cbd8bad29d3e38fa1891ed98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/afterpay/cash-app-pay-magento-2/zipball/1f7a6ab754a388f3cbd8bad29d3e38fa1891ed98",
+                "reference": "1f7a6ab754a388f3cbd8bad29d3e38fa1891ed98",
+                "shasum": ""
+            },
+            "require": {
+                "afterpay-global/module-afterpay": "^5",
+                "magento/framework": "^103.0",
+                "magento/module-checkout": "100.4.*",
+                "magento/module-payment": "100.4.*",
+                "magento/module-sales": "103.0.*",
+                "php": ">=7.4.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Afterpay\\CashApp\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Afterpay",
+                    "homepage": "https://www.afterpay.com"
+                }
+            ],
+            "description": "Cash App Pay module for Magento 2",
+            "support": {
+                "issues": "https://github.com/afterpay/cash-app-pay-magento-2/issues",
+                "source": "https://github.com/afterpay/cash-app-pay-magento-2/tree/v5.0.6"
+            },
+            "time": "2024-08-07T09:13:51+00:00"
         },
         {
             "name": "algolia/algoliasearch-client-php",
@@ -32926,5 +33023,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

@@ -72,6 +72,8 @@
                 <value id="adobetmsrc" type="host">*.adobedtm.com</value>
                 <value id="adobesrc" type="host">*.adobed.com</value>
                 <value id="latitudesrc" type="host">*.latitudefinancial.com</value>
+                <value id="afterpayportal" type="host">*.afterpay.com</value>
+                <value id="afterpaystatic" type="host">*.static.afterpay.com</value>
 
             </values>
         </policy>
@@ -186,6 +188,8 @@
                 <value id="luckyorangeclickconnect" type="host">d10lpsik1i8c69.cloudfront.net</value>
                 <value id="demdexconnect" type="host">*.demdex.net</value>
                 <value id="xipconnect" type="host">*.zip.co</value>
+                <value id="afterpayportalconnect" type="host">*.afterpay.com</value>
+                <value id="afterpaystaticconnect" type="host">*.static.afterpay.com</value>
 
             </values>
         </policy>
