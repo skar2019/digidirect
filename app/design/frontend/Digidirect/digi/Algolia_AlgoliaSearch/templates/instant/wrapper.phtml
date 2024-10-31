@@ -63,7 +63,7 @@
         function ($) {
             
             const observer = new MutationObserver((mutations) => { 
-                if ($("#pa-minicart-desktop").length) {
+                if ($("#instant-search-results-container").length) {
                     $(".custom_final_price").each(function() {
                         var customFinalPrice = $(this).text();
                         var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
@@ -74,7 +74,7 @@
             }); 
 
             const config = { attributes: true, childList: true, subtree: true }; 
-            observer.observe($("#instant-search-results-container"), config); 
+            observer.observe($(".column.main"), config); 
 
             function stopMutationObserver() {
                 observer.disconnect(); 
