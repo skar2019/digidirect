@@ -11,13 +11,14 @@
             <values>
                 <!--CDN-->
 
-                <value id="qantasscript" type="host">*.services.qantasloyalty.com</value>
+                <!--<value id="qantasscript" type="host">*.services.qantasloyalty.com</value>-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
                 <!--Google-->
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
                 <value id="google-maps-api" type="host">maps.googleapis.com</value>
                 <!--Functions-->
                 <value id="cloudfront" type="host">*.cloudfront.net</value>
+                <value id="testfreaks" type="host">*.testfreaks.com</value>
                 <value id="cfjump" type="host">*.cfjump.com</value>
                 <value id="fbevents" type="host">*.facebook.net</value>
                 <value id="benchmarketingsmarttag" type="host">*.benchplatform.com</value>
@@ -93,7 +94,7 @@
                 <value id="bootstrapstyle" type="host">*.bootstrapcdn.com</value>
                 <value id="pastyle" type="host">p-a.io</value>
                 <value id="particularaudiencestyle" type="host">*.particularaudience.com</value>
-                <value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>
+                <!--<value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>-->
             </values>
         </policy>
         <policy id="img-src">

@@ -173,7 +173,7 @@ if ($currentPage != "catalogsearch_result_index") {
                         
                         <?php if ($seller != "digiDirect" && $seller != ""): ?>
                             <div class="ribbon-online">Online only</div>
-                        <?php else: ?> 
+                        <?php else: ?>
                             <?php if ($is_digiPrint == 1): ?>
                                 <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
                                     <?php 
@@ -443,7 +443,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-
+                    
                 </div>
                 <?= /* @escapeNotVerified */ '</li>'?>
             <?php endforeach; ?>

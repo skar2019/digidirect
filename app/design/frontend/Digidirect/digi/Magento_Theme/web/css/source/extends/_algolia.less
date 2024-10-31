@@ -21,6 +21,14 @@
         display: none !important;
     }
     
+    .catalog-category-view .column.main {
+	display: none !important;
+    }
+
+    .catalog-category-view .sidebar-main {
+        display: none !important;
+    }
+    
     .ais-SearchBox-input {
         border: 1px solid #cacaca !important;
     }
@@ -272,7 +280,8 @@
 @media only screen and (min-width: 768px) and (max-width: 1280px) {
     
     .aa-SubmitButton {
-        padding: 30px 15px;
+        padding: 0 !important;
+        margin: 25px 15px !important;
     }
     
 }
@@ -288,7 +297,7 @@
 @media only screen and (min-width: 991px) and (max-width: 1280px) {
     
     .algolia-instant-selector-results {
-        padding: 50px 15px !important;
+        padding: 10px 15px !important;
     }
     
 }
@@ -296,7 +305,7 @@
 @media only screen and (min-width: 1281px) and (max-width: 1365px) {
     
     .algolia-instant-selector-results {
-        padding: 50px !important;
+        padding: 10px 50px !important;
     }
     
 }
@@ -321,6 +330,31 @@
     
 }
 
+@media only screen and (max-width: 1280px) {
+    
+    .catalog-category-view #maincontent>.breadcrumbs {
+        margin: 25px 15px 0 !important;
+    }
+    
+}
+
+@media only screen and (min-width: 1281px) and (max-width: 1365px) {
+    
+    .catalog-category-view #maincontent>.breadcrumbs {
+        margin: 0 50px !important;
+    }
+    
+}
+
+@media only screen and (min-width: 1367px) and (max-width: 1680px) {
+    
+    .catalog-category-view #maincontent>.breadcrumbs {
+        margin: 0 !important;
+        padding: 10px 0 !important;
+    }
+    
+}
+
 @media only screen and (min-width: 1381px) and (max-width: 1680px) {
     
     .catalogsearch-result-index #maincontent {
@@ -332,7 +366,7 @@
 @media only screen and (min-width: 1681px) {
     
     .algolia-instant-selector-results {
-        padding: 50px !important;
+        padding: 10px 50px !important;
     }
     
 }
