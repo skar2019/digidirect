@@ -69,12 +69,12 @@
                         var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
                         $(this).text('$' + customFinalPriceFormatted);
                     });
-                    //stopMutationObserver();
+                    stopMutationObserver();
                 }
             }); 
 
             const config = { attributes: true, childList: true, subtree: true }; 
-            observer.observe(document.querySelector(".columns"), config); 
+            observer.observe(document.querySelector("#maincontent"), config); 
 
             function stopMutationObserver() {
                 observer.disconnect(); 
