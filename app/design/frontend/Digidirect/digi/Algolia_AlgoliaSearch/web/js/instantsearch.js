@@ -562,25 +562,6 @@ define([
                         item.algoliaConfig = window.algoliaConfig;
                         return item;
                     });
-                    
-                    const observer = new MutationObserver((mutations) => { 
-                        //if ($("#instant-search-results-container").length) {
-                        $(".custom_final_price").each(function() {
-                            var customFinalPrice = $(this).text();
-                            console.log("customFinalPrice", customFinalPrice);
-                            var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
-                            $(this).text('$' + customFinalPriceFormatted);
-                        });
-                        stopMutationObserver();
-                        //}
-                    }); 
-
-                    const config = { childList: true, subtree: true }; 
-                    observer.observe(document.querySelector("#maincontent"), config); 
-
-                    function stopMutationObserver() {
-                        observer.disconnect(); 
-                    }
                 },
             };
 
