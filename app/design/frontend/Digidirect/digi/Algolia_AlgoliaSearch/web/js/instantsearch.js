@@ -564,12 +564,12 @@ define([
                         item.algoliaConfig = window.algoliaConfig;
                         return item;
                     });
-                    $(".custom_final_price").each(function() {
+                    /*$(".custom_final_price").each(function() {
                         var customFinalPrice = $(this).text();
                         console.log('customFinalPrice', customFinalPrice);
                         var customFinalPriceFormatted = Number(customFinalPrice).toFixed(2);
                         $(this).text('$' + customFinalPriceFormatted);
-                    });
+                    });*/
                 },
             };
 
