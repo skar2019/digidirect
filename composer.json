@@ -19,6 +19,7 @@
         }
     },
     "require": {
+        "afterpay-global/module-afterpay": "^5",
         "algolia/algoliasearch-inventory-magento-2": "^1.1",
         "algolia/algoliasearch-magento-2": "^3.14",
         "classyllama/module-zendesk": "^1.1",
