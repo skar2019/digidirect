@@ -553,6 +553,7 @@ define([
          */
         getShippingAddress: function () {
             var address = quote.shippingAddress();
+            console.log(address);
 
             return {
                 recipientName: address.firstname + ' ' + address.lastname,
