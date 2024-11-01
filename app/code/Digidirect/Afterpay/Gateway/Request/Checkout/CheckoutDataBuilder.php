@@ -2,7 +2,7 @@
 
 namespace Digidirect\Afterpay\Gateway\Request\Checkout;
 
-use Afterpay\Afterpay\Gateway\Request\Checkout\CheckoutDataBuilder as AfterpayClass;
+use \Afterpay\Afterpay\Gateway\Request\Checkout\CheckoutDataBuilder as AfterpayClass;
 
 class CheckoutDataBuilder extends AfterpayClass
 {
