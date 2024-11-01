@@ -81,18 +81,30 @@ define([], function () {
                 currency: 'AUD',
                 minimumFractionDigits: 2
             });
+            
+            var hasCustomFinalPrice = false;
 
-            return html `<div className="algoliasearch-autocomplete-price">
-                <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}" style="display: none;">
-                    ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
-                </span>
-                <span className="after_special custom_final_price">
-                    ${formatter.format(item['custom_final_price'])}
-                </span>
-                ${this.getOriginalPriceHtml(item, html, priceGroup)}
+            if (item['custom_final_price']) {
+                if ((item['custom_final_price'] < item['price']['AUD']['default']) && item['custom_final_price'] != 0) {
+                    item.customFinalPrice =  formatter.format(item['custom_final_price']);
+                    hasCustomFinalPrice = true;
+                }
 
-                ${this.getTierPriceHtml(item, html, priceGroup)}
-            </div>`;
+            }
+            
+            if (hasCustomFinalPrice) {
+                return html `<div className="algoliasearch-autocomplete-price">
+                    <span className="after_special custom_final_price">
+                        ${formatter.format(item['custom_final_price'])}
+                    </span>
+                </div>`;
+            } else {
+                return html `<div className="algoliasearch-autocomplete-price">
+                    <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
+                        ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
+                    </span>
+                </div>`;
+            }
         },
 
         getFooterSearchCategoryLinks: (html, resultDetails) => {
