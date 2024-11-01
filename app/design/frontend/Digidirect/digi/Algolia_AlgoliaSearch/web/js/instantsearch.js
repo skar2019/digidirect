@@ -568,11 +568,19 @@ define([
                         });
                         
                         //formatter.format(e.target.value);
+                        item.hasCustomFinalPrice = false;
+                        item.hasNoCustomFinalPrice = true;
                         
-                        item.customFinalPrice =  formatter.format(item.custom_final_price);
+                        if (customFinalPrice) {
+                            if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
+                                item.customFinalPrice =  formatter.format(item.custom_final_price);
+                                item.discount = item.price.AUD.default - item.custom_final_price;
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                            
+                        }
                         
-                        var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
-                        var output = template.render();
                         console.log(item);
                         
                         //console.log(algoliaBundle.Hogan.parse(algoliaBundle.Hogan.scan("{{sku}}")));
