@@ -17,6 +17,7 @@
 	<head>
 		<css src="Magezon_Core::css/owlcarousel/owl.carousel.min.css"/>
 		<css src="Magezon_Core::css/animate.css"/>
+		<css src="Magezon_Core::css/fontawesome5.css"/>
 		<css src="Magezon_Core::css/mgz_font.css"/>
 		<css src="Magezon_Core::css/mgz_bootstrap.css"/>
 		<css src="Magezon_Builder::css/openiconic.min.css"/>
