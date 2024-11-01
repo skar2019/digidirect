@@ -13,6 +13,9 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
 ?>
 
 <script type="text/template" id="instant-hit-template">
+    {{#hasCustomFinalPrice}}
+        <div class="ribbon-digideals">digiDeals</div>
+    {{/hasCustomFinalPrice}}
     <div class="col-md-4 col-sm-6" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
@@ -81,6 +84,10 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                         {{/hasNoCustomFinalPrice}}
                                 </div>
                             </div>
+                        </div>
+                        <div class="s19-rental-price-target">
+                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                            <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
 
