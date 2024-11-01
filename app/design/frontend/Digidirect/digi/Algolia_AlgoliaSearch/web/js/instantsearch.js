@@ -571,7 +571,7 @@ define([
                         item.hasCustomFinalPrice = false;
                         item.hasNoCustomFinalPrice = true;
                         
-                        if (customFinalPrice) {
+                        if (item.custom_final_price) {
                             if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);
                                 item.discount = item.price.AUD.default - item.custom_final_price;
