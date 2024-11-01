@@ -61,8 +61,8 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                     <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     <div class="price-wrapper">
                                         <div>
-                                            <span class="after_special custom_final_price" style="display: none;">{{<?php echo $customFinalPrice; ?>}}</span>
-                                            <span class="after_special
+                                            <span class="after_special custom_final_price">{{customFinalPrice}}</span>
+                                            <span class="after_special style="display: none;"
                                                     {{#<?php echo $origFormatedVar; ?>}}
                                                         promotion
                                                     {{/<?php echo $origFormatedVar; ?>}}">
