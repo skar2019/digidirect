@@ -559,6 +559,14 @@ define([
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
+                        //item.customFinalPrice = "Test!";
+                        
+                        var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
+                        var output = template.render();
+                        console.log("output", output);
+                        
+                        //console.log(algoliaBundle.Hogan.parse(algoliaBundle.Hogan.scan("{{sku}}")));
+                        //console.log(algoliaBundle.Hogan.parse("{{sku}}"));
                         item.algoliaConfig = window.algoliaConfig;
                         return item;
                     });
