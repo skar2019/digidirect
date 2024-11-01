@@ -564,7 +564,7 @@ define([
                             return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
                         }
                         
-                        item.customFinalPrice =  "$" + Number(numberWithCommas(item.custom_final_price)).toFixed(2);
+                        item.customFinalPrice =  "$" + Number(item.custom_final_price).toFixed(2);
                         
                         var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
                         var output = template.render();
