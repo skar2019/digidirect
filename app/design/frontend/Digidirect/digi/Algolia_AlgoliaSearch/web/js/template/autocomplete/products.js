@@ -75,13 +75,19 @@ define([], function () {
             if (item['price'] == undefined) return "";
 
             const priceGroup =  algoliaConfig.priceGroup || 'default';
+            
+            const formatter = new Intl.NumberFormat('en-AU', {
+                style: 'currency',
+                currency: 'AUD',
+                minimumFractionDigits: 2
+            });
 
             return html `<div className="algoliasearch-autocomplete-price">
-                <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
+                <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}" style="display: none;">
                     ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
                 </span>
-                <span className="after_special custom_final_price" style="display: none;">
-                    ${item['custom_final_price']}
+                <span className="after_special custom_final_price">
+                    ${formatter.format(item['custom_final_price'])}
                 </span>
                 ${this.getOriginalPriceHtml(item, html, priceGroup)}
 
