@@ -19,7 +19,7 @@ class CheckoutDataBuilder extends AfterpayClass
             $amount = $isCBTCurrencyAvailable ? $item->getPriceInclTax() : $item->getBasePriceInclTax();
             $currencyCode = $isCBTCurrencyAvailable ? $quote->getQuoteCurrencyCode() : $quote->getBaseCurrencyCode();
             $qty = $item->getQty();
-            $qty = float($qty);
+            $qty = (float)$qty;
             $isIntQty = floor($qty) == $qty;
             if ($isIntQty) {
                 $qty = (int)$item->getQty();
