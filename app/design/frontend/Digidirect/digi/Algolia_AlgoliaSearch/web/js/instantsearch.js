@@ -559,7 +559,12 @@ define([
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
-                        item.customFinalPrice =  "$" + Number(item.custom_final_price).toFixed(2);
+                        
+                        function numberWithCommas(x) {
+                            return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                        
+                        item.customFinalPrice =  "$" + Number(numberWithCommas(item.custom_final_price)).toFixed(2);
                         
                         var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
                         var output = template.render();
