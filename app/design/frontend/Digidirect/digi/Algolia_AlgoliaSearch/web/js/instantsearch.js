@@ -560,11 +560,16 @@ define([
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
                         
-                        function numberWithCommas(x) {
-                            return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-                        }
+                        // Create our number formatter.
+                        const formatter = new Intl.NumberFormat('en-AU', {
+                            style: 'currency',
+                            currency: 'AUD',
+                            minimumFractionDigits: 2
+                        });
                         
-                        item.customFinalPrice =  "$" + Number(item.custom_final_price).toFixed(2);
+                        //formatter.format(e.target.value);
+                        
+                        item.customFinalPrice =  formatter.format(item.custom_final_price);
                         
                         var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
                         var output = template.render();
