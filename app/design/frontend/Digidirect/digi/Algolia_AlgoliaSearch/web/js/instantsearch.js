@@ -559,7 +559,7 @@ define([
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
-                        //item.customFinalPrice = "Test!";
+                        item.customFinalPrice =  "$" + Number(item.custom_final_price).toFixed(2);
                         
                         var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
                         var output = template.render();
