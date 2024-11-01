@@ -9,6 +9,7 @@ $baseVar         = $block->escapeHtml('price' . $priceKey);
 $maxVar          = $block->escapeHtml('price' . $priceKey . '_max');
 $baseFormatedVar = $block->escapeHtml('price' . $priceKey . '_formated');
 $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated');
+$customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_formated');
 ?>
 
 <script type="text/template" id="instant-hit-template">
@@ -60,7 +61,7 @@ $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated'
                                     <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     <div class="price-wrapper">
                                         <div>
-                                            <span class="after_special custom_final_price" style="display: none;">{{custom_final_price}}</span>
+                                            <span class="after_special custom_final_price" style="display: none;">{{<?php echo $customFinalPrice; ?>}}</span>
                                             <span class="after_special
                                                     {{#<?php echo $origFormatedVar; ?>}}
                                                         promotion
