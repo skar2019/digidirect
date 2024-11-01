@@ -563,7 +563,7 @@ define([
                         
                         var template = algoliaBundle.Hogan.compile("{{custom_final_price}}");
                         var output = template.render();
-                        console.log("output", output);
+                        console.log(item);
                         
                         //console.log(algoliaBundle.Hogan.parse(algoliaBundle.Hogan.scan("{{sku}}")));
                         //console.log(algoliaBundle.Hogan.parse("{{sku}}"));
