@@ -74,6 +74,7 @@
                 <value id="latitudesrc" type="host">*.latitudefinancial.com</value>
                 <value id="afterpayportal" type="host">*.afterpay.com</value>
                 <value id="afterpaystatic" type="host">*.static.afterpay.com</value>
+                <value id="latitudescriptsrc" type="host">*.latitudepayapps.com</value>
 
             </values>
         </policy>
@@ -130,6 +131,8 @@
                 <value id="particularaudienceimg" type="host">*.particularaudience.com</value>
                 <value id="qantasimg" type="host">*.services.qantasloyalty.com</value>
                 <value id="adobetmimg" type="host">*.adobedtm.com</value>
+                <value id="latitudeimgsrc" type="host">*.latitudepayapps.com</value>
+                <value id="zipimgsrc" type="host">*.zip.co</value>
             </values>
         </policy>
         <policy id="media-src">
