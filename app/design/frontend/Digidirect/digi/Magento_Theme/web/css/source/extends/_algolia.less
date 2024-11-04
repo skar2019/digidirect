@@ -70,6 +70,8 @@
     .ais-Hits-item {
         width: calc(~'(100% - 55px) / 5');
         margin-left: 13.6px;
+        position: relative;
+        margin-bottom: 15px;
     }
 
     #algolia_instant_selector .col-md-4 {
@@ -249,6 +251,57 @@
     .ais-Pagination-item.ais-Pagination-item--page.ais-Pagination-item--selected a {
         color: #fff;
     }
+    
+    .ais-Hits-item .price-container {
+        display: block;
+        text-align: center;
+        font-size: 10px;
+        color: #777;
+    }
+
+    .ais-Hits-item span.price {
+        color: #777 !important;
+        background: linear-gradient(170deg, transparent 42.75%, red, red, transparent 52.25%);
+        font-size: 12px !important;
+    }
+
+    .ais-Hits-item .discount-price-wrapper {
+        margin-top: -27px;
+        margin-bottom: 10px;
+    }
+    
+    .ais-Hits-item .ribbon-digideals {
+        position: absolute;
+        top: 8px;
+        left: -8px;
+        z-index: 1;
+        line-height: 1.7;
+        background: #f15923;
+        border-bottom: 7px solid #a93c15;
+        border-right: 6px solid #f15923;
+        clip-path: polygon(0 0, 0 calc(77%), 8px 100%, 8px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
+        font-size: 13px;
+        padding: 0 20px 0 15px;
+    }
+    
+    .ais-Hits-item .s19-rental-price-target {
+        text-align: center;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .ais-Hits-item .s19-rental-price-target p {
+        font-size: 11px !important;
+        margin: 0;
+        color: #222;
+        font-weight: 400 !important;
+    }
+    
+    .ais-Hits-item:hover {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        transform: translate(0, -10px);
+        transition: all .4s ease-in-out;
+    }
 }
 
 @media only screen and (max-width: 992px) {
@@ -322,7 +375,7 @@
     
 }
 
-@media only screen and (min-width: 1367px) {
+@media only screen and (min-width: 1481px) {
     
     .ais-Hits-item:nth-child(5n+1) {
         margin-left: 0;

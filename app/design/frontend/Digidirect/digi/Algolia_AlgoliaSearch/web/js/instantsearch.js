@@ -559,6 +559,32 @@ define([
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
                         item.isAddToCartEnabled = algoliaConfig.instant.isAddToCartEnabled;
+                        
+                        // Create our number formatter.
+                        const formatter = new Intl.NumberFormat('en-AU', {
+                            style: 'currency',
+                            currency: 'AUD',
+                            minimumFractionDigits: 2
+                        });
+                        
+                        //formatter.format(e.target.value);
+                        item.hasCustomFinalPrice = false;
+                        item.hasNoCustomFinalPrice = true;
+                        
+                        if (item.custom_final_price) {
+                            if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
+                                item.customFinalPrice =  formatter.format(item.custom_final_price);
+                                item.discount = formatter.format(item.price.AUD.default - item.custom_final_price);
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                            
+                        }
+                        
+                        console.log(item);
+                        
+                        //console.log(algoliaBundle.Hogan.parse(algoliaBundle.Hogan.scan("{{sku}}")));
+                        //console.log(algoliaBundle.Hogan.parse("{{sku}}"));
                         item.algoliaConfig = window.algoliaConfig;
                         return item;
                     });
