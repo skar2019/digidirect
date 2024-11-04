@@ -294,6 +294,9 @@ class TestPronto extends AbstractHelper
             case "paypal_express":
                 $type = 'PX';
                 break;
+            case "afterpay":
+                $type = 'AP';
+                break;
             default:
                 break;
         }
