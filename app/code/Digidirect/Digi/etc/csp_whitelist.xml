@@ -215,11 +215,13 @@
         <policy id="frame-src">
             <values>
                 <value id="all_potential_frame" type="host">*</value>
+                <value id="zipmoneyframesrc" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="all_potential_form" type="host">*</value>
+                <value id="zipmoneyformaction" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
     </policies>
