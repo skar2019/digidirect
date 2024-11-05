@@ -30,7 +30,7 @@ $sellers = $block->getAllDisplayedSellers();
 
 <?php if ($sellers): ?>
     <section class="mrkt-sellers-list-wrapper">
-        <ul class="mrkt-sellers-list">
+        <ul id="mrkt-sellers-list" class="mrkt-sellers-list">
             <?php /** @var $seller SellerInterface */ ?>
             <?php foreach ($sellers as $seller): ?>
                 <?php
@@ -43,29 +43,12 @@ $sellers = $block->getAllDisplayedSellers();
                 ?>
                 <li class="item">
                     <div class="mrkt-sellers-item" itemscope itemtype="http://schema.org/Store">
-                        <?php if ($sellerLogoSrc): ?>
-                            <?php /*
-                            <a class="image"
-                               href="<?= $escaper->escapeUrl($sellerUrl); ?>"
-                               title="<?= $escaper->escapeHtmlAttr($sellerLabel); ?>">
-                           */ ?>
-                                <img src="<?= $escaper->escapeUrl($sellerLogoSrc); ?>"
-                                     alt="<?= $escaper->escapeHtmlAttr($sellerLabel); ?>"
-                                     itemprop="logo"/>
-                        <?php /*
-                            </a>
-                        */ ?>
-                        <?php endif; ?>
                         <h3 class="name">
-                        <?php /*    
-                        <a href="<?= $escaper->escapeUrl($sellerUrl); ?>"
+                            <a href="<?= $escaper->escapeUrl($sellerUrl); ?>"
                                title="<?= $escaper->escapeHtmlAttr($sellerLabel) ?>"
                                itemprop="url">
-                        */ ?>
                                 <span itemprop="name"><?= $escaper->escapeHtml($sellerLabel); ?></span>
-                        <?php /*
                             </a>
-                        */ ?>
                         </h3>
                     </div>
                 </li>
@@ -76,3 +59,15 @@ $sellers = $block->getAllDisplayedSellers();
     <div class="message info empty"><span><?= $escaper->escapeHtml(__('There are no sellers available.')); ?></span>
     </div>
 <?php endif ?>
+
+<script>
+    function sortList(ul) {
+        var ulist = document.getElementById(ul);
+
+        Array.from(ulist.getElementsByTagName("span"))
+          .sort((a, b) => a.textContent.localeCompare(b.textContent))
+          .forEach(li => ulist.appendChild(li));
+    }
+
+    sortList("mrkt-sellers-list");
+</script>
