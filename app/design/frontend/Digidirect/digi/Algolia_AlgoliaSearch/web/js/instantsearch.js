@@ -579,6 +579,45 @@ define([
                             item.isDigiOnly = false;
                         }
                         
+                        if (item.preorder == "Yes") {
+                            item.isPreorder = true;
+                            item.isNotPreorder = false;
+                        } else {
+                            item.isPreorder = false;
+                            item.isNotPreorder = true;
+                        }
+                        
+                        if (!item.item_codition || item.item_codition == "" || item.item_codition == " ") {
+                            item.isDigiSeconds = false;
+                            item.isNotDigiSeconds = true;
+                        } else {
+                            item.isDigiSeconds = true;
+                            item.isNotDigiSeconds = false;
+                            
+                            if (item.item_codition == "PRELOVED") {
+                                item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png";
+                            } else if (item.item_codition == "OPENBOX") {
+                                item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png";
+                            } else if (item.item_codition == "REFURB") {
+                                item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png";
+                            }
+                            
+                            if (item.item_rating == 5) {
+                                item.digiSecondsRating= '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+                            } else if (item.item_rating == 4) {
+                                item.digiSecondsRating= '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+                            } else if (item.item_rating == 3) {
+                                item.digiSecondsRating= '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                            } else if (item.item_rating == 2) {
+                                item.digiSecondsRating= '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                            } else if (item.item_rating == 1) {
+                                item.digiSecondsRating= '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                            } else {
+                                item.digiSecondsRating= '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                            }
+                            
+                        }
+                        
                         if (item.custom_final_price) {
                             if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);

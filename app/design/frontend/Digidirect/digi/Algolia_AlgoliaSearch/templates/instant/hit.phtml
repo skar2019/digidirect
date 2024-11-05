@@ -24,6 +24,24 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
         {{/isDigiOnly}}
     {{/hasCustomFinalPrice}}
             
+    {{#isNotDigiSeconds}}
+        {{#hasCustomFinalPrice}}
+            {{#isDigiOnly}}
+                <div class="ribbon-digideals">digiDeals</div>
+            {{/isDigiOnly}}
+        {{/hasCustomFinalPrice}}
+    {{/isNotDigiSeconds}}
+    {{#isDigiSeconds}}
+        <div class="digiseconds-overlay">
+            <img src="{{digiSecondsBadge}}"/>
+            <div class="digiseconds-rating">
+                {{digiSecondsRating}}
+            </div>
+        </div>
+    {{/isDigiSeconds}}
+            
+    
+            
     <div class="col-md-4 col-sm-6" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
@@ -113,7 +131,14 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                     data-position="{{__position}}"
                                     data-queryid="{{__queryID}}"
                                     >
+                                    
+                                    {{#isNotPreorder}}
                                         <span><?php echo __('Add to Cart') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                    {{/isNotPreorder}}
+                                    {{#isPreorder}}
+                                        <span><?php echo __('Pre-Order') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                    {{/isPreorder}}
+                                    
                                     </button>
                                 </form>
                             {{/isNotDigiPrint}}
