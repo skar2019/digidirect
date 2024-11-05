@@ -571,6 +571,14 @@ define([
                         item.hasCustomFinalPrice = false;
                         item.hasNoCustomFinalPrice = true;
                         
+                        if (item.marketplacer_seller == "digiDirect") {
+                            item.isDigiMarket = false;
+                            item.isDigiOnly = true;
+                        } else {
+                            item.isDigiMarket = true;
+                            item.isDigiOnly = false;
+                        }
+                        
                         if (item.custom_final_price) {
                             if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);
@@ -578,7 +586,15 @@ define([
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
                             }
-                            
+                        }
+                        
+                        item.isDigiPrint = false;
+                        item.isNotDigiPrint = true;
+                        
+                        if (item.is_digiprint == "Yes") {
+                            item.digiPrintUrl = item.digiprint_customlink;
+                            item.isDigiPrint = true;
+                            item.isNotDigiPrint = false;
                         }
                         
                         console.log(item);
