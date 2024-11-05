@@ -67,11 +67,11 @@ class Seller extends Category
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
         
         $collection = $this->collectionProvider
-            ->getCollection($this->getCurrentCategory())
-            ->addAttributeToFilter("marketplacer_seller", 20765);
+                ->getCollection($this->getCurrentCategory())
+                ->addFieldToFilter($this->sellerAttributeRetriever->getAttributeCode(), 20765);
 
-        $this->prepareProductCollection($collection);
-        $this->_productCollections[2] = $collection;
+            $this->prepareProductCollection($collection);
+            $this->_productCollections[$seller->getOptionId()] = $collection;
         
         $this->logger->info('$this->sellerAttributeRetriever->getAttributeCode(): ' . $this->sellerAttributeRetriever->getAttributeCode());
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
