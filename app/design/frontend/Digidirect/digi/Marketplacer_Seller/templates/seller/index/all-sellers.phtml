@@ -60,14 +60,26 @@ $sellers = $block->getAllDisplayedSellers();
     </div>
 <?php endif ?>
 
-<script>
-    function sortList(ul) {
-        var ulist = document.getElementById(ul);
+<script> 
 
-        Array.from(ulist.getElementsByTagName("LI"))
-          .sort((a, b) => a.getElementsByTagName("span").textContent.localeCompare(b.getElementsByTagName("span").textContent))
-          .forEach(li => ulist.appendChild(li));
+    var list = document.getElementById('mrkt-sellers-list');
+
+    var items = list.childNodes;
+    var itemsArr = [];
+    for (var i in items) {
+        if (items[i].nodeType == 1) { 
+            itemsArr.push(items[i]);
+        }
     }
 
-    sortList("mrkt-sellers-list");
+    itemsArr.sort(function(a, b) {
+      return a.innerHTML == b.innerHTML
+              ? 0
+              : (a.innerHTML > b.innerHTML ? 1 : -1);
+    });
+
+    for (i = 0; i < itemsArr.length; ++i) {
+      list.appendChild(itemsArr[i]);
+    }
+
 </script>
