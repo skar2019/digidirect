@@ -34,8 +34,6 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
         </div>
     {{/isDigiSeconds}}
             
-    
-            
     <div class="col-md-4 col-sm-6" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
@@ -105,12 +103,11 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                 </div>
                             </div>
                         </div>
+                        <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
                         <div class="s19-rental-price-target">
                             <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
                             <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                         </div>
-                        <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
-
                         {{#isAddToCartEnabled}}
                             {{#isNotDigiPrint}}
                                 <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
