@@ -68,11 +68,9 @@ class Seller extends Category
             
         $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
         $collection->addAttributeToSelect('*');
-        $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-        $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addAttributeToFilter("marketplacer_seller", $seller->getOptionId());
+        $collection->addAttributeToFilter('marketplacer_seller', $seller->getOptionId());
         $this->prepareProductCollection($collection);
-        $this->_productCollections[$this->getCurrentCategory()] = $collection;
+        $this->_productCollections[$seller->getOptionId()] = $collection;
         
         $this->logger->info('$this->sellerAttributeRetriever->getAttributeCode(): ' . $this->sellerAttributeRetriever->getAttributeCode());
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
