@@ -61,23 +61,13 @@ $sellers = $block->getAllDisplayedSellers();
 <?php endif ?>
 
 <script>
-    var list = document.getElementById('mrkt-sellers-list');
+    function sortList(ul) {
+        var ulist = document.getElementById(ul);
 
-    var items = list.childNodes;
-    var itemsArr = [];
-    for (var i in items) {
-        if (items[i].nodeType == 1) { // get rid of the whitespace text nodes
-            itemsArr.push(items[i]);
-        }
+        Array.from(ulist.getElementsByTagName("LI"))
+          .sort((a, b) => a.getElementsByTagName("span").textContent.localeCompare(b.getElementsByTagName("span").textContent))
+          .forEach(li => ulist.appendChild(li));
     }
 
-    itemsArr.sort(function(a, b) {
-      return a.getElementsByTagName("span").innerHTML == b.getElementsByTagName("span").innerHTML
-              ? 0
-              : (a.getElementsByTagName("span").innerHTML > b.getElementsByTagName("span").innerHTML ? 1 : -1);
-    });
-
-    for (i = 0; i < itemsArr.length; ++i) {
-      list.appendChild(itemsArr[i]);
-}
+    sortList("mrkt-sellers-list");
 </script>
