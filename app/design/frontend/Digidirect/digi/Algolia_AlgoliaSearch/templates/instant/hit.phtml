@@ -34,8 +34,8 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
     {{#isDigiSeconds}}
         <div class="digiseconds-overlay">
             <img src="{{digiSecondsBadge}}"/>
-            <div class="digiseconds-rating">
-                {{digiSecondsRating}}
+            <div class="digiseconds-rating" style="display: none;">
+                {{{digiSecondsRating}}}
             </div>
         </div>
     {{/isDigiSeconds}}
