@@ -14,7 +14,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Marketplacer\Seller\Api\Data\SellerInterface;
 use Marketplacer\SellerApi\Api\SellerAttributeRetrieverInterface;
 
-class Seller extends Category
+class Seller extends \Marketplacer\Seller\Model\Layer\Seller
 {
     const LAYER_NAME = 'seller_category_layer';
 
@@ -65,16 +65,13 @@ class Seller extends Category
         $seller = $this->getCurrentSeller();
         
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
-        if (isset($this->_productCollections[$seller->getOptionId()])) {
-            $collection = $this->_productCollections[20443];
-        } else {
-            $collection = $this->collectionProvider
-                ->getCollection($this->getCurrentCategory())
-                ->addAttributeToFilter("marketplacer_seller", 20765);
+        
+        $collection = $this->collectionProvider
+            ->getCollection($this->getCurrentCategory())
+            ->addAttributeToFilter("marketplacer_seller", 20765);
 
-            $this->prepareProductCollection($collection);
-            $this->_productCollections[$seller->getOptionId()] = $collection;
-        }
+        $this->prepareProductCollection($collection);
+        $this->_productCollections[2] = $collection;
         
         $this->logger->info('$this->sellerAttributeRetriever->getAttributeCode(): ' . $this->sellerAttributeRetriever->getAttributeCode());
         $this->logger->info('$seller->getOptionId(): ' . $seller->getOptionId());
