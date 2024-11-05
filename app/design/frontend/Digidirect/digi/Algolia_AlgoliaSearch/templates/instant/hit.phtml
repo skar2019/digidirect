@@ -17,12 +17,6 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
     {{#isDigiMarket}}
         <div class="ribbon-online">Online only</div>
     {{/isDigiMarket}}
-    
-    {{#hasCustomFinalPrice}}
-        {{#isDigiOnly}}
-            <div class="ribbon-digideals">digiDeals</div>
-        {{/isDigiOnly}}
-    {{/hasCustomFinalPrice}}
             
     {{#isNotDigiSeconds}}
         {{#hasCustomFinalPrice}}
@@ -34,7 +28,7 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
     {{#isDigiSeconds}}
         <div class="digiseconds-overlay">
             <img src="{{digiSecondsBadge}}"/>
-            <div class="digiseconds-rating" style="display: none;">
+            <div class="digiseconds-rating">
                 {{{digiSecondsRating}}}
             </div>
         </div>
