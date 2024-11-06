@@ -51,14 +51,6 @@ return [
                 'root_category_id' => '2',
                 'default_store_id' => '5',
                 'code' => 'mpstore'
-            ],
-            7 => [
-                'group_id' => '7',
-                'website_id' => '1',
-                'name' => 'Retail Store',
-                'root_category_id' => '2',
-                'default_store_id' => '13',
-                'code' => 'retail_store'
             ]
         ],
         'stores' => [
@@ -88,15 +80,6 @@ return [
                 'name' => 'Marketplaces',
                 'sort_order' => '2',
                 'is_active' => '1'
-            ],
-            'retail_store_view' => [
-                'store_id' => '13',
-                'code' => 'retail_store_view',
-                'website_id' => '1',
-                'group_id' => '7',
-                'name' => 'Retail Store View',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
