@@ -34,6 +34,7 @@ class Search extends Template
         $productCollection->addAttributeToSelect('*');
         $productCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $productCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addAttributeToFilter('marketplacer_seller', 20329);
         $productCollection->addMinimalPrice()->addFinalPrice();
         $productCollection->getSelect()->where("price_index.final_price < price_index.price");
         $productCollection->addAttributeToFilter('name', array('like' => '%'.$searchTerm.'%'));
