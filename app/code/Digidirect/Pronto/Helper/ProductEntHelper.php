@@ -691,6 +691,7 @@ class ProductEntHelper extends AbstractHelper
     public function customFinalPrice()
     {
 
+        exit;
         $collection = $this->getProductCollection();
         foreach ($collection as $product) {
 
@@ -714,6 +715,7 @@ class ProductEntHelper extends AbstractHelper
     public function testCustomFinalPrice()
     {
 
+        exit;
         $collection = $this->getProductCollection();
         $counter = 0;
         foreach ($collection as $product) {
