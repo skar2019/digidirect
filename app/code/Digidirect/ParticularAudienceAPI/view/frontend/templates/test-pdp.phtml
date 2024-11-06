@@ -52,6 +52,8 @@ require(['jquery'], function ($) {
     });
     
     var recommendationsResult = <?= json_encode($block->getRecommendations()); ?>;
+    console.log(recommendationsResult);
+    
     var widgets  = recommendationsResult.recommendations.route.widgets;
     var routeId  = recommendationsResult.recommendations.route.id;
     

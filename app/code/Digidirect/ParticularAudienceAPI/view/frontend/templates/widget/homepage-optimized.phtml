@@ -16,8 +16,9 @@ require(['jquery'], function ($) {
     var sessionId = getCookie('pa_session_id');
     
     var recommendationsResult = <?= json_encode($block->getRecommendations()); ?>;
-    var widgets  = recommendationsResult.recommendations.route.widgets;
+    console.log(recommendationsResult);
     
+    var widgets  = recommendationsResult.recommendations.route.widgets;
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = window.location.href;
     
