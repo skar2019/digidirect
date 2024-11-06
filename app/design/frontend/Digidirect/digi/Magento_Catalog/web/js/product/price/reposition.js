@@ -25,19 +25,9 @@ define([
         $('#product-addtocart-button').removeAttr("title");
     });
     
-    $('.s19-price-per-period').insertBefore($('.s19-component'));
-    $('.s19-apply-btn').insertBefore($('.s19-learn-btn'));
-    $('.s19-actions').insertAfter($('.s19-min-period'));
-    
-    setTimeout(function() {
-        if ($('.studio19-wrapper').children().length > 0) {
-            $('.studio19-wrapper').attr("style", "display:none;");
-        }
-    }, 2000);
-    
     var win = $(this); //this = window
     if (win.width() >= 768) {
-        $('.page-title-wrapper').insertBefore($('.product-info-price'));
+        $('.page-title-wrapper').insertBefore($('.mrkt-product-info-seller'));
     } else {
         $('.page-title-wrapper').insertBefore($('.media-area'));
     }

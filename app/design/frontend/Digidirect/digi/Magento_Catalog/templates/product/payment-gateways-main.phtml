@@ -11,15 +11,3 @@ $seller = $_product->getData('marketplacer_seller');
         <?= $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::product/payment-gateways-bottom.phtml")->toHtml() ?>
     </div>
 </div>
-
-<script>
-    require([
-            'jquery'
-        ],
-        function ($) {
-            if($('.s19-component').length != 0 && <?= $seller?> == 20329) {
-                $('.studio19-wrapper').attr("style", "display:block !important;");
-            }
-    });
-</script>
-
