@@ -10,13 +10,13 @@ define([
         $(".secure-pay-container").attr("style", "display: none");
     });
 
-    /*$('.fotorama__wrap').ready(function() {
+    $('.fotorama__wrap').ready(function() {
         console.log("Fotorma has been loaded!");
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.digiseconds-overlay').attr("style", "display:block;");
-        }, 3000);
-    });*/
+        }, 1000);
+    });
 
     $(window).on('load', function(){
         if ($(window).width() <= 768) {
