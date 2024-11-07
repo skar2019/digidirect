@@ -25,14 +25,6 @@ return [
                 'sort_order' => '2',
                 'default_group_id' => '5',
                 'is_default' => '0'
-            ],
-            'retail_stores' => [
-                'website_id' => '7',
-                'code' => 'retail_stores',
-                'name' => 'Retail Stores',
-                'sort_order' => '0',
-                'default_group_id' => '10',
-                'is_default' => '0'
             ]
         ],
         'groups' => [
@@ -59,22 +51,6 @@ return [
                 'root_category_id' => '2',
                 'default_store_id' => '5',
                 'code' => 'mpstore'
-            ],
-            7 => [
-                'group_id' => '7',
-                'website_id' => '1',
-                'name' => 'Retail Store',
-                'root_category_id' => '2',
-                'default_store_id' => '13',
-                'code' => 'retail_store'
-            ],
-            10 => [
-                'group_id' => '10',
-                'website_id' => '7',
-                'name' => 'Retail Stores Store',
-                'root_category_id' => '2',
-                'default_store_id' => '19',
-                'code' => 'retail_stores_store'
             ]
         ],
         'stores' => [
@@ -104,24 +80,6 @@ return [
                 'name' => 'Marketplaces',
                 'sort_order' => '2',
                 'is_active' => '1'
-            ],
-            'retail_store_view' => [
-                'store_id' => '13',
-                'code' => 'retail_store_view',
-                'website_id' => '1',
-                'group_id' => '7',
-                'name' => 'Retail Store View',
-                'sort_order' => '0',
-                'is_active' => '0'
-            ],
-            'BOND' => [
-                'store_id' => '19',
-                'code' => 'BOND',
-                'website_id' => '7',
-                'group_id' => '10',
-                'name' => 'BOND',
-                'sort_order' => '0',
-                'is_active' => '0'
             ]
         ]
     ],
