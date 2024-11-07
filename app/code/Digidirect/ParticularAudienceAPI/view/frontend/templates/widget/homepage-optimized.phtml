@@ -196,12 +196,15 @@ require(['jquery'], function ($) {
 
                 let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
                 let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
-
-                if (categories.options[0].value == "PRELOVED" || product.name.includes("used")) {
+                
+                const includesString = (str, searchString) =>
+                new RegExp(searchString, 'i').test(str);
+                
+                if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-                } else if (categories.options[0].value == "OPENBOX" || product.name.includes("open")) {
+                } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-                } else if (categories.options[0].value == "REFURB" || product.name.includes("refurb")) {
+                } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
                 }
 
