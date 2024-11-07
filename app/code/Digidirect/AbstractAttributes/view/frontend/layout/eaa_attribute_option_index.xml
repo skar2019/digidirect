@@ -3,4 +3,7 @@
     <update handle="catalog_category_view"/>
     <update handle="catalog_category_view_type_layered"/>
     
+    <referenceBlock name="sidebar.main" remove="false"/>
+    <referenceBlock name="sidebar.additional" remove="false"/>
+    <referenceBlock name="catalog.leftnav" remove="false"/>
 </page>
