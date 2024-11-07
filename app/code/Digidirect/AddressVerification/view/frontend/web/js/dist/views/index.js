@@ -99,7 +99,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             // initializing watchers
             this.watchers();
 
-            this._loadGoogleApi(window.digidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?key=' + options.gplaces_config.api_key + '&libraries=places');
+            this._loadGoogleApi(window.digidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?loading=async&key=' + options.gplaces_config.api_key + '&libraries=places');
 
             // Initialization value
             this.isFormComplete = false;

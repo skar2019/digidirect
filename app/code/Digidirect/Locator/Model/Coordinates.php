@@ -95,7 +95,7 @@ class Coordinates implements CoordinatesGetterInterface
         if ($serverApiKey === null) {
             $serverApiKey = $this->helper->getGoogleApiKey();
         }
-        $url = self::GOOGLE_MAP_URL . 'json?key=' . $serverApiKey . '&address=' . $prepareAddress;
+        $url = self::GOOGLE_MAP_URL . 'json?loading=async&key=' . $serverApiKey . '&address=' . $prepareAddress;
         try {
             $http = $this->curlFactory->create();
             $config = ['timeout' => 5, 'header' => false, 'verifypeer' => false];

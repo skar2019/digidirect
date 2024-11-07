@@ -204,7 +204,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return self::GOOGLE_GEOCODE_API_URL .
-            '?components=country:' . $this->getCountryId() . '|' . $queryType . ':' .
+            '?loading=async&components=country:' . $this->getCountryId() . '|' . $queryType . ':' .
             (string)$postcode . '&key=' . $this->getGoogleApiKey();
     }
 
