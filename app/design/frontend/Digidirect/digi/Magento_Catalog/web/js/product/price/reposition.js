@@ -10,13 +10,13 @@ define([
         $(".secure-pay-container").attr("style", "display: none");
     });
 
-    $('.fotorama__wrap').ready(function() {
+    /*$('.fotorama__wrap').ready(function() {
         console.log("Fotorma has been loaded!");
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.digiseconds-overlay').attr("style", "display:block;");
         }, 3000);
-    });
+    });*/
 
     $(window).on('load', function(){
         if ($(window).width() <= 768) {
@@ -34,7 +34,7 @@ define([
 
     //for mobile = 760
     //Changed to 1439 for tablet *Rondel
-    let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
+    //let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
     $(window).on('resize', function(){
         if (win.width() >= 768) {
