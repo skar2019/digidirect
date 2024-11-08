@@ -54,6 +54,7 @@ define([
     'use strict';
 
     var popUp = null;
+    var marketplacer_sellers = window.checkoutConfig.quoteData.marketplacer_sellers;
 
     return Component.extend({
         defaults: {
@@ -73,6 +74,7 @@ define([
         isNewAddressAdded: ko.observable(false),
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
+        marketplacerSellers: ko.observable(marketplacer_sellers),
 
         /**
          * @return {exports}
@@ -120,38 +122,8 @@ define([
                         $.extend(true, {}, checkoutProvider.get('shippingAddress'), shippingAddressData)
                     );
                 }
-                checkoutProvider.on('shippingAddress', function (shippingAddrsData, changes) {
-                    var isStreetAddressDeleted, isStreetAddressNotEmpty;
-
-                    /**
-                     * In last modifying operation street address was deleted.
-                     * @return {Boolean}
-                     */
-                    isStreetAddressDeleted = function () {
-                        var change;
-
-                        if (!changes || changes.length === 0) {
-                            return false;
-                        }
-
-                        change = changes.pop();
-
-                        if (_.isUndefined(change.value) || _.isUndefined(change.oldValue)) {
-                            return false;
-                        }
-
-                        if (!change.path.startsWith('shippingAddress.street')) {
-                            return false;
-                        }
-
-                        return change.value.length === 0 && change.oldValue.length > 0;
-                    };
-
-                    isStreetAddressNotEmpty = shippingAddrsData.street && !_.isEmpty(shippingAddrsData.street[0]);
-
-                    if (isStreetAddressNotEmpty || isStreetAddressDeleted()) {
-                        checkoutData.setShippingAddressFromData(shippingAddrsData);
-                    }
+                checkoutProvider.on('shippingAddress', function (shippingAddrsData) {
+                    checkoutData.setShippingAddressFromData(shippingAddrsData);
                 });
                 shippingRatesValidator.initFields(fieldsetName);
             });
@@ -263,6 +235,14 @@ define([
                 quote.shippingMethod()['carrier_code'] + '_' + quote.shippingMethod()['method_code'] :
                 null;
         }),
+        
+        checkSellers: function () {
+            if (marketplacer_sellers.length == 1 && marketplacer_sellers[0][0] == 'digiDirect') {
+                return false;
+            } else {
+                return true;
+            }
+        },
 
         /**
          * @param {Object} shippingMethod
@@ -307,6 +287,7 @@ define([
             var shippingAddress,
                 addressData,
                 loginFormSelector = 'form[data-role=email-with-possible-login]',
+                unitnumberSelector = 'input',
                 emailValidationResult = customer.isLoggedIn(),
                 field,
                 option = _.isObject(this.countryOptions) && this.countryOptions[quote.shippingAddress().countryId],
@@ -329,12 +310,6 @@ define([
                 this.source.set('params.invalid', false);
                 this.triggerShippingDataValidateEvent();
 
-                if (!quote.shippingMethod()['method_code']) {
-                    this.errorValidationMessage(
-                        $t('The shipping method is missing. Select the shipping method and try again.')
-                    );
-                }
-
                 if (emailValidationResult &&
                     this.source.get('params.invalid') ||
                     !quote.shippingMethod()['method_code'] ||
@@ -349,6 +324,21 @@ define([
                 addressData = addressConverter.formAddressDataToQuoteAddress(
                     this.source.get('shippingAddress')
                 );
+                
+                // Therefore, convert it to a real array
+                var realArray = $.makeArray(shippingAddress['customAttributes'])
+
+                // Now it can be used reliably with $.map()
+                $.map(realArray, function(val, i) {
+                    if(val.attribute_code == "unit_number"){
+                        let intial_unit_number = $(".unit-number " + unitnumberSelector).val();
+                        let unit_number = intial_unit_number.replace('unit_number', '');
+                        $(".unit-number " + unitnumberSelector).val(unit_number);
+                        
+                        shippingAddress['customAttributes'][i]['value'] = unit_number;
+                        addressData['customAttributes'][i]['value'] = unit_number;
+                    }
+                });
 
                 //Copy form data to quote shipping address object
                 for (field in addressData) {
@@ -382,7 +372,7 @@ define([
             }
 
             if (!emailValidationResult) {
-                $(loginFormSelector + ' input[name=username]').trigger('focus');
+                $(loginFormSelector + ' input[name=username]').focus();
 
                 return false;
             }
