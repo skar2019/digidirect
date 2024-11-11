@@ -85,12 +85,15 @@ define([], function () {
             var hasCustomFinalPrice = false;
 
             if (item['custom_final_price']) {
-                /*if ((item['custom_final_price'] < item['price']['AUD']['default']) && item['custom_final_price'] != 0) {
+                //Set price to custom_final_price
+                if ((item['custom_final_price'] < item['price']['AUD']['default']) && item['custom_final_price'] != 0) {
                     item.customFinalPrice =  formatter.format(item['custom_final_price']);
                     hasCustomFinalPrice = true;
-                }*/
-                item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                hasCustomFinalPrice = false;
+                }
+
+                //Set price to default
+                /*item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
+                hasCustomFinalPrice = false;*/
             }
             
             if (hasCustomFinalPrice) {

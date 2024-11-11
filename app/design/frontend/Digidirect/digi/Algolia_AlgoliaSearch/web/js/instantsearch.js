@@ -619,15 +619,18 @@ define([
                         }
                         
                         if (item.custom_final_price) {
-                            /*if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
+                            //Set price to custom_final_price
+                            if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);
                                 item.discount = formatter.format(item.price.AUD.default - item.custom_final_price);
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
-                            }*/
-                            item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                            }
+                            
+                            //Set price to default
+                            /*item.customFinalPrice =  formatter.format(item.price.AUD.default);
                             item.hasCustomFinalPrice = false;
-                            item.hasNoCustomFinalPrice = true;
+                            item.hasNoCustomFinalPrice = true;*/
                         }
                         
                         item.isDigiPrint = false;
