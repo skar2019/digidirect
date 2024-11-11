@@ -23,7 +23,7 @@ export default class View {
             if (googleMapsUrl !== undefined) {
                 mapUrl = googleMapsUrl;
             } else {
-                mapUrl = `//maps.googleapis.com/maps/api/js?key=${this.options.googleAutoSuggestApiKey}&libraries=places`;
+                mapUrl = `//maps.googleapis.com/maps/api/js?loading=async&key=${this.options.googleAutoSuggestApiKey}&libraries=places`;
             }
             require([mapUrl], () => {
                 this.init();

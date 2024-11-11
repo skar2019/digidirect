@@ -97,6 +97,7 @@
                 <value id="bootstrapstyle" type="host">*.bootstrapcdn.com</value>
                 <value id="pastyle" type="host">p-a.io</value>
                 <value id="particularaudiencestyle" type="host">*.particularaudience.com</value>
+                <value id="cloudfrontstylesrc" type="host">*.cloudfront.net</value>
                 <!--<value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>-->
             </values>
         </policy>
