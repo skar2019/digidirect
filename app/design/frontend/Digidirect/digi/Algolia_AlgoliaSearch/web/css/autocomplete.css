@@ -524,6 +524,7 @@ html {
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     padding-bottom: 45px;
+    grid-template-columns: 250px 1fr;
 }
 .aa-Panel .aa-PanelLayout section{
     padding-top: 10px;
