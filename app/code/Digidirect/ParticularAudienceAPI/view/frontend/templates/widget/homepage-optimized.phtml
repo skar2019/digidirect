@@ -373,6 +373,38 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
+    $(".owl-carousel.custom").owlCarousel({
+        loop: true,
+        nav: true,
+        margin: 15,
+        responsive: {
+            0: {
+                items:2
+            },
+            600: {
+                items: 2
+            },
+            992: {
+                items: 2
+            },
+            1024: {
+                items: 4
+            },
+            1310: {
+                items: 5
+            },
+            1366: {
+                items: 4
+            },
+            1550: {
+                items: 5
+            }
+        },
+        dots: false,
+        autoplay: false,
+        autoplayTimeout: 3000
+    })
+    
     $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
@@ -777,7 +809,7 @@ require(['jquery'], function ($) {
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Recommended For You</h3>
         </div>
-        <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+        <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -802,7 +834,7 @@ require(['jquery'], function ($) {
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiMarket Products</h3>
         </div>
-        <div id="trending-digimarket-products-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+        <div id="trending-digimarket-products-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -837,7 +869,7 @@ require(['jquery'], function ($) {
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Shop Tech and More</h3>
         </div>
-        <div id="shop-tech-and-more-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+        <div id="shop-tech-and-more-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
             <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -875,7 +907,7 @@ require(['jquery'], function ($) {
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending Technology Products For You</h3>
             </div>
-            <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+            <div id="trending-technology-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -905,7 +937,7 @@ require(['jquery'], function ($) {
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending Photography Products For You</h3>
             </div>
-            <div id="trending-photography-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+            <div id="trending-photography-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -935,7 +967,7 @@ require(['jquery'], function ($) {
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiMarket Products For You</h3>
             </div>
-            <div id="trending-digimarket-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+            <div id="trending-digimarket-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -965,7 +997,7 @@ require(['jquery'], function ($) {
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiSeconds Products For You</h3>
             </div>
-            <div id="trending-digiseconds-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+            <div id="trending-digiseconds-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
@@ -995,7 +1027,7 @@ require(['jquery'], function ($) {
             <div class="product-widget-header">
                 <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiPrint Products For You</h3>
             </div>
-            <div id="trending-digiprint-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
+            <div id="trending-digiprint-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
                 <div class="product-item-info product-item " style="height: 381px !important;"><div class="loader"></div></div>
