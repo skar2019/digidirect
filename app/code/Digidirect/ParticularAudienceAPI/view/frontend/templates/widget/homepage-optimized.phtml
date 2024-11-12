@@ -681,6 +681,25 @@ require(['jquery'], function ($) {
             $(thisElement).addClass("slot");
         }
     }
+    
+    function slotObserver(selector) {
+        $(selector + " .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
+    }
 
     window.addEventListener('scroll', function() {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
@@ -699,22 +718,14 @@ require(['jquery'], function ($) {
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
-            var element = $(this).attr("id");
-            var productId = $(this).attr("product-id");
-            var recommenderId = $(this).attr("recommender-id");
-            var campaignId = $(this).attr("campaign-id");
-            var tacticId = $(this).attr("tactic-id");
-            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-            var adSetId = $(this).attr("adset-id");
-            var adSetVersion = $(this).attr("adset-version");
-            var costPerClick = $(this).attr("cost-per-click");
-            var timeStamp = $(this).attr("timestamp");
-            var hmacSalt = $(this).attr("hmac-salt");
-            var hmac = $(this).attr("hmac");
-            var keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-        });
+        slotObserver("#recommended-for-you-widget-desktop");
+        slotObserver("#trending-digimarket-products-widget-desktop");
+        slotObserver("#shop-tech-and-more-widget-desktop");
+        slotObserver("#trending-technology-products-for-you-widget-desktop");
+        slotObserver("#trending-photography-products-for-you-widget-desktop");
+        slotObserver("#trending-digimarket-products-for-you-widget-desktop");
+        slotObserver("#trending-digiseconds-products-for-you-widget-desktop");
+        slotObserver("#trending-digiprint-products-for-you-widget-desktop");
     }, false);
     
     /*const observer = new MutationObserver((mutations) => { 
