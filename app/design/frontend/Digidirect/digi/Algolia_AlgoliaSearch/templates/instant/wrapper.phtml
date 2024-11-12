@@ -9,7 +9,7 @@
     <div id="algolia_instant_selector"
          class="<?php echo $block->escapeHtml($block->hasFacets() ? ' with-facets' : ''); ?>">
         <div class="row" style="display: none;">
-            <?php echo $this->getLayout()->createBlock("Magento\Theme\Block\Html\Title")->setTemplate("Magento_Theme::html/login.phtml")->toHtml() ?>
+            <?php echo $this->getLayout()->createBlock("Magento\Theme\Block\Html\Title")->setTemplate("Magento_Theme::html/title.phtml")->toHtml() ?>
         </div>
         <div class="row">
             <div class="col-md-3" id="algolia-left-container">
