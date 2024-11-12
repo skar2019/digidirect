@@ -6,40 +6,6 @@
     
 require(['jquery'], function ($) {
     
-    $(document).ready(function(){
-        $(".owl-carousel.custom").owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 15,
-            responsive: {
-                0: {
-                    items:2
-                },
-                600: {
-                    items: 2
-                },
-                992: {
-                    items: 2
-                },
-                1024: {
-                    items: 4
-                },
-                1310: {
-                    items: 5
-                },
-                1366: {
-                    items: 4
-                },
-                1550: {
-                    items: 5
-                }
-            },
-            dots: false,
-            autoplay: false,
-            autoplayTimeout: 3000
-        })
-    });
-    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -230,7 +196,7 @@ require(['jquery'], function ($) {
                 
                 if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-                } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open')) {
+                } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
                 } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
@@ -733,7 +699,7 @@ require(['jquery'], function ($) {
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
@@ -750,6 +716,55 @@ require(['jquery'], function ($) {
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
+    
+    const observer = new MutationObserver((mutations) => { 
+        if ($("#pa-minicart-desktop").length) {
+            //console.log("MutationObserver!");
+            productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
+            stopMutationObserver();
+        }
+    }); 
+    
+    const config = { attributes: true, childList: true, subtree: true }; 
+    observer.observe(document.body, config); 
+    
+    function stopMutationObserver() {
+        observer.disconnect(); 
+    }
+    
+    $(document).ready(function(){
+        $(".owl-carousel.custom").owlCarousel({
+            loop: true,
+            nav: true,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        })
+    });
     
 });
 
