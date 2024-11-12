@@ -1325,7 +1325,7 @@ require(['jquery'], function ($) {
     }
 
     window.addEventListener('scroll', function() {
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
