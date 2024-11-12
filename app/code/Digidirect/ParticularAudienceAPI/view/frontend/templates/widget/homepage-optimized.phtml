@@ -6,6 +6,40 @@
     
 require(['jquery'], function ($) {
     
+    $(document).ready(function(){
+        $(".owl-carousel.custom").owlCarousel({
+            loop: true,
+            nav: true,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        })
+    });
+    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -21,12 +55,6 @@ require(['jquery'], function ($) {
     var widgets  = recommendationsResult.recommendations.route.widgets;
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = window.location.href;
-    
-    var configCustomerId;
-    var configSessionId;
-    
-    configCustomerId = customerId;
-    configSessionId = sessionId;
     
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
@@ -373,40 +401,6 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    $(document).ready(function(){
-        $(".owl-carousel.custom").owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 15,
-            responsive: {
-                0: {
-                    items:2
-                },
-                600: {
-                    items: 2
-                },
-                992: {
-                    items: 2
-                },
-                1024: {
-                    items: 4
-                },
-                1310: {
-                    items: 5
-                },
-                1366: {
-                    items: 4
-                },
-                1550: {
-                    items: 5
-                }
-            },
-            dots: false,
-            autoplay: false,
-            autoplayTimeout: 3000
-        })
-    });
-    
     $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
@@ -491,8 +485,8 @@ require(['jquery'], function ($) {
         }
 
         const slotData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -596,8 +590,8 @@ require(['jquery'], function ($) {
         }
 
         const clickData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -685,8 +679,8 @@ require(['jquery'], function ($) {
         }
         
         const productData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
         
