@@ -303,9 +303,9 @@ require(['jquery'], function ($) {
                 }
                 var view = "";
                 if (isMobile) {
-                    view = "-mobile";
+                    view = "mobile";
                 } else {
-                    view = "-desktop";
+                    view = "desktop";
                 }
                 var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
@@ -682,6 +682,17 @@ require(['jquery'], function ($) {
         }
     }
     
+    jQuery.extend( jQuery.fn, {
+        // Name of our method & one argument (the parent selector)
+        hasParent: function(p) {
+            // Returns a subset of items using jQuery.filter
+            return this.filter(function(){
+                // Return truthy/falsey based on presence in parent
+                return $(p).find(this).length;
+            });
+        }
+    });
+    
     function isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
@@ -691,7 +702,7 @@ require(['jquery'], function ($) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-            $(".owl-carousel.active #" + element).addClass("slot");
+            $(thisElement).hasParent(".active").addClass("slot");
         }
     }
     
