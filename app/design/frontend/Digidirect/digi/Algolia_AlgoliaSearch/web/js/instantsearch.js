@@ -618,7 +618,8 @@ define([
                             
                         }
                         
-                        if (item.custom_final_price) {
+                        //custom_final_price
+                        /*if (item.custom_final_price) {
                             //Set price to custom_final_price
                             if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);
@@ -628,9 +629,25 @@ define([
                             }
                             
                             //Set price to default
-                            /*item.customFinalPrice =  formatter.format(item.price.AUD.default);
-                            item.hasCustomFinalPrice = false;
-                            item.hasNoCustomFinalPrice = true;*/
+                            //item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                            //item.hasCustomFinalPrice = false;
+                            //item.hasNoCustomFinalPrice = true;
+                        }*/
+                        
+                        //wiser_price
+                        if (item.wiser_price) {
+                            //Set price to custom_final_price
+                            if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0) {
+                                item.customFinalPrice =  formatter.format(item.wiser_price);
+                                item.discount = formatter.format(item.price.AUD.default - item.wiser_price);
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                            
+                            //Set price to default
+                            //item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                            //item.hasCustomFinalPrice = false;
+                            //item.hasNoCustomFinalPrice = true;
                         }
                         
                         item.isDigiPrint = false;
