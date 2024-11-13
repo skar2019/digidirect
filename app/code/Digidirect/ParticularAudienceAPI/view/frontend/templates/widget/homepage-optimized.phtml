@@ -307,7 +307,7 @@ require(['jquery'], function ($) {
                 } else {
                     view = "-desktop";
                 }
-                var tileId = widgetId + '-product-' + product.refId + view;
+                var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
                 var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
 
@@ -685,7 +685,7 @@ require(['jquery'], function ($) {
     function isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
-        console.log("element", element);
+        //console.log("element", element);
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
