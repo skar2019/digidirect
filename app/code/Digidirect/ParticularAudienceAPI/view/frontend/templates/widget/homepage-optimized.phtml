@@ -685,7 +685,7 @@ require(['jquery'], function ($) {
     function isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
-
+        console.log("element", element);
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
