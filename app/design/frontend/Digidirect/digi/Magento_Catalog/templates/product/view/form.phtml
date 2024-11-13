@@ -128,7 +128,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         window.dataLayer.push({
             'value': <?= $price ?>,
             'items': [{
-                'id':  <?= $_product->getSku(); ?>,
+                'id':  '<?= $_product->getSku(); ?>',
                     'google_business_vertical': 'retail'
                 }]
         });
