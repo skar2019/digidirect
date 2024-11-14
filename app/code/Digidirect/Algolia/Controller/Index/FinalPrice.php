@@ -37,7 +37,6 @@ class FinalPrice extends Action implements HttpPostActionInterface {
         
         $result = $this->_resultJsonFactory->create();
         $id = $this->getRequest()->getParam('id');
-        $this->logger->info('$id: ' . $id);
         
         if ($id) {
             $product = $this->_productRepository->getById($id);
@@ -45,10 +44,12 @@ class FinalPrice extends Action implements HttpPostActionInterface {
             $wiserPrice = $product->getData('wiser_price');
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
-            $this->logger->info('$finalPrice: ' . $finalPrice);
-            $this->logger->info('$wiserPrice: ' . $wiserPrice);
-            $this->logger->info('$basePrice: ' . $basePrice);
-            $this->logger->info('$discountWiserPrice: ' . $discountWiserPrice);
+            
+            $this->logger->info('$id: ' . $id . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
+            //$this->logger->info('$finalPrice: ' . $finalPrice);
+            //$this->logger->info('$wiserPrice: ' . $wiserPrice);
+            //$this->logger->info('$basePrice: ' . $basePrice);
+            //$this->logger->info('$discountWiserPrice: ' . $discountWiserPrice);
             
             if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
                 $result->setData($finalPrice);
