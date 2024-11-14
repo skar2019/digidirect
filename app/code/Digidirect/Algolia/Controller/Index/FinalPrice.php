@@ -3,31 +3,35 @@
 namespace Digidirect\Algolia\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\ResultFactory; 
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
 
-class FinalPrice extends Action {
-    /**
-     * @var JsonFactory
-     */
+class FinalPrice extends Action implements HttpPostActionInterface {
+    
     protected $_resultJsonFactory;
-    /**
-     * @var PageFactory
-     */
-    protected $_resultPageFactory;
+
+    protected $logger;
+
+    protected $jsonSerializer;
     
     protected $_productRepository;
     
-    protected $logger;
-    
     public function __construct(
+        Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
-        $this->_productRepository = $productRepository;
         $this->logger = $logger;
-    }   
+        $this->jsonSerializer = $jsonSerializer;
+        $this->_productRepository = $productRepository;
+        parent::__construct($context);
+    }
+    
 
     public function execute() {
         
