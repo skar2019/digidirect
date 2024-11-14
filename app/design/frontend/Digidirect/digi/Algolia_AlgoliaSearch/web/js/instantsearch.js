@@ -615,7 +615,6 @@ define([
                             } else {
                                 item.digiSecondsRating= '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
                             }
-                            
                         }
                         
                         //ajaxFinalPrice
