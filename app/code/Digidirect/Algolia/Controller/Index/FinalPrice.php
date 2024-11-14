@@ -17,13 +17,17 @@ class FinalPrice extends Action {
     
     protected $_productRepository;
     
+    protected $logger;
+    
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->_productRepository = $productRepository;
+        $this->logger = $logger;
         parent::__construct($context);
     }   
 
@@ -38,6 +42,11 @@ class FinalPrice extends Action {
             $wiserPrice = $product->getData('wiser_price');
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
+            $this->logger->info('$id', $id);
+            $this->logger->info('$finalPrice', $finalPrice);
+            $this->logger->info('$wiserPrice', $wiserPrice);
+            $this->logger->info('$basePrice', $basePrice);
+            $this->logger->info('$discountWiserPrice', $discountWiserPrice);
             
             if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
                 $result->setData($finalPrice);
