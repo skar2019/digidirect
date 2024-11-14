@@ -654,7 +654,6 @@ define([
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
                             }
-                            
                             //Set price to default
                             //item.customFinalPrice =  formatter.format(item.price.AUD.default);
                             //item.hasCustomFinalPrice = false;
@@ -670,7 +669,6 @@ define([
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
                             }
-                            
                             //Set price to default
                             //item.customFinalPrice =  formatter.format(item.price.AUD.default);
                             //item.hasCustomFinalPrice = false;
