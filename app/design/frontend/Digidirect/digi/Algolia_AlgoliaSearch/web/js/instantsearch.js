@@ -623,7 +623,7 @@ define([
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
                         $.ajax({
                             url: url,
-                            type: "GET",
+                            type: "POST",
                             data: {
                                 id: item.objectID
                             },
