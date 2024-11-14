@@ -622,6 +622,7 @@ define([
                         var ajaxFinalPrice;
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
                         $.ajax({
+                            async: false,
                             url: url,
                             type: "POST",
                             data: {
