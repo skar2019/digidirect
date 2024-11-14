@@ -46,18 +46,20 @@ class FinalPrice extends Action implements HttpPostActionInterface {
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
             
-            $this->logger->info('$id: ' . $id . ', ' . '$sku: ' . $sku . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
             //$this->logger->info('$finalPrice: ' . $finalPrice);
             //$this->logger->info('$wiserPrice: ' . $wiserPrice);
             //$this->logger->info('$basePrice: ' . $basePrice);
             //$this->logger->info('$discountWiserPrice: ' . $discountWiserPrice);
             
             if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
+                $this->logger->info('1st $id: ' . $id . ', ' . '$sku: ' . $sku . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
                 $result->setData($finalPrice);
             } else {
                 if ($wiserPrice < $finalPrice) {
+                    $this->logger->info('2nd $id: ' . $id . ', ' . '$sku: ' . $sku . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
                     $result->setData($wiserPrice);
                 } else {
+                    $this->logger->info('3rd $id: ' . $id . ', ' . '$sku: ' . $sku . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
                     $result->setData($finalPrice);
                 }
             }
