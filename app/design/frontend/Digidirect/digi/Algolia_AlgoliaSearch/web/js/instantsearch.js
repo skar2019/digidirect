@@ -629,6 +629,7 @@ define([
                             },
                             success: function(data){
                                 ajaxFinalPrice = data;
+                                console.log("Success!", data);
                             },
                                 error: function(data){
                                 console.log("Error!", data);
