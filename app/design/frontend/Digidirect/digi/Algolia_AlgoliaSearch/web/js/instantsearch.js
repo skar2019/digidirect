@@ -618,6 +618,38 @@ define([
                             
                         }
                         
+                        //ajaxFinalPrice
+                        var ajaxFinalPrice = 0;
+                        var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            data: {
+                                id: item.objectID
+                            },
+                            success: function(data){
+                                ajaxFinalPrice = data;
+                            },
+                                error: function(data){
+                                console.log("Error!", data);
+                            }
+                        });
+                        
+                        if (ajaxFinalPrice) {
+                            //Set price to ajaxFinalPrice
+                            if ((ajaxFinalPrice < item.price.AUD.default) && ajaxFinalPrice != 0) {
+                                item.customFinalPrice =  formatter.format(ajaxFinalPrice);
+                                item.discount = formatter.format(item.price.AUD.default - ajaxFinalPrice);
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                        } else {
+                                //Set price to default
+                                item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                                item.hasCustomFinalPrice = false;
+                                item.hasNoCustomFinalPrice = true;
+                        }
+                        
                         //custom_final_price
                         /*if (item.custom_final_price) {
                             //Set price to custom_final_price
@@ -635,7 +667,7 @@ define([
                         }*/
                         
                         //wiser_price
-                        if (item.wiser_price) {
+                        /*if (item.wiser_price) {
                             //Set price to custom_final_price
                             if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.wiser_price);
@@ -648,7 +680,7 @@ define([
                             //item.customFinalPrice =  formatter.format(item.price.AUD.default);
                             //item.hasCustomFinalPrice = false;
                             //item.hasNoCustomFinalPrice = true;
-                        }
+                        }*/
                         
                         item.isDigiPrint = false;
                         item.isNotDigiPrint = true;
