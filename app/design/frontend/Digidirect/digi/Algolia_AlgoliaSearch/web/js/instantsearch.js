@@ -618,7 +618,7 @@ define([
                         }
                         
                         //ajaxFinalPrice
-                        var ajaxFinalPrice;
+                        /*var ajaxFinalPrice;
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
                         $.ajax({
                             async: false,
@@ -643,7 +643,7 @@ define([
                                 error: function(data){
                                 console.log("Error!", data);
                             }
-                        });
+                        });*/
                         
                         //custom_final_price
                         /*if (item.custom_final_price) {
@@ -662,7 +662,7 @@ define([
                         }*/
                         
                         //wiser_price
-                        /*if (item.wiser_price) {
+                        if (item.wiser_price) {
                             //Set price to custom_final_price
                             if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.wiser_price);
@@ -675,7 +675,7 @@ define([
                             //item.customFinalPrice =  formatter.format(item.price.AUD.default);
                             //item.hasCustomFinalPrice = false;
                             //item.hasNoCustomFinalPrice = true;
-                        }*/
+                        }
                         
                         item.isDigiPrint = false;
                         item.isNotDigiPrint = true;
