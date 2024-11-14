@@ -41,7 +41,7 @@ class FinalPrice extends Action implements HttpPostActionInterface {
         
         if ($id) {
             $product = $this->_productRepository->getById($id);
-            $finalPrice = $product->getData('final_price');
+            $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
             $wiserPrice = $product->getData('wiser_price');
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
