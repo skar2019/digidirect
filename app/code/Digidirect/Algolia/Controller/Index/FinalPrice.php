@@ -40,12 +40,13 @@ class FinalPrice extends Action implements HttpPostActionInterface {
         
         if ($id) {
             $product = $this->_productRepository->getById($id);
-            $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+            $sku = $product->getData('sku');
+            $finalPrice = $product->getFinalPrice();
             $wiserPrice = $product->getData('wiser_price');
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
             
-            $this->logger->info('$id: ' . $id . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
+            $this->logger->info('$id: ' . $id . ', ' . '$sku: ' . $sku . ', ' . '$finalPrice: ' . $finalPrice . ', ' . '$wiserPrice: ' . $wiserPrice . ', ' . '$basePrice: ' . $basePrice . ', ' . '$discountWiserPrice: ' . $discountWiserPrice);
             //$this->logger->info('$finalPrice: ' . $finalPrice);
             //$this->logger->info('$wiserPrice: ' . $wiserPrice);
             //$this->logger->info('$basePrice: ' . $basePrice);
