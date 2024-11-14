@@ -619,7 +619,7 @@ define([
                         }
                         
                         //ajaxFinalPrice
-                        var ajaxFinalPrice = 0;
+                        var ajaxFinalPrice;
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
                         $.ajax({
                             url: url,
@@ -636,7 +636,8 @@ define([
                             }
                         });
                         
-                        if (ajaxFinalPrice != 0) {
+                        console.log("ajaxFinalPrice", ajaxFinalPrice);
+                        if (ajaxFinalPrice) {
                             //Set price to ajaxFinalPrice
                             if ((ajaxFinalPrice < item.price.AUD.default) && ajaxFinalPrice != 0) {
                                 item.ajaxFinalPrice = formatter.format(ajaxFinalPrice);
