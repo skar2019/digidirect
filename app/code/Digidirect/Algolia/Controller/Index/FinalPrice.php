@@ -36,7 +36,7 @@ class FinalPrice extends Action implements HttpPostActionInterface {
     public function execute() {
         
         $result = $this->_resultJsonFactory->create();
-        $id = $this->getRequest()->getParam('id');
+        $id = json_encode($this->getRequest()->getParam('id'));
         $this->logger->info('$id', $id);
         
         if ($id) {
