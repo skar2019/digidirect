@@ -45,10 +45,10 @@ class FinalPrice extends Action implements HttpPostActionInterface {
             $wiserPrice = $product->getData('wiser_price');
             $basePrice = $product->getPrice();
             $discountWiserPrice = round($basePrice - $wiserPrice, 2);
-            $this->logger->info('$finalPrice', $finalPrice);
-            $this->logger->info('$wiserPrice', $wiserPrice);
-            $this->logger->info('$basePrice', $basePrice);
-            $this->logger->info('$discountWiserPrice', $discountWiserPrice);
+            $this->logger->info('$finalPrice: ' . $finalPrice);
+            $this->logger->info('$wiserPrice: ' . $wiserPrice);
+            $this->logger->info('$basePrice: ' . $basePrice);
+            $this->logger->info('$discountWiserPrice: ' . $discountWiserPrice);
             
             if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
                 $result->setData($finalPrice);
