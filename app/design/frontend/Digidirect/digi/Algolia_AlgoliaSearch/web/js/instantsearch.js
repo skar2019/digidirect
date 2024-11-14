@@ -629,14 +629,19 @@ define([
                             },
                             success: function(data){
                                 ajaxFinalPrice = data;
-                                console.log("Success!", item.objectId, data);
+                                console.log("Success!", data);
                             },
                                 error: function(data){
                                 console.log("Error!", data);
                             }
                         });
                         
-                        if (ajaxFinalPrice) {
+                        item.customFinalPrice =  formatter.format(ajaxFinalPrice);
+                        item.discount = formatter.format(item.price.AUD.default - ajaxFinalPrice);
+                        item.hasCustomFinalPrice = true;
+                        item.hasNoCustomFinalPrice = false;
+                        
+                        /*if (ajaxFinalPrice != 0) {
                             //Set price to ajaxFinalPrice
                             if ((ajaxFinalPrice < item.price.AUD.default) && ajaxFinalPrice != 0) {
                                 item.ajaxFinalPrice = formatter.format(ajaxFinalPrice);
@@ -652,7 +657,7 @@ define([
                                 item.hasCustomFinalPrice = false;
                                 item.hasNoCustomFinalPrice = true;
                                 console.log("Default!");
-                        }
+                        }*/
                         
                         //custom_final_price
                         /*if (item.custom_final_price) {
