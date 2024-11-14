@@ -59,7 +59,6 @@ class FinalPrice extends Action implements HttpPostActionInterface {
                     $result->setData($finalPrice);
                 }
             }
-            
             return $result;
         }
         
