@@ -112,20 +112,12 @@ define([], function () {
                 //hasCustomFinalPrice = false;
             }
             
-            if (hasCustomFinalPrice) {
-                return html `<div className="algoliasearch-autocomplete-price">
-                    <span className="after_special custom_final_price">
-                        ${formatter.format(item['customFinalPrice'])}
-                    </span>
-                </div>`;
-            } else {
-                return html `<div className="algoliasearch-autocomplete-price">
-                    <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
-                        ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
-                    </span>
-                </div>`;
-            }
-        },
+            return html `<div className="algoliasearch-autocomplete-price">
+                <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
+                    ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
+                </span>
+            </div>`;
+    },
 
         getFooterSearchCategoryLinks: (html, resultDetails) => {
             if (resultDetails.allCategories == undefined || resultDetails.allCategories.length === 0) return "";
