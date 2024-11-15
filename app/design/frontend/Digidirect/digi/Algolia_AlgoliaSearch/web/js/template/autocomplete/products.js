@@ -95,20 +95,8 @@ define([], function () {
                 //hasCustomFinalPrice = false;
             }*/
             
-            //wiser_price
-            if (item['wiser_price']) {
-                //Set price to wiser_price
-                if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
-                    item.customFinalPrice =  formatter.format(item['wiser_price']);
-                    return html `<div className="algoliasearch-autocomplete-price">
-                            <span className="after_special custom_final_price">
-                                ${formatter.format(item['wiser_price'])}
-                            </span>
-                        </div>`;
-                } else {
-                    item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                }
-            }
+            console.log("item['wiser_price']", item['wiser_price']);
+            console.log("item['price']['AUD']['default']", item['price']['AUD']['default']);
             
             return html `<div className="algoliasearch-autocomplete-price">
                     <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
