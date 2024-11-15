@@ -103,6 +103,9 @@ define([], function () {
                 if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
                     item.customFinalPrice =  formatter.format(item['wiser_price']);
                     hasCustomFinalPrice = true;
+                } else {
+                    item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
+                    hasCustomFinalPrice = false;
                 }
 
                 //Set price to default
@@ -113,7 +116,7 @@ define([], function () {
             if (hasCustomFinalPrice) {
                 return html `<div className="algoliasearch-autocomplete-price">
                     <span className="after_special custom_final_price">
-                        ${formatter.format(item['custom_final_price'])}
+                        ${formatter.format(item['customFinalPrice'])}
                     </span>
                 </div>`;
             } else {
