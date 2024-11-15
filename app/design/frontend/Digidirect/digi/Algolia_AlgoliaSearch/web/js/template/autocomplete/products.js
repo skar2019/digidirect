@@ -103,7 +103,7 @@ define([], function () {
                         ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
                     </span>
                     <span className="after_special custom_final_price" style="display: none;">
-                        ${item['wiser_price']}
+                        ${formatter.format(item['wiser_price'])}
                     </span>
                 </div>`;
         },
