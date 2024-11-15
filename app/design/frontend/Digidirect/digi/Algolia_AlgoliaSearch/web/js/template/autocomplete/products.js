@@ -82,8 +82,6 @@ define([], function () {
                 minimumFractionDigits: 2
             });
             
-            var hasCustomFinalPrice = false;
-            
             //custom_final_price
             /*if (item['custom_final_price']) {
                 //Set price to custom_final_price
@@ -102,22 +100,22 @@ define([], function () {
                 //Set price to wiser_price
                 if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
                     item.customFinalPrice =  formatter.format(item['wiser_price']);
-                    hasCustomFinalPrice = true;
+                    return html `<div className="algoliasearch-autocomplete-price">
+                            <span className="after_special custom_final_price">
+                                ${formatter.format(item['wiser_price'])}
+                            </span>
+                        </div>`;
                 } else {
                     item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                    hasCustomFinalPrice = false;
                 }
-                //Set price to default
-                //item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                //hasCustomFinalPrice = false;
             }
             
             return html `<div className="algoliasearch-autocomplete-price">
-                <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
-                    ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
-                </span>
-            </div>`;
-    },
+                    <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
+                        ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
+                    </span>
+                </div>`;
+        },
 
         getFooterSearchCategoryLinks: (html, resultDetails) => {
             if (resultDetails.allCategories == undefined || resultDetails.allCategories.length === 0) return "";
