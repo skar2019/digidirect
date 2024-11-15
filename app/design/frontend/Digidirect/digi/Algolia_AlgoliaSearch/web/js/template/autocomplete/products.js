@@ -107,7 +107,6 @@ define([], function () {
                     item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
                     hasCustomFinalPrice = false;
                 }
-
                 //Set price to default
                 //item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
                 //hasCustomFinalPrice = false;
