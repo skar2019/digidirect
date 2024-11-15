@@ -95,12 +95,15 @@ define([], function () {
                 //hasCustomFinalPrice = false;
             }*/
             
-            console.log("item['wiser_price']", item['wiser_price']);
-            console.log("item['price']['AUD']['default']", item['price']['AUD']['default']);
+            //console.log("item['wiser_price']", item['wiser_price']);
+            //console.log("item['price']['AUD']['default']", item['price']['AUD']['default']);
             
             return html `<div className="algoliasearch-autocomplete-price">
                     <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
                         ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
+                    </span>
+                    <span className="after_special custom_final_price" style="display: none;">
+                        ${item['wiser_price']}
                     </span>
                 </div>`;
         },
