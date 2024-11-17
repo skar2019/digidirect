@@ -221,7 +221,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 
 				<div class="inline-row">
                       <div class="row1 margin-top-extra">
-							<span>(This is the email address of the person who will be logging in to manage the retailer. We will send things like password resets here.)</span>
+							<span>(This is the main person's email address and phone number who will be logging into the digiMarket portal. We will send things like password resets here.)</span>
 							<div class="control input-placeholder">
 								<input type="email" id="adminEmail" name="adminEmail" required />
 								<div class="placeholder">Admin Email<span>*</span></div>
@@ -237,17 +237,18 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                 </div>
 
 				<div class="inline-row">
-                      <div class="row1">
-							<div class="control input-placeholder">
-								<input type="email" id="emailcc" name="emailcc" placeholder="Email CC (optional)" />
-							</div>
-                      </div>
-                      <div class="row1">
+						<div class="row1">
 							<div class="control input-placeholder">
 								<input type="number" id="phone" name="phone" required/>
 								<div class="placeholder">Contact Number<span>*</span></div>
 							</div>
-                      </div>
+						</div>
+
+						<div class="row1">
+							<div class="control input-placeholder">
+								<input type="email" id="emailcc" name="emailcc" placeholder="Email CC (optional)" />
+							</div>
+						</div>
                 </div>
 
 				<div class="remittance-row margin-top-extra">
@@ -318,7 +319,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 							<label><input type="checkbox" value="Toys (Digital, Remote, Electronic)" name="categories[]" /> Toys (Digital, Remote, Electronic)</label>
 						</li>
 						<li>
-							<label><input type="checkbox" value="" id="chkcat_other" name="categories[]" /> Other:</label>
+							<label><input type="checkbox" value="" id="chkcat_other" name="categories[]" /> Other: enable a field to enter other categories</label>
 						</li>
 					</ul>
 					<div style=""><input id="category_other" name="category_other" class="category_other" size="120" type="text" value="" placeholder="Type other category here"/></div>
@@ -371,7 +372,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 							<label><input type="checkbox" value="JB HiFi" name="sell[]" /> JB HiFi</label>
 						</li>
 						<li>
-							<label><input type="checkbox" value="" id="chksell_other"/> Other:</label>
+							<label><input type="checkbox" value="" id="chksell_other"/> Other: MP the applicant might list</label>
 						</li>
 					</ul>
 					<div style=""><input id="sell_other" name="sell_other" class="sell_other" size="120" type="text" value="" placeholder="Type other sell on marketplaces here"/></div>
@@ -380,11 +381,11 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 								
 				<div class="checklist-row method-integration margin-top-extra">
 
-					<div class="label-title">What is your prefered method of integration with digiDirect?<span>*</span></div>
+					<div class="label-title">List your preferred shipping or carrier method with free field<span>*</span></div>
 
 					<ul>
 						<li>
-							<label><input type="checkbox" value="M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)" name="preferedmethod[]" /> M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)</label>
+							<label><input type="checkbox" value="M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)" name="preferedmethod[]" /> M-Connect (quickest if you have one of the qualified platforms,Shopify, WooComerrce, Magento, BigCommerce, Lightspeed, Maropost)</label>
 						</li>
 						<li>
 							<label><input type="checkbox" value="Custom Built API connection" name="preferedmethod[]" /> Custom Built API connection</label>
@@ -452,17 +453,17 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                       </div>
                 </div>
 
-				<div class="inline-row">
+				<div class="inline-row country-select">
                       <div class="row1 margin-top-extra">
-							<div class="control">
+							<div class="control" id="country1">
 								<div class="label-title">Head Office Location<span>*</span></div>
-								<select id="seller_country_select" name="headoffice" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required></select>
+								<select class="mul-select" id="seller_country_select" name="headoffice" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required ></select>
 							</div>
                       </div>
                       <div class="row1 margin-top-extra">
-							<div class="control">
+							<div class="control" id="country2">
 								<div class="label-title">Warehouse Location Shipping Product from<span>*</span></div>
-								<select id="seller_country_select2" name="warehouse" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required></select>
+								<select class="mul-select" id="seller_country_select2" name="warehouse" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required ></select>
 							</div>
                       </div>
                 </div>
@@ -479,6 +480,38 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 						<input type="file" name="attachment" class="drop-zone__input">
 					</div>
 				</div>
+
+				<!-- <div>
+					<select name="fabric_color_en[]" id="fabric_color_en[]" multiple="multiple" class="form-control select2">
+						<option value="Beige">
+						Beige
+						</option>
+
+						<option value="Red">
+						Red
+						</option>
+
+						<option value="Petrol">
+						Petrol
+						</option>
+
+						<option value="Royal Blue">
+						Royal Blue
+						</option>
+
+						<option value="Dark Blue">
+						Dark Blue
+						</option>
+
+						<option value="Bottle Green">
+						Bottle Green
+						</option>
+
+						<option value="Light Grey">
+						Light Grey
+						</option>
+					</select>
+				</div> -->
 
 
 				<br>
@@ -597,12 +630,24 @@ function updateThumbnail(dropZoneElement, file) {
 		
 	var options="";
 	arr.map((op,i)=>{
-		options+=`<option value="" disabled selected>Choose</option><option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+		options+=`<option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
 	});
 
 	document.getElementById("seller_country_select").innerHTML=options;
 	document.getElementById("seller_country_select2").innerHTML=options;
 </script>
+
+
+<script>
+require(['jquery', 'jquery/ui'], function($){
+	$('.select2[multiple]').select2({
+		width: '100%',
+		closeOnSelect: false
+	});
+
+});
+</script>
+
 
 <script>
 
@@ -698,6 +743,7 @@ require(['jquery', 'jquery/ui'], function($){
 			
 
 		}); 
+		
 	});
 
 	// jQuery('.btn-primary"').on('click', function() {
@@ -708,3 +754,5 @@ require(['jquery', 'jquery/ui'], function($){
 });
 
 </script>
+
+
