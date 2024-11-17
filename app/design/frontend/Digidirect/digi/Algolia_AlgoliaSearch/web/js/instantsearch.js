@@ -615,10 +615,38 @@ define([
                             } else {
                                 item.digiSecondsRating= '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
                             }
-                            
                         }
                         
-                        if (item.custom_final_price) {
+                        //ajaxFinalPrice
+                        /*var ajaxFinalPrice;
+                        var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
+                        $.ajax({
+                            async: false,
+                            url: url,
+                            type: "POST",
+                            data: {
+                                id: item.objectID
+                            },
+                            success: function(data){
+                                ajaxFinalPrice = data;
+                                console.log("ajaxFinalPrice", ajaxFinalPrice);
+                                if ((ajaxFinalPrice < item.price.AUD.default) && ajaxFinalPrice != 0) {
+                                    item.ajaxFinalPrice = formatter.format(ajaxFinalPrice);
+                                    item.customFinalPrice =  formatter.format(ajaxFinalPrice);
+                                    item.discount = formatter.format(item.price.AUD.default - ajaxFinalPrice);
+                                    item.hasCustomFinalPrice = true;
+                                    item.hasNoCustomFinalPrice = false;
+                                    console.log("ajaxFinalPrice!");
+                                }
+                                console.log("Success!", data);
+                            },
+                                error: function(data){
+                                console.log("Error!", data);
+                            }
+                        });*/
+                        
+                        //custom_final_price
+                        /*if (item.custom_final_price) {
                             //Set price to custom_final_price
                             if ((item.custom_final_price < item.price.AUD.default) && item.custom_final_price != 0) {
                                 item.customFinalPrice =  formatter.format(item.custom_final_price);
@@ -626,11 +654,25 @@ define([
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
                             }
-                            
                             //Set price to default
-                            /*item.customFinalPrice =  formatter.format(item.price.AUD.default);
-                            item.hasCustomFinalPrice = false;
-                            item.hasNoCustomFinalPrice = true;*/
+                            //item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                            //item.hasCustomFinalPrice = false;
+                            //item.hasNoCustomFinalPrice = true;
+                        }*/
+                        
+                        //wiser_price
+                        if (item.wiser_price) {
+                            //Set price to custom_final_price
+                            if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0) {
+                                item.customFinalPrice =  formatter.format(item.wiser_price);
+                                item.discount = formatter.format(item.price.AUD.default - item.wiser_price);
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                            //Set price to default
+                            //item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                            //item.hasCustomFinalPrice = false;
+                            //item.hasNoCustomFinalPrice = true;
                         }
                         
                         item.isDigiPrint = false;

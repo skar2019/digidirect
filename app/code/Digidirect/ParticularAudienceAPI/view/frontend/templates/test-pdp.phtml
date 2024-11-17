@@ -3,6 +3,7 @@
     $productId = $block->getCurrentProduct()->getId();
     $block->getConfig();
 ?>
+
 <script>
     
 require(['jquery'], function ($) {
@@ -392,7 +393,7 @@ require(['jquery'], function ($) {
 
             if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open')) {
+            } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
@@ -972,41 +973,7 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     
-    $(document).ready(function(){
-        $(".owl-carousel.custom").owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 15,
-            responsive: {
-                0: {
-                    items:2
-                },
-                600: {
-                    items: 2
-                },
-                992: {
-                    items: 2
-                },
-                1024: {
-                    items: 4
-                },
-                1310: {
-                    items: 5
-                },
-                1366: {
-                    items: 4
-                },
-                1550: {
-                    items: 5
-                }
-            },
-            dots: false,
-            autoplay: false,
-            autoplayTimeout: 3000
-        })
-    });
-    
-    $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
+    $("#pa-digimarket-side-panel .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -1022,7 +989,7 @@ require(['jquery'], function ($) {
         var keywordId = $(this).attr("keyword-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
-    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+    $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -1357,9 +1324,30 @@ require(['jquery'], function ($) {
             $(thisElement).addClass("slot");
         }
     }
+    
+    //Owl Nav Slot Observer
+    $(".owl-carousel.custom .owl-nav button").click(function() {
+        console.log("Owl Nav Button Clicked!");
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
+    });
 
     window.addEventListener('scroll', function() {
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
@@ -1539,7 +1527,7 @@ require(['jquery'], function ($) {
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
             var tacticId = $(this).attr("tactic-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            //isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
         });
     });
     
@@ -1557,6 +1545,40 @@ require(['jquery'], function ($) {
     function stopMutationObserver() {
         observer.disconnect(); 
     }
+    
+    $(document).ready(function(){
+        $(".owl-carousel.custom").owlCarousel({
+            loop: true,
+            nav: true,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        })
+    });
     
     /*var minicart = $("#minicartSidebar");
     

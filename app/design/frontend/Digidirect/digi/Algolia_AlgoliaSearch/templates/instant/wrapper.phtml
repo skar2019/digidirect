@@ -20,6 +20,9 @@
             </div>
 
             <div class="col-md-9" id="algolia-right-container">
+                <div class="row" style="display: none;">
+                    <?php echo $this->getLayout()->createBlock("Magento\Theme\Block\Html\Title")->setTemplate("Magento_Theme::html/title.phtml")->toHtml() ?>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div>

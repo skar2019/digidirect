@@ -22,12 +22,6 @@ require(['jquery'], function ($) {
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = window.location.href;
     
-    var configCustomerId;
-    var configSessionId;
-    
-    configCustomerId = customerId;
-    configSessionId = sessionId;
-    
     function blueWidget(widgetId, appendTo) {
         let productItem = "";
         let priceBlock = "";
@@ -96,7 +90,7 @@ require(['jquery'], function ($) {
                                 '</div>';
                 }
 
-                var tileId = 'product-' + product.refId;
+                var tileId = widgetId + '-product-' + product.refId;
 
                 var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
 
@@ -202,7 +196,7 @@ require(['jquery'], function ($) {
                 
                 if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-                } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open')) {
+                } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
                 } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                     digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
@@ -309,11 +303,11 @@ require(['jquery'], function ($) {
                 }
                 var view = "";
                 if (isMobile) {
-                    view = "-mobile";
+                    view = "mobile";
                 } else {
-                    view = "-desktop";
+                    view = "desktop";
                 }
-                var tileId = 'product-' + product.refId + view;
+                var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
                 var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
 
@@ -373,40 +367,6 @@ require(['jquery'], function ($) {
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
     
-    $(document).ready(function(){
-        $(".owl-carousel.custom").owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 15,
-            responsive: {
-                0: {
-                    items:2
-                },
-                600: {
-                    items: 2
-                },
-                992: {
-                    items: 2
-                },
-                1024: {
-                    items: 4
-                },
-                1310: {
-                    items: 5
-                },
-                1366: {
-                    items: 4
-                },
-                1550: {
-                    items: 5
-                }
-            },
-            dots: false,
-            autoplay: false,
-            autoplayTimeout: 3000
-        })
-    });
-    
     $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
@@ -423,7 +383,7 @@ require(['jquery'], function ($) {
         var keywordId = $(this).attr("keyword-id");
         isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
-    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+    $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
@@ -491,8 +451,8 @@ require(['jquery'], function ($) {
         }
 
         const slotData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -526,6 +486,27 @@ require(['jquery'], function ($) {
     //Product Info Add To Cart
     $(".product-item-details").click(function() {
         $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
+    });
+    
+    //Owl Nav Slot Observer
+    $(".owl-carousel.custom .owl-prev:before, .owl-carousel.custom .owl-next:before").click(function() {
+        console.log("Owl Nav Button Clicked!");
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
     });
 
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
@@ -596,8 +577,8 @@ require(['jquery'], function ($) {
         }
 
         const clickData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
 
@@ -685,8 +666,8 @@ require(['jquery'], function ($) {
         }
         
         const productData = {
-            customerId: configCustomerId,
-            sessionId: configSessionId,
+            customerId: customerId,
+            sessionId: sessionId,
             events: [events]
         };
         
@@ -721,7 +702,31 @@ require(['jquery'], function ($) {
             $(thisElement).addClass("slot");
         }
     }
-
+    
+    jQuery.extend( jQuery.fn, {
+        // Name of our method & one argument (the parent selector)
+        hasParent: function(p) {
+            // Returns a subset of items using jQuery.filter
+            return this.filter(function(){
+                // Return truthy/falsey based on presence in parent
+                return $(p).find(this).length;
+            });
+        }
+    });
+    
+    function isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+        //console.log("element", element);
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            $(thisElement).hasParent(".active").addClass("slot");
+        }
+    }
+    
     window.addEventListener('scroll', function() {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
@@ -739,7 +744,7 @@ require(['jquery'], function ($) {
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        $(".pa-digidirect-product-widget .product-item-info.product-item:not(.slot)").each(function() {
+        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
@@ -753,9 +758,58 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
+    
+    /*const observer = new MutationObserver((mutations) => { 
+        if ($("#pa-minicart-desktop").length) {
+            //console.log("MutationObserver!");
+            productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
+            stopMutationObserver();
+        }
+    }); 
+    
+    const config = { attributes: true, childList: true, subtree: true }; 
+    observer.observe(document.body, config); 
+    
+    function stopMutationObserver() {
+        observer.disconnect(); 
+    }*/
+    
+    $(document).ready(function(){
+        $(".owl-carousel.custom").owlCarousel({
+            loop: true,
+            nav: true,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        })
+    });
     
 });
 
