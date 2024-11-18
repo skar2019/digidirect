@@ -355,10 +355,12 @@ require(['jquery'], function ($) {
     /*if (paWidgetId != "") {
         productTile(paWidgetId, '.products.items.product-items.-grid', false);
     }*/
-    
-    if (paWidgetId != "") {
-        productTile(paWidgetId, '.ais-Hits-list', false);
-    }
+
+    $(document).ready(function(){
+        if (paWidgetId != "") {
+            productTile(paWidgetId, '.ais-Hits-list', false);
+        }
+    });
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
