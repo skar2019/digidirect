@@ -6,6 +6,8 @@ $addToCartUrl = $listBlock->getAddToCartUrl($product);
 $seller = $product->getData('marketplacer_seller');
 ?>
 
+<script type="text/javascript" src="https://static.zip.co/lib/js/zm-widget-js/dist/zip-widget.min.js"></script>
+
 <div class="payment-gateways">
     <div class="row-first">
         <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
@@ -32,6 +34,16 @@ $seller = $product->getData('marketplacer_seller');
                 <span class="zip-interest">Interest free, flexible repayments</span> 
                 <span id="zip-apply-now" class="zip-apply-now">APPLY NOW!</span>                  
             </span>
+        </div>
+        <div style="cursor:pointer; display:none;" 
+            id="zip-product-widget"
+            data-zm-widget="popup" 
+            data-zm-region="au"
+            data-env="production"
+            data-zm-merchant="5a7e18db-dd65-4502-8814-2d8388807da8"      
+            data-zm-price="<?= $product->getData('final_price') ? $product->getData('final_price') : $product->getFinalPrice(); ?>" 
+            data-zm-asset="productwidget" 
+            data-zm-popup-asset="termsdialog">
         </div>
     </div>
     
