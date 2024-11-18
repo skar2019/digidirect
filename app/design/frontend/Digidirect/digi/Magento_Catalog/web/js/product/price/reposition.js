@@ -53,10 +53,12 @@ define([
         console.log("Changed To Trigger Click!");
     });
     
-    $('#zip-custom').on('click', function(){
-        $('#zip-product-widget').trigger("click");
-        console.log("ZIP Custom Clicked!");
-    });
+    $(document).ready(function(){
+        $('#zip-custom').on('click', function(){
+            $('#zip-product-widget').trigger("click");
+            console.log("ZIP Custom Clicked!");
+        });
+    });      
     
     $('#payment-options-toggle').on('click', function(){
         if($(this).hasClass("close")) {
