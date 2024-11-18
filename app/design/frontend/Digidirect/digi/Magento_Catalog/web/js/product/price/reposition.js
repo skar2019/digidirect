@@ -54,7 +54,7 @@ define([
     });
     
     $('#zip-custom').on('click', function(){
-        $('.zip-widget__wrapper').trigger("click");
+        $('#zip-product-widget').trigger("click");
         console.log("ZIP Custom Clicked!");
     });
     
