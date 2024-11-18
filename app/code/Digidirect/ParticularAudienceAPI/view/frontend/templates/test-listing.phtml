@@ -123,6 +123,7 @@ require(['jquery'], function ($) {
             
             let digiDealsLogo = "";
             let priceBlock = "";
+            let algoliaPriceBlock = "";
             let addToCart = "";
             
             let digiSeconds = "";
@@ -256,6 +257,10 @@ require(['jquery'], function ($) {
                                 '</div>' +
                                 '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
                             '</div>';
+                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"> <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">'+ priceToDisplay +'</span></span>' +
+                                        '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
+                                    '</div>' +
+                                    '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>';
             } else {
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
@@ -269,6 +274,9 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
+                algoliaPriceBlock = '<div class="price-wrapper"> <div> ' +
+                                        '<span class="after_special">' + priceToDisplay +'</span>' +
+                                    '</div></div> ';
             }
             
             var view = "";
@@ -305,14 +313,51 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>' +
                     '</div>'
-            $(prependTo).prepend(productItem);
+            
+            
+            var paProductItem = '<li class="ais-Hits-item" style="display: none;">' +
+                    digiDealsLogo + digiSeconds +
+                    '<div id="'+ tileId +'" class="pa-product product-item-info col-md-4 col-sm-6" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                        '<div class="result-wrapper" itemprop="item" itemtype="http://schema.org/Product">' +
+                            '<a class="result" href="' + product.url + '" data-objectid="'+ product.refId +'">' +
+                                '<div class="result-content">' +
+                                    '<div class="result-thumbnail">' +
+                                        '<img itemprop="image" src="' + product.images[0] + '" alt="' + product.name + '">' +
+                                    '</div>' +
+                                    '<div class="result-sub-content">' +
+                                        '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
+                                        '<div class="ratings">' +
+                                            '<div class="result-sub-content">'+
+                                                '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
+                                                    algoliaPriceBlock +
+                                                '</div>' +
+                                        '</div>' +
+                                        '<div class="result-description text-ellipsis"></div>' +
+                                        '<div class="s19-rental-price-target">' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
+                                        '</div>' +
+                                        addToCart +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="algolia-clearfix"></div>' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</li>';
+            
+            $(prependTo).prepend(paProductItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
-    if (paWidgetId != "") {
+    /*if (paWidgetId != "") {
         productTile(paWidgetId, '.products.items.product-items.-grid', false);
+    }*/
+    
+    if (paWidgetId != "") {
+        productTile(paWidgetId, '.ais-Hits-list', false);
     }
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {

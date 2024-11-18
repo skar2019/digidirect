@@ -488,27 +488,6 @@ require(['jquery'], function ($) {
         $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
     });
     
-    //Owl Nav Slot Observer
-    $(".owl-carousel.custom .owl-prev:before, .owl-carousel.custom .owl-next:before").click(function() {
-        console.log("Owl Nav Button Clicked!");
-        $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
-            var element = $(this).attr("id");
-            var productId = $(this).attr("product-id");
-            var recommenderId = $(this).attr("recommender-id");
-            var campaignId = $(this).attr("campaign-id");
-            var tacticId = $(this).attr("tactic-id");
-            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-            var adSetId = $(this).attr("adset-id");
-            var adSetVersion = $(this).attr("adset-version");
-            var costPerClick = $(this).attr("cost-per-click");
-            var timeStamp = $(this).attr("timestamp");
-            var hmacSalt = $(this).attr("hmac-salt");
-            var hmac = $(this).attr("hmac");
-            var keywordId = $(this).attr("keyword-id");
-            isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-        });
-    });
-
     $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
 
         var productId = $(this).attr("product-id");
@@ -714,7 +693,7 @@ require(['jquery'], function ($) {
         }
     });
     
-    function isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+    function isElementInViewPortOwlCarousel(currentElement, element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
         //console.log("element", element);
@@ -723,7 +702,7 @@ require(['jquery'], function ($) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-            $(thisElement).hasParent(".active").addClass("slot");
+            currentElement.addClass("slot");
         }
     }
     
@@ -758,7 +737,7 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPortOwlCarousel(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPortOwlCarousel($(this), element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
     
@@ -808,7 +787,29 @@ require(['jquery'], function ($) {
             dots: false,
             autoplay: false,
             autoplayTimeout: 3000
-        })
+        });
+    
+        //Owl Nav Slot Observer
+        $(".owl-carousel.custom .owl-prev:before, .owl-carousel.custom .owl-next:before").click(function() {
+            console.log("Owl Nav Button Clicked!");
+            $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+                var adSetId = $(this).attr("adset-id");
+                var adSetVersion = $(this).attr("adset-version");
+                var costPerClick = $(this).attr("cost-per-click");
+                var timeStamp = $(this).attr("timestamp");
+                var hmacSalt = $(this).attr("hmac-salt");
+                var hmac = $(this).attr("hmac");
+                var keywordId = $(this).attr("keyword-id");
+                isElementInViewPortOwlCarousel($(this), element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            });
+        });
+
     });
     
 });
