@@ -134,7 +134,7 @@
                 <value id="qantasimg" type="host">*.services.qantasloyalty.com</value>
                 <value id="adobetmimg" type="host">*.adobedtm.com</value>
                 <value id="latitudeimgsrc" type="host">*.latitudepayapps.com</value>
-                <value id="zipimgsrc" type="host">*.zip.co</value>
+                <value id="zipimgsrc" type="host">zip.co</value>
                 <value id="latitudeimgsrc" type="host">*.latitudefinancial.com</value>
             </values>
         </policy>
