@@ -63,7 +63,7 @@ class TrendingTechnologyProductsForYou extends \Magento\Framework\View\Element\T
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '6631ff51-60f5-ee11-abf3-02bf4bf6447c';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;

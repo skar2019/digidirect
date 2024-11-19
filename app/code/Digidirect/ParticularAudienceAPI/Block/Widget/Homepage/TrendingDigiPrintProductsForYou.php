@@ -63,7 +63,7 @@ class TrendingDigiPrintProductsForYou extends \Magento\Framework\View\Element\Te
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = 'd659416a-40f6-ee11-abf3-02bf4bf6447c';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;

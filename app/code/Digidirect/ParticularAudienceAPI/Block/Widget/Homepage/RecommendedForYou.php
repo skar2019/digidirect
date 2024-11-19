@@ -63,7 +63,7 @@ class RecommendedForYou extends \Magento\Framework\View\Element\Template impleme
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '94e9300c-023e-ec11-aae9-02dca44cceec';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;

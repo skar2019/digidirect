@@ -63,7 +63,7 @@ class TrendingDigiMarketProducts extends \Magento\Framework\View\Element\Templat
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '886fc4e3-a9f0-ee11-abf3-02bf4bf6447c';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
