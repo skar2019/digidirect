@@ -955,390 +955,41 @@ require(['jquery'], function ($) {
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
-    digiMarketSidePanel('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-side-panel');
-    if (isIphone16 && !isIphone15) {
-        frequentlyBoughtWith('0a147ac5-047a-ef11-abf3-02bf4bf6447c', '#pdp-frquently-bought-with-desktop');
-        bundleOverlay('ff513e77-387a-ef11-abf3-02bf4bf6447c', '#pdp-bundle-overlay-desktop');
-    } else if (isIphone15 && !isIphone16) {
-        frequentlyBoughtWith('2f97ea24-ed7a-ef11-abf3-02bf4bf6447c', '#pdp-frquently-bought-with-desktop');
-        bundleOverlay('b9aeeb4e-ed7a-ef11-abf3-02bf4bf6447c', '#pdp-bundle-overlay-desktop');
-    } else {
-        frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
-        bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
-    }
-    productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
-    productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-mobile', true);
-    productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-desktop', false);
-    productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-mobile', true);
-    productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
-    productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
-    
-    $("#pa-digimarket-side-panel .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
-        var element = $(this).attr("id");
-        var productId = $(this).attr("product-id");
-        var recommenderId = $(this).attr("recommender-id");
-        var campaignId = $(this).attr("campaign-id");
-        var tacticId = $(this).attr("tactic-id");
-        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        var adSetId = $(this).attr("adset-id");
-        var adSetVersion = $(this).attr("adset-version");
-        var costPerClick = $(this).attr("cost-per-click");
-        var timeStamp = $(this).attr("timestamp");
-        var hmacSalt = $(this).attr("hmac-salt");
-        var hmac = $(this).attr("hmac");
-        var keywordId = $(this).attr("keyword-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-    });
-    $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
-        var element = $(this).attr("id");
-        var productId = $(this).attr("product-id");
-        var recommenderId = $(this).attr("recommender-id");
-        var campaignId = $(this).attr("campaign-id");
-        var tacticId = $(this).attr("tactic-id");
-        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        var adSetId = $(this).attr("adset-id");
-        var adSetVersion = $(this).attr("adset-version");
-        var costPerClick = $(this).attr("cost-per-click");
-        var timeStamp = $(this).attr("timestamp");
-        var hmacSalt = $(this).attr("hmac-salt");
-        var hmac = $(this).attr("hmac");
-        var keywordId = $(this).attr("keyword-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-    });
-    
-    function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
+    $(document).ready(function(){
+        digiMarketSidePanel('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-side-panel');
+        if (isIphone16 && !isIphone15) {
+            frequentlyBoughtWith('0a147ac5-047a-ef11-abf3-02bf4bf6447c', '#pdp-frquently-bought-with-desktop');
+            bundleOverlay('ff513e77-387a-ef11-abf3-02bf4bf6447c', '#pdp-bundle-overlay-desktop');
+        } else if (isIphone15 && !isIphone16) {
+            frequentlyBoughtWith('2f97ea24-ed7a-ef11-abf3-02bf4bf6447c', '#pdp-frquently-bought-with-desktop');
+            bundleOverlay('b9aeeb4e-ed7a-ef11-abf3-02bf4bf6447c', '#pdp-bundle-overlay-desktop');
+        } else {
+            frequentlyBoughtWith('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop');
+            bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
+        }
+        productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
+        productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-mobile', true);
+        productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-desktop', false);
+        productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-mobile', true);
+        productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
+        productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
 
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
-
-        var date = new Date();
-        
-        var events = {
-                currentUrl: currentUrl,
-                eventTime: date.toISOString(),
-                refId: productId,
-                widgetId: widgetId,
-                routeId: routeId,              
-                recommenderId: recommenderId,
-                campaignId: campaignId,
-                tacticId: tacticId,
-                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
-                adSetId: adSetId,
-                adSetVersion: adSetVersion,
-                costPerClick: costPerClick,
-                timeStamp: timeStamp,
-                hmacSalt: hmacSalt,
-                hmac: hmac,
-                keywordId: keywordId
-            }
-            
-        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
-        }
-        if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
-        }
-        if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
-        }
-        if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
-        }
-        if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
-        }
-        if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
-        }
-        if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
-        }
-        if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
-        }
-
-        const slotData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [events]
-        };
-
-        console.log(JSON.stringify(slotData));
-
-        $.ajax({
-            //async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
-            type: "POST",
-            data: {
-                eventData: slotData
-            },
-            success: function(data){
-                console.log("slots", data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
+        $("#pa-digimarket-side-panel .owl-item.active .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-    }
-    
-    function uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-        .replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0, 
-                v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-
-    //Product Info Add To Cart
-    $(".product-item-details").click(function() {
-        $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
-    });
-
-    $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
-        var productId = $(this).attr("product-id");
-        var recommenderId = $(this).attr("recommender-id");
-        var campaignId = $(this).attr("campaign-id");
-        var tacticId = $(this).attr("tactic-id");
-        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        var adSetId = $(this).attr("adset-id");
-        var adSetVersion = $(this).attr("adset-version");
-        var costPerClick = $(this).attr("cost-per-click");
-        var timeStamp = $(this).attr("timestamp");
-        var hmacSalt = $(this).attr("hmac-salt");
-        var hmac = $(this).attr("hmac");
-        var keywordId = $(this).attr("keyword-id");
-        
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
-
-        var date = new Date();
-        
-        var events = {
-                currentUrl: currentUrl,
-                eventTime: date.toISOString(),
-                clickId: uuidv4(),
-                refId: productId,
-                actionType: 1,
-                contextType: 1,
-                routeId: routeId,
-                widgetId: widgetId,
-                routeId: routeId,              
-                recommenderId: recommenderId,
-                campaignId: campaignId,
-                tacticId: tacticId,
-                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
-                adSetId: adSetId,
-                adSetVersion: adSetVersion,
-                costPerClick: costPerClick,
-                timeStamp: timeStamp,
-                hmacSalt: hmacSalt,
-                hmac: hmac,
-                keywordId: keywordId
-            }
-            
-        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
-        }
-        if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
-        }
-        if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
-        }
-        if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
-        }
-        if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
-        }
-        if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
-        }
-        if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
-        }
-        if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
-        }
-
-        const clickData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [events]
-        };
-
-        //console.log(JSON.stringify(clickData));
-
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
-            type: "POST",
-            data: {
-                eventData: clickData
-            },
-            success: function(data){
-                console.log("clicks", data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-
-    });
-    
-    $(".pa-digidirect-product-widget .action.tocart").click(function(){
-
-        var productId = $(this).attr("product-id");
-        var recommenderId = $(this).attr("recommender-id");
-        var campaignId = $(this).attr("campaign-id");
-        var tacticId = $(this).attr("tactic-id");
-        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-        var adSetId = $(this).attr("adset-id");
-        var adSetVersion = $(this).attr("adset-version");
-        var costPerClick = $(this).attr("cost-per-click");
-        var timeStamp = $(this).attr("timestamp");
-        var hmacSalt = $(this).attr("hmac-salt");
-        var hmac = $(this).attr("hmac");
-        var keywordId = $(this).attr("keyword-id");
-        
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
-
-        var date = new Date();
-        var product = {"refId": productId, "quantity": 1};
-        
-        var events = {
-                currentUrl: currentUrl,
-                eventTime: date.toISOString(),
-                product: product,
-                widgetId: widgetId,
-                routeId: routeId,              
-                recommenderId: recommenderId,
-                campaignId: campaignId,
-                tacticId: tacticId,
-                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
-                adSetId: adSetId,
-                adSetVersion: adSetVersion,
-                costPerClick: costPerClick,
-                timeStamp: timeStamp,
-                hmacSalt: hmacSalt,
-                hmac: hmac,
-                keywordId: keywordId
-            }
-            
-        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
-        }
-        if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
-        }
-        if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
-        }
-        if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
-        }
-        if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
-        }
-        if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
-        }
-        if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
-        }
-        if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
-        }
-        
-        const productData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [events]
-        };
-        
-        //console.log("productData", JSON.stringify(productData));
-
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
-            type: "POST",
-            data: {
-                eventData: productData
-            },
-            success: function(data){
-                console.log("addtocart", data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-
-    });
-    
-    $("#product-addtocart-button").click(function(){
-
-        var productId = <?= $productId; ?>;
-        var quantity = $("#qty").attr("value");
-
-        var date = new Date();
-        
-        var events = {
-                currentUrl: currentUrl,
-                eventTime: date.toISOString(),
-                product: {"refId": productId, "quantity": quantity}
-            }
-
-        const productData = {
-            customerId: customerId,
-            sessionId: sessionId,
-            events: [events]
-        };
-
-        //console.log("productData", JSON.stringify(productData));
-
-        $.ajax({
-            async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
-            type: "POST",
-            data: {
-                eventData: productData
-            },
-            success: function(data){
-                console.log("addtocart", data);
-            },
-            error: function(){
-                console.log('AJAX Fail!');
-            }
-        });
-
-    });
-    
-    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
-        var thisElement = document.getElementById(element);
-        let rect = thisElement.getBoundingClientRect();
-
-        // check if element is completely visible inside the viewport
-        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
-            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
-            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-            $(thisElement).addClass("slot");
-        }
-    }
-    
-    function isElementInViewPortOwlCarousel(currentElement, element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
-        var thisElement = document.getElementById(element);
-        let rect = thisElement.getBoundingClientRect();
-        //console.log("element", element);
-        // check if element is completely visible inside the viewport
-        if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
-            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
-            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-            currentElement.addClass("slot");
-        }
-    }
-
-    window.addEventListener('scroll', function() {
         $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
             var element = $(this).attr("id");
             var productId = $(this).attr("product-id");
@@ -1353,192 +1004,541 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPortOwlCarousel($(this), element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-    }, false);
-    
-    //Frequently Bought With
-    $(".select-all-products-on-bundle").change(function() {
-        if(this.checked) {
-            $('.pa-bundle-product').each(function(){
-                if (!$(this).is(":checked")) {
-                    $(this).trigger('click');
+
+        function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
+
+            var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+            var date = new Date();
+
+            var events = {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    refId: productId,
+                    widgetId: widgetId,
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId,
+                    retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                    adSetId: adSetId,
+                    adSetVersion: adSetVersion,
+                    costPerClick: costPerClick,
+                    timeStamp: timeStamp,
+                    hmacSalt: hmacSalt,
+                    hmac: hmac,
+                    keywordId: keywordId
                 }
-            });
-        } else {
-            $('.pa-bundle-product').each(function(){
-                if ($(this).is(":checked")) {
-                    $(this).trigger('click');
-                }
-            });
-        }
-    });
 
-    $(".pa-bundle-product").change(function() {
-        var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
-        var bundleProductPrice = Number($(this).attr("data-product-price"));
-        console.log(bundleTotal, bundleProductPrice);
-        if(this.checked) {
-            var newBundleTotal = bundleTotal + bundleProductPrice;
-        } else {
-            var newBundleTotal = bundleTotal - bundleProductPrice;
-        }
-        $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
-    });
-    
-    $("#pdp-frquently-bought-with-desktop input").each(function() {
-        $(this).prop("checked", true);
-    });
-    
-    var fbwBundleTotal = 0;
-    $("#pdp-frquently-bought-with-desktop .pa-bundle-product").each(function() {
-        let bundleProductPrice = Number($(this).attr("data-product-price"));
-        fbwBundleTotal += bundleProductPrice;
-    });
-    $("#pa-bundle-total").text('$' + Number(fbwBundleTotal).toFixed(2));
-    
-    $("#pdp-bundle-overlay-desktop input").each(function() {
-        $(this).prop("checked", true);
-    });
-
-    var overlayBundleTotal = 0;
-    $("#pdp-bundle-overlay-desktop .pa-bundle-overlay-product").each(function() {
-        let bundleProductPrice = Number($(this).attr("data-product-price"));
-        overlayBundleTotal += bundleProductPrice;
-    });
-    $("#pa-bundle-overlay-total").text('$' + Number(overlayBundleTotal).toFixed(2));
-    
-    const observerMinicart = new MutationObserver((mutations) => {
-        console.log("MutationObserver!");
-        $('.action.showcart').addClass("-active");
-        $('#minicartSidebar').addClass("-active");
-        $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-    }); 
-
-    var miniCart = document.querySelector('.minicart-wrapper');
-    const configMinicart = { attributes: false, childList: true, subtree: true }; 
-
-    $("#add-bundle-tocart").click(function(){
-
-        var productIds = [];
-
-        $('.pa-bundle-product').each(function(){
-            if(this.checked) {
-                console.log("data-product-id: " + $(this).attr("data-product-id"));
-                productIds.push($(this).attr("data-product-id"));
+            if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+                delete events['retailBoostCollectionCampaignId']; 
             }
-        });
-
-        var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                productIds: productIds
-            },
-            success: function(data){
-                console.log("Success!");
-                observerMinicart.observe(miniCart, configMinicart);
-            },
-            error: function(){
-                console.log("Fail!");
+            if (!adSetId || adSetId == "undefined") {
+                delete events['adSetId']; 
             }
-        });
-        observerMinicart.disconnect();
-    });
+            if (!adSetVersion || adSetVersion == "undefined") {
+                delete events['adSetVersion']; 
+            }
+            if (!costPerClick || costPerClick == "undefined") {
+                delete events['costPerClick']; 
+            }
+            if (!timeStamp || timeStamp == "undefined") {
+                delete events['timeStamp']; 
+            }
+            if (!hmacSalt || hmacSalt == "undefined") {
+                delete events['hmacSalt']; 
+            }
+            if (!hmac || hmac == "undefined") {
+                delete events['hmac']; 
+            }
+            if (!keywordId || keywordId == "undefined") {
+                delete events['keywordId']; 
+            }
 
-    //Bundle Overlay
-    $(".select-all-products-on-bundle-overlay").change(function() {
-        if(this.checked) {
-            $('.pa-bundle-overlay-product').each(function(){
-                if (!$(this).is(":checked")) {
-                    $(this).trigger('click');
-                }
-            });
-        } else {
-            $('.pa-bundle-overlay-product').each(function(){
-                if ($(this).is(":checked")) {
-                    $(this).trigger('click');
+            const slotData = {
+                customerId: customerId,
+                sessionId: sessionId,
+                events: [events]
+            };
+
+            console.log(JSON.stringify(slotData));
+
+            $.ajax({
+                //async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+                type: "POST",
+                data: {
+                    eventData: slotData
+                },
+                success: function(data){
+                    console.log("slots", data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
                 }
             });
         }
-    });
 
-    $(".pa-bundle-overlay-product").change(function() {
-        var bundleTotal = Number($("#pa-bundle-overlay-total").text().substring(1));
-        var bundleProductPrice = Number($(this).attr("data-product-price"));
-        console.log(bundleTotal, bundleProductPrice);
-        if(this.checked) {
-            var newBundleTotal = bundleTotal + bundleProductPrice;
-        } else {
-            var newBundleTotal = bundleTotal - bundleProductPrice;
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+            .replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0, 
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         }
-        $("#pa-bundle-overlay-total").text('$' + Number(newBundleTotal).toFixed(2));
-    });
 
-    $("#add-bundle-overlay-tocart").click(function(){
-
-        var productIds = [];
-        $('.pa-bundle-overlay-product').each(function(){
-            if(this.checked) {
-                console.log("data-product-id: " + $(this).attr("data-product-id"));
-                productIds.push($(this).attr("data-product-id"));
-            }
+        //Product Info Add To Cart
+        $(".product-item-details").click(function() {
+            $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
         });
 
-        var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                productIds: productIds
-            },
-            success: function(data){
-                console.log("Success!");
-                observerMinicart.observe(miniCart, configMinicart);
-            },
-            error: function(){
-                console.log("Fail!");
-            }
-        });
-        observerMinicart.disconnect();
-        $("#bundle-overlay-container").hide();
-    });
-
-    $("#bundle-overlay-exit").click(function(){
-        $("#bundle-overlay-container").hide();
-    });
-
-    $("#product-addtocart-button").click(function(){
-        $("#bundle-overlay-container").show();
-        $("#pdp-bundle-overlay-desktop .product-item-info.product-item").each(function() {
-            var element = $(this).attr("id");
+        $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
             var tacticId = $(this).attr("tactic-id");
-            //isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+
+            var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+            var date = new Date();
+
+            var events = {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    clickId: uuidv4(),
+                    refId: productId,
+                    actionType: 1,
+                    contextType: 1,
+                    routeId: routeId,
+                    widgetId: widgetId,
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId,
+                    retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                    adSetId: adSetId,
+                    adSetVersion: adSetVersion,
+                    costPerClick: costPerClick,
+                    timeStamp: timeStamp,
+                    hmacSalt: hmacSalt,
+                    hmac: hmac,
+                    keywordId: keywordId
+                }
+
+            if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+                delete events['retailBoostCollectionCampaignId']; 
+            }
+            if (!adSetId || adSetId == "undefined") {
+                delete events['adSetId']; 
+            }
+            if (!adSetVersion || adSetVersion == "undefined") {
+                delete events['adSetVersion']; 
+            }
+            if (!costPerClick || costPerClick == "undefined") {
+                delete events['costPerClick']; 
+            }
+            if (!timeStamp || timeStamp == "undefined") {
+                delete events['timeStamp']; 
+            }
+            if (!hmacSalt || hmacSalt == "undefined") {
+                delete events['hmacSalt']; 
+            }
+            if (!hmac || hmac == "undefined") {
+                delete events['hmac']; 
+            }
+            if (!keywordId || keywordId == "undefined") {
+                delete events['keywordId']; 
+            }
+
+            const clickData = {
+                customerId: customerId,
+                sessionId: sessionId,
+                events: [events]
+            };
+
+            //console.log(JSON.stringify(clickData));
+
+            $.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+                type: "POST",
+                data: {
+                    eventData: clickData
+                },
+                success: function(data){
+                    console.log("clicks", data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
+                }
+            });
+
         });
-    });
-    
-    const observer = new MutationObserver((mutations) => { 
-        if ($("#pa-minicart-desktop").length) {
-            //console.log("MutationObserver!");
-            productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
-            stopMutationObserver();
+
+        $(".pa-digidirect-product-widget .action.tocart").click(function(){
+
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+
+            var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+            var date = new Date();
+            var product = {"refId": productId, "quantity": 1};
+
+            var events = {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: product,
+                    widgetId: widgetId,
+                    routeId: routeId,              
+                    recommenderId: recommenderId,
+                    campaignId: campaignId,
+                    tacticId: tacticId,
+                    retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                    adSetId: adSetId,
+                    adSetVersion: adSetVersion,
+                    costPerClick: costPerClick,
+                    timeStamp: timeStamp,
+                    hmacSalt: hmacSalt,
+                    hmac: hmac,
+                    keywordId: keywordId
+                }
+
+            if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+                delete events['retailBoostCollectionCampaignId']; 
+            }
+            if (!adSetId || adSetId == "undefined") {
+                delete events['adSetId']; 
+            }
+            if (!adSetVersion || adSetVersion == "undefined") {
+                delete events['adSetVersion']; 
+            }
+            if (!costPerClick || costPerClick == "undefined") {
+                delete events['costPerClick']; 
+            }
+            if (!timeStamp || timeStamp == "undefined") {
+                delete events['timeStamp']; 
+            }
+            if (!hmacSalt || hmacSalt == "undefined") {
+                delete events['hmacSalt']; 
+            }
+            if (!hmac || hmac == "undefined") {
+                delete events['hmac']; 
+            }
+            if (!keywordId || keywordId == "undefined") {
+                delete events['keywordId']; 
+            }
+
+            const productData = {
+                customerId: customerId,
+                sessionId: sessionId,
+                events: [events]
+            };
+
+            //console.log("productData", JSON.stringify(productData));
+
+            $.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+                type: "POST",
+                data: {
+                    eventData: productData
+                },
+                success: function(data){
+                    console.log("addtocart", data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
+                }
+            });
+
+        });
+
+        $("#product-addtocart-button").click(function(){
+
+            var productId = <?= $productId; ?>;
+            var quantity = $("#qty").attr("value");
+
+            var date = new Date();
+
+            var events = {
+                    currentUrl: currentUrl,
+                    eventTime: date.toISOString(),
+                    product: {"refId": productId, "quantity": quantity}
+                }
+
+            const productData = {
+                customerId: customerId,
+                sessionId: sessionId,
+                events: [events]
+            };
+
+            //console.log("productData", JSON.stringify(productData));
+
+            $.ajax({
+                async: false,
+                url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+                type: "POST",
+                data: {
+                    eventData: productData
+                },
+                success: function(data){
+                    console.log("addtocart", data);
+                },
+                error: function(){
+                    console.log('AJAX Fail!');
+                }
+            });
+
+        });
+
+        function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+            var thisElement = document.getElementById(element);
+            let rect = thisElement.getBoundingClientRect();
+
+            // check if element is completely visible inside the viewport
+            if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+                //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+                //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+                slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+                $(thisElement).addClass("slot");
+            }
         }
-    }); 
+
+        function isElementInViewPortOwlCarousel(currentElement, element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+            var thisElement = document.getElementById(element);
+            let rect = thisElement.getBoundingClientRect();
+            //console.log("element", element);
+            // check if element is completely visible inside the viewport
+            if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+                //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+                //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+                slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+                currentElement.addClass("slot");
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+                var adSetId = $(this).attr("adset-id");
+                var adSetVersion = $(this).attr("adset-version");
+                var costPerClick = $(this).attr("cost-per-click");
+                var timeStamp = $(this).attr("timestamp");
+                var hmacSalt = $(this).attr("hmac-salt");
+                var hmac = $(this).attr("hmac");
+                var keywordId = $(this).attr("keyword-id");
+                isElementInViewPortOwlCarousel($(this), element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            });
+        }, false);
+
+        //Frequently Bought With
+        $(".select-all-products-on-bundle").change(function() {
+            if(this.checked) {
+                $('.pa-bundle-product').each(function(){
+                    if (!$(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            } else {
+                $('.pa-bundle-product').each(function(){
+                    if ($(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            }
+        });
+
+        $(".pa-bundle-product").change(function() {
+            var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
+            var bundleProductPrice = Number($(this).attr("data-product-price"));
+            console.log(bundleTotal, bundleProductPrice);
+            if(this.checked) {
+                var newBundleTotal = bundleTotal + bundleProductPrice;
+            } else {
+                var newBundleTotal = bundleTotal - bundleProductPrice;
+            }
+            $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
+        });
+
+        $("#pdp-frquently-bought-with-desktop input").each(function() {
+            $(this).prop("checked", true);
+        });
+
+        var fbwBundleTotal = 0;
+        $("#pdp-frquently-bought-with-desktop .pa-bundle-product").each(function() {
+            let bundleProductPrice = Number($(this).attr("data-product-price"));
+            fbwBundleTotal += bundleProductPrice;
+        });
+        $("#pa-bundle-total").text('$' + Number(fbwBundleTotal).toFixed(2));
+
+        $("#pdp-bundle-overlay-desktop input").each(function() {
+            $(this).prop("checked", true);
+        });
+
+        var overlayBundleTotal = 0;
+        $("#pdp-bundle-overlay-desktop .pa-bundle-overlay-product").each(function() {
+            let bundleProductPrice = Number($(this).attr("data-product-price"));
+            overlayBundleTotal += bundleProductPrice;
+        });
+        $("#pa-bundle-overlay-total").text('$' + Number(overlayBundleTotal).toFixed(2));
+
+        const observerMinicart = new MutationObserver((mutations) => {
+            console.log("MutationObserver!");
+            $('.action.showcart').addClass("-active");
+            $('#minicartSidebar').addClass("-active");
+            $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+        }); 
+
+        var miniCart = document.querySelector('.minicart-wrapper');
+        const configMinicart = { attributes: false, childList: true, subtree: true }; 
+
+        $("#add-bundle-tocart").click(function(){
+
+            var productIds = [];
+
+            $('.pa-bundle-product').each(function(){
+                if(this.checked) {
+                    console.log("data-product-id: " + $(this).attr("data-product-id"));
+                    productIds.push($(this).attr("data-product-id"));
+                }
+            });
+
+            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    productIds: productIds
+                },
+                success: function(data){
+                    console.log("Success!");
+                    observerMinicart.observe(miniCart, configMinicart);
+                },
+                error: function(){
+                    console.log("Fail!");
+                }
+            });
+            observerMinicart.disconnect();
+        });
+
+        //Bundle Overlay
+        $(".select-all-products-on-bundle-overlay").change(function() {
+            if(this.checked) {
+                $('.pa-bundle-overlay-product').each(function(){
+                    if (!$(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            } else {
+                $('.pa-bundle-overlay-product').each(function(){
+                    if ($(this).is(":checked")) {
+                        $(this).trigger('click');
+                    }
+                });
+            }
+        });
+
+        $(".pa-bundle-overlay-product").change(function() {
+            var bundleTotal = Number($("#pa-bundle-overlay-total").text().substring(1));
+            var bundleProductPrice = Number($(this).attr("data-product-price"));
+            console.log(bundleTotal, bundleProductPrice);
+            if(this.checked) {
+                var newBundleTotal = bundleTotal + bundleProductPrice;
+            } else {
+                var newBundleTotal = bundleTotal - bundleProductPrice;
+            }
+            $("#pa-bundle-overlay-total").text('$' + Number(newBundleTotal).toFixed(2));
+        });
+
+        $("#add-bundle-overlay-tocart").click(function(){
+
+            var productIds = [];
+            $('.pa-bundle-overlay-product').each(function(){
+                if(this.checked) {
+                    console.log("data-product-id: " + $(this).attr("data-product-id"));
+                    productIds.push($(this).attr("data-product-id"));
+                }
+            });
+
+            var url = "https://www.digidirect.com.au/particularaudienceapi/index/frequentlyboughtwith";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    productIds: productIds
+                },
+                success: function(data){
+                    console.log("Success!");
+                    observerMinicart.observe(miniCart, configMinicart);
+                },
+                error: function(){
+                    console.log("Fail!");
+                }
+            });
+            observerMinicart.disconnect();
+            $("#bundle-overlay-container").hide();
+        });
+
+        $("#bundle-overlay-exit").click(function(){
+            $("#bundle-overlay-container").hide();
+        });
+
+        $("#product-addtocart-button").click(function(){
+            $("#bundle-overlay-container").show();
+            $("#pdp-bundle-overlay-desktop .product-item-info.product-item").each(function() {
+                var element = $(this).attr("id");
+                var productId = $(this).attr("product-id");
+                var recommenderId = $(this).attr("recommender-id");
+                var campaignId = $(this).attr("campaign-id");
+                var tacticId = $(this).attr("tactic-id");
+                //isElementInViewPort(element, productId, recommenderId, campaignId, tacticId);
+            });
+        });
+
+        const observer = new MutationObserver((mutations) => { 
+            if ($("#pa-minicart-desktop").length) {
+                //console.log("MutationObserver!");
+                productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
+                stopMutationObserver();
+            }
+        }); 
+
+        const config = { attributes: true, childList: true, subtree: true }; 
+        observer.observe(document.body, config); 
+
+        function stopMutationObserver() {
+            observer.disconnect(); 
+        }
     
-    const config = { attributes: true, childList: true, subtree: true }; 
-    observer.observe(document.body, config); 
-    
-    function stopMutationObserver() {
-        observer.disconnect(); 
-    }
-    
-    $(document).ready(function(){
         $(".owl-carousel.custom").owlCarousel({
             loop: true,
             nav: true,
