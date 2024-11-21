@@ -17,4 +17,8 @@ class TestPA extends \Magento\Framework\View\Element\Template implements \Magent
         $this->customer = $customerSession;
         parent::__construct($context, $data);
     }
+    
+    public function checkCustomer() {
+        return $this->customer;
+    }
 }
