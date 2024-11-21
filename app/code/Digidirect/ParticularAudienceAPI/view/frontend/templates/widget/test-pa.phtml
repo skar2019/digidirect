@@ -15,7 +15,7 @@ require(['jquery'], function ($) {
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    if (!sessionId || sessionId === undefined) {
+    if (!customerId || customerId === undefined || !sessionId || sessionId === undefined) {
         $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
@@ -26,10 +26,10 @@ require(['jquery'], function ($) {
             success: function(data){
                 console.log(data);
                 customerId = data.payload.customerId;
-                sessionId = data.payload.session.id
+                sessionId = data.payload.session.id;
             },
-            error: function(){
-                console.log('AJAX Get Config Fail!');
+            error: function(data){
+                console.log('Config Error!', data);
             }
         });
     }
