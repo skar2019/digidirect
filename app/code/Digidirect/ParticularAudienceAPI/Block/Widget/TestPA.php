@@ -19,8 +19,4 @@ class TestPA extends \Magento\Framework\View\Element\Template implements \Magent
         $this->_urlInterface = $urlInterface;
         parent::__construct($context, $data);
     }
-
-    public function getCurrentUrl() {
-        return rtrim($this->_urlInterface->getCurrentUrl(), '/');
-    }
 }
