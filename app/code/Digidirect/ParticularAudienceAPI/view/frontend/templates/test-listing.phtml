@@ -195,7 +195,7 @@ require(['jquery'], function ($) {
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                     '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                     '<input type="text" name="qty" value="1" hidden/>' +
-                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
                                     '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
                                     '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
@@ -374,6 +374,7 @@ require(['jquery'], function ($) {
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -386,12 +387,12 @@ require(['jquery'], function ($) {
         var hmacSalt = $(this).attr("hmac-salt");
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     
-    function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
+    function slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -474,6 +475,7 @@ require(['jquery'], function ($) {
 
     $(".pa-product.product-item-info").click(function(){
         
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -487,7 +489,7 @@ require(['jquery'], function ($) {
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
         
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -566,6 +568,7 @@ require(['jquery'], function ($) {
     
     $(".pa-product .action.tocart").click(function(){
 
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -579,7 +582,7 @@ require(['jquery'], function ($) {
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
         
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         var product = {"refId": productId, "quantity": 1};
@@ -653,7 +656,7 @@ require(['jquery'], function ($) {
 
     });
     
-    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+    function isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -661,7 +664,7 @@ require(['jquery'], function ($) {
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             $(thisElement).addClass("slot");
         }
     }
@@ -669,6 +672,7 @@ require(['jquery'], function ($) {
     window.addEventListener('scroll', function() {
         $(".pa-product.product-item-info:not(.slot)").each(function() {
             var element = $(this).attr("id");
+            var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
@@ -681,7 +685,7 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
     
