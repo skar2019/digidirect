@@ -130,7 +130,7 @@ require(['jquery'], function ($) {
 
                 var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
                 var rawProductName = product.name;
-                var productName = rawProductName.replace(/&nbsp;/g, ' ');
+                var productName = rawProductName.toString().replace(/&nbsp;/g, ' ');
                 productItem = productItemDiv +
                         '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                             '<span class="product-image-container" style="width: 240px;">' +
