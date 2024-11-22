@@ -1190,7 +1190,7 @@ require(['jquery'], function ($) {
 
     });
     
-    $(".pa-digidirect-product-widget .action.tocart:not(.pa-bundle-container)").click(function(){
+    $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container) .action.tocart").click(function(){
 
         var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
@@ -1488,7 +1488,7 @@ require(['jquery'], function ($) {
         });
         observerMinicart.disconnect();
         
-        $("#pdp-frquently-bought-with-desktop .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function(){
+        $("#pdp-frquently-bought-with-desktop .product-item-info.product-item:not(.pa-bundle-container)").each(function(){
 
             var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
