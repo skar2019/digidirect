@@ -1751,7 +1751,8 @@ require(['jquery'], function ($) {
     });
 
     $("#product-addtocart-button").click(function(){
-        $("#pdp-bundle-overlay-desktop  .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function(){
+        $("#bundle-overlay-container").show();
+        $("#pdp-bundle-overlay-desktop .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function(){
             var element = $(this).attr("id");
             var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
