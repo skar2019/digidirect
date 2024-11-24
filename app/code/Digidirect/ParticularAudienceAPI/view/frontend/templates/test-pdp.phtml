@@ -1345,6 +1345,23 @@ require(['jquery'], function ($) {
     }
 
     window.addEventListener('scroll', function() {
+        $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var widgetId = $(this).attr("widget-id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
         $("#pdp-frquently-bought-with-desktop .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
             var element = $(this).attr("id");
             var widgetId = $(this).attr("widget-id");
@@ -1635,7 +1652,6 @@ require(['jquery'], function ($) {
             }
         });
         observerMinicart.disconnect();
-        $("#bundle-overlay-container").hide();
         
         $("#pdp-bundle-overlay-desktop  .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function(){
             var element = $(this).attr("id");
@@ -1726,6 +1742,8 @@ require(['jquery'], function ($) {
             });
 
         });
+        
+        $("#bundle-overlay-container").hide();
     });
 
     $("#bundle-overlay-exit").click(function(){
