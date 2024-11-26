@@ -25,6 +25,8 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productCollectionFactory;                                                                          
     
     protected $_limit; // Limit Product
+    
+    protected $variable;
 
     /**
      * @param Context $context
@@ -39,11 +41,13 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Variable\Model\Variable $variable,
         array $data = []
     ) {
         $this->urlHelper = $urlHelper;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->variable = $variable;
         parent::__construct($context, $data);
     }
     
@@ -60,6 +64,12 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         $collection->addAttributeToFilter("marketplacer_seller", array("notnull" => true));
         
         return $collection;
+    }
+    
+    public function marketplacerProductsCount() {
+        $variableData = $this->variable->loadByCode('marketplacer_products_count');
+        $marketplacerProductsCount = $variableData->getValue('text');
+        return $marketplacerProductsCount;
     }
 
 }
