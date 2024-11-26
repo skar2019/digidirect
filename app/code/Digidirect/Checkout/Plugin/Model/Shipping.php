@@ -47,6 +47,8 @@ class Shipping {
         $swhsQty = 1;
         $melbQty = 1;
         
+        $hasBulkyItem = false;
+        
         foreach ($items as $item) {
 
             $prodId = $item->getProductId();
@@ -54,7 +56,11 @@ class Shipping {
             $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
+            
+            if($product->getData('bulky_item') && !$hasBulkyItem) {
+                $hasBulkyItem = true;
+            }
+            
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
                 $getQty = $sourceItem->getQuantity();
                 if ($getQty < 0) {
@@ -87,6 +93,13 @@ class Shipping {
                 return false;
             }
         }
+        
+        if ($hasBulkyItem) {
+            if ($carrierCode == 'nextdaydelivery') {
+                return false;
+            }
+        }
+        
         return $proceed($carrierCode, $request);
         
     }
