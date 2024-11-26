@@ -1864,35 +1864,35 @@ require(['jquery'], function ($) {
                 isElementInViewPortOwlCarousel($(this), element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             });
         });
+        
+        var htmlBody = $("#html-body");
+
+        const minicartObserver = new MutationObserver((mutations) => { 
+            if (htmlBody.hasClass("-minicart-opened")) {
+                $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
+                    var element = $(this).attr("id");
+                    var widgetId = $(this).attr("widget-id");
+                    var productId = $(this).attr("product-id");
+                    var recommenderId = $(this).attr("recommender-id");
+                    var campaignId = $(this).attr("campaign-id");
+                    var tacticId = $(this).attr("tactic-id");
+                    var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+                    var adSetId = $(this).attr("adset-id");
+                    var adSetVersion = $(this).attr("adset-version");
+                    var costPerClick = $(this).attr("cost-per-click");
+                    var timeStamp = $(this).attr("timestamp");
+                    var hmacSalt = $(this).attr("hmac-salt");
+                    var hmac = $(this).attr("hmac");
+                    var keywordId = $(this).attr("keyword-id");
+                    isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+                });
+            }
+        }); 
+
+        const minicartConfig = { attributes: true, childList: false, subtree: false }; 
+        minicartObserver.observe(htmlBody, minicartConfig); 
 
     });
-    
-    var htmlBody = $("#html-body");
-    
-    const minicartObserver = new MutationObserver((mutations) => { 
-        if (htmlBody.hasClass("-minicart-opened")) {
-            $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
-                var element = $(this).attr("id");
-                var widgetId = $(this).attr("widget-id");
-                var productId = $(this).attr("product-id");
-                var recommenderId = $(this).attr("recommender-id");
-                var campaignId = $(this).attr("campaign-id");
-                var tacticId = $(this).attr("tactic-id");
-                var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
-                var adSetId = $(this).attr("adset-id");
-                var adSetVersion = $(this).attr("adset-version");
-                var costPerClick = $(this).attr("cost-per-click");
-                var timeStamp = $(this).attr("timestamp");
-                var hmacSalt = $(this).attr("hmac-salt");
-                var hmac = $(this).attr("hmac");
-                var keywordId = $(this).attr("keyword-id");
-                isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-            });
-        }
-    }); 
-    
-    const minicartConfig = { attributes: true, childList: false, subtree: false }; 
-    minicartObserver.observe(htmlBody, minicartConfig); 
     
 });
 </script>
