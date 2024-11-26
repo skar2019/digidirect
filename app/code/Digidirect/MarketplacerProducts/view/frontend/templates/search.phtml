@@ -17,7 +17,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
 
 ?>
 
-<ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
+<ol class="products items product-items"
     data-mage-init='{
         "truncateCollection": {
             "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
@@ -114,7 +114,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
         <?php else: ?>
             <?= /* @escapeNotVerified */ '<li class="item product product-item">' ?>
         <?php endif; ?>
-        <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
+        <div class="product-item-info"
              data-container="product-grid"
              data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
              data-parent-product-id="<?= $block->escapeHtml($productId); ?>">
