@@ -127,6 +127,8 @@
             overflow: hidden !important;
             text-overflow: ellipsis;
             -webkit-line-clamp: 2;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
     }
 
@@ -650,10 +652,10 @@
     }
     
     .digiseconds-rating {
-        margin-left: 30px;
+        margin-left: 25px;
         margin-top: -21px;
         color: #ffae00;
-        font-size: 8px;
+        font-size: 7px;
     }
     
     .owl-item .digiseconds-rating {
@@ -1428,6 +1430,7 @@
     .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box>.old-price-wrapper>.old-price>.price-container>.price-label {
         font-weight: 600 !important;
         font-size: 9px !important;
+        display: none;
     }
 
     .product-item .price-box .old-price .price {

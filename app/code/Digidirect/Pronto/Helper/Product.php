@@ -483,7 +483,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
@@ -915,7 +915,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
@@ -1432,7 +1432,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];

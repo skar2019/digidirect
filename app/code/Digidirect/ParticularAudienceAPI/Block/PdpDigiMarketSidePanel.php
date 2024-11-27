@@ -69,7 +69,7 @@ class PdpDigiMarketSidePanel extends \Magento\Framework\View\Element\Template
             $refIdParam = "";
         }
         
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId); 
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;

@@ -1340,7 +1340,7 @@
     //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "Interest free, flexible repayments";
+        content: "24 months interest free";
     }
 
     .zip-container:last-child:after {
@@ -2049,21 +2049,13 @@
     }   
     
     .tooltip-bottom-awaiting {
-        top: 90%;
-        left: 50%;
-        margin-left: 53px;
+        top: -75px;
+        right: 30px;
         text-transform: none !important;
     }
-    
-    .tooltip-bottom-awaiting::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 10px;
-        border-style: solid;
-        border-color: transparent transparent #fff transparent;
+
+    .tooltip-bottom-awaiting:after {
+        display: none;
     }
     
     .itoris-pm-product-marker {
@@ -2707,6 +2699,48 @@
     .catalog-product-view .category-page-banner {
         display: none !important;
     }
+    
+    #zip-product-widget {
+        border: 1px solid #aa8fff;
+        border-radius: 5px;
+        display: flex;
+        padding: 5px;
+        background: #fff;
+    }
+    
+    #zip-product-widget .zip-container span {
+        font-size: 14px;
+        margin: 0 !important;
+        display: block !important;
+    }
+    
+    #zip-product-widget .zip-container:last-child:before {
+        display: none;
+    }
+    
+    #zip-product-widget .zip-container:last-child:after {
+        display: none;
+    }
+    
+    #zip-product-widget .zip-container span:first-of-type:before {
+        display: none;
+    }
+    
+    #zip-product-widget .zip-container span {
+        visibility: visible;
+    }
+    
+    #zip-product-widget img.zip-logo {
+        display: block !important;
+        height: 34px;
+        margin: 0 0 5px 0 !important;
+    }
+    
+    #zip-product-widget .zip-container span:last-of-type {
+        display: block !important;
+        font-size: 14px !important;
+    }
+    
 }
 
 //Redeploy
@@ -3115,7 +3149,7 @@
 
     .zip-container span:first-of-type:before {
         visibility: visible !important;
-        content: "Interest free, flexible repayments" !important;
+        content: "24 months interest free" !important;
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;

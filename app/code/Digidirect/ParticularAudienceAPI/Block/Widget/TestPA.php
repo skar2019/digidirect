@@ -5,22 +5,20 @@ namespace Digidirect\ParticularAudienceAPI\Block\Widget;
 
 class TestPA extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
-    protected $variable;
-    
-    protected $_urlInterface;
+    protected $customer;
     
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/test-pa.phtml';
   
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,    
-        \Magento\Framework\UrlInterface $urlInterface, 
+        \Magento\Backend\Block\Template\Context $context, 
+        \Magento\Customer\Model\Session $customerSession,   
         array $data = []
     ) {        
-        $this->_urlInterface = $urlInterface;
+        $this->customer = $customerSession;
         parent::__construct($context, $data);
     }
-
-    public function getCurrentUrl() {
-        return rtrim($this->_urlInterface->getCurrentUrl(), '/');
+    
+    public function checkCustomer() {
+        return $this->customer;
     }
 }

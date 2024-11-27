@@ -63,7 +63,7 @@ class TrendingPhotographyProductsForYou extends \Magento\Framework\View\Element\
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '4dd9e335-bef7-ee11-abf3-02bf4bf6447c';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;

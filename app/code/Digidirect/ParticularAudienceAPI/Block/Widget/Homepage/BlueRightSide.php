@@ -50,8 +50,8 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
     }
 
     public function getCookieValue(){
-        $customerId = $this->cookieManager->getCookie('PAC');
-        return $this->console_log("getCookie('PAC')");
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
+        return $this->console_log("getCookie('pa_customer_id')");
     }
 
     public function getRecommendedProducts(){
@@ -61,8 +61,8 @@ class BlueRightSide extends \Magento\Framework\View\Element\Template implements 
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '458d80ed-033e-ec11-aae9-02dca44cceec';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
-        $this->logger->info("PAC: " . $this->console_log("getCookie('PAC')"));
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
+        $this->logger->info("PAC: " . $this->console_log("getCookie('pa_customer_id')"));
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
         } else {

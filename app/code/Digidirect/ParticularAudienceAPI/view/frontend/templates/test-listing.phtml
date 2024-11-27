@@ -123,6 +123,7 @@ require(['jquery'], function ($) {
             
             let digiDealsLogo = "";
             let priceBlock = "";
+            let algoliaPriceBlock = "";
             let addToCart = "";
             
             let digiSeconds = "";
@@ -194,7 +195,7 @@ require(['jquery'], function ($) {
                                     'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                     '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                     '<input type="text" name="qty" value="1" hidden/>' +
-                                    '<input type="text" name="widget_id" value="631dfdd4-dc01-ef11-abf3-02bf4bf6447c" hidden/>' +
+                                    '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
                                     '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
                                     '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
                                     '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
@@ -256,6 +257,10 @@ require(['jquery'], function ($) {
                                 '</div>' +
                                 '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
                             '</div>';
+                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"> <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">'+ priceToDisplay +'</span></span>' +
+                                        '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
+                                    '</div>' +
+                                    '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>';
             } else {
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
@@ -269,6 +274,9 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
+                algoliaPriceBlock = '<div class="price-wrapper"> <div> ' +
+                                        '<span class="after_special">' + priceToDisplay +'</span>' +
+                                    '</div></div> ';
             }
             
             var view = "";
@@ -305,18 +313,68 @@ require(['jquery'], function ($) {
                             '</div>' +
                         '</div>' +
                     '</div>'
-            $(prependTo).prepend(productItem);
+            
+            
+            var paProductItem = '<li class="ais-Hits-item">' +
+                    digiDealsLogo + digiSeconds +
+                    '<div id="'+ tileId +'" class="pa-product product-item-info col-md-4 col-sm-6" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                        '<div class="result-wrapper" itemprop="item" itemtype="http://schema.org/Product">' +
+                            '<a class="result" href="' + product.url + '" data-objectid="'+ product.refId +'">' +
+                                '<div class="result-content">' +
+                                    '<div class="result-thumbnail">' +
+                                        '<img itemprop="image" src="' + product.images[0] + '" alt="' + product.name + '">' +
+                                    '</div>' +
+                                    '<div class="result-sub-content">' +
+                                        '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
+                                        '<div class="ratings">' +
+                                            '<div class="result-sub-content">'+
+                                                '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
+                                                    algoliaPriceBlock +
+                                                '</div>' +
+                                        '</div>' +
+                                        '<div class="result-description text-ellipsis"></div>' +
+                                        '<div class="s19-rental-price-target">' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
+                                        '</div>' +
+                                        addToCart +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="algolia-clearfix"></div>' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</li>';
+            
+            $(prependTo).prepend(paProductItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
-    if (paWidgetId != "") {
+    /*if (paWidgetId != "") {
         productTile(paWidgetId, '.products.items.product-items.-grid', false);
+    }*/
+
+    const observer = new MutationObserver((mutations) => { 
+        if ($(".ais-Hits-list").length) {
+            if (paWidgetId != "") {
+                productTile(paWidgetId, '.ais-Hits-list', false);
+            }
+            stopMutationObserver();
+        }
+    }); 
+    
+    const config = { attributes: true, childList: true, subtree: true }; 
+    observer.observe(document.body, config); 
+    
+    function stopMutationObserver() {
+        observer.disconnect(); 
     }
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -329,12 +387,12 @@ require(['jquery'], function ($) {
         var hmacSalt = $(this).attr("hmac-salt");
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
-        isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
     });
     
-    function slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
+    function slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -417,6 +475,7 @@ require(['jquery'], function ($) {
 
     $(".pa-product.product-item-info").click(function(){
         
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -430,7 +489,7 @@ require(['jquery'], function ($) {
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
         
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         
@@ -509,6 +568,7 @@ require(['jquery'], function ($) {
     
     $(".pa-product .action.tocart").click(function(){
 
+        var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");
         var recommenderId = $(this).attr("recommender-id");
         var campaignId = $(this).attr("campaign-id");
@@ -522,7 +582,7 @@ require(['jquery'], function ($) {
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
         
-        var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         var product = {"refId": productId, "quantity": 1};
@@ -596,7 +656,7 @@ require(['jquery'], function ($) {
 
     });
     
-    function isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+    function isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
 
@@ -604,7 +664,7 @@ require(['jquery'], function ($) {
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
-            slots(productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             $(thisElement).addClass("slot");
         }
     }
@@ -612,6 +672,7 @@ require(['jquery'], function ($) {
     window.addEventListener('scroll', function() {
         $(".pa-product.product-item-info:not(.slot)").each(function() {
             var element = $(this).attr("id");
+            var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
             var recommenderId = $(this).attr("recommender-id");
             var campaignId = $(this).attr("campaign-id");
@@ -624,7 +685,7 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
     

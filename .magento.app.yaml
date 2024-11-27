@@ -107,7 +107,7 @@ crons:
     spec: "* * * * *"
     cmd: "php bin/magento cron:run"
   algolia:
-      spec: '*/5 * * * *'
+      spec: '*/3 * * * *'
       cmd: 'bin/magento indexer:reindex algolia_queue_runner'
 
 # Environment variables

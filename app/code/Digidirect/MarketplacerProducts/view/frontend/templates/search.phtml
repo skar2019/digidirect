@@ -50,6 +50,7 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
         $categoryIds = $_product->getCategoryIds();
         $digiSecondsIds = array(2564,2567,2570,2573);
 
+        $seller = $_product->getAttributeText('marketplacer_seller');
         // digiprint
         $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
         $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
@@ -79,6 +80,11 @@ $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VI
                title="<?= $block->escapeHtml($productName); ?>"
                class="product photo product-item-photo"
                tabindex="-1">
+                
+                <?php if ($seller != "digiDirect"): ?>
+                    <div class="ribbon-online">Online only</div>
+                <?php endif; ?>
+                
                 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                     <?php if ($d2ItemCondition): ?>
                         <div class="digiseconds-overlay">

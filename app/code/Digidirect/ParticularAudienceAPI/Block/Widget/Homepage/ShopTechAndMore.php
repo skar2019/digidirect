@@ -63,7 +63,7 @@ class ShopTechAndMore extends \Magento\Framework\View\Element\Template implement
         $bearerToken = $variableData->getValue('text');
         $paWidgetId = '0bfcb498-893d-ef11-abf3-02bf4bf6447c';
 
-        $customerId = $this->cookieManager->getCookie('PAC');
+        $customerId = $this->cookieManager->getCookie('pa_customer_id');
         //$this->logger->info("customerId: " . $customerId);
         if ($customerId) {
             $customerIdParam = "&customerId=".$customerId;
