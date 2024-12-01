@@ -2014,42 +2014,42 @@ class Order extends AbstractHelper
                 $withpaymentref = false;
             }
             //gift cards
-            $withGC = false;
-            $gift_amount = $order->getGiftCardsAmount();
-            echo "gift_amount ".$gift_amount."<br/>";
-
-            if($gift_amount > 0)
-            {
-                $withGC = true;
-                $gift_amount = round($gift_amount, 2);
-                $gc_data = $order->getGiftCards();
-                $arr = explode(",",$gc_data);
-                $gc_ref = explode(":", $arr[1]);
-                $gc_reference = $gc_ref[1];
-                $gc_reference = str_replace('"', "", $gc_reference);
-
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
-            }
+//            $withGC = false;
+//            $gift_amount = $order->getGiftCardsAmount();
+//            echo "gift_amount ".$gift_amount."<br/>";
+//
+//            if($gift_amount > 0)
+//            {
+//                $withGC = true;
+//                $gift_amount = round($gift_amount, 2);
+//                $gc_data = $order->getGiftCards();
+//                $arr = explode(",",$gc_data);
+//                $gc_ref = explode(":", $arr[1]);
+//                $gc_reference = $gc_ref[1];
+//                $gc_reference = str_replace('"', "", $gc_reference);
+//
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
+//            }
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
 
             if($withpaymentref)
             {
-                if($withGC)
-                {
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
-                }
-                else
-                {
+//                if($withGC)
+//                {
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+//                }
+//                else
+//                {
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
+//                }
             }
 
 
@@ -2166,21 +2166,22 @@ class Order extends AbstractHelper
                     $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
                     $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
                     $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                    $producttotal += $surcharge;
                     $x++; // for shipping counter
                 }
 
-                if($coupon != "")
-                {
-                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
-                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                    $x++; // for shipping counter
-                }
+//                if($coupon != "")
+//                {
+//                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+//                    $x++; // for shipping counter
+//                }
 
 
                 $shippingprice = (double) $order->getShippingAmount();
@@ -2233,6 +2234,7 @@ class Order extends AbstractHelper
                 $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
                 $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                 $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+                $producttotal += $shippingprice;
             }
 
 
@@ -2243,18 +2245,18 @@ class Order extends AbstractHelper
             }
 
 
-            if($coupon != "")
-            {
-                $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
-                $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                $x++; // for shipping counter
-            }
+//            if($coupon != "")
+//            {
+//                $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+//                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+//                $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//                $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//                $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+//                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+//                $x++; // for shipping counter
+//            }
 
             //fixed shipping price as interim
 //            if($producttotal > 99)
