@@ -1,0 +1,8 @@
+<?php
+    $currentSeller = $block->getCurrentSeller();
+    $sellerId = $currentSeller->getId();
+?>
+
+<?php if ($currentSeller): ?>
+    <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('seller-' . $sellerId)->toHtml(); ?>
+<?php endif; ?>
