@@ -37,13 +37,8 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
     <div class="col-md-4 col-sm-6" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
-            <meta itemprop="url"
-                {{^__queryID}} content="{{url}}" {{/__queryID}}
-                {{#__queryID}} content="{{urlForInsights}}" {{/__queryID}}
-                />
-            <a class="result"
-                {{^__queryID}} href="{{url}}" {{/__queryID}}
-                {{#__queryID}} href="{{urlForInsights}}" {{/__queryID}}
+            <meta itemprop="url" content="{{url}}"/>
+            <a class="result" content="{{url}}"
                 data-objectid="{{objectID}}"
                 data-indexname="{{__indexName}}"
                 data-position="{{__position}}"

@@ -15,7 +15,7 @@ define([], function () {
 
         getItemHtml: function ({item, components, html}) {
             return html`<a class="algoliasearch-autocomplete-hit"
-                           href="${item.__autocomplete_queryID != null ? item.urlForInsights : item.url}"
+                           href="${item.url}"
                            data-objectId="${item.objectID}"
                            data-position="${item.position}"
                            data-index="${item.__autocomplete_indexName}"
