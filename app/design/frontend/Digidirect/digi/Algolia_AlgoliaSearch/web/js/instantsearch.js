@@ -661,7 +661,7 @@ define([
                         }*/
                         
                         //programmed_promotion_price
-                        var defaultOriginalPrice = item.price.AUD.default_original_formatted;
+                        /*var defaultOriginalPrice = item.price.AUD.default_original_formatted;
                         defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", ""));
                         
                         if (defaultOriginalPrice > item.price.AUD.default) {
@@ -671,7 +671,7 @@ define([
                             item.discount = formatter.format(priceDiscount);
                             item.hasCustomFinalPrice = true;
                             item.hasNoCustomFinalPrice = false;
-                        }
+                        }*/
                         
                         //wiser_price
                         if (item.wiser_price) {
