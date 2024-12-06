@@ -660,6 +660,19 @@ define([
                             //item.hasNoCustomFinalPrice = true;
                         }*/
                         
+                        //programmed_promotion_price
+                        var defaultOriginalPrice = item.price.AUD.default_original_formatted;
+                        defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", ""));
+                        
+                        if (defaultOriginalPrice > item.price.AUD.default) {
+                            //Set price to custom_final_price
+                            var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
+                            item.customFinalPrice =  item.price.AUD.default_original_formatted;
+                            item.discount = formatter.format(priceDiscount);
+                            item.hasCustomFinalPrice = true;
+                            item.hasNoCustomFinalPrice = false;
+                        }
+                        
                         //wiser_price
                         if (item.wiser_price) {
                             //Set price to custom_final_price
