@@ -662,6 +662,7 @@ define([
                         }*/
                         
                         //programmed_promotion_price
+                        console.log("item.price.AUD.default_original_formatted", item.price.AUD.default_original_formatted);
                         /*if (item.price.AUD.default_original_formatted !== "undefined") {
                             var defaultOriginalPrice = item.price.AUD.default_original_formatted;
                             defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", ""));
