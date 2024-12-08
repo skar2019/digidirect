@@ -662,20 +662,19 @@ define([
                         }*/
                         
                         //programmed_promotion_price
-                        console.log("item.price.AUD.default_original_formatted", item.price.AUD.default_original_formatted);
-                        /*if (item.price.AUD.default_original_formatted !== "undefined") {
-                            var defaultOriginalPrice = item.price.AUD.default_original_formatted;
+                        if (item.price.AUD.default_original_formated !== "undefined") {
+                            var defaultOriginalPrice = item.price.AUD.default_original_formated;
                             defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", ""));
 
                             if (defaultOriginalPrice > item.price.AUD.default) {
                                 //Set price to custom_final_price
                                 var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
-                                item.customFinalPrice =  item.price.AUD.default_original_formatted;
+                                item.customFinalPrice =  item.price.AUD.default_original_formated;
                                 item.discount = formatter.format(priceDiscount);
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;
                             }
-                        }*/
+                        }
                         
                         //wiser_price
                         if (item.wiser_price) {
