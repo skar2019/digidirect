@@ -670,7 +670,8 @@ define([
                             if (defaultOriginalPrice > item.price.AUD.default) {
                                 //Set price to custom_final_price
                                 var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
-                                item.customFinalPrice =  item.price.AUD.default_original_formated;
+                                item.defaultOriginalPrice = item.price.AUD.default_original_formated;
+                                item.customFinalPrice =  formatter.format(item.price.AUD.default);
                                 item.discount = formatter.format(priceDiscount);
                                 item.hasCustomFinalPrice = true;
                                 item.hasNoCustomFinalPrice = false;

@@ -78,7 +78,12 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                         {{#hasCustomFinalPrice}}
                                             <div class="price-wrapper"> 
                                                 <span class="price-container">
-                                                    <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
+                                                    {{#defaultOriginalPrice}}
+                                                        <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">{{defaultOriginalPrice}}</span>
+                                                    {{/defaultOriginalPrice}}
+                                                    {{^defaultOriginalPrice}}
+                                                        <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
+                                                    {{/defaultOriginalPrice}}
                                                 </span>
                                                 <div>  
                                                     <span class="after_special custom_final_price">{{customFinalPrice}}</span>
