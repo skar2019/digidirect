@@ -617,7 +617,6 @@ define([
                                 item.digiSecondsRating= '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
                             }
                         }
-                        
                         //ajaxFinalPrice
                         /*var ajaxFinalPrice;
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
