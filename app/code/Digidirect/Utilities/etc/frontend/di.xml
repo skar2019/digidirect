@@ -5,12 +5,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\Framework\View\Result\Page" type="Digidirect\Utilities\Preference\Magento\Framework\View\Result\Page" />
-    <type name="Magento\Framework\View\Result\Page">
-        <arguments>
-            <argument name="template" xsi:type="string">Digidirect_Utilities::root.phtml</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\Message\Manager">
         <plugin name="save_message" type="Digidirect\Utilities\Plugin\Magento\Framework\Message\Manager" sortOrder="100"/>
     </type>
