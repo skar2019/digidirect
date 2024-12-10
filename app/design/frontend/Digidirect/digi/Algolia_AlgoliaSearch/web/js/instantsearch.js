@@ -661,10 +661,10 @@ define([
                         }*/
                         
                         //programmed_promotion_price
-                        //console.log(item.price.AUD.default_original_formated);
+                        console.log(item.price.AUD.default_original_formated);
                         if (item.price.AUD.default_original_formated && item.price.AUD.default_original_formated !== "undefined") {
                             var defaultOriginalPrice = item.price.AUD.default_original_formated;
-                            defaultOriginalPrice = Number(defaultOriginalPrice.replace(/$|,/g, ""));
+                            defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
 
                             if (defaultOriginalPrice > item.price.AUD.default) {
                                 //Set price to custom_final_price
