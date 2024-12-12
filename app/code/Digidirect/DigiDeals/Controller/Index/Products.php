@@ -17,7 +17,7 @@ class Products extends \Magento\Framework\App\Action\Action
         \Psr\Log\LoggerInterface $logger,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollection,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Api\CategoryLinkRepositoryInterface $categoryLinkRepository
+        \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkRepository
     )
     {
         $this->logger = $logger;
