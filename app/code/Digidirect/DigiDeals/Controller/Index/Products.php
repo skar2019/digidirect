@@ -29,7 +29,7 @@ class Products extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $categoryId = 4080; //digiDeals
+        $categoryId = [4080]; //digiDeals
         $category = $this->categoryFactory->create()->load($categoryId);
         $categoryProducts = $category->getProductCollection()->addAttributeToSelect('sku');
 
