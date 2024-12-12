@@ -66,6 +66,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     <div class="box-tocart" style="display: none; margin-bottom: 0 !important;">
         <div class="fieldset qty-fieldset">
             <button type="submit"
+                onclick="openChat()"
                 class="action tocart btn_cart tocart-pdp-btn"
                 id="product-request-assistance"
                 data-action="add-to-cart-action"
@@ -136,12 +137,9 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 
 
 <script>
-    require(['jquery'], function ($) {
-        $('#product-request-assistance').on('click', function(){
-            $('#launcher').trigger("click");
-            console.log("Request Assistance Clicked!");
-        });
-    });
+    function openChat() {
+        zE('messenger', ‘open’);
+    }
 </script>
 
 <script type="text/x-magento-init">
