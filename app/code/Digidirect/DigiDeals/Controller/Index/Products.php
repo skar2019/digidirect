@@ -38,7 +38,7 @@ class Products extends \Magento\Framework\App\Action\Action
             try {
                 $isProductUnassigned = $this->categoryLinkRepository->deleteByIds($categoryId, $sku);
             } catch (Exception $ex) {
-                $this->logger->info("digiDeals, " . $ex->getMessage());
+                $this->logger->info("remove digiDeals, " . $ex->getMessage());
                 continue;
             }
         }
@@ -47,7 +47,12 @@ class Products extends \Magento\Framework\App\Action\Action
         $productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
             //print_r($product->getData('sku') . ',');
-            $this->categoryLinkRepository->assignProductToCategories($product->getData('sku'), $categoryId);
+            try {
+                $this->categoryLinkRepository->assignProductToCategories($product->getData('sku'), $categoryId);
+            } catch (Exception $ex) {
+                $this->logger->info("add digiDeals, " . $ex->getMessage());
+                continue;
+            }
         }
     }
     
