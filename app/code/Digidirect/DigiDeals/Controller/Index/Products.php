@@ -43,7 +43,7 @@ class Products extends \Magento\Framework\App\Action\Action
             }
         }
         
-        $categoryLinkRepository->assignProductToCategories(148264, $categoryId);
+        $this->categoryLinkRepository->assignProductToCategories(148264, $categoryId);
         /*$productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
             //print_r($product->getData('sku') . ',');
