@@ -555,6 +555,7 @@ define([
                         ).style.display = 'block';
                     }
                     return items.map(function (item) {
+                        console.log(item);
                         item.__indexName = search.helper.lastResults.index;
                         item = transformHit(item, algoliaConfig.priceKey, search.helper);
                         // FIXME: transformHit is a global
@@ -616,7 +617,6 @@ define([
                                 item.digiSecondsRating= '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
                             }
                         }
-                        
                         //ajaxFinalPrice
                         /*var ajaxFinalPrice;
                         var url = "https://www.digidirect.com.au/algoliaroute/index/finalprice";
@@ -660,6 +660,23 @@ define([
                             //item.hasNoCustomFinalPrice = true;
                         }*/
                         
+                        //programmed_promotion_price
+                        console.log(item.price.AUD.default_original_formated);
+                        if (item.price.AUD.default_original_formated && item.price.AUD.default_original_formated !== "undefined") {
+                            var defaultOriginalPrice = item.price.AUD.default_original_formated;
+                            defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+
+                            if (defaultOriginalPrice > item.price.AUD.default) {
+                                //Set price to custom_final_price
+                                var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
+                                item.defaultOriginalPrice = item.price.AUD.default_original_formated;
+                                item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                                item.discount = formatter.format(priceDiscount);
+                                item.hasCustomFinalPrice = true;
+                                item.hasNoCustomFinalPrice = false;
+                            }
+                        }
+                        
                         //wiser_price
                         if (item.wiser_price) {
                             //Set price to custom_final_price
@@ -684,8 +701,6 @@ define([
                             item.isDigiPrint = true;
                             item.isNotDigiPrint = false;
                         }
-                        
-                        console.log(item);
                         
                         //console.log(algoliaBundle.Hogan.parse(algoliaBundle.Hogan.scan("{{sku}}")));
                         //console.log(algoliaBundle.Hogan.parse("{{sku}}"));

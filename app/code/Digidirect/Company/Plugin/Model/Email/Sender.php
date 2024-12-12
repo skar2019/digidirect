@@ -465,8 +465,11 @@ class Sender extends \Magento\Company\Model\Email\Sender
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function sendUserStatusChangeNotificationEmail(CustomerInterface $customer, $status)
-    {
+    public function sendUserStatusChangeNotificationEmail(
+        CustomerInterface $customer,
+        int $status,
+        int $companyId
+    ) {
         $storeId = $customer->getStoreId();
         if (!$storeId) {
             $storeId = $this->getWebsiteStoreId($customer);
@@ -474,7 +477,7 @@ class Sender extends \Magento\Company\Model\Email\Sender
         $templateId = $status
             ? $this->emailTemplateConfig->getActivateCustomerTemplateId(ScopeInterface::SCOPE_STORE, $storeId)
             : $this->emailTemplateConfig->getInactivateCustomerTemplateId(ScopeInterface::SCOPE_STORE, $storeId);
-        $customerEmailData = $this->customerData->getDataObjectByCustomer($customer);
+        $customerEmailData = $this->customerData->getDataObjectByCustomer($customer, $companyId);
         if ($customerEmailData !== null) {
             $this->sendEmailTemplate(
                 $customer->getEmail(),

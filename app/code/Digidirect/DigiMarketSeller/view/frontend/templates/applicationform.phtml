@@ -28,8 +28,10 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 	$platform = $_POST["platform"];
 	$productsIntend = $_POST["productsIntend"];
 	$annual_sales = $_POST["annual_sales"];
-	$headoffice = $_POST["headoffice"];
-	$warehouse = $_POST["warehouse"];
+	// $headoffice = $_POST["headoffice"];
+	// $warehouse = $_POST["warehouse"];
+	$headoffice = implode(", ", $_POST['headoffice']);
+	$warehouse = implode(", ", $_POST['warehouse']);
 
 	$from_email = $_POST["businessname"]; //from mail, sender email address
 
@@ -221,7 +223,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 
 				<div class="inline-row">
                       <div class="row1 margin-top-extra">
-							<span>(This is the email address of the person who will be logging in to manage the retailer. We will send things like password resets here.)</span>
+							<span>(This is the main person's email address and phone number who will be logging into the digiMarket portal. We will send things like password resets here.)</span>
 							<div class="control input-placeholder">
 								<input type="email" id="adminEmail" name="adminEmail" required />
 								<div class="placeholder">Admin Email<span>*</span></div>
@@ -237,17 +239,18 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                 </div>
 
 				<div class="inline-row">
-                      <div class="row1">
-							<div class="control input-placeholder">
-								<input type="email" id="emailcc" name="emailcc" placeholder="Email CC (optional)" />
-							</div>
-                      </div>
-                      <div class="row1">
+						<div class="row1">
 							<div class="control input-placeholder">
 								<input type="number" id="phone" name="phone" required/>
 								<div class="placeholder">Contact Number<span>*</span></div>
 							</div>
-                      </div>
+						</div>
+
+						<div class="row1">
+							<div class="control input-placeholder">
+								<input type="email" id="emailcc" name="emailcc" placeholder="Email CC (optional)" />
+							</div>
+						</div>
                 </div>
 
 				<div class="remittance-row margin-top-extra">
@@ -318,7 +321,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 							<label><input type="checkbox" value="Toys (Digital, Remote, Electronic)" name="categories[]" /> Toys (Digital, Remote, Electronic)</label>
 						</li>
 						<li>
-							<label><input type="checkbox" value="" id="chkcat_other" name="categories[]" /> Other:</label>
+							<label><input type="checkbox" value="" id="chkcat_other" name="categories[]" /> Other: enable a field to enter other categories</label>
 						</li>
 					</ul>
 					<div style=""><input id="category_other" name="category_other" class="category_other" size="120" type="text" value="" placeholder="Type other category here"/></div>
@@ -371,7 +374,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 							<label><input type="checkbox" value="JB HiFi" name="sell[]" /> JB HiFi</label>
 						</li>
 						<li>
-							<label><input type="checkbox" value="" id="chksell_other"/> Other:</label>
+							<label><input type="checkbox" value="" id="chksell_other"/> Other: MP the applicant might list</label>
 						</li>
 					</ul>
 					<div style=""><input id="sell_other" name="sell_other" class="sell_other" size="120" type="text" value="" placeholder="Type other sell on marketplaces here"/></div>
@@ -380,11 +383,11 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 								
 				<div class="checklist-row method-integration margin-top-extra">
 
-					<div class="label-title">What is your prefered method of integration with digiDirect?<span>*</span></div>
+					<div class="label-title">List your preferred shipping or carrier method with free field<span>*</span></div>
 
 					<ul>
 						<li>
-							<label><input type="checkbox" value="M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)" name="preferedmethod[]" /> M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)</label>
+							<label><input type="checkbox" value="M-Connect (quickest if you have one of the qualified platforms, Magento, Shopify, Maropost etc)" name="preferedmethod[]" /> M-Connect (quickest if you have one of the qualified platforms,Shopify, WooComerrce, Magento, BigCommerce, Lightspeed, Maropost)</label>
 						</li>
 						<li>
 							<label><input type="checkbox" value="Custom Built API connection" name="preferedmethod[]" /> Custom Built API connection</label>
@@ -452,20 +455,31 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
                       </div>
                 </div>
 
-				<div class="inline-row">
-                      <div class="row1 margin-top-extra">
-							<div class="control">
-								<div class="label-title">Head Office Location<span>*</span></div>
-								<select id="seller_country_select" name="headoffice" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required></select>
-							</div>
-                      </div>
-                      <div class="row1 margin-top-extra">
-							<div class="control">
-								<div class="label-title">Warehouse Location Shipping Product from<span>*</span></div>
-								<select id="seller_country_select2" name="warehouse" style='color:gray; font-weight:400;' oninput='style.color="#323232"' required></select>
-							</div>
-                      </div>
-                </div>
+				<div class="multiselect control input-placeholder margin-top-extra">
+					<div class="label-title">Head Office Location<span>*</span></div>
+					<div class="selectBox" onclick="showCheckboxes1()">
+						<input type="text" id="headoffice" required />
+						<div class="placeholder">Choose Country<span>*</span></div>
+						<div class="overSelect"></div>
+					</div>
+					<div id="checkboxes1" class="checklist-row method-integration margin-top-extra">
+						<ul id="headoffice_country_list" >
+						</ul>
+					</div>
+				</div>
+
+				<div class="multiselect control input-placeholder margin-top-extra">
+					<div class="label-title">Warehouse Location Shipping Product from<span>*</span></div>
+					<div class="selectBox" onclick="showCheckboxes2()">
+						<input type="text" id="warehouse" required />
+						<div class="placeholder">Choose Country<span>*</span></div>
+						<div class="overSelect"></div>
+					</div>
+					<div id="checkboxes2" class="checklist-row method-integration margin-top-extra">
+						<ul id="warehouse_country_list" >
+						</ul>
+					</div>
+				</div>
 
 				<input type="text" id="faxnumber" name="faxnumber"/>
 
@@ -479,6 +493,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 						<input type="file" name="attachment" class="drop-zone__input">
 					</div>
 				</div>
+
 
 
 				<br>
@@ -496,6 +511,32 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 </div>
 
 
+<script>
+var expanded = false;
+
+function showCheckboxes1() {
+  let checkboxes = document.getElementById("checkboxes1");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+
+
+function showCheckboxes2() {
+  let checkboxes = document.getElementById("checkboxes2");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+</script>
 
 <script>
 document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
@@ -590,6 +631,8 @@ function updateThumbnail(dropZoneElement, file) {
 
 </script>
 
+
+
 <script>
 	var arr = [
 	"Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Congo","Congo, The Democratic Republic of The","Cook Islands","Costa Rica","Cote D'ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-bissau","Guyana","Haiti","Heard Island and Mcdonald Islands","Holy See (Vatican City State)","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran, Islamic Republic of","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Korea, Democratic People's Republic of","Korea, Republic of","Kuwait","Kyrgyzstan","Lao People's Democratic Republic","Latvia","Lebanon","Lesotho","Liberia","Libyan Arab Jamahiriya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia, The Former Yugoslav Republic of","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia, Federated States of","Moldova, Republic of","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory, Occupied","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Pierre and Miquelon","Saint Vincent and The Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia and The South Sandwich Islands","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Eswatini","Sweden","Switzerland","Syrian Arab Republic","Taiwan (ROC)","Tajikistan","Tanzania, United Republic of","Thailand","Timor-leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Virgin Islands, British","Virgin Islands, U.S.","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"
@@ -597,12 +640,52 @@ function updateThumbnail(dropZoneElement, file) {
 		
 	var options="";
 	arr.map((op,i)=>{
-		options+=`<option value="" disabled selected>Choose</option><option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+		options+=`<li><label><input type="checkbox" id="${i}" value="${op}" name="headoffice[]"/> ${op}</label></li>`
 	});
 
-	document.getElementById("seller_country_select").innerHTML=options;
-	document.getElementById("seller_country_select2").innerHTML=options;
+	document.getElementById("headoffice_country_list").innerHTML=options;
 </script>
+
+<script>
+	var arr = [
+	"Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Congo","Congo, The Democratic Republic of The","Cook Islands","Costa Rica","Cote D'ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-bissau","Guyana","Haiti","Heard Island and Mcdonald Islands","Holy See (Vatican City State)","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran, Islamic Republic of","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Korea, Democratic People's Republic of","Korea, Republic of","Kuwait","Kyrgyzstan","Lao People's Democratic Republic","Latvia","Lebanon","Lesotho","Liberia","Libyan Arab Jamahiriya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia, The Former Yugoslav Republic of","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia, Federated States of","Moldova, Republic of","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory, Occupied","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Pierre and Miquelon","Saint Vincent and The Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia and The South Sandwich Islands","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Eswatini","Sweden","Switzerland","Syrian Arab Republic","Taiwan (ROC)","Tajikistan","Tanzania, United Republic of","Thailand","Timor-leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Virgin Islands, British","Virgin Islands, U.S.","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"
+	];
+		
+	var options="";
+	arr.map((op,i)=>{
+		options+=`<li><label><input type="checkbox" id="${i}" value="${op}" name="warehouse[]"/> ${op}</label></li>`
+	});
+
+	document.getElementById("warehouse_country_list").innerHTML=options;
+</script>
+
+<script>
+
+require(['jquery', 'jquery/ui'], function($){
+
+	jQuery(document).ready( function() {
+		$('#checkboxes1 input').change(function() {
+			var s = $('#checkboxes1 input:checked').map(function() {
+			return this.value;
+			}).get().join(', ');
+			$('#headoffice').val((s.length > 0 ? s : ""));
+		});
+
+		$('#checkboxes2 input').change(function() {
+			var s = $('#checkboxes2 input:checked').map(function() {
+			return this.value;
+			}).get().join(', ');
+			$('#warehouse').val((s.length > 0 ? s : ""));
+		});
+
+	});
+
+});
+
+</script>
+
+
+
 
 <script>
 
@@ -698,6 +781,7 @@ require(['jquery', 'jquery/ui'], function($){
 			
 
 		}); 
+		
 	});
 
 	// jQuery('.btn-primary"').on('click', function() {
@@ -708,3 +792,5 @@ require(['jquery', 'jquery/ui'], function($){
 });
 
 </script>
+
+
