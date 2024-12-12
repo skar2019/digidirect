@@ -14,6 +14,29 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
+    <?php if ($_product->getIndentItem()): ?>
+        <div class="box-tocart" style="display: none;">
+            <div class="fieldset qty-fieldset">
+                <button type="submit"
+                    class="action tocart btn_cart tocart-pdp-btn"
+                    id="product-request-assistance"
+                    data-action="add-to-cart-action"
+                    style="background: #00C3FF !important; margin-right: 8px;">
+                    <span class="addcart_words"><?= /* @escapeNotVerified */ 'Request Assistance' ?></span>
+                </button>
+                <div class="product-addto-wishlist" data-role="add-to-wishlist">
+                    <?= $block->getLayout()
+                        ->createBlock('Magento\Wishlist\Block\Catalog\Product\ProductList\Item\AddTo\Wishlist')
+                        ->setProduct($_product)
+                        ->setTemplate("Magento_Wishlist::catalog/product/list/addto/wishlist.phtml")
+                        ->toHtml(); ?>
+                </div>
+            </div>
+            <?php if ($_product->getIndentItemMessage()): ?>
+                <div style="margin-top: 40px;text-align: center;"><?= $_product->getIndentItemMessage(); ?></div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     <div class="box-tocart">
         <div class="fieldset qty-fieldset">
             <?php if ($block->shouldRenderQuantity()): ?>
@@ -123,6 +146,14 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
 
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
 <script>
+    
+    require(['jquery'], function ($) {
+        $('#product-request-assistance').on('click', function(){
+            $('#launcher').trigger("click");
+            console.log("Request Assistance Clicked!");
+        });
+    });
+    
     function addToCartClick() {
         dataLayer.push({
             'event': 'DynamicRemarketing',
