@@ -63,7 +63,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </div>-->
 <?php endif; ?>
 <?php if ($_product->getIndentItem()): ?>
-    <div class="box-tocart" style="display: none; margin-bottom: 0 !important;">
+    <div class="box-tocart" style="margin-bottom: 0 !important;">
         <div class="fieldset qty-fieldset">
             <button type="submit"
                 onclick="openChat()"
@@ -85,32 +85,34 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
             <div style="margin-top: 40px;text-align: center;"><?= $_product->getIndentItemMessage(); ?></div>
         <?php endif; ?>
     </div>
-<?php endif; ?>
-<div class="product-add-form">
-    <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
-          action="<?= /* @NoEscape */ $block->getSubmitUrl($_product) ?>" method="post"
-          id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
-        <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $_product->getId() ?>" />
-        <input type="hidden" name="selected_configurable_option" value="" />
-        <input type="hidden" name="related_product" id="related-products-field" value="" />
-        <input type="hidden" name="item"  value="<?= /* @noEscape */ $block->getRequest()->getParam('id') ?>" />
-        <?= $block->getBlockHtml('formkey') ?>
-        <?= $block->getChildHtml('form_top') ?>
-        <?php if (!$block->hasOptions()):?>
-            <?= $block->getChildHtml('product_info_form_content') ?>
-        <?php else:?>
-            <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1'):?>
+<?php else:?>
+    <div class="product-add-form">
+        <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
+              action="<?= /* @NoEscape */ $block->getSubmitUrl($_product) ?>" method="post"
+              id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $_product->getId() ?>" />
+            <input type="hidden" name="selected_configurable_option" value="" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+            <input type="hidden" name="item"  value="<?= /* @noEscape */ $block->getRequest()->getParam('id') ?>" />
+            <?= $block->getBlockHtml('formkey') ?>
+            <?= $block->getChildHtml('form_top') ?>
+            <?php if (!$block->hasOptions()):?>
+                <?= $block->getChildHtml('product_info_form_content') ?>
+            <?php else:?>
+                <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1'):?>
+                    <?= $block->getChildChildHtml('options_container') ?>
+                <?php endif;?>
+            <?php endif; ?>
+
+            <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
                 <?= $block->getChildChildHtml('options_container') ?>
             <?php endif;?>
-        <?php endif; ?>
 
-        <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
-            <?= $block->getChildChildHtml('options_container') ?>
-        <?php endif;?>
+            <?= $block->getChildHtml('form_bottom') ?>
+        </form>
+    </div>
+<?php endif; ?>
 
-        <?= $block->getChildHtml('form_bottom') ?>
-    </form>
-</div>
 <!-- clint commented out requested by Haig 26 06 23-->
 <?php if($awaiting == 1):?>
     <div class="awaiting" id="awaiting-product">
