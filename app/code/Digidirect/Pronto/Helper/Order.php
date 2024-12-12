@@ -1271,7 +1271,7 @@ class Order extends AbstractHelper
                 if($islive)
                 {
                     $order->setData('initial_sync', 1);
-                    $order->save();
+                    //$order->save();
 
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
@@ -1351,7 +1351,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 3)
+            if($counter >= 5)
             {
                 return true; //return after 3 orders
             }
@@ -3339,7 +3339,7 @@ class Order extends AbstractHelper
                 }
 
             }
-            if ($counter >= 3) {
+            if ($counter >= 4) {
                 return true; //return after 3 orders
             }
 
