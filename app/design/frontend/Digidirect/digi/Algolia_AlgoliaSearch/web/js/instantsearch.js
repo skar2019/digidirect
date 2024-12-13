@@ -680,11 +680,20 @@ define([
                         } else {
                             //wiser_price
                             if (item.wiser_price) {
+                                
+                                var basePrice;
+                                
                                 //Set price to custom_final_price
                                 var defaultOriginalPrice = item.price.AUD.default_original_formated;
-                                defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
                                 
-                                var wiserDiscount = defaultOriginalPrice - item.wiser_price;
+                                if (defaultOriginalPrice) {
+                                    defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+                                    basePrice = defaultOriginalPrice;
+                                } else {
+                                    basePrice = item.price.AUD.default;
+                                }
+                                
+                                var wiserDiscount = basePrice - item.wiser_price;
                                 if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0 && wiserDiscount > 9) {
                                     item.customFinalPrice =  formatter.format(item.wiser_price);
                                     item.discount = formatter.format(wiserDiscount);
