@@ -681,10 +681,13 @@ define([
                             //wiser_price
                             if (item.wiser_price) {
                                 //Set price to custom_final_price
-                                var wiserDiscount = item.price.AUD.default - item.wiser_price;
+                                var defaultOriginalPrice = item.price.AUD.default_original_formated;
+                                defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+                                
+                                var wiserDiscount = defaultOriginalPrice - item.wiser_price;
                                 if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0 && wiserDiscount > 9) {
                                     item.customFinalPrice =  formatter.format(item.wiser_price);
-                                    item.discount = formatter.format(item.price.AUD.default - item.wiser_price);
+                                    item.discount = formatter.format(wiserDiscount);
                                     item.hasCustomFinalPrice = true;
                                     item.hasNoCustomFinalPrice = false;
                                 }
