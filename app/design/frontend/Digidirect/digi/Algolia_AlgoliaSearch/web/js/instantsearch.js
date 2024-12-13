@@ -660,37 +660,39 @@ define([
                             //item.hasNoCustomFinalPrice = true;
                         }*/
                         
-                        //programmed_promotion_price
-                        console.log(item.price.AUD.default_original_formated);
-                        if (item.price.AUD.default_original_formated && item.price.AUD.default_original_formated !== "undefined") {
-                            var defaultOriginalPrice = item.price.AUD.default_original_formated;
-                            defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+                        if (item.price.AUD.default < item.wiser_price) {
+                            //programmed_promotion_price
+                            console.log(item.price.AUD.default_original_formated);
+                            if (item.price.AUD.default_original_formated && item.price.AUD.default_original_formated !== "undefined") {
+                                var defaultOriginalPrice = item.price.AUD.default_original_formated;
+                                defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
 
-                            if (defaultOriginalPrice > item.price.AUD.default) {
+                                if (defaultOriginalPrice > item.price.AUD.default) {
+                                    //Set price to custom_final_price
+                                    var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
+                                    item.defaultOriginalPrice = item.price.AUD.default_original_formated;
+                                    item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                                    item.discount = formatter.format(priceDiscount);
+                                    item.hasCustomFinalPrice = true;
+                                    item.hasNoCustomFinalPrice = false;
+                                }
+                            }
+                        } else {
+                            //wiser_price
+                            if (item.wiser_price) {
                                 //Set price to custom_final_price
-                                var priceDiscount = defaultOriginalPrice - item.price.AUD.default;
-                                item.defaultOriginalPrice = item.price.AUD.default_original_formated;
-                                item.customFinalPrice =  formatter.format(item.price.AUD.default);
-                                item.discount = formatter.format(priceDiscount);
-                                item.hasCustomFinalPrice = true;
-                                item.hasNoCustomFinalPrice = false;
+                                var wiserDiscount = item.price.AUD.default - item.wiser_price;
+                                if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0 && wiserDiscount > 9) {
+                                    item.customFinalPrice =  formatter.format(item.wiser_price);
+                                    item.discount = formatter.format(item.price.AUD.default - item.wiser_price);
+                                    item.hasCustomFinalPrice = true;
+                                    item.hasNoCustomFinalPrice = false;
+                                }
+                                //Set price to default
+                                //item.customFinalPrice =  formatter.format(item.price.AUD.default);
+                                //item.hasCustomFinalPrice = false;
+                                //item.hasNoCustomFinalPrice = true;
                             }
-                        }
-                        
-                        //wiser_price
-                        if (item.wiser_price) {
-                            //Set price to custom_final_price
-                            var wiserDiscount = item.price.AUD.default - item.wiser_price;
-                            if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0 && wiserDiscount > 9) {
-                                item.customFinalPrice =  formatter.format(item.wiser_price);
-                                item.discount = formatter.format(item.price.AUD.default - item.wiser_price);
-                                item.hasCustomFinalPrice = true;
-                                item.hasNoCustomFinalPrice = false;
-                            }
-                            //Set price to default
-                            //item.customFinalPrice =  formatter.format(item.price.AUD.default);
-                            //item.hasCustomFinalPrice = false;
-                            //item.hasNoCustomFinalPrice = true;
                         }
                         
                         item.isDigiPrint = false;
