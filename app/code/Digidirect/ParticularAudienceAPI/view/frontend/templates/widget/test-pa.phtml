@@ -15,6 +15,28 @@ require(['jquery'], function ($) {
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
+    var recommendationsResult = <?= json_encode($block->getRecommendations()); ?>;
+    var widgets  = recommendationsResult.recommendations.route.widgets;
+    var routeId  = recommendationsResult.recommendations.route.id;
+    
+    blueWidget('458d80ed-033e-ec11-aae9-02dca44cceec', '#pa-blue-right-side-widget .pa-product-widget-container.real-container');
+    productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
+    productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-mobile', true);
+    productTile('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
+    productTile('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-mobile', true);
+    productTile('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-desktop', false);
+    productTile('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-mobile', true);
+    productTile('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-desktop', false);
+    productTile('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-mobile', true);
+    productTile('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-desktop', false);
+    productTile('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-mobile', true);
+    productTile('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
+    productTile('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-mobile', true);
+    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
+    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
+    productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
+    productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
+    
     if (!customerId || customerId === undefined || !sessionId || sessionId === undefined) {
         $.ajax({
             async: false,
