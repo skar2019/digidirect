@@ -32,7 +32,6 @@ class TestPA extends \Magento\Framework\View\Element\Template implements \Magent
     public function __construct(
         \Magento\Backend\Block\Template\Context $context, 
         \Magento\Customer\Model\Session $customerSession,   
-        \Magento\Backend\Block\Template\Context $context,  
         CookieManagerInterface $cookieManager,
         CookieMetadataFactory $cookieMetadataFactory,
         SessionManagerInterface $sessionManager,
