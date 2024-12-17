@@ -99,7 +99,7 @@ define([], function () {
             if (item['wiser_price']) {
                 //Set price to wiser_price
                 var wiserDiscount = item['price']['AUD']['default'] - item['wiser_price'];
-                if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0 && wiserDiscount > 9) {
+                if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
                     item.customFinalPrice =  formatter.format(item['wiser_price']);
                     return html `<div className="algoliasearch-autocomplete-price">
                             <span className="after_special custom_final_price">

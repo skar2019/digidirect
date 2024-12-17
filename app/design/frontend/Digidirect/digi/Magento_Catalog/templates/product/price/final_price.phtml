@@ -28,7 +28,7 @@
     if (is_null($wiserPrice) || $wiserPrice == 0) {
         $discountPrice = round($originalPrice - $promoPrice, 2);
     } else {
-        if (($wiserPrice < $promoPrice) && $discountWiserPrice >= 10) {
+        if ($wiserPrice < $promoPrice) {
             $discountPrice = round($originalPrice - $wiserPrice, 2);
         } else {
             $discountPrice = round($originalPrice - $promoPrice, 2);
