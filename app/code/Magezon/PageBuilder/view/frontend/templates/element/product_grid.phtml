@@ -68,11 +68,12 @@ $htmlId               = $element->getHtmlId();
                                                             </div>
                                                     <?php } ?>
 							<?php if ($showImage) { ?>
-                                                    
                                     <?php               
                                         $categoryIds = $_product->getCategoryIds();
-                                        $digiSecondsIds = array(2564,2567,2570,2573);    
+                                        $digiSecondsIds = array(2564,2567,2570,2573);
+                                        $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));  
                                         
+                                        $seller = $_product->getAttributeText('marketplacer_seller');
                                         $d2ItemCondition = $_product->getData('item_codition');
                                         $d2ItemRating = $_product->getData('item_rating');
                                         
@@ -94,7 +95,7 @@ $htmlId               = $element->getHtmlId();
                                                     
                                     <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                                         <?php if ($d2ItemCondition): ?>
-                                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                            <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
                                                 <?php 
                                                     $hasDiscountClass = "has-discount";
                                                 ?>
@@ -158,10 +159,26 @@ $htmlId               = $element->getHtmlId();
 		                    	?>
 		                        <?= $imgHtml ?>
 		                    </a>
-                                    <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                                        <div class="digideals-overlay">
-                                            <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                        </div>
+                                    <?php if ($seller != "digiDirect" && $seller != ""): ?>
+                                        <div class="ribbon-online">Online only</div>
+                                    <?php else: ?>
+                                        <?php if ($is_digiPrint == 1): ?>
+                                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                                <?php 
+                                                    $hasDiscountClass = "has-discount";
+                                                ?>
+                                                <div class="ribbon-digideals">digiDeals</div>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                                <?php 
+                                                    $hasDiscountClass = "has-discount";
+                                                ?>
+                                                <?php if ($isDigiSeconds == 0): ?>
+                                                    <div class="ribbon-digideals">digiDeals</div>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     <?php endif; ?>
 							<?php } ?>
 							<div class="product details product-item-details">
@@ -189,6 +206,10 @@ $htmlId               = $element->getHtmlId();
 									<div class="product-item-actions">
 										<?php if ($showCart) { ?>
 											<div class="actions-primary">
+                                                                                            <div class="s19-rental-price-target">
+                                                                                                <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                                                                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                                                                            </div>
 												<?php if ($_product->isSaleable()) { ?>
 													<?php $postParams = $block->getAddToCartPostParams($_product); ?>
                                                                                             

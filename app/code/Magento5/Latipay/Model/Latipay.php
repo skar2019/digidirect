@@ -83,7 +83,7 @@ class Latipay extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Payment\Model\Method\Logger $logger
      * @param \Magento5\Latipay\Helper\Latipay $helper
      * @param \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
-     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
+     * @param \Magento\Framework\HTTP\LaminasClientFactory $httpClientFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
      * @param \Magento\Framework\DB\Transaction $transaction
@@ -100,7 +100,7 @@ class Latipay extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento5\Latipay\Helper\Latipay $helper,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
-        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \Magento\Framework\HTTP\LaminasClientFactory $httpClientFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Framework\DB\Transaction $transaction,

@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="head.additional">
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/head.phtml" name="canonical-tag" />
-        </referenceBlock>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
-        
-        <move element="page.main.title" destination="category.view.container" before="-"/>
+        <referenceBlock name="sidebar.main" remove="true"/>
+        <referenceBlock name="sidebar.additional" remove="true"/>
+        <referenceBlock name="catalog.leftnav" remove="true"/>
         
         <referenceContainer name="content">
             <block class="Magento\Cms\Block\Block" name="pdp.banner" before="category.products">
@@ -17,6 +15,9 @@
             </block>
             <block class="Magento\Catalog\Block\Category\View" name="category.products" template="Magento_Catalog::category/products.phtml">
                 <block class="Magento\Catalog\Block\Product\ListProduct" name="category.products.list" as="product_list" template="Magento_Catalog::product/list.phtml">
+                    <action method="setDefaultDirection">
+                        <argument name="dir" xsi:type="string">desc</argument>
+                    </action>
                     <container name="category.product.list.additional" as="additional" />
                     <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
                         <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
@@ -44,9 +45,8 @@
         </referenceContainer>
         
         <referenceContainer name="content">
+            <block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="Magento_Theme::html/title.phtml"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" after="banner-category"/>
-            <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="productlisting.mobile.toolbar" template="Magento_Catalog::product/list/toolbar/toolbar.phtml" after="custom-sorter"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-featured-banner.phtml" name="custom-featured-banner" after="banner-category"/>  
         </referenceContainer>
 
@@ -59,16 +59,10 @@
         </referenceBlock>
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
-   
-<!--        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background category-background">
-            <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
-                   after="-"
-                   template="Magento_Catalog::category/category-bg.phtml">
-            </block>
-        </referenceContainer>-->
         
         <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
         <move element="category.description" destination="main.content" after="-" />
         <move element="breadcrumbs" destination="columns.top" before="-"/>
+        
     </body>
 </page>

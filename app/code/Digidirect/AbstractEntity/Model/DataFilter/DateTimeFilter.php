@@ -50,7 +50,7 @@ class DateTimeFilter implements DataFilterInterface
             }
 
             // make sure the date is converted to internal format
-            $inputFilter = new \Zend_Filter_Input(
+            $inputFilter = new \Magento\Framework\Filter\FilterInput(
                 $dateFieldFilters,
                 [],
                 $data

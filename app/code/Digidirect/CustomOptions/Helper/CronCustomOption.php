@@ -10,23 +10,26 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
     protected $_productRepository;
     protected $_giftCardHelper;
     protected $_productOptionFactory;
+    protected $_logger;
 
     public function __construct(
         \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Catalog\Model\Product $productRepository,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Psr\Log\LoggerInterface $logger
     ){
         $this->_productOptions = $productOptions;
         $this->_productRepositoryInterface = $productRepositoryInterface;
         $this->_productRepository = $productRepository;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_productOptionFactory = $productOptionFactory;
+        $this->_logger = $logger;
     }
 
     public function saveCustomOption(){
-
+        $this->logger->info('saveCustomOption()');
         $catIds = array(2564,2567,2570,2573,812,308);
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
@@ -86,6 +89,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 134.95');
                 }
                 else if($price > 2000)
                 {
@@ -104,6 +108,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 284.95');
                 }
                 else
                 {
@@ -122,23 +127,39 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
+                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 89.95');
                 }
+
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
                 try {
 
-                    $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
                     $this->_productRepository->setHasOptions(1);
                     $this->_productRepository->setCanSaveCustomOptions(true);
                     $product = $this->_productRepository;
-                    $option->setProductId($this->_productRepository->getData('row_id'))
+
+                    $option = $objectManager->create(\Magento\Catalog\Model\Product\Option::class)
+                        ->setProductId($product->getId())
                         ->setStoreId($product->getStoreId())
                         ->addData($optionsArray);
                     $option->save();
                     $product->addOption($option);
-                    $product->save();
+
+                    $objectManager->create('Magento\Catalog\Api\ProductRepositoryInterface')->save($product);
+
+//                    $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
+//                    $this->_productRepository->setHasOptions(1);
+//                    $this->_productRepository->setCanSaveCustomOptions(true);
+//                    $product = $this->_productRepository;
+//                    $option->setProductId($this->_productRepository->getData('row_id'))
+//                        ->setStoreId($product->getStoreId())
+//                        ->addData($optionsArray);
+//                    $option->save();
+//                    $product->addOption($option);
+//                    $product->save();
 
                 } catch (\Exception $exception) {
-                    //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
+                    throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
                 $x++;
             }

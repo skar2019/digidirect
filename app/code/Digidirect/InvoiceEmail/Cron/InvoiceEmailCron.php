@@ -17,8 +17,8 @@ class InvoiceEmailCron
     protected $helper;
     
     public function __construct(
-            LoggerInterface $logger,
-            InvoiceEmail $helper)
+        LoggerInterface $logger,
+        InvoiceEmail $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;

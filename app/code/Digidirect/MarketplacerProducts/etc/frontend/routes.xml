@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route id="digimarket" frontName="digimarket">
+        <route id="digimarket-marketplacer" frontName="digimarket-marketplacer">
             <module name="Digidirect_MarketplacerProducts" />
         </route>
     </router>

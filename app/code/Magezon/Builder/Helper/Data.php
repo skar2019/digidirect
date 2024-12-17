@@ -59,6 +59,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     ];
 
     /**
+     * @var ClientInterface
+     */
+    protected $client;
+
+    /**
      * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
@@ -82,6 +87,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Framework\App\State
      */
     protected $appState;
+
+    /**
+     * @var \Magento\Cms\Model\ResourceModel\Page\CollectionFactory
+     */
+    protected $pageCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     */
+    protected $categoryCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
+     * @var \Magento\Framework\Filter\Template\Tokenizer\ParameterFactory
+     */
+    protected $parameterFactory;
 
     /**
      * @var \Magento\Framework\View\LayoutInterface
@@ -114,21 +139,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_flatElements = [];
 
     /**
-     * @param ClientInterface                                                 $client
-     * @param \Magento\Framework\App\Helper\Context                           $context
-     * @param \Magento\Framework\View\Asset\Repository                        $assetRepo
-     * @param \Magento\Store\Model\StoreManagerInterface                      $storeManager
-     * @param \Magento\Backend\Model\UrlInterface                             $backendUrl
-     * @param \Magento\Framework\Stdlib\ArrayManager                          $arrayManager
-     * @param \Magento\Framework\App\State                                    $appState
-     * @param \Magento\Framework\View\LayoutInterface                         $layout
-     * @param \Magento\Framework\Filter\Template\Tokenizer\ParameterFactory   $parameterFactory
-     * @param \Magento\Cms\Model\ResourceModel\Page\CollectionFactory         $pageCollectionFactory
+     * @param ClientInterface $client
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
+     * @param \Magento\Framework\Stdlib\ArrayManager $arrayManager
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\Filter\Template\Tokenizer\ParameterFactory $parameterFactory
+     * @param \Magento\Cms\Model\ResourceModel\Page\CollectionFactory $pageCollectionFactory
      * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
-     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory  $productCollectionFactory
-     * @param \Magezon\Core\Helper\Data                                       $coreHelper
-     * @param \Magezon\Builder\Model\Source\ResizableSizes                    $resizableSizes
-     * @param \Magezon\Builder\Model\CacheManager                             $cacheManager
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+     * @param \Magezon\Core\Helper\Data $coreHelper
+     * @param \Magezon\Builder\Model\Source\ResizableSizes $resizableSizes
+     * @param \Magezon\Builder\Model\CacheManager $cacheManager
      */
     public function __construct(
         ClientInterface $client,

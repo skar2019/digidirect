@@ -31,12 +31,16 @@ class DefaultOptionModel extends Serialized
      */
     protected function _prepareKey($attributes = [])
     {
-        foreach ($attributes as &$attribute) {
-            if (is_array($attribute)) {
-                $attribute = $this->_prepareKey($attribute);
+        if (is_array($attributes) || is_object($attributes))
+        {
+            foreach ($attributes as &$attribute) {
+                if (is_array($attribute)) {
+                    $attribute = $this->_prepareKey($attribute);
+                }
             }
+            return md5($this->getField() . '-' . implode('_', array_values($attributes)));
         }
-        return md5($this->getField() . '-' . implode('_', array_values($attributes)));
+
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace Digidirect\AI\Model\Lib\Connector;
 
-use Laminas\Http\ClientFactory as HttpClientFactory;
-use Laminas\Http\Client as HttpClient;
-use Laminas\Http\Request as HttpRequest;
-use Laminas\Http\Response as HttpResponse;
+use Zend\Http\ClientFactory as HttpClientFactory;
+use Zend\Http\Client as HttpClient;
+use Zend\Http\Request as HttpRequest;
+use Zend\Http\Response as HttpResponse;
 use Magento\Framework\Filesystem\Driver\File as FileSystemDriver;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResourceConnection;
@@ -76,7 +76,7 @@ class CurlHttpClient
     protected $directoryList;
 
     /**
-     * @see \Laminas\Http\Client::config
+     * @see \Zend\Http\Client::config
      *
      * @var array
      */
@@ -86,7 +86,7 @@ class CurlHttpClient
         'useragent' => HttpClient::class,
         'timeout' => 60,
         'connecttimeout' => null,
-        'adapter' => \Laminas\Http\Client\Adapter\Curl::class,
+        'adapter' => \Zend\Http\Client\Adapter\Curl::class,
         'httpversion' => HttpRequest::VERSION_11,
         'storeresponse' => true,
         'keepalive' => false,
@@ -264,7 +264,7 @@ class CurlHttpClient
     }
 
     /**
-     * @param string|\Laminas\Uri\Http $uri
+     * @param string|\Zend\Uri\Http $uri
      * @return $this
      * @throws Exceptions\RequestException
      */
@@ -273,7 +273,7 @@ class CurlHttpClient
         try {
             $this->log('request uri: ' . $uri);
             $this->httpClient->setUri($uri);
-        } catch (\Laminas\Uri\Exception\ExceptionInterface $e) {
+        } catch (\Zend\Uri\Exception\ExceptionInterface $e) {
             $this->logAnyway('Could not set Uri. Zend Uri Exception: ' . $e->getMessage(), 'error');
             throw new Exceptions\RequestException(__('Invalid URI supplied: (%1)', $uri));
         } catch (\Throwable $e) {
@@ -306,7 +306,7 @@ class CurlHttpClient
         try {
             $this->log('request method: ' . $method);
             $this->httpClient->setMethod($method);
-        } catch (\Laminas\Http\Exception\InvalidArgumentException $e) {
+        } catch (\Zend\Http\Exception\InvalidArgumentException $e) {
             $this->logAnyway('set request method error: ' . $e->__toString(), 'error');
             throw new Exceptions\RequestException($e->__toString());
         }
@@ -535,7 +535,7 @@ class CurlHttpClient
     protected function logResponseInfo(HttpResponse $response)
     {
         /**
-         * @var $adapter \Laminas\Http\Client\Adapter\Curl
+         * @var $adapter \Zend\Http\Client\Adapter\Curl
          */
         $adapter = $this->httpClient->getAdapter();
         $requestTime = curl_getinfo($adapter->getHandle(), CURLINFO_TOTAL_TIME);
@@ -634,12 +634,12 @@ class CurlHttpClient
             $this->processResponseCode($response);
 
             return $response;
-        } catch (\Laminas\Http\Exception\ExceptionInterface $e) {
-            if ($e instanceof \Laminas\Http\Client\Adapter\Exception\ExceptionInterface) {
+        } catch (\Zend\Http\Exception\ExceptionInterface $e) {
+            if ($e instanceof \Zend\Http\Client\Adapter\Exception\ExceptionInterface) {
                 $type = 'Http Client Adapter';
-            } elseif ($e instanceof \Laminas\Http\Client\Exception\ExceptionInterface) {
+            } elseif ($e instanceof \Zend\Http\Client\Exception\ExceptionInterface) {
                 $type = 'Http Client';
-            } elseif ($e instanceof \Laminas\Http\Header\Exception\ExceptionInterface) {
+            } elseif ($e instanceof \Zend\Http\Header\Exception\ExceptionInterface) {
                 $type = 'Http Header';
             } else {
                 $type = 'Http';
@@ -691,7 +691,7 @@ class CurlHttpClient
     public function closeConnection()
     {
         /**
-         * @var $adapter \Laminas\Http\Client\Adapter\Curl
+         * @var $adapter \Zend\Http\Client\Adapter\Curl
          */
         $adapter = $this->httpClient->getAdapter();
         $adapter->close();
@@ -709,18 +709,18 @@ class CurlHttpClient
 
     /**
      * @return void
-     * @throws \Laminas\Http\Client\Adapter\Exception\RuntimeException
+     * @throws \Zend\Http\Client\Adapter\Exception\RuntimeException
      */
     protected function checkAdapterErrors()
     {
         /**
-         * @var $adapter \Laminas\Http\Client\Adapter\Curl
+         * @var $adapter \Zend\Http\Client\Adapter\Curl
          */
         $adapter = $this->httpClient->getAdapter();
         if ($errNo = curl_errno($adapter->getHandle())) {
             $errorMessage = sprintf('CURL error #%s: %s', $errNo, curl_error($adapter->getHandle()));
             $this->logAnyway('CURL ERROR: ' . $errorMessage, 'error');
-            throw new \Laminas\Http\Client\Adapter\Exception\RuntimeException($errorMessage);
+            throw new \Zend\Http\Client\Adapter\Exception\RuntimeException($errorMessage);
         }
     }
 

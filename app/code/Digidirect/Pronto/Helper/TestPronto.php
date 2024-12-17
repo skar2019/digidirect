@@ -294,6 +294,9 @@ class TestPronto extends AbstractHelper
             case "paypal_express":
                 $type = 'PX';
                 break;
+            case "afterpay":
+                $type = 'AP';
+                break;
             default:
                 break;
         }
@@ -307,8 +310,37 @@ class TestPronto extends AbstractHelper
 
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
-                    //$whse = $this->repCodeForPickUp[$collectPlaceId];
+                    //$whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+
+                    switch ($collectPlaceId) {
+                        case '1':
+                            $whse = 'SYDN';
+                            break;
+                        case '7':
+                            $whse = 'MELB';
+                            break;
+                        case '10':
+                            $whse = 'BRIS';
+                            break;
+                        case '13':
+                            $whse = 'MIRA';
+                            break;
+                        case '16':
+                            $whse = 'CANN';
+                            break;
+                        case '31':
+                            $whse = 'BOND';
+                            break;
+                        case '32':
+                            $whse = 'PARR';
+                            break;
+                        default:
+                            $whse = 'SWHS';
+                            break;
+                    }
+
+                    echo 'debug collectPlaceId -'.$collectPlaceId.' whse - '.$whse;
+
                 }
             } elseif ($order->getShippingAddress()) {
 //                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
@@ -333,7 +365,7 @@ class TestPronto extends AbstractHelper
             }
             return '';
         }
-        //echo 'Rep - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+        echo 'WHSE - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
         return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
     }
 
@@ -559,6 +591,7 @@ class TestPronto extends AbstractHelper
             $isMarketPlace = false;
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
+            echo 'wrehs '.$wrehs;
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
@@ -566,8 +599,14 @@ class TestPronto extends AbstractHelper
                 {
                     $territory = $wrehs;
                 }
+                else
+                {
+                    //check shipping
+                    $wrehs = 'MELB';
+                }
 
             }
+
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
 
@@ -852,6 +891,7 @@ class TestPronto extends AbstractHelper
                     {
                         if ($order->getStatus() != 'fraud')
                         {
+
                             if($instockInv == 1)
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
@@ -897,6 +937,8 @@ class TestPronto extends AbstractHelper
                                     $data['sales-order']['header']['set-on-status'] = "B";
                                 }
                             }
+
+
 
                         }
                         else
@@ -1198,6 +1240,17 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            if (($payment_type == 'BT')) {
+
+                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+                echo "liabilityShifted " .$liabilityShifted;
+                if($liabilityShifted != 'Yes')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+            }
+
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
@@ -1407,8 +1460,9 @@ class TestPronto extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
-                    $sell = $productDetails->loadByAttribute('sku', $sku)->getMarketplacerSeller();
-                    echo "is MP - " .$sku."<br/>";
+                    $productDetails->load($productDetails->getIdBySku($sku));
+                    $sell = $productDetails->getMarketplacerSeller();
+                    echo "is MP - " .$sku." - seller : ".$sell."<br/>";
                     if($this->currentseller == $sell)
                     {
                         continue;
@@ -1991,6 +2045,16 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+//            $liabilityShift = false;
+//            if (($payment_type == 'BT')) {
+//
+//                $liabilityShifted = $paymentInstance->getAdditionalInformation('liabilityShifted');
+//                if($liabilityShifted == 'Yes')
+//                {
+//                    $liabilityShift = true;
+//                }
+//            }
+
 
             $withpaymentref = true;
             if(($payment_type == "Y"))
@@ -2006,45 +2070,45 @@ class TestPronto extends AbstractHelper
                 $withpaymentref = false;
             }
             //gift cards
-            $withGC = false;
-            $gift_amount = $order->getGiftCardsAmount();
-            echo "gift_amount ".$gift_amount."<br/>";
-
-            if($gift_amount > 0)
-            {
-                $withGC = true;
-                $gift_amount = round($gift_amount, 2);
-                $gc_data = $order->getGiftCards();
-                $arr = explode(",",$gc_data);
-                $gc_ref = explode(":", $arr[1]);
-                $gc_reference = $gc_ref[1];
-                if($test)
-                {
-                    echo "gc ref " .$gc_reference;
-                }
-
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
-                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
-            }
+//            $withGC = false;
+//            $gift_amount = $order->getGiftCardsAmount();
+//            echo "gift_amount ".$gift_amount."<br/>";
+//
+//            if($gift_amount > 0)
+//            {
+//                $withGC = true;
+//                $gift_amount = round($gift_amount, 2);
+//                $gc_data = $order->getGiftCards();
+//                $arr = explode(",",$gc_data);
+//                $gc_ref = explode(":", $arr[1]);
+//                $gc_reference = $gc_ref[1];
+//                if($test)
+//                {
+//                    echo "gc ref " .$gc_reference;
+//                }
+//
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+//                $sellerdata['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
+//            }
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
 
             if($withpaymentref)
             {
-                if($withGC)
-                {
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
-                }
-                else
-                {
+//                if($withGC)
+//                {
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+//                    $sellerdata['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+//                }
+//                else
+//                {
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                     $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                }
+                //}
             }
 
 
@@ -2073,6 +2137,7 @@ class TestPronto extends AbstractHelper
             // for redeploy
             $x = 0;
             $producttotal = 0;
+            $gotdigi = 0;
             foreach ($order->getAllVisibleItems() as $item)
             {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -2133,52 +2198,128 @@ class TestPronto extends AbstractHelper
                     }
                     else
                     {
-                        continue;
+                        $gotdigi = 1;
                     }
 
                 }
                 else //
                 {
-                    continue;
+                    $gotdigi = 1;
 
                 }
 
             } //end of product line
 
 
-            if($coupon != "")
+            if($gotdigi == 0)
             {
+                if($surcharge != "0.0000")
+                {
+                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                    $producttotal += $surcharge;
+                    $x++; // for shipping counter
+                }
+
+//                if($coupon != "")
+//                {
+//                    $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//                    $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
+//                    $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+//                    $x++; // for shipping counter
+//                }
+
+
+                $shippingprice = (double) $order->getShippingAmount();
+                $shippingDesc = $order->getShippingDescription();
+
+                if (strpos($orderId, 'REEB') !== false) {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else
+                {
+                    if (strpos($shippingDesc, '|') !== false) {
+                        $marketplacesShipping = explode('|', $shippingDesc);
+                        $shippingDesc = $marketplacesShipping[1];
+                    }
+                }
+                if($shippingDesc == "Express - (1 to 3 Days)")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "Standard - (4 to 7 Days)")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else if($rep == 'WESTFIELD')
+                {
+                    $shippingDesc = "Click and Collect";
+                }
+                else if($shippingDesc == "AU_ExpressPostParcelSignature")
+                {
+                    $shippingDesc = "Australia Post – express";
+                }
+                else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else
+                {
+                    $shippingDesc = "";
+                }
+                //shipping details clint Mar 3 23
+                if($disregardshipping)
+                {
+                    $shippingprice = 0;
+                }
                 $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $coupon;
-                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+                $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
                 $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
-                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                $x++; // for shipping counter
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+                $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+                $producttotal += $shippingprice;
             }
 
             //fixed shipping price as interim
-            if($producttotal > 99)
+//            if($producttotal > 99)
+//            {
+//                $shippingprice = 0;
+//                $shippingDesc = "Standard";
+//            }
+//            else
+//            {
+//                $shippingprice = 10;
+//                $shippingDesc = "Free Shipping";
+//            }
+
+            //sync only product total
+            if($withpaymentref)
             {
-                $shippingprice = 0;
-                $shippingDesc = "Standard";
-            }
-            else
-            {
-                $shippingprice = 10;
-                $shippingDesc = "Free Shipping";
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $producttotal;
             }
 
-            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+//            $sellerdata['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $sellerdata['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $sellerdata['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $sellerdata['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //if($test)
             //{
@@ -2319,6 +2460,4 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-
-
 }

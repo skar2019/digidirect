@@ -49,14 +49,15 @@ class GridProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 
     public function getLoadedProductCollection()
     {
-        //$defaultCategory = 2;
-        $defaultCategory = 17;
+        $defaultCategory = 2;
+        //$defaultCategory = 17;
 
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addCategoriesFilter(['in' => $defaultCategory]);
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->addAttributeToFilter('marketplacer_seller', 20329);
         $collection->addMinimalPrice()->addFinalPrice();
         $collection->getSelect()->where("price_index.final_price < price_index.price");
 

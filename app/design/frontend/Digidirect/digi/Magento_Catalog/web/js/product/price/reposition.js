@@ -14,9 +14,8 @@ define([
         console.log("Fotorma has been loaded!");
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
         $('.digiseconds-overlay').attr("style", "display:block;");
-        }, 3000);
+        }, 1000);
     });
 
     $(window).on('load', function(){
@@ -25,10 +24,6 @@ define([
         }
         $('#product-addtocart-button').removeAttr("title");
     });
-    
-    $('.s19-price-per-period').insertBefore($('.s19-component'));
-    $('.s19-apply-btn').insertBefore($('.s19-learn-btn'));
-    $('.s19-actions').insertAfter($('.s19-min-period'));
     
     var win = $(this); //this = window
     if (win.width() >= 768) {
@@ -39,7 +34,7 @@ define([
 
     //for mobile = 760
     //Changed to 1439 for tablet *Rondel
-    let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
+    //let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
     $(window).on('resize', function(){
         if (win.width() >= 768) {
@@ -58,10 +53,12 @@ define([
         console.log("Changed To Trigger Click!");
     });
     
-    $('#zip-custom').on('click', function(){
-        $('.zip-widget__wrapper').trigger("click");
-        console.log("ZIP Custom Clicked!");
-    });
+    $(document).ready(function(){
+        $('#zip-custom').on('click', function(){
+            $('#zip-product-widget').trigger("click");
+            console.log("ZIP Custom Clicked!");
+        });
+    });      
     
     $('#payment-options-toggle').on('click', function(){
         if($(this).hasClass("close")) {

@@ -162,13 +162,15 @@ class View extends \Magento\Framework\View\Element\Template
 
         $metaTitle = $option->getMetaTitle();
         if (!$metaTitle) {
-            $metaTitle = $option->getLabel();
+            //$metaTitle = $option->getLabel();
+            $metaTitle = "Buy ".$option->getLabel(). " | digiDirect";
         }
         $this->pageConfig->getTitle()->set($metaTitle);
 
         $metaDesc = $option->getMetaDesc();
         if (!$metaDesc) {
-            $metaDesc = $option->getDescription();
+            //$metaDesc = $option->getDescription();
+            $metaDesc = "Shop ".$option->getLabel()." online at digiDirect - the camera, computer & electrical experts. Afterpay Available.";
         }
         $this->pageConfig->setDescription($this->helper->prepareMetaDescription($metaDesc));
 
@@ -197,7 +199,7 @@ class View extends \Magento\Framework\View\Element\Template
 
         $option = $this->getOption();
         $this->pageConfig->addRemotePageAsset(
-            $this->getCanonicalUrl($option),
+            'canonical-aa',
             self::ASSET_CANONICAL,
             ['attributes' => ['rel' => self::ASSET_CANONICAL]]
         );

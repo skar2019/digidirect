@@ -48,7 +48,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
     protected $_imagesArrayKeys = null;
 
     /**
-     * @var \Magento\Framework\HTTP\ZendClient
+     * @var \Magento\Framework\HTTP\LaminasClient
      */
     protected $httpClient;
 
@@ -132,7 +132,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
      * @param \Magento\CatalogImportExport\Model\Import\Product\TaxClassProcessor $taxClassProcessor
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\Url $productUrl
-     * @param \Magento\Framework\HTTP\ZendClient $httpClient
+     * @param \Magento\Framework\HTTP\LaminasClient $httpClient
      * @param \Magento\ProductVideo\Helper\Media $mediaHelper
      * @param StoreManagerInterface $storeManager
      * @param Decoder $jsonDecoder
@@ -177,7 +177,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         \Magento\CatalogImportExport\Model\Import\Product\TaxClassProcessor $taxClassProcessor,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\Url $productUrl,
-        \Magento\Framework\HTTP\ZendClient $httpClient,
+        \Magento\Framework\HTTP\LaminasClient $httpClient,
         \Magento\ProductVideo\Helper\Media $mediaHelper,
         StoreManagerInterface $storeManager,
         Decoder $jsonDecoder,

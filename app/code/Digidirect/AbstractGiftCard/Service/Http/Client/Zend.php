@@ -2,8 +2,8 @@
 
 namespace Digidirect\AbstractGiftCard\Service\Http\Client;
 
-use Magento\Framework\HTTP\ZendClientFactory;
-use Magento\Framework\HTTP\ZendClient;
+use Magento\Framework\HTTP\LaminasClientFactory;
+use Magento\Framework\HTTP\LaminasClient;
 use Digidirect\AbstractGiftCard\Service\Http\ClientInterface;
 use Digidirect\AbstractGiftCard\Service\Http\ConverterInterface;
 use Digidirect\AbstractGiftCard\Service\Http\TransferInterface;
@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface as Logger;
 class Zend implements ClientInterface
 {
     /**
-     * @var ZendClientFactory
+     * @var LaminasClientFactory
      */
     private $_clientFactory;
 
@@ -32,12 +32,12 @@ class Zend implements ClientInterface
     private $_logger;
 
     /**
-     * @param ZendClientFactory $clientFactory
+     * @param LaminasClientFactory $clientFactory
      * @param Logger $logger
      * @param ConverterInterface | null $converter
      */
     public function __construct(
-        ZendClientFactory $clientFactory,
+        LaminasClientFactory $clientFactory,
         Logger $logger,
         ConverterInterface $converter = null
     ) {
@@ -56,7 +56,7 @@ class Zend implements ClientInterface
             'request_uri' => $transferObject->getUri()
         ];
         $result = [];
-        /** @var ZendClient $client */
+        /** @var LaminasClient $client */
         $client = $this->_clientFactory->create();
 
         $client->setConfig($transferObject->getClientConfig());

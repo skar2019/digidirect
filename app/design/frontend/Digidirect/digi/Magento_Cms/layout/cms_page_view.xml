@@ -5,4 +5,5 @@
             <block class="Magento\Cms\Block\Page" name="cms_page"/>
         </referenceContainer>
     </body>
+    <move element="breadcrumbs" destination="content" before="-"/>
 </page>

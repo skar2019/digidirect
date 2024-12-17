@@ -63,7 +63,7 @@
     $categoryName = $categoryObject->getName();
 ?>
 
-<div class="category-page-banner" style="margin-right: 0;margin-left: auto;">
+<div class="category-page-banner" style="margin-right: 0;margin-left: auto;display: none !important;">
     <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
     <div class="banner-desktop" style="display: none;">
         <?php if (in_array($categoryId, $allChildrenCategoryIdsCameras)) :?>
@@ -81,7 +81,7 @@
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsOptics)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>optics.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsPhotoAndAccessories)) : ?>
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>photo_and_accessories.png"/>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>photo_and_accessories_new.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsProVideo)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>pro_video.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>
@@ -112,7 +112,7 @@
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsOptics)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>optics.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsPhotoAndAccessories)) : ?>
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>photo_and_accessories.png"/>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>photo_and_accessories_new.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsProVideo)) : ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-header-tablet-view")?>pro_video.png"/>
         <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>

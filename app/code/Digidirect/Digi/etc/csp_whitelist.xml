@@ -11,7 +11,7 @@
             <values>
                 <!--CDN-->
 
-                <value id="qantasscript" type="host">*.services.qantasloyalty.com</value>
+                <!--<value id="qantasscript" type="host">*.services.qantasloyalty.com</value>-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
                 <!--Google-->
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
@@ -60,6 +60,21 @@
                 <value id="soretoscript" type="host">*.soreto.com</value>
                 <value id="kwscript" type="host">*.kayweb.com.au</value>
                 <value id="pascript" type="host">p-a.io</value>
+                <value id="particularaudienceapi" type="host">api-recs.particularaudience.com</value>
+                <value id="luckyorangeclickstream" type="host">d10lpsik1i8c69.cloudfront.net</value>
+                <value id="gtmscriptsrc" type="host">gtm.js</value>
+                <value id="studentbeansconnect" type="host">*.connect.studentbeans.com</value>
+                <value id="studentbeanscdn" type="host">*.studentbeans.com</value>
+                <!-- <value id="studentbeansId" type="host">*.beansid.com</value> -->
+                 <value id="ig" type="host">*.instagram.com</value>
+                <value id="jqueryscr" type="host">*.jquery.com</value>
+                <value id="jqueryscr" type="host">*.jquery.com</value>
+                <value id="adobetmsrc" type="host">*.adobedtm.com</value>
+                <value id="adobesrc" type="host">*.adobed.com</value>
+                <value id="latitudesrc" type="host">*.latitudefinancial.com</value>
+                <value id="afterpayportal" type="host">*.afterpay.com</value>
+                <value id="afterpaystatic" type="host">*.static.afterpay.com</value>
+                <value id="latitudescriptsrc" type="host">*.latitudepayapps.com</value>
 
             </values>
         </policy>
@@ -82,7 +97,9 @@
                 <value id="bootstrapstyle" type="host">*.bootstrapcdn.com</value>
                 <value id="pastyle" type="host">p-a.io</value>
                 <value id="particularaudiencestyle" type="host">*.particularaudience.com</value>
-                <value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>
+                <value id="cloudfrontstylesrc" type="host">*.cloudfront.net</value>
+                <value id="zipstylesrc" type="host">*.zip.co</value>
+                <!--<value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>-->
             </values>
         </policy>
         <policy id="img-src">
@@ -115,6 +132,11 @@
                 <value id="paimg" type="host">p-a.io</value>
                 <value id="particularaudienceimg" type="host">*.particularaudience.com</value>
                 <value id="qantasimg" type="host">*.services.qantasloyalty.com</value>
+                <value id="adobetmimg" type="host">*.adobedtm.com</value>
+                <value id="latitudeimgsrc" type="host">*.latitudepayapps.com</value>
+                <value id="zipimgsrc" type="host">zip.co</value>
+                <value id="bpizipimgsrc" type="host">bpi.zip.co</value>
+                <value id="latitudeimgsrc" type="host">*.latitudefinancial.com</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -126,6 +148,8 @@
                 <value id="pamedia" type="host">p-a.io</value>
                 <value id="particularaudiencemedia" type="host">*.particularaudience.com</value>
                 <value id="qantasmedia" type="host">*.services.qantasloyalty.com</value>
+                <value id="zipmediasrc" type="host">*.zip.co</value>
+                <value id="zipmoneymediasrc" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -151,7 +175,7 @@
                 <value id="googleapisconnect" type="host">*.googleapis.com</value>
                 <value id="zdassetsconnect" type="host">*.zdassets.com</value>
                 <value id="digizendconnect" type="host">digidirect.zendesk.com</value>
-                <value id="zipcoconnect" type="host">t.zip.co</value>
+                <value id="zipcoconnect" type="host">*.zip.co</value>
                 <value id="smoothioconnect" type="host">api.smooch.io</value>
                 <value id="gstaticconnect" type="host">*.gstatic.com</value>
                 <value id="googlepayconnect" type="host">*.google.com</value>
@@ -169,6 +193,13 @@
                 <value id="paconnect" type="host">p-a.io</value>
                 <value id="qantasconnect" type="host">*.qantasloyalty.com</value>
                 <value id="qantasconnectserv" type="host">*.services.qantasloyalty.com</value>
+                <value id="particularaudienceapiconnect" type="host">api-recs.particularaudience.com</value>
+                <value id="luckyorangeclickconnect" type="host">d10lpsik1i8c69.cloudfront.net</value>
+                <value id="demdexconnect" type="host">*.demdex.net</value>
+                <value id="xipconnect" type="host">*.zip.co</value>
+                <value id="afterpayportalconnect" type="host">*.afterpay.com</value>
+                <value id="afterpaystaticconnect" type="host">*.static.afterpay.com</value>
+
             </values>
         </policy>
         <policy id="font-src">
@@ -179,7 +210,6 @@
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
-                <value id="gstaticfont" type="host">fonts.gstatic.com</value>
                 <value id="similarincfont" type="host">*.similarinc.com</value>
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
                 <value id="digizendfont" type="host">*.zendesk.com</value>
@@ -191,11 +221,13 @@
         <policy id="frame-src">
             <values>
                 <value id="all_potential_frame" type="host">*</value>
+                <value id="zipmoneyframesrc" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="all_potential_form" type="host">*</value>
+                <value id="zipmoneyformaction" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
     </policies>

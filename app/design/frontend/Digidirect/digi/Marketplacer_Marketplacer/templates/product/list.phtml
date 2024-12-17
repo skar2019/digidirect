@@ -102,7 +102,9 @@ if ($currentPage != "catalogsearch_result_index") {
 
                 $categoryIds = $_product->getCategoryIds();
                 $digiSecondsIds = array(2564,2567,2570,2573);
+                $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));
 
+                $seller = $_product->getAttributeText('marketplacer_seller');
                 // digiprint
                 $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
                 $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
@@ -169,27 +171,29 @@ if ($currentPage != "catalogsearch_result_index") {
                        class="product photo product-item-photo discountPrice <?= $discountPrice; ?>"
                        tabindex="-1">
                         
-                        <?php if ($is_digiPrint == 1): ?>
-                            <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
-                                <?php 
-                                    $hasDiscountClass = "has-discount";
-                                ?>
-                                <div class="digideals-overlay">
-                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                </div>
-                            <?php endif; ?>
+                        <?php if ($seller != "digiDirect" && $seller != ""): ?>
+                            <div class="ribbon-online">Online only</div>
                         <?php else: ?>
-                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
-                                <?php 
-                                    $hasDiscountClass = "has-discount";
-                                ?>
-                                <div class="digideals-overlay">
-                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digidirect/")?>digiDeals-Logo.png"/>
-                                </div>
+                            <?php if ($is_digiPrint == 1): ?>
+                                <?php if ($discountPrice > 0 || $marketplacesPrice > $finalProductPrice): ?>
+                                    <?php 
+                                        $hasDiscountClass = "has-discount";
+                                    ?>
+                                    <div class="ribbon-digideals">digiDeals</div>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                    <?php 
+                                        $hasDiscountClass = "has-discount";
+                                    ?>
+                                    <?php if ($isDigiSeconds == 0): ?>
+                                        <div class="ribbon-digideals">digiDeals</div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             <?php endif; ?>
                         <?php endif; ?>
                         
-                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
+                        <?php if ($isDigiSeconds > 0): ?>
                             <?php if ($d2ItemCondition): ?>
                                 <div class="digiseconds-overlay <?= $hasDiscountClass; ?>">
                                     <?php if ($d2ItemCondition == "PRELOVED"): ?>
@@ -340,7 +344,12 @@ if ($currentPage != "catalogsearch_result_index") {
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
 
                                     <?php if ($is_digiPrint == 1): ?>
-
+                                        <div class="s19-rental-price-target">
+                                            <p style="font-size: 13px; font-weight: 500;">Get creative with</p>
+                                            <p>
+                                                <img width="75" src="<?php echo $block->getUrl("media/wysiwyg/landing-pages/services/digiprint/")?>digiPrint__k__x48.png"/>
+                                            </p>
+                                        </div>
                                         <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
                                             <button type="button"
                                                 title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
@@ -348,8 +357,11 @@ if ($currentPage != "catalogsearch_result_index") {
                                                 Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
                                             </button>
                                         </a>
-
                                     <?php else: ?>
+                                        <div class="s19-rental-price-target">
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                        </div>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
                                           data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
@@ -431,6 +443,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
+                    
                 </div>
                 <?= /* @escapeNotVerified */ '</li>'?>
             <?php endforeach; ?>

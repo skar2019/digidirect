@@ -127,6 +127,8 @@
             overflow: hidden !important;
             text-overflow: ellipsis;
             -webkit-line-clamp: 2;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
     }
 
@@ -191,7 +193,7 @@
     }
 
     .product-item-photo {
-        position: relative;
+        //position: relative;
         text-align: center;
         margin: -15px -15px 0;
         padding: 15px 15px 0;
@@ -423,6 +425,11 @@
     .product-item .price-box {
         flex-direction: row-reverse;
     }
+
+    // jireh 
+    .overlay-container-pdp .product-overlay img { 
+        height: 150px !important;
+    }
     
     //digiSeconds
     
@@ -453,34 +460,36 @@
     .category-openbox .product-item, 
     .category-preloved .product-item, 
     .category-refurb .product-item  {
-        height: 305px !important;
+        height: 100% !important;
     }
 
     .category-digiseconds .product-item-info.-grid, 
     .category-openbox .product-item-info.-grid, 
     .category-preloved .product-item-info.-grid, 
     .category-refurb .product-item-info.-grid {
-	height: 345px !important;
+        height: 100% !important;
     }
 
     .category-digiseconds li.item.product.product-item, 
     .category-openbox li.item.product.product-item, 
     .category-preloved li.item.product.product-item, 
     .category-refurb li.item.product.product-item {
-        margin-bottom: 75px !important;
+        margin-bottom: 15px !important;
     }
 
     .digiseconds-product-details {
         position: absolute;
-        left: 198px;
-        width: 315px;
+        left: 37%;
+        //width: 304px;
         font-size: 13px;
         background: #f5f5f5;
         margin-top: -15px;
         overflow: hidden;
         z-index: 0;
-        height: 360px;
-        padding-left: 30px;
+        height: 100% !important;
+        padding-left: 15px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
     
     .category-digiseconds .product-item .product-reviews-summary.short, 
@@ -491,7 +500,7 @@
     }
 
     .digiseconds-product-name {
-        width: 280px;
+        //width: 280px;
         overflow: hidden;
         min-height: 45px;
         display: -webkit-box;
@@ -533,6 +542,7 @@
     .package-inclusion-wrapper {
         border-top: 1px solid #e6e6e6;
         padding-top: 15px;
+        padding-right: 26px;
     }
 
     .package-inclusion-wrapper em strong {
@@ -623,7 +633,7 @@
     .category-openbox .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo, 
     .category-preloved .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo, 
     .category-refurb .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo  {
-        margin-top: 70px !important; 
+        margin-top: 50px !important; 
         max-height: 110px !important
     }
 
@@ -640,11 +650,16 @@
         left: 10px;
         top: 10px;
     }
+    
     .digiseconds-rating {
-        margin-left: 30px;
+        margin-left: 25px;
         margin-top: -21px;
         color: #ffae00;
-        font-size: 8px;
+        font-size: 7px;
+    }
+    
+    .owl-item .digiseconds-rating {
+        margin-top: -16px !important;
     }
 
     .digiseconds-product-name a {
@@ -696,7 +711,7 @@
     
     .product-item-info .product-overlay.-top-left.-has-size.-ready {
         position: absolute !important;
-        top: 30px !important;
+        top: 35px !important;
     }
     
     .product-item-info .product-overlay.-top-left.-has-size.-ready:not(:first-of-type) {
@@ -740,6 +755,7 @@
         transform: rotate(-6deg);
         width: 31%;
         color: red;
+        display: none;
     }
 
     .discount-price-wrapper {
@@ -763,6 +779,16 @@
         left: 10px;
     }
     
+    .online-only {
+        color: #040707;
+        font-weight: 600;
+        font-size: 13px;
+        text-align: left;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+    
     .digiprint-product .product-item-name {
         margin-top: 15px;
     }
@@ -772,7 +798,7 @@
     }
     
     .has-discount {
-        margin-top: 16px;
+        //margin-top: 16px;
     }
     
     .category-description {
@@ -784,7 +810,35 @@
     .brands-banner-plp {
         margin-bottom: 12px;
     }
+    
+    .catalogsearch-result-index .page-title {
+        display: none !important;
+    }
+    
+    .catalog-category-view .banner-desktop {
+        position: relative;
+        display: block !important;
+    }
 
+    .catalog-category-view .page-title-wrapper {
+        margin: 0;
+        top: 30%;
+        padding: 10px !important;
+        border-left: 5px solid #ff3c00;
+    }
+
+    .catalog-category-view .page-title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #323232;
+        text-align: unset;
+        margin: 0;
+    }
+    
+    .product-item-details {
+        cursor: pointer;
+    }
+    
 }
 
 //
@@ -872,6 +926,11 @@
     .product-item-inner {
         padding-bottom: 7px;
     }
+    
+    .category-page-banner .banner-desktop {
+        display: block !important;
+        margin-bottom: 10px;
+    }
 }
 
 //
@@ -919,12 +978,20 @@
     }
     
     .category-page-banner {
-        display: none !important;
+        //display: none !important;
     }
     
     .category-description {
         margin-right: 15px !important;
         margin-bottom: 15px !important;
+    }
+    
+    .category-page-banner img {
+        display: none;
+    }
+
+    .catalog-category-view .page-title-wrapper {
+        position: relative !important;
     }
 }
 
@@ -1109,10 +1176,10 @@
             box-sizing: border-box;
             margin-left: auto;
             margin-right: auto;
-            max-width: 1440px !important;
+            max-width: 1440px;
             //padding-left: 0;
             //padding-right: 0;
-            padding: 0 50px !important;
+            padding: 0 50px;
         }
 
         .product-grid,
@@ -1363,6 +1430,7 @@
     .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box>.old-price-wrapper>.old-price>.price-container>.price-label {
         font-weight: 600 !important;
         font-size: 9px !important;
+        display: none;
     }
 
     .product-item .price-box .old-price .price {
@@ -1374,7 +1442,7 @@
     }
 
     .discount-price-wrapper {
-        font-size: 10px !important;
+        //font-size: 10px !important;
     }
 
     .product-category-listing>.product-items>.product-item>.product-item-info>.product-item-details>.price-box {
@@ -1384,6 +1452,10 @@
     .products-widget .product-items .action.primary {
         font-size: 11px !important;
         padding: 5px !important;
+    }
+    
+    .catalog-category-view .discount-price-wrapper {
+        //margin-top: -2px;
     }
     
 }
@@ -1417,16 +1489,14 @@
         .column.main {
             flex-basis: unset;
             float: none;
+            margin-left: 50px;
             margin-right: 50px;
+            width: 69%;
         }
     }
 
     .product-item-info.-list .product-item-photo {
         margin-right: 40px;
-    }
-    
-    .category-page-banner .banner-desktop {
-        display: block !important;
     }
     
     //digiSeconds
@@ -1436,14 +1506,14 @@
     .category-preloved .product-item, 
     .category-refurb .product-item  {
         width: 48.7% !important;
-        margin-left: 0 !important;
+        //margin-left: 0 !important;
     }
     
     .category-digiseconds .product-item:nth-child(even), 
     .category-openbox .product-item:nth-child(even), 
     .category-preloved .product-item:nth-child(even), 
     .category-refurb .product-item:nth-child(even)  {
-        margin-left: 13.6px !important;
+        //margin-left: 13.6px !important;
     }
     
     .category-digiseconds .product-category-listing .product-item-info>a, 
@@ -1507,7 +1577,7 @@
 
 @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
     .category-page-banner .banner-tablet {
-        display: block !important;
+        //display: block !important;
     }
 }
 

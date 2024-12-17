@@ -4,4 +4,5 @@
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
         <plugin name="unit_number" type="Digidirect\Order\Plugin\Magento\Sales\Api\OrderGet"/>
     </type>
+
 </config>

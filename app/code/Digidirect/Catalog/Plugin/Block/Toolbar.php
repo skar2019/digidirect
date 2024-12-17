@@ -52,6 +52,12 @@ class Toolbar
         $collection
     ) {
         $this->_collection = $collection;
+        $collection->getSelect()->joinLeft( 
+            'sales_order_item', 
+            'e.entity_id = sales_order_item.product_id', 
+            array('qty_ordered'=>'SUM(sales_order_item.qty_ordered)')) 
+            ->group('e.entity_id') 
+            ->order('qty_ordered DESC');
         /*if ($subject->getCurrentOrder() == 'most_viewed') {
             if (!$this->_subQueryApplied) {
                 $reportEventTable = $this->_collection->getResource()->getTable('report_event');

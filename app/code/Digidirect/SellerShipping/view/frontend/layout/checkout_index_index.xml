@@ -11,18 +11,6 @@
                                     <item name="children" xsi:type="array">
                                         <item name="summary" xsi:type="array">
                                             <item name="children" xsi:type="array">
-                                                <item name="totals" xsi:type="array">
-                                                    <item name="children" xsi:type="array">
-                                                       <item name="fee" xsi:type="array">
-                                                            <item name="component"  xsi:type="string">Digidirect_SellerShipping/js/view/checkout/cart/totals/fee</item>
-                                                            <item name="sortOrder" xsi:type="string">20</item>
-                                                            <item name="config" xsi:type="array">
-                                                                 <item name="template" xsi:type="string">Digidirect_SellerShipping/checkout/cart/totals/fee</item>
-                                                               <!-- <item name="title" xsi:type="string" translate="true">Custom Fee</item>-->
-                                                            </item>
-                                                        </item>
-                                                    </item>
-                                                </item>
                                                 <item name="cart_items" xsi:type="array">
                                                     <item name="children" xsi:type="array">
                                                         <item name="details" xsi:type="array">

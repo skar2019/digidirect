@@ -14,7 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Digidirect\Digi\Helper\AbstractAttribute;
-use \Laminas\Uri\Http as ZendUrlParser;
+use \Zend\Uri\Http as ZendUrlParser;
 use \Digidirect\LayeredNavigation\Helper\UrlParser;
 
 /**
@@ -120,17 +120,17 @@ class BrandProcessor
         if (!$this->currentBrand) {
             $this->currentBrand = 0;
             $optionId = null;
-
+            
             $currentUrl = $this->getCurrentUrl();
-
+            
             $urlKey = $currentUrl ? $this->parseUrl($currentUrl) : null;
-
+            
             $brandId = $urlKey && !empty($urlKey) ? $this->abstractAttributeHelper->getBrandIdByUrlKey($urlKey) : null;
             if ($brandId) {
                 $this->currentBrand = $brandId;
             }
         }
-
+        
         return $this->currentBrand;
     }
 
@@ -180,7 +180,7 @@ class BrandProcessor
         $currentCategory = $this->getCurrentCategory();
 
         $parentCategory = $currentCategory->getParentCategories();
-
+        
         if (!empty($parentCategory) && count($parentCategory) > 1) {
             $currentCategory = array_shift($parentCategory);
         }
@@ -201,12 +201,12 @@ class BrandProcessor
         }
         return $lastPath;
     }
-
+    
     /**
      * @param null|string $currentUrl
      * @return bool
      */
-
+    
     public function isFiltered($currentUrl = null)
     {
         $isFiltered = true;

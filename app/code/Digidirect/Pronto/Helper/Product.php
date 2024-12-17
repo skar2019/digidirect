@@ -26,6 +26,7 @@ class Product extends AbstractHelper
     protected $categoryLinkManagement;
     protected $categoryLinkRepository;
     protected $logger;
+    protected $_reportCollectionFactory;
 
     public function __construct(
         Curl $curl,
@@ -41,7 +42,8 @@ class Product extends AbstractHelper
         CategoryFactory $categoryFactory,
         CategoryLinkManagementInterface $categoryLinkManagement,
         CategoryLinkRepositoryInterface $categoryLinkRepository,
-        CategoryManagementInterface $categoryManagement
+        CategoryManagementInterface $categoryManagement,
+        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory
     ){
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -57,7 +59,7 @@ class Product extends AbstractHelper
         $this->categoryLinkManagement = $categoryLinkManagement;
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryManagement = $categoryManagement;
-
+        $this->_reportCollectionFactory = $reportCollectionFactory;
     }
 
 
@@ -70,7 +72,6 @@ class Product extends AbstractHelper
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
 
         $this->attributeOptions = $this->getOptionHash('brand');
-        $forLogs = "";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -103,6 +104,7 @@ class Product extends AbstractHelper
         //date_update
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
             if(!isset($prod['code']))
             {
                 exit;
@@ -114,83 +116,83 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $product->setStockStatus($prod['stk-stock-status']);
-//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-//                $product->setName($prodname);
+//                $product->setStockStatus($prod['stk-stock-status']);
+////                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+////                $product->setName($prodname);
                 $price = 0;
-                $tax = 10;
+//                $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
-                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region']['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
-
-                $pricetocost = floatval($price);
-                $tax = floatval($tax);
-                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                if(isset($prod['stk-replacement-cost']))
-                {
-
-                    $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                    {
-                        if(isset($prod['stk-current-buy']))
-                        {
-                            $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                            {
-                                if(isset($prod['whse-avg-cost-swhs']))
-                                {
-                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
-                                    {
-                                        $pricetocost = floatval($price);
-                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-                echo "cost price ".$cost."<br/>";
-                $product->setCustomAttribute('cost', $cost);
-
-                $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
-                {
-                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
-                    if(empty($marketplacesprice))
-                    {
-                        $marketplacesprice = 0;
-                    }
-                }
-                else
-                {
-                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
-                    {
-                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                        if(empty($marketplacesprice))
-                        {
-                            $marketplacesprice = 0;
-                        }
-                    }
-                }
-
-                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
-
-                $endis = "Enabled = 0";
+//
+//                $pricetocost = floatval($price);
+//                $tax = floatval($tax);
+//                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                if(isset($prod['stk-replacement-cost']))
+//                {
+//
+//                    $cost = $prod['stk-replacement-cost'];
+//                    if($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                    {
+//                        if(isset($prod['stk-current-buy']))
+//                        {
+//                            $cost = $prod['stk-current-buy'];
+//                            if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                            {
+//                                if(isset($prod['whse-avg-cost-swhs']))
+//                                {
+//                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+//
+//                                    if ($cost == '0' || $cost == '0.00' || $cost == 0 || $cost == '')
+//                                    {
+//                                        $pricetocost = floatval($price);
+//                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                echo "cost price ".$cost."<br/>";
+//                $product->setCustomAttribute('cost', $cost);
+//
+//                $marketplacesprice = 0;
+//                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
+//                {
+//                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
+//                    if(empty($marketplacesprice))
+//                    {
+//                        $marketplacesprice = 0;
+//                    }
+//                }
+//                else
+//                {
+//                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+//                    {
+//                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+//                        if(empty($marketplacesprice))
+//                        {
+//                            $marketplacesprice = 0;
+//                        }
+//                    }
+//                }
+//                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
+//                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+//
+//                $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -241,8 +243,8 @@ class Product extends AbstractHelper
                     }
 
                 }
-                $forLogs .= $endis."\n";
-                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+//                $forLogs .= $endis."\n";
+//                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 //                if($prod['stk-user-only-alpha4-1'] == 'A')
 //                {
 //                    //$product->setData('awaiting_product', '1');
@@ -269,25 +271,25 @@ class Product extends AbstractHelper
 //                }
 
 
-                if(isset($prod['stock-division']))
-                {
-                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
-                }
-
-                if(isset($prod['stock-department']))
-                {
-                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
-                }
-
-                if(isset($prod['stock-category']))
-                {
-                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
-                }
-
-                if(isset($prod['stock-class']))
-                {
-                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
-                }
+//                if(isset($prod['stock-division']))
+//                {
+//                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+//                }
+//
+//                if(isset($prod['stock-department']))
+//                {
+//                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+//                }
+//
+//                if(isset($prod['stock-category']))
+//                {
+//                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+//                }
+//
+//                if(isset($prod['stock-class']))
+//                {
+//                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+//                }
 
                 //$forLogs .= $awaiting."\n";
                 //set to pre order
@@ -309,12 +311,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -335,74 +337,64 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
+                //disabled, got separate sync for SOH
+//                if(isset($prod['warehouse']['whse']))
+//                {
+//                    foreach ($prod['warehouse']['whse'] as $qt)
+//                    {
+//                        if(is_array($qt))
+//                        {
+//                            $sourceItem = $this->sourceItemFactory->create();
+//                            $sourceItem->setSourceCode($qt['code']);
+//                            $sourceItem->setSku($prod['code']);
+//                            $sourceItem->setStatus(1);
+//                            $sourceItem->setQuantity($qt['qty_available']);
+//                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+//                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                        }
+//                        else
+//                        {
+//                            // to handle single warehouse
+//                            $sourceItem = $this->sourceItemFactory->create();
+//                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+//                            $sourceItem->setSku($prod['code']);
+//                            $sourceItem->setStatus(1);
+//                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+//                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+//                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                        }
+//
+//
+//                    }
+//                }
 
 
-                if(isset($prod['warehouse']['whse']))
-                {
-                    foreach ($prod['warehouse']['whse'] as $qt)
-                    {
-                        if(is_array($qt))
-                        {
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($qt['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($qt['qty_available']);
-                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        }
-                        else
-                        {
-                            // to handle single warehouse
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        }
+//                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+//                $product->setCustomAttribute('stock_group', $prod['stock-group']);
+//
+//                if(isset($prod['qff-store-product-name']))
+//                {
+//                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
+//                }
+//                if(isset($prod['qff-store-price']))
+//                {
+//                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
+//                }
 
-
-                    }
-                }
-
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-
-
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('stock_group', $prod['stock-group']);
-                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                if(isset($prod['qff-store-product-name']))
-                {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
-                }
-                if(isset($prod['qff-store-price']))
-                {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
-                }
-
-                if($prod['stk-condition-code'] == 'T')
-                {
-                    $stock_condition = 181;
-                }
-                else if ($prod['stk-condition-code'] == 'O')
-                {
-                    $stock_condition = 179;
-                }
-                else
-                {
-                    $stock_condition = 183;
-                }
-
-                $product->setCustomAttribute('stock_condition', $stock_condition);
+//                if($prod['stk-condition-code'] == 'T')
+//                {
+//                    $stock_condition = 181;
+//                }
+//                else if ($prod['stk-condition-code'] == 'O')
+//                {
+//                    $stock_condition = 179;
+//                }
+//                else
+//                {
+//                    $stock_condition = 183;
+//                }
+//
+//                $product->setCustomAttribute('stock_condition', $stock_condition);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
@@ -466,6 +458,9 @@ class Product extends AbstractHelper
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
 
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 //magento bug, need to save first then assign categories
@@ -488,7 +483,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
@@ -579,26 +574,24 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//
-//                    //$product->setCategoryIds($categoryIds);
-//                }
+                if (count($categoryIds)) {
 
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
 
+                    //$product->setCategoryIds($categoryIds);
+                }
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
@@ -684,7 +677,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
@@ -696,12 +689,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -714,7 +707,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
 
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -922,7 +915,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
@@ -1013,33 +1006,36 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
+
+            $this->logger->info($forLogs);
+
         }
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            $forLogs .= $json['response']['message'];
+            $this->logger->info($json['response']['message']);
 
         }
 
-        $this->logger->info($forLogs);
+        //$this->logger->info($forLogs);
 
         $this->productSyncContinue($lastCode);
 
@@ -1050,7 +1046,7 @@ class Product extends AbstractHelper
 
         $lastCode = $startItem;
         $this->attributeOptions = $this->getOptionHash('brand');
-        $forLogs = "";
+
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -1084,6 +1080,8 @@ class Product extends AbstractHelper
 
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
+
             if(!isset($prod['code']))
             {
                 exit;
@@ -1094,84 +1092,84 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $product->setStockStatus($prod['stk-stock-status']);
+                //$product->setStockStatus($prod['stk-stock-status']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
                 $price = 0;
                 $tax = 10;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
-                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    //$product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
-                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                    //$tax = $prod['pricing']['price-region']['prc-tax-rate'];
+                    //$forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
-                $pricetocost = floatval($price);
-                $tax = floatval($tax);
-                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                if(isset($prod['stk-replacement-cost']))
-                {
-
-                    $cost = $prod['stk-replacement-cost'];
-                    if($cost == '0' || $cost == '')
-                    {
-                        if(isset($prod['stk-current-buy']))
-                        {
-                            $cost = $prod['stk-current-buy'];
-                            if ($cost == '0' || $cost == '')
-                            {
-                                if(isset($prod['whse-avg-cost-swhs']))
-                                {
-                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
-
-                                    if ($cost == '0' || $cost == '')
-                                    {
-                                        $pricetocost = floatval($price);
-                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
-                                    }
-                                }
-
-
-                            }
-                        }
-                    }
-                }
-
-                $product->setCustomAttribute('cost', $cost);
-
-                $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
-                {
-                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
-                    if(empty($marketplacesprice))
-                    {
-                        $marketplacesprice = 0;
-                    }
-                }
-                else
-                {
-                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
-                    {
-                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                        if(empty($marketplacesprice))
-                        {
-                            $marketplacesprice = 0;
-                        }
-                    }
-                }
-
-                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+//                $pricetocost = floatval($price);
+//                $tax = floatval($tax);
+//                $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                if(isset($prod['stk-replacement-cost']))
+//                {
+//
+//                    $cost = $prod['stk-replacement-cost'];
+//                    if($cost == '0' || $cost == '')
+//                    {
+//                        if(isset($prod['stk-current-buy']))
+//                        {
+//                            $cost = $prod['stk-current-buy'];
+//                            if ($cost == '0' || $cost == '')
+//                            {
+//                                if(isset($prod['whse-avg-cost-swhs']))
+//                                {
+//                                    $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
+//
+//                                    if ($cost == '0' || $cost == '')
+//                                    {
+//                                        $pricetocost = floatval($price);
+//                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+//                                    }
+//                                }
+//
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                $product->setCustomAttribute('cost', $cost);
+//
+//                $marketplacesprice = 0;
+//                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
+//                {
+//                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
+//                    if(empty($marketplacesprice))
+//                    {
+//                        $marketplacesprice = 0;
+//                    }
+//                }
+//                else
+//                {
+//                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+//                    {
+//                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+//                        if(empty($marketplacesprice))
+//                        {
+//                            $marketplacesprice = 0;
+//                        }
+//                    }
+//                }
+//                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
+//                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
-                $endis = "Enabled = 0";
+                //$endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -1210,7 +1208,7 @@ class Product extends AbstractHelper
                     }
 
                 }
-                $forLogs .= $endis."\n";
+                //$forLogs .= $endis."\n";
                 //comment out for now 13-05-24
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 //                if($prod['stk-user-only-alpha4-1'] == 'A')
@@ -1225,36 +1223,36 @@ class Product extends AbstractHelper
 //                    $awaiting = "Awaiting Product = 0";
 //                }
 //                $forLogs .= $awaiting."\n";
-
-                if(isset($prod['stock-division']))
-                {
-                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
-                }
-
-                if(isset($prod['stock-department']))
-                {
-                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
-                }
-
-                if(isset($prod['stock-category']))
-                {
-                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
-                }
-
-                if(isset($prod['stock-class']))
-                {
-                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
-                }
-
-                //set to pre order
-                if($prod['stk-user-only-alpha4-1'] == 'P')
-                {
-                    //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
-                    $forLogs .= "Pre Order 1 \n";
-                    //echo "pre_order 1  <br/>";
-                }
+//
+//                if(isset($prod['stock-division']))
+//                {
+//                    $product->setCustomAttribute('stock_division', $prod['stock-division']);
+//                }
+//
+//                if(isset($prod['stock-department']))
+//                {
+//                    $product->setCustomAttribute('stock_department', $prod['stock-department']);
+//                }
+//
+//                if(isset($prod['stock-category']))
+//                {
+//                    $product->setCustomAttribute('stock_category', $prod['stock-category']);
+//                }
+//
+//                if(isset($prod['stock-class']))
+//                {
+//                    $product->setCustomAttribute('stock_class', $prod['stock-class']);
+//                }
+//
+//                //set to pre order
+//                if($prod['stk-user-only-alpha4-1'] == 'P')
+//                {
+//                    //$product->setData('awaiting_product', '1');
+//                    $product->setCustomAttribute('pre_order', '1');
+//                    $product->setCustomAttribute('preorder', '1');
+//                    $forLogs .= "Pre Order 1 \n";
+//                    //echo "pre_order 1  <br/>";
+//                }
 
                 //set brands
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -1265,12 +1263,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -1291,33 +1289,34 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
 
-                if(isset($prod['warehouse']['whse']))
-                {
-                    foreach ($prod['warehouse']['whse'] as $qt)
-                    {
-                        if(is_array($qt))
-                        {
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($qt['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($qt['qty_available']);
-                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        }
-                        else
-                        {
-                            // to handle single warehouse
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        }
-                    }
-                }
+                //disabled, got separate sync for SOH
+//                if(isset($prod['warehouse']['whse']))
+//                {
+//                    foreach ($prod['warehouse']['whse'] as $qt)
+//                    {
+//                        if(is_array($qt))
+//                        {
+//                            $sourceItem = $this->sourceItemFactory->create();
+//                            $sourceItem->setSourceCode($qt['code']);
+//                            $sourceItem->setSku($prod['code']);
+//                            $sourceItem->setStatus(1);
+//                            $sourceItem->setQuantity($qt['qty_available']);
+//                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+//                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                        }
+//                        else
+//                        {
+//                            // to handle single warehouse
+//                            $sourceItem = $this->sourceItemFactory->create();
+//                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+//                            $sourceItem->setSku($prod['code']);
+//                            $sourceItem->setStatus(1);
+//                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+//                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+//                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                        }
+//                    }
+//                }
 
 //                $sourceItem = $this->sourceItemFactory->create();
 //                $sourceItem->setSourceCode('default');
@@ -1328,23 +1327,21 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
 
-                if($prod['stk-condition-code'] == 'T')
-                {
-                    $stock_condition = 181;
-                }
-                else if ($prod['stk-condition-code'] == 'O')
-                {
-                    $stock_condition = 179;
-                }
-                else
-                {
-                    $stock_condition = 183;
-                }
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('stock_group', $prod['stock-group']);
-                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $product->setCustomAttribute('stock_condition', $stock_condition);
+//                if($prod['stk-condition-code'] == 'T')
+//                {
+//                    $stock_condition = 181;
+//                }
+//                else if ($prod['stk-condition-code'] == 'O')
+//                {
+//                    $stock_condition = 179;
+//                }
+//                else
+//                {
+//                    $stock_condition = 183;
+//                }
+//                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+//                $product->setCustomAttribute('stock_group', $prod['stock-group']);
+//                $product->setCustomAttribute('stock_condition', $stock_condition);
 
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
@@ -1408,12 +1405,16 @@ class Product extends AbstractHelper
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
 
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
+                //comment out. put in different cron
                 $parent = "";
                 $subcat1 = "";
                 $subcat2 = "";
@@ -1431,7 +1432,7 @@ class Product extends AbstractHelper
                     foreach ($getCategoryList as $id => $category)
                     {
                         //digiSeconds
-                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        if($prod['stk-stock-status'] == 'S' && $category['name'] == 'digiSeconds')
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
@@ -1522,22 +1523,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -1613,7 +1614,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brands
@@ -1625,12 +1626,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -1642,7 +1643,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -1734,8 +1735,6 @@ class Product extends AbstractHelper
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
-                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -1930,32 +1929,33 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
+            $this->logger->info($forLogs);
         }
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            $forLogs .= $json['response']['message'];
+            $this->logger->info($json['response']['message']);;
         }
 
-        $this->logger->info($forLogs);
+        //$this->logger->info($forLogs);
 
         if($startItem == $lastCode)
         {
@@ -1968,15 +1968,15 @@ class Product extends AbstractHelper
     public function productProntoBulk($startItem, $endItem)
     {
 
-        set_time_limit(300);
+        set_time_limit(1500);
         $lastCode = 0;
-        $forLogs = "";
+
         $this->attributeOptions = $this->getOptionHash('brand');
         echo "start <br/>";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         //live port :8084
@@ -2013,6 +2013,7 @@ class Product extends AbstractHelper
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            $forLogs = "";
 
             if(!isset($prod['code']))
             {
@@ -2103,7 +2104,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
                 echo $marketplacesprice. " marketplacesprice <br/>";
                 $endis = "nochange";
@@ -2163,7 +2164,7 @@ class Product extends AbstractHelper
 //                    echo "awaiting 0  <br/>";
 //                }
 
-                 //stk-user-only-alpha4-3 is_qantas_product
+                //stk-user-only-alpha4-3 is_qantas_product
                 if(isset($prod['stk-user-only-alpha4-3']))
                 {
                     if($prod['stk-user-only-alpha4-3'] == "Q")
@@ -2214,12 +2215,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -2369,6 +2370,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
+
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
@@ -2483,22 +2488,22 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            echo $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            echo $e->getMessage();
+                        }
+                    }
+                }
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -2574,7 +2579,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
@@ -2587,12 +2592,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -2604,7 +2609,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -2630,13 +2635,13 @@ class Product extends AbstractHelper
                                     $barcode1 = $gtin['id'];
                                     break;
                                 case 2:
-                                    $barcode2 = $gtin['id'];
+                                    $barcode4 = $gtin['id'];
                                     break;
                                 case 3:
                                     $barcode3 = $gtin['id'];
                                     break;
                                 case 4:
-                                    $barcode4 = $gtin['id'];
+                                    $barcode2 = $gtin['id'];
                                     break;
                                 default:
 
@@ -2893,25 +2898,27 @@ class Product extends AbstractHelper
                 //echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
+
+            $this->logger->info($forLogs);
         }
-        $this->logger->info($forLogs);
+
         return true;
     }
 
@@ -3050,7 +3057,7 @@ class Product extends AbstractHelper
                         $marketplacesprice = 0;
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //if true, do not enable
@@ -3123,7 +3130,7 @@ class Product extends AbstractHelper
 //                    echo "awaiting 0  <br/>";
 //                }
 
-                 //stk-user-only-alpha4-3 is_qantas_product
+                //stk-user-only-alpha4-3 is_qantas_product
                 if(isset($prod['stk-user-only-alpha4-3']))
                 {
                     if($prod['stk-user-only-alpha4-3'] == "Q")
@@ -3174,12 +3181,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
@@ -3242,21 +3249,20 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
                 //default source, dapat lagi meron
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);//in stock
-//                $sourceItem->setQuantity(0);
-//                $sourceItems[] = $sourceItem;
-//                 echo "default - 0";
-//                try {
-//                    $this->sourceItemsSaveInterface->execute($sourceItems);
-//                    //return true;
-//                } catch (\Exception $e) {
-//                    echo "error default source";
-//                }
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);//in stock
+                $sourceItem->setQuantity(0);
+                $sourceItems[] = $sourceItem;
+                echo "default - 0";
+                try {
+                    $this->sourceItemsSaveInterface->execute($sourceItems);
+                    //return true;
+                } catch (\Exception $e) {
+                    echo "error default source";
+                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -3350,6 +3356,9 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329); //digidirect seller code
+
+                $productSales = $this->getProductSales($product->getId(), $price);
+                $product->setCustomAttribute('nb_sales', $productSales); //bestseller attribute for sorting
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -3465,22 +3474,22 @@ class Product extends AbstractHelper
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
 
 
@@ -3571,7 +3580,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
                 echo "marketplacesprice - ".$marketplacesprice;
                 echo "<br />";
@@ -3585,12 +3594,12 @@ class Product extends AbstractHelper
                     }
                     else
                     {
-                        $brandName = strtolower($prod['stk-brand-desc']);
+                        $brandName = strtolower($prod['stk-brand']);
                     }
                 }
                 else
                 {
-                    $brandName = strtolower($prod['stk-brand-desc']);
+                    $brandName = strtolower($prod['stk-brand']);
                 }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -3602,7 +3611,7 @@ class Product extends AbstractHelper
 
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname."-".$prod['code'];
+                $toUrl = $prodname;
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $urltext = strtolower($urltext);
@@ -3712,7 +3721,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                $forLogs .= "Marketplaces Price ".$marketplacesprice."\n";
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -3919,22 +3928,22 @@ class Product extends AbstractHelper
                 echo $catList."<br>";
                 $forLogs .= $catList."\n";
                 //comment out for now until bugged category is fixed May 6, 2024
-//                if (count($categoryIds)) {
-//
-//                    $forLogs .= "Categories: ".$catList."\n";
-//                    //echo "update categories: ".$catList."<br />";
-//                    try
-//                    {
-//                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-//                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                        try
-//                        {
-//                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
-//                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-//                            $forLogs .=   $e->getMessage();
-//                        }
-//                    }
-//                }
+                if (count($categoryIds)) {
+
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //echo "update categories: ".$catList."<br />";
+                    try
+                    {
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                        try
+                        {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], array());
+                        }  catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                            $forLogs .=   $e->getMessage();
+                        }
+                    }
+                }
 
             }
         }
@@ -4024,6 +4033,21 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-
     //redeploy
+
+    public function getProductSales($entityId, $price) {
+        $SoldProducts = $this->_reportCollectionFactory->create();
+        $SoldProdudctCOl = $SoldProducts->addOrderedQty(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'))->addAttributeToFilter('product_id', $entityId);
+        /* If does have any product id
+         * then return false
+         */
+        if(!$SoldProdudctCOl->count()):
+            return 0;
+        endif;
+        $SoldProdudctCOl->getSelect()->__toString();
+        $product = $SoldProdudctCOl->getFirstItem();
+        $productSales = (int)$product->getData('ordered_qty') * $price;
+        $this->logger->info('getProductSales, ' . $entityId . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
+        return $productSales;
+    }
 }

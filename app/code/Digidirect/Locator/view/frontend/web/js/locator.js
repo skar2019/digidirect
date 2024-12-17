@@ -80,7 +80,7 @@ define([
             this.list = [];
 
             if (window.digidirectGoogleMapsUrl || this.options.google.key) {
-                this._loadGoogleApi(window.digidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?key=' + this.options.google.key + this.options.google.libraries);
+                this._loadGoogleApi(window.digidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?loading=async&key=' + this.options.google.key + this.options.google.libraries);
             } else {
                 console.warn('Google Map hasn\'t been loaded');
             }

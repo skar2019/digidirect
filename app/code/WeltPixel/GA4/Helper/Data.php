@@ -1005,7 +1005,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData = [];
         $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
+        $productData['item_id'] = $productId;//substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         if ($this->checkoutSession->getGA4LastProductPrice()) {
             $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($this->checkoutSession->getGA4LastProductPrice()), 2, '.', ''));
             $this->checkoutSession->setGA4LastProductPrice(null);
@@ -1328,7 +1328,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData = [];
         $productData['item_name'] = $itemName;
         $productData['affiliation'] = $this->getAffiliationName();
-        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
+        $productData['item_id'] = $productId;//substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($quoteItem->getPrice()), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
@@ -1375,7 +1375,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData['item_name'] = html_entity_decode($product->getName() ?? '');
         $productData['affiliation'] = $this->getAffiliationName();
         $productId = $this->getGtmProductId($product);
-        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
+        $productData['item_id'] = $productId;//substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         if(is_null($product->getPriceInfo()->getPrice('final_price')->getValue()))
         {
             $productData['price'] = $product->getPriceInfo()->getPrice('final_price')->getValue();
@@ -1428,7 +1428,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $productData['item_name'] = html_entity_decode($product->getName() ?? '');
         $productData['affiliation'] = $this->getAffiliationName();
         $productId = $this->getGtmProductId($product);
-        $productData['item_id'] = substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
+        $productData['item_id'] = $productId;//substr($productId, 0, 50); //clint work around, limit to 50 characters only May 17, 2024
         $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);

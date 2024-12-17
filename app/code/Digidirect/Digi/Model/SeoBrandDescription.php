@@ -14,7 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Digidirect\Digi\Helper\AbstractAttribute;
-use \Laminas\Uri\Http as ZendUrlParser;
+use \Zend\Uri\Http as ZendUrlParser;
 use \Digidirect\LayeredNavigation\Helper\UrlParser;
 
 /**
@@ -215,7 +215,7 @@ class SeoBrandDescription
     public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
         if ($this->isCategoryBrandPage()) {
-            $this->pageConfig->setRobots($robotsMetaData);
+            //$this->pageConfig->setRobots($robotsMetaData);
             $this->setCanonical($this->getCanonicalUrl());
 
             //clint comment out Nov 9, 2023
@@ -407,7 +407,7 @@ class SeoBrandDescription
                 }
             }
             $this->pageConfig->addRemotePageAsset(
-                $this->url->getCurrentUrl(),
+                'canonical-seo',
                 self::ASSET_CANONICAL,
                 ['attributes' => ['rel' => self::ASSET_CANONICAL]]
             );

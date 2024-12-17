@@ -1,23 +1,11 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <meta name="robots" content="NOINDEX" />
-    </head>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="breadcrumbs" remove="false"/>
-        <referenceBlock name="catalog.leftnav" template="Magento_CatalogSearch::layer/view.phtml" />
-        <referenceContainer name="div.sidebar.additional" remove="true" />
-        <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" before="search.result"/>
-        </referenceContainer>
-        <referenceBlock name="search_result_list">
-            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
-
-        <move element="breadcrumbs" destination="content" before="-"/>
+        <referenceBlock name="breadcrumbs" remove="true" />
+        
+        <referenceBlock name="sidebar.main" remove="true"/>
+        <referenceBlock name="sidebar.additional" remove="true"/>
+        <referenceBlock name="catalogsearch.leftnav" remove="true"/>
+        
     </body>
 </page>

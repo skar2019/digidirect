@@ -134,12 +134,15 @@ class DefaultConfigProvider
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 $qty = 0;
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                    if ($sourceItem->getQuantity() < 0) {
-                       $sourceQty = 0;
-                    } else {
-                       $sourceQty = $sourceItem->getQuantity(); 
+                    $store = $sourceItem->getSourceCode();
+                    if ($store != "default") {
+                        if ($sourceItem->getQuantity() < 0) {
+                           $sourceQty = 0;
+                        } else {
+                           $sourceQty = $sourceItem->getQuantity(); 
+                        }
+                        $qty = $qty + $sourceQty;
                     }
-                    $qty = $qty + $sourceQty;
                 }
                 $totalqty = $totalqty * $qty;
             }

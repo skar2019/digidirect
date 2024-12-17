@@ -48,6 +48,7 @@ if ($customerSession->isLoggedIn()) {
     <span id="mobile-menu-only-header">
     <i class="fas fa-times mobile-menu-main-exit"></i>
     <a class="digi-link" href="https://www.digidirect.com.au/">
+
         <img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg">
     </a>
     <span id="menu-mobile-span-signin">
@@ -121,7 +122,7 @@ if ($customerSession->isLoggedIn()) {
                                     <a><span class="first-menu-tab-title">Home</span> <i class="fas mgz-fa-angle-right"></i> <span class="tabs-opener" style="display: none;"></span></a>
                                 </div>
 
-                                <div id="collectibles-tab-menu" class="mgz-tabs-tab-title">
+                                <div id="collectibles-tab-menu" class="mgz-tabs-tab-title" style="display: none;">
                                     <a href="https://www.digidirect.com.au/collectables-merchandise-digital" style="display:flex;background:none;border:none;">
                                         <img src="https://www.digidirect.com.au/media/wysiwyg/main-menu/icons/collectibles.png" style="width: 30px; display: none;">
                                         <span>Collectibles & Merchandise Digital</span>
@@ -133,7 +134,7 @@ if ($customerSession->isLoggedIn()) {
                                     <a><span class="first-menu-tab-title">Fitness & Well-being Tech</span> <i class="fas mgz-fa-angle-right"></i> <span class="tabs-opener" style="display: none;"></span></a>
                                 </div>
 
-                                <div id="seasonal-tab-menu" class="mgz-tabs-tab-title seasonal-tab-menu" onclick="openSecondLevel(event, 'second-level-seasonal', 'top-brands-seasonal', 'seasonal-tab-menu')">
+                                <div id="seasonal-tab-menu" class="mgz-tabs-tab-title seasonal-tab-menu" onclick="openSecondLevel(event, 'second-level-seasonal', 'top-brands-seasonal', 'seasonal-tab-menu')" style="display: none;">
                                     <a><span class="first-menu-tab-title">Seasonal Tech</span> <i class="fas mgz-fa-angle-right"></i> <span class="tabs-opener" style="display: none;"></span></a>
                                 </div>
 
@@ -160,7 +161,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Cameras</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Cameras</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/cameras">View All Cameras</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'dslr-cameras')">DSLR Cameras</button>
@@ -169,7 +170,7 @@ if ($customerSession->isLoggedIn()) {
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'compact-cameras')">Compact Cameras</button>
                                             </div>
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Cameras</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Cameras</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'film-cameras')">Film Cameras</button>
@@ -188,7 +189,7 @@ if ($customerSession->isLoggedIn()) {
                                     <div class="menu-raw-content">
 
                                         <div class="menu-second-level">
-                                            <h3>Lenses</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lenses</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/lenses">View All Lenses</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'slr-lenses')">SLR Lenses</button>
@@ -198,7 +199,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Lenses</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Lenses</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'medium-format-lenses')">Medium Format Lenses</button>
@@ -215,7 +216,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Lighting & Studio</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lighting & Studio</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/lighting-and-studio">View All Lighting & Studio</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'camera-flashes')">Camera Flashes</button>
@@ -225,7 +226,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Lighting & Studio</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Lighting & Studio</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'radio-and-optical-slaves')">Radio & Optical Slaves</button>
@@ -242,7 +243,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Photo Accessories</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Photo Accessories</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/photo-accessories">View All Photo Accessories</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'tripods-and-stabilizers')">Tripods & Stabilizers</button>
@@ -251,7 +252,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Photo Accessories</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Photo Accessories</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'camera-system-accessories')">Camera System Accessories</button>
@@ -271,7 +272,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Optics</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Optics</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/optics">View All Optics</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'binoculars-and-accessories')">Binoculars & Accessories</button>
@@ -281,7 +282,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Optics</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Optics</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'telescopes')">Telescopes</button>
@@ -295,7 +296,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Audio & Visual</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Audio & Visual</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/audio-and-visual">View All Audio Visual</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'microphones')">Microphones</button>
@@ -305,10 +306,10 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Audio & Visual</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Audio & Visual</h6>
 
                                             <div class="tab">
-                                                <button class="tablinks" onclick="openThirdLevel(event, 'projection-screens')">Projection Screens</button>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/audio-and-visual/projectors/projection-screens">Projection Screens</a>
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'speakers')">Speakers</button>
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'audio-interfaces-and-mixers')">Audio Interface & Mixers</button>
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'software')">Software</button>
@@ -324,7 +325,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Pro Video</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Pro Video</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/pro-video">View All Pro Video</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'pro-video-cameras')">Pro Video Cameras</button>
@@ -334,7 +335,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Pro Video</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Pro Video</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'live-streaming')">Live Streaming</button>
@@ -349,17 +350,25 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Smart Home</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Smart Home</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/smart-home">View All Smart Home</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'security-cameras')">Security Cameras</button>
-                                                <button class="tablinks" onclick="openThirdLevel(event, 'home-automation')">Home Automation</button>
-                                                <button class="tablinks" onclick="openThirdLevel(event, 'small-appliances')">Small Appliances</button>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/home-automation">Home Automation</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/home-appliances">Home Appliances</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/smart-lighting">Smart Lighting</a>
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'health-fitness-and-wearables')">Health Fitness & Wearables</button>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/small-appliances">Small Appliances</a>
+                                                <button class="tablinks" onclick="openThirdLevel(event, 'heating-cooling-air-treatment')">Heating Cooling & Air Treatment</button>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/swann">Swann Security Cameras Systems</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/replacement-batteries">Replacement Batteries</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/ip-phone-and-accessories">IP Phone & Accessories</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/smart-home/solar">Solar</a>
+                                                <button class="tablinks" onclick="openThirdLevel(event, 'smarthome-electronics')">Electronics</button>
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Smart Home</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Smart Home</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'lighting')">Lighting</button>
@@ -374,7 +383,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Computers & Mobile</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Computers & Mobile</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/computers-mobile">View All Computers & Mobile</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'laptops-and-notebooks')">Laptops & Notebooks</button>
@@ -387,7 +396,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Computers & Mobile</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Computers & Mobile</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'computer-accessories')">Computer Accessories</button>
@@ -401,7 +410,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Drones</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drones</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/drones">View All Drones</a></span>
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'drones-uav')">Drones UAV</button>
@@ -411,7 +420,7 @@ if ($customerSession->isLoggedIn()) {
                                             </div>
 
 
-                                            <h3 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Drones</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Also In Drones</h6>
 
                                             <div class="tab">
                                                 <button class="tablinks" onclick="openThirdLevel(event, 'underwater-rovs')">Underwater ROVs</button>
@@ -426,12 +435,14 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Electronic Toys</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Electronic Toys</h6>
                                             <span><a class href="https://www.digidirect.com.au/electronic-toys">View All Electronic Toys</a></span>
                                             <div class="tab">
                                                 <a class="tablinks" href="https://www.digidirect.com.au/electronic-toys/rc-toys">RC Toys</a>
                                                 <a class="tablinks" href="https://www.digidirect.com.au/electronic-toys/toys-ride-on">Toys Ride-On</a>
                                                 <a class="tablinks" href="https://www.digidirect.com.au/electronic-toys/electronic">Electronic</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/electronic-toys/toys-and-games">Toys & Games</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/collectables-merchandise-digital">Collectibles & Merchandise Digital</a>
                                             </div>
                                         </div>
                                     </div>
@@ -442,11 +453,12 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Home</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Home</h6>
                                             <span><a class href="https://www.digidirect.com.au/home-category">View All Home</a></span>
                                             <div class="tab">
                                                 <a class="tablinks" href="https://www.digidirect.com.au/home-category/homeware">Homeware</a>
                                                 <a class="tablinks" href="https://www.digidirect.com.au/home-category/small-appliances">Small Appliances</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/home-category/home-accessories">Home Accessories</a>
                                             </div>
                                         </div>
                                     </div>
@@ -457,11 +469,16 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Fitness & Well-being Tech</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Fitness & Well-being Tech</h6>
                                             <span><a class href="https://www.digidirect.com.au/fitness-wellbeing-tech">View All Fitness & Well-being Tech</a></span>
                                             <div class="tab">
                                                 <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/baby">Baby</a>
                                                 <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/wearables">Wearables</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/health">Health</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/gym-rowers">Gym - Rowers</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/gym-accessories">Gym - Accessories</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/gym-bikes">Gym - Bikes</a>
+                                                <a class="tablinks" href="https://www.digidirect.com.au/fitness-wellbeing-tech/gym-equipment">Gym Equipment</a>
                                             </div>
                                         </div>
                                     </div>
@@ -472,7 +489,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Seasonal Tech</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Seasonal Tech</h6>
                                             <span><a class="" href="https://www.digidirect.com.au/seasonal-tech">View All Seasonal Tech</a></span>
                                             <div class="tab">
                                                 <a class="tablinks" href="https://www.digidirect.com.au/seasonal-tech/christmas">Christmas</a>
@@ -486,7 +503,7 @@ if ($customerSession->isLoggedIn()) {
 
                                         <div class="menu-second-level">
 
-                                            <h3>Music Instruments</h3>
+                                            <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Music Instruments</h6>
                                             <span><a class href="https://www.digidirect.com.au/music-instruments">View All Music Instruments</a></span>
                                             <div class="tab">
                                                 <a class="tablinks" href="https://www.digidirect.com.au/music-instruments/guitars">Guitars</a>
@@ -505,10 +522,10 @@ if ($customerSession->isLoggedIn()) {
 
                             <div id="third-level-menu" class="slide-left-to-right">
                                 <div class="menu-third-level">
-                                    <span class="return-to-second-layer" onclick="returnToSecondLayer();"><i class="fas fa-angle-left"></i><h3>Previous</h3></span>
+                                    <span class="return-to-second-layer" onclick="returnToSecondLayer();"><i class="fas fa-angle-left"></i><h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Previous</h6></span>
 
                                     <div id="dslr-cameras" class="tabcontent">
-                                        <h3>DSLR Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">DSLR Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/cameras-dslr-cameras">View All DSLR Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -522,7 +539,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="mirrorless-cameras" class="tabcontent">
-                                        <h3>Mirrorless Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Mirrorless Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/mirrorless-cameras">View All Mirrorless Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -539,7 +556,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="action-cameras" class="tabcontent">
-                                        <h3>Action Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Action Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/action-cameras">View All Action Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -551,7 +568,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="compact-cameras" class="tabcontent">
-                                        <h3>Compact Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Compact Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/compact-cameras">View All Compact Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -569,7 +586,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="film-cameras" class="tabcontent">
-                                        <h3>Film Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Film Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/film-cameras">View All Film Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -583,7 +600,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="medium-format-cameras" class="tabcontent">
-                                        <h3>Medium Format Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Medium Format Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/medium-format-cameras">View All Medium Format Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -593,7 +610,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="instant-cameras" class="tabcontent">
-                                        <h3>Instant Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Instant Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/instant-cameras">View All Instant Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -606,7 +623,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="specialty-cameras" class="tabcontent">
-                                        <h3>Specialty Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Specialty Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/specialty-cameras">View All Specialty Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -624,7 +641,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="rangefinder-cameras" class="tabcontent">
-                                        <h3>Rangefinder Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Rangefinder Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/rangefinder-cameras">View All Rangefinder Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -634,7 +651,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="waterproof-cameras" class="tabcontent">
-                                        <h3>Waterproof Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Waterproof Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/cameras/waterproof-cameras">View All Waterproof Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -646,7 +663,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="slr-lenses" class="tabcontent">
-                                        <h3>SLR Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">SLR Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/slr-lenses">View All SLR Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -664,7 +681,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="mirrorless-lenses" class="tabcontent">
-                                        <h3>Mirrorless Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Mirrorless Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/mirrorless-lenses">View All Mirrorless Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -684,7 +701,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="rangefinder-lenses" class="tabcontent">
-                                        <h3>Rangefinder Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Rangefinder Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/rangefinder-lenses">View All Rangefinder Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -695,7 +712,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="digital-cine-lenses" class="tabcontent">
-                                        <h3>Digital Cine Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Digital Cine Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/digital-cine-lenses">View All Digital Cine Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -712,7 +729,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="medium-format-lenses" class="tabcontent">
-                                        <h3>Medium Format Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Medium Format Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/medium-format-lenses">View All Medium Format Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -724,7 +741,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="special-effect-lenses" class="tabcontent">
-                                        <h3>Special Effect Lenses</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Special Effect Lenses</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/special-effects-lenses">View All Special Effect Lenses</a></span>
 
                                         <div class="menu-third-level-links">
@@ -736,7 +753,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="lense-filter" class="tabcontent">
-                                        <h3>Lens Filter</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lens Filter</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/lens-filters">View All Lens Filter</a></span>
 
                                         <div class="menu-third-level-links">
@@ -757,7 +774,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="lens-accessories" class="tabcontent">
-                                        <h3>Lens Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lens Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/lenses/lens-accessories">View All Lens Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -775,7 +792,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="camera-flashes" class="tabcontent">
-                                        <h3>Camera Flashes</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Camera Flashes</h6>
                                         <span><a class href="https://www.digidirect.com.au/lighting-and-studio/camera-flashes">View All Camera Flashes</a></span>
 
                                         <div class="menu-third-level-links">
@@ -792,7 +809,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="monolights-and-strobes" class="tabcontent">
-                                        <h3>Monolights & Strobes</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Monolights & Strobes</h6>
                                         <span><a class href="https://www.digidirect.com.au/lighting-and-studio/monolights-and-strobes">View All Monolights & Strobes</a></span>
 
                                         <div class="menu-third-level-links">
@@ -806,7 +823,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="continuous-lights" class="tabcontent">
-                                        <h3>Continuous Lights</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Continuous Lights</h6>
                                         <span><a class href="https://www.digidirect.com.au/lighting-and-studio/continuous-lights">View All Continuous Lights</a></span>
 
                                         <div class="menu-third-level-links">
@@ -824,7 +841,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="light-modifiers-and-reflectors" class="tabcontent">
-                                        <h3>Light Modifiers & Reflectors</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Light Modifiers & Reflectors</h6>
                                         <span><a class href="https://www.digidirect.com.au/lighting-and-studio/light-modifiers-and-reflectors">View All Light Modifiers & Reflectors</a></span>
 
                                         <div class="menu-third-level-links">
@@ -840,7 +857,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="radio-and-optical-slaves" class="tabcontent">
-                                        <h3>Radio & Optical Slaves</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Radio & Optical Slaves</h6>
                                         <span><a class href="">View All Radio & Optical Slaves</a></span>
 
                                         <div class="menu-third-level-links">
@@ -852,7 +869,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="flash-accessories" class="tabcontent">
-                                        <h3>Flash Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Flash Accessories</h6>
                                         <span><a class href="">View All Flash Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -868,7 +885,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="on-camera-lighting" class="tabcontent">
-                                        <h3>On Camera Lighting</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">On Camera Lighting</h6>
                                         <span><a class href="">View All On Camera Lighting</a></span>
 
                                         <div class="menu-third-level-links">
@@ -881,7 +898,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="backgrounds-and-supports" class="tabcontent">
-                                        <h3>Backgrounds & Supports</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Backgrounds & Supports</h6>
                                         <span><a class href="">View All Backgrounds & Supports</a></span>
 
                                         <div class="menu-third-level-links">
@@ -899,7 +916,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="tripods-and-stabilizers" class="tabcontent">
-                                        <h3>Tripods & Stabilizers</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Tripods & Stabilizers</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/tripods-and-stabilizers">View All Tripods & Stabilizers</a></span>
 
                                         <div class="menu-third-level-links">
@@ -921,7 +938,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="bags-and-cases" class="tabcontent">
-                                        <h3>Bags & Cases</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Bags & Cases</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/bags-and-cases">View All Bags & Cases</a></span>
 
                                         <div class="menu-third-level-links">
@@ -944,7 +961,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="memory-cards-and-drives" class="tabcontent">
-                                        <h3>Memory Cards & Drives</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Memory Cards & Drives</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/memory-cards-and-drives">View All Memory Cards & Drives</a></span>
 
                                         <div class="menu-third-level-links">
@@ -959,7 +976,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="camera-system-accessories" class="tabcontent">
-                                        <h3>Camera System Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Camera System Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/camera-system-accessories">View All Camera System Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -980,7 +997,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="batteries-and-power-supplies" class="tabcontent">
-                                        <h3>Batteries & Power Supplies</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Batteries & Power Supplies</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/batteries-and-power-supplies">View All Batteries & Power Supplies</a></span>
 
                                         <div class="menu-third-level-links">
@@ -994,7 +1011,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="printers-and-scanners" class="tabcontent">
-                                        <h3>Printers & Scanners</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Printers & Scanners</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/printers-and-scanners">View All Printers & Scanners</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1009,7 +1026,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="albums-and-frames" class="tabcontent">
-                                        <h3>Albums & Frames</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Albums & Frames</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/albums-and-frames">View All Albums & Frames</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1025,7 +1042,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="film-darkroom-and-video-tapes" class="tabcontent">
-                                        <h3>Film Darkroom & Video Tapes</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Film Darkroom & Video Tapes</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/film-darkroom-and-video-tapes">View All Film Darkroom & Video Tapes</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1043,7 +1060,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="usb-cables-and-adapters" class="tabcontent">
-                                        <h3>USB Cables & Adapters</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">USB Cables & Adapters</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/usb-cables-and-adapters">View All USB Cables & Adapters</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1060,7 +1077,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="travel-accessories" class="tabcontent">
-                                        <h3>Travel Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Travel Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/photo-accessories/travel-accessories">View All Travel Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1072,7 +1089,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="binoculars-and-accessories" class="tabcontent">
-                                        <h3>Binoculars & Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Binoculars & Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/optics/binoculars-and-accessories">View All Binoculars & Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1083,7 +1100,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="spotting-scopes-and-accessories" class="tabcontent">
-                                        <h3>Spotting Scopes & Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Spotting Scopes & Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/optics/spotting-scopes-and-accessories">View All Spotting Scopes & Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1095,7 +1112,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="laser-rangefinders" class="tabcontent">
-                                        <h3>Laser Rangefinders</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Laser Rangefinders</h6>
                                         <span><a class href="https://www.digidirect.com.au/optics/laser-rangefinders">View All Laser Rangefinders</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1108,7 +1125,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="monoculars" class="tabcontent">
-                                        <h3>Monoculars</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Monoculars</h6>
                                         <span><a class href="https://www.digidirect.com.au/optics/monoculars">View All Monoculars</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1124,7 +1141,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="telescopes" class="tabcontent">
-                                        <h3>Telescopes</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Telescopes</h6>
                                         <span><a class href="https://www.digidirect.com.au/optics/telescopes">View All Telescopes</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1137,7 +1154,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="microphones" class="tabcontent">
-                                        <h3>Microphones</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Microphones</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/microphones">View All Microphones</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1153,7 +1170,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="audio-recorders" class="tabcontent">
-                                        <h3>Audio Recorders</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Audio Recorders</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/audio-recorders">View All Audio Recorders</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1165,7 +1182,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="headphones" class="tabcontent">
-                                        <h3>Headphones</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Headphones</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/headphones">View All Headphones</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1183,7 +1200,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="cables" class="tabcontent">
-                                        <h3>Cables</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Cables</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/cables">View All Cables</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1201,7 +1218,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="speakers" class="tabcontent">
-                                        <h3>Speakers</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Speakers</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/speakers">View All Speakers</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1216,7 +1233,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="audio-interfaces-and-mixers" class="tabcontent">
-                                        <h3>Audio Interfaces & Mixers</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Audio Interfaces & Mixers</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/audio-interfaces-and-mixers">View All Audio Interfaces & Mixers</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1231,7 +1248,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="software" class="tabcontent">
-                                        <h3>Software</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Software</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/software">View All Software</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1243,7 +1260,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="monitors" class="tabcontent">
-                                        <h3>Monitors</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Monitors</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/monitors/monitors">View All Monitors</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1257,7 +1274,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="drawing-tablets" class="tabcontent">
-                                        <h3>Drawing Tablets</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drawing Tablets</h6>
                                         <span><a class href="https://www.digidirect.com.au/audio-and-visual/drawing-tablets">View All Drawing Tablets</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1268,7 +1285,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="pro-video-cameras" class="tabcontent">
-                                        <h3>Pro Video Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Pro Video Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/pro-video-cameras">View All Pro Video Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1282,7 +1299,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="video-monitors-and-recorders" class="tabcontent">
-                                        <h3>Video Monitors & Recorders</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Video Monitors & Recorders</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/video-monitors-and-recorders">View All Video Monitors & Recorders</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1295,7 +1312,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="white-balance-and-calibration" class="tabcontent">
-                                        <h3>White Balance & Calibration</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">White Balance & Calibration</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/white-balance-and-calibration">View All White Balance & Calibration</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1311,7 +1328,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="video-rigs" class="tabcontent">
-                                        <h3>Video Rigs</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Video Rigs</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/video-rigs">View All Video Rigs</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1329,7 +1346,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="live-streaming" class="tabcontent">
-                                        <h3>Live Streaming</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Live Streaming</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/live-streaming">View All Live Streaming</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1347,7 +1364,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="tools-and-consumables" class="tabcontent">
-                                        <h3>Tools & Consumables</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Tools & Consumables</h6>
                                         <span><a class href="https://www.digidirect.com.au/pro-video/tools-and-consumables">View All Tools & Consumables</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1358,7 +1375,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="security-cameras" class="tabcontent">
-                                        <h3>Security Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Security Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/security-camera-systems">View All Security Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1371,8 +1388,31 @@ if ($customerSession->isLoggedIn()) {
 
                                     </div>
 
+                                    <div id="heating-cooling-air-treatment" class="tabcontent">
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Heating Cooling & Air Treatment</h6>
+                                        <span><a class href="https://www.digidirect.com.au/smart-home/heating-cooling-air-treatment">View All Heating Cooling & Air Treatment</a></span>
+
+                                        <div class="menu-third-level-links">
+                                            <a class href="https://www.digidirect.com.au/smart-home/heating-cooling-air-treatment/air-conditioning">Air Conditioning</a>
+                                            <a class href="https://www.digidirect.com.au/smart-home/heating-cooling-air-treatment/air-purification">Air Purification</a>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="smarthome-electronics" class="tabcontent">
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Electronics</h6>
+                                        <span><a class href="https://www.digidirect.com.au/smart-home/electronics">View All Electronics</a></span>
+
+                                        <div class="menu-third-level-links">
+                                            <a class href="https://www.digidirect.com.au/smart-home/electronics/steam-kits">STEAM Kits</a>
+                                            <a class href="https://www.digidirect.com.au/smart-home/electronics/steam-accessories">STEAM Accessories</a>
+                                            <a class href="https://www.digidirect.com.au/smart-home/electronics/accessories">Accessories</a>
+                                        </div>
+
+                                    </div>
+
                                     <div id="home-automation" class="tabcontent">
-                                        <h3>Home Automation</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Home Automation</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/home-automation">View All Home Automation</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1382,7 +1422,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="small-appliances" class="tabcontent">
-                                        <h3>Small Appliances</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Small Appliances</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/small-appliances">View All Small Appliances</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1392,7 +1432,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="health-fitness-and-wearables" class="tabcontent">
-                                        <h3>Health Fitness & Wearables</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Health Fitness & Wearables</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/health-fitness-and-wearables">View All Health Fitness & Wearables</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1405,7 +1445,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="lighting" class="tabcontent">
-                                        <h3>Lighting</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lighting</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/lighting">View All Lighting</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1420,7 +1460,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="lifestyle-gadgets" class="tabcontent">
-                                        <h3>Lifestyle Gadgets</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Lifestyle Gadgets</h6>
                                         <span><a class href="https://www.digidirect.com.au/smart-home/lifestyle-gadgets">View All Lifestyle Gadgets</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1431,7 +1471,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="laptops-and-notebooks" class="tabcontent">
-                                        <h3>Laptops & Notebooks</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Laptops & Notebooks</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/laptops-notebooks">View All Laptops & Notebooks</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1446,7 +1486,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="mobile-phones-and-accessories" class="tabcontent">
-                                        <h3>Mobile Phones & Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Mobile Phones & Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/mobile-phones-and-accessories">View All Mobile Phones & Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1458,7 +1498,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="gaming" class="tabcontent">
-                                        <h3>Gaming</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Gaming</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/gaming">View All Gaming</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1471,7 +1511,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="tablets-ipads-and-surface" class="tabcontent">
-                                        <h3>Tablets IPads & Surface</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Tablets IPads & Surface</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/tablets-ipads-surface">View All Tablets IPads & Surface</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1484,7 +1524,7 @@ if ($customerSession->isLoggedIn()) {
 
 
                                     <div id="printers-and-scanners2" class="tabcontent">
-                                        <h3>Printers & Scanners</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Printers & Scanners</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/printers-and-scanners">View All Printers & Scanners</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1499,7 +1539,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="monitors-and-accessories" class="tabcontent">
-                                        <h3>Monitors & Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Monitors & Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/monitors">View All Monitors & Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1511,7 +1551,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="desktop-and-parts" class="tabcontent">
-                                        <h3>Desktop & Parts</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Desktop & Parts</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/desktops">View All Desktop & Parts</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1527,7 +1567,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="computer-accessories" class="tabcontent">
-                                        <h3>Computer Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Computer Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/computers-mobile/computer-accessories">View All Computer Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1544,7 +1584,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="drones-uav" class="tabcontent">
-                                        <h3>Drones UAV</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drones UAV</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/drones/dji">View All Drones UAV</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1554,7 +1594,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="drone-cameras" class="tabcontent">
-                                        <h3>Drone Cameras</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drone Cameras</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/drone-cameras">View All Drone Cameras</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1565,7 +1605,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="drone-gimbals" class="tabcontent">
-                                        <h3>Drone Gimbals</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drone Gimbals</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/drone-gimbals">View All Drone Gimbals</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1575,7 +1615,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="drone-accessories" class="tabcontent">
-                                        <h3>Drone Accessories</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Drone Accessories</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/drone-accessories">View All Drone Accessories</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1591,7 +1631,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="underwater-rovs" class="tabcontent">
-                                        <h3>Underwater ROVs</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Underwater ROVs</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/underwater-rovs">View All Underwater ROVs</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1601,7 +1641,7 @@ if ($customerSession->isLoggedIn()) {
                                     </div>
 
                                     <div id="robotics" class="tabcontent">
-                                        <h3>Robotics</h3>
+                                        <h6 style="font-size: 14px; font-weight: 600; color: #000; margin-top: 40px;">Robotics</h6>
                                         <span><a class href="https://www.digidirect.com.au/drones/robotics">View All Robotics</a></span>
 
                                         <div class="menu-third-level-links">
@@ -1831,7 +1871,7 @@ if ($customerSession->isLoggedIn()) {
         <div id="submenu-photolab" class="item-submenu" onclick="checkActiveMenuItem(event, 'submenu-photolab')">
             <div class="photolab-mobile-menu">
                 <div class="dropdown">
-                    <a class="digiprint-link" href="https://www.digidirect.com.au/digiprint">
+                    <a class="digiprint-link" href="https://www.digidirect.com.au/digiprint-infopage">
                         <button class="dropbtn" style="display: flex;">
                             <span class="dc-digi">digi</span>
                             <span class="dc-club">Print</span>
@@ -1839,8 +1879,8 @@ if ($customerSession->isLoggedIn()) {
                         </button>
                     </a>
                     <i class="fas fa-angle-right"></i>
-          <div class="dropdown-content" onclick="event.stopPropagation()" onmouseleave="resetDigiPrintSecondLevel()">
-            <div id="photolab-listing" class="photolab-listing" style="display: grid; grid-auto-rows: 100px;border: 1px solid #cacaca;">
+                    <div class="dropdown-content" onclick="event.stopPropagation()" onmouseleave="resetDigiPrintSecondLevel()">
+                        <div id="photolab-listing" class="photolab-listing" style="display: grid; grid-auto-rows: 100px;border: 1px solid #cacaca;">
 
                             <div class="reason-list" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-printing-services')">
                 <span>
@@ -1850,11 +1890,11 @@ if ($customerSession->isLoggedIn()) {
                 </span>
                                 <div class="content">
                                     <a>
-                                        <h3 class="protect-title">Printing Services</h3>
+                                        <h6 class="protect-title">Printing Services</h6>
                                         <p>Turn your digital photos in to beautiful prints.</p>
                                     </a>
                                 </div>
-                <i class="fas mgz-fa-angle-right"></i>
+                                <i class="fas mgz-fa-angle-right"></i>
                             </div>
 
                             <div class="reason-list" onclick="openDigiPrintSecondLevel(event, 'digiprint-second-level-photo-books')">
@@ -1865,13 +1905,13 @@ if ($customerSession->isLoggedIn()) {
                 </span>
                                 <div class="content">
                                     <a>
-                                        <h3 class="protect-title">Photo Books</h3>
+                                        <h6 class="protect-title">Photo Books</h6>
                                         <p>Customise Photo Books in different size and number pages</p>
                                     </a>
                                 </div>
-                <i class="fas mgz-fa-angle-right"></i>
+                                <i class="fas mgz-fa-angle-right"></i>
                             </div>
-                
+
                             <div class="reason-list">
                 <span>
                     <a href="https://www.digidirect.com.au/digi-print/calendar">
@@ -1880,58 +1920,58 @@ if ($customerSession->isLoggedIn()) {
                 </span>
                                 <div class="content">
                                     <a href="https://www.digidirect.com.au/digi-print/calendar">
-                                        <h3 class="protect-title">Calendar</h3>
+                                        <h6 class="protect-title">Calendar</h6>
                                         <p>Customise your wall and desk calendar</p>
                                     </a>
                                 </div>
                             </div>
 
                         </div>
-              
-            
-            <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
-                <div id="return-to-first-level-digiprint" onclick="returnToFirstLevelDigiPrint()" style="display: none;"><i class="fas fa-angle-left" style="margin-right: 10px"></i>Previous</div>
-                <div id="digiprint-second-level-printing-services" class="second-level-content">
-                    <div class="menu-raw-content">
-                        <div class="menu-second-level">
-                            <span>Printing Services</span>
-                            <a href="https://www.digidirect.com.au/digi-print/printing-services">View All Printing Services</a>
-                            <div class="tab">
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/wide-format-fine-art-printing">Wide Format & Fine Art Printing</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/metal-prints">Metal Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/glass-prints">Glass Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/in-store-framed-prints">In Store Framed Prints</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-prints">Framed Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-metal-prints">Framed Metal Prints</a> 
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-canvas-prints">Framed Canvas Prints</a>
+
+
+                        <div id="digiprint-second-level" class="mgz-tabs-content slide-left-to-right">
+                            <div id="return-to-first-level-digiprint" onclick="returnToFirstLevelDigiPrint()" style="display: none;"><i class="fas fa-angle-left" style="margin-right: 10px"></i>Previous</div>
+                            <div id="digiprint-second-level-printing-services" class="second-level-content">
+                                <div class="menu-raw-content">
+                                    <div class="menu-second-level">
+                                        <span>Printing Services</span>
+                                        <a href="https://www.digidirect.com.au/digi-print/printing-services">View All Printing Services</a>
+                                        <div class="tab">
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/photo-prints">Photo Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/wide-format-fine-art-printing">Wide Format & Fine Art Printing</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/canvas-prints">Canvas Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/metal-prints">Metal Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/glass-prints">Glass Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/in-store-framed-prints">In Store Framed Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-prints">Framed Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-metal-prints">Framed Metal Prints</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/printing-services/framed-canvas-prints">Framed Canvas Prints</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="digiprint-second-level-photo-books" class="second-level-content">
-                    <div class="menu-raw-content">
-                        <div class="menu-second-level">
-                            <span>Photo Books</span>
-                            <a href="https://www.digidirect.com.au/digi-print/photo-books">View All Photo Books</a>
-                            <div class="tab">
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/standard-cover-photo-books">Standard Cover Photo Books</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/personalised-cover-photo-books">Personalised Cover Photo Books</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/premium-cover-photo-books">Premium Cover Photo Books</a>
-                                <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/flip-books">Flip Books</a>
+                            <div id="digiprint-second-level-photo-books" class="second-level-content">
+                                <div class="menu-raw-content">
+                                    <div class="menu-second-level">
+                                        <span>Photo Books</span>
+                                        <a href="https://www.digidirect.com.au/digi-print/photo-books">View All Photo Books</a>
+                                        <div class="tab">
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/standard-cover-photo-books">Standard Cover Photo Books</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/personalised-cover-photo-books">Personalised Cover Photo Books</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/premium-cover-photo-books">Premium Cover Photo Books</a>
+                                            <a class="tablinks" href="https://www.digidirect.com.au/digi-print/photo-books/flip-books">Flip Books</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
-</div>
-</div>
-    </div>
+        </div>
 
     </div>
-  </div>
+</div>
 </div>
 
 <script>
@@ -2120,19 +2160,19 @@ if ($customerSession->isLoggedIn()) {
         document.getElementById(className).removeAttribute('style');
         document.getElementById("digiprint-second-level").style.display = "block";
         document.getElementById(className).style.display = "block";
-        
+
         if (window.innerWidth < 1280) {
             document.getElementById("photolab-listing").style.display = "none";
         } else {
             document.getElementById("photolab-listing").style.display = "block";
         }
-        
+
     }
 
     function resetDigiPrintSecondLevel() {
         document.getElementById("digiprint-second-level").removeAttribute('style');
     }
-    
+
     function returnToFirstLevelDigiPrint() {
         document.getElementById("photolab-listing").style.display = "grid";
         document.getElementById("digiprint-second-level").removeAttribute('style');

@@ -1,10 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * @var \Magezon\Newsletter\Block\Element\NewsletterForm $block
  */
-
-/** @var \Magezon\Newsletter\Block\Element\NewsletterForm $block */
 
 $element     = $this->getElement();
 $title       = $element->getData('title');
@@ -14,6 +11,7 @@ $form = $block->getLayout()->createBlock(\Magezon\Newsletter\Block\Subscribe::cl
 $form->setData('show_firstname', $element->getData('show_firstname'));
 $form->setData('show_lastname', $element->getData('show_lastname'));
 $form->setData('layout_type', $element->getData('layout_type'));
+//$form->setData('btn_fullwidth', $element->getData('btn_fullwidth'));
 if ($element->getData('form_width')) $form->setData('width', $element->getData('form_width'));
 if ($element->getData('form_height')) $form->setData('height', $element->getData('form_height'));
 ?>

@@ -10,12 +10,12 @@ class DeleteOptions
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     /**
      * @var CronCustomOption
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             CronCustomOption $helper)
@@ -26,7 +26,8 @@ class DeleteOptions
 
     public function execute()
     {
-        $this->helper->deleteCustomOption();
         exit;
+        $this->helper->deleteCustomOption();
+
     }
 }

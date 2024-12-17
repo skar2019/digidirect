@@ -59,8 +59,8 @@ class Layer extends \Magento\Catalog\Model\Layer
     
     public function getProductCollection()
     {
-        //$defaultCategory = 2;
-        $defaultCategory = 17;
+        $defaultCategory = 2;
+        //$defaultCategory = 17;
         $productIdsArray = [];
         
         if (isset($this->_productCollections[$defaultCategory])) {
@@ -71,6 +71,7 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection->addAttributeToSelect('*');
             $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
             $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+            $collection->addAttributeToFilter('marketplacer_seller', 20329);
             $collection->addMinimalPrice()->addFinalPrice();
             $collection->getSelect()->where("price_index.final_price < price_index.price")->orderRand();
             $this->prepareProductCollection($collection);

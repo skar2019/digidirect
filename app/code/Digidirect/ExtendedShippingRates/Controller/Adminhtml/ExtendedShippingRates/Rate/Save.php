@@ -67,7 +67,7 @@ class Save extends \Digidirect\ExtendedShippingRates\Controller\Adminhtml\Extend
                 ['request' => $this->getRequest()]
             );
             $data = $this->getRequest()->getPostValue();
-            $inputFilter = new \Zend_Filter_Input(
+            $inputFilter = new \Magento\Framework\Filter\FilterInput(
                 ['created_at' => $this->dateFilter, 'updated_at' => $this->dateFilter],
                 [],
                 $data

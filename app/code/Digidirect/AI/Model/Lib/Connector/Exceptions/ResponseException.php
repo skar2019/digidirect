@@ -28,13 +28,13 @@ class ResponseException extends ConnectionException
      * @var int
      */
     protected $_errorDescription;
-
+    
     /**
      * ResponseException constructor.
      *
-     * @param \Laminas\Http\Response $response
+     * @param \Zend\Http\Response $response
      */
-    public function __construct(\Laminas\Http\Response $response)
+    public function __construct(\Zend\Http\Response $response)
     {
         parent::__construct($response->getReasonPhrase());
         $this->_status = $response->getStatusCode();

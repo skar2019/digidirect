@@ -38,6 +38,8 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
      * @var \Magento\Catalog\Helper\Category
      */
     protected $_categoryHelper;
+    
+    protected $logger;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -52,12 +54,14 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
         UrlInterface $url,
+        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
         $this->_categoryHelper = $categoryHelper;
         $this->_catalogLayer = $layerResolver->get();
         $this->_coreRegistry = $registry;
         $this->url = $url;
+        $this->logger = $logger;
         parent::__construct($context, $data);
     }
 
@@ -85,8 +89,41 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 $this->pageConfig->setKeywords($keywords);
             }
             if ($this->_categoryHelper->canUseCanonicalTag()) {
+                
+                $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+                //$this->logger->info('$currentUrl: ' . $currentUrl);
+                
+                $urlComponents = parse_url($currentUrl);
+                
+                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                
+                if (!empty($urlComponents['query'])) {
+                    
+                    $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
+                    
+                    parse_str($urlComponents['query'], $params);
+                
+                    if (!empty($params['p'])) {
+                        
+                        if (count($params) == 1) {
+                            $this->pageConfig->setRobots("INDEX,FOLLOW");
+                        }
+                        
+                        if ($params['p'] == 1) {
+                            $page = ''; 
+                        } else {
+                            $page = '?p=' . $params['p']; 
+                        }
+                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+                    } else {
+                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                    }
+                }
+                
+                //$this->logger->info('$canonical ' . $canonical);
+                
                 $this->pageConfig->addRemotePageAsset(
-                    $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
+                    $canonical,
                     'canonical',
                     ['attributes' => ['rel' => 'canonical']]
                 );

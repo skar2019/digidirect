@@ -21,7 +21,8 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function execute() {
         $resultPage = $this->_resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set("Deals");
+        $resultPage->getConfig()->getTitle()->set("Hot Deals and Discounts at digiDirect - Save Now!");
+        $resultPage->getConfig()->setDescription("Find the hottest deals on cameras, lenses, and accessories at digiDirect. Save big with our limited-time offers. Shop now and enjoy massive discounts!");
         return $resultPage;
     }
 }

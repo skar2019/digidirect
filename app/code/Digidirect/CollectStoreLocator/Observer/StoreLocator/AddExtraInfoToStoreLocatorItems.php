@@ -108,7 +108,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             
             foreach ($cartItems as $cartItem) {
 
-
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
@@ -118,7 +117,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
-                    $this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
+                    //$this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
 
                     $getQty = $sourceItem->getQuantity();
                     $store = $sourceItem->getSourceCode();
@@ -185,7 +184,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     if (in_array('CANN', $stores)) {
                         $items[$key]['click_and_collect'] = true;
                     } else {
-                        $items[$key]['click_and_collect'] = null; //Remove Cannington from Click & Collect option
+                        $items[$key]['click_and_collect'] = false;
                     }
                 } elseif ($id == 35 && $stPetersQty > 0) {
                     if (in_array('SWHS', $stores)) {

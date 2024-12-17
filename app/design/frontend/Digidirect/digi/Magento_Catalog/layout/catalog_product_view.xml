@@ -97,7 +97,6 @@
         </referenceContainer>
         
         <referenceContainer name="page.wrapper">
-            <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
                     <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
@@ -113,6 +112,7 @@
         </referenceContainer>
         
         <referenceContainer name="product.info.media">
+            <block class="Digidirect\Catalog\Block\ProductInfoBlock" template="Magento_Catalog::product/online-only.phtml" name="pdp-online-only" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
