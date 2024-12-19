@@ -17,10 +17,18 @@ return [
                 'sort_order' => '0',
                 'default_group_id' => '1',
                 'is_default' => '1'
+            ],
+            'marketplaces' => [
+                'website_id' => '5',
+                'code' => 'marketplaces',
+                'name' => 'Marketplaces',
+                'sort_order' => '2',
+                'default_group_id' => '5',
+                'is_default' => '0'
             ]
         ],
         'groups' => [
-            [
+            0 => [
                 'group_id' => '0',
                 'website_id' => '0',
                 'name' => 'Default',
@@ -28,13 +36,21 @@ return [
                 'default_store_id' => '0',
                 'code' => 'default'
             ],
-            [
+            1 => [
                 'group_id' => '1',
                 'website_id' => '1',
                 'name' => 'digiDirect AU',
                 'root_category_id' => '2',
                 'default_store_id' => '1',
                 'code' => 'digi_store_au'
+            ],
+            5 => [
+                'group_id' => '5',
+                'website_id' => '5',
+                'name' => 'Marketplaces Store',
+                'root_category_id' => '2',
+                'default_store_id' => '5',
+                'code' => 'mpstore'
             ]
         ],
         'stores' => [
@@ -54,6 +70,15 @@ return [
                 'group_id' => '1',
                 'name' => 'digiDirect AU',
                 'sort_order' => '0',
+                'is_active' => '1'
+            ],
+            'digidirectmarketplaces' => [
+                'store_id' => '5',
+                'code' => 'digidirectmarketplaces',
+                'website_id' => '5',
+                'group_id' => '5',
+                'name' => 'Marketplaces',
+                'sort_order' => '2',
                 'is_active' => '1'
             ]
         ]
