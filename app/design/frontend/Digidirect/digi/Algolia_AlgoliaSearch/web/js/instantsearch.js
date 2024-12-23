@@ -695,6 +695,7 @@ define([
                                 
                                 var wiserDiscount = basePrice - item.wiser_price;
                                 if ((item.wiser_price < item.price.AUD.default) && item.wiser_price != 0) {
+                                    item.defaultOriginalPrice = item.price.AUD.default_original_formated;
                                     item.customFinalPrice =  formatter.format(item.wiser_price);
                                     item.discount = formatter.format(wiserDiscount);
                                     item.hasCustomFinalPrice = true;
