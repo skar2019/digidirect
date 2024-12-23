@@ -187,9 +187,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function info($message, array $context = [])
+    public function info($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_INFO_CODE, $context);
+        //return $this->record($message, LoggerHelper::RECORD_TYPE_INFO_CODE, $context);
     }
 
     /**
@@ -198,9 +198,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function notice($message, array $context = [])
+    public function notice($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_NOTICE_CODE, $context);
+        //return $this->record($message, LoggerHelper::RECORD_TYPE_NOTICE_CODE, $context);
     }
 
     /**
@@ -209,9 +209,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function alert($message, array $context = [])
+    public function alert($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_ALERT_CODE, $context);
+        //return $this->record($message, $context);
     }
 
     /**
@@ -220,9 +220,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function warning($message, array $context = [])
+    public function warning($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_WARNING_CODE, $context);
+        //return $this->record($message, $context);
     }
 
     /**
@@ -231,9 +231,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function debug($message, array $context = [])
+    public function debug($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_DEBUG_CODE, $context);
+        //return $this->record($message, $context);
     }
 
     /**
@@ -242,9 +242,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function error($message, array $context = [])
+    public function error($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_ERROR_CODE, $context);
+        //return $this->record($message, LoggerHelper::RECORD_TYPE_ERROR_CODE, $context);
     }
 
     /**
@@ -253,9 +253,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function critical($message, array $context = [])
+    public function critical($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_CRITICAL_CODE, $context);
+        //return $this->record($message, LoggerHelper::RECORD_TYPE_CRITICAL_CODE, $context);
     }
 
     /**
@@ -264,9 +264,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function emergency($message, array $context = [])
+    public function emergency($message, array $context = []): void
     {
-        return $this->record($message, LoggerHelper::RECORD_TYPE_EMERGENCY_CODE, $context);
+        //return $this->record($message, LoggerHelper::RECORD_TYPE_EMERGENCY_CODE, $context);
     }
 
     /**
@@ -276,9 +276,9 @@ class Logger implements LoggerInterface
      * @param string $place
      * @return Logger
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
-        return $this->record($message, $level, $context);
+        //return $this->record($message, $level, $context);
     }
 
     /**
