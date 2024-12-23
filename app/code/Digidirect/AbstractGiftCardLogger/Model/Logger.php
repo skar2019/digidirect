@@ -75,7 +75,7 @@ class Logger extends \Digidirect\AI\Model\Logger\Logger
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return Logger
      */
-    public function log($level, $message, array $context = [], $place = AILogger::LOG_PLACE_FILE_AND_DB)
+    public function log($level, $message, array $context = [], $place = AILogger::LOG_PLACE_FILE_AND_DB): void
     {
         if (!$this->getDbLogger()->getId()) {
             $this->addHeader('Initiator: AbstractGiftCard. ' . $this->getCommandCode());
@@ -89,7 +89,7 @@ class Logger extends \Digidirect\AI\Model\Logger\Logger
             $place = AILogger::LOG_PLACE_EVERYWHERE;
         }
 
-        return parent::log($level, $message, $context, $place);
+        //return parent::log($level, $message, $context, $place);
     }
 
     /**
