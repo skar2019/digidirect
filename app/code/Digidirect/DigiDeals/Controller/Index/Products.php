@@ -45,6 +45,7 @@ class Products extends \Magento\Framework\App\Action\Action
         $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $collection->addAttributeToFilter('marketplacer_seller', 20329);
+        $collection->addAttributeToFilter('is_digideals', array('neq' => true));
         $collection->addMinimalPrice()->addFinalPrice();
         $collection->getSelect()->where("price_index.final_price < price_index.price")->orderRand();
         return $collection;
