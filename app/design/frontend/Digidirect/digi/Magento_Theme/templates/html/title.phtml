@@ -13,7 +13,7 @@ if (trim($block->getPageHeading())) {
 }
 ?>
 <?php if ($category) : ?>
-    <?php if ($category->getId() == 1903) : ?>
+    <?php if ($block->escapeHtml($block->getPageHeading()) == "Clearance") : ?>
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('clearance-banner')->toHtml();?>
     <?php endif; ?>
     <div class="category-page-banner" style="margin-right: 0;margin-left: auto;">
