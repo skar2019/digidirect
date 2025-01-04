@@ -12,7 +12,6 @@ if (trim($block->getPageHeading())) {
         . '</span>';
 }
 ?>
-
 <?php if ($category) : ?>
     <?php if ($category->getId() == 1903) : ?>
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('clearance-banner')->toHtml();?>
