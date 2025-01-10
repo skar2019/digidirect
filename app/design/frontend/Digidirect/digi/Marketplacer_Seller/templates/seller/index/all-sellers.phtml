@@ -35,11 +35,11 @@ $sellers = $block->getAllDisplayedSellers();
             <?php foreach ($sellers as $seller): ?>
                 <?php
                 $sellerUrl = $urlHelper->getSellerUrl($seller);
-                $sellerLabel = $seller->getName();
-                $sellerLogoSrc = $seller->getLogo();
-                if (!$sellerLogoSrc) {
-                    $sellerLogoSrc = $imageHelper->init($seller, 'image')->resize(200, 200)->getUrl();
-                }
+                    $sellerLabel = $seller->getName();
+                    $sellerLogoSrc = $seller->getLogo();
+                    if (!$sellerLogoSrc) {
+                        $sellerLogoSrc = $imageHelper->init($seller, 'image')->resize(200, 200)->getUrl();
+                    }
                 ?>
                 <li class="item">
                     <div class="mrkt-sellers-item" itemscope itemtype="http://schema.org/Store">

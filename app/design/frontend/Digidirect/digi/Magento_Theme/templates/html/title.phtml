@@ -12,11 +12,7 @@ if (trim($block->getPageHeading())) {
         . '</span>';
 }
 ?>
-
 <?php if ($category) : ?>
-    <?php if ($category->getId() == 1903) : ?>
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('clearance-banner')->toHtml();?>
-    <?php endif; ?>
     <div class="category-page-banner" style="margin-right: 0;margin-left: auto;">
         <?php if ($titleHtml) : ?>
             <div class="page-title-wrapper<?= $block->escapeHtmlAttr($cssClass) ?>">
@@ -32,6 +28,9 @@ if (trim($block->getPageHeading())) {
         <?php endif; ?>
     </div>
 <?php else : ?>
+    <?php if ($block->escapeHtml($block->getPageHeading()) == "Clearance") : ?>
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('clearance-banner')->toHtml();?>
+    <?php endif; ?>
     <div class="page-title-wrapper<?= $block->escapeHtmlAttr($cssClass) ?>">
         <h1 class="page-title"
             <?php if ($block->getId()) : ?> id="<?= $block->escapeHtmlAttr($block->getId()) ?>" <?php endif; ?>
