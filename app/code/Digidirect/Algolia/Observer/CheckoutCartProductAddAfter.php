@@ -130,7 +130,7 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
         if ($this->_giftItem->isFreeGiftItem($item)) {
             $finalProductPrice = 0;
         } else {
-            if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
+            if ($wiserPrice == 0 || empty($wiserPrice)) {
                 $finalProductPrice = $finalPrice;
             } else {
                 $digiProtectPrice = 0;

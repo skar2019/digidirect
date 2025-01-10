@@ -82,11 +82,11 @@ class ToOrderItem
                 if ($additionalFromOrder = $orderItem->getProductOptionByCode('additional_options')) {
                     $additional = array_merge($additional, $additionalFromOrder);
                 }
-                if (count($additional) > 0) {
+                /*if (count($additional) > 0) {
                     $options = $orderItem->getProductOptions();
                     $options['additional_options'] = $this->_serializer->unserialize($additional->getValue());
                     $orderItem->setProductOptions($options);
-                }
+                }*/
             }
         }
         return $orderItem;

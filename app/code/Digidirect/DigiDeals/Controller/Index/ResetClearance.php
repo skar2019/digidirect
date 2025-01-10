@@ -2,7 +2,7 @@
 
 namespace Digidirect\DigiDeals\Controller\Index;
 
-class Products extends \Magento\Framework\App\Action\Action
+class ResetClearance extends \Magento\Framework\App\Action\Action
 {
     protected $_productCollection;
     
@@ -28,27 +28,22 @@ class Products extends \Magento\Framework\App\Action\Action
         $productCollection = $this->getProductCollections();
         foreach ($productCollection as $product) {
             try {
-                $product->setCustomAttribute('is_digideals', true);
+                $product->setCustomAttribute('clearance', false);
                 $this->productRepository->save($product);
             } catch (Exception $ex) {
-                $this->logger->info("add digiDeals, " . $ex->getMessage());
+                $this->logger->info("remove clearance, " . $ex->getMessage());
                 continue;
             }
         }
-        echo "digiDeals Products Done!";
+        echo "Clearance Reset Done!";
     }
     
     public function getProductCollections()
     {
         $collection = $this->_productCollection->create();
         $collection->addAttributeToSelect('*');
-        $collection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-        $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->addAttributeToFilter('marketplacer_seller', 20329);
-        $collection->addAttributeToFilter('is_digideals', array('neq' => true));
-        $collection->addMinimalPrice()->addFinalPrice();
-        $collection->getSelect()->where("price_index.final_price < price_index.price")->orderRand();
+        $collection->addAttributeToFilter('clearance', true);
         return $collection;
     }
-    
+
 }
