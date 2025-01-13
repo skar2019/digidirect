@@ -5,6 +5,7 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\UrlInterface;
+
 class Category extends \Magento\Ui\Component\Listing\Columns\Column
 {
     /**

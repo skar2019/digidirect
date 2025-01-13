@@ -1,4 +1,5 @@
 <?php
+
 namespace Digidirect\Catalog\Ui\DataProvider\Product;
 
 class ProductDataProvider extends \Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider

@@ -12,7 +12,7 @@
             </filterSelect>
         </filters>
     </listingToolbar>
-    <columns name="product_columns" class="Magento\Catalog\Ui\Component\Listing\Columns">
+    <columns name="product_columns">
         <column name="category_id" class="Digidirect\Catalog\Ui\Component\Listing\Column\Category">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Digidirect\Catalog\Model\Category\Categorylist</item>

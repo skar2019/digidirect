@@ -1,4 +1,5 @@
 <?php
+
 namespace Digidirect\Catalog\Model\Category;
 
 class CategoryList implements \Magento\Framework\Option\ArrayInterface
