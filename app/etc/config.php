@@ -91,6 +91,8 @@ return [
                 ]
             ],
             'dev' => [
+                'debug' =>
+                    ['debug_logging' => '1'],
                 'static' => [
                     'sign' => '1'
                 ],
