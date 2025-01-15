@@ -7,14 +7,7 @@ class ProductDataProvider extends \Magento\Catalog\Ui\DataProvider\Product\Produ
     public function addFilter(\Magento\Framework\Api\Filter $filter)
     {
         if ($filter->getField() == 'category_id') {
-            $this->getCollection()->addCategoriesFilter(array('in' => $filter->getValue()));
-        } elseif (isset($this->addFilterStrategies[$filter->getField()])) {
-            $this->addFilterStrategies[$filter->getField()]
-                ->addFilter(
-                    $this->getCollection(),
-                    $filter->getField(),
-                    [$filter->getConditionType() => $filter->getValue()]
-                );
+            $this->getCollection()->addCategoriesFilter(['in' => $filter->getValue()]);
         } else {
             parent::addFilter($filter);
         }
