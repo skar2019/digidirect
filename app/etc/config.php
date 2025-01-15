@@ -775,6 +775,7 @@ return [
         'WeltPixel_GA4' => 0,
         'ZV_SeoCompatible' => 1,
         'Zendesk_Zendesk' => 0,
-        'Zip_ZipPayment' => 1
+        'Zip_ZipPayment' => 1,
+        'Digidirect_ProductGridExport' => 0
     ]
 ];
