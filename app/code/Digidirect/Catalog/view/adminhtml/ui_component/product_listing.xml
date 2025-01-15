@@ -4,7 +4,7 @@
          <filters name="listing_filters">
             <filterSelect name="category_id" provider="${ $.parentName }" component="Magento_Ui/js/form/element/ui-select" template="ui/grid/filters/elements/ui-select">
                 <settings>
-                    <options class="Webkul\BlogManager\Model\Category\Categorylist"/>
+                    <options class="Digidirect\Catalog\Model\Category\Categorylist"/>
                     <caption translate="true">Select...</caption>
                     <label translate="true">Category</label>
                     <dataScope>category_id</dataScope>
@@ -13,7 +13,7 @@
         </filters>
     </listingToolbar>
     <columns name="product_columns" class="Magento\Catalog\Ui\Component\Listing\Columns">
-        <column name="category_id" class="Webkul\BlogManager\Ui\Component\Listing\Column\Category">
+        <column name="category_id" class="Digidirect\Catalog\Ui\Component\Listing\Column\Category">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Digidirect\Catalog\Model\Category\Categorylist</item>
                 <item name="config" xsi:type="array">
