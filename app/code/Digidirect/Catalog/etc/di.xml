@@ -18,5 +18,4 @@
     <type name="Magento\Framework\View\Result\Page">
         <plugin name="digiprinit_class" type="Digidirect\Catalog\Plugin\Result\Page"/>
     </type>
-    <preference for="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider" type="Digidirect\Catalog\Ui\DataProvider\Product\ProductDataProvider" />
 </config>
