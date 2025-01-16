@@ -7,8 +7,6 @@ namespace Digidirect\Catalog\Plugin\Framework\Code\Reader;
  */
 class ClassReader extends \Magento\Framework\Code\Reader\ClassReader
 {
-    use GetParameterClassTrait;
-
     /**
      * @var array
      */
