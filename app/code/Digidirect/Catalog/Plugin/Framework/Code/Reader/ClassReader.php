@@ -2,11 +2,18 @@
 
 namespace Digidirect\Catalog\Plugin\Framework\Code\Reader;
 
+use Magento\Framework\GetParameterClassTrait;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionParameter;
+
 /**
  * Class ClassReader
  */
 class ClassReader extends \Magento\Framework\Code\Reader\ClassReader
 {
+    use GetParameterClassTrait;
+
     /**
      * @var array
      */
