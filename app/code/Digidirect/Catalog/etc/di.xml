@@ -18,5 +18,4 @@
     <type name="Magento\Framework\View\Result\Page">
         <plugin name="digiprinit_class" type="Digidirect\Catalog\Plugin\Result\Page"/>
     </type>
-    <preference for="Magento\Framework\Code\Reader\ClassReader" type="Digidirect\Catalog\Plugin\Framework\Code\Reader\ClassReader" />
 </config>
