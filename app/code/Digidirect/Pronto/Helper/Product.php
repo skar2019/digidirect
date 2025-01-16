@@ -3415,8 +3415,9 @@ class Product extends AbstractHelper
                         }
 
                         //actual category
-                        if($category['name'] == $prod['web-category1']) //parent category
+                        if($category['name'] == $prod['web-category1'])
                         {
+                            echo "web-category1 : ".$prod['web-category1']." <br> ";
                             if($parent == "")
                             {
                                 if($category['parent_id'] == '2')
@@ -3432,8 +3433,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
+                            echo "web-category2 : ".$prod['web-category2']." <br> ";
                             if($category['name'] == $prod['web-category2'])
                             {
+                                echo "category name : ".$category['name']." parent_id ".$category['parent_id']."<br>";
                                 if($category['parent_id'] == $parent)
                                 {
                                     $subcat1 = $category['id'];
@@ -3445,8 +3448,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
+                            echo "web-category3 : ".$prod['web-category3']." <br> ";
                             if($category['name'] == $prod['web-category3'])
                             {
+                                echo "category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat1."<br>";
                                 if($category['parent_id'] == $subcat1)
                                 {
                                     $subcat2 = $category['id'];
@@ -3458,9 +3463,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category4']))
                         {
-
+                            echo "web-category4 : ".$prod['web-category4']." <br> ";
                             if($category['name'] == $prod['web-category4'])
                             {
+                                echo "category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat2."<br>";
                                 if($category['parent_id'] == $subcat2)
                                 {
                                     echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
