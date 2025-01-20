@@ -4062,4 +4062,6 @@ class Product extends AbstractHelper
         $this->logger->info('getProductSales, ' . $entityId . ', ' . $product->getData('ordered_qty') . ', ' . $price . ', ' . $productSales);
         return $productSales;
     }
+
+    //redeploy
 }
