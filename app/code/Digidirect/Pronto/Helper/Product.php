@@ -3496,6 +3496,16 @@ class Product extends AbstractHelper
                                     $categoryIds[] = $category['id'];
                                 }
                             }
+                            else if($category['name'] == "Camera Cases and Bags" && $prod['web-category2'] == "Bags & Cases")
+                            {
+                                if($category['parent_id'] == $parent)
+                                {
+                                    $subcat1 = $category['id'];
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
                         }
                         if(isset($prod['web-category3']))
                         {
