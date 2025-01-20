@@ -2966,8 +2966,9 @@ class Product extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        var_dump($json['stockmaster']['stockcode']);
+        //var_dump($json['stockmaster']['stockcode']);
         //var_dump($json);
+        var_dump($getCategoryList);
 
         foreach ($json['stockmaster'] as $prod)
         {
@@ -3423,7 +3424,7 @@ class Product extends AbstractHelper
                                 if($category['parent_id'] == '2')
                                 {
                                     $parent = $category['id'];
-                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
+                                    echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." <br> ";
                                     $catList .= $category['name'] . " - " .$category['id'] ." : ";
                                     $categoryIds[] = $category['id'];
                                 }
@@ -3433,10 +3434,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
-                            echo "web-category2 : ".$prod['web-category2']." <br> ";
+                            //echo "web-category2 : ".$prod['web-category2']." - ".$category['name']." <br> ";
                             if($category['name'] == $prod['web-category2'])
                             {
-                                echo "category name : ".$category['name']." parent_id ".$category['parent_id']."<br>";
+                                echo "web-category2 category name : ".$category['name']." parent_id ".$category['parent_id']."<br>";
                                 if($category['parent_id'] == $parent)
                                 {
                                     $subcat1 = $category['id'];
@@ -3448,10 +3449,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
-                            echo "web-category3 : ".$prod['web-category3']." <br> ";
+                            //echo "web-category3 : ".$prod['web-category3']." - ".$category['name']." <br> ";
                             if($category['name'] == $prod['web-category3'])
                             {
-                                echo "category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat1."<br>";
+                                echo "web-category3 category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat1."<br>";
                                 if($category['parent_id'] == $subcat1)
                                 {
                                     $subcat2 = $category['id'];
@@ -3463,10 +3464,10 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category4']))
                         {
-                            echo "web-category4 : ".$prod['web-category4']." <br> ";
+                            //echo "web-category4 : ".$prod['web-category4']." <br> ";
                             if($category['name'] == $prod['web-category4'])
                             {
-                                echo "category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat2."<br>";
+                                echo "web-category4 : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat2."<br>";
                                 if($category['parent_id'] == $subcat2)
                                 {
                                     echo $category['name'] . " - " .$category['id']." - ".$category['parent_id']." : ";
