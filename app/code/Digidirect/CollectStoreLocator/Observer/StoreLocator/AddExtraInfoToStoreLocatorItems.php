@@ -106,6 +106,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $parrQty = 1;
             $stPetersQty = 1;
             
+            $totalCann = 0.0;
+            
             foreach ($cartItems as $cartItem) {
 
                 $prodId = $cartItem->getProductId();
@@ -137,7 +139,23 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $getQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
+                        
+                        $wiserPrice = $product->getData('wiser_price');
+                        $finalPrice = $product->getData('final_price');
+                        
+                        $lastPrice = $finalPrice;
+                        
+                        if ($wiserPrice < $finalPrice) {
+                            $lastPrice = $wiserPrice;
+                        }
+                        
+                        $totalCann += $lastPrice;
                         $cannQty = $cannQty * $getQty;
+                        
+                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
+                        $this->logger->info('$finalPrice, ' . $finalPrice);
+                        $this->logger->info('$totalCann, ' . $totalCann);
+                        
                     } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
                         $stPetersQty = $stPetersQty * $getQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
@@ -181,7 +199,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $items[$key]['click_and_collect'] = false;
                     }
                 } elseif ($id == 16 && $cannQty > 0) {
-                    if (in_array('CANN', $stores)) {
+                    if (in_array('CANN', $stores) && $totalCann >= 1000) {
                         $items[$key]['click_and_collect'] = true;
                     } else {
                         $items[$key]['click_and_collect'] = false;
