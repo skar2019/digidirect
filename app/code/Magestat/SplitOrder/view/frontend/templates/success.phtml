@@ -58,7 +58,7 @@ $orderArray = $block->getOrderArray();
                     $items = $order->getAllItems();
                     
                     $orderString = $orderString . $incremental . ", ";
-                    $orderString = rtrim($orderString, ', ');
+                    $orderString = substr($orderString, 0, -2);
                 ?> 
                 
                 <script>
