@@ -58,7 +58,7 @@ $orderArray = $block->getOrderArray();
                     $items = $order->getAllItems();
                     
                     $orderString = $orderString . $incremental . ", ";
-                    $orderString = substr($orderString, 0, -2);
+                    //$orderString = substr($orderString, 0, -2);
                 ?> 
                 
                 <script>
@@ -316,7 +316,7 @@ $orderArray = $block->getOrderArray();
     
             <span class="header"><?= /* @escapeNotVerified */__('Your order has been received') ?></span>
             <span class="title"><?= /* @escapeNotVerified */__('Thank you for your purchase') ?></span>
-            <span class="title -addition"><?= __('Your orders number are: ' . $orderString . '.') ?></span>
+            <span class="title -addition"><?= __('Your orders number are: ' . substr($orderString, 0, -2) . '.') ?></span>
             
             <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
         
