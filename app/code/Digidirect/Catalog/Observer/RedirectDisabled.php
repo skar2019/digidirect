@@ -52,7 +52,6 @@ class RedirectDisabled implements \Magento\Framework\Event\ObserverInterface
                 /*foreach ($categories as $categoryId) {
                     $category = $this->categoryRepository->get($categoryId, $this->storeManager->getStore()->getId());
                 }*/
-                
                 $category = $this->categoryRepository->get($categories[0], $this->storeManager->getStore()->getId());
                 /*$this->redirect->redirect($controller->getResponse(), $category->getUrl());*/
                 
