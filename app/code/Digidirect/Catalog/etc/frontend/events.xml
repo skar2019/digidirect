@@ -6,4 +6,7 @@
     <event name="controller_action_predispatch_checkout_cart_add">
         <observer name="check_before_add_to_cart" instance="Digidirect\Catalog\Observer\BeforeAddToCart" disabled="true"/>
     </event>
+    <event name="layout_load_before">
+        <observer name="redirect_if_product_is_disabled" instance="Digidirect\Catalog\Observer\RedirectDisabled" />
+    </event>
 </config>
