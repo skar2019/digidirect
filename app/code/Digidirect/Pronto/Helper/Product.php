@@ -3273,12 +3273,12 @@ class Product extends AbstractHelper
                             $sourceItems[] = $sourceItem;
                             //$forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             echo $qt['code']." - ".$qt['qty_available'];
-//                            try {
-//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-//                                //return true;
-//                            } catch (\Exception $e) {
-//                                echo "error default source";
-//                            }
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -3290,30 +3290,30 @@ class Product extends AbstractHelper
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $sourceItems[] = $sourceItem;
 //                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-//                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
-//                            try {
-//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-//                                //return true;
-//                            } catch (\Exception $e) {
-//                                echo "error default source";
-//                            }
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'] ." / ";
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                     }
                 }
                 //default source, dapat lagi meron
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);//in stock
-                $sourceItem->setQuantity(0);
-                $sourceItems[] = $sourceItem;
-                echo "default - 0";
-                try {
-                    $this->sourceItemsSaveInterface->execute($sourceItems);
-                    //return true;
-                } catch (\Exception $e) {
-                    echo "error default source";
-                }
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);//in stock
+//                $sourceItem->setQuantity(0);
+//                $sourceItems[] = $sourceItem;
+//                echo "default - 0";
+//                try {
+//                    $this->sourceItemsSaveInterface->execute($sourceItems);
+//                    //return true;
+//                } catch (\Exception $e) {
+//                    echo " - error source " .$e->getMessage(); ;
+//                }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
