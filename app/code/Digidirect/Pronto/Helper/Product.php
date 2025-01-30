@@ -513,7 +513,10 @@ class Product extends AbstractHelper
                             }
                         }
 
-
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -532,6 +535,11 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 if($category['parent_id'] == $parent)
@@ -555,6 +563,91 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 if($category['parent_id'] == $subcat1)
@@ -956,6 +1049,10 @@ class Product extends AbstractHelper
                         }
 
 
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -974,6 +1071,11 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 if($category['parent_id'] == $parent)
@@ -997,6 +1099,92 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
+
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 if($category['parent_id'] == $subcat1)
@@ -1482,7 +1670,10 @@ class Product extends AbstractHelper
                             }
                         }
 
-
+                        if($prod['web-category1'] == 'Digital Cameras')
+                        {
+                            $prod['web-category1'] = 'Cameras';
+                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -1501,6 +1692,11 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 if($category['parent_id'] == $parent)
@@ -1524,6 +1720,92 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 if($category['parent_id'] == $subcat1)
@@ -1738,7 +2020,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -1749,7 +2036,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
 
                     }
@@ -1898,7 +2190,10 @@ class Product extends AbstractHelper
                             }
                         }
 
-
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -1917,6 +2212,11 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category2']))
                         {
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 if($category['parent_id'] == $parent)
@@ -1940,6 +2240,92 @@ class Product extends AbstractHelper
                         }
                         if(isset($prod['web-category3']))
                         {
+
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 if($category['parent_id'] == $subcat1)
@@ -2293,7 +2679,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -2304,7 +2695,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
 
 
@@ -2723,7 +3119,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -2734,7 +3135,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
 
                     }
@@ -3273,12 +3679,12 @@ class Product extends AbstractHelper
                             $sourceItems[] = $sourceItem;
                             //$forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             echo $qt['code']." - ".$qt['qty_available'];
-//                            try {
-//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-//                                //return true;
-//                            } catch (\Exception $e) {
-//                                echo "error default source";
-//                            }
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -3290,13 +3696,13 @@ class Product extends AbstractHelper
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $sourceItems[] = $sourceItem;
 //                            //$forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-//                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'];
-//                            try {
-//                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-//                                //return true;
-//                            } catch (\Exception $e) {
-//                                echo "error default source";
-//                            }
+                            echo $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available'] ." / ";
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                     }
                 }
@@ -3312,7 +3718,7 @@ class Product extends AbstractHelper
                     $this->sourceItemsSaveInterface->execute($sourceItems);
                     //return true;
                 } catch (\Exception $e) {
-                    echo "error default source";
+                    echo " - error source " .$e->getMessage(); ;
                 }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -3485,6 +3891,11 @@ class Product extends AbstractHelper
                         if(isset($prod['web-category2']))
                         {
                             //echo "web-category2 : ".$prod['web-category2']." - ".$category['name']." <br> ";
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 echo "web-category2 category name : ".$category['name']." parent_id ".$category['parent_id']."<br>";
@@ -3510,6 +3921,91 @@ class Product extends AbstractHelper
                         if(isset($prod['web-category3']))
                         {
                             //echo "web-category3 : ".$prod['web-category3']." - ".$category['name']." <br> ";
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 echo "web-category3 category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat1."<br>";
@@ -3742,7 +4238,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
                             $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
                         else
                         {
@@ -3753,7 +4254,12 @@ class Product extends AbstractHelper
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            try {
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                                //return true;
+                            } catch (\Exception $e) {
+                                echo "error source ". $e->getMessage();
+                            }
                         }
 
                     }
@@ -3953,6 +4459,11 @@ class Product extends AbstractHelper
                         if(isset($prod['web-category2']))
                         {
                             echo "web-category2 : ".$prod['web-category2']." <br> ";
+                            if($prod['web-category2'] == 'Gaming')
+                            {
+                                $prod['web-category2'] = 'Gaming Products';
+                            }
+
                             if($category['name'] == $prod['web-category2'])
                             {
                                 echo "category name : ".$category['name']." parent_id ".$category['parent_id']."<br>";
@@ -3979,6 +4490,92 @@ class Product extends AbstractHelper
                         if(isset($prod['web-category3']))
                         {
                             echo "web-category3 : ".$prod['web-category3']." <br> ";
+
+                            if($prod['web-category3'] == 'Fujifilm Instant Cameras')
+                            {
+                                $prod['web-category3'] = 'Fujifilm Instant Instax Cameras';
+                            }
+
+                            if($prod['web-category3'] == 'Cables & Adaptors')
+                            {
+                                $prod['web-category3'] = 'Computer Cables & Adaptors';
+                            }
+
+                            if($prod['web-category3'] == 'Cases Covers & Bags')
+                            {
+                                $prod['web-category3'] = 'Laptop Cases, Covers & Bags';
+                            }
+
+                            if($prod['web-category3'] == 'Chargers')
+                            {
+                                $prod['web-category3'] = 'Laptop Chargers';
+                            }
+
+                            if($prod['web-category3'] == 'Hubs & Docks')
+                            {
+                                $prod['web-category3'] = 'Computer Hubs & Docks';
+                            }
+
+                            if($prod['web-category3'] == 'Webcams')
+                            {
+                                $prod['web-category3'] = 'Computer Webcams';
+                            }
+
+                            if($prod['web-category3'] == 'Console Accessories')
+                            {
+                                $prod['web-category3'] = 'Console Gaming Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Consoles')
+                            {
+                                $prod['web-category3'] = 'Gaming Consoles';
+                            }
+
+                            if($prod['web-category3'] == 'Business')
+                            {
+                                $prod['web-category3'] = 'Business Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Home & Student')
+                            {
+                                $prod['web-category3'] = 'Home & Student Laptops';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Accessories')
+                            {
+                                $prod['web-category3'] = 'Computer Monitor Accessories';
+                            }
+
+                            if($prod['web-category3'] == 'Monitor Mounts & Stands')
+                            {
+                                $prod['web-category3'] = 'Monitor Arms, Mounts & Stands';
+                            }
+
+                            if($prod['web-category3'] == 'Monitors')
+                            {
+                                $prod['web-category3'] = 'Computer Monitors';
+                            }
+
+                            if($prod['web-category3'] == 'Ink')
+                            {
+                                $prod['web-category3'] = 'Printer Ink';
+                            }
+
+                            if($prod['web-category3'] == 'Paper')
+                            {
+                                $prod['web-category3'] = 'Photo Printing Papers';
+                            }
+
+                            if($prod['web-category3'] == 'Shredders')
+                            {
+                                $prod['web-category3'] = 'Paper Shredders';
+                            }
+
+                            if($prod['web-category3'] == 'Light Meters')
+                            {
+                                $prod['web-category3'] = 'Light Meters for Cameras';
+                            }
+
                             if($category['name'] == $prod['web-category3'])
                             {
                                 echo "category name : ".$category['name']." parent_id : ".$category['parent_id']." / ".$subcat1."<br>";
