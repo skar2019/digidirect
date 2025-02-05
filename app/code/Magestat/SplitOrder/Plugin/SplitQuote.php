@@ -146,8 +146,8 @@ class SplitQuote
             $order = $subject->submit($split);
 
             $orders[] = $order;
-            $order->setData("order_seller", $thisSeller);
-            $order->save();
+            //$order->setData("order_seller", $thisSeller);
+            //$order->save();
             $orderIds[$order->getId()] = $order->getIncrementId();
 
             if (null == $order) {
