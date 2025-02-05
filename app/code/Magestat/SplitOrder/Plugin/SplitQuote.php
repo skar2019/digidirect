@@ -154,7 +154,6 @@ class SplitQuote
                 throw new LocalizedException(__('Please try to place the order again.'));
             }
         }
-        
         $currentQuote->setIsActive(false);
         $this->toSaveQuote($currentQuote);
 
