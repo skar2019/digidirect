@@ -5,6 +5,5 @@
         <column xsi:type="int" name="pickup_email" nullable="true" default="0" comment="pickup_email"/>
         <column xsi:type="int" name="invoice_email" nullable="true" default="0" comment="invoice_email"/>
         <column xsi:type="int" name="initial_sync" nullable="true" default="0" comment="initial_sync"/>
-        <column xsi:type="varchar" name="order_seller" nullable="true" default="0" length="255" comment="order_seller" />
     </table>
 </schema>
