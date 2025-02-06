@@ -473,7 +473,9 @@ class TestPronto extends AbstractHelper
      * @return int|null
      */
     protected function getCollectPlaceId(OrderInterface $order) {
+        echo "getCollectPlaceId </br>";
         foreach ($order->getAllVisibleItems() as $item) {
+            var_dump($item);
             if ($collectPlaceId = $item->getCollectPlaceId()) {
                 return $collectPlaceId;
             }
