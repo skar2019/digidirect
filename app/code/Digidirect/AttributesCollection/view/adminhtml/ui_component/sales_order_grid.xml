@@ -8,13 +8,5 @@
                 </item>
             </argument>
         </column>
-        <column name="order_seller" class="Digidirect\AttributesCollection\Ui\Component\Listing\Column\OrderSeller">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="label" xsi:type="string" translate="true">Order Seller</item>
-                </item>
-            </argument>
-        </column>
     </columns>
 </listing>

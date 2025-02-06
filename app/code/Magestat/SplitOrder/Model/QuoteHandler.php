@@ -76,10 +76,10 @@ class QuoteHandler implements QuoteHandlerInterface
             $groups[$attribute][] = $item;
         }
         // If order have more than one different attribute values.
-        //if (count($groups) > 1) {
+        if (count($groups) > 1) {
             return $groups;
-        //}
-        //return false;
+        }
+        return false;
     }
 
     /**
