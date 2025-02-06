@@ -4449,7 +4449,7 @@ class Product extends AbstractHelper
                         {
                             $prod['web-category1'] = 'Digital Cameras';
                         }
-                        
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             echo "web-category1 : ".$prod['web-category1']." <br> ";
