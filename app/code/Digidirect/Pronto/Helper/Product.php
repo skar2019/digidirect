@@ -4723,7 +4723,6 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-    //redeploy
 
     public function getProductSales($entityId, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
@@ -4741,5 +4740,4 @@ class Product extends AbstractHelper
         return $productSales;
     }
 
-    //redeploy
 }
