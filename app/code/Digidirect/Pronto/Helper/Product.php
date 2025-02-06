@@ -696,6 +696,8 @@ class Product extends AbstractHelper
                     //$product->setCategoryIds($categoryIds);
                 }
 
+                $this->logger->info($forLogs);
+
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
                 //insert new product
@@ -1852,6 +1854,8 @@ class Product extends AbstractHelper
                     }
                 }
 
+                $this->logger->info($forLogs);
+
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
@@ -2373,6 +2377,7 @@ class Product extends AbstractHelper
                 }
 
             }
+
             $this->logger->info($forLogs);
         }
 
@@ -3871,6 +3876,11 @@ class Product extends AbstractHelper
                             }
                         }
 
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
+
                         //actual category
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -4440,6 +4450,11 @@ class Product extends AbstractHelper
                             }
                         }
 
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             echo "web-category1 : ".$prod['web-category1']." <br> ";
@@ -4713,7 +4728,6 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-    //redeploy
 
     public function getProductSales($entityId, $price) {
         $SoldProducts = $this->_reportCollectionFactory->create();
@@ -4731,5 +4745,4 @@ class Product extends AbstractHelper
         return $productSales;
     }
 
-    //redeploy
 }
