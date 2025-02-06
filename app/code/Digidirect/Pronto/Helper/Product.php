@@ -3871,6 +3871,11 @@ class Product extends AbstractHelper
                             }
                         }
 
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
+
                         //actual category
                         if($category['name'] == $prod['web-category1'])
                         {
