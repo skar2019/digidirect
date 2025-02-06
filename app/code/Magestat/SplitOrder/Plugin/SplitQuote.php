@@ -101,12 +101,14 @@ class SplitQuote
         $excludeSeller = ['LatestBuy'];
         $hasDigi = false;
         $validSellers = [];
+        $thisSeller = "";
         
         foreach ($quotes as $items) {
             foreach ($items as $item) {
                 // Add item by item.
                 $this->logger->info("aroundPlaceOrder(), " . $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes));
                 $seller = $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes);
+                //$thisSeller = $seller;
                 if ($seller == "digiDirect") {
                     $hasDigi = true;
                 }
@@ -128,6 +130,8 @@ class SplitQuote
             foreach ($items as $item) {
                 // Add item by item.
                 $item->setId(null);
+                $seller = $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes);
+                $thisSeller = $seller;
                 $split->addItem($item);
             }
             $this->quoteHandler->populateQuote($quotes, $split, $items, $addresses, $payment, $hasDigi, count($validSellers));
@@ -142,6 +146,8 @@ class SplitQuote
             $order = $subject->submit($split);
 
             $orders[] = $order;
+            $order->setData("order_seller", $thisSeller);
+            $order->save();
             $orderIds[$order->getId()] = $order->getIncrementId();
 
             if (null == $order) {
