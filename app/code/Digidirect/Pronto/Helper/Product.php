@@ -4445,6 +4445,11 @@ class Product extends AbstractHelper
                             }
                         }
 
+                        if($prod['web-category1'] == 'Cameras')
+                        {
+                            $prod['web-category1'] = 'Digital Cameras';
+                        }
+                        
                         if($category['name'] == $prod['web-category1'])
                         {
                             echo "web-category1 : ".$prod['web-category1']." <br> ";
