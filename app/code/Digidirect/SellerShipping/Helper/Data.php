@@ -219,11 +219,34 @@ class Data extends AbstractHelper
     
     public function getDigiShipping()
     {
+        
+        $items = $this->cart->getQuote()->getAllItems();
+        
+        $digiTotal = 0.0;
+        
+        foreach($items as $item) {
+            $product = $this->productFactory->create()->load($item->getProductId());
+            $itemSeller = $product->getAttributeText('marketplacer_seller');
+            if ($itemSeller == "digiDirect") {
+                $finalPrice = $product->getFinalPrice();
+                $productTotal = $finalPrice * $item->getQty();
+                $digiTotal += $productTotal;
+            }
+        }
+        
         $standardShipping = 8.95;
+        
         $bulkItemSurcharge = 0;
         if ($this->checkForBulkyItems() == true) {
             $bulkItemSurcharge = 20;
         }
-        return $standardShipping + $bulkItemSurcharge;
+        
+        $finalShipping = $standardShipping + $bulkItemSurcharge;
+        
+        if ($digiTotal > 49) {
+            $finalShipping = 0.0;
+        }
+        
+        return $finalShipping;
     }
 }
