@@ -696,7 +696,6 @@ class Product extends AbstractHelper
                     //$product->setCategoryIds($categoryIds);
                 }
 
-                $this->logger->info($forLogs);
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
@@ -1854,8 +1853,6 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
-                $this->logger->info($forLogs);
 
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
