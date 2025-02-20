@@ -1436,12 +1436,14 @@ class TestPronto extends AbstractHelper
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
+                echo "discount - " .$discount ." <br/>";
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
                 if($price > 0)
                 {
                     $discperc = ($discount / $price) * 100;
                 }
+                echo "discperc - " .$discperc ." <br/>";
                 if($coupon != "")
                 {
                     $discount = 0;
