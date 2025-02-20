@@ -243,9 +243,18 @@ class Data extends AbstractHelper
         
         $finalShipping = $standardShipping + $bulkItemSurcharge;
         
+        //International Shipping
+        //Start
+        $countryId = $this->cart->getQuote()->getShippingAddress()->getCountryId();
+        $this->logger->info('$countryId: ' . $countryId);
+        //End
+        
+        //Free Shipping For Orders Above $49
+        //Start
         if ($digiTotal > 49) {
             $finalShipping = 0.0;
         }
+        //End
         
         return $finalShipping;
     }
