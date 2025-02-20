@@ -86,6 +86,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
             $id = $storeData['entity_id'];
             $qty = 0;
+            //$items[$key]['click_and_collect'] = true;
 
             if (empty($places[$id])) {
                 continue;
