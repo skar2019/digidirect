@@ -153,11 +153,12 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     }
 
     private function formatPrice($amount, $store){
-        return $this->priceCurrency->format(
+        /*return $this->priceCurrency->format(
             $amount,
             false,
             \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
             $store
-        );
+        );*/
+        return $amount;
     }
 }
