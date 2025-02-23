@@ -80,7 +80,6 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
             $finalPrice = $product->getFinalPrice();
         } else {
             if($wiserPrice < $finalPrice) {
-                $this->logger->info('Price Match Is Wiser Price: ' . $product->getSku() . ", " . $wiserPrice);
                 $finalPrice = $wiserPrice;
             }
         }
