@@ -71,7 +71,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
         
-        $discountWiserPrice = round($finalPrice - $wiserPrice, 2);
+        $discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
         
         if ($wiserPrice == 0 || empty($wiserPrice) || $discountWiserPrice < 10) {
             $finalPrice = $product->getFinalPrice();
