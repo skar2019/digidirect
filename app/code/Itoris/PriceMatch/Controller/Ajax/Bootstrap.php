@@ -72,16 +72,15 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
 
         $resultJson = $this->resultJsonFactory->create();
         $finalPrice = $product->getFinalPrice();
-        $wiserPrice = number_format((float)$product->getData('wiser_price'), 2, '.', '');
+        $wiserPrice = $product->getData('wiser_price');
         
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
-        $this->logger->info('Price Match Final Price: ' . $finalPrice);
-        $this->logger->info('Price Match Wiser Price: ' . $wiserPrice);
         
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalPrice = $product->getFinalPrice();
         } else {
             if($wiserPrice < $finalPrice) {
+                $this->logger->info('Price Match Is Wiser Price: ' . $product->getSku() . ", " . $wiserPrice);
                 $finalPrice = $wiserPrice;
             }
         }
