@@ -33,12 +33,14 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
 
     protected $priceCurrency;
     protected $storeManager;
+    protected $logger;
 
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger,
         array $components = [],
         array $data = []
     )
@@ -46,6 +48,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
         $this->priceCurrency = $priceCurrency;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     public function prepareDataSource(array $dataSource)
@@ -53,6 +56,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
+                $this->logger->info('prepareDataSource, ' . $item['final_price']);
                 $fPrice = $this->priceCurrency->format(
                     $item['final_price'],
                     false,
