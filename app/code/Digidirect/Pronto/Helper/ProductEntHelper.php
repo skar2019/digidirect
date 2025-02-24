@@ -183,7 +183,7 @@ class ProductEntHelper extends AbstractHelper
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
             'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
-            'Stock Division', 'Stock Department','Stock Category','Stock Class'];
+            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -193,8 +193,8 @@ class ProductEntHelper extends AbstractHelper
             $description = "";
 
             $seller = $product->getData('marketplacer_seller');
-            if($seller == '20329')
-            {
+            //if($seller == '20329')
+            //{
                 if(!empty($product->getDescription()))
                 {
                     $description = strip_tags($product->getDescription());
@@ -392,9 +392,10 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $stockDepartment;
                 $data[] = $stockCategory;
                 $data[] = $stockClass;
+                $data[] = $seller;
 
                 $stream->writeCsv($data);
-            }
+            //}
 
 
         }
