@@ -193,8 +193,8 @@ class ProductEntHelper extends AbstractHelper
             $description = "";
 
             $seller = $product->getData('marketplacer_seller');
-            if($seller == '20329')
-            {
+            //if($seller == '20329')
+            //{
                 if(!empty($product->getDescription()))
                 {
                     $description = strip_tags($product->getDescription());
@@ -395,7 +395,7 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $seller;
 
                 $stream->writeCsv($data);
-            }
+            //}
 
 
         }
