@@ -8,7 +8,9 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <link src="//fonts.googleapis.com/css?family=Noto+Sans" src_type="url"/>
+        <!-- <link src="//fonts.googleapis.com/css?family=Noto+Sans" src_type="url"/> -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <css src="Zip_ZipPayment::css/zipmoney.css"/>
     </head>
     <body>
