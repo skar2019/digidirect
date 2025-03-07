@@ -344,6 +344,7 @@ require(['jquery'], function ($) {
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
+            let s19Label = "";
             
             let digiSeconds = "";
             let digiSecondsOverlay = "";
@@ -411,6 +412,7 @@ require(['jquery'], function ($) {
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Preserve your memories</p><p style="font-size: 13px; font-weight: 500;">Order Online Today!</p></div>'
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
@@ -434,6 +436,7 @@ require(['jquery'], function ($) {
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
             }
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
@@ -530,8 +533,7 @@ require(['jquery'], function ($) {
                                 '</strong>' +
                                 priceBlock +
                             '</div>' +
-                            '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                            '<div class="product actions product-item-actions">' + s19Label +
                                     addToCart +
                                 '</div>' +
                             '</div>' +
@@ -769,6 +771,7 @@ require(['jquery'], function ($) {
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
+            let s19Label = "";
             
             let digiSeconds = "";
             let digiSecondsOverlay = "";
@@ -833,6 +836,7 @@ require(['jquery'], function ($) {
                                     'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
                                 '</button>' +
                             '</a>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Preserve your memories</p><p style="font-size: 13px; font-weight: 500;">Order Online Today!</p></div>'
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                     'data-product-sku="' + product.sku + '"' +
@@ -856,6 +860,7 @@ require(['jquery'], function ($) {
                                     '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' +
                             '</form>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
             }
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
@@ -944,7 +949,7 @@ require(['jquery'], function ($) {
                                 priceBlock +
                             '</div>' +
                             '<div class="product actions product-item-actions">' +
-                                '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '<div class="actions-primary">' + s19Label +
                                     addToCart +
                                 '</div>' +
                             '</div>' +
