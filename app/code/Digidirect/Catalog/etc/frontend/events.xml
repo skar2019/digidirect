@@ -6,4 +6,7 @@
     <event name="controller_action_predispatch_checkout_cart_add">
         <observer name="check_before_add_to_cart" instance="Digidirect\Catalog\Observer\BeforeAddToCart" disabled="true"/>
     </event>
+    <event name="catalog_controller_product_view">
+        <observer name="override_meta_tags" instance="Digidirect\Catalog\Observer\OverrideMetaTags" />
+    </event>
 </config>
