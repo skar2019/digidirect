@@ -14,8 +14,11 @@ class TagPost extends Blog implements IdentityInterface
     protected function prepareCollection()
     {
         $collection = parent::prepareCollection();
-        $collection->addFilterByTagId($this->getTag()->getId());
-        $this->arrowHelper->setTagCondition($this->getTag()->getId());
+        //
+        if ($this->getTag()->getId()) {
+            $collection->addFilterByTagId($this->getTag()->getId());
+            $this->arrowHelper->setTagCondition($this->getTag()->getId());
+        }
         return $collection;
     }
 
