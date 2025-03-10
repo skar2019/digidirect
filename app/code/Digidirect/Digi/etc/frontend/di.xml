@@ -11,7 +11,7 @@
         <plugin name="assets.render.plugin"
                 type="Digidirect\Digi\Plugin\Magento\Framework\View\Page\Config\Renderer"
                 sortOrder="1"
-                disabled="false" />
+                disabled="true" />
     </type>
     <type name="Magento\Checkout\CustomerData\DefaultItem">
         <plugin name="Digidirect_Digi::ShippingChecker" type="Digidirect\Digi\Plugin\Magento\Checkout\CustomerData\DefaultItem"/>
