@@ -184,9 +184,9 @@ require(['jquery'], function ($) {
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
-            if (adSetId || adSetId != "undefined") {
+            //if (adSetId || adSetId != null) {
                 sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
-            }
+            //}
 
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
@@ -341,8 +341,7 @@ require(['jquery'], function ($) {
                                         '<div class="s19-rental-price-target">' +
                                             '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
-                                        '</div>' +
-                                        addToCart 
+                                        '</div>' + addToCart +
                                     '</div>' + sponsoredLabel +
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
