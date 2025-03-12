@@ -239,9 +239,9 @@ require(['jquery'], function ($) {
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
-            //if (adSetId || adSetId != "undefined") {
+            if (adSetId || adSetId != "undefined") {
                 sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label" style="display: none;"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
-            //}
+            }
 
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
@@ -945,7 +945,7 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
-<div class="homepage-row" style="margin-bottom: 40px;">
+<div class="homepage-row" style="margin-bottom: 40px; margin-top: -30px;">
     <div class="pa-digidirect-product-widget trending-digimarket-products-widget">
         <div class="product-widget-header">
             <h3 class="title" style="font-size: 18px;font-weight: 650;color: #ff3c00;">Trending digiMarket Products</h3>
