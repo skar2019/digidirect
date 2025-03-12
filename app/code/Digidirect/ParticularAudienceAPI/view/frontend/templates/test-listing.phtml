@@ -215,7 +215,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
-                                '</button>' + sponsoredLabel
+                                '</button>'
                             '</form>'
             }
             //console.log(product.name, sellerName);
@@ -342,7 +342,7 @@ require(['jquery'], function ($) {
                                             '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
                                         '</div>' +
-                                        addToCart +
+                                        addToCart + sponsoredLabel
                                     '</div>' +
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
