@@ -15,10 +15,10 @@ class TagPost extends Blog implements IdentityInterface
     {
         $collection = parent::prepareCollection();
         //
-        if ($this->getTag()->getId()) {
+        /*if ($this->getTag()->getId()) {
             $collection->addFilterByTagId($this->getTag()->getId());
             $this->arrowHelper->setTagCondition($this->getTag()->getId());
-        }
+        }*/
         return $collection;
     }
 
