@@ -107,7 +107,7 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         //slice(-2) Limits the products to only 2, Temporay fix only.
-        Object.keys(widgetSlots).slice(-2).forEach(key => {
+        Object.keys(widgetSlots).slice(0, 2).forEach(key => {
             productCtr++;
             let product = widgetSlots[key].products[0];
             let campaignId = widgetSlots[key].campaignId;
