@@ -179,14 +179,14 @@ require(['jquery'], function ($) {
             }
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
-            //console.log(attribute);
+            console.log("adSetId", adSetId, product.name);
 
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
-            //if (adSetId || adSetId != null) {
-                sponsoredLabel = '<span class="sponsored-container" style="display: none;"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/">Particular Audience</a></span></span>';
-            //}
+            if (adSetId || adSetId != null) {
+                sponsoredLabel = '<span class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
+            }
 
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
