@@ -1004,7 +1004,7 @@ class Order extends AbstractHelper
                 $productSku = "";
                 $mpsellertotal = 0; //clint digiMarket workaround
                 $digiProtect = "";
-                $price = (double) $item->getOriginalPrice(); //$item->getBasePriceInclTax();
+                $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
@@ -3047,7 +3047,7 @@ class Order extends AbstractHelper
                 $productSku = "";
                 $mpsellertotal = 0; //clint digiMarket workaround
                 $digiProtect = "";
-                $price = (double) $item->getOriginalPrice(); //$item->getBasePriceInclTax();
+                $price = (double)$item->getBasePriceInclTax();
                 $qty = (double)$item->getQtyOrdered();
                 $discount = (double)$item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
