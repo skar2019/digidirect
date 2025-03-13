@@ -1434,7 +1434,7 @@ class TestPronto extends AbstractHelper
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
-                $price = (double) $item->getOriginalPrice();//$item->getBasePriceInclTax();
+                $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 echo "discount - " .$discount ." <br/>";
