@@ -511,15 +511,7 @@ require(['jquery'], function ($) {
         });
     }, false);
     
-    $(".pa-product").click(function(){
-        console.log(".pa-product");
-    });
-    
-    $(".pa-product.product-item-info").click(function(){
-        console.log(".pa-product");
-    });
-    
-    $(document).ready(function() {
+    $(document).on('click', '.pa-product.product-item-info', function() {
         
         $(".pa-product.product-item-info").click(function(){
 
@@ -613,7 +605,11 @@ require(['jquery'], function ($) {
             });
 
         });
-
+        
+    });
+    
+    $(document).on('click', '.pa-product .action.tocart', function() {
+        
         $(".pa-product .action.tocart").click(function(){
 
             var widgetId = $(this).attr("widget-id");
@@ -703,6 +699,7 @@ require(['jquery'], function ($) {
             });
 
         });
+        
     });
     
 });
