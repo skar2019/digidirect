@@ -46,31 +46,31 @@ require(['jquery'], function ($) {
     var categoryId = <?= $categoryId;?>;
     var paWidgetId = "";
     
-    if (currentUrl == "https://www.digidirect.com.au/cameras/mirrorless-cameras") {
+    if (currentUrl.includes("/cameras/mirrorless-cameras")) {
         urlPath = "/cameras/mirrorless-cameras-pa";
         paWidgetId = "069747ae-13be-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/cameras/instant-cameras") {
+    } else if (currentUrl.includes("/cameras/instant-cameras")) {
         urlPath = "/cameras/instant-cameras-pa";
         paWidgetId = "813a0ca1-35be-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/cameras/film-cameras") {
+    } else if (currentUrl.includes("/cameras/film-cameras")) {
         urlPath = "/cameras/film-cameras-pa";
         paWidgetId = "0b3c5603-c0be-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/cameras/compact-cameras") {
+    } else if (currentUrl.includes("/cameras/compact-cameras")) {
         urlPath = "/cameras/compact-cameras-pa";
         paWidgetId = "d9ff9312-1dbe-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/lenses/mirrorless-lenses") {
+    } else if (currentUrl.includes("/lenses/mirrorless-lenses")) {
         urlPath = "/lenses/mirrorless-lenses-pa";
         paWidgetId = "a5e0340d-25be-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/lenses/lens-filters") {
+    } else if (currentUrl.includes("/lenses/lens-filters")) {
         urlPath = "/lenses/lens-filters-pa";
         paWidgetId = "55992e84-4ebe-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/lenses/digital-cine-lenses") {
+    } else if (currentUrl.includes("/lenses/digital-cine-lenses")) {
         urlPath = "/lenses/digital-cine-lenses-pa";
         paWidgetId = "92d40659-38be-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/lenses/lens-accessories") {
+    } else if (currentUrl.includes("/lenses/lens-accessories")) {
         urlPath = "/lenses/lens-accessories-pa";
         paWidgetId = "c26e5450-4cbe-ed11-aae9-02dca44cceec";
-    } else if (currentUrl == "https://www.digidirect.com.au/clearance") {
+    } else if (currentUrl.includes("/clearance")) {
         urlPath = "/clearance-pa";
         paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
     }
@@ -197,7 +197,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
