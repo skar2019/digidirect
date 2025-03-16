@@ -213,7 +213,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>'
                             '</form>'
@@ -644,7 +644,7 @@ require(['jquery'], function ($) {
                 keywordId: keywordId
             }
 
-        /*if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
             delete events['retailBoostCollectionCampaignId']; 
         }
         if (!adSetId || adSetId == "undefined") {
@@ -667,7 +667,7 @@ require(['jquery'], function ($) {
         }
         if (!keywordId || keywordId == "undefined") {
             delete events['keywordId']; 
-        }*/
+        }
 
         const productData = {
             customerId: configCustomerId,
