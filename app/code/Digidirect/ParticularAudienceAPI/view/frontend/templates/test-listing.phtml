@@ -647,25 +647,25 @@ require(['jquery'], function ($) {
         if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
             delete events['retailBoostCollectionCampaignId']; 
         }
-        if (!adSetId || adSetId == "undefined") {
+        if (adSetId == null) {
             delete events['adSetId']; 
         }
-        if (!adSetVersion || adSetVersion == "undefined") {
+        if (adSetVersion == null) {
             delete events['adSetVersion']; 
         }
-        if (!costPerClick || costPerClick == "undefined") {
+        if (costPerClick == null) {
             delete events['costPerClick']; 
         }
-        if (!timeStamp || timeStamp == "undefined") {
+        if (timeStamp == null) {
             delete events['timeStamp']; 
         }
-        if (!hmacSalt || hmacSalt == "undefined") {
+        if (hmacSalt == null) {
             delete events['hmacSalt']; 
         }
-        if (!hmac || hmac == "undefined") {
+        if (hmac == null) {
             delete events['hmac']; 
         }
-        if (!keywordId || keywordId == "undefined") {
+        if (keywordId == null) {
             delete events['keywordId']; 
         }
 
