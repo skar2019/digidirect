@@ -199,6 +199,8 @@
         <?php       
             }
         ?>
+        console.log("productsCheckout", JSON.stringify(productsCheckout));
+        console.log("productsPurchase", JSON.stringify(productsPurchase));
         
         //Prepare data for checkout event
         var subTotal = <?= $lastOrder->getSubtotal(); ?>;
