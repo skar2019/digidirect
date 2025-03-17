@@ -202,7 +202,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -218,7 +218,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
@@ -422,7 +422,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -438,7 +438,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
@@ -633,7 +633,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -649,7 +649,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
@@ -852,7 +852,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/uenc/%25uenc%25/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -868,7 +868,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
-                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '">' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
@@ -1278,7 +1278,7 @@ require(['jquery'], function ($) {
             events: [events]
         };
         
-        //console.log("productData", JSON.stringify(productData));
+        console.log("productData", JSON.stringify(productData));
 
         $.ajax({
             async: false,
