@@ -22,10 +22,15 @@ $finalQffPoints = $_product->getPoints();
 $finalProductPrice = $_product->getFinalPrice();
 $qff_bonus_points = 0;
 $brand = $_product->getAttributeText('brand');
+$brand = strtolower($brand);
 
 $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
 
 $awaiting = $_product->getAwaitingProduct();
+if($brand == 'canon' || $brand = 'sony')
+{
+    $awaiting = 0;
+}
 if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
     $qff_bonus_points = $_product->getQffBonusPoints();
     $qff_base_points = $_product->getQffBase();
@@ -114,28 +119,28 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 <?php endif; ?>
 
 <!-- clint commented out requested by Haig 17 03 25-->
-<?php //if($awaiting == 1):?>
-<!--    <div class="awaiting" id="awaiting-product">-->
-<!--        <div class="ribbon-wrapper">-->
-<!--            <div class="ribbon">-->
-<!--                <div class="ribbon-inner"><i class="far fa-clock" style="display: inline-block; margin-right: 7px;"></i>AWAITING STOCK</div>-->
-<!--                <div class="addtocart-tooltip">-->
-<!--                    <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';-->
-<!--                        font-style: unset;-->
-<!--                        float: right;-->
-<!--                        color: #00C3FF;-->
-<!--                        display: inline-block;-->
-<!--                        margin-top: -25px;-->
-<!--                        margin-right: 10px;">-->
-<!--                    </i>-->
-<!--                    <div class="addtocart-tooltiptext tooltip-bottom-awaiting">-->
-<!--                        This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<?php //endif; ?>
+<?php if($awaiting == 1):?>
+    <div class="awaiting" id="awaiting-product">
+        <div class="ribbon-wrapper">
+            <div class="ribbon">
+                <div class="ribbon-inner"><i class="far fa-clock" style="display: inline-block; margin-right: 7px;"></i>AWAITING STOCK</div>
+                <div class="addtocart-tooltip">
+                    <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';
+                        font-style: unset;
+                        float: right;
+                        color: #00C3FF;
+                        display: inline-block;
+                        margin-top: -25px;
+                        margin-right: 10px;">
+                    </i>
+                    <div class="addtocart-tooltiptext tooltip-bottom-awaiting">
+                        This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
 
 <script>
