@@ -1199,16 +1199,16 @@ class TestPronto extends AbstractHelper
 
             }
 
-            if (empty($payment_reference) && ($method == 'latipay')) {
-                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                //if (empty($payment_reference)){
-                if(!$test)
-                {
-                    continue;
-                }
-                //}
-
-            }
+//            if (empty($payment_reference) && ($method == 'latipay')) {
+//                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+//                //if (empty($payment_reference)){
+//                if(!$test)
+//                {
+//                    continue;
+//                }
+//                //}
+//
+//            }
 
             //ebay
             if (($method == 'm2epropayment')) {
