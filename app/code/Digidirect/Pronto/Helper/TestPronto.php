@@ -1169,10 +1169,11 @@ class TestPronto extends AbstractHelper
                         $myjson = str_replace("Latipay Response :", "",$comment);
                         //echo $myjson ."\n";
                         $myarray = json_decode($myjson, true);
-                        //var_dump($myarray);
+                        var_dump($myarray);
                         if(isset($myarray['status']))
                         {
                             $latistatus = $myarray['status'];
+                            echo "latistatus ".$latistatus."<br/>";
                             if($latistatus == 'paid')
                             {
                                 $tosync = true;
