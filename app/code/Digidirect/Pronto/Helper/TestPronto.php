@@ -1176,9 +1176,11 @@ class TestPronto extends AbstractHelper
                             echo "latistatus ".$latistatus."<br/>";
                             if($latistatus == 'paid')
                             {
+                                echo "true <br/>";
                                 $tosync = true;
                             }
                             else {
+                                echo "false <br/>";
                                 $tosync = false;
                             }
                         }
