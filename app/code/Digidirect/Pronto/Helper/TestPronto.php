@@ -1159,7 +1159,7 @@ class TestPronto extends AbstractHelper
             }
             if($method == 'latipay')
             {
-                $tosync = false;
+                $tosync = 0;
                 $status_history = $order->getStatusHistories();
                 foreach ($status_history as $status) {
                     //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
@@ -1177,16 +1177,16 @@ class TestPronto extends AbstractHelper
                             if($latistatus == 'paid')
                             {
                                 echo "true <br/>";
-                                $tosync = true;
+                                $tosync = 1;
                             }
                             else {
                                 echo "false <br/>";
-                                $tosync = false;
+                                $tosync = 0;
                             }
                         }
                         else
                         {
-                            $tosync = false;
+                            $tosync = 0;
                         }
 
                     }
