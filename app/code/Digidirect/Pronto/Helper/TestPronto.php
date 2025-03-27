@@ -1180,15 +1180,15 @@ class TestPronto extends AbstractHelper
                                 $tosync = 1;
                                 continue;
                             }
-                            else {
-                                echo "false <br/>";
-                                $tosync = 0;
-                            }
+//                            else {
+//                                echo "false <br/>";
+//                                $tosync = 0;
+//                            }
                         }
-                        else
-                        {
-                            $tosync = 0;
-                        }
+//                        else
+//                        {
+//                            $tosync = 0;
+//                        }
 
                     }
 
