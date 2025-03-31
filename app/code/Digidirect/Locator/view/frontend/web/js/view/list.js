@@ -192,8 +192,8 @@ define([
                 pickUpAvailable = $('.pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
 
-                console.log("pickUpAvailable " .pickUpAvailable);
-                console.log("pickUpUnavailable " .pickUpUnavailable);
+                console.log("pickUpAvailable " +pickUpAvailable);
+                console.log("pickUpUnavailable " +pickUpUnavailable);
 
                 if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
                     $('.pickup-available').hide();
