@@ -135,7 +135,7 @@ class DefaultConfigProvider
                 $qty = 0;
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     $store = $sourceItem->getSourceCode();
-                    if ($store != "default" || $store != "SWHS") {
+                    if ($store != "default") {
                         if ($sourceItem->getQuantity() < 0) {
                            $sourceQty = 0;
                         } else {
