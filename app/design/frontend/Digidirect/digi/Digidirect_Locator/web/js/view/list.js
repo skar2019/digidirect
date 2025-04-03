@@ -183,7 +183,9 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
-            
+
+            console.log("onRenderList");
+
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
                 var pickUpAvailable;
@@ -230,8 +232,8 @@ define([
                     
                 }  
 
-                //console.log('pickUpAvailable : ' + pickUpAvailable);
-                //console.log('pickUpUnavailable : ' + pickUpUnavailable);
+                console.log('pickUpAvailable : ' + pickUpAvailable);
+                console.log('pickUpUnavailable : ' + pickUpUnavailable);
                 
             });
 
