@@ -184,6 +184,8 @@ define([
         },
         onRenderList: function () {
 
+            console.log("onrenderlist");
+
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
 
                 var pickUpAvailable;
