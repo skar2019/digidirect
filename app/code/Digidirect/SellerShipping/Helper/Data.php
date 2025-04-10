@@ -40,6 +40,8 @@ class Data extends AbstractHelper
         //$items = $this->session->getQuote()->getAllVisibleItems();
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
+        $zeroShipping = ["LPX Trading Pty Ltd","LatestBuy","Wilson Trading Import Pty Ltd","eMega"];
+        
         foreach($items as $item) {
             //$this->logger->info('getProductId: ' . $item->getProductId());
             $product = $this->productFactory->create()->load($item->getProductId());
@@ -95,7 +97,7 @@ class Data extends AbstractHelper
             
             if ($seller == "digiDirect") {
                 $digidirectSellerCount++;
-            } elseif ($seller == "LatestBuy") {
+            } elseif (in_array($seller, $zeroShipping)) {
                 //$nonDigidirectSeller += 0;
                 $nonDigidirectSellerCount++;
             } else {
@@ -131,6 +133,8 @@ class Data extends AbstractHelper
     {
         $items = $this->cart->getQuote()->getAllItems();
         $sellers = [];
+        $zeroShipping = ["LPX Trading Pty Ltd","LatestBuy","Wilson Trading Import Pty Ltd","eMega"];
+        
         foreach($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
             $seller = $product->getAttributeText('marketplacer_seller');
@@ -165,7 +169,7 @@ class Data extends AbstractHelper
             
             $sellerShipping = 8.95;
             
-            if ($seller == "LatestBuy") {
+            if (in_array($seller, $zeroShipping)) {
                 $sellerShipping = 0;
             }
             
