@@ -29,11 +29,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      * @var Data
      */
     protected $collectHelper;
-
+    
     protected $logger;
-
+    
     protected $_cart;
-
+    
     protected $_product;
 
     /**
@@ -84,7 +84,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
 
         $cartItems = $this->_cart->getQuote()->getAllItems();
-
+        
         $stores = [];
 
         foreach ($items as $key => $storeData) {
@@ -99,7 +99,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
             //$place = $places[$id];
             //if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
-            $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+                $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             //}
 
             $sydnQty = 1;
@@ -110,10 +110,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cannQty = 1;
             $parrQty = 1;
             $stPetersQty = 1;
-
+            
             $totalCann = 0.0;
             $totalQtyOnOtherSources = 0;
-
+          
             foreach ($cartItems as $cartItem) {
 
                 $prodId = $cartItem->getProductId();
@@ -129,7 +129,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                     $getQty = $sourceItem->getQuantity();
                     $store = $sourceItem->getSourceCode();
-
+                    
                     if ((!in_array($store, $stores)))  {
                         array_push($stores, $store);
                     }
@@ -156,28 +156,28 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-
+                        
                         $wiserPrice = $product->getWiserPrice();
                         $finalPrice = $product->getFinalPrice();
-
+                        
                         $lastPrice = $finalPrice;
-
+                        
                         if ($wiserPrice < $finalPrice) {
                             $lastPrice = $wiserPrice;
                         }
-
+                        
                         $totalCann += $lastPrice;
                         $cannQty = $cannQty * $getQty;
-
+                        
                         $this->logger->info('$wiserPrice, ' . $wiserPrice);
                         $this->logger->info('$finalPrice, ' . $finalPrice);
                         $this->logger->info('$totalCann, ' . $totalCann);
-
+                        
                     }
                 }
             }
-
-            if ($this->checkIfCanningtonOnly()) {
+            
+            if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
                 if ($id == 16) {
                     $items[$key]['click_and_collect'] = true;
                 } else {
@@ -245,17 +245,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 }
             }
         }
-
+        
         return $items;
     }
-
-    function checkIfCanningtonOnly()
+    
+    function checkIfCanningtonOnly() 
     {
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
 
         $cartItems = $this->_cart->getQuote()->getAllItems();
-
+        
         $stores = [];
 
         $sydnQty = 1;
@@ -278,7 +278,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
-
+                
                 $getQty = $sourceItem->getQuantity();
                 $store = $sourceItem->getSourceCode();
 
@@ -324,16 +324,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 }
             }
         }
-
+        
         $canningtonOnly = false;
         $this->logger->info('$totalCann: ' . $totalCann);
         $this->logger->info('$cannQty: ' . $cannQty);
         $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
-
+        
         if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
-            $canningtonOnly = true;
+             $canningtonOnly = true;   
         }
-
+        
         return $canningtonOnly;
     }
 
