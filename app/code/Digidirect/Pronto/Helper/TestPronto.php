@@ -36,9 +36,9 @@ class TestPronto extends AbstractHelper
      * @var array
      */
     protected $relocateWarehouseMap = [
-        'MELB' => 'SWHS',
-        'CANN' => 'SWHS',
-        'SWHS' => 'MELB'
+        'MELB' => '3WHS',
+        'CANN' => '3WHS',
+        '3WHS' => 'MELB'
     ];
 
     /**
@@ -69,7 +69,7 @@ class TestPronto extends AbstractHelper
         'MELB',
         'MIRA',
         'PARR',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -78,7 +78,7 @@ class TestPronto extends AbstractHelper
         'CANN',
         'MELB',
         'MIRA',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -130,7 +130,7 @@ class TestPronto extends AbstractHelper
     protected $repDispatchWarehouseMap = [
         'MELB' => '85',
         'CANN' => 'C3W',
-        'SWHS' => 'C9W'
+        '3WHS' => 'C9W'
     ];
 
     /**
@@ -335,7 +335,7 @@ class TestPronto extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
-                            $whse = 'SWHS';
+                            $whse = '3WHS';
                             break;
                     }
 
@@ -349,7 +349,7 @@ class TestPronto extends AbstractHelper
 //                    $whse = $this->relocateWarehouseMap[$whse];
 //                }
                 //requestd by Emmanuel
-                $whse = "SWHS";
+                $whse = "3WHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -370,7 +370,7 @@ class TestPronto extends AbstractHelper
     }
 
     protected function getWarehouseByRegionCode($regionCode) {
-        return 'SWHS';
+        return '3WHS';
     }
 
     /**
@@ -593,7 +593,7 @@ class TestPronto extends AbstractHelper
             $wrehs = $this->getWarehouse($order);
             echo 'wrehs '.$wrehs;
             $territory = "WEBS";
-            if($wrehs != 'SWHS')
+            if($wrehs != '3WHS')
             {
                 if($wrehs != '')
                 {
@@ -721,10 +721,10 @@ class TestPronto extends AbstractHelper
             if($isMarketPlace)
             {
                 echo "It is marketplace ".$isMarketPlace."<br/>";
-                //check if all product has stock in swhs
+                //check if all product has stock in 3WHS
                 $skus = $this->getProductsSkus($order);
                 //var_dump($skus);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
                 echo "directToWhse ".$directToWhse."<br/>";
@@ -831,7 +831,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in 3WHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
                 if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
@@ -1883,7 +1883,7 @@ class TestPronto extends AbstractHelper
             $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
             $sellerdata['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in 3WHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
 
 

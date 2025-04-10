@@ -36,9 +36,8 @@ class Order extends AbstractHelper
      * @var array
      */
     protected $relocateWarehouseMap = [
-        'MELB' => 'SWHS',
-        'CANN' => 'SWHS',
-        'SWHS' => 'MELB'
+        'MELB' => '3WHS',
+        'CANN' => '3WHS'
     ];
 
     /**
@@ -69,7 +68,7 @@ class Order extends AbstractHelper
         'MELB',
         'MIRA',
         'PARR',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -78,7 +77,7 @@ class Order extends AbstractHelper
         'CANN',
         'MELB',
         'MIRA',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -130,7 +129,7 @@ class Order extends AbstractHelper
     protected $repDispatchWarehouseMap = [
         'MELB' => '85',
         'CANN' => 'C3W',
-        'SWHS' => 'C9W'
+        '3WHS' => 'C9W'
     ];
 
     /**
@@ -242,7 +241,7 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
-            if($wrehs != 'SWHS')
+            if($wrehs != '3WHS')
             {
                 if($wrehs != '')
                 {
@@ -349,7 +348,7 @@ class Order extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -1496,7 +1495,7 @@ class Order extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
-                            $whse = 'SWHS';
+                            $whse = '3WHS';
                             break;
                     }
                 }
@@ -1507,7 +1506,7 @@ class Order extends AbstractHelper
 //                    $whse = $this->relocateWarehouseMap[$whse];
 //                }
                 //requestd by Emmanuel
-                $whse = "SWHS";
+                $whse = "3WHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -1527,7 +1526,7 @@ class Order extends AbstractHelper
     }
 
     protected function getWarehouseByRegionCode($regionCode) {
-        return 'SWHS';
+        return '3WHS';
     }
 
     /**
@@ -2390,7 +2389,7 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
-            if ($wrehs != 'SWHS') {
+            if ($wrehs != '3WHS') {
                 if ($wrehs != '') {
                     $territory = $wrehs;
                 }
@@ -2485,7 +2484,7 @@ class Order extends AbstractHelper
             if ($isMarketPlace) {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
             }
