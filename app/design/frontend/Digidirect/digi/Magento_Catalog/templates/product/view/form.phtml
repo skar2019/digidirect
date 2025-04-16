@@ -27,7 +27,7 @@ $brand = strtolower($brand);
 $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
 
 $awaiting = $_product->getAwaitingProduct();
-if($brand == 'canon' || $brand == 'sony')
+if($brand == 'canon' || $brand == 'rode')
 {
     $awaiting = 0;
 }
