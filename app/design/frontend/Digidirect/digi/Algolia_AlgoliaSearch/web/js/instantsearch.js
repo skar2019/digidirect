@@ -476,9 +476,18 @@ define([
              * searchBox
              * Docs: https://www.algolia.com/doc/api-reference/widgets/search-box/js/
              **/
+            
+            const currentURL = window.location.href;
+            
+            var searchPlaceholder = algoliaConfig.translations.searchFor;
+            
+            if (currentURL == "https://www.digidirect.com.au/digimarket") {
+                searchPlaceholder = "Shop over 10s and 1000s of products now!";
+            }
+            
             allWidgetConfiguration.searchBox = {
                 container  : instant_selector,
-                placeholder: algoliaConfig.translations.searchFor,
+                placeholder: searchPlaceholder,
                 showSubmit : false,
                 queryHook  : (inputValue, search) => {
                     if (
