@@ -809,7 +809,7 @@ define([
                         return !items.length;
                     },
                 };
-
+                console.log("facet.label", facet.label);
                 return ['hierarchicalMenu', hierarchicalMenuParams];
             },
         };
