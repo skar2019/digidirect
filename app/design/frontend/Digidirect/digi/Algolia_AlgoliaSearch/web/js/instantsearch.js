@@ -790,11 +790,10 @@ define([
                             })
                             : items;
                     },
-                };
-
+                };          
                 hierarchicalMenuParams.templates.item =
                     '' +
-                    '<a class="{{cssClasses.link}} {{#isRefined}}{{cssClasses.link}}--selected{{/isRefined}}" href="{{categoryUrl}}">{{label}}' +
+                    '<a class="{{cssClasses.link}} {{#isRefined}}{{cssClasses.link}}--selected{{/isRefined}} testclass" href="{{categoryUrl}}">{{label}}' +
                     ' ' +
                     '<span class="{{cssClasses.count}}">{{#helpers.formatNumber}}{{count}}{{/helpers.formatNumber}}</span>' +
                     '</a>';
@@ -809,7 +808,7 @@ define([
                         return !items.length;
                     },
                 };
-                console.log("facet.label", facet.label);
+                //console.log("facet.label", facet.label);
                 return ['hierarchicalMenu', hierarchicalMenuParams];
             },
         };
