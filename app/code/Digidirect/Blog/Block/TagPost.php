@@ -8,22 +8,12 @@ use Magento\Framework\DataObject\IdentityInterface;
 
 class TagPost extends Blog implements IdentityInterface
 {
-    protected $logger;
-    
-    public function __construct(
-        \Psr\Log\LoggerInterface $logger
-    ) {
-        $this->logger = $logger;
-    }
-    
     /**
      * @return \Digidirect\Blog\Model\ResourceModel\Post\Collection
      */
     protected function prepareCollection()
     {
-        $this->logger->info("this->getTag()->getId()" . $this->getTag()->getId());
-        $this->logger->info("this->getTag()->getTagId()" . $this->getTag()->getTagId());
-        $this->logger->info("this->getTag()->getPostId()" . $this->getTag()->getPostId());
+        $this->logger->info("this->getTag()->getId() " . $this->getTag()->getId());
         
         $collection = parent::prepareCollection();
         //
