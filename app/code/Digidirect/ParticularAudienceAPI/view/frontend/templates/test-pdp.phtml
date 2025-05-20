@@ -235,6 +235,9 @@ require(['jquery'], function ($) {
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
                     digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                    }
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
