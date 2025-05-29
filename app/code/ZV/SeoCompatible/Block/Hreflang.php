@@ -40,7 +40,7 @@ class Hreflang extends Template
 
             parse_str($urlComponents['query'], $params);
 
-            if (!empty($params['p']) || !empty($params['page'])) {
+            if (!empty($params['p'])) {
 
                 if (count($params) == 1) {
                     $this->pageConfig->setRobots("INDEX,FOLLOW");
@@ -50,12 +50,6 @@ class Hreflang extends Template
                     $page = ''; 
                 } else {
                     $page = '?p=' . $params['p']; 
-                }
-
-                if ($params['page'] == 1) {
-                    $page = ''; 
-                } else {
-                    $page = '?page=' . $params['page']; 
                 }
 
                 $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
