@@ -140,15 +140,15 @@ class DefaultConfigProvider
                 $qty = 0;
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     //comment out clint Apr 3, 2025
-//                    $store = $sourceItem->getSourceCode();
-//                    if ($store != "default") {
+                    $store = $sourceItem->getSourceCode();
+                    if ($store != "default") {
                         if ($sourceItem->getQuantity() < 0) {
                            $sourceQty = 0;
                         } else {
                            $sourceQty = $sourceItem->getQuantity(); 
                         }
                         $qty = $qty + $sourceQty;
-//                    }
+                    }
                 }
                 $totalqty = $totalqty * $qty;
             }
