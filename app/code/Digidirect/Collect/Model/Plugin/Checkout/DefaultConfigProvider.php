@@ -52,6 +52,10 @@ class DefaultConfigProvider
      * @var \Magento\Framework\Event\ManagerInterface|null
      */
     protected $eventManager;
+    
+    protected $_cart;
+    
+    protected $_product;
 
     /**
      * DefaultConfigProvider constructor.
@@ -72,7 +76,9 @@ class DefaultConfigProvider
         CollectHelper $collectHelper,
         AddressCollectHelper $addressCollectHelper,
         EventManagerInterface $eventManager = null,
-        GetSourceItemsBySku $getSourceItemsBySku
+        GetSourceItemsBySku $getSourceItemsBySku,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Catalog\Model\Product $product
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
@@ -82,6 +88,8 @@ class DefaultConfigProvider
         $this->addressCollectHelper = $addressCollectHelper;
         $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(EventManagerInterface::class);
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->_cart = $cart;
+        $this->_product = $product;
     }
 
     /**
@@ -121,29 +129,26 @@ class DefaultConfigProvider
                 }
             }
             
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-            $items = $cart->getQuote()->getAllItems();
+            $items = $this->_cart->getQuote()->getAllItems();
             
             $totalqty = 1;
             foreach ($items as $item) {
                 $prodId = $item->getProductId();
-                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+                $product = $this->_product->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 $qty = 0;
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     //comment out clint Apr 3, 2025
-//                    $store = $sourceItem->getSourceCode();
-//                    if ($store != "default") {
+                    $store = $sourceItem->getSourceCode();
+                    if ($store != "default") {
                         if ($sourceItem->getQuantity() < 0) {
                            $sourceQty = 0;
                         } else {
                            $sourceQty = $sourceItem->getQuantity(); 
                         }
                         $qty = $qty + $sourceQty;
-//                    }
+                    }
                 }
                 $totalqty = $totalqty * $qty;
             }
@@ -234,5 +239,92 @@ class DefaultConfigProvider
 
         return $addresses;
     }
-    //redeploy
+    
+    public function checkIfCanningtonOnly() 
+    {
+        $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
+        $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
+
+        $cartItems = $this->_cart->getQuote()->getAllItems();
+        
+        $stores = [];
+
+        $sydnQty = 1;
+        $bondQty = 1;
+        $melbQty = 1;
+        $brisQty = 1;
+        $miraQty = 1;
+        $cannQty = 1;
+        $parrQty = 1;
+        $stPetersQty = 1;
+
+        $totalCann = 0.0;
+        $totalQtyOnOtherSources = 0;
+
+        foreach ($cartItems as $cartItem) {
+
+            $prodId = $cartItem->getProductId();
+            $product = $this->_product->load($prodId);
+
+            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+            foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                
+                $getQty = $sourceItem->getQuantity();
+                $store = $sourceItem->getSourceCode();
+
+                if ((!in_array($store, $stores)))  {
+                    array_push($stores, $store);
+                }
+
+                if ($sourceItem->getSourceCode() == 'SYDN') {
+                    $sydnQty = $sydnQty * $getQty;
+                    $totalQtyOnOtherSources += $sydnQty;
+                } elseif ($sourceItem->getSourceCode() == 'BOND') {
+                    $bondQty = $bondQty * $getQty;
+                    $totalQtyOnOtherSources += $bondQty;
+                } elseif ($sourceItem->getSourceCode() == 'MELB') {
+                    $melbQty = $melbQty * $getQty;
+                    $totalQtyOnOtherSources += $melbQty;
+                } elseif ($sourceItem->getSourceCode() == 'BRIS') {
+                    $brisQty = $brisQty * $getQty;
+                    $totalQtyOnOtherSources += $brisQty;
+                } elseif ($sourceItem->getSourceCode() == 'MIRA') {
+                    $miraQty = $miraQty * $getQty;
+                    $totalQtyOnOtherSources += $miraQty;
+                } elseif ($sourceItem->getSourceCode() == 'SWHS') {
+                    $stPetersQty = $stPetersQty * $getQty;
+                    $totalQtyOnOtherSources += $stPetersQty;
+                } elseif ($sourceItem->getSourceCode() == 'PARR') {
+                    $parrQty = $parrQty * $getQty;
+                    $totalQtyOnOtherSources += $parrQty;
+                } elseif ($sourceItem->getSourceCode() == 'CANN') {
+
+                    $wiserPrice = $product->getWiserPrice();
+                    $finalPrice = $product->getFinalPrice();
+
+                    $lastPrice = $finalPrice;
+
+                    if ($wiserPrice > 0 && $wiserPrice < $finalPrice) {
+                        $lastPrice = $wiserPrice;
+                    }
+
+                    $totalCann += $lastPrice;
+                    $cannQty = $cannQty * $getQty;
+
+                }
+            }
+        }
+        
+        $canningtonOnly = false;
+        /*$this->logger->info('$totalCann: ' . $totalCann);
+        $this->logger->info('$cannQty: ' . $cannQty);
+        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);*/
+        
+        if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
+             $canningtonOnly = true;   
+        }
+        
+        return $canningtonOnly;
+    }
 }

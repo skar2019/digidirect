@@ -25,9 +25,40 @@ class Hreflang extends Template
     {
         /*$product = $this->registry->registry('current_product');
         if ($product) {
-            return $this->catalogHelper->getProductUrl($product);
+            $currentUrl = $this->catalogHelper->getProductUrl($product);
         }*/
-        $currentUrl = rtrim($this->_urlBuilder->getCurrentUrl(), '/');
-        return $currentUrl;
+        
+        $currentUrl = $this->_urlBuilder->getCurrentUrl();
+        
+        $urlComponents = parse_url($currentUrl);
+                
+        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+
+        if (!empty($urlComponents['query'])) {
+                    
+            $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
+
+            parse_str($urlComponents['query'], $params);
+
+            if (!empty($params['p'])) {
+
+                if (count($params) == 1) {
+                    $this->pageConfig->setRobots("INDEX,FOLLOW");
+                }
+
+                if ($params['p'] == 1) {
+                    $page = ''; 
+                } else {
+                    $page = '?p=' . $params['p']; 
+                }
+
+                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+            } else {
+                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+            }
+        }
+        
+        
+        return $canonical;
     }
 }
