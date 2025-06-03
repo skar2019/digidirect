@@ -344,7 +344,6 @@ class Order extends AbstractHelper
                     $account = "BUNN01";
                     $territory = "MRKT";
                     $isMarketPlace = true;
-                    continue; //do not sync yet
                     //for woolworths
                 }
 
