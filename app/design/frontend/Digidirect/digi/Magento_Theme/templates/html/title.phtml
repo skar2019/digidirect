@@ -21,7 +21,7 @@ if (trim($block->getPageHeading())) {
                     <?php if ($block->getAddBaseAttributeAria()) : ?>
                         aria-labelledby="<?= $block->escapeHtmlAttr($block->getAddBaseAttributeAria()) ?>"
                     <?php endif; ?>>
-                    <?= /* @noEscape */ $titleHtml ?>
+                    <span class="base" data-ui-id="page-title-wrapper"><?= $category->getName(); ?></span>
                 </h1>
                 <?= $block->getChildHtml() ?>
             </div>
