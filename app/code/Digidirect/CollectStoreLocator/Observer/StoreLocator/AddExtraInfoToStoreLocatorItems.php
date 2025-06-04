@@ -110,6 +110,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cannQty = 1;
             $parrQty = 1;
             $stPetersQty = 1;
+            $strathfieldQty = 1;
             
             $totalCann = 0.0;
             $totalQtyOnOtherSources = 0;
@@ -149,9 +150,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $getQty;
                         $totalQtyOnOtherSources += $miraQty;
-                    } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty * $getQty;
-                        $totalQtyOnOtherSources += $stPetersQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
@@ -227,12 +225,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                                 $items[$key]['click_and_collect'] = false;
                             }
                         }
-                    } elseif ($id == 35 && $stPetersQty > 0) {
-                        if (in_array('SWHS', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
+                    } elseif ($id == 35) { //SWHS
+                        
+                        $items[$key]['click_and_collect'] = false;
+                        
                     } elseif ($id == 32 && $parrQty > 0) {
                         if (in_array('PARR', $stores)) {
                             $items[$key]['click_and_collect'] = true;
@@ -301,9 +297,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 } elseif ($sourceItem->getSourceCode() == 'MIRA') {
                     $miraQty = $miraQty * $getQty;
                     $totalQtyOnOtherSources += $miraQty;
-                } elseif ($sourceItem->getSourceCode() == 'SWHS') {
-                    $stPetersQty = $stPetersQty * $getQty;
-                    $totalQtyOnOtherSources += $stPetersQty;
                 } elseif ($sourceItem->getSourceCode() == 'PARR') {
                     $parrQty = $parrQty * $getQty;
                     $totalQtyOnOtherSources += $parrQty;
