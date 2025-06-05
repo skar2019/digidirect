@@ -179,11 +179,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 if ($id == 16) { //CANN
                     $items[$key]['click_and_collect'] = true;
                 } else {
-                    if (is_null($id)) {
-                        $items[$key]['click_and_collect'] = false;
-                    } else {
-                        $items[$key]['click_and_collect'] = NULL;
-                    }
+                    $items[$key]['click_and_collect'] = NULL;
                 }
             } else {
                 if (is_null($id)) {
@@ -231,7 +227,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         }
                     } elseif ($id == 35) { //SWHS
                         
-                        $items[$key]['click_and_collect'] = false;
+                        $items[$key]['click_and_collect'] = NULL;
                         
                     } elseif ($id == 32 && $parrQty > 0) {
                         if (in_array('PARR', $stores)) {
