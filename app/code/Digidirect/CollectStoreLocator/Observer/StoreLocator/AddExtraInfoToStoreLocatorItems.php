@@ -182,49 +182,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     if (is_null($id)) {
                         $items[$key]['click_and_collect'] = false;
                     } else {
-                        if ($id == 1 && $sydnQty > 0) {
-                            if (in_array('SYDN', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } elseif ($id == 31 && $bondQty > 0) {
-                            if (in_array('BOND', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } elseif ($id == 7 && $melbQty > 0) {
-                            if (in_array('MELB', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } elseif ($id == 10 && $brisQty > 0) {
-                            if (in_array('BRIS', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } elseif ($id == 13 && $miraQty > 0) {
-                            if (in_array('MIRA', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } elseif ($id == 35) { //SWHS
-
-                            $items[$key]['click_and_collect'] = false;
-
-                        } elseif ($id == 32 && $parrQty > 0) {
-                            if (in_array('PARR', $stores)) {
-                                $items[$key]['click_and_collect'] = true;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
+                        $items[$key]['click_and_collect'] = NULL;
                     }
                 }
             } else {
