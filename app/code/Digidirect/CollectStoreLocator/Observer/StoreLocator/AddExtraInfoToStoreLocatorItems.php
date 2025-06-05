@@ -179,7 +179,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 if ($id == 16) { //CANN
                     $items[$key]['click_and_collect'] = true;
                 } else {
-                    $items[$key]['click_and_collect'] = NULL;
+                    $items[$key]['click_and_collect'] = false;
                 }
             } else {
                 if (is_null($id)) {
