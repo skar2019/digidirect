@@ -175,11 +175,15 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 }
             }
             
+            $this->logger->info('$totalCann: ' . $totalCann);
+            $this->logger->info('$cannQty: ' . $cannQty);
+            $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+            
             if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
                 if ($id == 16) { //CANN
                     $items[$key]['click_and_collect'] = true;
                 } else {
-                    $items[$key]['click_and_collect'] = false;
+                    $items[$key]['click_and_collect'] = NULL;
                 }
             } else {
                 if (is_null($id)) {
