@@ -110,6 +110,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cannQty = 1;
             $parrQty = 1;
             $stPetersQty = 1;
+            $strathfieldQty = 1;
             
             $totalCann = 0.0;
             $totalQtyOnOtherSources = 0;
@@ -149,9 +150,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $getQty;
                         $totalQtyOnOtherSources += $miraQty;
-                    } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty * $getQty;
-                        $totalQtyOnOtherSources += $stPetersQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
@@ -177,8 +175,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 }
             }
             
+            $this->logger->info('$totalCann: ' . $totalCann);
+            $this->logger->info('$cannQty: ' . $cannQty);
+            $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+            
             if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
-                if ($id == 16) {
+                if ($id == 16) { //CANN
                     $items[$key]['click_and_collect'] = true;
                 } else {
                     $items[$key]['click_and_collect'] = NULL;
@@ -227,12 +229,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                                 $items[$key]['click_and_collect'] = false;
                             }
                         }
-                    } elseif ($id == 35 && $stPetersQty > 0) {
-                        if (in_array('SWHS', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
+                    } elseif ($id == 35) { //SWHS
+                        
+                        $items[$key]['click_and_collect'] = NULL;
+                        
                     } elseif ($id == 32 && $parrQty > 0) {
                         if (in_array('PARR', $stores)) {
                             $items[$key]['click_and_collect'] = true;
@@ -243,98 +243,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $items[$key]['click_and_collect'] = false;
                     }
                 }
-            }
+            } 
         }
         
         return $items;
-    }
-    
-    function checkIfCanningtonOnly() 
-    {
-        $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
-        $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
-
-        $cartItems = $this->_cart->getQuote()->getAllItems();
-        
-        $stores = [];
-
-        $sydnQty = 1;
-        $bondQty = 1;
-        $melbQty = 1;
-        $brisQty = 1;
-        $miraQty = 1;
-        $cannQty = 1;
-        $parrQty = 1;
-        $stPetersQty = 1;
-
-        $totalCann = 0.0;
-        $totalQtyOnOtherSources = 0;
-
-        foreach ($cartItems as $cartItem) {
-
-            $prodId = $cartItem->getProductId();
-            $product = $this->_product->load($prodId);
-
-            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-            foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                
-                $getQty = $sourceItem->getQuantity();
-                $store = $sourceItem->getSourceCode();
-
-                if ((!in_array($store, $stores)))  {
-                    array_push($stores, $store);
-                }
-
-                if ($sourceItem->getSourceCode() == 'SYDN') {
-                    $sydnQty = $sydnQty * $getQty;
-                    $totalQtyOnOtherSources += $sydnQty;
-                } elseif ($sourceItem->getSourceCode() == 'BOND') {
-                    $bondQty = $bondQty * $getQty;
-                    $totalQtyOnOtherSources += $bondQty;
-                } elseif ($sourceItem->getSourceCode() == 'MELB') {
-                    $melbQty = $melbQty * $getQty;
-                    $totalQtyOnOtherSources += $melbQty;
-                } elseif ($sourceItem->getSourceCode() == 'BRIS') {
-                    $brisQty = $brisQty * $getQty;
-                    $totalQtyOnOtherSources += $brisQty;
-                } elseif ($sourceItem->getSourceCode() == 'MIRA') {
-                    $miraQty = $miraQty * $getQty;
-                    $totalQtyOnOtherSources += $miraQty;
-                } elseif ($sourceItem->getSourceCode() == 'SWHS') {
-                    $stPetersQty = $stPetersQty * $getQty;
-                    $totalQtyOnOtherSources += $stPetersQty;
-                } elseif ($sourceItem->getSourceCode() == 'PARR') {
-                    $parrQty = $parrQty * $getQty;
-                    $totalQtyOnOtherSources += $parrQty;
-                } elseif ($sourceItem->getSourceCode() == 'CANN') {
-
-                    $wiserPrice = $product->getWiserPrice();
-                    $finalPrice = $product->getFinalPrice();
-
-                    $lastPrice = $finalPrice;
-
-                    if ($wiserPrice > 0 && $wiserPrice < $finalPrice) {
-                        $lastPrice = $wiserPrice;
-                    }
-
-                    $totalCann += $lastPrice;
-                    $cannQty = $cannQty * $getQty;
-
-                }
-            }
-        }
-        
-        $canningtonOnly = false;
-        $this->logger->info('$totalCann: ' . $totalCann);
-        $this->logger->info('$cannQty: ' . $cannQty);
-        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
-        
-        if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
-             $canningtonOnly = true;   
-        }
-        
-        return $canningtonOnly;
     }
 
     function console_log($output, $with_script_tags = true) {

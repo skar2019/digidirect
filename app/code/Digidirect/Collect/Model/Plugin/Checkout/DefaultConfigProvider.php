@@ -141,7 +141,7 @@ class DefaultConfigProvider
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     //comment out clint Apr 3, 2025
                     $store = $sourceItem->getSourceCode();
-                    if ($store != "default") {
+                    if ($store != "default" && $store != "3WHS" && $store != "SWHS") {
                         if ($sourceItem->getQuantity() < 0) {
                            $sourceQty = 0;
                         } else {
@@ -292,9 +292,6 @@ class DefaultConfigProvider
                 } elseif ($sourceItem->getSourceCode() == 'MIRA') {
                     $miraQty = $miraQty * $getQty;
                     $totalQtyOnOtherSources += $miraQty;
-                } elseif ($sourceItem->getSourceCode() == 'SWHS') {
-                    $stPetersQty = $stPetersQty * $getQty;
-                    $totalQtyOnOtherSources += $stPetersQty;
                 } elseif ($sourceItem->getSourceCode() == 'PARR') {
                     $parrQty = $parrQty * $getQty;
                     $totalQtyOnOtherSources += $parrQty;
