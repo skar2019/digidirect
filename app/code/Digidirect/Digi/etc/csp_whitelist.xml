@@ -76,6 +76,7 @@
                 <value id="afterpaystatic" type="host">*.static.afterpay.com</value>
                 <value id="afterpaymodal" type="host">*.squarecdn.com</value>
                 <value id="latitudescriptsrc" type="host">*.latitudepayapps.com</value>
+                <value id="clarity" type="host">*.clarity.ms</value>
 
             </values>
         </policy>
@@ -138,6 +139,7 @@
                 <value id="zipimgsrc" type="host">zip.co</value>
                 <value id="bpizipimgsrc" type="host">bpi.zip.co</value>
                 <value id="latitudeimgsrc" type="host">*.latitudefinancial.com</value>
+                <value id="clarity" type="host">*.google.lk</value>
             </values>
         </policy>
         <policy id="media-src">
