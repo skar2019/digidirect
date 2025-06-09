@@ -1449,7 +1449,7 @@ require(['jquery'], function ($) {
         let rect = thisElement.getBoundingClientRect();
 
         // check if element is completely visible inside the viewport
-        if ((rect.top <= 900 && rect.top >= 0) && rect.height != 0) {
+        if ((rect.top <= 850 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
@@ -1522,7 +1522,7 @@ require(['jquery'], function ($) {
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPortOwlCarousel($(this), element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        $(".pa-digidirect-product-widget .mobile-widget .product-item-info.product-item:not(.pa-bundle-container):not(.slot)").each(function() {
+        $(".pa-digidirect-product-widget .mobile-widget .product-item-info.product-item:not(.pa-bundle-container .slot)").each(function() {
             var element = $(this).attr("id");
             var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
