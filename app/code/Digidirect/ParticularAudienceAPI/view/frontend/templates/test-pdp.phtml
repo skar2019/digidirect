@@ -1449,7 +1449,7 @@ require(['jquery'], function ($) {
         let rect = thisElement.getBoundingClientRect();
 
         // check if element is completely visible inside the viewport
-        if ((rect.top <= 400 && rect.top >= 0) && rect.height != 0) {
+        if ((rect.top <= 800 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
@@ -1522,8 +1522,7 @@ require(['jquery'], function ($) {
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPortOwlCarousel($(this), element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
-        //Test Disable
-        /*$(".pa-digidirect-product-widget .mobile-widget .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
+        $(".pa-digidirect-product-widget .mobile-widget .product-item-info.product-item:not(.pa-bundle-container)").each(function() {
             var element = $(this).attr("id");
             var widgetId = $(this).attr("widget-id");
             var productId = $(this).attr("product-id");
@@ -1539,7 +1538,24 @@ require(['jquery'], function ($) {
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
             isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
-        });*/
+        });
+        $(".pa-digidirect-product-widget .mobile-widget .product-item-info.product-item:not(.slot)").each(function() {
+            var element = $(this).attr("id");
+            var widgetId = $(this).attr("widget-id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
     }, false);
     
     $("#minicart-content-wrapper").on('scroll', function(){
