@@ -204,7 +204,7 @@
                 <value id="afterpaystaticconnect" type="host">*.static.afterpay.com</value>
                 <value id="addoubleclick" type="host">*.doubleclick.net</value>
                 <value id="clarityconnect" type="host">*.clarity.ms</value>
-                <value id="invisitors" type="host">in.visitors.live</value>
+                <value id="invisitors" type="host">wss://in.visitors.live</value>
                 <value id="visitors" type="host">visitors.live</value>
                 <value id="insightadsrver" type="host">insight.adsrvr.org</value>
                 <value id="luckorangepreview" type="host">api-preview.luckyorange.com</value>
