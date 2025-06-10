@@ -86,7 +86,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $cartItems = $this->_cart->getQuote()->getAllItems();
         
         $stores = [];
-
+            
+        $totalCann = 0.0;
+        $totalQtyOnOtherSources = 0;
+        
         foreach ($items as $key => $storeData) {
 
             $id = $storeData['entity_id'];
@@ -111,9 +114,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $parrQty = 1;
             $stPetersQty = 1;
             $strathfieldQty = 1;
-            
-            $totalCann = 0.0;
-            $totalQtyOnOtherSources = 0;
           
             foreach ($cartItems as $cartItem) {
 
@@ -174,10 +174,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     }
                 }
             }
-            
-            $this->logger->info('$totalCann: ' . $totalCann);
-            $this->logger->info('$cannQty: ' . $cannQty);
-            $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
             
             if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
                 if ($id == 16) { //CANN
@@ -246,6 +242,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             } 
         }
         
+        $this->logger->info('$totalCann: ' . $totalCann);
+        $this->logger->info('$cannQty: ' . $cannQty);
+        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+
         return $items;
     }
 

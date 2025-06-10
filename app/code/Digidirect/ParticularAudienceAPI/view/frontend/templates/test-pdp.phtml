@@ -94,7 +94,7 @@ require(['jquery'], function ($) {
             }
             
             var view = "-digimarket";
-            var tileId = 'product-' + product.refId + view;
+            var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
                                 '<span class="product-image-container" style="width: 240px;">' +
@@ -289,7 +289,7 @@ require(['jquery'], function ($) {
             }
             
             var view = "-fbw";
-            var tileId = 'product-' + product.refId + view;
+            var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
@@ -516,7 +516,7 @@ require(['jquery'], function ($) {
             } else {
                 view = "-desktop";
             }
-            var tileId = 'product-' + product.refId + view;
+            var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
@@ -724,7 +724,7 @@ require(['jquery'], function ($) {
             
             let hideProductItem = "";
             var view = "-bundle";
-            var tileId = 'product-' + product.refId + view;
+            var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="pa-checkbox-container">' +
                                 '<label class="pa-checkbox-label">' +
@@ -937,7 +937,7 @@ require(['jquery'], function ($) {
             }
             
             var view = "-minicart";
-            var tileId = 'product-' + product.refId + view;
+            var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                             '<div class="wish-list-wrapper" data-role="add-to-links">' +
                                 '<a href="#"' +
@@ -1009,7 +1009,7 @@ require(['jquery'], function ($) {
             var hmacSalt = $(this).attr("hmac-salt");
             var hmac = $(this).attr("hmac");
             var keywordId = $(this).attr("keyword-id");
-            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            isElementInViewPortSidePanel(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
         $(".pa-digidirect-product-widget .owl-item.active .product-item-info.product-item:not(.pa-bundle-container, .slot)").each(function() {
             var element = $(this).attr("id");
@@ -1116,6 +1116,99 @@ require(['jquery'], function ($) {
     //Product Info Add To Cart
     $(".price-final_price").click(function() {
         $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
+    });
+    
+    //Side Panel Click Event
+    $("#pa-digimarket-side-panel .product-item-info.product-item").click(function(){
+        var widgetId = $(this).attr("widget-id");
+        var productId = $(this).attr("product-id");
+        var recommenderId = $(this).attr("recommender-id");
+        var campaignId = $(this).attr("campaign-id");
+        var tacticId = $(this).attr("tactic-id");
+        var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+        var adSetId = $(this).attr("adset-id");
+        var adSetVersion = $(this).attr("adset-version");
+        var costPerClick = $(this).attr("cost-per-click");
+        var timeStamp = $(this).attr("timestamp");
+        var hmacSalt = $(this).attr("hmac-salt");
+        var hmac = $(this).attr("hmac");
+        var keywordId = $(this).attr("keyword-id");
+        
+        //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
+
+        var date = new Date();
+        
+        var events = {
+                currentUrl: currentUrl,
+                eventTime: date.toISOString(),
+                clickId: uuidv4(),
+                refId: productId,
+                actionType: 1,
+                contextType: 1,
+                routeId: routeId,
+                widgetId: widgetId,
+                routeId: routeId,              
+                recommenderId: recommenderId,
+                campaignId: campaignId,
+                tacticId: tacticId,
+                retailBoostCollectionCampaignId: retailBoostCollectionCampaignId,
+                adSetId: adSetId,
+                adSetVersion: adSetVersion,
+                costPerClick: costPerClick,
+                timeStamp: timeStamp,
+                hmacSalt: hmacSalt,
+                hmac: hmac,
+                keywordId: keywordId
+            }
+            
+        if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
+            delete events['retailBoostCollectionCampaignId']; 
+        }
+        if (!adSetId || adSetId == "undefined") {
+            delete events['adSetId']; 
+        }
+        if (!adSetVersion || adSetVersion == "undefined") {
+            delete events['adSetVersion']; 
+        }
+        if (!costPerClick || costPerClick == "undefined") {
+            delete events['costPerClick']; 
+        }
+        if (!timeStamp || timeStamp == "undefined") {
+            delete events['timeStamp']; 
+        }
+        if (!hmacSalt || hmacSalt == "undefined") {
+            delete events['hmacSalt']; 
+        }
+        if (!hmac || hmac == "undefined") {
+            delete events['hmac']; 
+        }
+        if (!keywordId || keywordId == "undefined") {
+            delete events['keywordId']; 
+        }
+
+        const clickData = {
+            customerId: customerId,
+            sessionId: sessionId,
+            events: [events]
+        };
+
+        //console.log(JSON.stringify(clickData));
+
+        $.ajax({
+            async: false,
+            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            type: "POST",
+            data: {
+                eventData: clickData
+            },
+            success: function(data){
+                console.log("clicks", data);
+            },
+            error: function(){
+                console.log('AJAX Fail!');
+            }
+        });
+
     });
 
     $(".pa-digidirect-product-widget .product-item-info.product-item:not(.pa-bundle-container)").click(function(){
@@ -1344,6 +1437,19 @@ require(['jquery'], function ($) {
 
         // check if element is completely visible inside the viewport
         if ((rect.top <= 600 && rect.top >= 0) && rect.height != 0) {
+            //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
+            //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
+            slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+            $(thisElement).addClass("slot");
+        }
+    }
+    
+    function isElementInViewPortSidePanel(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
+        var thisElement = document.getElementById(element);
+        let rect = thisElement.getBoundingClientRect();
+
+        // check if element is completely visible inside the viewport
+        if ((rect.top <= 880 && rect.top >= 0) && rect.height != 0) {
             //console.log("Product ID id ", element, "The bounding Rect of element is ", rect, "viewPortBottom", viewPortBottom);
             //return (isTopInViewPort && isLeftInViewPort && isBottomInViewPort && isRightInViewPort);
             slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
