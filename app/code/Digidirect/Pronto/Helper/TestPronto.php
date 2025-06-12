@@ -599,11 +599,6 @@ class TestPronto extends AbstractHelper
                 {
                     $territory = $wrehs;
                 }
-                else
-                {
-                    //check shipping
-                    $wrehs = 'MELB';
-                }
 
             }
 
