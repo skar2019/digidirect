@@ -312,49 +312,49 @@
             background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAuMDAwMDAwMDAwMDAwMDEiIGhlaWdodD0iNTAuMDAwMDAwMDAwMDAwMDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiNlNjUzMDAiIGlkPSJzdmdfMSIgZD0ibTEsMTEuNDg3bDAsMjkuMTQ2bDAsMi4zNjdsNDgsMGwwLC0yLjM2N2wwLC0yOS4xNDZsMCwtNC40ODdsLTQ4LDBsMCw0LjQ4N3ptMiwxLjU2NmwxNS42LDEyLjIwOWwtMTUuNiwxMy42MjRsMCwtMjUuODMzem0wLjYyLDI3Ljk0N2wxNi41ODQsLTE0LjQ4M2w0Ljc5NiwzLjc1M2w0Ljc5NiwtMy43NTNsMTYuNTg0LDE0LjQ4M2wtNDIuNzYsMHptNDMuMzgsLTIuMTE0bC0xNS42LC0xMy42MjVsMTUuNiwtMTIuMjA5bDAsMjUuODM0em0tNDQsLTI5Ljg4Nmw0NCwwbDAsMS41MTNsLTIyLDE3LjIxN2wtMjIsLTE3LjIxN2wwLC0xLjUxM3oiLz4KIDwvZz4KPC9zdmc+);
         }
     }
-    
+
     .block.block-collapsible-nav {
         display: none;
     }
-    
+
     .form-digiclub-manage .block-title {
         padding: 0;
     }
-    
+
     .form-digiclub-manage .block-title span {
         font-size: 20px;
     }
-    
+
     .digiclubmember-customer-index .page-title-wrapper {
         display: none;
     }
-    
+
     .digiclub-description li {
         list-style-type: decimal;
         margin-left: 30px;
         line-height: 17px;
         padding-left: 15px;
     }
-    
+
     .form-digiclub-manage .field._required>.label:after {
         content: '*';
         color: #e02b27;
         font-size: 1.2rem;
         margin: 0 0 0 5px;
     }
-    
+
     .form-digiclub-manage .field>.label {
         font-weight: 700;
     }
-    
+
     .account .page-title-wrapper .page-title {
         background: none !important;
     }
-    
+
     .account .navigation .nav.item.-icon {
         border: none !important;
     }
-    
+
     .account .navigation {
         z-index: 1;
     }
@@ -391,7 +391,7 @@
         left: 20px;
         transform: translateY(-50%);
         background-repeat: no-repeat;
-        fill: #e65300;    
+        fill: #e65300;
         border: none;
     }
 
@@ -402,18 +402,18 @@
     .block-collapsible-nav .title:after {
         display: none;
     }
-    
+
     .form-digiclub-manage img {
         display: none;
     }
-    
+
     form.form.form-digiclub-manage.block > div {
         display: block !important;
     }
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1279) {
-    
+
     .account .page-main {
         padding-top: 0 !important;
     }
@@ -443,7 +443,7 @@
         left: 20px;
         transform: translateY(-50%);
         background-repeat: no-repeat;
-        fill: #e65300;    
+        fill: #e65300;
         border: none;
     }
 
@@ -454,28 +454,28 @@
     .block-collapsible-nav .title:after {
         display: none;
     }
-    
+
     .form-digiclub-manage img {
         display: none;
     }
-    
+
     form.form.form-digiclub-manage.block > div {
         display: block !important;
     }
-    
+
     .secondary-nav.collapsible .block-collapsible-nav-content {
         border-bottom: 1px solid #222;
     }
-    
+
 }
 
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = 1280) {
-    
+
     .account.page-layout-2columns-left .columns {
         width: calc(100% - 29%) !important;
     }
-    
+
 }
 
 //
@@ -483,7 +483,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-    
+
     .account {
         .page-main {
             padding-bottom: 40px;
@@ -543,7 +543,7 @@
             min-height: 0;
         }
     }
-    
+
     .secondary-nav.collapsible .block-collapsible-nav-title {
         position: relative;
         width: 100%;
@@ -581,7 +581,7 @@
     .account.page-layout-2columns-left .sidebar-main {
         width: 100%;
     }
-    
+
 }
 
 //
@@ -604,7 +604,7 @@
     .account {
         &.@{layout-class-2columns__left} .sidebar-main {
             .lib-css(width, @account-layout-sidebar__width__l);
-            order: 2;
+            order: 2 !important;
             padding-right: 2%;
         }
 
@@ -699,11 +699,11 @@
         padding-top: 30px;
         height: 100%;
     }
-    
+
     .form-digiclub-manage .field-dob {
         width: 50%;
     }
-    
+
 }
 
 //
