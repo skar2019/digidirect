@@ -103,7 +103,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                     
                     parse_str($urlComponents['query'], $params);
                 
-                    if (!empty($params['p'])) {
+                    if (!empty($params['p']) || !empty($params['page'])) {
                         
                         if (count($params) == 1) {
                             $this->pageConfig->setRobots("INDEX,FOLLOW");
@@ -114,6 +114,13 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                         } else {
                             $page = '?p=' . $params['p']; 
                         }
+                        
+                        if ($params['page'] == 1) {
+                            $page = ''; 
+                        } else {
+                            $page = '?page=' . $params['page']; 
+                        }
+                        
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
                     } else {
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];

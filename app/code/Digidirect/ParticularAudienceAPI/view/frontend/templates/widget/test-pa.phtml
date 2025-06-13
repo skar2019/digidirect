@@ -234,7 +234,7 @@ require(['jquery'], function ($) {
             }
 
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
-            console.log("adSetId", adSetId, product.name);
+            //console.log("adSetId", adSetId, product.name);
 
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
@@ -526,7 +526,7 @@ require(['jquery'], function ($) {
         $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
     });
     
-    $(".pa-digidirect-product-widget .product-item-info.product-item").click(function(){
+    $(".product-item-info.product-item").click(function(){
 
         var widgetId = $(this).attr("widget-id");
         var productId = $(this).attr("product-id");

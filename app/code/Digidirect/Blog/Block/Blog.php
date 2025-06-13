@@ -69,7 +69,9 @@ class Blog extends Template
     protected $_isShowCategoryNames = null;
 
     protected $_urlInterface;
-
+    
+    protected $logger;
+    
     /**
      * Blog constructor.
      *
@@ -96,6 +98,7 @@ class Blog extends Template
         Arrow $arrowHelper,
         UrlModel $urlModel,
         \Magento\Framework\UrlInterface $urlInterface,
+        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -108,6 +111,7 @@ class Blog extends Template
         $this->arrowHelper = $arrowHelper;
         $this->urlModel = $urlModel;
         $this->_urlInterface = $urlInterface;
+        $this->logger = $logger;
     }
 
     /**

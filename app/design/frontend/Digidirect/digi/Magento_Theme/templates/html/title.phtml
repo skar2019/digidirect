@@ -1,6 +1,7 @@
 <?php
 
 $category = $block->getCurrentCategory();
+$handles = $this->getLayout()->getUpdate()->getHandles();
 
 $cssClass = $block->getCssClass() ? ' ' . $block->getCssClass() : '';
 $titleHtml = '';
@@ -11,6 +12,11 @@ if (trim($block->getPageHeading())) {
         . $block->escapeHtml($block->getPageHeading())
         . '</span>';
 }
+
+if (in_array('catalog_category_view', $handles)) {
+    $titleHtml = '<span class="base" data-ui-id="page-title-wrapper">'.$category->getName().'</span>';
+}
+
 ?>
 <?php if ($category) : ?>
     <div class="category-page-banner" style="margin-right: 0;margin-left: auto;">

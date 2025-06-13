@@ -49,6 +49,9 @@ class Canonical extends AbstractHelper
      */
     public function getCanonicalForAllCmsPages(): string
     {
+        $checkModule = $this->http->getModuleName();
+        $this->logger->info('$checkModule: ' . $checkModule);
+        
         if($this->scopeConfig->getValue('catalog/seo/cms_canonical_tag')){
             if ($this->cmsPage->getId()) {
                 
@@ -77,8 +80,6 @@ class Canonical extends AbstractHelper
                     );
                 }
             }
-            $checkModule = $this->http->getModuleName();
-            //$this->logger->info('$checkModule: ' . $checkModule);
             if($checkModule == 'contact'){
                 if ($this->cmsPage->getIdentifier() == "home") {
                     return $this->createLink(

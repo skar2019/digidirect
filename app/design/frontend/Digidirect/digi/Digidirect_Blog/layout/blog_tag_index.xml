@@ -24,5 +24,6 @@
 
         <referenceBlock name="page.main.title" remove="true"/>
         <referenceBlock name="blog.post.arrow" remove="true"/>
+        
     </body>
 </page>
