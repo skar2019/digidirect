@@ -53,7 +53,8 @@ $htmlId               = $element->getHtmlId();
 			<?php foreach ($items as $_items) { ?>
 				<div class="mgz-grid-page mgz-grid-col-xl-<?= $xl ?> mgz-grid-col-lg-<?= $lg ?> mgz-grid-col-md-<?= $md ?> mgz-grid-col-sm-<?= $sm ?> mgz-grid-col-xs-<?= $xs ?>">
 				<?php foreach ($_items as $_product) { ?>
-					<div class="item product product-item mgz-grid-item">
+                                    <?php if ($_product->getIsSalable()) { ?>
+                                        <div class="item product product-item mgz-grid-item">
 						<div class="product-item-info">
                                                     <?php if ($showWishlist || $showCompare) { ?>
                                                             <div class="actions-secondary" data-role="add-to-links">
@@ -256,6 +257,7 @@ $htmlId               = $element->getHtmlId();
 							</div>
 						</div>
 					</div>
+                                    <?php } ?>
 				<?php } ?>
 				</div>
 			<?php } ?>
