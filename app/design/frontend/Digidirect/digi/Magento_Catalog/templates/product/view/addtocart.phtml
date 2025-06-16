@@ -9,7 +9,12 @@
 /** @var $block \Magento\Catalog\Block\Product\View */
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')->getFrontend()->getValue($block->getProduct());
+$_attributeValue = '';
+$attribute = $block->getProduct()->getResource()->getAttribute('preorder');
+if ($attribute) {
+    $_attributeValue = $attribute->getFrontend()->getValue($block->getProduct());
+}
+//$_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')->getFrontend()->getValue($block->getProduct());
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
