@@ -1,6 +1,7 @@
 <?php
 namespace Bss\PreOrder\Ui\DataProvider\Product\Form\Modifier;
 
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Model\Locator\LocatorInterface;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Framework\Stdlib\ArrayManager;
@@ -11,6 +12,20 @@ use Magento\Framework\UrlInterface;
  */
 class CustomAttribute extends AbstractModifier
 {
+    /**
+     * @var LocatorInterface
+     */
+    protected $locator;
+
+    /**
+     * @var UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
+     * @var ArrayManager
+     */
+    protected $arrayManager;
 
     /**
      * @param LocatorInterface            $locator
@@ -32,9 +47,7 @@ class CustomAttribute extends AbstractModifier
      */
     public function modifyMeta(array $meta)
     {
-        $meta = $this->customiseCustomAttrField($meta);
-
-        return $meta;
+        return $this->customiseCustomAttrField($meta);
     }
 
     /**
@@ -54,8 +67,8 @@ class CustomAttribute extends AbstractModifier
      */
     protected function customiseCustomAttrField(array $meta)
     {
-        $fromField = 'pre_oder_from_date';
-        $toField = 'pre_oder_to_date';
+        $fromField = PreOrderAttribute::PRE_ORDER_FROM_DATE;
+        $toField = PreOrderAttribute::PRE_ORDER_TO_DATE;
         $fromFieldPath = $this->arrayManager->findPath($fromField, $meta, null, 'children');
         $toFieldPath = $this->arrayManager->findPath($toField, $meta, null, 'children');
         if ($fromFieldPath && $toFieldPath) {

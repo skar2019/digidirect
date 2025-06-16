@@ -64,8 +64,8 @@ $notePreOrder = $preOrderHelper->getNote();
                 <?php if ($productModel && in_array($productModel->getId(), $listPreOrder)): ?>
                 <tr>
                     <td>
-                        <p><?= $notePreOrder ?></p>
-                        <p><?= $preOrderHelper->getAvailabilityMessage($productModel) ?></p>
+                        <p><?= __($notePreOrder) ?></p>
+                        <p><?= __($preOrderHelper->getAvailabilityMessage($productModel)) ?></p>
                     </td>
                     <td></td>
                     <td></td>

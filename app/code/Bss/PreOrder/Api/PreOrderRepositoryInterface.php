@@ -12,7 +12,7 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2021 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 
@@ -21,18 +21,20 @@ namespace Bss\PreOrder\Api;
 interface PreOrderRepositoryInterface
 {
     /**
-     * Check Product Is PreOrder
+     * Get Product PreOrder data By Sku
+     *
      * @param string $sku
      * @param int|null $storeId
-     * @return bool
+     * @return mixed
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function checkIsPreOrderProduct($sku, $storeId = null);
+    public function get($sku, $storeId = null);
 
     /**
-     * Get list PreOrder Product
+     * Get Configuration PreOrder
+     *
      * @param int|null $storeId
      * @return mixed
      */
-    public function getListPreOrderProduct($storeId = null);
+    public function getConfig($storeId = null);
 }

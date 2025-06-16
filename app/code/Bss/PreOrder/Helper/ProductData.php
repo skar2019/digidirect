@@ -12,36 +12,25 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Helper;
 
 use Bss\PreOrder\Model\Attribute\Source\Order;
+use Bss\PreOrder\Model\PreOrderAttribute;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-use Magento\GroupedProduct\Model\Product\Type\Grouped;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductData extends \Magento\Framework\Url\Helper\Data
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
-     */
-    protected $productInfo;
-
-    /**
-     * @var \Magento\CatalogInventory\Model\StockRegistry
-     */
-    protected $stockRegistry;
-
-    /**
      * @var Configurable
      */
     protected $typeConfigurable;
-
-    /**
-     * @var Grouped
-     */
-    protected $typeGrouped;
 
     /**
      * @var \Bss\PreOrder\Helper\Data
@@ -49,44 +38,33 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
     protected $helper;
 
     /**
-     * @var \Magento\CatalogInventory\Api\StockItemRepositoryInterface
+     * @var ProductCollectionFactory
      */
-    protected $stockItemRepository;
+    protected $productCollectionFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Api\StockItemCriteriaInterfaceFactory
+     * @var Configurable
      */
-    protected $stockItemCriteriaFactory;
+    protected $configurable;
 
     /**
-     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
-     */
-    protected $collectionFactory;
-
-    /**
-     * ProductData constructor.
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Model\ProductRepository $productInfo
-     * @param \Magento\CatalogInventory\Model\StockRegistry $stockRegistry
-     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $typeConfigurable
-     * @param \Bss\PreOrder\Helper\Data $helper
-     * @param \Magento\Framework\App\ProductMetadata $productMetadata
+     * @param Context $context
+     * @param Configurable $typeConfigurable
+     * @param Data $helper
+     * @param ProductCollectionFactory $productCollectionFactory
+     * @param Configurable $configurable
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $collectionFactory,
-        \Magento\CatalogInventory\Api\StockItemCriteriaInterfaceFactory $stockItemCriteriaFactory,
-        \Magento\CatalogInventory\Api\StockItemRepositoryInterface $stockItemRepository,
         Configurable $typeConfigurable,
-        Grouped $typeGrouped,
-        Data $helper
+        Data $helper,
+        ProductCollectionFactory $productCollectionFactory,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable
     ) {
-        $this->collectionFactory = $collectionFactory;
-        $this->stockItemCriteriaFactory = $stockItemCriteriaFactory;
-        $this->stockItemRepository = $stockItemRepository;
         $this->typeConfigurable = $typeConfigurable;
-        $this->typeGrouped = $typeGrouped;
         $this->helper = $helper;
+        $this->productCollectionFactory = $productCollectionFactory;
+        $this->configurable = $configurable;
         parent::__construct($context);
     }
 
@@ -109,25 +87,25 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
                     $childProduct['stock_status'] = true;
                 }
                 $childProduct['productId'] = $item->getData('entity_id');
-                $childProduct['preorder'] = $item->getData('preorder');
-                $childProduct['pre_oder_from_date'] = $this->helper->formatDate($item->getData('pre_oder_from_date'));
-                $childProduct['pre_oder_to_date'] = $this->helper->formatDate($item->getData('pre_oder_to_date'));
-                $childProduct['availability_preorder'] = $this->helper->isAvailablePreOrderFromFlatData(
-                    $childProduct['pre_oder_from_date'],
-                    $childProduct['pre_oder_to_date']
-                );
-                $messageProduct = $item->getData('message');
-                $childProduct['availability_message'] = $this->helper->replaceVariableX(
-                    $item->getData('availability_message'),
-                    $childProduct['pre_oder_from_date'],
-                    $childProduct['pre_oder_to_date']
+                $childProduct[PreOrderAttribute::PRE_ORDER_STATUS] = $item->getData(PreOrderAttribute::PRE_ORDER_STATUS);
+                $fromDate = $item->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE);
+                $toDate = $item->getData(PreOrderAttribute::PRE_ORDER_TO_DATE);
+                $childProduct[PreOrderAttribute::PRE_ORDER_FROM_DATE] = $this->helper->formatDate($fromDate);
+                $childProduct[PreOrderAttribute::PRE_ORDER_TO_DATE] = $this->helper->formatDate($toDate);
+                $childProduct['availability_preorder'] = $this->helper->isAvailablePreOrderFromFlatData($fromDate, $toDate);
+                $messageProduct = $item->getData(PreOrderAttribute::PRE_ORDER_MESSAGE);
+                $childProduct[PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE] = $this->helper->replaceVariableX(
+                    $item->getData(PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE),
+                    $childProduct[PreOrderAttribute::PRE_ORDER_FROM_DATE],
+                    $childProduct[PreOrderAttribute::PRE_ORDER_TO_DATE]
                 );
 
-                $template_mess = !empty(trim($messageProduct))? $messageProduct : $this->helper->getMess();
-                $childProduct['message'] = $this->helper->replaceVariableX(
+                $messageProduct = $messageProduct !== null ? $messageProduct : '';
+                $template_mess = !empty(trim($messageProduct)) ? $messageProduct : $this->helper->getMess();
+                $childProduct[PreOrderAttribute::PRE_ORDER_MESSAGE] = $this->helper->replaceVariableX(
                     $template_mess,
-                    $childProduct['pre_oder_from_date'],
-                    $childProduct['pre_oder_to_date']
+                    $childProduct[PreOrderAttribute::PRE_ORDER_FROM_DATE],
+                    $childProduct[PreOrderAttribute::PRE_ORDER_TO_DATE]
                 );
 
                 $button = __("Pre-Order");
@@ -158,7 +136,7 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
     }
 
     /**
-     * Check pre order of all child product
+     * Check pre-order of all child product
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool
@@ -175,13 +153,13 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
         }
         if (!empty($items)) {
             foreach ($items as $item) {
-                $preOrder = $item->getData('preorder');
+                $preOrder = $item->getData(PreOrderAttribute::PRE_ORDER_STATUS);
                 $isInStock = $item->getData('is_salable');
                 if ($preOrder == Order::ORDER_NO ||
                     ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock) ||
                     $preOrder == Order::ORDER_YES && !$this->helper->isAvailablePreOrderFromFlatData(
-                        $this->helper->formatDate($item->getData('pre_oder_from_date')),
-                        $this->helper->formatDate($item->getData('pre_oder_to_date'))
+                        $this->helper->formatDate($item->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE)),
+                        $this->helper->formatDate($item->getData(PreOrderAttribute::PRE_ORDER_TO_DATE))
                     )
                 ) {
                     return false;
@@ -189,5 +167,59 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
             }
         }
         return true;
+    }
+
+    /**
+     * Get pre-order products
+     *
+     * @return \Magento\Framework\DataObject[]|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getPreOrderProducts()
+    {
+        /**
+         * @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection
+         */
+        $productCollection = $this->productCollectionFactory->create();
+        $productCollection->setStoreId($this->helper->getStoreId());
+        $productCollection->addAttributeToFilter(PreOrderAttribute::PRE_ORDER_STATUS, ['neq' => 0]);
+        if ($productCollection->getSize()) {
+            return $productCollection->getItems();
+        }
+        return null;
+    }
+
+    /**
+     * Check pre-order product in cart
+     *
+     * @param mixed $item
+     * @param float $qty
+     * @return bool
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function checkPreOrderCartItem($item, $qty)
+    {
+        $productId = $item->getProduct()->getId();
+        if ($item->getProduct()->getTypeId() == 'configurable') {
+            $requestInfo =$item->getBuyRequest();
+            $product = $this->helper->getProductById($productId);
+            $product = $this->configurable->getProductByAttributes(
+                $requestInfo['super_attribute'],
+                $product
+            );
+            $productId = $product->getId();
+        }
+        $preOrderCart = $this->helper->getPreOrder($productId);
+        $inStockCart = $this->helper->getIsInStock($productId);
+        $availabilityPreOrder = $this->helper->isAvailablePreOrder($productId);
+        $isPreOrderCart = $this->helper->isPreOrder($preOrderCart, $inStockCart, $availabilityPreOrder);
+        if ($inStockCart && $preOrderCart == 2) {
+            $qtyProduct = $this->helper->getProductSalableQty($item, $productId);
+            if ($qty > $qtyProduct) {
+                $isPreOrderCart = true;
+            }
+        }
+        return $isPreOrderCart;
     }
 }

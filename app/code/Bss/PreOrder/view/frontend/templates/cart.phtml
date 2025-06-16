@@ -26,7 +26,10 @@
 <?php foreach ($note as $key) : ?>
     <span class="note-pieces"><?php echo $key ?></span>
 <?php endforeach ?>
-<span class="order-notice"><?php echo $block->getCartMess() ?></span>
+<span class="order-notice"><?= __($block->getCartMess()) ?></span>
+<?php if ($block->getCartMessMixin()): ?>
+    <span class="pre-order-mixin-message message error"><?= __($block->getCartMessMixin()) ?></span>
+<?php endif; ?>
 <script type="text/x-magento-init">
     {
         "*": {

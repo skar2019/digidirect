@@ -55,7 +55,12 @@ class BackendNotice
                 return $result;
             }
             if ($result->getProductType() == Configurable::TYPE_CODE) {
-                $productId = $this->helper->getProductBySku($result->getProductOptionByCode('simple_sku'))->getId();
+                $product = $this->helper->getProductBySku($result->getProductOptionByCode('simple_sku'));
+                if ($product) {
+                    $productId = $product->getId();
+                } else {
+                    return $result;
+                }
             } else {
                 $productId = $result->getProduct()->getId();
             }
