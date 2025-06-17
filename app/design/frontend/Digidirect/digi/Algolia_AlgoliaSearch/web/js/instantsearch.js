@@ -597,6 +597,14 @@ define([
                             item.isNotPreorder = true;
                         }
                         
+                        /*if (item.pre_order_status == "Yes") {
+                            item.isPreorder = true;
+                            item.isNotPreorder = false;
+                        } else {
+                            item.isPreorder = false;
+                            item.isNotPreorder = true;
+                        }*/
+                        
                         if (!item.item_codition || item.item_codition == "" || item.item_codition == " ") {
                             item.isDigiSeconds = false;
                             item.isNotDigiSeconds = true;

@@ -17,6 +17,9 @@
  */
 namespace Bss\PreOrder\Plugin\Block\Product\View\Type;
 
+use Bss\PreOrder\Helper\Data;
+use Bss\PreOrder\Model\PreOrderAttribute;
+
 class Configurable
 {
     /**
@@ -35,7 +38,7 @@ class Configurable
     private $jsonDecoder;
 
     /**
-     * @var \Bss\PreOrder\Helper\Data
+     * @var Data
      */
     private $helper;
 
@@ -44,13 +47,13 @@ class Configurable
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Json\DecoderInterface $jsonDecoder
      * @param \Bss\PreOrder\Helper\ProductData $linkData
-     * @param \Bss\PreOrder\Helper\Data $helper
+     * @param Data $helper
      */
     public function __construct(
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Json\DecoderInterface $jsonDecoder,
         \Bss\PreOrder\Helper\ProductData $linkData,
-        \Bss\PreOrder\Helper\Data $helper
+        Data $helper
     ) {
         $this->linkData = $linkData;
         $this->jsonEncoder = $jsonEncoder;

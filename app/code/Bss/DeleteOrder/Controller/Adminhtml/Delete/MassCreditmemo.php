@@ -17,19 +17,15 @@
  */
 namespace Bss\DeleteOrder\Controller\Adminhtml\Delete;
 
+use Bss\DeleteOrder\Model\Creditmemo\Delete;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Backend\App\Action\Context;
+use Magento\Sales\Api\CreditmemoRepositoryInterface;
 use Magento\Ui\Component\MassAction\Filter;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use Magento\Sales\Api\OrderManagementInterface;
 
 class MassCreditmemo extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMassAction
 {
-    /**
-     * @var OrderManagementInterface
-     */
-    protected $orderManagement;
-
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\Creditmemo\CollectionFactory
      */
@@ -49,33 +45,32 @@ class MassCreditmemo extends \Magento\Sales\Controller\Adminhtml\Order\AbstractM
      * MassCreditmemo constructor.
      * @param Context $context
      * @param Filter $filter
-     * @param OrderManagementInterface $orderManagement
+     * @param CollectionFactory $collectionFactory
      * @param \Magento\Sales\Model\ResourceModel\Order\Creditmemo\CollectionFactory $memoCollectionFactory
-     * @param \Magento\Sales\Api\CreditmemoRepositoryInterface $creditmemoRepository
-     * @param \Bss\DeleteOrder\Model\Creditmemo\Delete $delete
+     * @param CreditmemoRepositoryInterface $creditmemoRepository
+     * @param Delete $delete
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        OrderManagementInterface $orderManagement,
         \Magento\Sales\Model\ResourceModel\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Api\CreditmemoRepositoryInterface $creditmemoRepository,
         \Bss\DeleteOrder\Model\Creditmemo\Delete $delete
     ) {
         parent::__construct($context, $filter);
         $this->collectionFactory = $collectionFactory;
-        $this->orderManagement = $orderManagement;
         $this->memoCollectionFactory = $memoCollectionFactory;
         $this->creditmemoRepository = $creditmemoRepository;
         $this->delete = $delete;
     }
 
     /**
+     * Mass action
+     *
      * @param AbstractCollection $collection
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function massAction(AbstractCollection $collection)
     {
@@ -91,15 +86,24 @@ class MassCreditmemo extends \Magento\Sales\Controller\Adminhtml\Order\AbstractM
                 $creditmemo = $this->creditmemoRepository->get($creditmemoId);
                 try {
                     $order = $this->deleteCreditMemo($creditmemoId);
-
-                    $this->messageManager->addSuccessMessage(__('Successfully deleted credit memo #%1.', $creditmemo->getIncrementId()));
+                    $this->messageManager->addSuccessMessage(
+                        __(
+                            'Successfully deleted credit memo #%1.',
+                            $creditmemo->getIncrementId()
+                        )
+                    );
                 } catch (\Exception $e) {
-                    $this->messageManager->addErrorMessage(__('Error delete credit memo #%1.', $creditmemo->getIncrementId()));
+                    $this->messageManager->addErrorMessage(
+                        __(
+                            'Error delete credit memo #%1.',
+                            $creditmemo->getIncrementId()
+                        )
+                    );
                 }
             }
         }
         $resultRedirect = $this->resultRedirectFactory->create();
-        if ($params['namespace'] == 'sales_order_view_creditmemo_grid') {
+        if ($params['namespace'] == 'sales_order_view_creditmemo_grid' && isset($order)) {
             $resultRedirect->setPath('sales/order/view', ['order_id' => $order->getId()]);
         } else {
             $resultRedirect->setPath('sales/creditmemo/');
@@ -107,8 +111,10 @@ class MassCreditmemo extends \Magento\Sales\Controller\Adminhtml\Order\AbstractM
         return $resultRedirect;
     }
 
-    /*
+    /**
      * Check permission via ACL resource
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -116,7 +122,9 @@ class MassCreditmemo extends \Magento\Sales\Controller\Adminhtml\Order\AbstractM
     }
 
     /**
-     * @param $creditmemoId
+     * Delete credit memo
+     *
+     * @param int $creditmemoId
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
      */

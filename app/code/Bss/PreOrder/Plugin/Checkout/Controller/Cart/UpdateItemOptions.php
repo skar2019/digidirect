@@ -17,6 +17,15 @@
  */
 namespace Bss\PreOrder\Plugin\Checkout\Controller\Cart;
 
+use Bss\PreOrder\Helper\Data;
+use Bss\PreOrder\Helper\ProductData;
+use Magento\Checkout\Model\Cart;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Message\ManagerInterface;
+
 class UpdateItemOptions
 {
     /**
@@ -39,16 +48,39 @@ class UpdateItemOptions
      */
     protected $resultRedirectFactory;
 
+    /**
+     * @var bool
+     */
     protected $hasPreOrderItem = false;
+
+    /**
+     * @var bool
+     */
     protected $hasNormalItem = false;
 
     /**
-     * CheckBeforeUpdate constructor.
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $cart;
+
+    /**
+     * @var ProductData
+     */
+    protected $productData;
+
+    /**
+     * Check Before Update constructor.
+     *
      * @param Data $helper
-     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable
+     * @param ProductData $productData
+     * @param Cart $cart
+     * @param Configurable $configurable
+     * @param ManagerInterface $messageManager
+     * @param RedirectFactory $resultRedirectFactory
      */
     public function __construct(
         \Bss\PreOrder\Helper\Data $helper,
+        \Bss\PreOrder\Helper\ProductData $productData,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -59,16 +91,19 @@ class UpdateItemOptions
         $this->configurable = $configurable;
         $this->messageManager = $messageManager;
         $this->resultRedirectFactory = $resultRedirectFactory;
+        $this->productData = $productData;
     }
 
     /**
      * @param \Magento\Checkout\Controller\Cart\UpdateItemOptions $subject
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function beforeExecute($subject)
     {
         $id = (int)$subject->getRequest()->getParam('id');
         $params = $subject->getRequest()->getParams();
-        if (isset($id) && isset($params['qty']) && $this->helper->isEnable() && !$this->helper->isMix()) {
+        if (isset($params['qty']) && $this->helper->isEnable() && !$this->helper->isMix()) {
             $quoteItems = $this->cart->getQuote()->getAllItems();
             $defaultQty = $params['qty'];
             foreach ($quoteItems as $item) {
@@ -79,16 +114,11 @@ class UpdateItemOptions
                     $defaultQty = $qty;
                     $qty = $params['qty'];
                 }
-                if ($item->getProduct()->getTypeId() == 'configurable') {
-                    $requestInfo = $item->getBuyRequest();
-                    $product = $this->helper->getProductById($productId);
-                    $product = $this->configurable->getProductByAttributes(
-                        $requestInfo['super_attribute'],
-                        $product
-                    );
-                    $productId = $product->getId();
+                if ($this->productData->checkPreOrderCartItem($product, $qty)) {
+                    $this->hasPreOrderItem = true;
+                } else {
+                    $this->hasNormalItem = true;
                 }
-                $this->checkPreOrderItem($product, $productId, $qty);
             }
             $this->checkShowError($subject, $defaultQty);
         }
@@ -113,33 +143,5 @@ class UpdateItemOptions
             $this->messageManager->addErrorMessage($e->getMessage());
             return null;
         }
-    }
-
-    /**
-     * @param mixed $item
-     * @param int $productId
-     * @param float $qty
-     * @return bool
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
-     */
-    protected function checkPreOrderItem($item, $productId, $qty)
-    {
-        $preOrderCart = $this->helper->getPreOrder($productId);
-        $inStockCart = $this->helper->getIsInStock($productId);
-        $availabilityPreOrder = $this->helper->isAvailablePreOrder($productId);
-        $isPreOrderCart = $this->helper->isPreOrder($preOrderCart, $inStockCart, $availabilityPreOrder);
-        if ($inStockCart && $preOrderCart == 2) {
-            $qtyProduct = $this->helper->getProductSalableQty($item, $productId);
-            if ($qty > $qtyProduct) {
-                $isPreOrderCart = true;
-            }
-        }
-        if ($isPreOrderCart) {
-            $this->hasPreOrderItem = true;
-        } else {
-            $this->hasNormalItem = true;
-        }
-        return $isPreOrderCart;
     }
 }

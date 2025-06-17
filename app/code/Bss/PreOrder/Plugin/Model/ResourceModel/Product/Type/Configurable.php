@@ -166,7 +166,7 @@ class Configurable
             $data = [];
             $query = $subject->getConnection()->query($select);
             while ($row = $query->fetch()) {
-                array_push($data, $row);
+                $data[] = $row;
             }
             return $data;
         }

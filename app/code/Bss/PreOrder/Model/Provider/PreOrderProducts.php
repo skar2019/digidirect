@@ -18,7 +18,7 @@
 namespace Bss\PreOrder\Model\Provider;
 
 use Bss\PreOrder\Helper\Data as PreOrderHelper;
-use Bss\PreOrder\Model\Attribute\Source\Order;
+use Bss\PreOrder\Helper\ProductData;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Checkout\Model\SessionFactory;
@@ -44,19 +44,27 @@ class PreOrderProducts implements ConfigProviderInterface
     protected $sessionFactory;
 
     /**
+     * @var ProductData
+     */
+    protected $productData;
+
+    /**
      * PreOrderProducts constructor.
      * @param ProductCollectionFactory $productCollectionFactory
      * @param PreOrderHelper $preOrderHelper
      * @param SessionFactory $sessionFactory
+     * @param ProductData $productData
      */
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,
         PreOrderHelper $preOrderHelper,
-        SessionFactory $sessionFactory
+        SessionFactory $sessionFactory,
+        \Bss\PreOrder\Helper\ProductData $productData
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->preOrderHelper = $preOrderHelper;
         $this->sessionFactory = $sessionFactory;
+        $this->productData = $productData;
     }
 
     /**
@@ -74,28 +82,15 @@ class PreOrderProducts implements ConfigProviderInterface
     }
 
     /**
-     * @return \Magento\Framework\DataObject[]|null
-     */
-    protected function getPreOrderProducts()
-    {
-        /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection */
-        $productCollection = $this->productCollectionFactory->create();
-        $productCollection->setStoreId($this->preOrderHelper->getStoreId());
-        $productCollection->addAttributeToFilter('preorder', ['neq' => 0]);
-        if ($productCollection->getSize()) {
-            return $productCollection->getItems();
-        }
-        return null;
-    }
-
-    /**
+     * Get json pre-order products
+     *
      * @return false|string
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     protected function getJsonPreOrderProducts()
     {
-        $products = $this->getPreOrderProducts();
+        $products = $this->productData->getPreOrderProducts();
         $dataAfter = [];
 
         if ($products) {
@@ -103,7 +98,7 @@ class PreOrderProducts implements ConfigProviderInterface
             /** @var \Magento\Quote\Api\Data\CartItemInterface $item */
             foreach ($quoteItems as $item) {
                 foreach ($products as $product) {
-                    if ($product->getSku() == $item->getSku() && $this->checkPreOrderAvailability($product, $item)) {
+                    if ($product->getSku() == $item->getSku() && $this->preOrderHelper->checkPreOrderAvailability($product, $item)) {
                         $dataAfter[$item->getItemId()] = $product->getSku();
                     }
                 }
@@ -112,31 +107,4 @@ class PreOrderProducts implements ConfigProviderInterface
         return $this->preOrderHelper->serializeClass()->serialize($dataAfter);
     }
 
-    /**
-     * Check if product can be preordered
-     * @param \Magento\Catalog\Model\Product $product
-     * @param mixed $item
-     * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    protected function checkPreOrderAvailability($product, $item)
-    {
-        $isInStock = $product->getData('is_salable');
-        $preOrder = $product->getData('preorder');
-        $fromDate =  $this->preOrderHelper->getPreOrderFromDate($product->getId());
-        $toDate =  $this->preOrderHelper->getPreOrderToDate($product->getId());
-        if ((
-                $preOrder == Order::ORDER_YES
-                && $this->preOrderHelper->isAvailablePreOrderFromFlatData($fromDate, $toDate)
-            )
-            ||
-            ($preOrder == Order::ORDER_OUT_OF_STOCK &&
-                ($isInStock == 0 ||
-                    $item->getQty() > $this->preOrderHelper->getProductSalableQty($product, $product->getId())))
-        ) {
-            return true;
-        }
-        return false;
-    }
 }

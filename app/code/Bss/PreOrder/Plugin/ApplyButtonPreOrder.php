@@ -17,7 +17,9 @@
  */
 namespace Bss\PreOrder\Plugin;
 
+use Bss\PreOrder\Helper\Data;
 use Bss\PreOrder\Model\Attribute\Source\Order;
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Render\FinalPriceBox;
@@ -129,8 +131,8 @@ class ApplyButtonPreOrder
                 return $result;
             }
             $isAvailablePreOrder = $this->helper->isAvailablePreOrderFromFlatData(
-                $product->getData('pre_oder_from_date'),
-                $product->getData('pre_oder_to_date')
+                $product->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE),
+                $product->getData(PreOrderAttribute::PRE_ORDER_TO_DATE)
             );
 
             return $this->addHtml(
@@ -154,7 +156,7 @@ class ApplyButtonPreOrder
     {
         $allowType = ['simple', 'downloadable', 'virtual'];
         if (in_array($product->getTypeId(), $allowType)) {
-            return $product->getData('preorder');
+            return $product->getData(PreOrderAttribute::PRE_ORDER_STATUS);
         }
         return false;
     }
@@ -178,15 +180,8 @@ class ApplyButtonPreOrder
         $parentType,
         $parentStatusCheck
     ) {
-//        if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK)
-//            || ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
-//        ) {
-//            $block  = $this->getReturnResults($product, $parentType, $parentStatusCheck);
-//            $result .= $block;
-//        }
-        //clint removed $isAvailablePreOrder
         if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK)
-            || ($preorder == Order::ORDER_YES ) || $parentStatusCheck
+            || ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
         ) {
             $block  = $this->getReturnResults($product, $parentType, $parentStatusCheck);
             $result .= $block;

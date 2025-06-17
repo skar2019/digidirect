@@ -22,4 +22,10 @@
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="product_pre_order" type="string" />
     </extension_attributes>
+    <extension_attributes for="Magento\Catalog\Api\Data\ProductRenderInterface">
+        <attribute code="pre_order" type="string" />
+    </extension_attributes>
+    <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
+        <attribute code="is_pre_order" type="bool" />
+    </extension_attributes>
 </config>

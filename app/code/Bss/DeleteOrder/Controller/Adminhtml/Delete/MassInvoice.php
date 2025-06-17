@@ -21,15 +21,9 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Backend\App\Action\Context;
 use Magento\Ui\Component\MassAction\Filter;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use Magento\Sales\Api\OrderManagementInterface;
 
 class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMassAction
 {
-    /**
-     * @var OrderManagementInterface
-     */
-    protected $orderManagement;
-
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\Invoice\CollectionFactory
      */
@@ -46,10 +40,9 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
     protected $delete;
 
     /**
-     * MassInvoice constructor.
      * @param Context $context
      * @param Filter $filter
-     * @param OrderManagementInterface $orderManagement
+     * @param CollectionFactory $collectionFactory
      * @param \Magento\Sales\Model\ResourceModel\Order\Invoice\CollectionFactory $invoiceCollectionFactory
      * @param \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository
      * @param \Bss\DeleteOrder\Model\Invoice\Delete $delete
@@ -58,20 +51,20 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        OrderManagementInterface $orderManagement,
         \Magento\Sales\Model\ResourceModel\Order\Invoice\CollectionFactory $invoiceCollectionFactory,
         \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
         \Bss\DeleteOrder\Model\Invoice\Delete $delete
     ) {
         parent::__construct($context, $filter);
         $this->collectionFactory = $collectionFactory;
-        $this->orderManagement = $orderManagement;
         $this->invoiceCollectionFactory = $invoiceCollectionFactory;
         $this->invoiceRepository = $invoiceRepository;
         $this->delete = $delete;
     }
 
     /**
+     * Mass action
+     *
      * @param AbstractCollection $collection
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -90,7 +83,12 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
                 $invoice = $this->invoiceRepository->get($invoiceId);
                 try {
                     $order = $this->deleteInvoice($invoiceId);
-                    $this->messageManager->addSuccessMessage(__('Successfully deleted invoice #%1.', $invoice->getIncrementId()));
+                    $this->messageManager->addSuccessMessage(
+                        __(
+                            'Successfully deleted invoice #%1.',
+                            $invoice->getIncrementId()
+                        )
+                    );
                 } catch (\Exception $e) {
                     $this->messageManager->addErrorMessage(__('Error delete invoice #%1.', $invoice->getIncrementId()));
                 }
@@ -98,7 +96,7 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
-        if ($params['namespace'] == 'sales_order_view_invoice_grid') {
+        if ($params['namespace'] == 'sales_order_view_invoice_grid' && isset($order)) {
             $resultRedirect->setPath('sales/order/view', ['order_id' => $order->getId()]);
         } else {
             $resultRedirect->setPath('sales/invoice/');
@@ -106,8 +104,10 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
         return $resultRedirect;
     }
 
-    /*
+    /**
      * Check permission via ACL resource
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -115,8 +115,11 @@ class MassInvoice extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMass
     }
 
     /**
-     * @param $invoiceId
-     * @return \Bss\DeleteOrder\Model\Invoice\Delete
+     * Delete invoice
+     *
+     * @param int $invoiceId
+     * @return \Magento\Sales\Model\Order
+     * @throws \Exception
      */
     protected function deleteInvoice($invoiceId)
     {

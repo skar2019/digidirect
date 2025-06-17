@@ -17,6 +17,7 @@
  */
 namespace Bss\PreOrder\Model\Product\Type;
 
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use \Bss\PreOrder\Helper\Data as PreOrderHelper;
 
@@ -142,11 +143,11 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
      * @return array|string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     protected function getProductInfo(
         \Magento\Framework\DataObject $buyRequest,
@@ -162,10 +163,10 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
         $hasEnabledModule = $this->helper->isEnable();
         foreach ($associatedProducts as $subProduct) {
             $productId = $subProduct->getId();
-            $preOrderCart = $subProduct->getData('preorder');
+            $preOrderCart = $subProduct->getData(PreOrderAttribute::PRE_ORDER_STATUS);
             $inStockCart = $subProduct->getData('is_salable');
-            $preorderFromDate = $subProduct->getData('pre_oder_from_date');
-            $preorderToDate = $subProduct->getData('pre_oder_to_date');
+            $preorderFromDate = $subProduct->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE);
+            $preorderToDate = $subProduct->getData(PreOrderAttribute::PRE_ORDER_TO_DATE);
             $availabilityPreOrder = $this->helper->isAvailablePreOrderFromFlatData(
                 $preorderFromDate,
                 $preorderToDate
@@ -198,7 +199,7 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
      * @param \Magento\Framework\DataObject $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
-     * @return \Magento\Framework\Phrase|array|string
+     * @return array|string
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -225,10 +226,10 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
         foreach ($associatedProducts as $subProduct) {
             $productId = $subProduct->getId();
             if ($hasEnabledModule) {
-                $preOrderCart = $subProduct->getData('preorder');
+                $preOrderCart = $subProduct->getData(PreOrderAttribute::PRE_ORDER_STATUS);
                 $inStockCart = $subProduct->getData('is_salable');
-                $preorderFromDate = $subProduct->getData('pre_oder_from_date');
-                $preorderToDate = $subProduct->getData('pre_oder_to_date');
+                $preorderFromDate = $subProduct->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE);
+                $preorderToDate = $subProduct->getData(PreOrderAttribute::PRE_ORDER_TO_DATE);
                 $availabilityPreOrder = $this->helper->isAvailablePreOrderFromFlatData(
                     $preorderFromDate,
                     $preorderToDate

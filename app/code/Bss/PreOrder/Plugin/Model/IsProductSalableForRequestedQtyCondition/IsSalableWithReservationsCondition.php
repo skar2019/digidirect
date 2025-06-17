@@ -17,22 +17,25 @@
  */
 namespace Bss\PreOrder\Plugin\Model\IsProductSalableForRequestedQtyCondition;
 
+use Bss\PreOrder\Helper\Data;
 use Bss\PreOrder\Model\Attribute\Source\Order;
+use Bss\PreOrder\Model\PreOrderAttribute;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\IsSalableWithReservationsCondition as IsS;
 
 class IsSalableWithReservationsCondition
 {
     /**
-     * @var \Bss\PreOrder\Helper\Data
+     * @var Data
      */
     protected $helper;
 
     /**
      * OrderNotice constructor.
-     * @param \Bss\PreOrder\Helper\Data $helper
+     * @param Data $helper
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helper
+        Data $helper
     ) {
         $this->helper = $helper;
     }
@@ -41,12 +44,12 @@ class IsSalableWithReservationsCondition
      * Apply For Rule Conditions
      *
      * @param IsS $subject
-     * @param callable $proceed
+     * @param \Magento\InventorySalesApi\Api\Data\ProductSalableResultInterface $result
      * @param string $sku
      * @param int $stockId
      * @param float $requestedQty
      * @return mixed
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterExecute($subject, $result, string $sku, int $stockId, float $requestedQty)
@@ -55,7 +58,7 @@ class IsSalableWithReservationsCondition
             && !$result->isSalable()
             && class_exists(\Magento\InventorySalesApi\Api\Data\ProductSalableResultInterfaceFactory::class)) {
             $product = $this->helper->getProductBySku($sku);
-            $preOrder = $product->getData('preorder');
+            $preOrder = $product->getData(PreOrderAttribute::PRE_ORDER_STATUS);
             $availabilityPreOrder = $this->helper->isAvailablePreOrder($product->getId());
             if (($preOrder == Order::ORDER_YES && $availabilityPreOrder) || $preOrder == Order::ORDER_OUT_OF_STOCK) {
                 return \Magento\Framework\App\ObjectManager::getInstance()->create(

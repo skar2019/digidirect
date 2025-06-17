@@ -38,7 +38,6 @@ var cleanOptions = {
                 "dot": true,
                 "src": [
                     "<%= path.tmp %>/cache/**/*",
-                    "<%= path.tmp %>/generation/**/*",
                     "<%= path.tmp %>/log/**/*",
                     "<%= path.tmp %>/maps/**/*",
                     "<%= path.tmp %>/page_cache/**/*",
@@ -89,7 +88,6 @@ var cleanOptions = {
                 "dot": true,
                 "src": [
                     "<%= path.tmp %>/cache/**/*",
-                    "<%= path.tmp %>/generation/**/*",
                     "<%= path.tmp %>/view_preprocessed/html/**/*",
                     "<%= path.tmp %>/page_cache/**/*"
                 ]
@@ -111,14 +109,15 @@ var cleanOptions = {
             }
         ]
     },
-    "svg": {
+    "generation": {
         "force": true,
         "files": [
             {
                 "force": true,
                 "dot": true,
                 "src": [
-                    "<%= path.web %>/svg/min/**/*"
+                    "<%= path.generation %>code/**/*",
+                    "<%= path.generation %>metadata/**/*"
                 ]
             }
         ]

@@ -11,6 +11,7 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
 ?>
+
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>

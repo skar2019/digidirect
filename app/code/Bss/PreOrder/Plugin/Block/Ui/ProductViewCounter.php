@@ -17,6 +17,7 @@
  */
 namespace Bss\PreOrder\Plugin\Block\Ui;
 
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Framework\Registry;
 use Bss\PreOrder\Helper\Data;
 
@@ -72,10 +73,10 @@ class ProductViewCounter
                 $currentProductData = $this->helper->serializeClass()->unserialize($result);
                 $label = $this->helper->getButton() ? $this->helper->getButton() : __("Pre-Order");
                 $productId = $product->getId();
-                $preOrder = $product->getData('preorder');
+                $preOrder = $product->getData(PreOrderAttribute::PRE_ORDER_STATUS);
                 $isInStock = $product->getData('is_salable');
-                $fromDate =  $product->getData('pre_oder_from_date');
-                $toDate =  $product->getData('pre_oder_to_date');
+                $fromDate =  $product->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE);
+                $toDate =  $product->getData(PreOrderAttribute::PRE_ORDER_TO_DATE);
                 $parentStockCheck = $this->helperProduct->isPreOrderForAllChild($product) ? false : true;
                 $availabilityPreOrder = $this->helper->isAvailablePreOrderFromFlatData($fromDate, $toDate);
                 if ($this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder, $parentStockCheck)) {

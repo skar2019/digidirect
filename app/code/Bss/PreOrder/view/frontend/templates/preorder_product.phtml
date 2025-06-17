@@ -31,7 +31,7 @@
 <?php else :?>
     <div class="bss-pre-order">
         <?php if ($message): ?>
-    	   <span class="mess-preorder"><?= $message ?></span>
+    	   <span class="mess-preorder"><?= __($message) ?></span>
         <?php endif; ?>
     </div>
     <script type="text/x-magento-init">
@@ -39,10 +39,10 @@
             "*": {
                 "Bss_PreOrder/js/index": {
                 	<?php if ($availabilityMess): ?>
-                		"availability_message" : "<?= $availabilityMess ?>",
+                		"pre_order_availability_message" : "<?= __($availabilityMess) ?>",
                 	<?php endif; ?>
                     <?php if ($block->getProduct()->getExtensionAttributes()->getStockItem()) : ?>
-                    "stock_status" : "<?= (int)$block->getProduct()->getExtensionAttributes()->getStockItem()->getIsInStock(); ?>",
+                    "stock_status" : "<?= (int)$block->getProduct()->getExtensionAttributes()->getStockItem()->getIsInStock() ? 1 : 0; ?>",
                 	<?php endif; ?>
                 	"buttonText" : "<?= $button; ?>"
             	}

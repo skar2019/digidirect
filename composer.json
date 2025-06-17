@@ -31,9 +31,6 @@
         "magento/product-recommendations": "^6.0",
         "magento/zendframework1": "^1.15",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
-        "swissup/attributepages": "^1.5",
-        "swissup/delete-orders": "^1.2",
-        "swissup/module-marketplace": "^1.10",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"
     },

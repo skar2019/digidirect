@@ -51,6 +51,11 @@ class LoadCustomerQuoteObserver
     protected $checkoutSession;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * LoadCustomerQuoteObserver constructor.
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Customer\Model\SessionFactory $customerSessionFactory
@@ -76,16 +81,21 @@ class LoadCustomerQuoteObserver
     }
 
     /**
-     * @param \Magento\Checkout\Observer\LoadCustomerQuoteObserver $observer
+     * @param $subject
      * @param Observer $observer
+     * @return \Magento\Checkout\Observer\LoadCustomerQuoteObserver[]|Observer
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function beforeExecute($subject, Observer $observer)
     {
         $customerId = $this->customerSessionFactory->create()->getCustomerId();
         $checkoutSession = $this->checkoutSession;
+        $checkoutSession->setAccessByUrl(false);
         try {
             $customerQuote = $this->quoteRepository->getForCustomer($customerId);
             if ($this->preOrderHelper->isEnable() && !$this->preOrderHelper->isMix()) {
+                $checkoutSession->setAccessByUrl(true);
                 $customerQuoteItems = $customerQuote->getAllItems();
                 $sessionItems = $checkoutSession->getQuote()->getAllItems();
                 foreach ($sessionItems as $item) {
