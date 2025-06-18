@@ -33,6 +33,5 @@ module.exports = {
         blacklist: 'dev/tests/static/testsuite/Magento/Test/Js/_files/blacklist/',
         tmp: 'validation-files.txt'
     },
-    web: 'app/design/frontend/Ewave/digi/web',
-    theme: 'app/design/frontend/Ewave/digi/Magento_Theme'
+    generation: 'generated/'
 };
