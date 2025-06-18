@@ -73,7 +73,7 @@ $htmlId               = $element->getHtmlId();
                                         $digiSecondsIds = array(2564,2567,2570,2573);
                                         $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));  
                                         
-                                        $preorder = $_product->getAttributeText('pre_order_status');
+                                        $preorder = $_product->getData('pre_order_status');
                                         $seller = $_product->getAttributeText('marketplacer_seller');
                                         $d2ItemCondition = $_product->getData('item_codition');
                                         $d2ItemRating = $_product->getData('item_rating');
@@ -229,24 +229,24 @@ $htmlId               = $element->getHtmlId();
                                                                                                         <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
                                                                                                         <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
                                                                                                         <?php if ($formKey = $block->getProductFormKey()) { ?>
-                                                                                                                <input name="form_key" type="hidden" value="<?= $formKey ?>" />
-                                                                                                                <?php } else { ?>
-                                                                                                                <?= $block->getBlockHtml('formkey')?>
-                                                                                                                <?php } ?>
-                                                                                                                
-                                                                                                                <?php if ($preorder == "Yes"): ?>
-                                                                                                                    <button type="submit"
-                                                                                                                    title="<?= $block->escapeHtml(__('Pre-order')); ?>"
-                                                                                                                    class="action tocart primary">
-                                                                                                                    <span><?= /* @escapeNotVerified */ __('Pre-order'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
-                                                                                                                    </button>
-                                                                                                                <?php else: ?>
-                                                                                                                    <button type="submit"
-                                                                                                                    title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
-                                                                                                                    class="action tocart primary">
-                                                                                                                    <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
-                                                                                                                    </button>
-                                                                                                                <?php endif; ?>
+                                                                                                            <input name="form_key" type="hidden" value="<?= $formKey ?>" />
+                                                                                                            <?php } else { ?>
+                                                                                                            <?= $block->getBlockHtml('formkey')?>
+                                                                                                            <?php } ?>
+
+                                                                                                            <?php if ($preorder == 1): ?>
+                                                                                                                <button type="submit" class=""
+                                                                                                                title="<?= $block->escapeHtml(__('Pre-order')); ?>"
+                                                                                                                class="action tocart primary">
+                                                                                                                <span><?= /* @escapeNotVerified */ __('Pre-order'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
+                                                                                                                </button>
+                                                                                                            <?php else: ?>
+                                                                                                                <button type="submit"
+                                                                                                                title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
+                                                                                                                class="action tocart primary">
+                                                                                                                <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
+                                                                                                                </button>
+                                                                                                            <?php endif; ?>
                                                                                                     </form>
                                                                                                 <?php endif; ?>
 											</div>
