@@ -234,14 +234,14 @@ $htmlId               = $element->getHtmlId();
                                                                                                             <?= $block->getBlockHtml('formkey')?>
                                                                                                             <?php } ?>
 
-                                                                                                            <?php if ($preorder == 1): ?>
-                                                                                                                <button type="submit" class=""
+                                                                                                            <?php if ($preorder == "Yes"): ?>
+                                                                                                                <button type="submit" class="<?= $preorder; ?>"
                                                                                                                 title="<?= $block->escapeHtml(__('Pre-order')); ?>"
                                                                                                                 class="action tocart primary">
                                                                                                                 <span><?= /* @escapeNotVerified */ __('Pre-order'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
                                                                                                                 </button>
                                                                                                             <?php else: ?>
-                                                                                                                <button type="submit"
+                                                                                                                <button type="submit" class="<?= $preorder; ?>"
                                                                                                                 title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
                                                                                                                 class="action tocart primary">
                                                                                                                 <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
