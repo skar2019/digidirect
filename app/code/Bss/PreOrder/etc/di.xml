@@ -19,7 +19,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Sales\Model\Order">
-        <plugin name="OrderStatus" type="Bss\PreOrder\Plugin\Order\Status" disabled="true"/>
+        <plugin name="OrderStatus" type="Bss\PreOrder\Plugin\Order\Status"/>
     </type>
     <type name="Magento\CatalogInventory\Model\StockStateProvider">
         <plugin name="QuoteCheck" type="Bss\PreOrder\Plugin\QuoteCheck" />
