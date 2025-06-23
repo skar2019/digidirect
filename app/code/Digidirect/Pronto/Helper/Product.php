@@ -296,8 +296,8 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
+                    //$product->setCustomAttribute('pre_order', '1');
+                    //$product->setCustomAttribute('preorder', '1');
                     $product->setCustomAttribute('pre_order_status', '1');
                     $forLogs .= "Pre Order 1 \n";
                     //echo "pre_order 1  <br/>";
@@ -1458,8 +1458,8 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
+                    //$product->setCustomAttribute('pre_order', '1');
+                    //$product->setCustomAttribute('preorder', '1');
                     $product->setCustomAttribute('pre_order_status', '1');
                     $forLogs .= "Pre Order 1 \n";
                     //echo "pre_order 1  <br/>";
@@ -2631,8 +2631,8 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
+                    //$product->setCustomAttribute('pre_order', '1');
+                    //$product->setCustomAttribute('preorder', '1');
                     $product->setCustomAttribute('pre_order_status', '1');
                     echo "pre_order 1  <br/>";
                 }
@@ -3629,8 +3629,8 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
-                    $product->setCustomAttribute('pre_order', '1');
-                    $product->setCustomAttribute('preorder', '1');
+                    //$product->setCustomAttribute('pre_order', '1');
+                    //$product->setCustomAttribute('preorder', '1');
                     $product->setCustomAttribute('pre_order_status', '1');
                     echo "pre_order 1  <br/>";
                 }
