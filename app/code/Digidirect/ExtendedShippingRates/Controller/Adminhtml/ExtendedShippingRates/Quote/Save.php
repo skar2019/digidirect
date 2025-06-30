@@ -70,12 +70,12 @@ class Save extends \Digidirect\ExtendedShippingRates\Controller\Adminhtml\Extend
                 ['request' => $this->getRequest()]
             );
             $data = $this->getRequest()->getPostValue();
-            $inputFilter = new \Magento\Framework\Filter\FilterInput(
+            /*$inputFilter = new \Magento\Framework\Filter\FilterInput(
                 ['from_date' => $this->dateFilter, 'to_date' => $this->dateFilter],
                 [],
                 $data
             );
-            $data = $inputFilter->getUnescaped();
+            $data = $inputFilter->getUnescaped();*/
             $id = $this->getRequest()->getParam('rule_id');
             if ($id) {
                 $model = $this->ruleRepository->getById($id);
