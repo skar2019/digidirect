@@ -1357,7 +1357,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 3)
+            if($counter >= 6)
             {
                 return true; //return after 3 orders
             }
