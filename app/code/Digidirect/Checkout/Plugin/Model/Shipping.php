@@ -99,7 +99,12 @@ class Shipping {
                 $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
                 
                 if ($rate->getMethod() == 'nextdayship') {
-                    if (($isSwhs == 1 && $swhsQty <= 0)) {
+                    /*if (($is3whs == 1 && $s3whsQty <= 0)) {
+                        if (!in_array('express_nextdayship', $methodCodeToRemove)) {
+                            array_push($methodCodeToRemove, 'express_nextdayship');
+                        }
+                    }*/
+                    if (($is3whs == 1)) {
                         if (!in_array('express_nextdayship', $methodCodeToRemove)) {
                             array_push($methodCodeToRemove, 'express_nextdayship');
                         }
@@ -109,12 +114,14 @@ class Shipping {
                             array_push($methodCodeToRemove, 'express_nextdayship');
                         }
                     }
-                    if (($isMelb == 0 && $isSwhs == 0)) {
+                    if (($isMelb == 0 && $is3whs == 0)) {
                         if (!in_array('express_nextdayship', $methodCodeToRemove)) {
                             array_push($methodCodeToRemove, 'express_nextdayship');
                         }
                     }
                 }
+                
+                
 
                 if ($this->helperData->hasMarketplacerSeller()) {
                     if ($rate->getMethod() == 'nextdayship') {
