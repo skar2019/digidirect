@@ -83,6 +83,13 @@ class Shipping {
                 }
             }
         }
+        
+        $originalRates = $subject->getResult()->getAllRates();
+
+        foreach ($originalRates as $rate) {
+            $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
+            $this->logger->info("fullMethodCode, " . $fullMethodCode);
+        }
 
         //$this->logger->info("countryId, " . $countryId);
         //$this->logger->info("isSwhs: " . $isSwhs . ", swhsQty: " . $swhsQty);
