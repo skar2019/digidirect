@@ -3,12 +3,12 @@ namespace Digidirect\ExtendedShippingRates\Model\Carrier;
 
 use Digidirect\ExtendedShippingRates\Api\Data\MethodInterface;
 use Digidirect\ExtendedShippingRates\Model\Carrier\Method\Rate;
-use Magento\Framework\App\ObjectManager;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 /**
  * Class Artificial
  *
@@ -67,6 +67,8 @@ class Artificial extends AbstractCarrier implements CarrierInterface
      */
     protected $_configHelper;
 
+    protected $productRepository;
+
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
@@ -88,8 +90,9 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         \Digidirect\ExtendedShippingRates\Model\CarrierFactory $carrierFactory,
         \Digidirect\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory $collectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Digidirect\ExtendedShippingRates\Helper\Config $configHelper = null,
+        \Digidirect\ExtendedShippingRates\Helper\Config $configHelper,
         GetSourceItemsBySku $getSourceItemsBySku,
+        ProductRepositoryInterface $productRepository,
         array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
@@ -97,9 +100,9 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         $this->_carrierFactory = $carrierFactory;
         $this->_carrierCollectionFactory = $collectionFactory;
         $this->_storeManager = $storeManager;
-        $this->_configHelper = $configHelper
-            ?? ObjectManager::getInstance()->get(\Digidirect\ExtendedShippingRates\Helper\Config::class);
+        $this->_configHelper = $configHelper;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->productRepository = $productRepository;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
 
         $this->prepareCarriers();
@@ -306,48 +309,51 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             return null;
         } else {
             /**
-            * Modification
-            * Check stocks sources from cart and display days 
-            */
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+             * Modification
+             * Check stocks sources from cart and display days
+             */
 
-            $items = $cart->getQuote()->getAllItems();
+
+//            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $request = $this->getRequest();
+            $items = $request->getAllItems();
 
             $qty = 0;
             foreach ($items as $item) {
-            
+
                 $prodId = $item->getProductId();
-                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+                $product = $this->productRepository->getById($prodId);
+
+//                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
-
-                    $qty .= $sourceItem->getQuantity();
+                    $qty += $sourceItem->getQuantity();
                 }
             }
-            $methodTitle = $methodData->getData('title');
+
             $methodCode = $methodData->getData('code');
-            //$method->setMethodTitle($methodTitle);
-            
+
             if ($methodCode == "standard") {
                 $method->setMethodTitle(" (6 to 9 Days)");
             }elseif ($methodCode == "express") {
                 $method->setMethodTitle(" (1 to 3 Days)");
             }elseif ($methodCode == "nextdayship") {
-                $method->setMethodTitle(" ");
+                $method->setMethodTitle(" (Next Day Delivery)");
             }elseif ($methodCode == "intlshippingnz") {
                 $method->setMethodTitle(" (5 to 9 Days)");
             }elseif ($methodCode == "intlshipping") {
-                 $method->setMethodTitle(" (5 to 9 Days)");
+                $method->setMethodTitle(" (5 to 9 Days)");
             }
-            
+
             //end modification
             //
             //$method->setMethodTitle($methodData->getData('title'));
             $method->setPrice($methodData->getData('price'));
+
         }
 
         return $method;

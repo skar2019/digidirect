@@ -62,35 +62,35 @@ class Append
             return [$result];
         }
 
-        $quote = $this->validatorsAggregator->getCurrentProcessedQuote();
-        $validator = $this->validatorsAggregator->getValidatorByCurrentProcessedQuote();
-        $rulesApplier = $this->ruleAppliersAggregator->getRulesApplierByCurrentProcessedQuote();
-
-        $storeId = $quote->getStore()->getStoreId();
-        $customerGroup = $quote->getCustomerGroupId();
-
-        $validator->init($storeId, $customerGroup);
-        if ($validator->validate($result)) {
-            $rules = $validator->getAvailableRulesForRate($result);
-
-            /* @var \Digidirect\ExtendedShippingRates\Model\Rule $rule */
-            foreach ($rules as $rule) {
-                $ruleData = $rule->getConditions()->asArray();
-                if (isset($ruleData['conditions'])) {
-                    $conditions = $ruleData['conditions'];
-                    foreach ($conditions as $condition) {
-                        if (isset($condition['attribute']) &&
-                            $condition['attribute'] == DiscountCode::ATTRIBUTE_CODE &&
-                            !$this->registry->registry(DiscountCode::ATTRIBUTE_CODE)
-                        ) {
-                            $this->registry->register(DiscountCode::ATTRIBUTE_CODE, true);
-                        }
-                    }
-                }
-            }
-            $conditionalRules = $validator->getConditionallyAvailableRulesForRate($result);
-            $result = $rulesApplier->applyRules($result, $rules, $conditionalRules);
-        }
+//        $quote = $this->validatorsAggregator->getCurrentProcessedQuote();
+//        $validator = $this->validatorsAggregator->getValidatorByCurrentProcessedQuote();
+//        $rulesApplier = $this->ruleAppliersAggregator->getRulesApplierByCurrentProcessedQuote();
+//
+//        $storeId = $quote->getStore()->getStoreId();
+//        $customerGroup = $quote->getCustomerGroupId();
+//
+//        $validator->init($storeId, $customerGroup);
+//        if ($validator->validate($result)) {
+//            $rules = $validator->getAvailableRulesForRate($result);
+//
+//            /* @var \Digidirect\ExtendedShippingRates\Model\Rule $rule */
+//            foreach ($rules as $rule) {
+//                $ruleData = $rule->getConditions()->asArray();
+//                if (isset($ruleData['conditions'])) {
+//                    $conditions = $ruleData['conditions'];
+//                    foreach ($conditions as $condition) {
+//                        if (isset($condition['attribute']) &&
+//                            $condition['attribute'] == DiscountCode::ATTRIBUTE_CODE &&
+//                            !$this->registry->registry(DiscountCode::ATTRIBUTE_CODE)
+//                        ) {
+//                            $this->registry->register(DiscountCode::ATTRIBUTE_CODE, true);
+//                        }
+//                    }
+//                }
+//            }
+//            $conditionalRules = $validator->getConditionallyAvailableRulesForRate($result);
+//            $result = $rulesApplier->applyRules($result, $rules, $conditionalRules);
+//        }
 
         return [$result];
     }
