@@ -84,7 +84,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 		//header
 		$headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
 		$headers .= "From:".$from_email."\r\n"; // Sender Email
-		// $headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
+		$headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
 
 		$headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
 		$headers .= "boundary = $boundary\r\n"; //Defining the Boundary
@@ -108,7 +108,7 @@ if(isset($_POST['button']) && isset($_FILES['attachment']))
 		//header
 		$headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
 		$headers .= "From:".$from_email."\r\n"; // Sender Email
-		// $headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
+		$headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
 
 		$headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
 		$headers .= "boundary = $boundary\r\n"; //Defining the Boundary
