@@ -1,0 +1,58 @@
+diff --git a/vendor/paypal/module-braintree-core/Gateway/Response/ThreeDSecureDetailsHandler.php b/vendor/paypal/module-braintree-core/Gateway/Response/ThreeDSecureDetailsHandler.php
+index 6d123c21..448d684d 100755
+--- a/vendor/paypal/module-braintree-core/Gateway/Response/ThreeDSecureDetailsHandler.php
++++ b/vendor/paypal/module-braintree-core/Gateway/Response/ThreeDSecureDetailsHandler.php
+@@ -5,8 +5,6 @@
+  */
+ namespace PayPal\Braintree\Gateway\Response;
+ 
+-use Braintree\ThreeDSecureInfo;
+-use Braintree\Transaction;
+ use Magento\Payment\Gateway\Helper\ContextHelper;
+ use Magento\Payment\Gateway\Response\HandlerInterface;
+ use Magento\Sales\Api\Data\OrderPaymentInterface;
+@@ -29,10 +27,10 @@ class ThreeDSecureDetailsHandler implements HandlerInterface
+     /**
+      * @var SubjectReader
+      */
+-    private $subjectReader;
++    private SubjectReader $subjectReader;
+ 
+     /**
+-     * ThreeDSecureDetailsHandler Constructor
++     * Constructor
+      *
+      * @param SubjectReader $subjectReader
+      */
+@@ -51,9 +49,7 @@ public function handle(array $handlingSubject, array $response)
+         $payment = $paymentDO->getPayment();
+         ContextHelper::assertOrderPayment($payment);
+ 
+-        /** @var Transaction $transaction */
+         $transaction = $this->subjectReader->readTransaction($response);
+-
+         if ($payment->hasAdditionalInformation(self::LIABILITY_SHIFTED)) {
+             // remove 3d secure details for reorder
+             $payment->unsAdditionalInformation(self::LIABILITY_SHIFTED);
+@@ -64,7 +60,6 @@ public function handle(array $handlingSubject, array $response)
+             return;
+         }
+ 
+-        /** @var ThreeDSecureInfo $info */
+         $info = $transaction->threeDSecureInfo;
+         $payment->setAdditionalInformation(self::LIABILITY_SHIFTED, $info->liabilityShifted ? 'Yes' : 'No');
+         $shiftPossible = $info->liabilityShiftPossible ? 'Yes' : 'No';
+@@ -79,10 +74,10 @@ public function handle(array $handlingSubject, array $response)
+     /**
+      * Get Eci Flag information
+      *
+-     * @param string $eciFlagValue
+-     * @return mixed|string
++     * @param string|null $eciFlagValue
++     * @return string
+      */
+-    public function getEciFlagInformation(string $eciFlagValue)
++    public function getEciFlagInformation(string $eciFlagValue = null): string
+     {
+         if ($eciFlagValue !== null && array_key_exists($eciFlagValue, self::ECI_ACCEPTED_VALUES)) {
+             return self::ECI_ACCEPTED_VALUES[$eciFlagValue];
