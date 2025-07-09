@@ -183,7 +183,7 @@ class ProductEntHelper extends AbstractHelper
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
             'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
-            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code'];
+            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -371,6 +371,13 @@ class ProductEntHelper extends AbstractHelper
                     $stockClass = $stockClass->getValue();
                 }
 
+                $isPreOrder = $product->getCustomAttribute('pre_order_status');
+                if(!is_null($isPreOrder))
+                {
+                    $isPreOrder = $stockClass->getValue();
+                }
+
+
                 //echo $stockonhand."<br/>";
                 $data[] = $brandname;
                 $data[] = $description;
@@ -393,6 +400,7 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $stockCategory;
                 $data[] = $stockClass;
                 $data[] = $seller;
+                $data[] = $isPreOrder;
 
                 $stream->writeCsv($data);
             }
