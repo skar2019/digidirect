@@ -374,7 +374,7 @@ class ProductEntHelper extends AbstractHelper
                 $isPreOrder = $product->getCustomAttribute('pre_order_status');
                 if(!is_null($isPreOrder))
                 {
-                    $isPreOrder = $stockClass->getValue();
+                    $isPreOrder = $isPreOrder->getValue();
                 }
 
 
