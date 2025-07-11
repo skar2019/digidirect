@@ -375,6 +375,10 @@ class ProductEntHelper extends AbstractHelper
                 if(!is_null($isPreOrder))
                 {
                     $isPreOrder = $isPreOrder->getValue();
+                    if($isPreOrder == 1 || $isPreOrder == 2)
+                    {
+                        $isPreOrder = 1;
+                    }
                 }
 
 
