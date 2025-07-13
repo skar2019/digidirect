@@ -77,6 +77,7 @@
                 <value id="afterpaymodal" type="host">*.squarecdn.com</value>
                 <value id="latitudescriptsrc" type="host">*.latitudepayapps.com</value>
                 <value id="clarity" type="host">*.clarity.ms</value>
+                <value id="digizendscript" type="host">*.zendesk.com</value>
 
             </values>
         </policy>
