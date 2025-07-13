@@ -133,9 +133,9 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
 
                         if (str_contains($currentUrl, 'catalog/category/view')) {
                             $this->logger->info('catalog/category/view: ' . $category->getUrl());
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl() . $page;
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl();
                         } else {
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
                         }
                     }
                 }
