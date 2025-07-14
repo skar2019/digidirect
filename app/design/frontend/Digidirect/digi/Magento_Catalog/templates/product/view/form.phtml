@@ -27,17 +27,7 @@ $brand = strtolower($brand);
 $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
 $sku = $_product->getSku();
 $awaiting = $_product->getAwaitingProduct();
-//switch off Awaiting Stock from Canon and Sony products until 9 July
-if($brand == 'canon' || $brand == 'sony' )
-{
-    $awaiting = 0;
-    //excluded by Adam June 24 2025
-    if($sku = '132373' || $sku = '141845' || $sku = '128975' || $sku = '165682')
-    {
-        $awaiting = 1;
-    }
 
-}
 //if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
 //    $qff_bonus_points = $_product->getQffBonusPoints();
 //    $qff_base_points = $_product->getQffBase();
