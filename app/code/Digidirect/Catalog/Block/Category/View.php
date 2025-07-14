@@ -92,49 +92,62 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
                 //$this->logger->info('$currentUrl: ' . $currentUrl);
-                
+
                 $urlComponents = parse_url($currentUrl);
-                
+
                 $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
-                
+
                 if (!empty($urlComponents['query'])) {
-                    
+
                     $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-                    
+
                     parse_str($urlComponents['query'], $params);
-                
+
                     if (!empty($params['p']) || !empty($params['page'])) {
-                        
+
                         if (count($params) == 1) {
                             $this->pageConfig->setRobots("INDEX,FOLLOW");
                         }
-                        
+
                         if ($params['p'] == 1) {
                             $page = ''; 
                         } else {
                             $page = '?p=' . $params['p']; 
                         }
-                        
+
                         if ($params['page'] == 1) {
                             $page = ''; 
                         } else {
                             $page = '?page=' . $params['page']; 
                         }
-                        
-                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+
+                        if (str_contains($currentUrl, 'catalog/category/view')) {
+                            $this->logger->info('catalog/category/view: ' . $category->getUrl());
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl() . $page;
+                        } else {
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+                        }
+
                     } else {
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+
+                        if (str_contains($currentUrl, 'catalog/category/view')) {
+                            $this->logger->info('catalog/category/view: ' . $category->getUrl());
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl();
+                        } else {
+                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                        }
                     }
                 }
-                
-                //$this->logger->info('$canonical ' . $canonical);
-                
-                $this->pageConfig->addRemotePageAsset(
-                    $canonical,
-                    'canonical',
-                    ['attributes' => ['rel' => 'canonical']]
-                );
             }
+
+            //$this->logger->info('$canonical ' . $canonical);
+
+            $this->pageConfig->addRemotePageAsset(
+                $canonical,
+                'canonical',
+                ['attributes' => ['rel' => 'canonical']]
+            );
 
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
             if ($pageMainTitle) {
