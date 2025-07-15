@@ -516,6 +516,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                         }
                         else if(isset($prod['d2lvl1']))
                         {
@@ -1703,6 +1710,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                         }
                         else if(isset($prod['d2lvl1']))
                         {
@@ -2930,6 +2944,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                         }
                         else if(isset($prod['d2lvl1']))
                         {
@@ -3391,6 +3412,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                         }
                         else if(isset($prod['d2lvl1']))
                         {
@@ -4002,6 +4030,12 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                         else if(isset($prod['d2lvl1']))
                         {
@@ -4020,6 +4054,12 @@ class Product extends AbstractHelper
 
                             //digiSeconds
                             if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            if($prod['d2lvl1'] == 'USED' && $category['name'] == 'PRELOVED')
                             {
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
@@ -4608,6 +4648,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            if($prod['stk-sort-analysis-code'] == 'USED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                         }
                         else if(isset($prod['d2lvl1']))
                         {
