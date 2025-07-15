@@ -110,9 +110,9 @@ class DisableProduct extends AbstractHelper
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
         ->addAttributeToFilter([['attribute'=>'date_update',array('gteq' => $date)],['attribute'=>'updated_at',array('gteq' => $date)]]);
-//        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
-//        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
-//        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
+//        ->addAttributeToFilter('item_condition',array('neq' => 'OPENBOX'))
+//        ->addAttributeToFilter('item_condition',array('neq' => 'REFURB'))
+//        ->addAttributeToFilter('item_condition',array('neq' => 'PRELOVED'));
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;

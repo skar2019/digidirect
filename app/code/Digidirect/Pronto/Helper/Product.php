@@ -400,14 +400,14 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
                 {
@@ -953,10 +953,10 @@ class Product extends AbstractHelper
 //                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
 //                if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
 //                {
-//                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+//                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
 //                }
 //                else {
-//                    $product->setCustomAttribute('item_codition', " ");
+//                    $product->setCustomAttribute('item_condition', " ");
 //                }
 //                if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
 //                {
@@ -1592,14 +1592,14 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
                 {
@@ -2132,10 +2132,10 @@ class Product extends AbstractHelper
 //                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
 //                if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
 //                {
-//                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+//                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
 //                }
 //                else {
-//                    $product->setCustomAttribute('item_codition', " ");
+//                    $product->setCustomAttribute('item_condition', " ");
 //                }
 //                if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
 //                {
@@ -2822,14 +2822,14 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
                 {
@@ -3274,14 +3274,14 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
                 {
@@ -3906,15 +3906,15 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else
                 {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
                 {
@@ -4512,14 +4512,14 @@ class Product extends AbstractHelper
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['stk-sort-analysis-code'])) && (!empty($prod['stk-sort-analysis-code'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['stk-sort-analysis-code']);
+                    $product->setCustomAttribute('item_condition', $prod['stk-sort-analysis-code']);
                 }
                 else if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
-                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    $product->setCustomAttribute('item_condition', $prod['d2lvl1']);
                 }
                 else {
-                    $product->setCustomAttribute('item_codition', " ");
+                    $product->setCustomAttribute('item_condition', " ");
                 }
 
                 if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
