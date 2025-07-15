@@ -94,11 +94,11 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($this->_categoryHelper->canUseCanonicalTag()) {
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
-                //$this->logger->info('Current URL: ' . $currentUrl);
+                $this->logger->info('Current URL: ' . $currentUrl);
 
                 $urlComponents = parse_url($currentUrl);
 
-                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                $canonical = "default-canonical";
 
                 if (!empty($urlComponents['query'])) {
 
@@ -127,10 +127,9 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                         }
 
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
-                        $this->logger->info('Test1: ' . $currentUrl);
+                      
                     } else {
-                        $canonical = 'test-canonical';
-                        $this->logger->info('Test2: ' . $currentUrl);
+                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
                     }
                 }
             }
@@ -172,7 +171,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
 
                     if ($this->request->getFullActionName() === 'catalog_category_view') {
                         $this->pageConfig->addRemotePageAsset(
-                            'test-canonical-else',
+                            $currentUrl,
                             'canonical',
                             ['attributes' => ['rel' => 'canonical']]
                         );
