@@ -27,7 +27,7 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
                            value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
                            title="<?= /* @escapeNotVerified */ __('Qty') ?>"
                            class="input-text qty qty-pdp"
-                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" />
+                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" readonly/>
 
                     <div class="qty-buttons">
                         <div role="button" data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></div>
