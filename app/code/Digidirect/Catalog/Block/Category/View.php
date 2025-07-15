@@ -94,7 +94,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($this->_categoryHelper->canUseCanonicalTag()) {
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
-                $this->logger->info('Current URL: ' . $currentUrl);
+                //$this->logger->info('Current URL: ' . $currentUrl);
 
                 $urlComponents = parse_url($currentUrl);
 
@@ -103,7 +103,9 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 if (!empty($urlComponents['query'])) {
 
                     $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-
+                    
+                    $params = [];
+                    
                     parse_str($urlComponents['query'], $params);
 
                     if (!empty($params['p']) || !empty($params['page'])) {
@@ -125,9 +127,10 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                         }
 
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
-                      
+                        $this->logger->info('Test1: ' . $currentUrl);
                     } else {
-                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                        $canonical = 'test-canonical';
+                        $this->logger->info('Test2: ' . $currentUrl);
                     }
                 }
             }
@@ -169,7 +172,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
 
                     if ($this->request->getFullActionName() === 'catalog_category_view') {
                         $this->pageConfig->addRemotePageAsset(
-                            $currentUrl,
+                            'test-canonical-else',
                             'canonical',
                             ['attributes' => ['rel' => 'canonical']]
                         );
