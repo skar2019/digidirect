@@ -9,4 +9,7 @@
     <event name="catalog_controller_product_view">
         <observer name="override_meta_tags" instance="Digidirect\Catalog\Observer\OverrideMetaTags" />
     </event>
+    <event name="controller_action_predispatch">
+        <observer name="category_canonical" instance="Digidirect\Catalog\Observer\Canonical"/>
+    </event>
 </config>
