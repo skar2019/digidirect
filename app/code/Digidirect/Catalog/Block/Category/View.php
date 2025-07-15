@@ -98,7 +98,12 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
 
                 $urlComponents = parse_url($currentUrl);
 
-                $canonical = "default-canonical";
+                $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                
+                if (str_contains($currentUrl, 'catalog/category/view')) {
+                    $canonical = $category->getUrl();
+                    $this->logger->info('catalog/category/view: ' . $category->getUrl());
+                }
 
                 if (!empty($urlComponents['query'])) {
 
