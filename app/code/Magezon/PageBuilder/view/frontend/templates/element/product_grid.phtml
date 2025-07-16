@@ -73,7 +73,7 @@ $htmlId               = $element->getHtmlId();
                                         $digiSecondsIds = array(2564,2567,2570,2573);
                                         $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));  
                                         
-                                        $preorder = $_product->getData('pre_order_status');
+                                        $preorder = $_product->getPreOrderStatus();
                                         $seller = $_product->getAttributeText('marketplacer_seller');
                                         $d2ItemCondition = $_product->getData('item_condition');
                                         $d2ItemRating = $_product->getData('item_rating');
