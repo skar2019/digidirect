@@ -85,8 +85,8 @@ class Configuration
      * @var array
      */
     protected $supportedEnvironments = [
-       CommonUtil::SANDBOX => ["host" => "https://global-api.sand.au.edge.zip.co/merchant"],
-       CommonUtil::PRODUCTION => ["host" => 'https://global-api.prod.au.edge.zip.co/merchant']
+       CommonUtil::SANDBOX => ["host" => "https://api.sandbox.zip.co/merchant"],
+       CommonUtil::PRODUCTION => ["host" => "https://api.zip.co/merchant"]
     ];
 
     /**
@@ -111,11 +111,11 @@ class Configuration
     protected $curlNumRetries = 3;
 
     /**
-     * Number of retries allowed if the first one fails.
+     * Delay in seconds between new tries.
      *
      * @var string
      */
-    protected $retryInterval = 0;
+    protected $retryInterval = 1;
 
     /**
      * Timeout (second) of the HTTP connection, by default set to 0, no timeout

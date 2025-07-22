@@ -10,8 +10,6 @@
     <head>
         <!-- Fonts -->
         <link src="//fonts.googleapis.com/css?family=Noto+Sans" src_type="url"/>
-        <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
         <css src="Zip_ZipPayment::css/zipmoney.css"/>
     </head>
     <body>
@@ -40,15 +38,5 @@
                 </arguments>
             </block>
         </referenceContainer>
-
-        <referenceContainer name="product.info.addtocart.additional">
-            <block class="Zip\ZipPayment\Block\Advert\Tagline"
-                   name="product.info.addtocart.additional.zipmoney.producttagline" template="advert/tagline.phtml">
-                <arguments>
-                    <argument name="page_type" xsi:type="string">product</argument>
-                </arguments>
-            </block>
-        </referenceContainer>
-
     </body>
 </page>
