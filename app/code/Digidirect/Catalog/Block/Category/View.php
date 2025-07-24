@@ -6,6 +6,7 @@
 namespace Digidirect\Catalog\Block\Category;
 
 use \Magento\Framework\UrlInterface;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 
 /**
  * Class View
@@ -54,6 +55,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
         UrlInterface $url,
+        CategoryRepositoryInterface $categoryRepository,
         \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
@@ -61,6 +63,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         $this->_catalogLayer = $layerResolver->get();
         $this->_coreRegistry = $registry;
         $this->url = $url;
+        $this->categoryRepository = $categoryRepository;
         $this->logger = $logger;
         parent::__construct($context, $data);
     }
@@ -91,16 +94,23 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($this->_categoryHelper->canUseCanonicalTag()) {
                 
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
-                //$this->logger->info('$currentUrl: ' . $currentUrl);
+                $this->logger->info('Current URL: ' . $currentUrl);
 
                 $urlComponents = parse_url($currentUrl);
 
                 $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
+                
+                if (str_contains($currentUrl, 'catalog/category/view')) {
+                    $canonical = $category->getUrl();
+                    $this->logger->info('catalog/category/view: ' . $category->getUrl());
+                }
 
                 if (!empty($urlComponents['query'])) {
 
                     $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-
+                    
+                    $params = [];
+                    
                     parse_str($urlComponents['query'], $params);
 
                     if (!empty($params['p']) || !empty($params['page'])) {
@@ -121,22 +131,10 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                             $page = '?page=' . $params['page']; 
                         }
 
-                        if (str_contains($currentUrl, 'catalog/category/view')) {
-                            $this->logger->info('catalog/category/view: ' . $category->getUrl());
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl() . $page;
-                        } else {
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
-                        }
-
+                        $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
+                      
                     } else {
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
-
-                        if (str_contains($currentUrl, 'catalog/category/view')) {
-                            $this->logger->info('catalog/category/view: ' . $category->getUrl());
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $category->getUrl();
-                        } else {
-                            $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
-                        }
                     }
                 }
             }
@@ -152,6 +150,42 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
             if ($pageMainTitle) {
                 $pageMainTitle->setPageTitle($this->getCurrentCategory()->getName());
+            }
+            
+        } else { //Fix canonical for non seo friendly category pages
+            
+            $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+            $this->logger->info('Current URL: ' . $currentUrl);
+            
+            if (str_contains($currentUrl, 'catalog/category/view')) {
+                //$this->logger->info('catalog/category/view: ' . $url);
+
+                $parts = explode('/', trim($currentUrl, '/'));
+
+                $id = null;
+                for ($i = 0; $i < count($parts); $i++) {
+                    if ($parts[$i] === 'id' && isset($parts[$i + 1])) {
+                        $id = $parts[$i + 1];
+                        break;
+                    }
+                }
+
+                try {
+                    $category = $this->categoryRepository->get($id);
+                    $this->logger->info('catalog/category/view: ' . $category->getUrl());
+
+                    if ($this->request->getFullActionName() === 'catalog_category_view') {
+                        $this->pageConfig->addRemotePageAsset(
+                            $currentUrl,
+                            'canonical',
+                            ['attributes' => ['rel' => 'canonical']]
+                        );
+                    }
+
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    return null;
+                }
+                //$canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
             }
         }
 

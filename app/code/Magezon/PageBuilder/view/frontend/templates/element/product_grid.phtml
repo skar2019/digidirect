@@ -153,7 +153,7 @@ $htmlId               = $element->getHtmlId();
                                     <?php endif; ?>                
                                                     
                                     <?php $productImage = $block->getImage($_product, $imageId); ?>
-		                    <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+		                    <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1" preorder="<?= $preorder; ?>">
 		                    	<?php
 		                    	$imgHtml = $productImage->toHtml();
 		                    	if ($displayStyle == 'pagination' && $lazyLoad) $imgHtml = $coreHelper->filterCarouselLazyImage($imgHtml);

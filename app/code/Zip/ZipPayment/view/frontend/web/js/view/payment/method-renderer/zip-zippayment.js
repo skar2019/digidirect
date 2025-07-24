@@ -12,7 +12,6 @@
 /*global define*/
 
 var isLive = (window.checkoutConfig.payment.zippayment.environment == "production");
-var inContextCheckoutEnabled = window.checkoutConfig.payment.zippayment.inContextCheckoutEnabled;
 
 define(
     ['Magento_Checkout/js/view/payment/default',
@@ -26,6 +25,7 @@ define(
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/storage',
+        'zipMoneyWidgetJs',
         'zipMoneyCheckoutJs'
     ],
     function (Component, placeZipOrderAction, setPaymentMethodAction, Messages, ko, quote, $, errorProcessor, fullScreenLoader, additionalValidators, storage) {
