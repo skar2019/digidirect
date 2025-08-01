@@ -30,8 +30,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     protected $collectHelper;
     
-    
     protected $logger;
+    
+    protected $_cart;
+    
+    protected $_product;
 
     /**
      * AddExtraInfoToStoreLocatorItems constructor.
@@ -44,13 +47,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         Places $placesHelper,
         Data $collectHelper,
         GetSourceItemsBySku $getSourceItemsBySku,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Catalog\Model\Product $product
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->placesHelper = $placesHelper;
         $this->collectHelper = $collectHelper;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->logger = $logger;
+        $this->_cart = $cart;
+        $this->_product = $product;
     }
 
     /**
@@ -76,12 +83,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-        $cartItems = $cart->getQuote()->getAllItems();
+        $cartItems = $this->_cart->getQuote()->getAllItems();
         
         $stores = [];
-
+            
+        $totalCann = 0.0;
+        $totalQtyOnOtherSources = 0;
+        
         foreach ($items as $key => $storeData) {
 
             $id = $storeData['entity_id'];
@@ -105,11 +113,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cannQty = 1;
             $parrQty = 1;
             $stPetersQty = 1;
-            
+            $strathfieldQty = 1;
+          
             foreach ($cartItems as $cartItem) {
 
                 $prodId = $cartItem->getProductId();
-                $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+                $product = $this->_product->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
@@ -128,82 +137,115 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
+                        $totalQtyOnOtherSources += $sydnQty;
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
                         $bondQty = $bondQty * $getQty;
+                        $totalQtyOnOtherSources += $bondQty;
                     } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
                         $melbQty = $melbQty * $getQty;
+                        $totalQtyOnOtherSources += $melbQty;
                     } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
                         $brisQty = $brisQty * $getQty;
+                        $totalQtyOnOtherSources += $brisQty;
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $getQty;
-                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $cannQty * $getQty;
-                    } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
-                        $stPetersQty = $stPetersQty * $getQty;
+                        $totalQtyOnOtherSources += $miraQty;
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
+                        $totalQtyOnOtherSources += $parrQty;
+                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
+                        
+                        $wiserPrice = $product->getWiserPrice();
+                        $finalPrice = $product->getFinalPrice();
+                        
+                        $lastPrice = $finalPrice;
+                        
+                        if ($wiserPrice < $finalPrice) {
+                            $lastPrice = $wiserPrice;
+                        }
+                        
+                        $totalCann += $lastPrice;
+                        $cannQty = $cannQty * $getQty;
+                        
+                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
+                        $this->logger->info('$finalPrice, ' . $finalPrice);
+                        $this->logger->info('$totalCann, ' . $totalCann);
+                        
                     }
                 }
             }
             
-            
-            if (is_null($id)) {
-                $items[$key]['click_and_collect'] = false;
-            } else {
-                if ($id == 1 && $sydnQty > 0) {
-                    if (in_array('SYDN', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 31 && $bondQty > 0) {
-                    if (in_array('BOND', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 7 && $melbQty > 0) {
-                    if (in_array('MELB', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 10 && $brisQty > 0) {
-                    if (in_array('BRIS', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 13 && $miraQty > 0) {
-                    if (in_array('MIRA', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 16 && $cannQty > 0) {
-                    if (in_array('CANN', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 35 && $stPetersQty > 0) {
-                    if (in_array('SWHS', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                } elseif ($id == 32 && $parrQty > 0) {
-                    if (in_array('PARR', $stores)) {
-                        $items[$key]['click_and_collect'] = true;
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
+            if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
+                if ($id == 16) { //CANN
+                    $items[$key]['click_and_collect'] = true;
                 } else {
-                    $items[$key]['click_and_collect'] = false;
+                    $items[$key]['click_and_collect'] = NULL;
                 }
-            }
+            } else {
+                if (is_null($id)) {
+                    $items[$key]['click_and_collect'] = false;
+                } else {
+                    if ($id == 1 && $sydnQty > 0) {
+                        if (in_array('SYDN', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 31 && $bondQty > 0) {
+                        if (in_array('BOND', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 7 && $melbQty > 0) {
+                        if (in_array('MELB', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 10 && $brisQty > 0) {
+                        if (in_array('BRIS', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 13 && $miraQty > 0) {
+                        if (in_array('MIRA', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 16) {
+                        if (in_array('CANN', $stores) && ($cannQty > 0)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            if ($totalCann < 1000) {
+                                $items[$key]['click_and_collect'] = NULL;
+                            } else {
+                                $items[$key]['click_and_collect'] = false;
+                            }
+                        }
+                    } elseif ($id == 35) { //SWHS
+                        
+                        $items[$key]['click_and_collect'] = NULL;
+                        
+                    } elseif ($id == 32 && $parrQty > 0) {
+                        if (in_array('PARR', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } else {
+                        $items[$key]['click_and_collect'] = false;
+                    }
+                }
+            } 
         }
         
+        $this->logger->info('$totalCann: ' . $totalCann);
+        $this->logger->info('$cannQty: ' . $cannQty);
+        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+
         return $items;
     }
 

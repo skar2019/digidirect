@@ -265,11 +265,13 @@ class CheckoutCartProductAddAfter extends \Algolia\AlgoliaSearch\Observer\Insigh
 
         $productExist = $this->checkoutSession->getQuote()->hasProductId($item->getProductId());
 
-        $item->addOption([
-            'product_id' => $item->getProductId(),
-            'code' => 'additional_options',
-            'value' => $this->serializer->serialize($customOptions),
-        ]);
+        if (!$productExist) {
+            $item->addOption([
+                'product_id' => $item->getProductId(),
+                'code' => 'additional_options',
+                'value' => $this->serializer->serialize($customOptions),
+            ]);
+        }
         
         /** @var Item $quoteItem */
         $quoteItem = $observer->getEvent()->getData('quote_item');

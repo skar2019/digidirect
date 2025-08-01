@@ -183,7 +183,7 @@ class ProductEntHelper extends AbstractHelper
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
             'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
-            'Stock Division', 'Stock Department','Stock Category','Stock Class'];
+            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -371,6 +371,26 @@ class ProductEntHelper extends AbstractHelper
                     $stockClass = $stockClass->getValue();
                 }
 
+                $isPreOrder = $product->getCustomAttribute('pre_order_status');
+                if(!is_null($isPreOrder))
+                {
+                    $isPreOrder = $isPreOrder->getValue();
+                    if($isPreOrder == 1 || $isPreOrder == 2)
+                    {
+                        $isPreOrder = 1;
+                    }
+                }
+
+                $noteligiblefordiscount = $product->getCustomAttribute('not_eligible_for_discount');
+                if(!is_null($noteligiblefordiscount))
+                {
+                    $noteligiblefordiscount = $noteligiblefordiscount->getValue();
+                }
+                else
+                {
+                    $noteligiblefordiscount = 0;
+                }
+
                 //echo $stockonhand."<br/>";
                 $data[] = $brandname;
                 $data[] = $description;
@@ -392,13 +412,14 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $stockDepartment;
                 $data[] = $stockCategory;
                 $data[] = $stockClass;
+                $data[] = $seller;
+                $data[] = $isPreOrder;
+                $data[] = $noteligiblefordiscount;
 
                 $stream->writeCsv($data);
             }
 
-
         }
-
 
     }
 

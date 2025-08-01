@@ -70,13 +70,13 @@ class Uninstall implements UninstallInterface
 
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleSetup]);
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'preorder');
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'message');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_status');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_message');
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'restock');
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'availability_message');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_availability_message');
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_date');
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_oder_from_date');
-        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_oder_to_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_from_date');
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pre_order_to_date');
 
         $this->orderStatusResource->deletePreOrderStatus();
     }

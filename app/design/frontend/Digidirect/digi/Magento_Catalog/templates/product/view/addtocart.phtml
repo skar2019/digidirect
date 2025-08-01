@@ -9,7 +9,7 @@
 /** @var $block \Magento\Catalog\Block\Product\View */
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')->getFrontend()->getValue($block->getProduct());
+$_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -27,7 +27,7 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
                            value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
                            title="<?= /* @escapeNotVerified */ __('Qty') ?>"
                            class="input-text qty qty-pdp"
-                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" />
+                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" readonly/>
 
                     <div class="qty-buttons">
                         <div role="button" data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></div>

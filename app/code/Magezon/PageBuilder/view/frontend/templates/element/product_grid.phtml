@@ -73,8 +73,9 @@ $htmlId               = $element->getHtmlId();
                                         $digiSecondsIds = array(2564,2567,2570,2573);
                                         $isDigiSeconds = count(array_intersect($categoryIds, $digiSecondsIds));  
                                         
+                                        $preorder = $_product->getPreOrderStatus();
                                         $seller = $_product->getAttributeText('marketplacer_seller');
-                                        $d2ItemCondition = $_product->getData('item_codition');
+                                        $d2ItemCondition = $_product->getData('item_condition');
                                         $d2ItemRating = $_product->getData('item_rating');
                                         
                                         $finalProductPrice = $_product->getFinalPrice();
@@ -95,7 +96,7 @@ $htmlId               = $element->getHtmlId();
                                                     
                                     <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                                         <?php if ($d2ItemCondition): ?>
-                                            <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
                                                 <?php 
                                                     $hasDiscountClass = "has-discount";
                                                 ?>
@@ -152,7 +153,7 @@ $htmlId               = $element->getHtmlId();
                                     <?php endif; ?>                
                                                     
                                     <?php $productImage = $block->getImage($_product, $imageId); ?>
-		                    <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+		                    <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1" preorder="<?= $preorder; ?>">
 		                    	<?php
 		                    	$imgHtml = $productImage->toHtml();
 		                    	if ($displayStyle == 'pagination' && $lazyLoad) $imgHtml = $coreHelper->filterCarouselLazyImage($imgHtml);
@@ -170,7 +171,7 @@ $htmlId               = $element->getHtmlId();
                                                 <div class="ribbon-digideals">digiDeals</div>
                                             <?php endif; ?>
                                         <?php else: ?>
-                                            <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
+                                            <?php if ($discountPrice > 0 || ($discountWiserPrice > 0 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
                                                 <?php 
                                                     $hasDiscountClass = "has-discount";
                                                 ?>
@@ -207,44 +208,47 @@ $htmlId               = $element->getHtmlId();
 										<?php if ($showCart) { ?>
 											<div class="actions-primary">
                                                                                             <div class="s19-rental-price-target">
-                                                                                                <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
-                                                                                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                                                                                <?php if ($is_digiPrint == 1): ?>
+                                                                                                    <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                                                                                <?php else: ?>
+                                                                                                    <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                                                                                    <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                                                                                <?php endif; ?>
                                                                                             </div>
-												<?php if ($_product->isSaleable()) { ?>
-													<?php $postParams = $block->getAddToCartPostParams($_product); ?>
-                                                                                            
-                                                                                                        <?php if ($is_digiPrint == 1): ?>
-                                                                                                            <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
-                                                                                                                <button type="button"
-                                                                                                                    title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
-                                                                                                                    class="action btn-ordernow primary">
-                                                                                                                    Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
+                                                                                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                                                                                <?php if ($is_digiPrint == 1): ?>
+                                                                                                    <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?> target="_blank">
+                                                                                                        <button type="button"
+                                                                                                            title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
+                                                                                                            class="action btn-ordernow primary">
+                                                                                                            Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
+                                                                                                        </button>
+                                                                                                    </a>
+                                                                                                <?php else: ?>
+                                                                                                    <form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
+                                                                                                        <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
+                                                                                                        <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                                                                                        <?php if ($formKey = $block->getProductFormKey()) { ?>
+                                                                                                            <input name="form_key" type="hidden" value="<?= $formKey ?>" />
+                                                                                                            <?php } else { ?>
+                                                                                                            <?= $block->getBlockHtml('formkey')?>
+                                                                                                            <?php } ?>
+
+                                                                                                            <?php if ($preorder == "Yes"): ?>
+                                                                                                                <button type="submit"
+                                                                                                                title="<?= $block->escapeHtml(__('Pre-order')); ?>"
+                                                                                                                class="action tocart primary <?= $preorder; ?>">
+                                                                                                                <span><?= /* @escapeNotVerified */ __('Pre-order'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
                                                                                                                 </button>
-                                                                                                            </a>
-                                                                                                        <?php else: ?>
-                                                                                                            <form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
-														<input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
-														<input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
-														<?php if ($formKey = $block->getProductFormKey()) { ?>
-															<input name="form_key" type="hidden" value="<?= $formKey ?>" />
-															<?php } else { ?>
-															<?= $block->getBlockHtml('formkey')?>
-															<?php } ?>
-															<button type="submit"
-															title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
-															class="action tocart primary">
-                                                                                                                        <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
-														</button>
-                                                                                                            </form>
-                                                                                                        <?php endif; ?>
-                                                                                            
-												<?php } else { ?>
-													<?php if ($_product->getIsSalable()) { ?>
-														<div class="stock available"><span><?= __('In stock') ?></span></div>
-													<?php } else { ?>
-														<div class="stock unavailable"><span><?= __('Out of stock') ?></span></div>
-													<?php } ?>
-												<?php } ?>
+                                                                                                            <?php else: ?>
+                                                                                                                <button type="submit"
+                                                                                                                title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
+                                                                                                                class="action tocart primary <?= $preorder; ?>">
+                                                                                                                <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ffffff;"></i>
+                                                                                                                </button>
+                                                                                                            <?php endif; ?>
+                                                                                                    </form>
+                                                                                                <?php endif; ?>
 											</div>
 										<?php } ?>
 									</div>

@@ -18,7 +18,6 @@
 namespace Bss\PreOrder\Plugin\Cart;
 
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-use Bss\PreOrder\Model\Attribute\Source\Order;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class Notice
@@ -29,21 +28,13 @@ class Notice
     protected $helper;
 
     /**
-     * @var \Bss\PreOrder\Model\Factory
-     */
-    protected $factory;
-
-    /**
      * Notice constructor.
      * @param \Bss\PreOrder\Helper\Data $helper
-     * @param \Bss\PreOrder\Model\Factory $factory
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helper,
-        \Bss\PreOrder\Model\Factory $factory
+        \Bss\PreOrder\Helper\Data $helper
     ) {
         $this->helper = $helper;
-        $this->factory = $factory;
     }
 
     /**
@@ -67,22 +58,9 @@ class Notice
                     $productId = $item->getProduct()->getId();
                     $product = $this->helper->getProductById($productId);
                 }
-                $isInStock = $this->helper->getIsInStock($product->getId());
-                $preOrder = $product->getData('preorder');
 
-                $availabilityPreOrder = $this->helper->isAvailablePreOrder($product->getId());
-                $show_mess = $this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder);
+                $show_mess = $this->helper->checkPreOrderAvailability($product, $item);
 
-                if ($preOrder == Order::ORDER_OUT_OF_STOCK && !$isInStock) {
-                    $stock = $this->helper->getStockItem($product->getId())->getQty();
-                    if (!$this->helper->checkVersion()) {
-                        $stockData =  $this->factory->create()->execute($item->getSku());
-                        $stock = $stockData[0]["qty"];
-                    }
-                    if ($item->getQty() > $stock) {
-                        $show_mess = true;
-                    }
-                }
                 if ($show_mess) {
                     $item->setMessage($this->helper->getNote());
                 }

@@ -51,7 +51,6 @@ class OrderPlaceBefore implements ObserverInterface
             $listProductPreOrder = [];
             $arrayTypeAllow = ['simple','virtual','downloadable'];
             foreach ($items as $item) {
-                /** @var Product|null $product */
                 $product = $item->getProduct();
                 if ($product && in_array($product->getTypeId(), $arrayTypeAllow)) {
                     $listProductPreOrder = $this->checkItemPreOrder($product, $order, $item, $listProductPreOrder);
@@ -77,16 +76,22 @@ class OrderPlaceBefore implements ObserverInterface
         $preOrder = $this->preOrderHelper->getPreOrder($productId, $order->getStoreId());
         $message = $this->preOrderHelper->replaceVariableX(
             $this->preOrderHelper->getNote(),
-            $this->preOrderHelper->getPreOrderFromDate($productId, $order->getStoreId()),
-            $this->preOrderHelper->getPreOrderToDate($productId, $order->getStoreId())
+            $this->preOrderHelper->formatDate($this->preOrderHelper->getPreOrderFromDate($productId, $order->getStoreId())),
+            $this->preOrderHelper->formatDate($this->preOrderHelper->getPreOrderToDate($productId, $order->getStoreId()))
         );
+
+        $salableQty = $this->preOrderHelper->getProductSalableQty($product, $product->getEntityId(), $item->getQtyOrdered());
         if ($isInStock) {
-            $itemQtyOrdered = $item->getQtyOrdered();
-            $qtyProduct = $this->preOrderHelper->getProductSalableQty($product, $productId, $itemQtyOrdered);
-            if ($itemQtyOrdered > $qtyProduct) {
+            if ($item->getQtyOrdered() > $salableQty) {
                 $isInStock = 0;
             }
+        } else {
+            $stockStatus = $this->preOrderHelper->getStockItem($productId)->getIsInStock();
+            if ($item->getQtyOrdered() == $salableQty && $stockStatus) {
+                $isInStock = 1;
+            }
         }
+
         if (($preOrder == Order::ORDER_YES && $this->preOrderHelper->isAvailablePreOrder($productId)) ||
             ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock == 0)) {
             $listProductPreOrder[$productId] = $message;

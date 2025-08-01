@@ -63,7 +63,7 @@ class Builder extends \Magezon\Builder\Ui\Component\Form\Element\Builder
         array $data = [],
         array $config = [],
         bool $overrideSnapshot = false,
-        Repository $assetRepo = null
+        ?Repository $assetRepo = null
     ) {
         $this->registry = $registry;
         $this->dataHelper = $dataHelper;

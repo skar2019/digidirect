@@ -52,6 +52,8 @@ class Robots
             if ($this->getCurrentUrl() != $this->getCurrentProduct()->getProductUrl()) {
                 $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
             }
+        } elseif ($fullActionName == 'catalogsearch_result_index') {
+            $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');
         }
         if (str_contains($this->getCurrentUrl(), '___store')) {
             $this->pageConfig->setMetadata('robots', 'NOINDEX,NOFOLLOW');

@@ -13,7 +13,13 @@ class TagPost extends Blog implements IdentityInterface
      */
     protected function prepareCollection()
     {
+        $this->logger->info("this->getTag()->getId() " . $this->getTag()->getId());
+        $this->logger->info("TagInterface::CURRENT_ITEM " . TagInterface::CURRENT_ITEM);
+        $this->logger->info("this->getTag()->getName() " . $this->getTag()->getName());
+        //$this->logger->info("json_decode(this->getTag()) " . json_decode($this->getTag()));
+        
         $collection = parent::prepareCollection();
+        //
         $collection->addFilterByTagId($this->getTag()->getId());
         $this->arrowHelper->setTagCondition($this->getTag()->getId());
         return $collection;

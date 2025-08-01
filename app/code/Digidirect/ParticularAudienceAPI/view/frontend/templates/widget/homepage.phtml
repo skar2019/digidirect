@@ -105,7 +105,7 @@ require(['jquery'], function ($) {
         let addToCart = "";
 
         if (product.is_digiprint) {
-            if ((product.wiser_price < product.price) || (product.marketplaces_price > product.price) || (product.item_codition == "") || (product.item_codition == null)) {
+            if ((product.wiser_price < product.price) || (product.marketplaces_price > product.price) || (product.item_condition == "") || (product.item_condition == null)) {
                 digiDealsLogo = '<div class="digideals-overlay"><img src="https://www.digidirect.com.au/media/wysiwyg/digidirect/digiDeals-Logo.png"/></div>';
             }
             addToCart = '<a class="ordernow-link" href="' + product.digiprint_customlink + '" target="_blank">' +
@@ -125,13 +125,13 @@ require(['jquery'], function ($) {
         let digiSecondsOverlay = "";
         let digiSecondsRating = "";
 
-        if (product.item_codition) {
+        if (product.item_condition) {
 
-            if (product.item_codition == "PRELOVED") {
+            if (product.item_condition == "PRELOVED") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (product.item_codition == "OPENBOX") {
+            } else if (product.item_condition == "OPENBOX") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (product.item_codition == "REFURB") {
+            } else if (product.item_condition == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
 

@@ -32,6 +32,8 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
     protected $getSourceItemsBySku;
     
     protected $sourceDataBySku;
+    
+    protected $_categoryCollectionFactory;
     /**
      * MetadataProvider constructor.
      * @param Filter $filter
@@ -53,7 +55,9 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
         BookmarkManagement $bookmarkManagement,
         AttributeSetRepository $attributeSetRepository,
         WebsiteRepository $websiteRepository,
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory,
         $dateFormat = 'M j, Y H:i:s A',
+        
         array $data = [])
     {
         parent::__construct($filter, $localeDate, $localeResolver, $dateFormat, $data);
@@ -63,6 +67,7 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
         $this->logger = $logger;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->sourceDataBySku = $sourceDataBySku;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
     }
 
     protected function getActiveColumns($component){
@@ -142,7 +147,19 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
                         $columnData = $this->getAttributeSetName($document, $field);
                     } elseif ($field == 'websites') {
                         $columnData = $this->getColumnData($document, $field);//$this->getWebsiteName($document, $field);
-                    } elseif (isset($columnsType[$field]) && $columnsType[$field] == 'select')  {
+                    } elseif ($field == 'category_id') {
+            
+                        $categoryIds = $document->getCategoryIds();
+
+                        $categories = $this->getCategoryCollection()->addAttributeToFilter('entity_id', $categoryIds);
+                        $productCategories = "";
+
+                        foreach ($categories as $category) {
+                            $productCategories = $productCategories . $category->getName() . ", ";
+                        }
+                        $columnData = rtrim($productCategories, ", ");
+                        
+                    }  elseif (isset($columnsType[$field]) && $columnsType[$field] == 'select')  {
                         // $columnData = $this->handleSelectField($document, $field);
                         $columnData = (trim($document->getAttributeText($field))) ? trim($document->getAttributeText($field)) : $this->getColumnData($document, $field);
                     } elseif (isset($columnsType[$field]) && $columnsType[$field] == 'multiselect')  {
@@ -170,9 +187,11 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
             $this->logger->info(implode('field: ' . $field . ', value:' . $value));
             return implode(', ', $value);
         }
-        $this->logger->info('field: ' . $field . ', value:' . $value);
+        
+        //$this->logger->info('field: ' . $field . ', value:' . $value);
         
         if ($field == "quantity_per_source") {
+            
             $sku = $document->getData('sku');
             $sourceItems = $this->sourceDataBySku->execute($sku);
             $qps = '';
@@ -184,9 +203,17 @@ class MetadataProvider extends \Magento\Ui\Model\Export\MetadataProvider
                 $qps .= $store . ": " . $getQty . ",";
             }
             return rtrim($qps, ",");
+            
         }
         
         return $value;
+    }
+    
+    public function getCategoryCollection()
+    {
+        $collection = $this->_categoryCollectionFactory->create();
+        $collection->addAttributeToSelect('*');        
+        return $collection;
     }
 
     /**

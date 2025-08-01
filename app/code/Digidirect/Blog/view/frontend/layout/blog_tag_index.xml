@@ -3,12 +3,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Digidirect\Blog\Block\TagPost" name="blog.tag.post.list" template="blog_list.phtml">
-                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager.toolbar" as="post_list_pager"/>
-                <arguments>
-                    <argument name="show_category_name" xsi:type="boolean">true</argument>
-                </arguments>
-            </block>
+            <block class="Digidirect\Blog\Block\TagPost" name="blog.tag.post.list" template="blog_list.phtml" />
         </referenceContainer>
 
         <referenceContainer name="sidebar.additional">

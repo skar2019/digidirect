@@ -36,9 +36,8 @@ class Order extends AbstractHelper
      * @var array
      */
     protected $relocateWarehouseMap = [
-        'MELB' => 'SWHS',
-        'CANN' => 'SWHS',
-        'SWHS' => 'MELB'
+        'MELB' => '3WHS',
+        'CANN' => '3WHS'
     ];
 
     /**
@@ -69,7 +68,7 @@ class Order extends AbstractHelper
         'MELB',
         'MIRA',
         'PARR',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -78,7 +77,7 @@ class Order extends AbstractHelper
         'CANN',
         'MELB',
         'MIRA',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -130,7 +129,7 @@ class Order extends AbstractHelper
     protected $repDispatchWarehouseMap = [
         'MELB' => '85',
         'CANN' => 'C3W',
-        'SWHS' => 'C9W'
+        '3WHS' => 'C9W'
     ];
 
     /**
@@ -242,7 +241,7 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
-            if($wrehs != 'SWHS')
+            if($wrehs != '3WHS')
             {
                 if($wrehs != '')
                 {
@@ -340,6 +339,13 @@ class Order extends AbstractHelper
                     $isMarketPlace = true;
                     //for woolworths
                 }
+                else if (strpos($orderId, 'BU') !== false) {
+                    $rep ="BUNNINGS";
+                    $account = "BUNN01";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
 
             }
 
@@ -349,7 +355,7 @@ class Order extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -368,7 +374,7 @@ class Order extends AbstractHelper
 
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00")
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01")
                 {
                     $account = "";
                 }
@@ -1351,7 +1357,7 @@ class Order extends AbstractHelper
 
             }
 
-            if($counter >= 5)
+            if($counter >= 6)
             {
                 return true; //return after 3 orders
             }
@@ -1496,7 +1502,7 @@ class Order extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
-                            $whse = 'SWHS';
+                            $whse = '3WHS';
                             break;
                     }
                 }
@@ -1507,7 +1513,7 @@ class Order extends AbstractHelper
 //                    $whse = $this->relocateWarehouseMap[$whse];
 //                }
                 //requestd by Emmanuel
-                $whse = "SWHS";
+                $whse = "3WHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -1527,7 +1533,7 @@ class Order extends AbstractHelper
     }
 
     protected function getWarehouseByRegionCode($regionCode) {
-        return 'SWHS';
+        return '3WHS';
     }
 
     /**
@@ -2089,11 +2095,12 @@ class Order extends AbstractHelper
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
+                $todiscount = $price * $qty;
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = ($discount / $todiscount) * 100;
                 }
                 if($coupon != "")
                 {
@@ -2389,7 +2396,7 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
-            if ($wrehs != 'SWHS') {
+            if ($wrehs != '3WHS') {
                 if ($wrehs != '') {
                     $territory = $wrehs;
                 }
@@ -2475,7 +2482,14 @@ class Order extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
+                } else if (strpos($orderId, 'BU') !== false) {
+                    $rep = "BUNNINGS";
+                    $account = "BUNN01";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
                 }
+
 
             }
 
@@ -2484,7 +2498,7 @@ class Order extends AbstractHelper
             if ($isMarketPlace) {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -2502,7 +2516,7 @@ class Order extends AbstractHelper
             }
 
             if (!$isMarketPlace) {
-                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00") {
+                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01") {
                     $account = "";
                 }
             }
@@ -3346,4 +3360,6 @@ class Order extends AbstractHelper
         }
         return true;
     }
+
+    //redeploy
 }

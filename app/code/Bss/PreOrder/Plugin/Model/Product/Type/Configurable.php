@@ -17,21 +17,23 @@
  */
 namespace Bss\PreOrder\Plugin\Model\Product\Type;
 
+use Bss\PreOrder\Helper\Data;
 use Bss\PreOrder\Model\Attribute\Source\Order;
+use Bss\PreOrder\Model\PreOrderAttribute;
 
 class Configurable
 {
     /**
-     * @var \Bss\PreOrder\Helper\Data
+     * @var Data
      */
     private $helper;
 
     /**
      * Configurable constructor.
-     * @param \Bss\PreOrder\Helper\Data $helper
+     * @param Data $helper
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helper
+        Data $helper
     ) {
         $this->helper = $helper;
     }
@@ -60,10 +62,10 @@ class Configurable
             $listChildProduct = $subject->getUsedProducts($salableItem);
             foreach ($listChildProduct as $child) {
                 $isInStock = $child->getData('is_salable');
-                $preOrder = $child->getData('preorder');
+                $preOrder = $child->getData(PreOrderAttribute::PRE_ORDER_STATUS);
                 if (($preOrder == Order::ORDER_YES && $this->helper->isAvailablePreOrderFromFlatData(
-                    $child['pre_oder_from_date'],
-                    $child['pre_oder_to_date']
+                    $child[PreOrderAttribute::PRE_ORDER_FROM_DATE],
+                    $child[PreOrderAttribute::PRE_ORDER_TO_DATE]
                 )) ||
                     ($preOrder == Order::ORDER_OUT_OF_STOCK && !$isInStock)) {
                     $result = true;

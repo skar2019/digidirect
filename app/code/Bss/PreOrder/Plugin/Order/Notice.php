@@ -12,28 +12,38 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Plugin\Order;
 
+use Bss\PreOrder\Helper\Data;
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class Notice
 {
     /**
-     * @var \Bss\PreOrder\Helper\Data
+     * @var Data
      */
     protected $helper;
 
     /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    private $request;
+
+    /**
      * OrderNotice constructor.
-     * @param \Bss\PreOrder\Helper\Data $helper
+     * @param Data $helper
+     * @param \Magento\Framework\App\Request\Http $request
      */
     public function __construct(
-        \Bss\PreOrder\Helper\Data $helper
+        Data $helper,
+        \Magento\Framework\App\Request\Http $request
     ) {
         $this->helper = $helper;
+        $this->request = $request;
     }
 
     /**
@@ -47,24 +57,32 @@ class Notice
      */
     public function beforeGetItemHtml($subject, $item)
     {
-        if ($this->helper->isEnable()) {
-            if ($item->getProductType() == Configurable::TYPE_CODE) {
-                $product = $this->helper->getProductBySku($item->getProductOptionByCode('simple_sku'));
-            } else {
-                $product = $this->helper->getProductById($item->getProductId());
-            }
-
-            if ($product && $product instanceof \Magento\Catalog\Api\Data\ProductInterface) {
-                $isInStock = $this->helper->getIsInStock($product->getId());
-                $preOrder = $product->getData('preorder');
-
-                $message = $this->helper->replaceVariableX(
-                    $this->helper->getNote(),
-                    $this->helper->formatDate($product->getData('pre_oder_from_date')),
-                    $this->helper->formatDate($product->getData('pre_oder_to_date'))
-                );
-                $availabilityPreOrder = $this->helper->isAvailablePreOrder($product->getId());
-                if ($this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder)) {
+        $listProductPreOrder = $subject->getOrder() ? $subject->getOrder()->getProductPreOrder() : null;
+        if ($this->helper->isEnable()
+            && $listProductPreOrder !== null
+            && $listProductPreOrder !== '[]'
+        ) {
+            $action = $this->request->getFullActionName();
+            if ($this->helper->isEnable()) {
+                if ($item->getProductType() == Configurable::TYPE_CODE) {
+                    if (strpos($action, 'multishipping_checkout') !== false) {
+                        $product = $this->helper->getProductBySku($item->getSku());
+                    } else {
+                        $product = $this->helper->getProductBySku($item->getProductOptionByCode('simple_sku'));
+                    }
+                } else {
+                    $product = $this->helper->getProductBySku($item->getSku());
+                }
+                $listProductPreOrder = $this->helper->serializeClass()->unserialize($listProductPreOrder);
+                if ($product
+                    && $product instanceof \Magento\Catalog\Api\Data\ProductInterface
+                    && in_array($product->getId(), array_keys($listProductPreOrder))
+                ) {
+                    $message = $this->helper->replaceVariableX(
+                        $this->helper->getNote(),
+                        $this->helper->formatDate($product->getData('pre_oder_from_date')),
+                        $this->helper->formatDate($product->getData('pre_oder_to_date'))
+                    );
                     return [$item->setDescription($message)];
                 }
             }

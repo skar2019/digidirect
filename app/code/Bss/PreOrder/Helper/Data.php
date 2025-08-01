@@ -12,11 +12,13 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2021 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Helper;
 
+use Bss\PreOrder\Model\Attribute\Source\Order as SourceOrder;
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -29,18 +31,17 @@ use Magento\Framework\Exception\NoSuchEntityException;
  */
 class Data extends AbstractHelper
 {
-    const ORDER_NO = 0;
-    const ORDER_YES = 1;
-    const ORDER_OUT_OF_STOCK = 2;
-
-    const DISPLAY_OOS_PATH_CONFIG = 'preorder/general/display_oos_with_pre_status_only';
-    const ENABLE_MODULE_CONFIGURABLE_GRID_VIEW = "configuablegridview/general/active";
-    const LIST_PREORDER_ATTRIBUTES = [
-        'preorder',
-        'pre_oder_from_date',
-        'pre_oder_to_date',
-        'message',
-        'availability_message'
+    public const ORDER_NO = 0;
+    public const ORDER_YES = 1;
+    public const ORDER_OUT_OF_STOCK = 2;
+    public const DISPLAY_OOS_PATH_CONFIG = 'preorder/general/display_oos_with_pre_status_only';
+    public const ENABLE_MODULE_CONFIGURABLE_GRID_VIEW = "configuablegridview/general/active";
+    public const LIST_PREORDER_ATTRIBUTES = [
+        PreOrderAttribute::PRE_ORDER_STATUS,
+        PreOrderAttribute::PRE_ORDER_FROM_DATE,
+        PreOrderAttribute::PRE_ORDER_TO_DATE,
+        PreOrderAttribute::PRE_ORDER_MESSAGE,
+        PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE
     ];
 
     /**
@@ -116,7 +117,12 @@ class Data extends AbstractHelper
     /**
      * @var Configurable
      */
-    private $configurable;
+    protected $configurable;
+
+    /**
+     * @var \Magento\Framework\Serialize\SerializerInterface
+     */
+    protected $serializer;
 
     /**
      * Data constructor.
@@ -171,17 +177,20 @@ class Data extends AbstractHelper
     }
 
     /**
+     * Get salable qty
+     *
      * @param mixed $product
      * @param int $productId
      * @param float $itemQtyOrdered
-     * @return int|float|null
+     * @return float|int|mixed
+     * @throws NoSuchEntityException
      */
     public function getProductSalableQty($product, $productId, $itemQtyOrdered = 0)
     {
         if ($this->checkVersion()) {
             $qtyProduct = $this->getStockItem($productId)->getQty() + $itemQtyOrdered;
         } else {
-            $qtyProduct = $this->getSalableQty($product->getSku()) + $itemQtyOrdered;
+            $qtyProduct = $this->getSalableQtyOnlyStock($product->getSku()) + $itemQtyOrdered;
         }
         return $qtyProduct ? $qtyProduct : 0;
     }
@@ -189,6 +198,7 @@ class Data extends AbstractHelper
     /**
      * @param string|null $sku
      * @return int|float
+     * @deprecated 1.2.0
      */
     public function getSalableQty($sku)
     {
@@ -202,6 +212,17 @@ class Data extends AbstractHelper
             }
         }
         return $qtySalable;
+    }
+
+    /**
+     * Get salable qty by stock current website
+     *
+     * @param string $sku
+     * @return int|float
+     */
+    public function getSalableQtyOnlyStock($sku)
+    {
+        return $this->multiSourceInventory->getSalableQtyOnlyStock($sku);
     }
 
     /**
@@ -222,10 +243,10 @@ class Data extends AbstractHelper
      */
     public function getPreOrder($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $preOrderData = $this->resourceProduct->getAttributeRawValue(
             $productId,
-            'preorder',
+            PreOrderAttribute::PRE_ORDER_STATUS,
             $storeId
         );
         return $preOrderData ? $preOrderData : 0;
@@ -247,12 +268,15 @@ class Data extends AbstractHelper
      * Get Product By Sku
      *
      * @param string $sku
-     * @return \Magento\Catalog\Api\Data\ProductInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return \Magento\Catalog\Api\Data\ProductInterface|string
      */
     public function getProductBySku($sku)
     {
-        return $this->productRepository->get($sku);
+        try {
+            return $this->productRepository->get($sku);
+        } catch (\Exception $exception) {
+            return '';
+        }
     }
 
     /**
@@ -319,19 +343,23 @@ class Data extends AbstractHelper
      */
     public function getStoreId()
     {
+        if ($this->storeManager->isSingleStoreMode()) {
+            return 0;
+        }
         return $this->storeManager->getStore()->getId();
     }
 
     /**
      * Is Enable Module
-     *
+     * @param int|null $storeId
      * @return bool
      */
-    public function isEnable()
+    public function isEnable($storeId = null)
     {
         return $this->scopeConfig->isSetFlag(
             'preorder/general/enable',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
@@ -346,13 +374,13 @@ class Data extends AbstractHelper
     {
         $fromDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
-            'pre_oder_from_date',
-            $this->storeManager->getStore()
+            PreOrderAttribute::PRE_ORDER_FROM_DATE,
+            $this->getStoreId()
         );
         $toDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
-            'pre_oder_to_date',
-            $this->storeManager->getStore()
+            PreOrderAttribute::PRE_ORDER_TO_DATE,
+            $this->getStoreId()
         );
         return $this->isAvailablePreOrderFromFlatData($fromDateStr, $toDateStr);
     }
@@ -394,13 +422,13 @@ class Data extends AbstractHelper
      */
     public function getPreOrderFromDate($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $fromDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
-            'pre_oder_from_date',
+            PreOrderAttribute::PRE_ORDER_FROM_DATE,
             $storeId
         );
-        return $fromDateStr ? $this->formatDate($fromDateStr) : '';
+        return $fromDateStr ?? '';
     }
 
     /**
@@ -411,77 +439,87 @@ class Data extends AbstractHelper
      */
     public function getPreOrderToDate($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $toDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
-            'pre_oder_to_date',
+            PreOrderAttribute::PRE_ORDER_TO_DATE,
             $storeId
         );
-        return $toDateStr ? $this->formatDate($toDateStr) : '';
+        return $toDateStr ?? '';
     }
 
     /**
      * Is Mixed Order
      *
+     * @param int|null $storeId
      * @return bool
      */
-    public function isMix()
+    public function isMix($storeId = null)
     {
         return $this->isEnable() && $this->scopeConfig->isSetFlag(
             'preorder/general/mix',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Button Html Text
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getButton()
+    public function getButton($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/button',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Message Pre Order
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getMess()
+    public function getMess($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/mess',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Note Pre Order
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getNote()
+    public function getNote($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/note',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Display Out Of Stock With Pre-Order Only
      *
+     * @param int|null $storeId
      * @return mixed
      */
-    public function getDisplayOutOfStock()
+    public function getDisplayOutOfStock($storeId = null)
     {
         return $this->scopeConfig->getValue(
             self::DISPLAY_OOS_PATH_CONFIG,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
@@ -543,16 +581,16 @@ class Data extends AbstractHelper
     public function replaceVariableX($mess, $fromDate, $toDate)
     {
         $preOrderDate = '';
+        $fromDate = $fromDate !== null ? $fromDate : '';
+        $toDate = $toDate !== null ? $toDate : '';
+        $mess = $mess !== null ? $mess : '';
+
         if (trim($fromDate) != '' && trim($toDate) != '') {
             $preOrderDate = __('from %1 to %2', $fromDate, $toDate);
         } elseif (trim($fromDate) != '' && trim($toDate) == '') {
             $preOrderDate = __('from %1', $fromDate);
         } elseif (trim($fromDate) == '' && trim($toDate) != '') {
             $preOrderDate = __('to %1', $toDate);
-        }
-        if(empty($mess))
-        {
-            return "";
         }
         return str_replace(["{preorder_date}"], [$preOrderDate], $mess);
     }
@@ -584,9 +622,9 @@ class Data extends AbstractHelper
      */
     public function getAvailabilityMessage($product)
     {
-        $mess = $product->getData('availability_message');
-        $preOrderFromDate = $this->formatDate($product->getData('pre_oder_from_date'));
-        $preOrderToDate = $this->formatDate($product->getData('pre_oder_to_date'));
+        $mess = $product->getData(PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE);
+        $preOrderFromDate = $this->formatDate($product->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE));
+        $preOrderToDate = $this->formatDate($product->getData(PreOrderAttribute::PRE_ORDER_TO_DATE));
 
         return $this->replaceVariableX($mess, $preOrderFromDate, $preOrderToDate);
     }
@@ -645,15 +683,15 @@ class Data extends AbstractHelper
         $product = $this->productFactory->create()->load($productId);
         if ($product->getSku()) {
             $message = $this->replaceVariableX(
-                $product->getMessage(),
-                $this->formatDate($product->getPreOderFromDate()),
-                $this->formatDate($product->getPreOderToDate())
+                $product->getPreOrderMessage(),
+                $this->formatDate($product->getPreOrderFromDate()),
+                $this->formatDate($product->getPreOrderToDate())
             );
             if ($message == "") {
                 $message = $this->replaceVariableX(
                     $this->getMess(),
-                    $this->formatDate($product->getPreOderFromDate()),
-                    $this->formatDate($product->getPreOderToDate())
+                    $this->formatDate($product->getPreOrderFromDate()),
+                    $this->formatDate($product->getPreOrderToDate())
                 );
             }
             return $message;
@@ -676,16 +714,22 @@ class Data extends AbstractHelper
             $isPreOrderItem = $this->getPreOrder($product->getId()) == 1
                 && $this->isAvailablePreOrder($product->getId());
         }
+
         $qtyOrder = isset($requestInfo['qty']) ? $requestInfo['qty'] : 1;
-        $productId = $requestInfo['product'];
+        $productId = $this->getProductId($requestInfo, $product);
         if (!$isPreOrderItem && $productId) {
             if ($product->getTypeId() == Configurable::TYPE_CODE) {
                 $product = $this->getProductById($productId);
-                $product = $this->configurable->getProductByAttributes(
-                    $requestInfo['super_attribute'],
-                    $product
-                );
-                $productId = $product->getId();
+
+                if (isset($requestInfo['super_attribute'])) {
+                    $product = $this->configurable->getProductByAttributes(
+                        $requestInfo['super_attribute'],
+                        $product
+                    );
+                    if ($product) {
+                        $productId = $product->getId();
+                    }
+                }
             }
             $preOrderProduct = $this->getPreOrder($productId);
             $qtyProduct = $this->getProductSalableQty($product, $productId);
@@ -698,6 +742,18 @@ class Data extends AbstractHelper
             'qtyOrder' => $qtyOrder,
             'productId' => $productId
         ];
+    }
+
+    /**
+     * Get product Id
+     *
+     * @param array $requestInfo
+     * @param mixed $product
+     * @return int
+     */
+    private function getProductId($requestInfo, $product)
+    {
+        return isset($requestInfo['product']) ? $requestInfo['product'] : $product->getId();
     }
 
     /**
@@ -760,22 +816,19 @@ class Data extends AbstractHelper
             }
             $currentProduct = $this->getProductById($productId);
             if ($currentProduct && $currentProduct->isVisibleInCatalog()) {
-                $stockItem = $this->getStockItem(
-                    $productId,
-                    $this->storeManager->getStore()->getWebsiteId()
-                );
+                $stockItem = $this->getStockItem($productId);
                 $qty = 1;
                 $minQty = $stockItem->getMinSaleQty();
                 if ($minQty && $minQty > 0) {
                     $qty = $minQty;
                 }
+                $requestInfo = [
+                    'qty' => $qty,
+                    'product' => $currentProduct->getId()
+                ];
+                $preOrderItem = $this->checkPreOrderItem($currentProduct, $requestInfo, true);
+                $this->validateWithCart($cartItems, $preOrderItem);
             }
-            $requestInfo = [
-                'qty' => $qty,
-                'product' => $currentProduct->getId()
-            ];
-            $preOrderItem = $this->checkPreOrderItem($currentProduct, $requestInfo, true);
-            $this->validateWithCart($cartItems, $preOrderItem);
         }
     }
 
@@ -789,19 +842,21 @@ class Data extends AbstractHelper
     public function validateForGroupProduct($cartItems, $requestInfo)
     {
         $countNormalProduct = $countPreOrder = 0;
-        foreach ($requestInfo['super_group'] as $key => $value) {
-            if ($value) {
-                if (!empty($cartItems)) {
-                    /* Validate with product in Cart */
-                    $preOrderItem = $this->checkPreOrderGroup($key, $value);
-                    $this->validateWithCart($cartItems, $preOrderItem);
-                } else {
-                    /* Validate with other child product in request if Cart no items */
-                    $isPreOrderItem = $this->checkPreOrderGroup($key, $value)['isPreOrderItem'];
-                    if ($isPreOrderItem) {
-                        $countPreOrder++;
+        if (isset($requestInfo['super_group'])) {
+            foreach ($requestInfo['super_group'] as $key => $value) {
+                if ($value) {
+                    if (!empty($cartItems)) {
+                        /* Validate with product in Cart */
+                        $preOrderItem = $this->checkPreOrderGroup($key, $value);
+                        $this->validateWithCart($cartItems, $preOrderItem);
                     } else {
-                        $countNormalProduct++;
+                        /* Validate with other child product in request if Cart no items */
+                        $isPreOrderItem = $this->checkPreOrderGroup($key, $value)['isPreOrderItem'];
+                        if ($isPreOrderItem) {
+                            $countPreOrder++;
+                        } else {
+                            $countNormalProduct++;
+                        }
                     }
                 }
             }
@@ -858,7 +913,7 @@ class Data extends AbstractHelper
      * @throws LocalizedException
      * @throws NoSuchEntityException
      */
-    protected function checkPreOrderCartItem($item, $productId, $preOrderItem)
+    public function checkPreOrderCartItem($item, $productId, $preOrderItem)
     {
         $preOrderCart = $this->getPreOrder($productId);
         $inStockCart = $this->getIsInStock($productId);
@@ -913,5 +968,55 @@ class Data extends AbstractHelper
     public function getRegistry()
     {
         return $this->registry;
+    }
+
+    /**
+     * Check if product can be pre-ordered
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param null|\Magento\Quote\Model\Quote\Item $item
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return bool
+     */
+    public function checkPreOrderAvailability($product, $item = null)
+    {
+        $isInStock = $product->getData('is_salable');
+        $preOrder = $product->getData(PreOrderAttribute::PRE_ORDER_STATUS);
+        $fromDate =  $this->getPreOrderFromDate($product->getId());
+        $toDate =  $this->getPreOrderToDate($product->getId());
+        if (
+            (
+                $preOrder ==  SourceOrder::ORDER_YES
+                && $this->isAvailablePreOrderFromFlatData($fromDate, $toDate)
+            )
+            ||
+            (
+                $preOrder == SourceOrder::ORDER_OUT_OF_STOCK &&
+                    $isInStock == 0 || ($item && $this->checkQtyItemProduct($product, $item))
+            )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check qty salable product with qty of item
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Quote\Model\Quote\Item $item
+     * @return bool
+     */
+    public function checkQtyItemProduct($product, $item)
+    {
+        $productSalableQty = $this->getProductSalableQty(
+            $product,
+            $product->getId()
+        );
+        if ($item->getQty() > $productSalableQty || ($item->getQtyOrdered() && $productSalableQty < 0)) {
+            return true;
+        }
+        return false;
     }
 }

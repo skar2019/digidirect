@@ -18,6 +18,8 @@
 namespace Bss\PreOrder\Observer;
 
 use Bss\PreOrder\Helper\Data;
+use Bss\PreOrder\Helper\ProductData;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\Event\ObserverInterface;
 
 class CheckBeforeUpdate implements ObserverInterface
@@ -26,24 +28,41 @@ class CheckBeforeUpdate implements ObserverInterface
      * @var Data
      */
     protected $helper;
+
+    /**
+     * @var bool
+     */
     protected $hasPreOrderItem = false;
+
+    /**
+     * @var bool
+     */
     protected $hasNormalItem = false;
+
     /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     protected $configurable;
 
     /**
+     * @var ProductData
+     */
+    protected $productData;
+
+    /**
      * CheckBeforeUpdate constructor.
      * @param Data $helper
-     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable
+     * @param Configurable $configurable
+     * @param ProductData $productData
      */
     public function __construct(
         Data $helper,
-        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable,
+        \Bss\PreOrder\Helper\ProductData $productData
     ) {
         $this->helper = $helper;
         $this->configurable = $configurable;
+        $this->productData = $productData;
     }
 
     /**
@@ -60,22 +79,16 @@ class CheckBeforeUpdate implements ObserverInterface
         $items = $quote->getAllItems();
         if ($this->helper->isEnable() && !$this->helper->isMix()) {
             foreach ($items as $item) {
-                $productId = $item->getProduct()->getId();
                 $product = $item;
                 $qty = $item->getQty();
                 if (isset($infoDataObject[$item->getId()])) {
                     $qty = $infoDataObject[$item->getId()]['qty'];
                 }
-                if ($item->getProduct()->getTypeId() == 'configurable') {
-                    $requestInfo =$item->getBuyRequest();
-                    $product = $this->helper->getProductById($productId);
-                    $product = $this->configurable->getProductByAttributes(
-                        $requestInfo['super_attribute'],
-                        $product
-                    );
-                    $productId = $product->getId();
+                if ($this->productData->checkPreOrderCartItem($product, $qty)) {
+                    $this->hasPreOrderItem = true;
+                } else {
+                    $this->hasNormalItem = true;
                 }
-                $this->checkPreOrderCartItem($product, $productId, $qty);
             }
             if ($this->hasPreOrderItem && $this->hasNormalItem) {
                 $this->hasPreOrderItem = false;
@@ -84,33 +97,5 @@ class CheckBeforeUpdate implements ObserverInterface
                 throw new \Magento\Framework\Exception\LocalizedException(__($message));
             }
         }
-    }
-
-    /**
-     * @param mixed $item
-     * @param int $productId
-     * @param float $qty
-     * @return bool
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
-     */
-    protected function checkPreOrderCartItem($item, $productId, $qty)
-    {
-        $preOrderCart = $this->helper->getPreOrder($productId);
-        $inStockCart = $this->helper->getIsInStock($productId);
-        $availabilityPreOrder = $this->helper->isAvailablePreOrder($productId);
-        $isPreOrderCart = $this->helper->isPreOrder($preOrderCart, $inStockCart, $availabilityPreOrder);
-        if ($inStockCart && $preOrderCart == 2) {
-            $qtyProduct = $this->helper->getProductSalableQty($item, $productId);
-            if ($qty > $qtyProduct) {
-                $isPreOrderCart = true;
-            }
-        }
-        if ($isPreOrderCart) {
-            $this->hasPreOrderItem = true;
-        } else {
-            $this->hasNormalItem = true;
-        }
-        return $isPreOrderCart;
     }
 }

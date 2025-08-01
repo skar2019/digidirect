@@ -36,9 +36,9 @@ class TestPronto extends AbstractHelper
      * @var array
      */
     protected $relocateWarehouseMap = [
-        'MELB' => 'SWHS',
-        'CANN' => 'SWHS',
-        'SWHS' => 'MELB'
+        'MELB' => '3WHS',
+        'CANN' => '3WHS',
+        '3WHS' => 'MELB'
     ];
 
     /**
@@ -69,7 +69,7 @@ class TestPronto extends AbstractHelper
         'MELB',
         'MIRA',
         'PARR',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -78,7 +78,7 @@ class TestPronto extends AbstractHelper
         'CANN',
         'MELB',
         'MIRA',
-        'SWHS',
+        '3WHS',
         'SYDN'
     ];
 
@@ -130,7 +130,7 @@ class TestPronto extends AbstractHelper
     protected $repDispatchWarehouseMap = [
         'MELB' => '85',
         'CANN' => 'C3W',
-        'SWHS' => 'C9W'
+        '3WHS' => 'C9W'
     ];
 
     /**
@@ -335,7 +335,7 @@ class TestPronto extends AbstractHelper
                             $whse = 'PARR';
                             break;
                         default:
-                            $whse = 'SWHS';
+                            $whse = '3WHS';
                             break;
                     }
 
@@ -349,7 +349,7 @@ class TestPronto extends AbstractHelper
 //                    $whse = $this->relocateWarehouseMap[$whse];
 //                }
                 //requestd by Emmanuel
-                $whse = "SWHS";
+                $whse = "3WHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -370,7 +370,7 @@ class TestPronto extends AbstractHelper
     }
 
     protected function getWarehouseByRegionCode($regionCode) {
-        return 'SWHS';
+        return '3WHS';
     }
 
     /**
@@ -593,16 +593,11 @@ class TestPronto extends AbstractHelper
             $wrehs = $this->getWarehouse($order);
             echo 'wrehs '.$wrehs;
             $territory = "WEBS";
-            if($wrehs != 'SWHS')
+            if($wrehs != '3WHS')
             {
                 if($wrehs != '')
                 {
                     $territory = $wrehs;
-                }
-                else
-                {
-                    //check shipping
-                    $wrehs = 'MELB';
                 }
 
             }
@@ -711,6 +706,13 @@ class TestPronto extends AbstractHelper
                     $isMarketPlace = true;
                     //for woolworths
                 }
+                else if (strpos($orderId, 'BU') !== false) {
+                    $rep ="BUNNINGS";
+                    $account = "BUNN01";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
 
             }
 
@@ -721,10 +723,10 @@ class TestPronto extends AbstractHelper
             if($isMarketPlace)
             {
                 echo "It is marketplace ".$isMarketPlace."<br/>";
-                //check if all product has stock in swhs
+                //check if all product has stock in 3WHS
                 $skus = $this->getProductsSkus($order);
                 //var_dump($skus);
-                if ($this->isProductsInStockMP('SWHS', $skus)) {
+                if ($this->isProductsInStockMP('3WHS', $skus)) {
                     $directToWhse = true;
                 }
                 echo "directToWhse ".$directToWhse."<br/>";
@@ -831,7 +833,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in 3WHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
                 if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
@@ -1159,7 +1161,7 @@ class TestPronto extends AbstractHelper
             }
             if($method == 'latipay')
             {
-                $tosync = false;
+                $tosync = 0;
                 $status_history = $order->getStatusHistories();
                 foreach ($status_history as $status) {
                     //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
@@ -1169,27 +1171,31 @@ class TestPronto extends AbstractHelper
                         $myjson = str_replace("Latipay Response :", "",$comment);
                         //echo $myjson ."\n";
                         $myarray = json_decode($myjson, true);
-                        //var_dump($myarray);
+                        var_dump($myarray);
                         if(isset($myarray['status']))
                         {
                             $latistatus = $myarray['status'];
+                            echo "latistatus ".$latistatus."<br/>";
                             if($latistatus == 'paid')
                             {
-                                $tosync = true;
+                                echo "true <br/>";
+                                $tosync = 1;
                             }
-                            else {
-                                $tosync = false;
-                            }
+//                            else {
+//                                echo "false <br/>";
+//                                $tosync = 0;
+//                            }
                         }
-                        else
-                        {
-                            $tosync = false;
-                        }
+//                        else
+//                        {
+//                            $tosync = 0;
+//                        }
 
                     }
 
                 }
 
+                echo "to sync ".$tosync."<br/>";
                 if(!$tosync)
                 {
                     continue;
@@ -1197,16 +1203,16 @@ class TestPronto extends AbstractHelper
 
             }
 
-            if (empty($payment_reference) && ($method == 'latipay')) {
-                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                //if (empty($payment_reference)){
-                if(!$test)
-                {
-                    continue;
-                }
-                //}
-
-            }
+//            if (empty($payment_reference) && ($method == 'latipay')) {
+//                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+//                //if (empty($payment_reference)){
+//                if(!$test)
+//                {
+//                    continue;
+//                }
+//                //}
+//
+//            }
 
             //ebay
             if (($method == 'm2epropayment')) {
@@ -1436,12 +1442,15 @@ class TestPronto extends AbstractHelper
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
+                echo "discount - " .$discount ." <br/>";
+                $todiscount = $price * $qty;
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = ($discount / $todiscount) * 100;
                 }
+                echo "discperc - " .$discperc ." <br/>";
                 if($coupon != "")
                 {
                     $discount = 0;
@@ -1876,7 +1885,7 @@ class TestPronto extends AbstractHelper
             $sellerdata['sales-order']['header']['on-hold-reason-code'] = "WS";
             $sellerdata['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in 3WHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
 
 
@@ -1974,7 +1983,7 @@ class TestPronto extends AbstractHelper
                         $myjson = str_replace("Latipay Response :", "",$comment);
                         //echo $myjson ."\n";
                         $myarray = json_decode($myjson, true);
-                        //var_dump($myarray);
+                        var_dump($myarray);
                         if(isset($myarray['status']))
                         {
                             $latistatus = $myarray['status'];
@@ -2460,4 +2469,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
+    //redeploy
 }

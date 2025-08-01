@@ -109,8 +109,13 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
                         <div class="s19-rental-price-target">
-                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
-                            <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                            {{#isDigiPrint}}
+                                <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                            {{/isDigiPrint}}
+                            {{#isNotDigiPrint}}
+                                <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                            {{/isNotDigiPrint}}
                         </div>
                         {{#isAddToCartEnabled}}
                             {{#isNotDigiPrint}}

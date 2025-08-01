@@ -18,6 +18,7 @@
 namespace Bss\PreOrder\Plugin;
 
 use Bss\PreOrder\Helper\Data;
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 
@@ -58,10 +59,14 @@ class SkipCheck
     public function afterIsSalable(Product $subject, bool $result)
     {
         if ($this->helper->isEnable() && !$result) {
-            $preOrder = $subject->getData('preorder');
+            $preOrder = $subject->getData(PreOrderAttribute::PRE_ORDER_STATUS);
             if ($preOrder === null) {
-                $subject = $this->productRepository->getById($subject->getId());
-                $preOrder = $subject->getData('preorder');
+                try {
+                    $subject = $this->productRepository->getById($subject->getId());
+                } catch (\Exception $e) {
+                    return false;
+                }
+                $preOrder = $subject->getData(PreOrderAttribute::PRE_ORDER_STATUS);
             }
             if ($this->checkPreOrderProduct($subject, $preOrder)) {
                 return true;
@@ -69,11 +74,11 @@ class SkipCheck
             if ($subject->getTypeId() == 'grouped') {
                 $childProductCollection = $subject->getTypeInstance()
                     ->getAssociatedProductCollection($subject)
-                    ->addAttributeToSelect('preorder', 'left')
+                    ->addAttributeToSelect(PreOrderAttribute::PRE_ORDER_STATUS, 'left')
                     ->getData();
                 $x = [];
                 foreach ($childProductCollection as $child) {
-                    $x[] = $child['preorder'];
+                    $x[] = $child[PreOrderAttribute::PRE_ORDER_STATUS];
                 }
                 if (in_array(1, $x) || in_array(2, $x)) {
                     return true;
@@ -91,8 +96,8 @@ class SkipCheck
     protected function checkPreOrderProduct(Product $subject, $preOrder): bool
     {
         if (($preOrder == 1 && $this->helper->isAvailablePreOrderFromFlatData(
-            $subject->getData('pre_oder_from_date'),
-            $subject->getData('pre_oder_to_date')
+            $subject->getData(PreOrderAttribute::PRE_ORDER_FROM_DATE),
+            $subject->getData(PreOrderAttribute::PRE_ORDER_TO_DATE)
         )) || $preOrder == 2
         ) {
             return true;

@@ -3,8 +3,10 @@
     <event name="catalog_category_load_after">
         <observer name="digidirect_seo_set_category_metadata" instance="Digidirect\SEO\Observer\SetCategoryMetadata"/>
     </event>
-
     <event name="layout_generate_blocks_after">
         <observer name="digidirect_infinityscroll" instance="Digidirect\SEO\Observer\NextPrevLinkObserver" shared="false"/>
     </event>
+    <event name="layout_load_before">
+        <observer name="add_robot_page" instance="Digidirect\SEO\Observer\NoIndexNoFollow" />
+    </event>   
 </config>

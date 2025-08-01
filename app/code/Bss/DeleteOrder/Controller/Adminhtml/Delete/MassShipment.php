@@ -17,19 +17,15 @@
  */
 namespace Bss\DeleteOrder\Controller\Adminhtml\Delete;
 
+use Bss\DeleteOrder\Model\Shipment\Delete;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Backend\App\Action\Context;
+use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Magento\Ui\Component\MassAction\Filter;
-use Magento\Sales\Api\OrderManagementInterface;
 
 class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMassAction
 {
-    /**
-     * @var OrderManagementInterface
-     */
-    protected $orderManagement;
-
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory
      */
@@ -46,32 +42,31 @@ class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMas
     protected $delete;
 
     /**
-     * MassShipment constructor.
      * @param Context $context
      * @param Filter $filter
-     * @param OrderManagementInterface $orderManagement
+     * @param CollectionFactory $collectionFactory
      * @param \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollectionFactory
-     * @param \Magento\Sales\Model\Order\Shipment $shipment
-     * @param \Bss\DeleteOrder\Model\Shipment\Delete $delete
+     * @param Shipment $shipment
+     * @param Delete $delete
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        OrderManagementInterface $orderManagement,
         \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollectionFactory,
         \Magento\Sales\Model\Order\Shipment $shipment,
         \Bss\DeleteOrder\Model\Shipment\Delete $delete
     ) {
         parent::__construct($context, $filter);
         $this->collectionFactory = $collectionFactory;
-        $this->orderManagement = $orderManagement;
         $this->shipmentCollectionFactory = $shipmentCollectionFactory;
         $this->shipment = $shipment;
         $this->delete = $delete;
     }
 
     /**
+     * Mass action
+     *
      * @param AbstractCollection $collection
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -90,16 +85,26 @@ class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMas
                 $shipment = $this->getShipmentbyId($shipmentId);
                 try {
                     $order = $this->deleteShipment($shipmentId);
-                    $this->messageManager->addSuccessMessage(__('Successfully deleted shipment #%1.', $shipment->getIncrementId()));
+                    $this->messageManager->addSuccessMessage(
+                        __(
+                            'Successfully deleted shipment #%1.',
+                            $shipment->getIncrementId()
+                        )
+                    );
                 } catch (\Exception $e) {
-                    $this->messageManager->addErrorMessage(__('Error delete shipment #%1.', $shipment->getIncrementId()));
+                    $this->messageManager->addErrorMessage(
+                        __(
+                            'Error delete shipment #%1.',
+                            $shipment->getIncrementId()
+                        )
+                    );
                 }
             }
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
         $resultRedirect->setPath('sales/shipment/');
-        if ($params['namespace'] == 'sales_order_view_shipment_grid') {
+        if ($params['namespace'] == 'sales_order_view_shipment_grid' && isset($order)) {
             $resultRedirect->setPath('sales/order/view', ['order_id' => $order->getId()]);
         } else {
             $resultRedirect->setPath('sales/shipment/');
@@ -107,8 +112,10 @@ class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMas
         return $resultRedirect;
     }
 
-    /*
+    /**
      * Check permission via ACL resource
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -116,7 +123,9 @@ class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMas
     }
 
     /**
-     * @param $shipmentId
+     * Delete shipment
+     *
+     * @param int $shipmentId
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
      */
@@ -126,7 +135,9 @@ class MassShipment extends \Magento\Sales\Controller\Adminhtml\Order\AbstractMas
     }
 
     /**
-     * @param $shipmentId
+     * Get shipment by id
+     *
+     * @param int $shipmentId
      * @return \Magento\Sales\Model\Order\Shipment
      */
     protected function getShipmentbyId($shipmentId)

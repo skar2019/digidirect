@@ -19,7 +19,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Sales\Model\Order">
-        <plugin name="OrderStatus" type="Bss\PreOrder\Plugin\Order\Status" />
+        <plugin name="OrderStatus" type="Bss\PreOrder\Plugin\Order\Status"/>
     </type>
     <type name="Magento\CatalogInventory\Model\StockStateProvider">
         <plugin name="QuoteCheck" type="Bss\PreOrder\Plugin\QuoteCheck" />
@@ -54,5 +54,39 @@
     </type>
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator">
         <plugin name="skip_validate" type="Bss\PreOrder\Plugin\SkipValidate" />
+    </type>
+    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductRenderCollectorComposite">
+        <arguments>
+            <argument name="productProviders" xsi:type="array">
+                <item name="review" xsi:type="object">\Bss\PreOrder\Ui\DataProvider\Product\Listing\Collector\PreOrder</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="bss_skip_check_saleable" type="Bss\PreOrder\Plugin\SkipCheck" />
+    </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="check_preorder_before_add" type="Bss\PreOrder\Plugin\CheckBeforeAdd" />
+    </type>
+    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable">
+        <plugin name="get_options_attribute" type="Bss\PreOrder\Plugin\Model\Product\Type\Configurable" />
+    </type>
+    <type name="Magento\Sales\Model\Order\Shipment\Validation\QuantityValidator">
+        <plugin name="ShipmentCheck" type="Bss\PreOrder\Plugin\ShipmentCheck" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <plugin name="check_allow_mixin_pre_order" type="Bss\PreOrder\Plugin\Quote\Item\Repository" />
+    </type>
+    <type name="Magento\Checkout\Block\Cart">
+        <plugin name="check_allow_mixin_pre_order_in_cart" type="Bss\PreOrder\Plugin\Block\Cart" />
+    </type>
+    <preference for="Magento\ConfigurableProduct\Helper\Data" type="Bss\PreOrder\Plugin\Helper\Data"/>
+
+    <!--Compatible module without MSI-->
+    <type name="Bss\PreOrder\Model\MSI\MsiObjectManagement">
+        <arguments>
+            <argument name="stockIdForWebsite" xsi:type="string">\Magento\InventoryCatalog\Model\GetStockIdForCurrentWebsite</argument>
+            <argument name="defaultStock" xsi:type="string">\Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface</argument>
+        </arguments>
     </type>
 </config>

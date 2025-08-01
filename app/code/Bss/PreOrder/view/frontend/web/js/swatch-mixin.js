@@ -72,7 +72,7 @@ define([
         _UpdateDetailPreOrder: function () {
             var $widget = this,
                 productId,
-                childProductData = this.options.jsonConfig.preorder,
+                childProductData = this.options.jsonConfig.pre,
                 $parent = ".product-item-info";
 
             if ($('.catalog-product-view').length) {
@@ -86,11 +86,11 @@ define([
             if (productId && childProductData['child'].hasOwnProperty(productId)) {
                 $widget._UpdatePreOrder(
                     childProductData['child'][productId]['stock_status'],
-                    childProductData['child'][productId]['preorder'],
+                    childProductData['child'][productId]['pre_order_status'],
                     childProductData['child'][productId]['availability_preorder'],
-                    childProductData['child'][productId]['message'],
+                    childProductData['child'][productId]['pre_order_message'],
                     childProductData['child'][productId]['button'],
-                    childProductData['child'][productId]['availability_message'],
+                    childProductData['child'][productId]['pre_order_availability_message'],
                     $parent
                 );
             } else {
@@ -99,20 +99,20 @@ define([
         },
 
         // eslint-disable-next-line max-len
-        _UpdatePreOrder: function (status, preorder, availability_preorder, message, button, availability_message, parent) {
+        _UpdatePreOrder: function (status, preorder, availability_preorder, message, button, pre_order_availability_message, parent) {
             var $widget = this;
 
             $($widget.element).parents(parent).find($widget.options.availabilityMessageClass).remove();
             // eslint-disable-next-line eqeqeq
             if ( preorder == 1 && availability_preorder || preorder == 2 && !status) {
-                if (availability_message) {
+                if (pre_order_availability_message) {
                     if (!$($widget.element).parents(parent).find($widget.options.availabilityMessageClass).length) {
-                        let availabilityMessage = $t(availability_message);
+                        let availabilityMessage = $t(pre_order_availability_message);
                         let messageTemplate = template($widget.options.tmplAvailabilityMessage);
                         let messageHtml = messageTemplate({message: availabilityMessage});
                         $($widget.element).parents(parent).find($widget.options.stockSelector).after(messageHtml);
                     } else {
-                        $($widget.element).parents(parent).find($widget.options.availabilityMessageClass).empty().html(availability_message);
+                        $($widget.element).parents(parent).find($widget.options.availabilityMessageClass).empty().html(pre_order_availability_message);
                     }
                 }
                 $($widget.element).parents(parent).find($widget.options.addToCartButtonText).html(button);
@@ -149,10 +149,10 @@ define([
                     result;
                 if (!$.isEmptyObject(childProductData) && childProductData) {
 
-                    $widget.element.find('.' + $widget.options.classes.attributeClass + '[option-selected]').each(function () {
+                    $widget.element.find('.' + $widget.options.classes.attributeClass + '[data-option-selected]').each(function () {
                         var attributeId = $(this).attr('attribute-id');
 
-                        options[attributeId] = $(this).attr('option-selected');
+                        options[attributeId] = $(this).attr('data-option-selected');
                     });
 
                     result = $widget.options.spConfig.optionPrices[_.findKey($widget.options.spConfig.index, options)];

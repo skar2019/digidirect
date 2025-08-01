@@ -18,6 +18,7 @@
         </div>
     </div>
 </div>
+
 <div id="pickup-unavailable" class="store-section pickup-unavailable" style="margin-bottom: 50px;">
     <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
     <div class="description-cc">
@@ -35,10 +36,8 @@
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == false -->
-                <!-- ko if: item.name != 'Cannington' -->
-                    <!-- ko foreach: $parent.getRegion('locator_items') -->
-                    <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
-                    <!--/ko-->
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
                 <!--/ko-->
             <!--/ko-->
         </div>

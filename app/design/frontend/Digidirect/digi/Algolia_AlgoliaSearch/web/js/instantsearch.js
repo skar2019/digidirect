@@ -476,9 +476,18 @@ define([
              * searchBox
              * Docs: https://www.algolia.com/doc/api-reference/widgets/search-box/js/
              **/
+            
+            const currentURL = window.location.href;
+            
+            var searchPlaceholder = algoliaConfig.translations.searchFor;
+            
+            if (currentURL == "https://www.digidirect.com.au/digimarket") {
+                searchPlaceholder = "Shop over 10s and 1000s of products now!";
+            }
+            
             allWidgetConfiguration.searchBox = {
                 container  : instant_selector,
-                placeholder: algoliaConfig.translations.searchFor,
+                placeholder: searchPlaceholder,
                 showSubmit : false,
                 queryHook  : (inputValue, search) => {
                     if (
@@ -588,18 +597,26 @@ define([
                             item.isNotPreorder = true;
                         }
                         
-                        if (!item.item_codition || item.item_codition == "" || item.item_codition == " ") {
+                        /*if (item.pre_order_status == "Yes") {
+                            item.isPreorder = true;
+                            item.isNotPreorder = false;
+                        } else {
+                            item.isPreorder = false;
+                            item.isNotPreorder = true;
+                        }*/
+                        
+                        if (!item.item_condition || item.item_condition == "" || item.item_condition == " ") {
                             item.isDigiSeconds = false;
                             item.isNotDigiSeconds = true;
                         } else {
                             item.isDigiSeconds = true;
                             item.isNotDigiSeconds = false;
                             
-                            if (item.item_codition == "PRELOVED") {
+                            if (item.item_condition == "PRELOVED") {
                                 item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png";
-                            } else if (item.item_codition == "OPENBOX") {
+                            } else if (item.item_condition == "OPENBOX") {
                                 item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png";
-                            } else if (item.item_codition == "REFURB") {
+                            } else if (item.item_condition == "REFURB") {
                                 item.digiSecondsBadge = "https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png";
                             }
                             
@@ -781,11 +798,10 @@ define([
                             })
                             : items;
                     },
-                };
-
+                };          
                 hierarchicalMenuParams.templates.item =
                     '' +
-                    '<a class="{{cssClasses.link}} {{#isRefined}}{{cssClasses.link}}--selected{{/isRefined}}" href="{{categoryUrl}}">{{label}}' +
+                    '<a class="{{cssClasses.link}} {{#isRefined}}{{cssClasses.link}}--selected{{/isRefined}} testclass" href="{{categoryUrl}}">{{label}}' +
                     ' ' +
                     '<span class="{{cssClasses.count}}">{{#helpers.formatNumber}}{{count}}{{/helpers.formatNumber}}</span>' +
                     '</a>';
@@ -800,7 +816,7 @@ define([
                         return !items.length;
                     },
                 };
-
+                //console.log("facet.label", facet.label);
                 return ['hierarchicalMenu', hierarchicalMenuParams];
             },
         };

@@ -17,6 +17,7 @@
  */
 namespace Bss\PreOrder\Ui\DataProvider\Product\Form\Modifier;
 
+use Bss\PreOrder\Model\PreOrderAttribute;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 
 class CustomValidator extends AbstractModifier
@@ -32,9 +33,9 @@ class CustomValidator extends AbstractModifier
     {
         $this->meta = $meta;
         if (isset($this->meta['product-details']['children']['container_availability_message']
-            ['children']['availability_message']['arguments']['data']['config'])) {
+            ['children'][PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE]['arguments']['data']['config'])) {
             $this->meta['product-details']['children']['container_availability_message']
-            ['children']['availability_message']['arguments']['data']['config']['validation'] = [
+            ['children'][PreOrderAttribute::PRE_ORDER_AVAILABILITY_MESSAGE]['arguments']['data']['config']['validation'] = [
                 'max_text_length' => 50
             ];
         }

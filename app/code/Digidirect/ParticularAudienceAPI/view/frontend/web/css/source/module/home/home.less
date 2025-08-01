@@ -227,6 +227,7 @@ and open the template in the editor.
         border: 1px solid #cacaca;
         margin-top: 0;
         position: relative;
+        margin-bottom: 48px;
     }
     
     .pa-digidirect-product-widget .product-item-info.product-item:hover {
@@ -249,7 +250,7 @@ and open the template in the editor.
     }
 
     .pa-digidirect-product-widget .product-item-actions {
-        padding-bottom: 10px;
+        padding-bottom: 17px;
     }
 
     .pa-digidirect-product-widget .product-item-actions .actions-primary {
@@ -283,6 +284,40 @@ and open the template in the editor.
     
     .pa-digidirect-product-widget.pa-minicart:not(:has(.product-item-info)) {
         display: none;
+    }
+    
+    //Sponsored Label
+    
+    .sponsored-label {
+        float: right;
+        color: #969696;
+        font-size: 11px;
+        position: fixed;
+        right: 15px;
+        line-height: 5px;
+        cursor: pointer;
+    }
+    .sponsored-label .fa-info-circle {
+        margin-right: 2px;
+        color: #969696;
+    }
+    .label-tooltip {
+        visibility: hidden;
+        position: absolute;
+        width: 240px !important;
+        border: 1px solid #CACACA;
+        font-size: 11px;
+        padding: 5px;
+        background: #fff;
+        border-radius: 5px;
+        bottom: -42px;
+        box-shadow: 0 5px 5px 2px #CACACA;
+    }
+    .label-tooltip:hover {
+        visibility: visible !important;
+    }
+    .sponsored-label:hover ~ .label-tooltip {
+        visibility: visible !important;
     }
 
 }

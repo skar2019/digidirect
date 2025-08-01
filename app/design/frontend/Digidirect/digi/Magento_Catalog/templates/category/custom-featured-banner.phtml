@@ -36,6 +36,7 @@ $isBrandLangly = str_contains($currentUrl, 'brands/langly');
 $isBrandOMSystem = str_contains($currentUrl, 'brands/om-system');
 $isBrandWandrd = str_contains($currentUrl, 'brands/wandrd');
 $isBrandHikmicro = str_contains($currentUrl, 'brands/hikmicro');
+$isBrandLogitechGaming = str_contains($currentUrl, 'brands/logitech-gaming');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -198,7 +199,16 @@ if ($request->getFullActionName() == 'catalog_category_view') {
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-hikmicro-featured-banner')
             ->toHtml();
+    } elseif ($isBrandLogitechGaming == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-logitechgaming-featured-banner')
+            ->toHtml();
     }
+
+    // redeploy
+
+    
 }
 ?>
 

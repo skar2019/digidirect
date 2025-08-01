@@ -26,6 +26,7 @@ define([
                     $(this).hide();
                 }
             );
+            $('.pre-order-mixin-message').prependTo('.cart-container');
             $("span.order-notice").hide();
             $("span.note-pieces").hide();
             var isPreOrder = true;
