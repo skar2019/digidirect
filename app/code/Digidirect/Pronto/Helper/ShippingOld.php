@@ -11,18 +11,18 @@ use Psr\Log\LoggerInterface;
 
 class Shipping extends AbstractHelper
 {
- 
+
     /**
     * @var Curl
     */
     protected $curl;
-    
+
     protected $_orderCollectionFactory;
     /**
      * @var OrderResource
      */
     protected $orderResource;
-    
+
     public function __construct(
                         Curl $curl,
                         OrderResource $orderResource,
@@ -38,7 +38,7 @@ class Shipping extends AbstractHelper
 
     }
 
-    public function getShipping() 
+    public function getShipping()
     {
         //get order data
         $orders = $this->getOrderCollection();
@@ -48,13 +48,13 @@ class Shipping extends AbstractHelper
             $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
-            
+
             if ($order->getState() == 'canceled') {
                 continue;
             }
-            
+
             $prontoOrderNumber = $order->getData('pronto_order_number');
-            
+
             $this->logger->info('Pronto Order Shipping - '.$prontoOrderNumber);
 
             //TEST
@@ -64,7 +64,7 @@ class Shipping extends AbstractHelper
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
-            
+
             $this->curl->addHeader("Content-Type", "application/json");
             $this->curl->addHeader("Accept", "application/json");
             $this->curl->addHeader("compcode", "DIG"); //LIVE
@@ -77,7 +77,7 @@ class Shipping extends AbstractHelper
             $this->curl->get($url);
 
             $result = $this->curl->getBody();
-            
+
             if(!empty($result))
             {
 
@@ -115,9 +115,9 @@ class Shipping extends AbstractHelper
                 }
             }
         }
-        
-    }   
-    
+
+    }
+
     public function getOrderCollection()
     {
         $now = new \DateTime();
@@ -131,9 +131,9 @@ class Shipping extends AbstractHelper
             ->addFieldToFilter('created_at', array('lteq' => $toDate))
             ->setOrder('created_at', 'asc')
             ->setPageSize(25);
-        
+
      return $collection;
-     
+
     }
-    
-}      
+    //redeploy
+}
