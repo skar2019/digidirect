@@ -19,6 +19,7 @@ class ProductEnquiry
 
     public function executeSync()
     {
+        exit;
         $this->helper->productSync();
     }
     public function execute()

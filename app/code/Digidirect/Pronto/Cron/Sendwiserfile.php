@@ -14,6 +14,7 @@ class Sendwiserfile
 
     public function execute()
     {
+        exit;
         $this->helper->sendFile();
     }
 }

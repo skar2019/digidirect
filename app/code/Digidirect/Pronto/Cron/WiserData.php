@@ -19,11 +19,13 @@ class WiserData
     }
     public function execute()
     {
+        exit;
         $this->helper->productData();
     }
 
     public function customFinalP()
     {
+        exit;
         $this->helper->customFinalPrice();
     }
 
