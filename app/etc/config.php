@@ -491,7 +491,7 @@ return [
         'Magento_NegotiableQuoteTemplateGraphQl' => 1,
         'Magento_NegotiableQuoteTemplateSharedCatalog' => 1,
         'Magento_NegotiableQuoteWeee' => 1,
-        'Magento_NewRelicReporting' => 1,
+        'Magento_NewRelicReporting' => 0,
         'Magento_Newsletter' => 1,
         'Magento_NewsletterGraphQl' => 1,
         'Magento_OfflinePayments' => 1,
