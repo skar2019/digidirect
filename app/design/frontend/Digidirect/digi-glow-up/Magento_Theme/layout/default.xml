@@ -29,6 +29,8 @@
         </referenceContainer>
         
         <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="form.subscribe" remove="true" />
+        <referenceBlock name="report.bugs" remove="true" />
         <referenceContainer name="footer">
             <container name="footer-links-wrapper" htmlTag="div" htmlClass="footer-content-block" after="footer_links">
                 <block class="Magento\Framework\View\Element\Template" name="footer-links" template="Magento_Theme::footer/footer-links.phtml"/>
