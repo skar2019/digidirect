@@ -15,6 +15,11 @@ a:hover {
     text-decoration: none;
 }
 
+.page-header .header.panel {
+    max-width: 1325px;
+    padding: 8px 0;
+}
+
 .panel.wrapper {
     background: #000;
 }
@@ -33,7 +38,7 @@ header.page-header {
 }
 
 .header-links a:not(:last-child) {
-    margin-right: 20px;
+    margin-right: 25px;
 }
 
 .header-links img {
@@ -46,11 +51,13 @@ header.page-header {
 
 .header.content {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 0;
+    padding: 15px 0;
+    max-width: 1325px;
 }
 
 .header.content > *:not(:last-child) {
-    margin-right: 50px;
+    //margin-right: 50px;
 }
 
 a.logo {
@@ -60,6 +67,8 @@ a.logo {
 div#algoliaAutocomplete {
     width: 100%;
     padding: 0;
+    max-width: 840px;
+    margin: 0 auto;
 }
 
 .minicart-wrapper {
@@ -69,7 +78,12 @@ div#algoliaAutocomplete {
 .aa-InputWrapper input {
     border-radius: 22px;
     padding: 3px 12px 7px 17px;
-    height: 33px;
+    height: 43px;
+}
+
+#algoliaAutocomplete .aa-SubmitButton {
+    height: 42px !important;
+    margin-right: 4px;
 }
 
 button.aa-SubmitButton {
@@ -80,9 +94,9 @@ button.aa-SubmitButton:before {
     content: 'Search';
     background: #ff3c00;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 400;
     color: #fff;
-    padding: 8px 33px;
+    padding: 10px 33px;
     border-radius: 21px;
     font-family: 'SF Pro';
 }
@@ -115,6 +129,10 @@ svg.aa-SubmitIcon {
 
 .minicart-wrapper a:not(:last-of-type) {
     margin-right: 26px;
+}
+
+.minicart-wrapper img {
+    display: block;
 }
 
 //Header
