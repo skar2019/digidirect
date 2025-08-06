@@ -3,6 +3,7 @@
     <head>
         <link src="Magento_Theme::js/footer.js"/>
         <link src="Magento_Theme::js/custom-footer.js"/>
+        <link src="Digidirect_HelloBar::js/hello-bar.js"/>
     </head>
     <body>
         <referenceContainer name="header.container">
