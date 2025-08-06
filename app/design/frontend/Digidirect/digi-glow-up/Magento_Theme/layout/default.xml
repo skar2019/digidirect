@@ -2,14 +2,14 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <link src="Magento_Theme::js/footer.js"/>
-        <link src="Digidirect_HelloBar::js/hello-bar.js"/>
+        <link src="Magento_Theme::js/custom-footer.js"/>
     </head>
     <body>
         <referenceContainer name="header.container">
             <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
                 <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
-                    <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>
-                    <block class="Magento\Framework\View\Element\Template" name="mobile-navigation-header" template="Magento_Theme::html/mobile-navigation-header.phtml"/>
+                    <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>  
+                    <block class="Magento\Framework\View\Element\Template" name="mobile-navigation-header" template="Magento_Theme::html/mobile-navigation-header.phtml"/>   
                 </container>
                 <container name="header.panel.hellobar" htmlClass="hellobar wrapper" htmlTag="div" before="navigation.menu">
                     <block class="Magento\Cms\Block\Block" name="hellobar.slider" >
@@ -17,11 +17,11 @@
                             <argument name="block_id" xsi:type="string">hello-bar</argument>
                         </arguments>
                     </block>
-                </container>
+            </container>
             </container>
 
         </referenceContainer>
-
+        
         <referenceBlock name="logo">
             <arguments>
                 <argument name="logo_file" xsi:type="string">images/digi-logo.svg</argument>
@@ -29,14 +29,14 @@
                 <argument name="logo_width" xsi:type="string">210</argument>
             </arguments>
         </referenceBlock>
-
+        
         <move element="minicart" destination="header-wrapper" after="top.search"/>
         <referenceBlock name="catalog.topnav" remove="true" />
-
+        
         <referenceContainer name="header.container">
-            <block class="Magento\Framework\View\Element\Template" name="navigation.menu" template="Magento_Theme::navigation-menu.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="megamenu" template="Magento_Theme::megamenu.phtml"/>
         </referenceContainer>
-
+        
         <referenceBlock name="footer_links" remove="true"/>
         <referenceBlock name="form.subscribe" remove="true" />
         <referenceBlock name="report.bugs" remove="true" />
@@ -45,6 +45,9 @@
                 <block class="Magento\Framework\View\Element\Template" name="footer-links" template="Magento_Theme::footer/footer-links.phtml"/>
             </container>
             <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="Magento_Theme::footer/footer-copyright.phtml" />
+        </referenceContainer>
+        <referenceContainer name="footer-container">
+            <block class="Magento\Framework\View\Element\Template" name="footer-black-gradient" template="Magento_Theme::footer/footer-black-gradient.phtml" after="-"/>
         </referenceContainer>
     </body>
 </page>
