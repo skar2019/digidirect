@@ -2,6 +2,7 @@ footer.page-footer {
     background: #171717;
     border-top-left-radius: 96px;
     border-top-right-radius: 96px;
+    position: relative;
 }
 
 .footer.content {
@@ -36,9 +37,9 @@ nav#footer_nav {
 }
 
 .footer-bottom {
-    margin-top: -30px;
-    position: relative;
+    position: absolute;
     z-index: 2;
+    bottom: 15px;
 }
 
 .footer-bottom * {
@@ -66,8 +67,8 @@ nav#footer_nav {
 }
 
 .footer-black-gradient {
-    margin-top: -105px;
     z-index: 2;
-    position: relative;
-    transition: opacity 0.5s ease;
+    transition: opacity .5s ease;
+    position: absolute;
+    bottom: 0;
 }
