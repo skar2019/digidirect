@@ -21,9 +21,9 @@
             $count = 0;
             if ($customerSession->isLoggedIn()) {
                 $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
+                ?><div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div><?php
             }
         ?>
-        <div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div>
     </a>
     <a class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>"
        data-bind="scope: 'minicart_content'">
