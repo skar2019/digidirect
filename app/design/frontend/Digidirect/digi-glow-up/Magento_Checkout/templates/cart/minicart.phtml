@@ -9,8 +9,21 @@
 ?>
 
 <div data-block="minicart" class="minicart-wrapper">
-    <a href="<?= $block->getUrl('wishlist') ?>">
+    <a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>"/> <span>Wishlist</span>
+        <!-- This doesn't work as of 2.4.+ --><?php /** echo $block->getChildHtml('minicart.wishlist.count'); */ ?>
+        <!-- Will temporarily use object manager -->
+        <?php
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
+            $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
+
+            $count = 0;
+            if ($customerSession->isLoggedIn()) {
+                $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
+            }
+        ?>
+        <div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div>
     </a>
     <a class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>"
        data-bind="scope: 'minicart_content'">
