@@ -1,7 +1,7 @@
-<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
+<li id="customer-info" class="checkout-customer-information" data-bind="fadeVisible: visible()">
     <div data-bind="fadeVisible: isShippingVisible">
-        <div class="step-title accordion-step active" data-bind="i18n: 'Shipping Information'" data-role="title" data-step="checkout-step-shipping"></div>
-        <div id="checkout-step-shipping"
+        <div class="step-title accordion-step active" data-bind="i18n: '1. Customer Information'" data-role="title" data-step="checkout-step-customerinfo"></div>
+        <div id="checkout-step-customerinfo"
              class="step-content"
              data-role="content">
 
@@ -11,38 +11,49 @@
                 <!--/ko-->
             <!--/ko-->
 
+        </div>
+    </div>
+</li>
+
+<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
+    <div data-bind="fadeVisible: isShippingVisible">
+        <div class="step-title accordion-step" data-bind="i18n: '2. Delivery or Click & Collect'" data-role="title" data-step="checkout-step-shipping"></div>
+        <div id="checkout-step-shipping"
+             class="step-content"
+             data-role="content">
+
             <!-- ko if: (isDefaultShipping) -->
-                <!-- ko foreach: getRegion('address-list') -->  
+            <!-- ko foreach: getRegion('address-list') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+
+            <!-- Address form pop up -->
+            <!-- ko if: (!isFormInline) -->
+            <button type="button"
+                    data-bind="attr: {title: $t('New Address')},click: showFormPopUp, visible: !isNewAddressAdded()"
+                    class="action action-show-popup">
+                <span data-bind="i18n: 'New Address'"></span></button>
+            <div id="opc-new-shipping-address" data-bind="visible: isFormPopUpVisible()">
+                <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
+            </div>
+            <!-- /ko -->
+
+            <!-- ko foreach: getRegion('address-list-additional-addresses') -->
+            <div class="fieldset">
                 <!-- ko template: getTemplate() --><!-- /ko -->
-                <!--/ko-->
+            </div>
+            <!--/ko-->
 
-                <!-- Address form pop up -->
-                <!-- ko if: (!isFormInline) -->
-                <button type="button"
-                        data-bind="attr: {title: $t('New Address')},click: showFormPopUp, visible: !isNewAddressAdded()"
-                        class="action action-show-popup">
-                    <span data-bind="i18n: 'New Address'"></span></button>
-                <div id="opc-new-shipping-address" data-bind="visible: isFormPopUpVisible()">
-                    <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
-                </div>
-                <!-- /ko -->
+            <!-- ko foreach: getRegion('before-form') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
 
-                <!-- ko foreach: getRegion('address-list-additional-addresses') -->
-                <div class="fieldset">
-                    <!-- ko template: getTemplate() --><!-- /ko -->
-                </div>
-                <!--/ko-->
-
-                <!-- ko foreach: getRegion('before-form') -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
-                <!--/ko-->
-
-                <!-- Inline address form -->
-                <!-- ko if: (isFormInline || addressFormWhatever()) -->
-                    <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
-                        <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
-                    </div>
-                <!-- /ko -->
+            <!-- Inline address form -->
+            <!-- ko if: (isFormInline || addressFormWhatever()) -->
+            <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
+                <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
+            </div>
+            <!-- /ko -->
             <!--/ko-->
         </div>
     </div>
@@ -102,25 +113,25 @@
 
                             <span class="col col-method"
                                     data-bind="text: method.method_title + ' *', attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></span>
-                            
+
                             <!-- ko if: ((method.carrier_code == 'express') || (method.carrier_code == 'nextdaydelivery')) -->
                                 <span> ** ***</span>
                             <!-- /ko -->
-                            
+
                             <!-- ko if: (method.carrier_code == 'AP') -->
                                 <span> ****</span>
                             <!-- /ko -->
-                            
+
                             <strong class="col col-price">
                                 <!-- ko foreach: $parent.getRegion('price') -->
                                 <!-- ko template: getTemplate() --><!-- /ko -->
                                 <!-- /ko -->
                             </strong>
-                            
+
                             <!-- ko if: ((method.carrier_code == 'standard' && method.price_excl_tax == 20) || (method.carrier_code == 'express' && method.price_excl_tax == 35) || (method.carrier_code == 'AP' && method.price_excl_tax == 41) || (method.carrier_code == 'AP' && method.price_excl_tax == 69) || (method.carrier_code == 'nextdaydelivery' && method.price_excl_tax == 45)) -->
                                 <span> ***</span>
                             <!-- /ko -->
-                            
+
                         </li>
 
                         <!-- ko if:  method.carrier_code == 'collect'  -->
@@ -156,7 +167,7 @@
                         <!-- /ko -->
                     </span>
                 </div>
-                
+
                 <!-- ko foreach: getRegion('before-shipping-method-form') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!-- /ko -->
@@ -183,7 +194,7 @@
             <!-- ko ifnot: rates().length > 0 --><div data-bind="css: 'no-quotes-block ' + methodListClasses()"><!-- ko i18n: 'Sorry, no quotes are available for this order at this time'--><!-- /ko --></div><!-- /ko -->
         </div>
     </div>
-    
+
     <div class="action-extension-toolbar">
         <div class="primary">
             <button id="shipping-button-extension" class="extension-action button continue primary" type="button">
@@ -191,5 +202,5 @@
             </button>
         </div>
     </div>
-    
+
 </li>

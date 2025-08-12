@@ -75,15 +75,30 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 let city = $('[name="city"]').val();
                 let postcode = $('[name="postcode"]').val();
 
-                if(username != ""
-                    && firstname != ""
-                   && lastname != ""
-                   && telephone != ""
-                   && street != ""
-                   && city != ""
-                   && postcode != ""){
+                //create logic for new step class checkout-customer-information
 
-                   var target = $('.checkout-shipping-address');
+                if(username != ""){
+
+                   var target = $('.checkout-customer-information');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+
+                        $(".checkout-customer-information .accordion-step").removeClass("active");
+                        $(".checkout-customer-information .step-content").fadeOut("slow", "swing");
+
+                        return false;
+                    }
+                }
+                else if(firstname != ""
+                    && lastname != ""
+                    && telephone != ""
+                    && street != ""
+                    && city != ""
+                    && postcode != ""){
+
+                    var target = $('.checkout-shipping-address');
                     if (target.length) {
                         $('html,body').animate({
                             scrollTop: target.offset().top
@@ -149,90 +164,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 $(".order-trigger").trigger("click");
             });
 
-            $(window).load(function() {
-                var checkExist = setInterval(function() {
-                    if ($("#qff_number").length) {
-                        clearInterval(checkExist);
 
-
-                        $("body").on("focus", "#qff-form input[type=text]", function(){
-                            var target = $('.checkout-payment-method');
-                            if (target.length) {
-                                $('html,body').animate({
-                                    scrollTop: target.offset().top
-                                }, 1000);
-
-                                $(".checkout-payment-method .accordion-step").removeClass("active");
-                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
-
-                                return false;
-                            }
-                        });
-
-                        $("body").on("focus", ".order-comment", function(){
-                            var target = $('.checkout-payment-method');
-                            if (target.length) {
-                                $('html,body').animate({
-                                    scrollTop: target.offset().top
-                                }, 1000);
-
-                                $(".checkout-qantas-wrapper .accordion-step").removeClass("active");
-                                $(".checkout-qantas-wrapper .step-content").fadeOut("slow", "swing");
-
-                                $(".checkout-payment-method .accordion-step").removeClass("active");
-                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
-
-                                return false;
-                            }
-                        });
-
-                        $("#qff-trigger").click(function(e)
-                        {
-                            if($(".checkout-payment-method").length > 0){
-                                $(".checkout-payment-method .accordion-step").removeClass("active");
-                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
-                            }
-
-                            if(qff_error.length > 0){
-                                qff_error.remove();
-                            }
-                            if($(".qff-link-success").length > 0){
-                               $(".qff-link-success").remove();
-                            }
-
-                            if($("#qff-trigger").attr("data-action") == "link"){
-                                var action = "update";
-
-                                $(".qff-link-error").remove();
-
-                                if(qff_number.val() == ""
-                                || qff_lastname.val() == ""){
-                                    var error_message = "<span class='qff-link-error'>Please enter the correct details.</span>";
-                                    $(error_message).insertAfter(qff_lastname);
-                                }
-                                else{
-                                    if(login_state){
-                                        var action_url = "/customer/account/editpost";
-                                    }
-                                    else{
-                                        var action_url = "/customer/index/qffaction";
-                                    }
-
-                                    verifyQffDetails(action, action_url);
-                                }
-
-                                e.preventDefault();
-                            }
-                            else{
-                                qff_number.attr("readonly", false);
-                                qff_lastname.attr("readonly", false);
-                                qff_trigger.attr("data-action", "link");
-                                qff_trigger.html("<span>Validate</span>");
-                            }
-                        });
-                    }
-                 }, 100);
-            });
         });
     </script>
     <!--End-->

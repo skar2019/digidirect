@@ -55,58 +55,81 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="firstname" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-half</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-half pdr10</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">First Name *</item>
                                                                     </item>
                                                                 </item>
                                                                 <item name="lastname" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-half</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Last Name *</item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="company" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Company (Optional)</item>
                                                                     </item>
                                                                 </item>
                                                                 <item name="unit_number" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">unit-number</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Unit Number</item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="street" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="0" xsi:type="array">
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="placeholder" xsi:type="string" translate="true">Street Address</item>
+                                                                            </item>
+                                                                        </item>
+
                                                                     </item>
                                                                 </item>
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-half</item>
-                                                                    </item>
-                                                                    <item name="sortOrder" xsi:type="string">78</item>
-                                                                </item>
-                                                                <item name="region" xsi:type="array">
-                                                                    <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-region</item>
-                                                                    </item>
-                                                                    <item name="sortOrder" xsi:type="string">80</item>
-                                                                </item>
-                                                                <item name="region_id" xsi:type="array">
-                                                                    <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-region</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-half pdr10</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Suburb *</item>
                                                                     </item>
                                                                     <item name="sortOrder" xsi:type="string">78</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-postcode</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-postcode -half</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Post Code * </item>
                                                                     </item>
                                                                     <item name="sortOrder" xsi:type="string">78</item>
                                                                 </item>
-                                                                <item name="country_id" xsi:type="array">
+                                                                <item name="region" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-half -country</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-region -half</item>
                                                                     </item>
-                                                                    <item name="sortOrder" xsi:type="string">90</item>
+                                                                    <item name="sortOrder" xsi:type="string">80</item>
                                                                 </item>
+                                                                <item name="region_id" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="additionalClasses" xsi:type="string">-region -half pdr10</item>
+                                                                    </item>
+                                                                    <item name="sortOrder" xsi:type="string">78</item>
+                                                                </item>
+
                                                                 <item name="telephone" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="tooltip" xsi:type="boolean">false</item>
-                                                                        <item name="additionalClasses" xsi:type="string">-half -telephone</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-telephone -half</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Phone Number</item>
                                                                     </item>
                                                                     <item name="validation" xsi:type="array">
                                                                         <item name="validate-number" xsi:type="boolean">true</item>
                                                                         <item name="required-entry" xsi:type="boolean">true</item>
                                                                     </item>
+                                                                </item>
+
+                                                                <item name="country_id" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="additionalClasses" xsi:type="string">-country</item>
+                                                                    </item>
+                                                                    <item name="sortOrder" xsi:type="string">90</item>
                                                                 </item>
                                                             </item>
                                                         </item>

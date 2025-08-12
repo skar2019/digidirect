@@ -1,0 +1,153 @@
+.checkout-payment-method {
+    display: block !important;
+}
+
+.opc-wrapper {
+    .form-login, .form-shipping-address {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .field {
+        padding: 7px 0px;
+    }
+
+    .fieldset {
+        border: 1px solid #fff;
+        border-radius: 25px;
+        background: #fff;
+        padding: 40px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        .field {
+            margin: 0 !important;
+        }
+    }
+
+    .control {
+        width: 100% !important;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        font-size: 14px;
+        height: 40px;
+        color: #1D1D1F;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    radio {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-bottom: 15px;
+        height: 10px;
+
+        &:focus {
+            border-color: @color-orange;
+            outline: none;
+        }
+    }
+
+    .step-title {
+        color: #242426 !important;
+        font-size: 18px !important;
+        border-bottom: 0 !important;
+        padding-bottom: 0px !important;
+        font-weight: 600 !important;
+    }
+
+    .field.-half {
+        display: inline-block;
+        width: 50%;
+    }
+    .field.pdr10 {
+        padding-right: 10px;
+    }
+
+    .field.-half + .field.-half {
+        float: right;
+    }
+
+    .fieldset .field .label {
+        display: none !important;
+    }
+    //not yet in use
+    .actions-toolbar {
+        display: flex;
+        gap: 10px;
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            border: none;
+
+            &.primary {
+                background-color: @color-orange;
+                color: white;
+                border: 1px solid @color-orange;
+
+                &:hover {
+                    background-color: darken(@color-orange, 5%);
+                }
+            }
+
+            &.secondary {
+                background-color: white;
+                color: @color-orange;
+                border: 1px solid @color-orange;
+
+                &:hover {
+                    background-color: lighten(@color-orange, 45%);
+                }
+            }
+        }
+    }
+
+    .checkout-payment {
+        border: 1px solid @color-orange;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Credit card info section */
+.credit-card-info {
+    margin-top: 20px;
+
+    .section-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .checkout-payment {
+        padding: 15px;
+
+        .actions-toolbar {
+            flex-direction: column;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+/* Define your color variable */
+@color-orange: #f26522;
+
