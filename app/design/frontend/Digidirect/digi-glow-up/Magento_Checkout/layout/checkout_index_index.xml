@@ -38,6 +38,16 @@
                                         <item name="componentDisabled" xsi:type="boolean">true</item>
                                     </item>
                                 </item>
+                                <item name="progressBar" xsi:type="array">
+                                    <item name="config" xsi:type="array">
+                                        <item name="componentDisabled" xsi:type="boolean">true</item>
+                                    </item>
+                                </item>
+                                <item name="authentication" xsi:type="array">
+                                    <item name="config" xsi:type="array">
+                                        <item name="componentDisabled" xsi:type="boolean">true</item>
+                                    </item>
+                                </item>
                                 <item name="steps" xsi:type="array">
                                     <item name="children" xsi:type="array">
                                         <item name="shipping-step" xsi:type="array">
@@ -212,6 +222,10 @@
                                                             </item>
                                                         </item>
                                                     </item>
+                                                    <item name="sortOrder" xsi:type="string">10</item>
+                                                </item>
+                                                <item name="cart_items" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="string">0</item>
                                                 </item>
                                                 <item name="itemsAfter" xsi:type="array">
                                                     <item name="children" xsi:type="array">

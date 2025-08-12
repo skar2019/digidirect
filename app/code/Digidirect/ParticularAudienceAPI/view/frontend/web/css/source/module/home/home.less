@@ -196,7 +196,30 @@ and open the template in the editor.
     }
     
     .pa-digidirect-product-widget .product-image-container {
-        display: unset;
+        height: 226px;
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 35px;
+        padding-bottom: 35px;
+        background: white;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        display: flex;
+    }
+    
+    .pa-digidirect-product-widget .product.details.product-item-details {
+        align-self: stretch;
+        padding: 12px;
+        background: #FBFBFB;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        display: flex;
     }
 
     .pa-digidirect-product-widget .product-image-wrapper {
@@ -222,12 +245,13 @@ and open the template in the editor.
         width: unset !important;
         margin-left: 0;
         margin-right: 0;
-        border-radius: 5px;
+        border-radius: 20px;
         height: unset !important;
-        border: 1px solid #cacaca;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.10);
         margin-top: 0;
         position: relative;
         margin-bottom: 48px;
+        background: #fff;
     }
     
     .pa-digidirect-product-widget .product-item-info.product-item:hover {

@@ -4,16 +4,17 @@
  * See COPYING.txt for license details.
  */
 -->
+<span class="item-count">(<translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
+        <translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
+        <span data-bind="text: getCartLineItemsCount()"></span>
+        <translate args="'Item'" if="getCartLineItemsCount() === 1"></translate>
+        <translate args="'Items'" if="getCartLineItemsCount() > 1"></translate>)</span>
+
+<a class="action viewcart" data-bind="attr: {href: cartUrl}">
+    <span data-bind="i18n: 'Edit Cart'"></span>
+</a>
+
 <div class="items-in-cart active" data-bind="mageInit: {'collapsible':{'openedState': 'active', 'active': true}}">
-    <div class="title" data-role="title">
-        <strong role="heading">
-            <translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
-            <translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
-            <span data-bind="text: getCartLineItemsCount()"></span>
-            <translate args="'Item'" if="getCartLineItemsCount() === 1"></translate>
-            <translate args="'Item(s)'" if="getCartLineItemsCount() > 1"></translate>
-        </strong>
-    </div>
     <div class="content minicart-items" data-role="content">
         <div class="minicart-items-wrapper overflowed">
             <ol class="minicart-items">
