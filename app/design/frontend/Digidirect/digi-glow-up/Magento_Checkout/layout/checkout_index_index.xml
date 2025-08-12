@@ -213,12 +213,7 @@
                                                     <item name="children" xsi:type="array">
                                                         <item name="subtotal" xsi:type="array">
                                                             <item name="config" xsi:type="array">
-                                                                <item name="title" xsi:type="string" translate="true">Subtotal</item>
-                                                            </item>
-                                                        </item>
-                                                        <item name="grand-total" xsi:type="array">
-                                                            <item name="config" xsi:type="array">
-                                                                <item name="title" xsi:type="string" translate="true">Grand Total (Incl. GST)</item>
+                                                                <item name="title" xsi:type="string" translate="true">Sub Total</item>
                                                             </item>
                                                         </item>
                                                     </item>
