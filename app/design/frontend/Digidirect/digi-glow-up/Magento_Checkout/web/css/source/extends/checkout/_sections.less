@@ -151,3 +151,129 @@
 /* Define your color variable */
 @color-orange: #f26522;
 
+/**** Payment Information Start ****/
+
+#co-payment-form {
+    .step-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        color: #1c1c1c;
+
+        &.accordion-step.active {
+            padding-bottom: 40px !important;
+        }
+    }
+
+    .checkout-payment-method {
+        .payment-option-title {
+            border: none !important;
+        }
+    }
+
+    .payment-group {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 32px;
+    }
+
+    .payment-method {
+        border: 1px solid #D9D9D9;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        transition: border-color 0.3s, background-color 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #007bff;
+            background-color: #f9fbff;
+        }
+
+        &._active {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+
+        &-title {
+            &.field.choice {
+                display: flex;
+                align-items: center;
+                flex: 1;
+            }
+
+            .radio {
+                transform: scale(0.6);
+                cursor: pointer;
+                margin-right: 10px;
+                accent-color: #0070f3;
+                width: 40px !important;
+            }
+
+            .label {
+                display: flex !important;
+                align-items: center;
+                cursor: pointer;
+                gap: 12px;
+                font-size: 14px;
+                font-weight: 700;
+                color: #1D1D1F;
+                margin-right: auto;
+            }
+        }
+
+        &-content {
+            .actions-toolbar {
+                margin-top: 24px;
+            }
+
+            .action.checkout {
+                background-color: #ff4c00;
+                color: white;
+                font-size: 16px;
+                font-weight: 600;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 6px;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: #e04300;
+                }
+            }
+
+            .messages {
+                margin-top: 12px;
+            }
+        }
+    }
+
+    .payment-icon {
+        max-height: 24px;
+        max-width: 60px;
+        object-fit: contain;
+        display: flex;
+        gap: 10px;
+
+        img {
+            height: 24px;
+            width: auto;
+            display: block;
+        }
+    }
+}
+/*
+.payment-method-title input {
+    width: 40px !important;
+}
+
+.payment-method-title  .fieldset .field .label {
+    display: block !important;
+}*/
+
+
+/**** Payment Information End ****/
