@@ -44,15 +44,18 @@
 /*** checkout page header bar end ***/
 
 /*** checkout page help bar start ***/
-.checkout-index-index .help-bar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+.checkout-index-index .help-bar-white {
     background: #ffffff;
-    padding: 8px 24px;
-    margin-left: 245px;
-    max-width: 1344px;
+
+    .help-bar-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 8px 24px;
+        margin-left: 245px;
+        max-width: 1344px;
+    }
 
     .contact-options {
         display: flex;
@@ -95,11 +98,12 @@
             font-weight: 700;
         }
     }
+
+    hr {
+        margin-top: 0px !important;
+    }
 }
 
-.checkout-index-index .help-bar-border {
-    border-bottom: 1px solid #E5E5EA;
-}
 /**** checkout help bar end ***/
 
 /**** checkout signin start ***/
@@ -215,7 +219,9 @@
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 #opc-sidebar .product-item {
