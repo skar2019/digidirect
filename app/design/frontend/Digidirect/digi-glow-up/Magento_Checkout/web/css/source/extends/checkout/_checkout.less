@@ -46,6 +46,7 @@
 /*** checkout page help bar start ***/
 .checkout-index-index .help-bar-white {
     background: #ffffff;
+    border-bottom: 1px solid #E5E5EA;;
 
     .help-bar-content {
         display: flex;
@@ -99,9 +100,9 @@
         }
     }
 
-    hr {
+   /*hr {
         margin-top: 0px !important;
-    }
+    }*/
 }
 
 /**** checkout help bar end ***/
@@ -171,7 +172,7 @@
 }
 
 .opc-block-summary {
-    display: block;
+   // display: block;
     border-radius: 30px;
     padding: 20px 20px !important;
     margin:auto !important;
@@ -219,9 +220,10 @@
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
-    max-height: none;
+    /*max-height: none;
     overflow-y: hidden;
-    overflow-x: hidden;
+    overflow-x: hidden;*/
+    overflow-y: auto;
 }
 
 #opc-sidebar .product-item {
@@ -346,7 +348,23 @@
     font-size: 14px;
 }
 
-.totals opc-block-summary paymentfee {
-    padding-left: 0px !important;
+.opc-block-summary .items-in-cart {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 15%) transparent;
 }
+
+.opc-block-summary .items-in-cart::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+/* Chrome, Edge, Safari */
+.opc-block-summary .items-in-cart::-webkit-scrollbar-button:vertical:increment,
+.opc-block-summary .items-in-cart::-webkit-scrollbar-button:vertical:decrement {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
 /**** order summary end ****/
