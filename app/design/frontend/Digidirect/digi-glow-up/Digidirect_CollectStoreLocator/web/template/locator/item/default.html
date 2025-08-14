@@ -8,19 +8,16 @@
         <!-- ko ifnot: (available)-->
         <span class="name"><!-- ko text: name --><!-- /ko --> <!-- ko if: entity_id == 35 --><span>* (Monday to Friday only)</span><!--/ko--></span>
         <!-- /ko -->
-    </div>
-    <div class="item -address">
-        <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-building"></use>
-            </svg>
-        </span>
-        <address class="address">
+        <span><address class="address">
             <!-- ko text: street --><!-- /ko -->,
             <!-- ko text: city --><!-- /ko -->
             <!-- ko text: state --><!-- /ko -->
             <!-- ko text: postcode --><!-- /ko -->
-        </address>
+        </address></span>
+    </div>
+    <div class="item -address">
+
+
 
     </div>
     <!-- ko if: entity_id == 16 -->

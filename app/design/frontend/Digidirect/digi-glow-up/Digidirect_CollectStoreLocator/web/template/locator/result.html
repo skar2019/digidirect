@@ -1,11 +1,12 @@
 <!-- ko if: locationsList().length -->
 
-<div id="pickup-available" class="store-section pickup-available" style="margin-bottom: 50px;">
-    <div class="title-cc">SELECT A STORE TO COLLECT YOUR ORDER</div>
+<div id="pickup-available" class="store-section pickup-available">
+
     <div class="description-cc">
-        <p style="color: #ff3c00;font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
+        <p style="font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
         <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-        <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span> We will endeavour to send you this email between <b style="color: #ff3c00;">1-4 hours</b>.</p>
+        <p style="font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</p>
+        <p>We will endeavour to send you this email between <b>1-4 hours</b>.</p>
     </div>
     <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
@@ -20,11 +21,11 @@
 </div>
 
 <div id="pickup-unavailable" class="store-section pickup-unavailable" style="margin-bottom: 50px;">
-    <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
+    <div class="title-cc">or Deliver to Local Store for Click & Collect </div>
     <div class="description-cc">
-        <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within <b style="color: #ff3c00;">24-72 hours</b> for you to collect from your chosen location.</p>
+        <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within 24-72 hours for you to collect from your chosen location.</p>
         <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-        <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span></p>
+        <p>Remember to wait for a notification email that tells you that your order is ready for pick-up.</p>
     </div>
     <div class="title-cc title-cc-unavailable" style="display: none;">DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
     <div class="description-cc description-cc-unavailable" style="display: none;">
