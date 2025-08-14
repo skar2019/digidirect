@@ -207,6 +207,9 @@
 @color-orange: #f26522;
 
 /**** Payment Information Start ****/
+#checkout-step-payment {
+    padding-top: 20px !important;
+}
 
 #co-payment-form {
     .step-title {
@@ -220,24 +223,17 @@
         }
     }
 
-    .checkout-payment-method {
-        .payment-option-title {
-            border: none !important;
-        }
-    }
-
     .payment-group {
         background-color: #ffffff;
         border-radius: 12px;
         padding: 24px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
         margin-bottom: 32px;
     }
 
     .payment-method {
         border: 1px solid #D9D9D9;
         border-radius: 8px;
-        padding: 16px 20px;
+        padding: 5px;
         margin-bottom: 16px;
         display: flex;
         align-items: center;
@@ -255,6 +251,8 @@
         }
 
         &-title {
+            border-top: none !important;
+
             &.field.choice {
                 display: flex;
                 align-items: center;
@@ -273,11 +271,12 @@
                 display: flex !important;
                 align-items: center;
                 cursor: pointer;
-                gap: 12px;
                 font-size: 14px;
                 font-weight: 700;
                 color: #1D1D1F;
                 margin-right: auto;
+                width: 100%;
+                justify-content: space-between;
             }
         }
 
@@ -305,6 +304,10 @@
                 margin-top: 12px;
             }
         }
+
+        input, select {
+            width: 40px !important;
+        }
     }
 
     .payment-icon {
@@ -321,14 +324,129 @@
         }
     }
 }
-/*
-.payment-method-title input {
-    width: 40px !important;
+.checkout-payment-method .payment-option-title {
+        border-top: none !important;
 }
 
-.payment-method-title  .fieldset .field .label {
-    display: block !important;
-}*/
+.checkout-payment-method .payment-option-title .action-toggle {
+    color: #1D1D1F !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2px;
+}
 
+.checkout-payment-method #block-discount-heading span {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #1D1D1F !important;
+}
+
+.paypal-method-wrapper .label::after {
+    content: "";
+    width: 150px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url('@{baseDir}images/checkout/paypal.png');
+}
+
+.payment-method-braintree .label::after {
+    content: "";
+    width: 240px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url('@{baseDir}images/checkout/credit-card.png');
+}
+
+
+.checkout-index-index .afterpay .label::after {
+    content: "AfterPay" !important;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.checkout-index-index .afterpay .choice::after {
+    content: "";
+    width: 200px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('@{baseDir}images/checkout/afterpay.png');
+}
+
+.checkout-index-index .afterpay square-placement {
+    display: none !important;
+}
+
+#method-latitude .latitude-icon {
+    display: none !important;
+}
+.checkout-index-index #method-latitude label::after {
+    content: "";
+    width: 200px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    vertical-align: middle;
+    background-image: url('@{baseDir}images/checkout/latitude.png');
+}
+
+.payment-group .payment-method:has(#checkmo) {
+    display: none;
+}
+
+.payment-group .payment-method:has(#paypal_express) {
+    display: none;
+}
+
+.checkout-index-index .latipay-title::after {
+    display: none !important;
+}
+
+.checkout-index-index .payment-method:has(#latipay)  label::after {
+    content: "";
+    width: 300px;
+    height: 40px;
+    background-size: contain;
+    background-image: url('@{baseDir}images/checkout/latipay.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+
+.checkout-index-index  .zipmoney .choice::after {
+    content: "";
+    display: inline-block;
+    width: 90px;
+    height: 40px;
+    margin-right: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url('@{baseDir}images/checkout/zip.png');
+
+}
+.checkout-index-index .zipmoney .zip-checkout-icon {
+    display: none !important;
+}
+
+.checkout-index-index .payment-method:has(#banktransfer) .label::after {
+    content: "";
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url('@{baseDir}images/checkout/bank-transfer.png');
+
+}
 
 /**** Payment Information End ****/
