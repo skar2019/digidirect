@@ -5,7 +5,7 @@
  */
 -->
 <li id="payment" role="presentation" class="checkout-payment-method" data-bind="fadeVisible: isVisible">
-    <div class="step-title accordion-step active" data-bind="i18n: 'Payment Information'" data-role="title" data-step="checkout-step-payment"></div>
+    <div class="step-title accordion-step active" data-bind="i18n: '4. Payment'" data-role="title" data-step="checkout-step-payment"></div>
     <div id="checkout-step-payment"
          class="step-content"
          data-role="content"
@@ -16,7 +16,7 @@
                 <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         <!--/ko-->
-        
+
         <form id="co-payment-form" class="form payments" novalidate="novalidate">
             <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
             <fieldset class="fieldset">
@@ -31,7 +31,7 @@
                 <div class="no-quotes-block" data-bind="visible: isPaymentMethodsAvailable() == false">
                     <!-- ko i18n: 'No Payment method available.'--><!-- /ko -->
                 </div>
-                
+
             </fieldset>
         </form>
     </div>
@@ -49,7 +49,7 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- /ko -->
     </div>
-    
+
     <div class="action-extension-toolbar">
         <div class="primary">
             <button id="payment-button-extension" class="extension-action button continue primary" type="button">

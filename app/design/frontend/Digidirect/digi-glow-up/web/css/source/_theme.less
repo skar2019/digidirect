@@ -71,6 +71,12 @@ a.product-item-link {
 
 strong.product-item-name {
     height: 42px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .product-item .old-price .price {
@@ -103,4 +109,8 @@ strong.product-item-name {
 
 .product-item .price-box {
     margin: 0;
+}
+
+.owl-carousel.custom .owl-stage-outer {
+    margin-right: -270px;
 }
