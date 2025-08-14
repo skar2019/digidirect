@@ -126,7 +126,7 @@
                                                                 <item name="telephone" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="tooltip" xsi:type="boolean">false</item>
-                                                                        <item name="additionalClasses" xsi:type="string">-telephone -half</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-telephone</item>
                                                                         <item name="placeholder" xsi:type="string" translate="true">Phone Number</item>
                                                                     </item>
                                                                     <item name="validation" xsi:type="array">
@@ -137,7 +137,7 @@
 
                                                                 <item name="country_id" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">-country</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-country -half</item>
                                                                     </item>
                                                                     <item name="sortOrder" xsi:type="string">90</item>
                                                                 </item>
