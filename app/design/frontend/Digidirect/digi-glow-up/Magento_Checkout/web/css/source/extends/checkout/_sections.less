@@ -248,6 +248,11 @@
         &._active {
             border-color: #007bff;
             background-color: #f0f8ff;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Optional: aligns contents to the left */
+            gap: 10px; /* Optional: spacing between title and content */
         }
 
         &-title {
@@ -257,6 +262,9 @@
                 display: flex;
                 align-items: center;
                 flex: 1;
+                flex-direction: row;
+                gap: 10px;
+                width: 100%;
             }
 
             .radio {
@@ -324,6 +332,13 @@
         }
     }
 }
+
+.checkout-payment-method .payment-method._active .payment-method-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .checkout-payment-method .payment-option-title {
         border-top: none !important;
 }
@@ -449,4 +464,42 @@
 
 }
 
+#co-payment-form {
+    .opc-wrapper {
+        input, select{
+            border: 1px solid #D9D9D9;
+        }
+    }
+
+    input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px !important;
+        height: 17px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        background-color: white;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    input[type="checkbox"]:checked {
+        background-color: #000000;
+    }
+
+    input[type="checkbox"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 8px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+}
 /**** Payment Information End ****/
