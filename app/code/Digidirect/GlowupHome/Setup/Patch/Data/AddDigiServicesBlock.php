@@ -96,7 +96,7 @@ class AddDigiServicesBlock implements DataPatchInterface
  <div class="digiservice-card digiservice-card-club">
         <img src="{{media url='wysiwyg/glowup-digiservices/8.png'}}" alt="digiClub" />
         <div class="digicard-body">
-          <div class="digicard-header"><h1><span class="digi-orange-text">digi</span><span class="digi-black-text" >Club</span></h1><a href="#" class="btn orange">join</a></div>
+          <div class="digicard-header"><h1><span class="digi-orange-text">digi</span><span class="digi-black-text" >Club</span><span class="registered">®</span></h1><a href="#" class="btn orange">join</a></div>
           <p>And unlock ultimate benefits.</p>
         </div>
       </div>
@@ -128,7 +128,7 @@ class AddDigiServicesBlock implements DataPatchInterface
       <div class="digiservice-card digiservice-card-protect">
         <img src="{{media url='wysiwyg/glowup-digiservices/9.png'}}" alt="digiProtect" />
         <div class="digicard-body">
-          <div class="digicard-header"><h1><span class="digi-orange-text">digi</span><span class="digi-black-text" >Protect</span></h1><a href="#" class="btn orange">Learn More</a></div>
+          <div class="digicard-header"><h1><span class="digi-orange-text">digi</span><span class="digi-black-text" >Protect</span><span class="registered">®</span></h1><a href="#" class="btn orange">Learn More</a></div>
           <p>Will add up to 3 years beyond the manufacturer's warranty.</p>
         </div>
       </div>
