@@ -5,19 +5,20 @@
 .hellobar-slider {
     color: #676767;
     text-align: center;
-    padding: 10px 20px;
+    //padding: 10px 20px;
     font-family: 'SF Pro', sans-serif;
     overflow: hidden;
     position: relative;
-    font-size: 14px;
+    font-size: 12.3px;
     font-weight: 400;
-    min-height: 30px;
+    height: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1325px;
     margin-left: auto;
     margin-right: auto;
+    letter-spacing: 0.1px;
 
     .hellobar-slides {
         flex: 1;
@@ -40,8 +41,12 @@
         a {
             color: #FE5E3B;
             text-decoration: none;
-            font-weight: 510;
+            font-weight: 400;
             margin-left: 4px;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
 
         b {

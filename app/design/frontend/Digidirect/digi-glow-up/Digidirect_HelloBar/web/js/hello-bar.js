@@ -23,7 +23,6 @@ require(['jquery'], function($) {
             dotsHtml += `<span class="hellobar-dot" data-index="${index}"></span>`;
         });
         $('.hellobar-slider').append(`<div class="hellobar-dots">${dotsHtml}</div>`);
-        $('.hellobar-dot').eq(current).addClass('active');
 
         $('.hellobar-slider').on('click', '.hellobar-dot', function() {
             current = parseInt($(this).data('index'));
