@@ -891,8 +891,8 @@ require(['jquery'], function ($) {
         <div class="home-main-banner-left">
             <?php if ($isDigiClub) :?>
                 <!-- Add "-digiclub" at the end of the blockId show digiClub blocks -->
-                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
-                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner-digiclub')->toHtml(); ?>
+                <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner-digiclub')->toHtml(); ?>
             <?php else : ?> 
                 <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-web-banner')->toHtml(); ?>
                 <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mobile-single-banner')->toHtml(); ?>
