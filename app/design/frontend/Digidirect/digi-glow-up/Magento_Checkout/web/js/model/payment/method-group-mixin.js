@@ -15,7 +15,7 @@ define([
         return target.extend({
             defaults: {
                 alias: DEFAULT_GROUP_ALIAS,
-                title: $t('Payment Information'),
+                title: $t('Payment Option'),
                 sortOrder: 100,
                 displayArea: 'payment-methods-items-${ $.alias }'
             }
