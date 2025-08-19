@@ -311,7 +311,7 @@ class Product
 
         if($product->getAwaitingProduct())
         {
-            $availability = 'InStock';
+            $availability = 'OutOfStock';
         }
         else {
             if ($product->isAvailable()) {
