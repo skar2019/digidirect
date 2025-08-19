@@ -5,49 +5,48 @@
 .hellobar-slider {
     color: #676767;
     text-align: center;
-    padding: 10px 20px;
+    //padding: 10px 20px;
     font-family: 'SF Pro', sans-serif;
     overflow: hidden;
     position: relative;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    min-height: 16px;
+    height: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1325px;
     margin-left: auto;
     margin-right: auto;
+    letter-spacing: 0.1px;
 
     .hellobar-slides {
         flex: 1;
         text-align: left;
-        position: relative;
     }
 
     .hellobar-slide {
         display: none;
         line-height: 1.4;
         text-align: center;
-        transform: translateY(-50%);
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        left: 0;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        animation: fadeInOut 5s ease-in-out;
 
         &.active {
             display: block;
-        }
-
-        &.animate-in-out {
-            animation: slideInOut 2.5s linear forwards;
+            opacity: 1;
         }
 
         a {
             color: #FE5E3B;
             text-decoration: none;
-            font-weight: 510;
+            font-weight: 400;
             margin-left: 4px;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
 
         b {
@@ -75,23 +74,11 @@
             }
         }
     }
-}
 
-@keyframes slideInOut {
-    0% {
-        transform: translateY(-150%);
-        opacity: 0;
-    }
-    20% {
-        transform: translateY(-50%);
-        opacity: 1;
-    }
-    80% {
-        transform: translateY(-50%);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(50%);
-        opacity: 0;
+    @keyframes fadeInOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { opacity: 0; }
     }
 }
