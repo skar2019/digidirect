@@ -16,6 +16,7 @@
 
 & when (@media-common = true) {
     .opc-wrapper {
+        &.-hide-methods .checkout-shipping-method,
         &.-hide-methods .checkout-shipping-method .step-title,
         &.-hide-methods .checkout-shipping-method .table-checkout-shipping-method {
             .lib-css(display, @collect-checkout-shipping-method-hide-methods__display);
