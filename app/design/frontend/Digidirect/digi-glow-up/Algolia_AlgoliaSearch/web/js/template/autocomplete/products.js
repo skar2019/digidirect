@@ -20,9 +20,11 @@ define([], function () {
                            data-position="${item.position}"
                            data-index="${item.__autocomplete_indexName}"
                            data-queryId="${item.__autocomplete_queryID}">
-                <div class="thumb"><img src="${item.thumbnail_url || ''}" alt="${item.name || ''}"/></div>
+                <div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
                 <div class="info">
-                    ${this.safeHighlight(components, item, "name")}
+                    <div class="algoliasearch-autocomplete-name">
+                        ${this.safeHighlight(components, item, "name")}
+                    </div>
                     <div class="algoliasearch-autocomplete-category">
                         ${this.getColorHtml(item, components, html)}
                         ${this.getCategoriesHtml(item, components, html)}
@@ -108,6 +110,77 @@ define([], function () {
                         </div>`;
                 } else {
                     item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
+                }
+            }
+            
+            if ((item['price']['AUD']['default'] < item['wiser_price']) || !item['wiser_price'] || item['wiser_price'] === null || item['wiser_price'] === undefined) {
+                //programmed_promotion_price
+                if (item['price']['AUD']['default_original_formated'] && item['price']['AUD']['default_original_formated'] !== "undefined") {
+                    var defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
+                    defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+
+                    if (defaultOriginalPrice > item['price']['AUD']['default']) {
+                        //Set price to custom_final_price
+                        var priceDiscount = defaultOriginalPrice - item['price']['AUD']['default'];
+                        /*item.defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
+                        item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
+                        item.discount = formatter.format(priceDiscount);
+                        item.hasCustomFinalPrice = true;
+                        item.hasNoCustomFinalPrice = false;
+                        item.customFinalPrice =  formatter.format(item['wiser_price']);*/
+                        
+                        return html `<div className="algoliasearch-autocomplete-price">
+                            <span className="before_price promotional">
+                                ${item['price']['AUD']['default_original_formated']}
+                            </span>
+                            <span className="after_special custom_final_price">
+                                ${formatter.format(item['price']['AUD']['default'])}
+                            </span>
+                            <div className="discount">
+                                SAVE ${formatter.format(priceDiscount)}
+                            </div>
+                        </div>`;
+                    }
+                }
+            } else {
+                //wiser_price
+                if (item['wiser_price']) {
+
+                    var basePrice;
+
+                    //Set price to custom_final_price
+                    var defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
+
+                    if (defaultOriginalPrice) {
+                        defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
+                        basePrice = defaultOriginalPrice;
+                    } else {
+                        basePrice = item['price']['AUD']['default'];
+                    }
+
+                    var wiserDiscount = basePrice - item['wiser_price'];
+                    if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
+                        /*item.defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
+                        item.customFinalPrice =  formatter.format(item['wiser_price']);
+                        item.discount = formatter.format(wiserDiscount);
+                        item.hasCustomFinalPrice = true;
+                        item.hasNoCustomFinalPrice = false;*/
+                        return html `<div className="algoliasearch-autocomplete-price">
+                            <span className="before_price wiser">
+                                ${item['price']['AUD']['default_original_formated']}
+                            </span>
+                            <span className="after_special custom_final_price">
+                                ${formatter.format(item['wiser_price'])}
+                            </span>
+                            <div className="discount">
+                                SAVE ${formatter.format(wiserDiscount)}
+                            </div>
+                        </div>`;
+                    }
+                    //Set price to default
+                    //item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
+                    //item.hasCustomFinalPrice = false;
+                    //item.hasNoCustomFinalPrice = true;
                 }
             }
             

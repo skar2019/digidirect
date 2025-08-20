@@ -266,6 +266,106 @@
 /**** Payment Information Start ****/
 #checkout-step-payment {
     padding-top: 20px !important;
+
+    .billing-address-form {
+        .field[name*=firstname],
+        .field[name*=lastname],
+        .field[name*=country_id],
+        .field[name*=country],
+        .field[name*=region],
+        .field[name*=city],
+        .field[name*=region],
+        .field[name*=postcode],
+        .field[name*=telephone]{
+            width: 50%;
+            float: left;
+            padding-right: 5px;
+        }
+
+        .input-text, .select {
+            width: 100% !important;
+        }
+    }
+}
+
+.checkout-billing-address .fieldset>.field {
+    margin: 0 5px 20px !important;
+}
+
+.checkout-billing-address .fieldset>.field:not(.choice)>.label {
+    text-align: left;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.2px;
+}
+
+.checkout-billing-address .fieldset.address>.field._required>.label:after {
+    content: '*';
+    color: #e02b27;
+    font-size: 1.2rem;
+    margin: 0 0 0 5px;
+}
+
+.checkout-billing-address .fieldset > .field:not(.choice) > .control {
+    width: 100% !important;
+}
+
+.checkout-billing-address .field.street .field.additional {
+    display: none;
+}
+
+.checkout-billing-address .column:not(.sidebar-main) form .actions-toolbar, .column:not(.sidebar-additional) form .actions-toolbar {
+    margin-left: 0 !important;
+}
+
+.checkout-billing-address .actions-toolbar .primary {
+    display: flex !important;
+    gap: 20px;
+    padding-bottom: 30px;
+}
+
+.checkout-billing-address .actions-toolbar > .primary .action {
+    width: 100%;
+    background: @color-orange;
+    border: 2px solid transparent;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    padding: 10px 15px;
+    font-size: 16px !important;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border-radius: 100px !important;
+    font-weight: 510;
+    text-transform: uppercase;
+}
+
+.checkout-billing-address .billing-address-details button {
+    background: #f2f2f2;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+    text-decoration: none !important;
+    border-radius: 100px !important;
+    width: 119px;
+    margin-top: 10px;
+    font-weight: 510;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+
+    span {
+        color: #000000 !important;
+        text-decoration: none !important;
+    }
 }
 
 #co-payment-form {
@@ -392,6 +492,25 @@
             display: block;
         }
     }
+
+    .billing-address-form .fieldset.address .field .label {
+        display: block !important;
+    }
+
+    #co-transparent-form-braintree .fieldset.ccard .field .label {
+        display: block !important;
+    }
+
+    .billing-address-details {
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        margin: 10px 40px 10px 20px;
+        padding: 15px 0 0 20px !important;
+    }
+
+    .credit-card-types.braintree-credit-card-types {
+        display: none !important;
+    }
 }
 
 .checkout-payment-method .payment-method._active .payment-method-content {
@@ -442,7 +561,7 @@
 }
 
 
-.checkout-index-index .afterpay .label::after {
+.checkout-index-index .afterpay :not(.checkout-billing-address) .label::after {
     content: "AfterPay" !important;
     font-weight: 700;
     margin-left: 10px;
@@ -460,6 +579,11 @@
 
 .checkout-index-index .afterpay square-placement {
     display: none !important;
+}
+
+.checkout-index-index .afterpay.actions-toolbar-wraper {
+    display: flex !important;
+    align-items: center !important;
 }
 
 #method-latitude .latitude-icon {
@@ -527,6 +651,7 @@
     list-style: none;
     display: flex;
     align-items: center;
+    border: none !important;
 }
 
 .checkout-index-index  .zipmoney .choice .label::after {
@@ -544,11 +669,16 @@
 .checkout-index-index .zipmoney .zip-checkout-icon {
     display: none !important;
 }
-.checkout-index-index .zipmoney .checkout-billing-address label::after {
+.checkout-index-index .checkout-billing-address label::after {
     display: none !important;
 }
 
-.checkout-index-index .payment-method:has(#banktransfer) .label::after {
+.checkout-index-index .afterpay .checkout-billing-address label::after {
+    display: none !important;
+}
+
+/*.checkout-index-index .payment-method:has(#banktransfer) .label::after {*/
+.checkout-index-index :not(.checkout-billing-address) .payment-method:has(#banktransfer) .label::after {
     content: "";
     display: inline-block;
     width: 150px;
@@ -567,6 +697,10 @@
         border: 1px solid #D9D9D9;
     }
 
+    hr {
+        border: none !important;
+    }
+
     .form-discount {
         display: flex !important;
         max-width: none !important;
@@ -577,7 +711,7 @@
     }
 
     .actions-toolbar {
-        button.primary, .action-cancel {
+        button.primary, .action-cancel, .action-update {
             border-radius: 100px !important;
             width: 119px;
             margin-top: 10px;
@@ -626,8 +760,8 @@
         -webkit-appearance: none;
         width: 18px !important;
         height: 17px;
-        border: 1px solid #D9D9D9;
-        border-radius: 5px;
+        border: 1px solid #000000;
+        //border-radius: 5px;
         background-color: white;
         cursor: pointer;
         position: relative;
@@ -637,7 +771,7 @@
     }
 
     input[type="checkbox"]:checked {
-        background-color: #000000;
+        background-color: #ffffff;
     }
 
     input[type="checkbox"]:checked::after {
@@ -647,9 +781,23 @@
         left: 8px;
         width: 5px;
         height: 10px;
-        border: solid white;
+        border: solid black;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
+    }
+
+
+    .billing-address-same-as-shipping-block.field {
+        display: flex;
+        margin-left: 20px !important;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0.4px;
+
+        label {
+            margin-top: 5px;
+        }
     }
 }
 
@@ -664,6 +812,69 @@
         .control {
             width: 322px !important;
         }
+    }
+}
+
+.checkout-payment-method .ccard .legend {
+    overflow: visible !important;
+    position: relative !important;
+    width: auto !important;
+    padding-top: 10px !important;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.credit-card-info-glowup {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .field {
+        flex: 1 1 30%;
+        display: flex;
+        flex-direction: column;
+
+        label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 400;
+
+            &::after {
+                content: '*';
+                color: #e02b27;
+                font-size: 1.2rem;
+                margin: 0 0 0 5px;
+            }
+        }
+
+        .control {
+            padding-top: 10px;
+            font-size: 14px;
+
+            #braintree_cc_number {
+                margin-left: 0 !important;
+            }
+
+            #braintree_expirationDate {
+                width: auto !important;
+            }
+
+        }
+
+    }
+}
+.checkout-index-index .payment-method-braintree .hosted-control {
+    padding-left: 20px !important;
+    font-size: 14px !important;
+    color: #7F7F7F !important;
+    height: 40px;
+}
+
+#co-payment-form {
+    .payment-method-billing-address {
+        font-size: 14px;
     }
 }
 
