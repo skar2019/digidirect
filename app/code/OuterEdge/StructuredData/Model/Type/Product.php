@@ -309,20 +309,14 @@ class Product
             $backorderStatus = $stockItem->getBackorders();
         }
 
-        if($product->getAwaitingProduct())
-        {
-            $availability = 'OutOfStock';
-        }
-        else {
-            if ($product->isAvailable()) {
-                $availability = 'InStock';
+        if ($product->isAvailable()) {
+            $availability = 'InStock';
 
-                if ($quantityAvailable <= 0 && $backorderStatus == Stock::BACKORDERS_YES_NOTIFY) {
-                    $availability = 'BackOrder';
-                }
+            if ($quantityAvailable <= 0 && $backorderStatus == Stock::BACKORDERS_YES_NOTIFY) {
+                $availability = 'BackOrder';
             }
-
         }
+
 
         $pricewithTax = $this->taxHelper->getTaxPrice($product, $product->getFinalPrice(), $this->checkTaxIncluded());
 
