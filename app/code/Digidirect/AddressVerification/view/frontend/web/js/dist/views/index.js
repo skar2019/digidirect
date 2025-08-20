@@ -193,7 +193,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
                 });
 
                 // set empty placeholder for init field
-                node.attr('placeholder', '');
+                node.attr('placeholder', 'Street');
 
                 // check if we have preselected and restrict in this case
                 if (!this.autocomplete.componentRestrictions) {
@@ -331,7 +331,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
         }, {
             key: 'success',
             value: function success() {
-                
+
             }
         }, {
             key: 'gmError',

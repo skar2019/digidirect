@@ -77,25 +77,17 @@
                                                                 </item>
                                                                 <item name="company" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
+                                                                        <item name="additionalClasses" xsi:type="string">shipping-address-items</item>
                                                                         <item name="placeholder" xsi:type="string" translate="true">Company (Optional)</item>
                                                                     </item>
                                                                 </item>
                                                                 <item name="unit_number" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
-                                                                        <item name="additionalClasses" xsi:type="string">unit-number</item>
+                                                                        <item name="additionalClasses" xsi:type="string">unit-number shipping-address-items</item>
                                                                         <item name="placeholder" xsi:type="string" translate="true">Unit Number</item>
                                                                     </item>
                                                                 </item>
-                                                                <item name="street" xsi:type="array">
-                                                                    <item name="children" xsi:type="array">
-                                                                        <item name="0" xsi:type="array">
-                                                                            <item name="config" xsi:type="array">
-                                                                                <item name="placeholder" xsi:type="string" translate="true">Street Address</item>
-                                                                            </item>
-                                                                        </item>
 
-                                                                    </item>
-                                                                </item>
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-half pdr10</item>

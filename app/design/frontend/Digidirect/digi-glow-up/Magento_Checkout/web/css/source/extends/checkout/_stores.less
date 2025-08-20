@@ -1,4 +1,5 @@
 .checkout-shipping-address {
+
     input[type="radio"] {
         display: none;
     }
@@ -23,8 +24,49 @@
     .-hours {
         display: none;
     }
+
+    .delivery-number {
+        display: none;
+    }
+
+    .additional {
+        display: none;
+    }
     .description-cc {
         padding: 15px;
 
     }
+
+    .pickup-unavailable {
+
+        .title-cc {
+            padding-top: 15px;
+            font-size: 18px;
+            color: #1D1D1F;
+        }
+
+        .description-cc {
+            color: #7f7f7f;
+
+    }
+}
+
+
+    .locator-select-radio {
+        margin-right: 12px;
+        margin-top: 6px;
+        accent-color: #ff3c00; /* makes radio circle orange */
+    }
+
+    .locator-select-radio:checked + .locator-select-card {
+        border-color: #ff3c00;
+        background: #fff5f0;
+    }
+    .locator-select-option {
+        width: 100% !important;
+        transition: border-color 0.2s, background 0.2s;
+        cursor: pointer;
+        margin: 10px 0;
+    }
+
 }
