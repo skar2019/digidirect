@@ -1,5 +1,6 @@
 .checkout-payment-method {
     display: block !important;
+    animation: fadeIn 0.3s ease;
 }
 
 .opc-wrapper {
@@ -152,47 +153,86 @@
         }
     }
 
-    //not yet in use
-    .actions-toolbar {
-        display: flex;
-        gap: 10px;
+    .store-locator-wrapper {
+        display: none;
+    }
 
-        button {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 2px;
-            cursor: pointer;
-            border: none;
+    .note14 {
+        font-size: 14px;
+        color: #1D1D1F;
+        font-weight: 600;
+        display: block;
+        margin: 8px 0;
+    }
 
-            &.primary {
-                background-color: @color-orange;
-                color: white;
-                border: 1px solid @color-orange;
+    .shippingnotes {
+        color: #686868;
+        font-size: 12px;
+        display: block;
+        margin: 8px 0;
+    }
 
-                &:hover {
-                    background-color: darken(@color-orange, 5%);
-                }
-            }
+    .delivery-notes {
+        font-size: 14px;
+        color: #1D1D1F;
+        font-weight: 600;
 
-            &.secondary {
-                background-color: white;
-                color: @color-orange;
-                border: 1px solid @color-orange;
-
-                &:hover {
-                    background-color: lighten(@color-orange, 45%);
-                }
-            }
+        span {
+            display: block;
+            margin: 8px 0;
         }
     }
 
-    .checkout-payment {
-        border: 1px solid @color-orange;
-        border-radius: 4px;
-        padding: 20px;
-        margin-bottom: 20px;
+    .delivery-notes .control > textarea {
+        border-radius: 5px;
+        border: 1px solid #D9D9D9;
     }
 }
+
+.opc-wrapper.-hide-methods {
+    .store-locator-wrapper {
+        display: block !important;
+        animation: fadeIn 0.3s ease;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#opc-shipping_method  .table-checkout-shipping-method .row.collect {
+    display: none;
+}
+.table-checkout-shipping-method input {
+    width: auto;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    font-size: 14px;
+    height: 25px;
+    color: #1d1d1f;
+    vertical-align: middle;
+}
+.table-checkout-shipping-method label {
+    vertical-align: middle;
+}
+
+#opc-shipping_method .methods-shipping li {
+    padding: 10px;
+    border: 1px solid #d2d2d9;
+    margin: 10px 3px;
+    width: 49%;
+    display: inline-block;
+    border-radius: 5px;
+}
+
 
 /* Credit card info section */
 .credit-card-info {
