@@ -234,7 +234,7 @@ class Data extends AbstractHelper
         
         foreach($sellers as $seller){
             $this->logger->info('getDigiShipping: ' . $seller[0] . ", " .$seller[1]);
-            if ($seller[0] == "digiDirect" && $seller[1] > 98) {
+            if ($seller[0] == "digiDirect" && $seller[1] == 0) {
                 $standardShipping = 0;
             }
         }
