@@ -92,7 +92,7 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
             
             if ($seller == "digiDirect") {
                 if ($sellerTotal > 98) {
@@ -184,7 +184,7 @@ class Data extends AbstractHelper
             }
         }
         
-        //$this->logger->info('sellersArray: ' . json_encode($sellersArray));
+        $this->logger->info('sellersArray: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
@@ -233,6 +233,7 @@ class Data extends AbstractHelper
         $standardShipping = 8.95;
         
         foreach($sellers as $seller){
+            $this->logger->info('getDigiShipping: ' . $seller[0] . ", " .$seller[1]);
             if ($seller[0] == "digiDirect" && $seller[1] > 98) {
                 $standardShipping = 0;
             }
