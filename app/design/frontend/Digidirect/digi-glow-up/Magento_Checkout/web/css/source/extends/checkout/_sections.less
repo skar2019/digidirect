@@ -301,7 +301,7 @@
     letter-spacing: 0.2px;
 }
 
-.checkout-billing-address .fieldset.address>.field._required>.label:after {
+.checkout-billing-address .billing-address-form .fieldset.address .field._required label::after {
     content: '*';
     color: #e02b27;
     font-size: 1.2rem;
@@ -561,7 +561,7 @@
 }
 
 
-.checkout-index-index .afterpay :not(.checkout-billing-address) .label::after {
+.checkout-index-index .afterpay .label::after {
     content: "AfterPay" !important;
     font-weight: 700;
     margin-left: 10px;
@@ -575,6 +575,11 @@
     background-repeat: no-repeat;
     background-position: center;
     background-image: url('@{baseDir}images/checkout/afterpay.png');
+}
+
+.checkout-index-index .afterpay .checkout-billing-address .label::after, .checkout-index-index .afterpay .checkout-billing-address .choice::after {
+    content: none !important;
+    background-image: none !important;
 }
 
 .checkout-index-index .afterpay square-placement {
@@ -612,7 +617,7 @@
     display: none !important;
 }
 
-.checkout-index-index .payment-method:has(#latipay)  label::after {
+.checkout-index-index .payment-method:has(#latipay) .latipay-main-label::after {
     content: "";
     width: 300px;
     height: 40px;
@@ -622,11 +627,16 @@
     display: inline-block;
 }
 
-.checkout-index-index .payment-method-content .payment-method-billing-address  label::after {
-    display: none !important;
+.checkout-index-index .payment-method-content .payment-method-billing-address  label::after { //CHECK THIS
+    //display: none !important;
 }
 
 .checkout-index-index .form-latipay .latipay-options-item:has(#latipay-method-wechat) label::after {
+    content: "";
+    width: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
     height: 20px !important;
     margin-left: 30px !important;
     position: absolute !important;
@@ -634,6 +644,11 @@
 }
 
 .checkout-index-index .form-latipay .latipay-options-item:has(#latipay-method-alipay) label::after {
+    content: "";
+    width: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
     height: 20px !important;
     margin-left: 30px !important;
     position: absolute !important;
@@ -641,6 +656,11 @@
 }
 
 .checkout-index-index .form-latipay .latipay-options-item:has(#latipay-method-upi_upop) label::after {
+    content: "";
+    width: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
     height: 20px !important;
     margin-left: 30px !important;
     position: absolute !important;
@@ -669,8 +689,8 @@
 .checkout-index-index .zipmoney .zip-checkout-icon {
     display: none !important;
 }
-.checkout-index-index .checkout-billing-address label::after {
-    display: none !important;
+.checkout-index-index .checkout-billing-address label::after { //CHECK THIS
+    //display: none !important;
 }
 
 .checkout-index-index .afterpay .checkout-billing-address label::after {
@@ -678,7 +698,7 @@
 }
 
 /*.checkout-index-index .payment-method:has(#banktransfer) .label::after {*/
-.checkout-index-index :not(.checkout-billing-address) .payment-method:has(#banktransfer) .label::after {
+.checkout-index-index .payment-method:has(#banktransfer) .label::after {
     content: "";
     display: inline-block;
     width: 150px;
@@ -690,6 +710,10 @@
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/bank-transfer.png');
 
+}
+
+.checkout-index-index .payment-method:has(#banktransfer) .checkout-billing-address .label::after {
+    content: none !important;
 }
 
 #co-payment-form {
@@ -717,6 +741,9 @@
             margin-top: 10px;
             font-weight: 510;
             text-transform: uppercase;
+            background-color: @color-orange !important;
+            border: none !important;
+            margin-left: 10px;
         }
     }
 
