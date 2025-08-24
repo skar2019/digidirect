@@ -12,7 +12,15 @@ define([
             if (quote.customShipping && !quote.canApplyBillingAddress) return;
 
             if (quote.billingAddress()) {
-                selectBillingAddress(quote.billingAddress());
+                try {
+                    selectBillingAddress(quote.billingAddress());
+                } catch (e) {
+                    console.error("Error evaluating Knockout data:", e);
+                    const data = {
+                        error: e.message
+                    };
+                    console.log(data);
+                }
                 return;
             }
             shippingAddress = quote.shippingAddress();

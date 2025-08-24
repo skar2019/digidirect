@@ -105,9 +105,11 @@ define([
          * Button action
          */
         singleButtonAction: function () {
-            this.activeStep() === 'shipping' ? this.shippingStepAction() : this.paymentStepAction();
+            //this.activeStep() === 'shipping' ? this.shippingStepAction() : this.paymentStepAction();
+            this.shippingStepAction();
+            this.paymentStepAction();
         },
-        
+
         checkoutTrigger: function () {
             console.log("Checkout Trigger!");
         },
@@ -116,16 +118,17 @@ define([
          * Shipping step action
          */
         shippingStepAction: function () {
-            selectPaymentMethodAction(null);
-            checkoutData.setSelectedPaymentMethod(null);
+          //  selectPaymentMethodAction(null);
+          //  checkoutData.setSelectedPaymentMethod(null);
             this.isSubscribed = false;
             $(this.shippingFormSelector).trigger('submit');
+
         },
 
         /**
          * Payment step action
          */
-        paymentStepAction: function () {            
+        paymentStepAction: function () {
             if (this.checkPaymentMethod() && quote.paymentMethod().method === 'braintree_paypal') {
                 $(this.braintreePaypalButtonContinue).trigger('click');
                 if (!this.isSubscribed) {
