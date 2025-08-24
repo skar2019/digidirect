@@ -37,4 +37,8 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\View\Result\Layout">
+        <plugin name="magezon_head_styles" disabled="true"/>
+    </type>
 </config>
