@@ -25,7 +25,7 @@
             }
         ?>
     </a>
-    <a class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>"
+    <a id="minicart-trigger" class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>"
        data-bind="scope: 'minicart_content'">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>"/> <span>Cart</span>
         <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
