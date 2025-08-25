@@ -36,8 +36,27 @@
         </form>
     </div>
 </li>
+<div class="action-extension-toolbar">
+    <div class="primary">
+        <button id="payment-button-extension" class="extension-action button continue primary" type="button">
+            <span>Place Your Order</span>
+        </button>
+    </div>
+</div>
 
-<li id="comments-wrapper" role="presentation" class="comments-wrapper" data-bind="fadeVisible: isVisible">
+<!--<div class="actions-toolbar">-->
+<!--    <div class="primary">-->
+<!--        <button type="submit"-->
+<!--                class="action primary checkout"-->
+<!--                data-bind="click: placeOrder,-->
+<!--                               enable: isPlaceOrderActionAllowed(),-->
+<!--                               css: {disabled: !isPlaceOrderActionAllowed()}">-->
+<!--            <span data-bind="i18n: 'Place Order'"></span>-->
+<!--        </button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<li style="display: block !important;" id="comments-wrapper" role="presentation" class="comments-wrapper" data-bind="fadeVisible: isVisible">
     <div class="step-title accordion-step active" data-bind="i18n: 'Comment'" data-role="title" data-step="checkout-comments-wrapper"></div>
     <div id="checkout-comments-wrapper"
         class="step-content"
@@ -50,11 +69,11 @@
         <!-- /ko -->
     </div>
 
-    <div class="action-extension-toolbar">
-        <div class="primary">
-            <button id="payment-button-extension" class="extension-action button continue primary" type="button">
-                <span>Place Your Order</span>
-            </button>
-        </div>
-    </div>
+<!--    <div class="action-extension-toolbar">-->
+<!--        <div class="primary">-->
+<!--            <button id="payment-button-extension" class="extension-action button continue primary" type="button">-->
+<!--                <span>Place Your Order</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
 </li>
