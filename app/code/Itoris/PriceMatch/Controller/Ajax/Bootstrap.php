@@ -73,9 +73,10 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $resultJson = $this->resultJsonFactory->create();
         $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
-        
+        $customFinalPrice = $product->getData('custom_final_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
-        
+
+
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalPrice = $product->getFinalPrice();
         } else {
@@ -83,10 +84,10 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
                 $finalPrice = $wiserPrice;
             }
         }
-        
+        //use custom final price
         $response = [
             'product_name' => $product->getName(),
-            'final_price' => $finalPrice,//$product->getFinalPrice(),
+            'final_price' => $customFinalPrice,//$product->getFinalPrice(),
             'check_render_link' => 1,//($this->calculateRenderLink()) ? 1 : '',
         ];
 
