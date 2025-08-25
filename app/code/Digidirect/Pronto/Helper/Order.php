@@ -1043,8 +1043,11 @@ class Order extends AbstractHelper
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
 
-
-                if(strpos($sku, 'mp-') !== false)
+                if(is_null($sku))
+                {
+                    continue;
+                }
+                else if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
                     $mpTotal += $total;
