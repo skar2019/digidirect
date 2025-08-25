@@ -92,12 +92,10 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            $this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
+            
             
             if ($seller == "digiDirect") {
-                if ($sellerTotal > 98) {
-                    $standardShipping = 0;
-                }
                 $digidirectSellerCount++;
             } elseif (in_array($seller, $zeroShipping)) {
                 //$nonDigidirectSeller += 0;
@@ -171,10 +169,6 @@ class Data extends AbstractHelper
             
             $sellerShipping = 8.95;
             
-            if ($seller == "digiDirect" && $sellerTotal > 98) {
-                $sellerShipping = 0;
-            }
-            
             if (in_array($seller, $zeroShipping)) {
                 $sellerShipping = 0;
             }
@@ -184,7 +178,7 @@ class Data extends AbstractHelper
             }
         }
         
-        $this->logger->info('sellersArray: ' . json_encode($sellersArray));
+        //$this->logger->info('sellersArray: ' . json_encode($sellersArray));
         
         return $sellersArray;
         
@@ -229,33 +223,11 @@ class Data extends AbstractHelper
     
     public function getDigiShipping()
     {
-        $sellers = $this->getSellers();
         $standardShipping = 8.95;
-        
-        foreach($sellers as $seller){
-            $this->logger->info('getDigiShipping: ' . $seller[0] . ", " .$seller[1]);
-            if ($seller[0] == "digiDirect" && $seller[1] == 0) {
-                $standardShipping = 0;
-            }
-        }
-        
         $bulkItemSurcharge = 0;
         if ($this->checkForBulkyItems() == true) {
             $bulkItemSurcharge = 20;
         }
         return $standardShipping + $bulkItemSurcharge;
-    }
-    
-    public function checkDate() {
-        
-        $dates = ['2025-08-21','2025-08-22','2025-08-23','2025-08-24','2025-08-29','2025-08-30','2025-08-31'];
-
-        $today = date('Y-m-d');
-
-        if (in_array($today, $dates)) {
-            return true;
-        }
-        
-        return false;
     }
 }
