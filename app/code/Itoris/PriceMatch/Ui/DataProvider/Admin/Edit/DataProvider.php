@@ -151,12 +151,22 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     private function _formatFinalPrice($item) {
         //clint work around
         $product = $this->productFactory->create()->load( $item['product_id'] );
-        $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
-        $final_price2 = $product->getFinalPrice();
-        $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+        //$customFinalPrice = $product->getData('custom_final_price');
+        //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-        return $this->formatPrice($final_price3, $item['store_id']);
-        return $this->formatPrice($item['final_price'], $item['store_id']);
+
+        if ($wiserPrice == 0 || empty($wiserPrice)) {
+            $finalPrice = $product->getFinalPrice();
+        } else {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }
+
+        return $this->formatPrice($finalPrice, $item['store_id']);
+        //return $this->formatPrice($item['final_price'], $item['store_id']);
     }
 
     private function formatPrice($amount, $store){
