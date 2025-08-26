@@ -31,14 +31,12 @@
                 <!-- /ko -->
             </strong>
 
-            <!-- ko if: options.length -->
-                <dl class="product options list">
-                    <!-- ko foreach: { data: options, as: 'option' } -->
-                    <dt class="label"><!-- ko text: option.label --><!-- /ko --></dt>
+            <!-- ko if: getItemOptions($parent).length -->
+                <dl class="product options list" data-bind="foreach: getItemOptions($parent)">
+                    <dt class="label"><!-- ko text: label --><!-- /ko --></dt>
                     <dd class="values">
-                        <span data-bind="text: option.value"></span>
+                        <span data-bind="text: value"></span>
                     </dd>
-                    <!-- /ko -->
                 </dl>
             <!-- /ko -->
 
