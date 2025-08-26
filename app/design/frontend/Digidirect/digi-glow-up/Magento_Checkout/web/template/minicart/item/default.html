@@ -31,13 +31,30 @@
                 <!-- /ko -->
             </strong>
 
-            <!-- ko if: getItemOptions($parent).length -->
-                <dl class="product options list" data-bind="foreach: getItemOptions($parent)">
-                    <dt class="label"><!-- ko text: label --><!-- /ko --></dt>
-                    <dd class="values">
-                        <span data-bind="text: value"></span>
-                    </dd>
-                </dl>
+            <!-- ko if: options.length -->
+            <div class="product options" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+                <span data-role="title" class="toggle"><!-- ko i18n: 'See Details' --><!-- /ko --></span>
+
+                <div data-role="content" class="content">
+                    <strong class="subtitle"><!-- ko i18n: 'Options Details' --><!-- /ko --></strong>
+                    <dl class="product options list">
+                        <!-- ko foreach: { data: options, as: 'option' } -->
+                        <dt class="label"><!-- ko text: option.label --><!-- /ko --></dt>
+                        <dd class="values">
+                            <!-- ko if: Array.isArray(option.value) -->
+                                <span data-bind="html: $parents[1].getOptionValueUnsanitizedHtml(option.value.join('<br>'))"></span>
+                            <!-- /ko -->
+                            <!-- ko if: (!Array.isArray(option.value) && ['file', 'html'].includes(option.option_type)) -->
+                                <span data-bind="html: $parents[1].getOptionValueUnsanitizedHtml(option.value)"></span>
+                            <!-- /ko -->
+                            <!-- ko if: (!Array.isArray(option.value) && !['file', 'html'].includes(option.option_type)) -->
+                            <span data-bind="text: option.value"></span>
+                            <!-- /ko -->
+                        </dd>
+                        <!-- /ko -->
+                    </dl>
+                </div>
+            </div>
             <!-- /ko -->
 
             <div class="product-item-pricing">
