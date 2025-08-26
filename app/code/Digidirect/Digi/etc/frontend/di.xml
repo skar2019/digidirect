@@ -12,5 +12,5 @@
                 type="Digidirect\Digi\Plugin\Magento\Framework\View\Page\Config\Renderer"
                 sortOrder="1"
                 disabled="true" />
-    </type>ßßß
+    </type>
 </config>
