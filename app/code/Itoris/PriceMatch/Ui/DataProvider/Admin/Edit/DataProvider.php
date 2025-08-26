@@ -41,6 +41,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     protected $urlBuilder;
     protected $configurableProduct;
     protected $productFactory;
+    protected $productRepository;
 
     public function __construct
     (
@@ -56,6 +57,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
 
         RequestInterface $request,
         FilterBuilder $filterBuilder,
@@ -72,6 +74,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $this->urlBuilder = $urlBuilder;
         $this->couponFactory = $couponFactory;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
     }
 
     public function getData()
@@ -150,7 +153,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 
     private function _formatFinalPrice($item) {
 //        //clint work around
-        $product = $this->productFactory->create()->load( $item['product_id'] );
+        $product = $this->productRepository->getById($item['product_id'],false, $item['store_id']);
         $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
 //
