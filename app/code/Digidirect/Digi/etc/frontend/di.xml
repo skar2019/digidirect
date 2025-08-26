@@ -12,8 +12,5 @@
                 type="Digidirect\Digi\Plugin\Magento\Framework\View\Page\Config\Renderer"
                 sortOrder="1"
                 disabled="true" />
-    </type>
-    <type name="Magento\Checkout\CustomerData\DefaultItem">
-        <plugin name="Digidirect_Digi::ShippingChecker" type="Digidirect\Digi\Plugin\Magento\Checkout\CustomerData\DefaultItem"/>
-    </type>
+    </type>ßßß
 </config>
