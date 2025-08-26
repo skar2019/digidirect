@@ -139,7 +139,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 []
             )->joinLeft(
                 ['cpev'=>$this->getTable('catalog_product_entity_varchar')],
-                "ent.row_id = cpev.row_id AND cpev.attribute_id=1415",
+                "ent.row_id = cpev.row_id",
                 ['final_price'=>'IF(isnull(pm.old_price),IF(cpev.value IS NOT NULL AND cpev.value != 0, IF(price_index.final_price < cpev.value, price_index.final_price, cpev.value),price_index.final_price), pm.old_price)']
             )->join(
                 ['a_varchar'=>$this->getTable('catalog_product_entity_varchar')],
