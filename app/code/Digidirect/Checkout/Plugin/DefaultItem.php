@@ -73,14 +73,40 @@ class DefaultItem
      */
     public function afterGetItemData(DefaultItem $subject, array $result, $item)
     {
-        $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+        $product = $item->getProduct();
+        $options = $product->getTypeInstance(true)->getOrderOptions($product);
 
-        if (isset($options['options']) && is_array($options['options'])) {
-            foreach ($options['options'] as $option) {
+        // ✅ Configurable product attributes (size, color, etc.)
+        if (isset($options['attributes_info'])) {
+            foreach ($options['attributes_info'] as $attr) {
                 $result['options'][] = [
-                    'label' => $option['label'],
-                    'value' => $option['value']
+                    'label' => $attr['label'],
+                    'value' => $attr['value'],
                 ];
+            }
+        }
+
+        // ✅ Customizable product options (text field, dropdown, etc.)
+        if (isset($options['options']) && is_array($options['options'])) {
+            foreach ($options['options'] as $opt) {
+                $result['options'][] = [
+                    'label' => $opt['label'],
+                    'value' => $opt['value'],
+                ];
+            }
+        }
+
+        // 🔑 Fallback: get options from buyRequest (sometimes needed)
+        $buyRequestOption = $item->getOptionByCode('info_buyRequest');
+        if ($buyRequestOption) {
+            $buyRequest = @unserialize($buyRequestOption->getValue());
+            if (isset($buyRequest['options']) && is_array($buyRequest['options'])) {
+                foreach ($buyRequest['options'] as $optionId => $optionValue) {
+                    $result['options'][] = [
+                        'label' => 'Option ' . $optionId, // fallback label
+                        'value' => $optionValue,
+                    ];
+                }
             }
         }
 
