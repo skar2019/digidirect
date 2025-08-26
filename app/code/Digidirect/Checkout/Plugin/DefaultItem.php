@@ -61,8 +61,29 @@ class DefaultItem
 
         return array_merge($data, $atts);
     }
+    
     public function getLoadProduct($id)
     {
         return $this->_productloader->create()->load($id);
+    }
+    
+    /**
+     * After plugin for getItemData
+     * This is great for appending custom options (engraving, text, etc.)
+     */
+    public function afterGetItemData(DefaultItem $subject, array $result, $item)
+    {
+        $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+
+        if (isset($options['options']) && is_array($options['options'])) {
+            foreach ($options['options'] as $option) {
+                $result['options'][] = [
+                    'label' => $option['label'],
+                    'value' => $option['value']
+                ];
+            }
+        }
+
+        return $result;
     }
 }
