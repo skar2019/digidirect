@@ -71,7 +71,7 @@ class DefaultItem
      * After plugin for getItemData
      * This is great for appending custom options (engraving, text, etc.)
      */
-    public function afterGetItemData(DefaultItem $subject, array $result, $item)
+    public function afterGetItemData($subject, array $result, $item)
     {
         $product = $item->getProduct();
         $options = $product->getTypeInstance(true)->getOrderOptions($product);
