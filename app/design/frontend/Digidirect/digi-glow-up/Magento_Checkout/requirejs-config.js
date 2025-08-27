@@ -11,9 +11,6 @@ var config = {
     },
     config: {
         mixins: {
-            'Magento_Checkout/js/view/minicart': {
-                'Magento_Checkout/js/dist/view/minicart-extend': true
-            },
             'Magento_Checkout/js/view/shipping-extend': {
                 'Magento_Checkout/js/view/shipping-mixin': true
             },
@@ -31,9 +28,6 @@ var config = {
             },
             'Magento_Checkout/js/model/payment/method-group': {
                 'Magento_Checkout/js/model/payment/method-group-mixin': true
-            },
-            'Magento_Checkout/js/sidebar': {
-                'Magento_Checkout/js/sidebar-mixin': true
             },
             'Magento_Checkout/js/view/shipping': {
                 'Magento_Checkout/js/dist/view/shipping-extend': true
