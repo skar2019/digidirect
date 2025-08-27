@@ -345,6 +345,12 @@ class Order extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
+                } else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
                 }
 
             }
@@ -888,6 +894,12 @@ class Order extends AbstractHelper
                     $payment_type ="BN";
                     $catchRef = $orderId;
                     $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
                     $payment_reference = $catchRef;
                 }
 
@@ -2497,6 +2509,12 @@ class Order extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
+                } else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
                 }
 
 
@@ -2525,7 +2543,7 @@ class Order extends AbstractHelper
             }
 
             if (!$isMarketPlace) {
-                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01") {
+                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01" || $account == "LASO00") {
                     $account = "";
                 }
             }
@@ -2962,6 +2980,12 @@ class Order extends AbstractHelper
                     $payment_type ="BN";
                     $catchRef = $orderId;
                     $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
                     $payment_reference = $catchRef;
                 }
 

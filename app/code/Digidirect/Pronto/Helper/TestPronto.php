@@ -713,6 +713,13 @@ class TestPronto extends AbstractHelper
                     $isMarketPlace = true;
                     //for woolworths
                 }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
 
             }
 
@@ -1308,6 +1315,12 @@ class TestPronto extends AbstractHelper
                     $payment_type ="BN";
                     $catchRef = $orderId;
                     $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
