@@ -736,7 +736,6 @@ class ProductEntHelper extends AbstractHelper
     public function testCustomFinalPrice()
     {
 
-        exit;
         $collection = $this->getProductCollection();
         $counter = 0;
         foreach ($collection as $product) {
@@ -747,6 +746,9 @@ class ProductEntHelper extends AbstractHelper
             if($seller == '20329' || $seller == 20329)
             {
                 echo $product->getSku();
+                echo "<br /> \n";
+                $finalPrice = $product->getFinalPrice();
+                echo "final price 0: ".$finalPrice;
                 echo "<br /> \n";
                 $final_price = $product->getData('final_price');
                 echo "final price 1: ".$final_price;
@@ -761,8 +763,8 @@ class ProductEntHelper extends AbstractHelper
                 $finalprice4 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 echo "<br /> \n";
                 echo "final price 4: ".$finalprice4;
-                $product->setCustomAttribute('custom_final_price', $final_price);
-                $this->productRepository->save($product);
+//                $product->setCustomAttribute('custom_final_price', $final_price);
+//                $this->productRepository->save($product);
                 $counter++;
             }
 
