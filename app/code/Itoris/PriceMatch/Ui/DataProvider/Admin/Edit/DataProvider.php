@@ -153,11 +153,12 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 
     private function _formatFinalPrice($item) {
 
-//        //clint work around
+        //clint work around
         $product = $this->productRepository->getById($item['product_id'],false, $item['store_id']);
-        $finalPrice = $product->getFinalPrice();
+        //$finalPrice = $product->getFinalPrice();
+        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
         $wiserPrice = $product->getData('wiser_price');
-//
+
         if ($wiserPrice == 0 || empty($wiserPrice)) {
             $finalPrice = $product->getFinalPrice();
         } else {
@@ -165,7 +166,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
                 $finalPrice = $wiserPrice;
             }
         }
-//
+
         return $this->formatPrice($finalPrice, $item['store_id']);
         //return $this->formatPrice($item['final_price'], $item['store_id']);
     }
