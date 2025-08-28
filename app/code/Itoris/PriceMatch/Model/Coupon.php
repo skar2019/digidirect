@@ -26,6 +26,7 @@
 namespace Itoris\PriceMatch\Model;
 use Magento\SalesRule\Model\Rule;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as TypeConfigurable;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class Coupon
 {
@@ -53,7 +54,8 @@ class Coupon
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+        ProductRepositoryInterface $productRepository
     )
     {
         $this->ruleFactory = $ruleFactory;
@@ -67,6 +69,7 @@ class Coupon
         $this->productConditionFactory = $productConditionFactory;
         $this->groupFactory = $groupFactory;
         $this->storeFactory = $storeFactory;
+        $this->productRepository = $productRepository;
     }
 
     public function createCoupon($item)
@@ -102,8 +105,20 @@ class Coupon
 
         $couponCode = 'PMC-'.$couponGenerateCode . $rule->getCouponCodeGenerator()->getDelimiter() . sprintf(
             '%04u', rand(0, 9999));
+        
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
 
-        $priceDiff = $item['final_price'] - $item['match_price'];
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+
+        if (!empty($wiserPrice)) {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }
+
+        $priceDiff = $finalPrice - $item['match_price'];
 
         $rule->setName(__('Promo Core for Price Match Request #%1', $item['item_id']))
             ->setDescription(__('%1 OFF %2',$this->formatPrice( $priceDiff, $item['store_id'] ), $item['product_name']))
