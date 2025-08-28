@@ -73,7 +73,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
 
         $resultJson = $this->resultJsonFactory->create();
         $basePrice = $product->getPrice();
-        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
