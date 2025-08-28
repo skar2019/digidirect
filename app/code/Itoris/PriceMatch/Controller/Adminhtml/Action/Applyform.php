@@ -68,27 +68,41 @@ class Applyform extends \Magento\Backend\App\Action
 
    //     \Zend_Debug::dump(      $this->_request->getParams()      );die;
         
-        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
-        $product->setCustomerGroupId(0); // General group
-
-        $finalPrice = $product->getFinalPrice();
-        $wiserPrice = $product->getData('wiser_price');
-
-        if (!empty($wiserPrice)) {
-            if($wiserPrice < $finalPrice) {
-                $finalPrice = $wiserPrice;
-            }
-        }
-
         if( $method == PriceMatch::METHOD_REJECT ){
             $this->applyReject($itemId, $response);
             $this->messageManager->addSuccess(__('The price match request has been rejected'));
         }elseif( $method == PriceMatch::METHOD_COUPON ){
             $item = $this->applyCoupon($itemId, $response);
+            
+            $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+            $product->setCustomerGroupId(0); // General group
+
+            $finalPrice = $product->getFinalPrice();
+            $wiserPrice = $product->getData('wiser_price');
+
+            if (!empty($wiserPrice)) {
+                if($wiserPrice < $finalPrice) {
+                    $finalPrice = $wiserPrice;
+                }
+            }
+            
             $diff = $finalPrice - $item['match_price'];
             $this->messageManager->addSuccess(__('The one-time coupon "%1" for %2 has been sent to the customer',$item['coupon_code'], $this->currencyFormat($diff, $item['store_id'])));
         }elseif( $method == PriceMatch::METHOD_LOWER ){
             $item = $this->applyLower($itemId, $response);
+            
+            $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+            $product->setCustomerGroupId(0); // General group
+
+            $finalPrice = $product->getFinalPrice();
+            $wiserPrice = $product->getData('wiser_price');
+
+            if (!empty($wiserPrice)) {
+                if($wiserPrice < $finalPrice) {
+                    $finalPrice = $wiserPrice;
+                }
+            }
+            
             $this->messageManager->addSuccess(__('Product price lowered from %1 to %2', $this->currencyFormat($finalPrice, $item['store_id']), $this->currencyFormat($item['match_price'], $item['store_id'])));
         }
         return $this->resultRedirectFactory->create()->setPath('itorispm/index/index');
