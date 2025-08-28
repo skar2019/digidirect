@@ -26,6 +26,7 @@
 namespace Itoris\PriceMatch\Ui\Component\Columns\Column;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
 {
@@ -41,6 +42,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
+        ProductRepositoryInterface $productRepository,
         array $components = [],
         array $data = []
     )
@@ -49,6 +51,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         $this->priceCurrency = $priceCurrency;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->productRepository = $productRepository;
     }
 
     public function prepareDataSource(array $dataSource)
@@ -56,9 +59,12 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
-                $this->logger->info('prepareDataSource, ' . $item['final_price']);
+                $product = $this->productRepository->get($item['product_sku']);
+                $finalPrice = $product->getFinalPrice();
+                $this->logger->info('prepareDataSource wiser_price, ' . $this->getCustomAttributeValue($item['product_sku'], 'wiser_price'));
+                $this->logger->info('prepareDataSource final_price, ' . $finalPrice);
                 $fPrice = $this->priceCurrency->format(
-                    $item['final_price'],
+                    $finalPrice,
                     false,
                     \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
                     $item['store_id']
@@ -71,6 +77,17 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         }
 
         return $dataSource;
+    }
+    
+    public function getCustomAttributeValue($sku, $attributeCode)
+    {
+        try {
+            $product = $this->productRepository->get($sku);
+            $attribute = $product->getCustomAttribute($attributeCode);
+            return $attribute ? $attribute->getValue() : null;
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 
 

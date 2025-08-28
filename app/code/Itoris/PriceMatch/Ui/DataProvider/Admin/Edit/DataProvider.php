@@ -165,13 +165,13 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-        /*$this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
+        $this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
 
         if (!empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }
-        }*/
+        }
 
         return $this->formatPrice($finalPrice, $item['store_id']);
         //return $this->formatPrice($item['final_price'], $item['store_id']);
