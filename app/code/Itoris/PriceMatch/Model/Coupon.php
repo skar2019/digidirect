@@ -54,8 +54,7 @@ class Coupon
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
-        ProductRepositoryInterface $productRepository
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone
     )
     {
         $this->ruleFactory = $ruleFactory;
@@ -69,7 +68,6 @@ class Coupon
         $this->productConditionFactory = $productConditionFactory;
         $this->groupFactory = $groupFactory;
         $this->storeFactory = $storeFactory;
-        $this->productRepository = $productRepository;
     }
 
     public function createCoupon($item)
