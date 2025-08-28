@@ -159,7 +159,9 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 //        //$finalPrice = $product->getFinalPrice();
 //        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 
-        $product = $this->productRepository->getById($item['product_id']);
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
+        
         $basePrice = $product->getPrice();
         $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
         $wiserPrice = $product->getData('wiser_price');
