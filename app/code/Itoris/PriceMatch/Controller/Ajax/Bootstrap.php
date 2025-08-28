@@ -71,13 +71,14 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $product = $this->productRepository->getById($productId,false, $storeId);
 
         $resultJson = $this->resultJsonFactory->create();
+        $basePrice = $product->getPrice();
         $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-        $this->logger->info("SKU: ". $product->getData('sku') . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
+        $this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
 
-        if ($wiserPrice != 0 || !empty($wiserPrice)) {
+        if (!empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }
