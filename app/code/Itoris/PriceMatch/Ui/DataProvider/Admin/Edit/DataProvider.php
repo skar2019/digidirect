@@ -166,11 +166,11 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         //$this->logger->info("wiserPrice: ". $wiserPrice);
         //$this->logger->info("finalPrice: ". $finalPrice);
 
-        if ($wiserPrice != 0 || !empty($wiserPrice)) {
+        /*if ($wiserPrice != 0 || !empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }
-        }
+        }*/
 
         return $this->formatPrice($finalPrice, $item['store_id']);
         //return $this->formatPrice($item['final_price'], $item['store_id']);

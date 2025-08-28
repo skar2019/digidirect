@@ -60,7 +60,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
                 $product = $this->productRepository->get($item['product_sku']);
-                $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $finalPrice = $product->getFinalPrice();
                 $this->logger->info('prepareDataSource wiser_price, ' . $this->getCustomAttributeValue($item['product_sku'], 'wiser_price'));
                 $this->logger->info('prepareDataSource final_price, ' . $finalPrice);
                 $fPrice = $this->priceCurrency->format(
