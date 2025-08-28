@@ -42,6 +42,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     protected $configurableProduct;
     protected $productFactory;
     protected $productRepository;
+    protected $logger;
 
     public function __construct
     (
@@ -58,7 +59,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-
+        \Psr\Log\LoggerInterface $logger,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
         array $meta = [],
@@ -75,6 +76,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $this->couponFactory = $couponFactory;
         $this->priceCurrency = $priceCurrency;
         $this->productRepository = $productRepository;
+        $this->logger = $logger;
     }
 
     public function getData()
