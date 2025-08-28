@@ -76,7 +76,6 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
         $this->logger->info("SKU: ". $product->getData('sku') . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
-        $this->logger->info();
 
         if ($wiserPrice != 0 || !empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
