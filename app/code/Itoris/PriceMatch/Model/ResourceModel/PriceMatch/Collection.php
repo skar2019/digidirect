@@ -129,7 +129,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             )->joinLeft(
                 ['ent'=>$this->getTable('catalog_product_entity')],
                 "pm.product_id = ent.entity_id",
-                ['product_sku'=>'ent.sku', 'wiser_price'=>'ent.wiser_price']
+                ['product_sku'=>'ent.sku']
             )->join(
                 ['price_index'=>$this->getTable('catalog_product_index_price')],
                 "(
