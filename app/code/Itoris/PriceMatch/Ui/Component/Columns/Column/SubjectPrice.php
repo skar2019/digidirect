@@ -62,7 +62,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
                 //$product = $this->productRepository->get($item['product_sku']);
                 $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
                 
-                $finalPrice = $product->getFinalPrice();
+                $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 $wiserPrice = $product->getData('wiser_price');
                 
                 $this->logger->info('SKU: ' . $item['product_sku'] . ', wiser_price: ' . $wiserPrice . ', final_price: ' . $finalPrice);
