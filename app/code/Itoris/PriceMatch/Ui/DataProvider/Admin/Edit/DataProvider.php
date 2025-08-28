@@ -161,7 +161,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 
         $product = $this->productRepository->getById($item['product_id']);
         $basePrice = $product->getPrice();
-        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
