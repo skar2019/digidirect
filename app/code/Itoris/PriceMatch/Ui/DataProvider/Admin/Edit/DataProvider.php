@@ -161,7 +161,6 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $price = $product->getCustomAttribute('custom_final_price');
         //$finalPrice = $price->getValue();
         $finalPrice = $product->getFinalPrice();
-
         $wiserPrice = $product->getData('wiser_price');
         
         //$this->logger->info("wiserPrice: ". $wiserPrice);
@@ -173,7 +172,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
             }
         }
 
-        return $this->formatPrice($finalPrice, $item['store_id']);
+        return $this->formatPrice($wiserPrice, $item['store_id']);
         //return $this->formatPrice($item['final_price'], $item['store_id']);
     }
 
