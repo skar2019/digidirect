@@ -68,17 +68,16 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $productId = $this->_request->getParam('id');
         $customer  = $this->customerSession->getCustomer();
 
-        $product = $this->productRepository->getById($productId);
+        $product = $this->productRepository->getById($productId,false, $storeId);
 
         $resultJson = $this->resultJsonFactory->create();
-        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
+        $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-        $this->logger->info("sku: ". $product->getData('sku'));
-        $this->logger->info("wiserPrice: ". $wiserPrice);
-        $this->logger->info("finalPrice: ". $finalPrice);
-        
+        $this->logger->info("SKU: ". $product->getData('sku') . "wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
+        $this->logger->info();
+
         if ($wiserPrice != 0 || !empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
