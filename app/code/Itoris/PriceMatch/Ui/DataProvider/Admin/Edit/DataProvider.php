@@ -160,7 +160,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $product = $this->productRepository->getById($item['product_id']);
         $price = $product->getCustomAttribute('custom_final_price');
         //$finalPrice = $price->getValue();
-        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+        $finalPrice = $product->getFinalPrice();
 
         $wiserPrice = $product->getData('wiser_price');
         

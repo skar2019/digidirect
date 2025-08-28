@@ -57,12 +57,7 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
                 $this->logger->info('prepareDataSource, ' . $item['final_price']);
-                $fPrice = $this->priceCurrency->format(
-                    $item['final_price'],
-                    false,
-                    \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
-                    $item['store_id']
-                );
+                $fPrice = $item['product_sku'];
 
                 if (isset($item[$fieldName])) {
                     $item[$fieldName] = $fPrice;
