@@ -158,10 +158,12 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 //        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 
         $product = $this->productRepository->getById($item['product_id']);
-        //$price = $product->getCustomAttribute('custom_final_price');
+        $basePrice = $product->getPrice();
         $finalPrice = $product->getFinalPrice();
-
         $wiserPrice = $product->getData('wiser_price');
+        //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
+
+        $this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
 
         if (!empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
