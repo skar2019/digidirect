@@ -1,0 +1,48 @@
+define([
+    'jquery',
+    'domReady!',
+    'mage/translate',
+    'Magento_Checkout/js/view/shipping',
+    'Magento_Checkout/js/model/step-navigator',
+    'Magento_Checkout/js/model/shipping-save-processor',
+    'Magento_Checkout/js/model/shipping-service',
+    'Magento_Checkout/js/model/quote',
+    'uiRegistry',
+    'mage/validation'
+], function (
+    $,
+    domReady,
+    $t,
+    ShippingComponent,
+    stepNavigator,
+    shippingSaveProcessor,
+    shippingService,
+    quote,
+    registry,
+    validation
+) {
+    'use strict';
+
+    function toggleShippingMethod() {
+        $('#checkoutSteps li').removeClass('active').addClass('inactive');
+        $('.opc-wrapper .step-content').hide();
+        $('.opc-wrapper li .action-extension-toolbar').hide();
+
+        $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
+        $('#checkoutSteps li#opc-shipping_method .step-content').show();
+        $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
+
+        $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');
+    }
+
+    $(document).on("click", "#delivery-info-button-extension", function () {
+
+        var shippingView = registry.get('checkout.steps.shipping-step.shippingAddress');
+
+        if (shippingView && shippingView.validateShippingAddress()) {
+            toggleShippingMethod();
+        } else {
+            console.warn("Shipping view not available or validation failed.");
+        }
+    });
+});

@@ -15,6 +15,7 @@ define([
     'Magento_Checkout/js/action/create-shipping-address',
     'Magento_Checkout/js/action/select-shipping-address',
     'Magento_Checkout/js/model/shipping-rates-validator',
+    'Magento_Checkout/js/model/shipping-rates-validation-rules',
     'Magento_Checkout/js/model/shipping-address/form-popup-state',
     'Magento_Checkout/js/model/shipping-service',
     'Magento_Checkout/js/action/select-shipping-method',
@@ -39,6 +40,7 @@ define([
     createShippingAddress,
     selectShippingAddress,
     shippingRatesValidator,
+    shippingRatesValidationRules,
     formPopUpState,
     shippingService,
     selectShippingMethodAction,
@@ -128,6 +130,7 @@ define([
                 shippingRatesValidator.initFields(fieldsetName);
             });
 
+            this.afterRender = this.afterRenderHandler.bind(this);
             return this;
         },
 
@@ -235,7 +238,7 @@ define([
                 quote.shippingMethod()['carrier_code'] + '_' + quote.shippingMethod()['method_code'] :
                 null;
         }),
-        
+
         checkSellers: function () {
             if (marketplacer_sellers.length == 1 && marketplacer_sellers[0][0] == 'digiDirect') {
                 return false;
@@ -272,12 +275,21 @@ define([
                         );
                     }
                 });
-                setShippingInformationAction().done(
-                    function () {
-                        stepNavigator.next();
-                    }
-                );
+
+                setShippingInformationAction().done(() => {
+                    this.togglePaymentMethod(); // ✅ Works now
+                });
             }
+        },
+
+        togglePaymentMethod : function ()  {
+            $('#checkoutSteps li').removeClass('active').addClass('inactive');
+            $('.opc-wrapper .step-content').hide();
+            $('.opc-wrapper li .action-extension-toolbar').hide();
+
+            $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
+            $('#checkoutSteps li#payment .step-content').show();
+            $('#checkoutSteps  li#payment .action-extension-toolbar').show();
         },
 
         /**
@@ -324,7 +336,7 @@ define([
                 addressData = addressConverter.formAddressDataToQuoteAddress(
                     this.source.get('shippingAddress')
                 );
-                
+
                 // Therefore, convert it to a real array
                 var realArray = $.makeArray(shippingAddress['customAttributes'])
 
@@ -334,7 +346,7 @@ define([
                         let intial_unit_number = $(".unit-number " + unitnumberSelector).val();
                         let unit_number = intial_unit_number.replace('unit_number', '');
                         $(".unit-number " + unitnumberSelector).val(unit_number);
-                        
+
                         shippingAddress['customAttributes'][i]['value'] = unit_number;
                         addressData['customAttributes'][i]['value'] = unit_number;
                     }
@@ -389,6 +401,114 @@ define([
             if (this.source.get('shippingAddress.custom_attributes')) {
                 this.source.trigger('shippingAddress.custom_attributes.data.validate');
             }
-        }
+        },
+
+        afterRenderHandler: function () {
+            console.log('✅ Shipping step DOM has rendered.');
+            $('#checkoutSteps li').removeClass('active').addClass('inactive');
+            $('.opc-wrapper .step-content').hide();
+            $('.opc-wrapper li .action-extension-toolbar').hide();
+
+
+            $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+            $('#checkoutSteps li#customer-info .step-content').show();
+            $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+            // Your logic here
+        },
+
+        /**
+         * @return {Boolean}
+         */
+        validateShippingAddress: function () {
+            var shippingAddress,
+                addressData,
+                loginFormSelector = 'form[data-role=email-with-possible-login]',
+                unitnumberSelector = 'input',
+                emailValidationResult = customer.isLoggedIn(),
+                field,
+                option = _.isObject(this.countryOptions) && this.countryOptions[quote.shippingAddress().countryId],
+                messageContainer = registry.get('checkout.errors').messageContainer;
+
+            if (!customer.isLoggedIn()) {
+                $(loginFormSelector).validation();
+                emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
+
+            }
+
+            if (this.isFormInline) {
+                this.source.set('params.invalid', false);
+                this.triggerShippingDataValidateEvent();
+
+                if (emailValidationResult &&
+                    this.source.get('params.invalid')
+                ) {
+                    this.focusInvalid();
+
+                    return false;
+                }
+
+                shippingAddress = quote.shippingAddress();
+                addressData = addressConverter.formAddressDataToQuoteAddress(
+                    this.source.get('shippingAddress')
+                );
+
+                $('#co-shipping-form').find('input, select').each(function () {
+                    $(this).valid();
+                });
+
+                // Therefore, convert it to a real array
+                var realArray = $.makeArray(shippingAddress['customAttributes'])
+
+                // Now it can be used reliably with $.map()
+                $.map(realArray, function(val, i) {
+                    if(val.attribute_code == "unit_number"){
+                        let intial_unit_number = $(".unit-number " + unitnumberSelector).val();
+                        let unit_number = intial_unit_number.replace('unit_number', '');
+                        $(".unit-number " + unitnumberSelector).val(unit_number);
+
+                        shippingAddress['customAttributes'][i]['value'] = unit_number;
+                        addressData['customAttributes'][i]['value'] = unit_number;
+                    }
+                });
+
+                //Copy form data to quote shipping address object
+                for (field in addressData) {
+                    if (addressData.hasOwnProperty(field) &&  //eslint-disable-line max-depth
+                        shippingAddress.hasOwnProperty(field) &&
+                        typeof addressData[field] != 'function' &&
+                        _.isEqual(shippingAddress[field], addressData[field])
+                    ) {
+                        shippingAddress[field] = addressData[field];
+                    } else if (typeof addressData[field] != 'function' &&
+                        !_.isEqual(shippingAddress[field], addressData[field])) {
+                        shippingAddress = addressData;
+                        break;
+                    }
+                }
+
+                if (customer.isLoggedIn()) {
+                    shippingAddress['save_in_address_book'] = 1;
+                }
+                selectShippingAddress(shippingAddress);
+            } else if (customer.isLoggedIn() &&
+                option &&
+                option['is_region_required'] &&
+                !quote.shippingAddress().region
+            ) {
+                messageContainer.addErrorMessage({
+                    message: $t('Please specify a regionId in shipping address.')
+                });
+
+                return false;
+            }
+
+            if (!emailValidationResult) {
+                $(loginFormSelector + ' input[name=username]').focus();
+
+                return false;
+            }
+
+            return true;
+        },
     });
 });

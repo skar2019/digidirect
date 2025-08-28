@@ -1,6 +1,6 @@
 <li id="customer-info" class="checkout-customer-information" data-bind="fadeVisible: visible()">
     <div data-bind="fadeVisible: isShippingVisible">
-        <div class="step-title accordion-step active" data-bind="i18n: '1. Customer Information'" data-role="title" data-step="checkout-step-customerinfo"></div>
+        <div class="step-title accordion-step" data-bind="i18n: '1. Customer Information'" data-role="title" data-step="checkout-step-customerinfo"></div>
         <div id="checkout-step-customerinfo"
              class="step-content"
              data-role="content">
@@ -13,9 +13,31 @@
 
         </div>
     </div>
+
+
+<!--    <div class="actions-toolbar">-->
+<!--        <div class="primary">-->
+<!--            <button type="button"-->
+<!--                    class="action primary"-->
+<!--                    data-bind="click: loginCustomerGlowup">-->
+<!--                <span data-bind="i18n: 'Next'"></span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+    <div class="action-extension-toolbar">
+        <div class="primary">
+            <button id="customer-info-button-extension" class="extension-action button continue primary" type="button">
+<!--            <button id="customer-info-button-extension" class="extension-action button continue primary" type="button">-->
+                <span>Save & Continue</span>
+            </button>
+        </div>
+    </div>
+
 </li>
 
-<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
+<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible(), afterRender: afterRenderHandler">
     <div data-bind="fadeVisible: isShippingVisible">
         <div class="step-title accordion-step" data-bind="i18n: '2. Delivery or Click & Collect'" data-role="title" data-step="checkout-step-shipping"></div>
         <div id="checkout-step-shipping"
@@ -57,6 +79,13 @@
             <!--/ko-->
         </div>
     </div>
+    <div class="action-extension-toolbar">
+        <div class="primary">
+            <button id="delivery-info-button-extension" class="extension-action button continue primary" type="button">
+                <span>Save & Continue</span>
+            </button>
+        </div>
+    </div>
 </li>
 
 <!--Shipping method template-->
@@ -64,7 +93,7 @@
     data-bind="fadeVisible: visible(), blockLoader: isLoading"
     role="presentation">
     <div class="checkout-shipping-method">
-        <div data-bind="i18n: '3. Shipping Method', css: 'step-title accordion-step active' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
+        <div data-bind="i18n: '3. Shipping Method', css: 'step-title accordion-step' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
         <div id="checkout-step-shipping_method"
              class="step-content"
              data-role="content"

@@ -262,3 +262,16 @@
 
 /* Define your color variable */
 @color-orange: #FE4C25;
+
+#checkoutSteps li.inactive{
+    pointer-events: none;
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+#checkoutSteps li.active {
+    pointer-events: auto;
+
+    filter: none ;
+    opacity: unset;
+}
