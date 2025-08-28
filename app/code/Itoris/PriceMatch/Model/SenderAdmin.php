@@ -25,16 +25,8 @@
 
 namespace Itoris\PriceMatch\Model;
 
-use Magento\Catalog\Api\ProductRepositoryInterface;
-
 class SenderAdmin extends SenderAbstract
 {
-    public function __construct(
-        ProductRepositoryInterface $productRepository
-    ){
-        $this->productRepository = $productRepository;
-    }
-    
     protected function getFommatVar($item, $method)
     {
         $rawCommentData = $item['comment'];

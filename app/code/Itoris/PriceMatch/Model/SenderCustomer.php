@@ -25,20 +25,8 @@
 
 namespace Itoris\PriceMatch\Model;
 
-use Magento\Catalog\Api\ProductRepositoryInterface;
-
 class SenderCustomer extends SenderAbstract
 {
-    protected $logger;
-    
-    public function __construct(
-        ProductRepositoryInterface $productRepository,
-        \Psr\Log\LoggerInterface $logger
-    ){
-        $this->productRepository = $productRepository;
-        $this->logger = $logger;
-    }
-    
     protected function getFommatVar($item, $method)
     {
         $checkMethodCoupon = ($method == PriceMatch::METHOD_COUPON ) ? true : false;
@@ -58,7 +46,6 @@ class SenderCustomer extends SenderAbstract
                 $finalPrice = $wiserPrice;
             }
         }
-        $this->logger->info('SenderCustomer - SKU: ' . $item['product_sku'] . ', final_price: ' . $finalPrice);
         
         return [
             'send_vars' => [
