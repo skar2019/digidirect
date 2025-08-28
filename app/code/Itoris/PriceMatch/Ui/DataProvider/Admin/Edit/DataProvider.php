@@ -172,7 +172,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
             }
         }
 
-        return $this->formatPrice($wiserPrice, $item['store_id']);
+        return $this->formatPrice($finalPrice, $item['store_id']);
         //return $this->formatPrice($item['final_price'], $item['store_id']);
     }
 
