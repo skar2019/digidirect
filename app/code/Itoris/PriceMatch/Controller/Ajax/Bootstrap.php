@@ -75,12 +75,14 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-
-        /*if ($wiserPrice != 0 || !empty($wiserPrice)) {
+        $this->logger->info("wiserPrice: ". $wiserPrice);
+        $this->logger->info("finalPrice: ". $finalPrice);
+        
+        if ($wiserPrice != 0 || !empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }
-        }*/
+        }
         
         $response = [
             'product_name' => $product->getName(),
