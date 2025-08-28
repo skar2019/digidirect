@@ -283,9 +283,9 @@ define([
         },
 
         togglePaymentMethod : function ()  {
-            $('#checkoutSteps li').removeClass('active').addClass('inactive');
+            /*$('#checkoutSteps li').removeClass('active').addClass('inactive');
             $('.opc-wrapper .step-content').hide();
-            $('.opc-wrapper li .action-extension-toolbar').hide();
+            $('.opc-wrapper li .action-extension-toolbar').hide();*/
 
             $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
             $('#checkoutSteps li#payment .step-content').show();

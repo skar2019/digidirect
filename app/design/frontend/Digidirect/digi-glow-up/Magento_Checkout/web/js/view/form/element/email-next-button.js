@@ -33,9 +33,15 @@ define([
         $('.opc-wrapper .step-content').hide();
         $('.opc-wrapper li .action-extension-toolbar').hide();
 
+        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+        $('#checkoutSteps li#customer-info .step-content').show();
+        $('#checkoutSteps li#customer-info').css('border', 'none');
+        $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+
         $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#shipping .step-content').show();
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
+
     }
 
     $(document).on("click", "#customer-info-button-extension", function () {

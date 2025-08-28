@@ -28,6 +28,14 @@ define([
         $('.opc-wrapper .step-content').hide();
         $('.opc-wrapper li .action-extension-toolbar').hide();
 
+        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+        $('#checkoutSteps li#customer-info .step-content').show();
+        $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+
+        $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
+        $('#checkoutSteps li#shipping .step-content').show();
+        $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
+
         $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#opc-shipping_method .step-content').show();
         $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
