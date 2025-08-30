@@ -1467,7 +1467,7 @@ class TestPronto extends AbstractHelper
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $todiscount) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 echo "discperc - " .$discperc ." <br/>";
                 if($coupon != "")
@@ -2180,7 +2180,7 @@ class TestPronto extends AbstractHelper
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if($coupon != "")
                 {

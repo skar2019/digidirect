@@ -1035,7 +1035,7 @@ class Order extends AbstractHelper
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty; // in pronto, discount % are mutliplied by qty, so here we divide it
                 }
                 if($coupon != "")
                 {
@@ -2121,7 +2121,7 @@ class Order extends AbstractHelper
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $todiscount) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if($coupon != "")
                 {
@@ -3105,7 +3105,7 @@ class Order extends AbstractHelper
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
                 if ($price > 0) {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if ($coupon != "") {
                     $discount = 0; //set this to zero since we subtract it to total
