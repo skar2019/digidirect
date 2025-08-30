@@ -40,6 +40,7 @@ define([
 
         $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#shipping .step-content').show();
+        $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
 
     }

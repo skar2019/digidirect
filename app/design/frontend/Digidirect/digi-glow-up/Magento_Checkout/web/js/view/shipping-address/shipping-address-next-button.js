@@ -30,14 +30,17 @@ define([
 
         $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#customer-info .step-content').show();
+        $('#checkoutSteps li#customer-info').css('border', 'none');
         $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
 
         $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#shipping .step-content').show();
+        $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
 
         $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#opc-shipping_method .step-content').show();
+        $('#checkoutSteps li#opc-shipping_method').css('border', 'none');
         $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
 
         $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');

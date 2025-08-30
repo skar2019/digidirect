@@ -289,6 +289,7 @@ define([
 
             $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
             $('#checkoutSteps li#payment .step-content').show();
+            $('#checkoutSteps li#payment').css('border', 'none');
             $('#checkoutSteps  li#payment .action-extension-toolbar').show();
         },
 
@@ -404,16 +405,15 @@ define([
         },
 
         afterRenderHandler: function () {
-            console.log('✅ Shipping step DOM has rendered.');
-            $('#checkoutSteps li').removeClass('active').addClass('inactive');
-            $('.opc-wrapper .step-content').hide();
-            $('.opc-wrapper li .action-extension-toolbar').hide();
+            setTimeout(() => {
+                $('#checkoutSteps li').removeClass('active').addClass('inactive');
+                $('.opc-wrapper .step-content').hide();
+                $('.opc-wrapper li .action-extension-toolbar').hide();
 
-
-            $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-            $('#checkoutSteps li#customer-info .step-content').show();
-            $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
-            // Your logic here
+                $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+                $('#checkoutSteps li#customer-info .step-content').show();
+                $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+            }, 200);
         },
 
         /**
