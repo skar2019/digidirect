@@ -35,13 +35,25 @@ class SenderCustomer extends SenderAbstract
         $url = $this->productRepository->getById( $item['product_id'], $item['store_id'] )->getUrlInStore();
         $currentStatus = ($method == PriceMatch::METHOD_COUPON ||  $method == PriceMatch::METHOD_LOWER) ? PriceMatch::STATUS_APPROVED : PriceMatch::STATUS_REJECTED;
 
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
+
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+
+        if (!empty($wiserPrice)) {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }
+        
         return [
             'send_vars' => [
                 'customer_name' => $item['customer_name'],
                 'check_method_coupon' => $checkMethodCoupon,
                 'check_method_lower' => $checkMethodLower,
                 'product_name' => $item['product_name'],
-                'difference' => $this->formatPrice($item['final_price'] - $item['match_price'], $item['store_id']),
+                'difference' => $this->formatPrice($finalPrice - $item['match_price'], $item['store_id']),
                 'coupon' => $couponCode,
                 'requested_price' => $this->formatPrice($item['match_price'], $item['store_id']),
                 'link' => $url,

@@ -69,20 +69,22 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $customer  = $this->customerSession->getCustomer();
 
         $product = $this->productRepository->getById($productId,false, $storeId);
+        $product->setCustomerGroupId(0); // General group
 
         $resultJson = $this->resultJsonFactory->create();
+        $basePrice = $product->getPrice();
         $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
         //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
+        //$this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
 
-        if ($wiserPrice == 0 || empty($wiserPrice)) {
-            $finalPrice = $product->getFinalPrice();
-        } else {
+        if (!empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }
         }
+        
         $response = [
             'product_name' => $product->getName(),
             'final_price' => $finalPrice,//$product->getFinalPrice(),

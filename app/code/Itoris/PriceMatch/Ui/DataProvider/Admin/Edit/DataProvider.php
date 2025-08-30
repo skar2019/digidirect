@@ -42,6 +42,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     protected $configurableProduct;
     protected $productFactory;
     protected $productRepository;
+    protected $logger;
 
     public function __construct
     (
@@ -58,7 +59,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-
+        \Psr\Log\LoggerInterface $logger,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
         array $meta = [],
@@ -75,6 +76,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $this->couponFactory = $couponFactory;
         $this->priceCurrency = $priceCurrency;
         $this->productRepository = $productRepository;
+        $this->logger = $logger;
     }
 
     public function getData()
@@ -157,15 +159,17 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 //        //$finalPrice = $product->getFinalPrice();
 //        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 
-        $product = $this->productRepository->getById($item['product_id']);
-        $price = $product->getCustomAttribute('custom_final_price');
-        $finalPrice = $price->getValue();
-
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
+        
+        $basePrice = $product->getPrice();
+        $finalPrice = $product->getFinalPrice();
         $wiserPrice = $product->getData('wiser_price');
+        //$discountWiserPrice = number_format((float)$finalPrice - $wiserPrice, 2, '.', ''); //round($finalPrice - $wiserPrice, 2);
 
-        if ($wiserPrice == 0 || empty($wiserPrice)) {
-            $finalPrice = $product->getFinalPrice();
-        } else {
+        $this->logger->info("SKU: ". $product->getData('sku') . ", basePrice: ". $basePrice . ", wiserPrice: ". $wiserPrice . ", finalPrice: ". $finalPrice);
+
+        if (!empty($wiserPrice)) {
             if($wiserPrice < $finalPrice) {
                 $finalPrice = $wiserPrice;
             }

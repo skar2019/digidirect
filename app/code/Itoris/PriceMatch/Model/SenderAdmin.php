@@ -32,6 +32,18 @@ class SenderAdmin extends SenderAbstract
         $rawCommentData = $item['comment'];
         $splitCommentData = explode("#contact_number:", $rawCommentData);
         
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
+
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+
+        if (!empty($wiserPrice)) {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }
+        
         return [
             'send_vars' => [
                 'product_name' => $item['product_name'],
@@ -42,7 +54,7 @@ class SenderAdmin extends SenderAbstract
                 'date_time' => $item['date_created'],
                 'contact' => $splitCommentData[1],
                 'email' => $item['customer_email'],
-                'current_price' => $this->formatPrice($item['final_price'], $item['store_id']),
+                'current_price' => $this->formatPrice($finalPrice, $item['store_id']),
                 'requested_price' => $this->formatPrice($item['match_price'], $item['store_id']),
                 'url' => ($item['match_url']) ? $item['match_url'] : __('n/a'),
                 'comment' => $splitCommentData[0],
