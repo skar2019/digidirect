@@ -3,229 +3,186 @@
 namespace Digidirect\SellerShipping\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Checkout\Model\Cart;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Checkout\Model\Session;
+use Psr\Log\LoggerInterface;
 
 class Data extends AbstractHelper
 {
-    
     protected $session;
-    
     protected $logger;
-    
     protected $productFactory;
-    
-    protected $cart;
-    
+    protected $quoteRepository;
+
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Checkout\Model\Session $session,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        Cart $cart
-    ){
+        Session $session,
+        LoggerInterface $logger,
+        ProductFactory $productFactory,
+        CartRepositoryInterface $quoteRepository
+    ) {
+        parent::__construct($context);
         $this->session = $session;
         $this->logger = $logger;
         $this->productFactory = $productFactory;
-        $this->cart = $cart;
-        parent::__construct($context);
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
-     * Get custom fee
+     * Get seller shipping total
      *
-     * @return mixed
+     * @return float
      */
     public function getSellerShipping()
     {
-        //$items = $this->session->getQuote()->getAllVisibleItems();
-        $items = $this->cart->getQuote()->getAllItems();
+        $quoteId = $this->session->getQuoteId();
+        $quote   = $this->quoteRepository->get($quoteId);
+        $items   = $quote->getAllItems();
+
         $sellers = [];
         $zeroShipping = ["LPX Trading Pty Ltd","LatestBuy","Wilson Trading Import Pty Ltd","eMega"];
-        
-        foreach($items as $item) {
-            //$this->logger->info('getProductId: ' . $item->getProductId());
+
+        foreach ($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            //$this->logger->info('getAttributeText: ' . $product->getAttributeText('marketplacer_seller'));
-            //$this->logger->info('getData: ' . $product->getData('marketplacer_seller'));
-            //$this->logger->info('getMarketplacerSeller: ' . $product->getMarketplacerSeller());
-            //$this->logger->info('getSku: ' . $product->getSku());
-            //$this->logger->info('getName: ' . $product->getName());
-            //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
-            //$this->logger->info('getBrand: ' . $product->getBrand());
-            //$this->logger->info('getData(brand): ' . $product->getData('brand'));
-            
-            $seller = $product->getAttributeText('marketplacer_seller');
-            
+            $seller  = $product->getAttributeText('marketplacer_seller');
+
             if ($seller == "") {
                 $seller = "digiDirect";
             }
-            
-            if ((!in_array($seller, $sellers)))  {
-                array_push($sellers, $seller);
+
+            if (!in_array($seller, $sellers)) {
+                $sellers[] = $seller;
             }
-            //$this->logger->info('getProductId: ' . $product->getId());
         }
-        
+
         $sellerTotalShipping = 0;
-        
         $digidirectSeller = 0;
-        
         $nonDigidirectSeller = 0;
-        
         $digidirectSellerCount = 0;
-        
         $nonDigidirectSellerCount = 0;
-        
         $standardShipping = 8.95;
-        
-        foreach($sellers as $seller) {
-            $sellerShipping = 0;
+
+        foreach ($sellers as $seller) {
             $sellerTotal = 0;
-            foreach($items as $item) {
+
+            foreach ($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
-                //$this->logger->info('getFinalPrice: ' . $product->getFinalPrice());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
-            
+
                 if ($seller == $itemSeller) {
                     $sellerTotal += $productTotal;
                 }
             }
-            //$this->logger->info('getSellerShipping: ' . $seller . ',' . $sellerTotal);
-            
-            
+
             if ($seller == "digiDirect") {
                 $digidirectSellerCount++;
             } elseif (in_array($seller, $zeroShipping)) {
-                //$nonDigidirectSeller += 0;
                 $nonDigidirectSellerCount++;
             } else {
                 $nonDigidirectSeller += $standardShipping;
                 $nonDigidirectSellerCount++;
             }
         }
-        
+
         if ($nonDigidirectSellerCount > 0 && $digidirectSellerCount == 0) {
-            $nonDigidirectSeller = $nonDigidirectSeller - $standardShipping;
+            $nonDigidirectSeller -= $standardShipping;
         }
-        
-        /*if ($digidirectSellerCount > 0) {
-            $nonDigidirectSeller = $nonDigidirectSeller + $standardShipping;
-        }*/
-        
-        //$this->logger->info('$digidirectSellerCount: ' . $digidirectSellerCount);
-        //$this->logger->info('$nonDigidirectSellerCount: ' . $nonDigidirectSellerCount);
-        //$this->logger->info('$digidirectSeller: ' . $digidirectSeller);
-        //$this->logger->info('$nonDigidirectSeller: ' . $nonDigidirectSeller);
-        
+
         $sellerTotalShipping = $nonDigidirectSeller;
-        //$sellerCount = count($sellers);
-        //$sellerTotalShipping = $sellerCount * $baseShipping;
-        //$this->logger->info('sellerTotalShipping: ' . $sellerTotalShipping);
-        //$finalSellerTotalShipping = $sellerTotalShipping - $standardShipping;
-        
         return $sellerTotalShipping;
-        
     }
-    
+
     public function getSellers()
     {
-        $items = $this->cart->getQuote()->getAllItems();
+        $quoteId = $this->session->getQuoteId();
+        $quote   = $this->quoteRepository->get($quoteId);
+        $items   = $quote->getAllItems();
+
         $sellers = [];
         $zeroShipping = ["LPX Trading Pty Ltd","LatestBuy","Wilson Trading Import Pty Ltd","eMega"];
-        
-        foreach($items as $item) {
+
+        foreach ($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            $seller = $product->getAttributeText('marketplacer_seller');
-            
+            $seller  = $product->getAttributeText('marketplacer_seller');
+
             if ($seller == "") {
                 $seller = "digiDirect";
             }
-            
-            if (!in_array($seller, $sellers))  {
-                array_push($sellers, $seller);
+
+            if (!in_array($seller, $sellers)) {
+                $sellers[] = $seller;
             }
         }
-        
-        $sellerTotalShipping = 0;
+
         $sellersArray = [];
-        
-        foreach($sellers as $seller) {
-            
-            $sellerShipping = 0;
+
+        foreach ($sellers as $seller) {
             $sellerTotal = 0;
-            
-            foreach($items as $item) {
+
+            foreach ($items as $item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
                 $finalPrice = $product->getFinalPrice();
                 $productTotal = $finalPrice * $item->getQty();
                 $itemSeller = $product->getAttributeText('marketplacer_seller');
-                
+
                 if ($seller == $itemSeller) {
                     $sellerTotal += $productTotal;
                 }
             }
-            
+
             $sellerShipping = 8.95;
-            
             if (in_array($seller, $zeroShipping)) {
                 $sellerShipping = 0;
             }
-            
-            if (!in_array($seller, $sellersArray))  {
-                array_push($sellersArray, [$seller,$sellerShipping]);
+
+            if (!in_array($seller, $sellersArray)) {
+                $sellersArray[] = [$seller, $sellerShipping];
             }
         }
-        
-        //$this->logger->info('sellersArray: ' . json_encode($sellersArray));
-        
+
         return $sellersArray;
-        
     }
-    
-    public function hasMarketplacerSeller() {
+
+    public function hasMarketplacerSeller()
+    {
         $sellers = $this->getSellers();
         $thirdPartyCount = 0;
-        
-        foreach($sellers as $seller){
+
+        foreach ($sellers as $seller) {
             if ($seller[0] != "digiDirect") {
                 $thirdPartyCount++;
             }
         }
-        
-        if ($thirdPartyCount > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $thirdPartyCount > 0;
     }
-    
+
     public function checkForBulkyItems()
     {
-        $items = $this->cart->getQuote()->getAllItems();
+        $quoteId = $this->session->getQuoteId();
+        $quote   = $this->quoteRepository->get($quoteId);
+        $items   = $quote->getAllItems();
+
         $ctr = 0;
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $product = $this->productFactory->create()->load($item->getProductId());
-            //$this->logger->info('bulky_item: ' . $product->getData('bulky_item'));
             $isBulky = $product->getData('bulky_item');
             if ($isBulky == 1) {
                 $ctr++;
             }
         }
-        
-        if ($ctr > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $ctr > 0;
     }
-    
+
     public function getDigiShipping()
     {
         $standardShipping = 8.95;
         $bulkItemSurcharge = 0;
-        if ($this->checkForBulkyItems() == true) {
+        if ($this->checkForBulkyItems()) {
             $bulkItemSurcharge = 20;
         }
         return $standardShipping + $bulkItemSurcharge;
