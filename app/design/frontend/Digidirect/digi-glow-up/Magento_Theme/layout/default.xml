@@ -12,8 +12,8 @@
         <referenceContainer name="header.container">
             <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
                 <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
-                    <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>  
-                    <block class="Magento\Framework\View\Element\Template" name="mobile-navigation-header" template="Magento_Theme::html/mobile-navigation-header.phtml"/>   
+                    <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>
+                    <block class="Magento\Framework\View\Element\Template" name="mobile-navigation-header" template="Magento_Theme::html/mobile-navigation-header.phtml"/>
                 </container>
                 <container name="header.panel.hellobar" htmlClass="hellobar wrapper" htmlTag="div" before="navigation.menu">
                     <block class="Magento\Cms\Block\Block" name="hellobar.slider" >
@@ -24,7 +24,7 @@
                 </container>
             </container>
         </referenceContainer>
-        
+
         <referenceContainer name="content">
             <block name="custom_minicart" as="custom_minicart" template="Magento_Theme::custompopupcart.phtml">
                 <arguments>
@@ -70,7 +70,7 @@
                 </arguments>
             </block>
         </referenceContainer>
-        
+
         <referenceBlock name="logo">
             <arguments>
                 <argument name="logo_file" xsi:type="string">images/digi-logo.svg</argument>
@@ -78,14 +78,14 @@
                 <argument name="logo_width" xsi:type="string">210</argument>
             </arguments>
         </referenceBlock>
-        
+
         <move element="minicart" destination="header-wrapper" after="top.search"/>
         <referenceBlock name="catalog.topnav" remove="true" />
-        
+
         <referenceContainer name="header.container">
             <block class="Magento\Framework\View\Element\Template" name="megamenu" template="Magento_Theme::megamenu.phtml"/>
         </referenceContainer>
-        
+
         <referenceBlock name="footer_links" remove="true"/>
         <referenceBlock name="form.subscribe" remove="true" />
         <referenceBlock name="report.bugs" remove="true" />
