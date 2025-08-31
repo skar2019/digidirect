@@ -62,9 +62,14 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
     </script>
 
     <script type="text/javascript">
-        require(['jquery',
-                 'accordionStep'],
-        function($, accordionStep) {
+        require([
+            'jquery',
+            'accordionStep',
+            'emailNextBtn',
+            'shippingAddressNextBtn'
+            ],
+        function($, accordionStep,emailNextBtn,shippingAddressNextBtn) {
+
             $("body").on("click", ".shipping-methods.table-checkout-shipping-method.items li:not('.collect')", function(){
 
 
@@ -165,9 +170,8 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 $(".order-trigger").trigger("click");
             });
 
-
-        });
-    </script>
+});
+</script>
     <!--End-->
     <?php $pickUpStoreCmsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('pick-up-store')->toHtml() ?>
     <?php $oneHourPickUpAvailable = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('one-hour-pickup-available')->toHtml() ?>

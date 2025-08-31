@@ -41,6 +41,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     protected $urlBuilder;
     protected $configurableProduct;
     protected $productFactory;
+    protected $productRepository;
 
     public function __construct
     (
@@ -56,6 +57,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
 
         RequestInterface $request,
         FilterBuilder $filterBuilder,
@@ -72,6 +74,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $this->urlBuilder = $urlBuilder;
         $this->couponFactory = $couponFactory;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
     }
 
     public function getData()
@@ -138,7 +141,7 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
         $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
         return '<a href="'.$productUrl.'" target="_blank">'.$item['product_name'].'</a>';
     }
-    
+
     private function _formatProductSku($item) {
         $productUrl = $this->urlBuilder->getUrl('catalog/product/edit', ['id'=>$item['product_id']]);
         return $item['product_sku'];
@@ -149,7 +152,28 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     }
 
     private function _formatFinalPrice($item) {
-        return $this->formatPrice($item['final_price'], $item['store_id']);
+
+//        $product = $this->productFactory->create()->load( $item['product_id'] );
+//        //$finalPrice = $product->getFinalPrice();
+//        $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+
+        $product = $this->productRepository->getById($item['product_id']);
+        $price = $product->getCustomAttribute('custom_final_price');
+        //$finalPrice = $price->getValue();
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+        
+        //$this->logger->info("wiserPrice: ". $wiserPrice);
+        //$this->logger->info("finalPrice: ". $finalPrice);
+
+        /*if ($wiserPrice != 0 || !empty($wiserPrice)) {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }*/
+
+        return $this->formatPrice($finalPrice, $item['store_id']);
+        //return $this->formatPrice($item['final_price'], $item['store_id']);
     }
 
     private function formatPrice($amount, $store){

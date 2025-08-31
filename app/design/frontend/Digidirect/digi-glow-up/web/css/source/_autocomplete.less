@@ -7,6 +7,8 @@ and open the template in the editor.
     Created on : 08 17, 25, 1:14:41 PM
     Author     : rondel
 */
+
+//Version 1
 .aa-Panel.productColumn2 {
     top: 183px !important;
     left: 0 !important;
@@ -132,4 +134,52 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
 
 .aa-Item[aria-selected="true"] {
     background: none !important;
+}
+
+//Version 2 Updates
+
+.aa-Panel {
+    top: 182px !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-top: .5px solid #e5e5ea !important;
+}
+
+.aa-Panel .aa-PanelLayout section:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 2;
+    padding-top: 20px;
+    width: 230px;
+}
+
+.aa-Panel .aa-PanelLayout section:nth-child(1) .aa-Item {
+    display: flex;
+}
+
+.aa-Panel .aa-PanelLayout section:nth-child(1) svg {
+    margin-top: 5px;
+}
+
+.aa-Panel .aa-PanelLayout section:nth-child(1) .aa-SourceFooter {
+    display: block;
+    margin-top: 40px;
+}
+
+.aa-Panel .aa-PanelLayout section:nth-child(2) {
+    margin-bottom: 0;
+    margin-left: 0 !important;
+    min-width: 0;
+    grid-area: 1 / 2 / 5 / 3;
+}
+
+.aa-Panel section:nth-child(2) .aa-List {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.aa-Panel section:nth-child(2) .aa-List li {
+    width: unset !important;
+}
+
+div#autocomplete-products-footer {
+    display: none;
 }

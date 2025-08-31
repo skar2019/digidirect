@@ -293,6 +293,223 @@ require(['jquery'], function ($) {
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
+    function productTileMinicart(widgetId, appendTo, isMobile) {
+        let productItem = "";
+        let widget = widgets.find(obj => {
+            return obj.id === widgetId;
+        })
+        let widgetSlots = widget.slots;
+        var productCtr = 0;
+        Object.keys(widgetSlots).forEach(key => {
+            productCtr++;
+            let product = widgetSlots[key].products[0];
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+            
+            let digiDealsLogo = "";
+            let priceBlock = "";
+            let addToCart = "";
+            let s19Label = "";
+            
+            let digiSeconds = "";
+            let digiSecondsOverlay = "";
+            let sellerName = "";
+            
+            let categories = product.attributes.find(obj => {
+                return obj.name === 'Categories';
+            })
+            
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+            
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+            
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+            
+            let digiSecondsRatingValue = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
+            })
+            
+            let digiSecondsRating = "";            
+            
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            }
+            
+            sellerName = seller.stringValue;
+            
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+            
+            if (categories.options[0].value == "PRELOVED") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+            } else if (categories.options[0].value == "OPENBOX") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+            } else if (categories.options[0].value == "REFURB") {
+                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+            }
+            
+            digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
+            //console.log(attribute);
+
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;let sponsoredLabel = "";
+            if (adSetId || adSetId != null) {
+                sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
+            }
+
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
+                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                '</button>' +
+                            '</a>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Order Online Today!</p></div>'
+            } else {
+                addToCart = '<form data-role="tocart-form"' +
+                                'data-product-sku="' + product.sku + '"' +
+                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                '<input type="text" name="qty" value="1" hidden/>' +
+                                '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
+                                '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                                '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
+                                '</button>' + sponsoredLabel
+                            '</form>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
+            }
+            //console.log(product.name, sellerName);
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                } else {
+                    digiDealsLogo = '';
+                }
+            }
+            
+            if (product.prices[0].discountPrice) {
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                    }
+                }
+                
+                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+                let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                        '<span class="price-label">Price Slashed </span>' + 
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="current-price-wrapper has-special-price">' +
+                                    '<div class="digidirectprice">' +
+                                        '<span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
+                                    '</div>' +
+                                    '<span class="special-price"><span class="price-container price-final_price tax weee">' +
+                                        '<span class="price-label"></span>' + 
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
+                            '</div>';
+            } else {
+                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="current-price-wrapper no-special-price">' +
+                                    '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">' + priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>';
+            }
+            
+            var view = "-minicart";
+            var tileId = widgetId + '-product-' + product.refId + view;
+            productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                            '<div class="wish-list-wrapper" data-role="add-to-links">' +
+                                '<a href="#"' +
+                                'data-post=""' +
+                                'class="action towishlist" data-action="add-to-wishlist"' +
+                                'title="Add to Wish List">' +
+                                '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
+                                '</a>' +
+                            '</div>' +
+                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
+                                digiDealsLogo + digiSeconds +
+                                '<span class="product-image-container" style="width: 240px;">' +
+                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                    '</span>' +
+                                '</span>' +
+                            '</a>' + 
+                            '<div class="product details product-item-details">' +
+                                '<strong class="product-item-name">' +
+                                    '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                        product.name +
+                                    '</a>' +
+                                '</strong>' +
+                                priceBlock +
+                            '</div>' +
+                            '<div class="product actions product-item-actions">' +
+                                '<div class="actions-primary">' + s19Label +
+                                    addToCart +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'
+            $(appendTo).append(productItem);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
+        });
+        $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
+    }
+    
     productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
     productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-mobile', true);
     productTile('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
@@ -709,7 +926,28 @@ require(['jquery'], function ($) {
         });
     }, false);
     
-    /*const observer = new MutationObserver((mutations) => { 
+    $("#minicart-content-wrapper").on('scroll', function(){
+        $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
+            console.log();
+            var element = $(this).attr("id");
+            var widgetId = $(this).attr("widget-id");
+            var productId = $(this).attr("product-id");
+            var recommenderId = $(this).attr("recommender-id");
+            var campaignId = $(this).attr("campaign-id");
+            var tacticId = $(this).attr("tactic-id");
+            var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+            var adSetId = $(this).attr("adset-id");
+            var adSetVersion = $(this).attr("adset-version");
+            var costPerClick = $(this).attr("cost-per-click");
+            var timeStamp = $(this).attr("timestamp");
+            var hmacSalt = $(this).attr("hmac-salt");
+            var hmac = $(this).attr("hmac");
+            var keywordId = $(this).attr("keyword-id");
+            isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+        });
+    });
+    
+    const observer = new MutationObserver((mutations) => { 
         if ($("#pa-minicart-desktop").length) {
             //console.log("MutationObserver!");
             productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
@@ -722,7 +960,7 @@ require(['jquery'], function ($) {
     
     function stopMutationObserver() {
         observer.disconnect(); 
-    }*/
+    }
     
     $(document).ready(function(){                                               
         $(".owl-carousel.custom").owlCarousel({
@@ -778,6 +1016,67 @@ require(['jquery'], function ($) {
                 isElementInViewPortOwlCarousel($(this), element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             });
         });
+        
+        var htmlBody = $("#html-body");
+
+        const minicartObserver = new MutationObserver((mutations) => { 
+            if (htmlBody.hasClass("-minicart-opened")) {
+                $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
+                    var element = $(this).attr("id");
+                    var widgetId = $(this).attr("widget-id");
+                    var productId = $(this).attr("product-id");
+                    var recommenderId = $(this).attr("recommender-id");
+                    var campaignId = $(this).attr("campaign-id");
+                    var tacticId = $(this).attr("tactic-id");
+                    var retailBoostCollectionCampaignId = $(this).attr("retail-boost-collection-campaign-id");
+                    var adSetId = $(this).attr("adset-id");
+                    var adSetVersion = $(this).attr("adset-version");
+                    var costPerClick = $(this).attr("cost-per-click");
+                    var timeStamp = $(this).attr("timestamp");
+                    var hmacSalt = $(this).attr("hmac-salt");
+                    var hmac = $(this).attr("hmac");
+                    var keywordId = $(this).attr("keyword-id");
+                    isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
+                });
+            }
+        }); 
+
+        const minicartConfig = { attributes: true, childList: false, subtree: false }; 
+        minicartObserver.observe(htmlBody, minicartConfig);
+    });
+    
+    $(document).ready(function(){                                               
+        $(".owl-carousel.brands").owlCarousel({
+            loop: true,
+            nav: false,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 5
+                },
+                1310: {
+                    items: 6
+                },
+                1366: {
+                    items: 5
+                },
+                1550: {
+                    items: 6
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
     });
     
 });
@@ -801,10 +1100,15 @@ require(['jquery'], function ($) {
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
     </div>
 </div>
+<div class="homepage-row">
+    <div class="glow-up-categories">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('categories-glow-up')->toHtml(); ?>
+    </div>
+</div>
 <div class="homepage-row pa-widget">
     <div class="pa-digidirect-product-widget recommended-for-you-widget">
         <div class="product-widget-header">
-            <div><span style="color: #FE4C25; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Recommended for you.</span><span style="color: black; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #8E8E93; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Our AI believes ‘You’re going to love this’</span></div>
+            <div><span style="color: #FE4C25; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word">Recommended for you.</span><span style="color: black; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #8E8E93; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word">Our AI believes ‘You’re going to love this’</span></div>
         </div>
         <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
@@ -829,7 +1133,7 @@ require(['jquery'], function ($) {
 <div class="homepage-row pa-widget">
     <div class="pa-digidirect-product-widget trending-digimarket-products-widget">
         <div class="product-widget-header">
-            <div><span style="color: #FE4C25; font-size: 32px; font-family: SF Pro; font-weight: 700; line-height: 43.44px; word-wrap: break-word">digi</span><span style="color: black; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Market.</span><span style="color: #9E9E9E; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #8E8E93; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Your marketplace for tech, tools and more.</span></div>
+            <div><span style="color: #FE4C25; font-size: 32px;  font-weight: 700; line-height: 43.44px; word-wrap: break-word">digi</span><span style="color: black; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word">Market.</span><span style="color: #9E9E9E; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #8E8E93; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word">Your marketplace for tech, tools and more.</span></div>
         </div>
         <div id="trending-digimarket-products-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div class="pa-digidirect-product-widget-container widget-placeholder">
@@ -851,6 +1155,51 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('trending-digimarket-products-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
+<div class="homepage-row">
+    <div class="glow-up-digiseconds">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digiseconds-glow-up')->toHtml(); ?>
+    </div>
+</div>
+<div class="homepage-row">
+    <div class="glow-up-brands">
+        <div style="margin-bottom: 10px;"><span style="color: #FE4C25; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Featured</span> <span style="color: #F05A24; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: black; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Brands.</span> <span style="color: #8E8E93; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Gear up with industry leaders.</span></div>
+        <div id="glow-up-brands" class="owl-carousel brands">
+            <a href="<?= $block->getBaseUrl(); ?>brands/sony" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/sony.png') ?>" alt="Sony"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/canon" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/canon.png') ?>" alt="Canon"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/apple" class="brand"><img style="max-width: 65px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/apple.svg') ?>" alt="Apple"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/dji" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/dji.svg') ?>" alt="DJI"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/fujifilm" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/fujifilm.png') ?>" alt="Fujifilm"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/nikon" class="brand"><img style="max-width: 90px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/nikon.svg') ?>" alt="Nikon"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/nvidia" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/nvidia.svg') ?>" alt="NVIDIA"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/logitech" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/logitech.png') ?>" alt="Logitech"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/hp" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/hp.svg') ?>" alt="HP"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/rog" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/rog.svg') ?>" alt="ROG"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/asus" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/asus.svg') ?>" alt="ASUS"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/om-system" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/om.svg') ?>" alt="OM SYSTEM"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/leica" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/leica.svg') ?>" alt="Leica"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/gopro" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/gopro.svg') ?>" alt="GoPro"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/msi" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/msi.svg') ?>" alt="MSI"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/samsung" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/samsung.svg') ?>" alt="Samsung"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/microsoft" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/microsoft.svg') ?>" alt="Microsoft"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/sigma" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/sigma.svg') ?>" alt="SIGMA"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/bose" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/bose.svg') ?>" alt="Bose"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/dji" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/dji.svg') ?>" alt="DJI"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/godox" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/godox.png') ?>" alt="Godox"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/tamron" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/tamron.svg') ?>" alt="Tamron"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/dell" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/dell.svg') ?>" alt="Dell"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/lg" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/lg.svg') ?>" alt="LG"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/xbox" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/xbox.svg') ?>" alt="Xbox"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/jbl" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/jbl.svg') ?>" alt="JBL"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/nintendo" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/nintendo.svg') ?>" alt="Nintendo"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/blackmagic" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/blackmagic.svg') ?>" alt="Blackmagic Design"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/steelseries" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/steelseries.png') ?>" alt="SteelSeries"style="max-width: 55px;"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/panasonic" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/panasonic.svg') ?>" alt="Panasonic"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/kodak" class="brand"><img style="max-width: 100px;" src="<?= $block->getViewFileUrl('images/megamenu/brands/kodak.svg') ?>" alt="Kodak"/></a>
+            <a href="<?= $block->getBaseUrl(); ?>brands/polaroid" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/polaroid.svg') ?>" alt="Polaroid"/></a>
+        </div>
+    </div>
+</div>
+
 <div class="homepage-row pa-widget">
     <div class="shop-by-widget-container">
         <div class="shop-by-widget">
@@ -858,7 +1207,7 @@ require(['jquery'], function ($) {
         </div>
         <div class="pa-digidirect-product-widget trending-digiprint-products-for-you-widget">
             <div class="product-widget-header">
-                <div><span style="color: #FE4C25; font-size: 32px; font-family: SF Pro; font-weight: 700; line-height: 43.44px; word-wrap: break-word">digi</span><span style="color: #242426; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Print.</span><span style="color: #9E9E9E; font-size: 32px; font-family: SF Pro; font-weight: 500; line-height: 43.44px; word-wrap: break-word"> Turn moments into memories.</span></div>
+                <div><span style="color: #FE4C25; font-size: 32px;  font-weight: 700; line-height: 43.44px; word-wrap: break-word">digi</span><span style="color: #242426; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word">Print.</span><span style="color: #9E9E9E; font-size: 32px;  font-weight: 500; line-height: 43.44px; word-wrap: break-word"> Turn moments into memories.</span></div>
             </div>
             <div id="trending-digiprint-products-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             <div class="pa-digidirect-product-widget-container widget-placeholder">
@@ -884,6 +1233,11 @@ require(['jquery'], function ($) {
 <div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up')->toHtml(); ?>
+    </div>
+</div>
+<div class="homepage-row" style="margin-bottom: 40px;">
+    <div class="newsletter-row">
+        <?= $this->getLayout()->createBlock(\Magento\Newsletter\Block\Subscribe::class)->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
     </div>
 </div>
 
