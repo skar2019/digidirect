@@ -1162,7 +1162,7 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row">
     <div class="glow-up-brands">
-        <div style="margin-bottom: 10px;"><span style="color: #FE4C25; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Featured </span><span style="color: #F05A24; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: black; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Brands. </span><span style="color: #8E8E93; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Gear up with industry leaders.</span></div>
+        <div style="margin-bottom: 10px;"><span style="color: #FE4C25; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Featured</span> <span style="color: #F05A24; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: black; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Brands.</span> <span style="color: #8E8E93; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Gear up with industry leaders.</span></div>
         <div id="glow-up-brands" class="owl-carousel brands">
             <a href="<?= $block->getBaseUrl(); ?>brands/sony" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/sony.png') ?>" alt="Sony"/></a>
             <a href="<?= $block->getBaseUrl(); ?>brands/canon" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/canon.png') ?>" alt="Canon"/></a>
@@ -1233,6 +1233,11 @@ require(['jquery'], function ($) {
 <div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up')->toHtml(); ?>
+    </div>
+</div>
+<div class="homepage-row" style="margin-bottom: 40px;">
+    <div class="newsletter-row">
+        <?= $this->getLayout()->createBlock(\Magento\Newsletter\Block\Subscribe::class)->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml(); ?>
     </div>
 </div>
 
