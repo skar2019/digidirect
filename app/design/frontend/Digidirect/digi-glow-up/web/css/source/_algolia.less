@@ -68,7 +68,7 @@
     }
 
     .ais-Hits-item {
-        width: calc(~'(100% - 55px) / 5');
+        width: calc(~'(100% - 55px) / 4');
         margin-left: 13.6px;
         position: relative;
         margin-bottom: 15px;
@@ -77,8 +77,8 @@
     #algolia_instant_selector .col-md-4 {
         width: unset !important;
         float: none !important;
-        border-radius: 5px;
-        border: 1px solid #e6e6e6;
+        border-radius: 20px;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
     }
     
     .result-wrapper {
@@ -107,23 +107,21 @@
     }
     
     .result-title.text-ellipsis {
-        width: 100%;
-        line-height: 2rem;
-        max-height: 4rem;
         -webkit-box-orient: vertical;
         display: -webkit-box;
         overflow: hidden !important;
         -webkit-line-clamp: 2;
-        white-space: unset !important;
-        color: #222;
-        text-decoration: none;
-        font-weight: 400;
-        font-size: 14px !important;
-        height: 53px;
-        margin-bottom: 20px;
+        color: #242426;
+        font-size: 13px;
+        font-family: SF Pro;
+        font-weight: 590;
+        text-transform: capitalize;
+        line-height: 21px;
+        word-wrap: break-word;
+        text-align: left;
     }
     
-    .ais-Hits-item .price-wrapper {
+    /*.ais-Hits-item .price-wrapper {
         margin: 0 !important;
         justify-content: center;
         margin-top: -15px !important;
@@ -143,7 +141,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
+    }*/
     
     .ais-Hits-item .after_special {
         color: #ff3c00;
@@ -276,30 +274,26 @@
     
     .ais-Hits-item .ribbon-digideals {
         position: absolute;
-        top: 8px;
-        left: -8px;
-        z-index: 1;
-        line-height: 1.7;
-        background: #f15923;
-        border-bottom: 7px solid #a93c15;
-        border-right: 6px solid #f15923;
-        clip-path: polygon(0 0, 0 calc(77%), 8px 100%, 8px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
-        font-size: 13px;
-        padding: 0 20px 0 15px;
+        border-radius: 19px 0 34px;
+        background: #F2F2F7;
+        color: #242426;
+        padding: 7px 10px;
+        font-size: 12px;
+        width: 105px;
+        text-align: center;
+        font-weight: 400;
     }
     
     .ais-Hits-item .ribbon-online {
         position: absolute;
-        top: 8px;
-        left: -8px;
-        z-index: 1;
-        line-height: 1.7;
-        background: #262626;
-        border-bottom: 7px solid #a93c15;
-        border-right: 6px solid #262626;
-        clip-path: polygon(0 0, 0 calc(77%), 8px 100%, 8px calc(77%), 90% calc(77%), calc(95%) calc(38.5%), 100% 0);
-        font-size: 13px;
-        padding: 0 20px 0 15px;
+        border-radius: 19px 0 34px;
+        background: #F2F2F7;
+        color: #242426;
+        padding: 7px 10px;
+        font-size: 12px;
+        width: 105px;
+        text-align: center;
+        font-weight: 400;
     }
     
     .ais-Hits-item .s19-rental-price-target {
@@ -476,7 +470,7 @@
 
 @media only screen and (min-width: 1481px) {
     
-    .ais-Hits-item:nth-child(5n+1) {
+    .ais-Hits-item:nth-child(4n+1) {
         margin-left: 0;
     }
     
