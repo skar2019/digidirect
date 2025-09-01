@@ -8,8 +8,8 @@
 ?>
 <div class="block newsletter">
     <div class="newsletter-left">
-        <div style="width: 100%; height: 100%; justify-content: center; display: flex; flex-direction: column; color: #FE4C25; font-size: 36px; font-weight: 700; line-height: 19.65px; word-wrap: break-word">Join Our Newsletter</div>
-        <div style="width: 100%; justify-content: center; display: flex; flex-direction: column; color: #444446; font-size: 13px; font-weight: 400; line-height: 19.65px; word-wrap: break-word">Subscribe for the latest news and offers shaping the future of tech, photography and creative life.</div>
+        <div style="color: #FE4C25; font-size: 36px; font-weight: 700; word-wrap: break-word">Join Our Newsletter</div>
+        <div style="color: #444446; font-size: 13px; font-weight: 400; word-wrap: break-word; max-width: 310px;">Subscribe for the latest news and offers shaping the future of tech, photography and creative life.</div>
     </div>
     <div class="title"><strong><?= $block->escapeHtml(__('Newsletter')) ?></strong></div>
     <div class="content">
@@ -42,7 +42,7 @@
                 </button>
             </div>
         </form>
-        <div>By clicking “Subscribe” you agree to our <a href="<?= $block->getBaseUrl(); ?>terms">TOS</a> and <a href="<?= $block->getBaseUrl(); ?>privacy">Privacy Policy</a>.</div>
+        <div style="font-size: 11px; line-height: 19.65px; color: #AEAEB2; float: right; margin-top: 5px;">By clicking “Subscribe” you agree to our <a href="https://mcstaging2.digidirect.com.au/terms" style="color: #AEAEB2; text-decoration: underline;">TOS</a> and <a href="https://mcstaging2.digidirect.com.au/privacy" style="color: #AEAEB2; text-decoration: underline;">Privacy Policy</a>.</div>
     </div>
 </div>
 <script type="text/x-magento-init">
