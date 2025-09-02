@@ -115,11 +115,15 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                             {{/isNotDigiPrint}}
                         </div>
                         <div class="product-info-bottom">
-                            <div class="discount-price-wrapper">
-                                {{#hasCustomFinalPrice}}
+                            {{#hasCustomFinalPrice}}
+                                <div class="discount-price-wrapper">
                                     <span class="discount-price">{{discount}}</span> Off
-                                {{/hasCustomFinalPrice}}
-                            </div>
+                                </div>
+                            {{/hasCustomFinalPrice}}
+                            {{#hasNoCustomFinalPrice}}
+                                <div class="discount-price-wrapper-no-price"></div>
+                            {{/hasNoCustomFinalPrice}}
+                                    
                             {{#isAddToCartEnabled}}
                                 {{#isNotDigiPrint}}
                                     <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">

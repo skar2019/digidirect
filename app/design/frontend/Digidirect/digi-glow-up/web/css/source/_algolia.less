@@ -80,10 +80,12 @@
         float: none !important;
         border-radius: 20px;
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        padding: 12px !important;
+        overflow: hidden;
     }
     
     .result-wrapper {
-        padding: 15px 0 !important;
+        padding: 0 !important;
     }
     
     .result-thumbnail {
@@ -272,8 +274,22 @@
     }
 
     .ais-Hits-item .discount-price-wrapper {
-        //margin-top: -27px;
-        //margin-bottom: 10px;
+        text-align: left;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        color: #242426;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-right: 10px;
+        margin-left: -12px;
+        background: #C7C7CC;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
     }
     
     .ais-Hits-item .ribbon-digideals {
@@ -398,6 +414,24 @@
     .product-info-bottom {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .ais-Hits-item .action.tocart.primary {
+        width: 100%;
+        margin: 0 !important;
+        background: #FE4C25;
+        border-radius: 24px;
+        font-size: 11px;
+        padding: 3px 13px;
+    }
+    
+    .ais-Hits-item .action.tocart.primary img {
+        height: unset !important;
+        margin: 0 !important;
+        display: inline-block;
+        margin-left: 5px !important;
+        padding-right: 13px;
+        margin-bottom: -1px !important;
     }
     
 }
