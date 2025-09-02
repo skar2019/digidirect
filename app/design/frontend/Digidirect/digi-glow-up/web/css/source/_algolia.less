@@ -266,7 +266,7 @@
         text-align: left;
         font-size: 12px;
         color: #4D4E4E;
-        height: 20px;
+        height: 15px;
     }
 
     .ais-Hits-item span.price {
@@ -324,7 +324,7 @@
         margin-bottom: 10px;
         position: absolute;
         right: 0;
-        top: 55px;
+        top: 50px;
     }
     
     .ais-Hits-item .s19-rental-price-target p {
@@ -362,6 +362,14 @@
     .ais-Hits-item .s19-rental-price-target img {
         margin: 0 !important;
         height: 20px !important;
+        visibility: hidden;
+    }
+    
+    .ais-Hits-item .s19-rental-price-target img:after {
+        content: 'digiRent';
+        visibility: visible;
+        color: #010202;
+        font-size: 15px;
     }
 
     .ais-Hits-item .s19-rental-price-target div {
@@ -419,6 +427,7 @@
     .product-info-bottom {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        margin-top: 5px;
     }
     
     .ais-Hits-item .action.tocart.primary {
