@@ -62,13 +62,13 @@
     }
     
     .ais-Hits-list {
-        display: flex;
-        flex-wrap: wrap;
         margin-top: 15px !important;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .ais-Hits-item {
-        width: calc(~'(100% - 55px) / 4');
+        //width: calc(~'(100% - 55px) / 4');
         margin-left: 13.6px;
         position: relative;
         margin-bottom: 15px;
@@ -122,7 +122,8 @@
         word-wrap: break-word;
         text-align: left;
         white-space: unset !important;
-        max-width: 155px;
+        max-width: 200px;
+        height: 42px;
     }
     
     /*.ais-Hits-item .price-wrapper {
@@ -265,6 +266,7 @@
         text-align: left;
         font-size: 12px;
         color: #4D4E4E;
+        height: 20px;
     }
 
     .ais-Hits-item span.price {
@@ -320,6 +322,9 @@
         text-align: center;
         border-radius: 5px;
         margin-bottom: 10px;
+        position: absolute;
+        right: 0;
+        top: 55px;
     }
     
     .ais-Hits-item .s19-rental-price-target p {
@@ -434,6 +439,14 @@
         margin-bottom: -1px !important;
     }
     
+    .result-sub-content {
+        position: relative;
+    }
+    
+    .result-wrapper .price {
+        margin-top: 20px;
+    }
+    
 }
 
 @media only screen and (max-width: 390px) {
@@ -451,7 +464,7 @@
     }
     
     .ais-Hits-item {
-        width: calc(~'(100% - 15px) / 2') !important; 
+        //width: calc(~'(100% - 15px) / 2') !important; 
     }
     
     .ais-Hits-item:nth-child(2n+1) {
@@ -506,7 +519,7 @@
 @media only screen and (min-width: 991px) and (max-width: 1480px) {
     
     .ais-Hits-item {
-        width: calc(~'(100% - 41px) / 4') !important;
+        //width: calc(~'(100% - 41px) / 4') !important;
     }
     
     .ais-Hits-item:nth-child(4n+1) {
