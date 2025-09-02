@@ -84,7 +84,6 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                                         </span>
                                                     {{/defaultOriginalPrice}}
                                                     {{^defaultOriginalPrice}}
-                                                        <span class="price-label baseFormatedVar" style="margin-right: 5px;">PRICE SLASHED</span>
                                                         <span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
                                                     {{/defaultOriginalPrice}}
                                                 </span>
@@ -116,7 +115,11 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                             {{/isNotDigiPrint}}
                         </div>
                         <div class="product-info-bottom">
-                            <div class="discount-price-wrapper"><span class="discount-price">{{discount}}</span> Off</div>
+                            <div class="discount-price-wrapper">
+                                {{#hasCustomFinalPrice}}
+                                    <span class="discount-price">{{discount}}</span> Off
+                                {{/hasCustomFinalPrice}}
+                            </div>
                             {{#isAddToCartEnabled}}
                                 {{#isNotDigiPrint}}
                                     <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
@@ -133,7 +136,7 @@ $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_form
                                         >
 
                                         {{#isNotPreorder}}
-                                            <span><?php echo __('Add to Cart') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                            <span><?php echo __('Add to Cart') ?></span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/></i>
                                         {{/isNotPreorder}}
                                         {{#isPreorder}}
                                             <span><?php echo __('Pre-Order') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
