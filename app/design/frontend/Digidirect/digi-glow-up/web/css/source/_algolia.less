@@ -114,13 +114,13 @@
         -webkit-line-clamp: 2;
         color: #242426;
         font-size: 13px;
-        font-family: SF Pro;
         font-weight: 590;
         text-transform: capitalize;
         line-height: 21px;
         word-wrap: break-word;
         text-align: left;
         white-space: unset !important;
+        max-width: 155px;
     }
     
     /*.ais-Hits-item .price-wrapper {
@@ -146,9 +146,11 @@
     }*/
     
     .ais-Hits-item .after_special {
-        color: #ff3c00;
-        font-weight: 700;
-        font-size: 16px;
+        color: #363638;
+        font-weight: 500;
+        font-size: 18px;
+        text-align: left;
+        display: block;
     }
     
     .ais-Hits-item .action.tocart.primary {
@@ -258,20 +260,20 @@
     
     .ais-Hits-item .price-container {
         display: block;
-        text-align: center;
-        font-size: 9px;
-        color: #777;
+        text-align: left;
+        font-size: 12px;
+        color: #4D4E4E;
     }
 
     .ais-Hits-item span.price {
-        color: #777 !important;
-        background: linear-gradient(170deg, transparent 42.75%, red, red, transparent 52.25%);
-        font-size: 11px !important;
+        font-size: 12px;
+        color: #4D4E4E;
+        text-decoration: line-through;
     }
 
     .ais-Hits-item .discount-price-wrapper {
-        margin-top: -27px;
-        margin-bottom: 10px;
+        //margin-top: -27px;
+        //margin-bottom: 10px;
     }
     
     .ais-Hits-item .ribbon-digideals {
@@ -391,6 +393,11 @@
     
     #algolia_instant_selector .page-title-wrapper {
         display: none;
+    }
+    
+    .product-info-bottom {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
     
 }
