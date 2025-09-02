@@ -8,7 +8,8 @@ define([
     'Magento_Checkout/js/model/shipping-service',
     'Magento_Checkout/js/model/quote',
     'uiRegistry',
-    'mage/validation'
+    'mage/validation',
+    'Magento_Customer/js/model/customer'
 ], function (
     $,
     domReady,
@@ -19,7 +20,8 @@ define([
     shippingService,
     quote,
     registry,
-    validation
+    validation,
+    customer
 ) {
     'use strict';
 
@@ -28,10 +30,12 @@ define([
         $('.opc-wrapper .step-content').hide();
         $('.opc-wrapper li .action-extension-toolbar').hide();
 
-        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#customer-info .step-content').show();
-        $('#checkoutSteps li#customer-info').css('border', 'none');
-        $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+        if (!customer.isLoggedIn()) {
+            $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+            $('#checkoutSteps li#customer-info .step-content').show();
+            $('#checkoutSteps li#customer-info').css('border', 'none');
+            $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+        }
 
         $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
         $('#checkoutSteps li#shipping .step-content').show();
