@@ -45,9 +45,6 @@ $orderArray = $block->getOrderArray();
 </script>
 <div class="checkout-success">
     <div class="thank-you-wrapper">
-        <!-- Confetti (JS will trigger this) -->
-<!--        <div id="confetti-canvas"></div>-->
-
         <h1 class="thank-you-title"><?= /* @escapeNotVerified */__('Thank you!') ?></h1>
         <p class="thank-you-message"><?= /* @escapeNotVerified */__('Your payment has been successfully processed, and your order.') ?></p>
         <p class="thank-you-message"><?= /* @escapeNotVerified */__('is now being prepared for shipment.') ?></p>
@@ -58,6 +55,18 @@ $orderArray = $block->getOrderArray();
 
         <div class="order-status-tracker">
             <img src="<?php echo $block->getUrl("media/wysiwyg/") ?>checkout/checkout-status-bar.png" alt="Digidirect order status"/>
+        </div>
+
+        <div class="order-date">
+            <?php
+                $today = new \DateTime();
+                $formattedDate = $block->formatDate(
+                    $today,
+                    \IntlDateFormatter::FULL,
+                    false
+                );
+            ?>
+            <?= /* @escapeNotVerified */__('Placed on '.$formattedDate) ?>
         </div>
 
         <?php if ($block->getOrderId()):?>
@@ -331,7 +340,7 @@ $orderArray = $block->getOrderArray();
 
 <!--                <span class="header">--><?php //= /* @escapeNotVerified */__('Your order has been received') ?><!--</span>-->
 <!--                <span class="title">--><?php //= /* @escapeNotVerified */__('Thank you for your purchase') ?><!--</span>-->
-                <span class="title -addition"><?= __('Your orders number are: ' . substr($orderString, 0, -2) . '.') ?></span>
+                <span class="title -addition"><?= __('Orders: ' . substr($orderString, 0, -2) . '.') ?></span>
 
 <!--                <p class="content">--><?php //= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?><!--</p>-->
 
@@ -608,43 +617,126 @@ $orderArray = $block->getOrderArray();
         <?= $block->getAdditionalInfoHtml() ?>
     </div>
 </div>
-<!--<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>-->
 <script>
-    window.onload = function () {
-        const duration = 5000; // 5 seconds
-        const animationEnd = Date.now() + duration;
-        const defaults = {
-            startVelocity: 40,
-            spread: 360,
-            ticks: 80,
-            zIndex: 1000,
-            scalar: 1.5 // Bigger pieces
-        };
+    const pageWrapper = document.querySelector('.page-wrapper');
 
-        // Initial burst — more particles
-        confetti({
-            ...defaults,
-            particleCount: 200,
-            origin: { y: 0.6 }
+    if (pageWrapper) {
+        const partyCanvas = document.createElement('canvas');
+        partyCanvas.id = 'party-canvas'; // Set the ID so you can target it
+        partyCanvas.style.position = 'absolute';
+        partyCanvas.style.top = '0';
+        partyCanvas.style.left = '0';
+        partyCanvas.style.width = '100%';
+        partyCanvas.style.height = '100%';
+        partyCanvas.style.pointerEvents = 'none';
+        partyCanvas.style.zIndex = '9999';
+
+        pageWrapper.parentNode.insertBefore(partyCanvas, pageWrapper.nextSibling);
+    }
+
+
+    let animationFrameId;
+    const canvas = document.getElementById("party-canvas");
+    const ctx = canvas.getContext("2d");
+    const particles = [];
+
+    const gradientPairs = [
+        ["#00A1FF", "#422FD4"],
+        ["#FF003C", "#FF455E"],
+        ["#C20094", "#9C00C2"],
+        ["#D1D100", "#93D100"],
+        ["#FFA600", "#FFD100"]
+    ];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function createParticle() {
+        const gradient = gradientPairs[Math.floor(Math.random() * gradientPairs.length)];
+        const width = Math.random() * 30 + 5;
+        const height = Math.random() * 45 + 20;
+
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            width: width,
+            height: height,
+            speedX: (Math.random() - 0.5) * 4,
+            speedY: Math.random() * 4 + 5,
+            rotation: (Math.random() - 0.5) * 3,
+            gradient: gradient,
+            stopped: false
+        });
+    }
+
+    function updateParticle(particle) {
+        if (particle.stopped) return;
+
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        particle.x += Math.sin(particle.y * 0.1) * Math.random() * 0.5;
+
+        if (particle.y >= canvas.height - particle.height) {
+            particle.y = canvas.height - particle.height;
+            particle.speedX = 0;
+            particle.speedY = 0;
+            particle.rotation = 0;
+            particle.stopped = true;
+
+            setTimeout(() => {
+                const idx = particles.indexOf(particle);
+                if (idx > -1) {
+                    particles.splice(idx, 1);
+                }
+            }, 0);
+        }
+
+    }
+
+    function drawParticle(particle) {
+        ctx.save();
+        ctx.translate(particle.x, particle.y);
+        ctx.rotate(particle.rotation);
+
+        // Gradient direction from top-left to bottom-right of the confetti piece
+        const gradient = ctx.createLinearGradient(0, 0, particle.width, particle.height);
+        gradient.addColorStop(0, particle.gradient[0]);
+        gradient.addColorStop(1, particle.gradient[1]);
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, particle.width, particle.height);
+
+        ctx.restore();
+    }
+
+    for (let i = 0; i < 200; i++) {
+        createParticle();
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((particle) => {
+            updateParticle(particle);
+            drawParticle(particle);
         });
 
-        // Continuous stream with many particles
-        const interval = setInterval(() => {
-            const timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                return;
-            }
+        const allStopped = particles.every(p => p.stopped);
+        if (!allStopped) {
+            animationFrameId = requestAnimationFrame(animate);
+        } else {
+            console.log("All confetti landed 🎉");
+            cancelAnimationFrame(animationFrameId);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+        }
+    }
 
-            confetti({
-                ...defaults,
-                particleCount: 20, // 👈 Increase this
-                origin: {
-                    x: Math.random(),
-                    y: Math.random() * 0.5
-                }
-            });
-        }, 100); // 👈 Emit more frequently
-    };
+    animate();
+
 </script>
 
