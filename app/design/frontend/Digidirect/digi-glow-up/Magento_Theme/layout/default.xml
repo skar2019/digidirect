@@ -9,6 +9,11 @@
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
     <body>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="facets.collapsible"
+                   template="Magento_Theme::js/facets-collapsible.phtml"/>
+        </referenceContainer>
         <referenceContainer name="header.container">
             <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
                 <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
@@ -85,7 +90,7 @@
         <referenceContainer name="header.container">
             <block class="Magento\Framework\View\Element\Template" name="megamenu" template="Magento_Theme::megamenu.phtml"/>
         </referenceContainer>
-
+        
         <referenceContainer name="page.bottom">
             <block class="Magento\Newsletter\Block\Subscribe" name="global.newsletter" template="subscribe.phtml" before="footer"/>
         </referenceContainer>

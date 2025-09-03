@@ -456,6 +456,73 @@
         margin-top: 20px;
     }
     
+    .ais-Panel {
+        margin: 0 !important;
+        border: 0 !important;
+    }
+
+    .ais-Panel-header .name {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 21px;
+    }
+
+    input.ais-RefinementList-checkbox {
+        width: 16.7px;
+        height: 16.7px;
+    }
+
+    input[type="checkbox"] {
+        accent-color: #FE4C25;
+    }
+
+    button.ais-ClearRefinements-button.action.primary {
+        background: #FE4C25;
+        border-color: #FE4C25;
+    }
+    
+    .ais-Panel-body.facet-body {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding: 0 15px 5px;
+        border-bottom: 1px solid #E6E6E6;
+    }
+
+    .ais-Panel-body.facet-body.collapsed {
+        max-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .ais-Panel-header.collapsed::after {
+        transform: rotate(-90deg);
+    }
+    
+    .ais-Panel-header {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        background: #fff !important;
+        padding: 10px 0 5px !important;
+    }
+    
+    .ais-Panel-header::after {
+        content: "";
+        display: inline-block;
+        width: 16px;   /* match your arrow.png size */
+        height: 16px;
+        margin-left: 8px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        transition: transform 0.3s ease;
+    }
+
+    /* Rotate arrow when collapsed */
+    .ais-Panel-header.collapsed::after {
+        transform: rotate(-90deg);
+    }
+    
 }
 
 @media only screen and (max-width: 390px) {
