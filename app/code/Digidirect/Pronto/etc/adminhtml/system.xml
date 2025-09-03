@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mwave_settings" translate="label" sortOrder="100">
+            <label>MWave Settings</label>
+        </tab>
+        <section id="mwave_credential_section" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>SFTP Credentials</label>
+            <tab>mwave_settings</tab>
+            <resource>Digidirect_Pronto::config_credentials</resource>
+            <group id="mwave_settings_group" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SFTP Details</label>
+
+                <field id="hostname" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hostname</label>
+                </field>
+
+                <field id="username" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                </field>
+
+                <field id="password" translate="label" type="password" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>

@@ -38,5 +38,11 @@
         <job name="pronto_customfinalp" instance="Digidirect\Pronto\Cron\WiserData" method="customfinalp">
             <schedule>3 7 * * *</schedule>
         </job>
+        <job name="pronto_mwavedata" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>30 * * * *</schedule>
+        </job>
+        <job name="pronto_mwavesftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="execute">
+            <schedule>55 * * * *</schedule>
+        </job>
     </group>
 </config>

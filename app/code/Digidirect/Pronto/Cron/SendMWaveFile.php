@@ -1,0 +1,19 @@
+<?php
+namespace Digidirect\Pronto\Cron;
+
+use Digidirect\Pronto\Helper\SftpMWaveSender;
+
+class SendMWaveFile
+{
+
+    public function __construct(
+        Sftpwisersender $helper)
+    {
+        $this->helper = $helper;
+    }
+
+    public function execute()
+    {
+        $this->helper->sendFile();
+    }
+}
