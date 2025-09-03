@@ -85,9 +85,9 @@
         <referenceContainer name="header.container">
             <block class="Magento\Framework\View\Element\Template" name="megamenu" template="Magento_Theme::megamenu.phtml"/>
         </referenceContainer>
-        
-        <referenceContainer name="page.bottom" before="footer">
-            <block class="Magento\Newsletter\Block\Subscribe" name="global.newsletter" template="subscribe.phtml"/>
+
+        <referenceContainer name="page.bottom">
+            <block class="Magento\Newsletter\Block\Subscribe" name="global.newsletter" template="subscribe.phtml" before="footer"/>
         </referenceContainer>
 
         <referenceBlock name="footer_links" remove="true"/>
