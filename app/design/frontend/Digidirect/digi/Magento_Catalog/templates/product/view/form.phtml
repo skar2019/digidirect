@@ -28,10 +28,10 @@ $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Mag
 $sku = $_product->getSku();
 $awaiting = $_product->getAwaitingProduct();
 
-if($brand == 'canon' || $brand == 'sony' )
-{
-    $awaiting = 0;
-}
+//if($brand == 'canon' || $brand == 'sony' )
+//{
+//    $awaiting = 0;
+//}
 //if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
 //    $qff_bonus_points = $_product->getQffBonusPoints();
 //    $qff_base_points = $_product->getQffBase();
