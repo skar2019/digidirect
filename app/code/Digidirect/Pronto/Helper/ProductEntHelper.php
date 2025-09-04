@@ -1026,6 +1026,7 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $final_price3;
                 $data[] = $stockC;
                 $data[] = $sckGrp;
+                $data[] = $threewhs;
                 $data[] = $stockonhand;
                 $data[] = $stockDivision;
                 $data[] = $stockDepartment;
