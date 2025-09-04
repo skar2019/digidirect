@@ -7,7 +7,7 @@ class SendMWaveFile
 {
 
     public function __construct(
-        Sftpwisersender $helper)
+        SftpMWaveSender $helper)
     {
         $this->helper = $helper;
     }

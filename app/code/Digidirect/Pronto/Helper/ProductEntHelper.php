@@ -791,7 +791,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
+            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','3WHS','Stock On Hand',
             'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
 
         $stream->writeCsv($header);
@@ -954,9 +954,19 @@ class ProductEntHelper extends AbstractHelper
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
                 $stockonhand = 0;
-                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                $threewhs = 0;
+                foreach ($sourceItems as $sourceItemId => $sourceItem)
+                {
+                    $code = $sourceItem->getSourceCode();
+                    if($code == '3WHS' )
+                    {
+                        $threewhs = $sourceItem->getQuantity();
+                    }
+                    else
+                    {
+                        $stockonhand += $sourceItem->getQuantity();
+                    }
 
-                    $stockonhand += $sourceItem->getQuantity();
                 }
 
                 $stockDivision = $product->getCustomAttribute('stock_division');
