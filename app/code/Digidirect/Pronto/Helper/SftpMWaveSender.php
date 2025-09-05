@@ -30,8 +30,6 @@ class SftpMWaveSender extends AbstractHelper
         $username = $this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/username');
         $password = $this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/password');;
 
-        echo $hostname." - " .$password;
-
         $sftpConfig = [
             'host' => $hostname,
             'port' => '22',
