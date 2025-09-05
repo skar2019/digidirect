@@ -291,3 +291,49 @@
         letter-spacing: 0.5px;
     }
 }
+
+.modals-wrapper .modal-popup .modal-inner-wrap {
+    max-height: 100% !important;
+    //margin: 210px -450px !important;
+    margin: 0 !important;
+    left: 25% !important;
+}
+
+.modals-wrapper footer.modal-footer {
+    display: block !important;
+}
+
+.modal-popup.-content-scroll._inner-scroll._show {
+    overflow: hidden; /* Hide overflow on the whole popup */
+}
+
+.modal-popup .modal-inner-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.modal-popup .modal-content {
+    overflow-y: auto; /* Enable vertical scrolling */
+    flex: 1 1 auto;    /* Make content area grow */
+    -ms-overflow-style: none;  /* Hide scrollbar in IE/Edge */
+    scrollbar-width: none;     /* Hide scrollbar in Firefox */
+}
+
+.modal-popup .modal-content::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome/Safari */
+}
+
+.modal-popup .action.primary {
+    background-color: #FE4C25;
+    border-radius: 100px;
+}
+
+.modal-popup .action.secondary {
+    //background-color: #FE4C25;
+    border-radius: 100px;
+}
+
+#shipping-save-in-address-book {
+    display: none;
+}
