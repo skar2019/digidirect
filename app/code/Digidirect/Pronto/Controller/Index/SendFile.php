@@ -1,7 +1,7 @@
 <?php
 namespace Digidirect\Pronto\Controller\Index;
 
-use Digidirect\Pronto\Helper\Sftpfilesender;
+use Digidirect\Pronto\Helper\SftpMWaveSender;
 
 class SendFile extends \Magento\Framework\App\Action\Action
 {
@@ -9,7 +9,7 @@ class SendFile extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        Sftpfilesender $helper)
+        SftpMWaveSender $helper)
     {
         $this->helper = $helper;
         return parent::__construct($context);
