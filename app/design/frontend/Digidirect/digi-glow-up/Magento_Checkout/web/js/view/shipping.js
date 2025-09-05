@@ -410,9 +410,23 @@ define([
                 $('.opc-wrapper .step-content').hide();
                 $('.opc-wrapper li .action-extension-toolbar').hide();
 
-                $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-                $('#checkoutSteps li#customer-info .step-content').show();
-                $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+                if (!isCustomerLoggedIn) {
+                    $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+                    $('#checkoutSteps li#customer-info .step-content').show();
+                    $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
+                } else {
+                    $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
+                    $('#checkoutSteps li#shipping .step-content').show();
+                    $('#checkoutSteps li#shipping').css('border', 'none');
+                    $('#checkoutSteps li#shipping .action-extension-toolbar').show();
+
+                    $('#customer-info').css('display', 'none');
+                    $('.account-signin-banner').css('display','none');
+                    $('#shipping .step-title').text('1. Delivery or Click & Collect');
+                    $('#opc-shipping_method .step-title').text('2. Shipping Method');
+                    $('#payment .step-title').text('3. Payment');
+                }
+
             }, 200);
         },
 
