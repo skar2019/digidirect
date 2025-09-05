@@ -42,12 +42,23 @@ define([
         $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
 
-        $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#opc-shipping_method .step-content').show();
-        $('#checkoutSteps li#opc-shipping_method').css('border', 'none');
-        $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
+        var selectedDeliveryType = $('input[name="delivery_type"]:checked').val();
+        console.log(selectedDeliveryType);
 
-        $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');
+        if (selectedDeliveryType == 'delivery') {
+            $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
+            $('#checkoutSteps li#opc-shipping_method .step-content').show();
+            $('#checkoutSteps li#opc-shipping_method').css('border', 'none');
+            $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
+
+            $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');
+        } else {
+            $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
+            $('#checkoutSteps li#payment .step-content').show();
+            $('#checkoutSteps li#payment').css('border', 'none');
+            $('#checkoutSteps  li#payment .action-extension-toolbar').show();
+        }
+
     }
 
     $(document).on("click", "#delivery-info-button-extension", function () {
