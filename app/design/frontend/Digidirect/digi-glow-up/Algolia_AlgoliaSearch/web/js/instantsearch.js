@@ -1155,6 +1155,18 @@ define([
             }
 
             search.addWidgets([widget(config)]);
+            
+            search.addWidgets([
+                instantsearch.widgets.hitsPerPage({
+                    container: '#hits-per-page',
+                    items: [
+                        { label: '4', value: 4 },
+                        { label: '8', value: 8 },
+                        { label: '16', value: 16, default: true },
+                        { label: '32', value: 32 },
+                    ],
+                }),
+            ]);
         },
 
         addSearchForFacetValues(facet, options) {
