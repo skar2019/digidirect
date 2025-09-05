@@ -28,6 +28,12 @@
     }
 }
 
+.page-title-wrapper span.base {
+    color: #242426;
+    font-size: 28px;
+    font-weight: 700;
+}
+
 // Main Product Container
 .product-main-container {
     max-width: @product-container-max-width;
@@ -62,8 +68,8 @@
     }
 
     // Product Media Gallery
-    .product-media-gallery {
-        width: 100%;
+    .product.media {
+        width: 100% !important;
 
         .fotorama {
             width: 100%;
@@ -118,6 +124,9 @@
         order: 2;
     }
 
+    .msiavailability-wrapper {
+        display: none;
+    }
     // Product Title Section
     .product-title-section {
         .responsive-spacing(10px, 15px, 20px);
@@ -260,6 +269,10 @@
     @media (max-width: @mobile-breakpoint) {
         flex: 1;
         order: 3;
+    }
+
+    .product-info-main {
+        width: 100% !important;
     }
 
     // Purchase Section Container
@@ -665,6 +678,7 @@
         .items {
             font-size: 12px !important;
             color: #7C7C80 !important;
+            padding-top: 10px;
         }
 
         a {
