@@ -49,10 +49,6 @@
         margin-bottom: 15px;
     }
     
-    .ais-RangeSlider {
-        margin: 0 !important;
-    }
-    
     .algolia-instant-replaced-content {
         display: none !important;
     }
@@ -538,6 +534,7 @@
     #algolia-custom-refinement {
         margin-top: 15px;
         display: flex;
+        white-space: nowrap;
     }
     
     #algolia-custom-refinement {
@@ -547,6 +544,10 @@
             border: 0;
             padding: 5px 0;
             margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 1015px;
         }
     
         .ais-CurrentRefinements-label {
@@ -562,6 +563,7 @@
             padding: 7px 7px 7px 12px;
             outline: 1px #FFC9BE solid;
             outline-offset: -1px;
+            margin: 0;
         }
         
         .ais-ClearRefinements-button.action.primary {
@@ -598,10 +600,15 @@
     .algolia-infos {
         background: #fff !important;
         display: flex;
+        padding: 6px 0 !important;
     }
     
     #algolia_instant_selector .pull-right {
         float: left;
+    }
+    
+    .sort-by-label {
+        margin-top: 3px;
     }
 
     .sort-by-label.pull-left {
@@ -627,6 +634,7 @@
         appearance: none;
         border: 1px solid #E5E5EA;
         min-width: 50px;
+        height: 40px;
     }
     
     .ais-SortBy:after, .ais-HitsPerPage:after {
@@ -644,7 +652,7 @@
     }
     
     .hits-per-page-container {
-        margin-right: 0;
+        margin-right: 20px;
         margin-left: auto;
     }
     
@@ -696,6 +704,131 @@
     #algolia_instant_selector .col-md-9 {
         width: 78% !important;
         padding-top: 10px;
+    }
+    
+    //Grid View & List View Toggle
+    
+    .list-view .ais-Hits-list {
+        grid-template-columns: unset;
+    }
+
+    .list-view-col {
+        display: none;
+    }
+
+    .list-view .list-view-col {
+        display: block;
+    }
+
+    .list-view .grid-view-col {
+        display: none;
+    }
+
+    .list-view .ais-Hits-item .result-thumbnail img {
+        float: left;
+    }
+
+    .list-view .result-content {
+        display: flex;
+    }
+    
+    .list-view .result-sub-content {
+        padding-left: 15px;
+    }
+    
+    .list-view .ais-Hits-item {
+        margin-left: 0;
+    }
+
+    .list-view-col .result-thumbnail {
+        flex: 0 0 240px;
+    }
+
+    .list-view-col .result-title.text-ellipsis {
+        max-width: 300px;
+    }
+
+    .list-view-col .s19-rental-price-target {
+        text-align: left;
+        position: unset;
+    }
+
+    .result-sub-content.right-content {
+        margin-right: 0;
+        margin-left: auto;
+        padding: 0 25px;
+        width: 205px;
+    }
+    
+    .list-view-col .price-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .list-view-col .product-info-bottom {
+        grid-template-columns: unset;
+    }
+
+    .list-view-col .discount-price-wrapper {
+        display: block;
+        text-align: center;
+        padding: 10px 0 5px !important;
+        margin: 0 20px;
+        border-radius: 0;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+        margin-top: -17px;
+        min-width: 111px;
+    }
+
+    .list-view-col .price-container {
+        margin-top: 5px;
+    }
+
+    .ais-Hits-item .list-view-col .action.tocart.primary img {
+        padding: 0;
+    }
+
+    .ais-Hits-item .list-view-col .action.tocart.primary {
+        width: auto;
+        margin-top: 5px !important;
+    }
+
+    .list-view-col .price-wrapper:has(.price:not(:empty)) {
+        gap: 10px;
+    }
+    
+    .ais-ViewToggle-button.is-active {
+        background: #242426;
+    }
+    
+    .ais-ViewToggle-button.is-active img {
+        filter: invert(1);
+    }
+    
+    .ais-ViewToggle {
+        display: flex;
+        padding: 4px;
+        background: #F2F2F7;
+        border-radius: 999px;
+        outline: 1px #C7C7CC solid;
+        outline-offset: -1px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .ais-ViewToggle-button {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 0;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
     }
     
 }
