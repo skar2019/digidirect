@@ -252,6 +252,24 @@ define([
          * @return {Boolean}
          */
         selectShippingMethod: function (shippingMethod) {
+            if (customer.isLoggedIn()) {
+                if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+                    $('#payment .step-title.accordion-step').text('2. Payment');
+                    $('#opc-shipping_method').hide();
+                } else {
+                    $('#payment .step-title.accordion-step').text('3. Payment');
+                    $('#opc-shipping_method').show();
+                }
+            } else {
+                if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+                    $('#payment .step-title.accordion-step').text('3. Payment');
+                    $('#opc-shipping_method').hide();
+                } else {
+                    $('#payment .step-title.accordion-step').text('4. Payment');
+                    $('#opc-shipping_method').show();
+                }
+            }
+
             selectShippingMethodAction(shippingMethod);
             checkoutData.setSelectedShippingRate(shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']);
 
@@ -283,14 +301,12 @@ define([
         },
 
         togglePaymentMethod : function ()  {
-            /*$('#checkoutSteps li').removeClass('active').addClass('inactive');
-            $('.opc-wrapper .step-content').hide();
-            $('.opc-wrapper li .action-extension-toolbar').hide();*/
-
             $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
             $('#checkoutSteps li#payment .step-content').show();
             $('#checkoutSteps li#payment').css('border', 'none');
             $('#checkoutSteps  li#payment .action-extension-toolbar').show();
+
+            $('#checkoutSteps li#payment #latipay-form li.latipay-options-item').removeClass('inactive').addClass('active');
         },
 
         /**
@@ -414,6 +430,11 @@ define([
                     $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
                     $('#checkoutSteps li#customer-info .step-content').show();
                     $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
+
+                    if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+                        $('#payment .step-title.accordion-step').text('3. Payment');
+                    }
+
                 } else {
                     $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
                     $('#checkoutSteps li#shipping .step-content').show();
@@ -424,7 +445,11 @@ define([
                     $('.account-signin-banner').css('display','none');
                     $('#shipping .step-title').text('1. Delivery or Click & Collect');
                     $('#opc-shipping_method .step-title').text('2. Shipping Method');
-                    $('#payment .step-title').text('3. Payment');
+                    $('#payment .step-title.accordion-step').text('3. Payment');
+
+                    if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+                        $('#payment .step-title.accordion-step').text('2. Payment');
+                    }
                 }
 
             }, 200);

@@ -260,10 +260,8 @@
     }
 }
 
-/* Define your color variable */
-@color-orange: #FE4C25;
-
-#checkoutSteps li.inactive{
+/****Checkout sections and continue buttons style start***/
+#checkoutSteps li.inactive {
     pointer-events: none;
     filter: grayscale(100%);
     opacity: 0.6;
@@ -271,7 +269,6 @@
 
 #checkoutSteps li.active {
     pointer-events: auto;
-
     filter: none ;
     opacity: unset;
 }
@@ -280,7 +277,7 @@
     display: flex;
     justify-content: right;
     button {
-        background-color: #FE4C25;
+        background-color: @color-orange;
         color: white;
         border-radius: 100px;
         height: 40px;
@@ -292,48 +289,8 @@
     }
 }
 
-.modals-wrapper .modal-popup .modal-inner-wrap {
-    max-height: 100% !important;
-    //margin: 210px -450px !important;
-    margin: 0 !important;
-    left: 25% !important;
-}
-
-.modals-wrapper footer.modal-footer {
-    display: block !important;
-}
-
-.modal-popup.-content-scroll._inner-scroll._show {
-    overflow: hidden; /* Hide overflow on the whole popup */
-}
-
-.modal-popup .modal-inner-wrap {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.modal-popup .modal-content {
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex: 1 1 auto;    /* Make content area grow */
-    -ms-overflow-style: none;  /* Hide scrollbar in IE/Edge */
-    scrollbar-width: none;     /* Hide scrollbar in Firefox */
-}
-
-.modal-popup .modal-content::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in Chrome/Safari */
-}
-
-.modal-popup .action.primary {
-    background-color: #FE4C25;
+button {
     border-radius: 100px;
 }
-
-.modal-popup .action.secondary {
-    //background-color: #FE4C25;
-    border-radius: 100px;
-}
-
-#shipping-save-in-address-book {
-    display: none;
-}
+@color-orange: #FE4C25;
+/****Checkout sections style end***/
