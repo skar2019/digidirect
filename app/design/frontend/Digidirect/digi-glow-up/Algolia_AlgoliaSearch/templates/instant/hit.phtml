@@ -36,6 +36,13 @@ $seller = $block->escapeHtml('marketplacer_seller');
         </div>
     {{/isDigiSeconds}}
             
+    <a href="javascript:void(0);"
+        class="action towishlist"
+        title="<?php echo __('Add to Wishlist') ?>"
+        data-post='{"action":"/wishlist/index/add/","data":{"product":"{{objectID}}","uenc":"{{url}}"}}'>
+        <img src="<?= $block->getViewFileUrl('images/iconsax-heart.png') ?>"/>
+    </a>
+
     <div class="col-md-4 col-sm-6 grid-view-col" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
@@ -47,7 +54,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                 data-queryid="{{__queryID}}">
                 <div class="result-content">
                     <div class="result-thumbnail">
-                        {{#image_url}}<img itemprop="image" src="{{{image_url}}}" alt="{{{name}}}" />{{/image_url}}
+                        {{#image_url}}<img itemprop="image" src="{{tempImgUrl}}" alt="{{{name}}}" />{{/image_url}}
                         {{^image_url}}<span class="no-image"></span>{{/image_url}}
                     </div>
                     <div class="result-sub-content">
@@ -180,7 +187,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                 data-queryid="{{__queryID}}">
                 <div class="result-content">
                     <div class="result-thumbnail">
-                        {{#image_url}}<img itemprop="image" src="{{{image_url}}}" alt="{{{name}}}" />{{/image_url}}
+                        {{#image_url}}<img itemprop="image" src="{{tempImgUrl}}" alt="{{{name}}}" />{{/image_url}}
                         {{^image_url}}<span class="no-image"></span>{{/image_url}}
                     </div>
                     
