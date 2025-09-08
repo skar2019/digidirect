@@ -7,7 +7,8 @@ define([
     'Magento_Checkout/js/checkout-data',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/step-navigator',
-    'uiRegistry'
+    'uiRegistry',
+    'Magento_Checkout/js/model/full-screen-loader'
 ], function (
     $,
     domReady,
@@ -42,10 +43,11 @@ define([
         $('#checkoutSteps li#shipping .step-content').show();
         $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
-
+        fullScreenLoader.stopLoader();
     }
 
     $(document).on("click", "#customer-info-button-extension", function () {
+        fullScreenLoader.startLoader();
         const email = $('#customer-email').val();
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

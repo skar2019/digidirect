@@ -42,21 +42,23 @@ define([
         $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
 
-        var selectedDeliveryType = $('input[name="delivery_type"]:checked').val();
-        console.log(selectedDeliveryType);
-
-        if (selectedDeliveryType == 'delivery') {
+        if ($('input[name="delivery_type"]:checked').val() == 'delivery') {
             $('#checkoutSteps li#opc-shipping_method').removeClass('inactive').addClass('active');
             $('#checkoutSteps li#opc-shipping_method .step-content').show();
             $('#checkoutSteps li#opc-shipping_method').css('border', 'none');
             $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
 
             $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');
+
+            $('#checkout-step-shipping .collect-block').hide();
         } else {
+            $('#payment .step-title.accordion-step').text('3. Payment');
             $('#checkoutSteps li#payment').removeClass('inactive').addClass('active');
             $('#checkoutSteps li#payment .step-content').show();
             $('#checkoutSteps li#payment').css('border', 'none');
             $('#checkoutSteps  li#payment .action-extension-toolbar').show();
+
+            $('#checkoutSteps li#payment #latipay-form li.latipay-options-item').removeClass('inactive').addClass('active');
         }
 
     }

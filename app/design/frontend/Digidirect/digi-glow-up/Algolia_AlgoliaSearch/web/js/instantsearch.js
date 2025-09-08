@@ -436,7 +436,7 @@ define([
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
-
+                            
                             if (item.marketplacer_seller == "digiDirect") {
                                 item.isDigiMarket = false;
                                 item.isDigiOnly = true;
@@ -1167,6 +1167,7 @@ define([
                     ],
                 }),
             ]);
+
         },
 
         addSearchForFacetValues(facet, options) {
@@ -1220,3 +1221,38 @@ define([
     });
 
 });
+
+window.addEventListener('load', () => {
+  const body = document.body
+  const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button')
+
+  // 1. Load saved view from localStorage
+  const savedView = localStorage.getItem('viewMode')
+  if (savedView === 'list') {
+    body.classList.add('list-view')
+    document.querySelector('[data-view="list"]').classList.add('is-active')
+  } else {
+    body.classList.remove('list-view')
+    document.querySelector('[data-view="grid"]').classList.add('is-active')
+  }
+
+  // 2. Handle button clicks
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const view = button.getAttribute('data-view')
+
+      toggleButtons.forEach(btn => btn.classList.remove('is-active'))
+      button.classList.add('is-active')
+
+      if (view === 'list') {
+        body.classList.add('list-view')
+      } else {
+        body.classList.remove('list-view')
+      }
+
+      // 3. Save view choice
+      localStorage.setItem('viewMode', view)
+    })
+  })
+})
+
