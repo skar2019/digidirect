@@ -141,6 +141,7 @@
                 <value id="bpizipimgsrc" type="host">bpi.zip.co</value>
                 <value id="latitudeimgsrc" type="host">*.latitudefinancial.com</value>
                 <value id="clarity" type="host">*.google.lk</value>
+                <value id="digiImages" type="host">*.digidirect.com.au</value>
             </values>
         </policy>
         <policy id="media-src">
