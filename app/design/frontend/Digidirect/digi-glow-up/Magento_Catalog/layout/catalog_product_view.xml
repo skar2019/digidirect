@@ -222,6 +222,7 @@
         <move element="product.info.price" destination="product.price.section" after="product.store.availability"/>
         <move element="product.info.short_description" destination="product.price.section" after="product.info.price"/>
         <move element="product.info.price.zipmoney.productwidget" destination="payment.gateways" after="-" />
+        <move element="product.additional.info" destination="product.price.section" after="product.info.price"/>
 
         <!-- Move Add to Cart to top of right column -->
         product-purchase-section
