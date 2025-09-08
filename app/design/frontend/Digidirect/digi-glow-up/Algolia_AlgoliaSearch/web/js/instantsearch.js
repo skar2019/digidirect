@@ -464,7 +464,7 @@ define([
                             let imgUrl = item.image_url;
                             let tempImgUrl = imgUrl.replace('mcstaging2.', '');
                             
-                            item.tempImgUrl = tempImgUrl;
+                            item.tempImgUrl = imgUrl;
 
                             if (!item.item_condition || item.item_condition == "" || item.item_condition == " ") {
                                 item.isDigiSeconds = false;
