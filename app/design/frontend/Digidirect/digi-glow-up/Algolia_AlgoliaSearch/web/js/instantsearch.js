@@ -462,7 +462,7 @@ define([
                             }*/
                             
                             let imgUrl = item.image_url;
-                            let tempImgUrl = imgUrl.replace('mcstaging2.', '');
+                            let tempImgUrl = imgUrl.replace('mcstaging2', 'www');
                             
                             item.tempImgUrl = tempImgUrl;
 
