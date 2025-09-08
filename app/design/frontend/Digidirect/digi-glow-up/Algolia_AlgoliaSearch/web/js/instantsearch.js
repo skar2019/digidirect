@@ -460,6 +460,11 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }*/
+                            
+                            let imgUrl = item.image_url;
+                            let tempImgUrl = imgUrl.replace('mcstaging2.', '');
+                            
+                            item.tempImgUrl = tempImgUrl;
 
                             if (!item.item_condition || item.item_condition == "" || item.item_condition == " ") {
                                 item.isDigiSeconds = false;

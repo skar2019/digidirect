@@ -12,8 +12,6 @@ $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated'
 $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_formated');
 $sku = $block->escapeHtml('sku');
 $seller = $block->escapeHtml('marketplacer_seller');
-$imgUrl = $block->escapeHtml('image_url');
-$tempImgUrl = str_replace("mcstaging2.", "", $imgUrl);
 ?>
 
 <script type="text/template" id="instant-hit-template">
@@ -55,8 +53,8 @@ $tempImgUrl = str_replace("mcstaging2.", "", $imgUrl);
                 data-position="{{__position}}"
                 data-queryid="{{__queryID}}">
                 <div class="result-content">
-                    <div class="result-thumbnail" <?php echo $tempImgUrl; ?>>
-                        {{#image_url}}<img itemprop="image" src="<?php echo $tempImgUrl; ?>" alt="{{{name}}}" />{{/image_url}}
+                    <div class="result-thumbnail">
+                        {{#image_url}}<img itemprop="image" src="{{tempImgUrl}}" alt="{{{name}}}" />{{/image_url}}
                         {{^image_url}}<span class="no-image"></span>{{/image_url}}
                     </div>
                     <div class="result-sub-content">
@@ -189,7 +187,7 @@ $tempImgUrl = str_replace("mcstaging2.", "", $imgUrl);
                 data-queryid="{{__queryID}}">
                 <div class="result-content">
                     <div class="result-thumbnail">
-                        {{#image_url}}<img itemprop="image" src="<?php echo $tempImgUrl; ?>" alt="{{{name}}}" />{{/image_url}}
+                        {{#image_url}}<img itemprop="image" src="{{tempImgUrl}}" alt="{{{name}}}" />{{/image_url}}
                         {{^image_url}}<span class="no-image"></span>{{/image_url}}
                     </div>
                     
