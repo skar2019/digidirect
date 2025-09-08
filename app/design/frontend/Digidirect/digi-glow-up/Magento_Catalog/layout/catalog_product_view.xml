@@ -56,19 +56,8 @@
                                template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
                     </container>
 
-                    <container name="product.description.section" htmlTag="div" htmlClass="product-description-section">
-                        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml">
-                            <arguments>
-                                <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
-                            </arguments>
-                        </block>
-
-                        <referenceBlock name="product.info.description">
-                            <arguments>
-                                <argument name="title" translate="true" xsi:type="string">Description</argument>
-                            </arguments>
-                        </referenceBlock>
-                    </container>
+                    <container name="product.description.section" htmlTag="div" htmlClass="product-description-section"/>
+                    <move element="product.info.description" destination="product.description.section" after="-" />
 
                     <container name="product.additional.info" htmlTag="div" htmlClass="product-additional-info">
                         <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml"/>
@@ -223,6 +212,7 @@
         <move element="product.info.short_description" destination="product.price.section" after="product.info.price"/>
         <move element="product.info.price.zipmoney.productwidget" destination="payment.gateways" after="-" />
         <move element="product.additional.info" destination="product.price.section" after="product.info.price"/>
+        <move element="product.description.section" destination="product.middle.column" after="product.additional.info"/>
 
         <!-- Move Add to Cart to top of right column -->
         product-purchase-section
