@@ -54,8 +54,6 @@ define([
             return; //NOT VALID EMAIL
         }
 
-        fullScreenLoader.startLoader();
-
         validateEmail(email).done(function () {
             // Email is NOT registered → guest
             quote.guestEmail = email;
