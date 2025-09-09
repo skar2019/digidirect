@@ -484,7 +484,6 @@ define([
             if (!customer.isLoggedIn()) {
                 $(loginFormSelector).validation();
                 emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
-
             }
 
             if (this.isFormInline) {
