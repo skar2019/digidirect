@@ -10,6 +10,8 @@
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
+$iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,172341,172352,172353,172351,172346,172347,172345,172349,172350,172348,172318,172319,172317,172312,172313,172311,172321,172322,172320,172315,172316,172314,172332,172333,172334,172331,172324,172325,172326,172323,172328,172329,172330,172327];
+
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -62,6 +64,12 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
                             <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                         </button>
+                    <?php endif; ?>
+                
+                    <?php if (in_array($_product->getSku(), $iphoneSkus)): ?>
+                        <a href="https://www.digidirect.com.au/contact" class="action tocart btn_cart tocart-pdp-btn" id="product-addtocart-button" data-action="add-to-cart-action">
+                            <span class="addcart_words"><?= /* @escapeNotVerified */ 'Contact Us' ?></span>
+                        </a>
                     <?php endif; ?>
 
                 <?= $block->getChildHtml('', true) ?>
