@@ -119,14 +119,15 @@ $iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,17
                                 <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
                                 <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                             {{/isNotDigiPrint}}
-                        </div>
-                        <?php if (in_array($_product->getSku(), $iphoneSkus)): ?>
+                        </div>                     
+                        {{#productSku}}
                             <div class="actions-primary">
                                 <a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">
                                     <button type="button" title="Contact Us" class="action tocart primary">Contact Us <i class="fas fa-cart-plus" style="float: right;"></i></button>
                                 </a>
                             </div>
-                        <?php else : ?>
+                        {{/productSku}}
+                        {{^productSku}}
                             {{#isAddToCartEnabled}}
                                 {{#isNotDigiPrint}}
                                     <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
@@ -159,8 +160,8 @@ $iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,17
                                         </a>
                                     </div>
                                 {{/isDigiPrint}}
-                            {{/isAddToCartEnabled}}
-                        <?php endif; ?>
+                            {{/isAddToCartEnabled}}  
+                        {{/productSku}}
                     </div>
                 </div>
                 <div class="algolia-clearfix"></div>
