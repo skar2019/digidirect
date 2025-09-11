@@ -1295,4 +1295,18 @@ require(['jquery'], function ($) {
         window.location.href = viewAllLink;
     }
     
+    $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
+        let $carousel = $(this);
+        let $lastItem = $carousel.find('.owl-item').last();
+
+        if ($lastItem.hasClass('active')) {
+          // last slide is active → disable the next button
+            $carousel.find('.owl-next').addClass('unclickable').prop('disabled', true);
+        } else {
+          // last slide not active → enable again
+            $carousel.find('.owl-next').removeClass('unclickable').prop('disabled', false);
+        }
+    });
+
+    
 </script>

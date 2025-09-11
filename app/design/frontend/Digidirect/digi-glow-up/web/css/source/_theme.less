@@ -162,7 +162,7 @@ a.action.towishlist {
 
 //Owl Carousels
 
-.pa-digidirect-product-widget-container .owl-stage-outer:has(.owl-item:nth-child(6):not(.active)) {
+.pa-digidirect-product-widget-container .owl-stage-outer:has(.owl-item:nth-child(6).active) {
     margin-left: -275px;
 }
 
@@ -172,6 +172,12 @@ a.action.towishlist {
 
 .owl-carousel .owl-nav button span {
     display: none;
+}
+
+.owl-next.unclickable {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 //Home Page
