@@ -94,7 +94,8 @@ class QuoteManagement
         $logger->debug('digidebug2 shipping method = ' . $shippingMethod);
         $logger->debug('digidebug3 collect carrier = ' . Collectcarrier::COLLECT_SHIPPING_METHOD);
         $logger->debug('digidebug4 value = ' . ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD));
-
+        $logger->debug('digidebug4 quote data = ' . json_encode($quote->getData()));
+        $logger->debug('digidebug4 shipping address data = ' . json_encode($quote->getShippingAddress()->getData()));
 
         if ($this->collectHelper->isCollectItems($quote->getId())
             && ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD)) {
