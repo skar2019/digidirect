@@ -39,39 +39,38 @@ $iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,17
             </div>
             <?php endif; ?>
             <div class="actions">
-                    <?php if ($_attributeValue == "Yes"): ?>
-                        <button type="submit"
-                            class="action tocart btn_cart tocart-pdp-btn"
-                            id="product-addtocart-button"
-                            data-action="add-to-cart-action"
-                            style="background: #00C3FF !important"
-                        >
-                            <div class="addtocart-tooltip" style="float: left;">
-                                <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
-                                <div class="addtocart-tooltiptext tooltip-bottom">
-                                    Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ 'Pre-Order' ?></span>
-                        </button>
-                    <?php else : ?>
-                        <button type="submit"
-                            class="action tocart btn_cart tocart-pdp-btn"
-                            id="product-addtocart-button"
-                            data-action="add-to-cart-action"
-                            >
-                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-                        </button>
-                    <?php endif; ?>
-                
                     <?php if (in_array($_product->getSku(), $iphoneSkus)): ?>
-                        <a href="https://www.digidirect.com.au/contact" class="action tocart btn_cart tocart-pdp-btn" id="product-addtocart-button" data-action="add-to-cart-action">
+                        <a href="https://www.digidirect.com.au/contact" class="action tocart btn_cart tocart-pdp-btn" id="product-contactus-button" data-action="add-to-cart-action">
                             <span class="addcart_words"><?= /* @escapeNotVerified */ 'Contact Us' ?></span>
                         </a>
+                    <?php else : ?>
+                        <?php if ($_attributeValue == "Yes"): ?>
+                            <button type="submit"
+                                class="action tocart btn_cart tocart-pdp-btn"
+                                id="product-addtocart-button"
+                                data-action="add-to-cart-action"
+                                style="background: #00C3FF !important"
+                            >
+                                <div class="addtocart-tooltip" style="float: left;">
+                                    <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
+                                    <div class="addtocart-tooltiptext tooltip-bottom">
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
+                                <span class="addcart_words"><?= /* @escapeNotVerified */ 'Pre-Order' ?></span>
+                            </button>
+                        <?php else : ?>
+                            <button type="submit"
+                                class="action tocart btn_cart tocart-pdp-btn"
+                                id="product-addtocart-button"
+                                data-action="add-to-cart-action"
+                                >
+                                <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
+                                <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                            </button>
+                        <?php endif; ?>
                     <?php endif; ?>
-
                 <?= $block->getChildHtml('', true) ?>
             </div>
             <div class="product-addto-wishlist" data-role="add-to-wishlist">

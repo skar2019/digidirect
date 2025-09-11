@@ -599,11 +599,12 @@ define([
                             item.isNotPreorder = true;
                         }
                         
-                        
+                        console.log("item.sku", item.sku);
                         item.productSku = false;
                         if (iphoneSkus.includes(item.sku)) {
                             item.productSku = true;
                         }
+                        console.log("item.productSku", item.productSku);
                         
                         /*if (item.pre_order_status == "Yes") {
                             item.isPreorder = true;
