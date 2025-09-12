@@ -1117,6 +1117,26 @@ require(['jquery'], function ($) {
             }
         });
     });
+    
+    $(".owl-carousel.featured-videos").on("click", ".owl-video-play-icon", function () {
+        // stop other videos
+        $(".owl-video-wrapper iframe").remove();
+
+        var $wrapper = $(this).closest(".owl-video-wrapper");
+        var $a = $wrapper.find("a.owl-video");
+
+        if ($a.length) {
+            var videoUrl = $a.attr("href");
+            var videoId = videoUrl.split("v=")[1].split("&")[0];
+
+            var iframe = '<iframe width="100%" height="100%" ' +
+              'src="https://www.youtube.com/embed/' + videoId + '?autoplay=1" ' +
+              'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+              '</iframe>';
+
+            $wrapper.html(iframe);
+        }
+    });
 
 });
 
