@@ -1108,6 +1108,16 @@ require(['jquery'], function ($) {
             $carousel.find('.owl-next').removeClass('unclickable').prop('disabled', false);
         }
     });
+    
+    $(".owl-carousel.featured-videos").on("initialized.owl.carousel", function () {
+        $(".owl-video-tn").each(function () {
+            var src = $(this).attr("srctype");
+            if (src) {
+                $(this).css("background-image", "url(" + src + ")");
+            }
+        });
+    });
+
 });
 
 </script>
