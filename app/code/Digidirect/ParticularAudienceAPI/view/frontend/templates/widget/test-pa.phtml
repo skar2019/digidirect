@@ -14,8 +14,6 @@ require(['jquery'], function ($) {
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    let iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,172341,172352,172353,172351,172346,172347,172345,172349,172350,172348,172318,172319,172317,172312,172313,172311,172321,172322,172320,172315,172316,172314,172332,172333,172334,172331,172324,172325,172326,172323,172328,172329,172330,172327];  
-    
     if (!customerId || customerId === undefined || !sessionId || sessionId === undefined) {
         $.ajax({
             async: false,
@@ -274,14 +272,6 @@ require(['jquery'], function ($) {
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
-            }
-            
-            if (iphoneSkus.includes(product.sku)) {
-                addToCart = '<a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Contact Us <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
             }
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {

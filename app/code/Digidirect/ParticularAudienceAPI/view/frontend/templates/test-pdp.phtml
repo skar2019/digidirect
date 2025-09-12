@@ -14,8 +14,6 @@ require(['jquery'], function ($) {
     let iphone15s = [92954,92957,92960,92963,92966,92969,92972,92975,92978,92981,92984,92987,92990,92993,92996,92999,93002,93005,93008,93011,93014,93017,93020,93023,93026,93029,93032,93035,93038,93041,93044,93047,93050,93053,93056,93059,93062,93065,93068,93071,93074,93077,93080,93083,93086,93089,93092,93095,93098,93101,93104,93107,93110,93113,94073,94076,94079,98792,238342,238348,238381,315381,315384,315387,315390,315393,315396,315399,315402,315405,315408,315411,315414];    
     let isIphone15 = iphone15s.includes(<?= $productId; ?>);
     
-    let iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,172341,172352,172353,172351,172346,172347,172345,172349,172350,172348,172318,172319,172317,172312,172313,172311,172321,172322,172320,172315,172316,172314,172332,172333,172334,172331,172324,172325,172326,172323,172328,172329,172330,172327];  
-    
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -225,15 +223,6 @@ require(['jquery'], function ($) {
                                 '</button>' + sponsoredLabel
                             '</form>'
             }
-            
-            if (iphoneSkus.includes(product.sku)) {
-                addToCart = '<a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Contact Us <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
-            }
-            
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
@@ -458,15 +447,6 @@ require(['jquery'], function ($) {
                             '</form>'
                 s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
             }
-            
-            if (iphoneSkus.includes(product.sku)) {
-                addToCart = '<a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Contact Us <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
-            }
-            
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
@@ -677,15 +657,6 @@ require(['jquery'], function ($) {
                                 '</button>' + sponsoredLabel
                             '</form>'
             }
-            
-            if (iphoneSkus.includes(product.sku)) {
-                addToCart = '<a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Contact Us <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
-            }
-            
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
@@ -906,15 +877,6 @@ require(['jquery'], function ($) {
                             '</form>'
                 s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
             }
-            
-            if (iphoneSkus.includes(product.sku)) {
-                addToCart = '<a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Contact Us <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
-            }
-            
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {

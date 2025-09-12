@@ -10,9 +10,6 @@ $maxVar          = $block->escapeHtml('price' . $priceKey . '_max');
 $baseFormatedVar = $block->escapeHtml('price' . $priceKey . '_formated');
 $origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated');
 $customFinalPrice = $block->escapeHtml('custom_final_price' . $priceKey . '_formated');
-
-$iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,172341,172352,172353,172351,172346,172347,172345,172349,172350,172348,172318,172319,172317,172312,172313,172311,172321,172322,172320,172315,172316,172314,172332,172333,172334,172331,172324,172325,172326,172323,172328,172329,172330,172327];
-
 ?>
 
 <script type="text/template" id="instant-hit-template">
@@ -119,49 +116,40 @@ $iphoneSkus = [172335,172338,172337,172339,172336,172340,172343,172342,172344,17
                                 <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
                                 <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                             {{/isNotDigiPrint}}
-                        </div>                     
-                        {{#productSku}}
-                            <div class="actions-primary">
-                                <a class="ordernow-link" href="https://www.digidirect.com.au/contact" target="_blank">
-                                    <button type="button" title="Contact Us" class="action tocart primary">Contact Us <i class="fas fa-cart-plus" style="float: right;"></i></button>
-                                </a>
-                            </div>
-                        {{/productSku}}
-                        {{^productSku}}
-                            {{#isAddToCartEnabled}}
-                                {{#isNotDigiPrint}}
-                                    <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
-                                        <input type="hidden" name="queryID" value="{{__queryID}}">
-                                        <input type="hidden" name="product" value="{{objectID}}">
-                                        {{#_highlightResult.default_bundle_options}}<input type="hidden" name="bundle_option[{{ optionId }}]" value="{{selectionId}}">{{/_highlightResult.default_bundle_options}}
-                                        <input type="hidden" name="{{ addToCart.redirectUrlParam }}" value="{{ addToCart.uenc }}">
-                                        <input name="form_key" type="hidden" value="{{ addToCart.formKey }}">
-                                        <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart primary"
-                                        data-objectid="{{objectID}}"
-                                        data-indexname="{{__indexName}}"
-                                        data-position="{{__position}}"
-                                        data-queryid="{{__queryID}}"
-                                        >
-
-                                        {{#isNotPreorder}}
-                                            <span><?php echo __('Add to Cart') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
-                                        {{/isNotPreorder}}
-                                        {{#isPreorder}}
-                                            <span><?php echo __('Pre-Order') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
-                                        {{/isPreorder}}
-
-                                        </button>
-                                    </form>
-                                {{/isNotDigiPrint}}
-                                {{#isDigiPrint}}
-                                    <div class="actions-primary">
-                                        <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
-                                            <button type="button" title="Order Now" class="action tocart primary">Order Now <i class="fas fa-cart-plus" style="float: right;"></i></button>
-                                        </a>
-                                    </div>
-                                {{/isDigiPrint}}
-                            {{/isAddToCartEnabled}}  
-                        {{/productSku}}
+                        </div>
+                        {{#isAddToCartEnabled}}
+                            {{#isNotDigiPrint}}
+                                <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
+                                    <input type="hidden" name="queryID" value="{{__queryID}}">
+                                    <input type="hidden" name="product" value="{{objectID}}">
+                                    {{#_highlightResult.default_bundle_options}}<input type="hidden" name="bundle_option[{{ optionId }}]" value="{{selectionId}}">{{/_highlightResult.default_bundle_options}}
+                                    <input type="hidden" name="{{ addToCart.redirectUrlParam }}" value="{{ addToCart.uenc }}">
+                                    <input name="form_key" type="hidden" value="{{ addToCart.formKey }}">
+                                    <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart primary"
+                                    data-objectid="{{objectID}}"
+                                    data-indexname="{{__indexName}}"
+                                    data-position="{{__position}}"
+                                    data-queryid="{{__queryID}}"
+                                    >
+                                    
+                                    {{#isNotPreorder}}
+                                        <span><?php echo __('Add to Cart') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                    {{/isNotPreorder}}
+                                    {{#isPreorder}}
+                                        <span><?php echo __('Pre-Order') ?></span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>
+                                    {{/isPreorder}}
+                                    
+                                    </button>
+                                </form>
+                            {{/isNotDigiPrint}}
+                            {{#isDigiPrint}}
+                                <div class="actions-primary">
+                                    <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
+                                        <button type="button" title="Order Now" class="action tocart primary">Order Now <i class="fas fa-cart-plus" style="float: right;"></i></button>
+                                    </a>
+                                </div>
+                            {{/isDigiPrint}}
+                        {{/isAddToCartEnabled}}
                     </div>
                 </div>
                 <div class="algolia-clearfix"></div>
