@@ -791,7 +791,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','3WHS','Stock On Hand',
+            'Category 3','Category 4','Price','Average Cost','Cost','Final Price','Stock Condition','Stock Group','3WHS','Stock On Hand',
             'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
 
         $stream->writeCsv($header);
@@ -916,6 +916,22 @@ class ProductEntHelper extends AbstractHelper
                     }
                 }
 
+                $avgcost = 0;
+                $costavg = $product->getCustomAttribute('avg_cost');
+                if(is_null($costavg))
+                {
+                    $avgcost = $regular_price / 1.1;
+                }
+                else
+                {
+                    $avgcost = $costavg->getValue();
+                    if($avgcost == 0)
+                    {
+                        $avgcost = $regular_price / 1.1;
+                    }
+                }
+
+
                 $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
                 $final_price2 = $product->getFinalPrice();
                 $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
@@ -1023,6 +1039,7 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $category4;
                 $data[] = $regular_price;
                 $data[] = $actualcost;
+                $data[] = $avgcost;
                 $data[] = $final_price3;
                 $data[] = $stockC;
                 $data[] = $sckGrp;
