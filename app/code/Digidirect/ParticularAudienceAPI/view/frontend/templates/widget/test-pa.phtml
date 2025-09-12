@@ -1143,6 +1143,11 @@ require(['jquery'], function ($) {
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
+<div class="homepage-row">
+    <div class="glow-up-promotions">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('promotions-glow-up')->toHtml(); ?>
+    </div>
+</div>
 <div class="homepage-row pa-widget">
     <div class="pa-digidirect-product-widget trending-digimarket-products-widget">
         <div class="product-widget-header">
