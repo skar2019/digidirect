@@ -1081,7 +1081,7 @@ require(['jquery'], function ($) {
     
     $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
         let $carousel = $(this);
-        let $secondLastItem = $carousel.find('.owl-item').eq(-2); // second to last
+        let $secondLastItem = $carousel.find('.owl-item').eq(-3); // second to last
 
         if ($secondLastItem.hasClass('active')) {
             // second to last slide is active → disable the next button
