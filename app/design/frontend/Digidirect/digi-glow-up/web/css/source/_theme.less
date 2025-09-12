@@ -203,7 +203,7 @@ a.action.towishlist {
     height: 191px;
 }
 
-#glow-up-brands .owl-item img{
+#glow-up-brands .owl-item img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -224,9 +224,32 @@ a.action.towishlist {
 }
 
 .owl-carousel.featured-videos .item-video {
-  height: 360px;
-  background: #000;
+    height: 360px;
+    background: #000;
 }
+
+.owl-carousel.featured-videos .owl-video-tn {
+  background-size: cover !important;
+  background-position: center !important;
+  min-height: 250px;  /* adjust as needed */
+}
+
+/* Round the video thumbnail */
+.owl-carousel.featured-videos .owl-video-tn {
+  border-radius: 25px;   /* adjust radius */
+  overflow: hidden;
+}
+
+/* Round the actual iframe video */
+.owl-carousel.featured-videos .owl-video-frame iframe {
+  border-radius: 25px;   /* same radius */
+}
+
+.owl-carousel.featured-videos .owl-video-wrapper {
+  border-radius: 25px;
+  overflow: hidden;
+}
+
 
 //Newsletter
 
