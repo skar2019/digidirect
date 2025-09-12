@@ -102,7 +102,7 @@ class QuoteManagement
             $logger->debug('digidebug7');
             throw new SelectedShippingMethodException(
                 __(
-                    'Shipping method, Click&Collect is not compatible with another delivery methods other than "%1", please select %1.',
+                    'Shipping method, Click & Collect is not compatible with another delivery methods other than "%1", please select %1.',
                     $this->collectHelper->getCollectMethodTitle()
                 )
             );
