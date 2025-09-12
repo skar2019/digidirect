@@ -1079,6 +1079,61 @@ require(['jquery'], function ($) {
         });
     });
     
+    $(document).ready(function(){                                               
+        $(".owl-carousel.featured-videos").owlCarousel({
+            merge: true,
+            loop: true,
+            margin: 15,
+            video: true,
+            lazyLoad: true,
+            center: true,
+            responsive: {
+                0: {
+                    items:1
+                },
+                600: {
+                    items: 1
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 2
+                },
+                1310: {
+                    items: 2
+                },
+                1366: {
+                    items: 2
+                },
+                1550: {
+                    items: 2
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
+    });
+    
+    $(document).ready(function () {
+        $(".owl-carousel.featured-videos").owlCarousel({
+            merge: true,
+            loop: true,
+            margin: 15,
+            video: true,
+            lazyLoad: true,
+            center: true,
+            responsive: {
+                0: { items: 1 },
+                600: { items: 1 },
+                992: { items: 2 }
+            },
+            dots: false,
+            autoplay: false
+        });
+    });
+    
     $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
         let $carousel = $(this);
         let $secondLastItem = $carousel.find('.owl-item').eq(-3); // second to last
@@ -1091,7 +1146,6 @@ require(['jquery'], function ($) {
             $carousel.find('.owl-next').removeClass('unclickable').prop('disabled', false);
         }
     });
-    
 });
 
 </script>
@@ -1255,7 +1309,24 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row">
     <div class="glow-up-featured-videos">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('featured-videos-glow-up')->toHtml(); ?>
+        <div><span style="color: black; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Watch. </span><span style="color: #FE4C25; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Inspire.</span><span style="color: #F05A24; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #9E9E9E; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Create.</span></div>
+        <div id="glow-up-featured-videos" class="owl-carousel featured-videos">
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=IQhsWc3IbtQ"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=qRqEEBvcMMo"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=5uqhvFd5d_A"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=Ioe8Eweg2ds"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=yIoChkfxDTQ"></a>
+            </div>
+        </div>
     </div>
 </div>
 
