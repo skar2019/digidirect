@@ -4,7 +4,6 @@ var config = {
     map: {
         '*': {
             'digidirectStoreCheckout': 'Magento_Checkout/js/dist/common/store',
-            'accordionStep': 'Magento_Checkout/js/accordion-step',
             'emailNextBtn': 'Magento_Checkout/js/view/form/element/email-next-button',
             'shippingAddressNextBtn': 'Magento_Checkout/js/view/shipping-address/shipping-address-next-button',
             'qantasLoader': 'Magento_Checkout/js/qantas',
