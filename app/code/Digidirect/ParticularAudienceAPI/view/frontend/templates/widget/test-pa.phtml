@@ -1079,6 +1079,23 @@ require(['jquery'], function ($) {
         });
     });
     
+    $(document).ready(function () {
+        $(".owl-carousel.featured-videos").owlCarousel({
+            merge: true,
+            loop: true,
+            margin: 15,
+            video: true,
+            lazyLoad: true,
+            responsive: {
+                0: { items: 1 },
+                600: { items: 1 },
+                992: { items: 2 }
+            },
+            dots: false,
+            autoplay: false
+        });
+    });
+    
     $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
         let $carousel = $(this);
         let $secondLastItem = $carousel.find('.owl-item').eq(-3); // second to last
@@ -1092,6 +1109,55 @@ require(['jquery'], function ($) {
         }
     });
     
+    $(".owl-carousel.featured-videos").on("initialized.owl.carousel", function () {
+        $(".owl-video-tn").each(function () {
+            var src = $(this).attr("srctype");
+            if (src) {
+                $(this).css("background-image", "url(" + src + ")");
+            }
+        });
+    });
+    
+    // Reset all videos back to thumbnails
+    function resetOwlVideos($carousel) {
+        $carousel.find(".owl-video-wrapper").each(function () {
+            var $wrapper = $(this);
+            var $a = $wrapper.find("a.owl-video");
+            if ($a.length) return; // already has link = still thumbnail
+
+            var videoUrl = $wrapper.closest(".owl-item").attr("data-video");
+            var videoId = videoUrl.split("v=")[1].split("&")[0];
+            var thumb = "https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg";
+
+            // Restore thumbnail view
+            $wrapper.html(
+                '<a class="owl-video" href="' + videoUrl + '" data-thumb="' + thumb + '" style="display:none;"></a>' +
+                '<div class="owl-video-play-icon"></div>' +
+                '<div class="owl-video-tn" style="background-image:url(' + thumb + '); background-size:cover; background-position:center;"></div>'
+            );
+        });
+    }
+
+    // Handle play clicks
+    $(".owl-carousel.featured-videos").on("click", ".owl-video-play-icon", function () {
+        var $carousel = $(this).closest(".owl-carousel.featured-videos");
+
+        // reset all before playing new
+        resetOwlVideos($carousel);
+
+        var $wrapper = $(this).closest(".owl-video-wrapper");
+        var videoUrl = $wrapper.closest(".owl-item").attr("data-video");
+        var videoId = videoUrl.split("v=")[1].split("&")[0];
+
+        var iframe = '<iframe width="100%" height="100%" ' +
+            'src="https://www.youtube.com/embed/' + videoId + '?autoplay=1" ' +
+            'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+            '</iframe>';
+
+        $wrapper.html(iframe);
+    });
+
+
 });
 
 </script>
@@ -1141,6 +1207,11 @@ require(['jquery'], function ($) {
         <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
         <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
         <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
+    </div>
+</div>
+<div class="homepage-row">
+    <div class="glow-up-promotions">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('promotions-glow-up')->toHtml(); ?>
     </div>
 </div>
 <div class="homepage-row pa-widget">
@@ -1246,6 +1317,28 @@ require(['jquery'], function ($) {
 <div class="homepage-row" style="margin-bottom: 40px;">
     <div class="digiservice-row">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up')->toHtml(); ?>
+    </div>
+</div>
+<div class="homepage-row">
+    <div class="glow-up-featured-videos">
+        <div><span style="color: black; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Watch. </span><span style="color: #FE4C25; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Inspire.</span><span style="color: #F05A24; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: #9E9E9E; font-size: 32px; font-weight: 500; line-height: 43.44px; word-wrap: break-word">Create.</span></div>
+        <div id="glow-up-featured-videos" class="owl-carousel featured-videos">
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=IQhsWc3IbtQ" data-thumb="https://img.youtube.com/vi/IQhsWc3IbtQ/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=qRqEEBvcMMo" data-thumb="https://img.youtube.com/vi/qRqEEBvcMMo/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=5uqhvFd5d_A" data-thumb="https://img.youtube.com/vi/5uqhvFd5d_A/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=Ioe8Eweg2ds" data-thumb="https://img.youtube.com/vi/Ioe8Eweg2ds/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=yIoChkfxDTQ" data-thumb="https://img.youtube.com/vi/yIoChkfxDTQ/hqdefault.jpg"></a>
+            </div>
+        </div>
     </div>
 </div>
 

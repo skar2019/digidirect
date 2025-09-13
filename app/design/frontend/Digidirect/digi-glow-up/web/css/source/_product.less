@@ -28,11 +28,18 @@
     }
 }
 
-.page-title-wrapper span.base {
-    color: #242426;
-    font-size: 28px;
-    font-weight: 700;
+.page-title-wrapper {
+
+    border: none !important;
+
+    span.base {
+        color: #242426;
+        font-size: 28px;
+        font-weight: 700;
+    }
 }
+
+
 
 // Main Product Container
 .product-main-container {
@@ -151,19 +158,51 @@
         }
     }
 
+    //product sku sellect section
+    .product-sku-section {
+        display: flex;
+
+        .sku {
+            display: inline-flex;
+            gap: 10px;
+            width: 90%;
+            color: #6E6E73;
+
+            strong {
+                font-weight: normal;
+            }
+        }
+
+        .mrkt-product-info-seller {
+            display: inline-flex;
+            width: 70%;
+            color: #6E6E73;
+            margin-left: auto;
+            justify-content: flex-end;
+
+            .digiOrange {
+                color: #FE4C25;
+                font-weight: 700;
+            }
+
+            .digiDark {
+                color: #242426;
+                font-weight: 700;
+            }
+        }
+    }
+
     // Product Price Section
     .product-price-section {
-        .responsive-spacing(15px, 20px, 25px);
-        padding: 20px;
-        background: #f8f9fa;
-        border-radius: 8px;
-        border-left: 4px solid #007bff;
 
         .price-box {
+            display: inline-flex;
+            gap: 5px;
+
             .price {
-                font-size: 32px;
+                font-size: 28px;
                 font-weight: 700;
-                color: #e74c3c;
+                color: #000;
 
                 @media (max-width: @mobile-breakpoint) {
                     font-size: 28px;
@@ -172,16 +211,31 @@
 
             .old-price {
                 .price {
-                    font-size: 20px;
-                    color: #999;
+                    font-size: 18px;
+                    color: #7C7C80;
                     text-decoration: line-through;
+                    font-weight: normal;
                 }
             }
 
             .special-price {
                 .price {
-                    color: #27ae60;
+                    color: #000;
                 }
+            }
+
+            .discount-price-wrapper {
+                background: #242426;
+                color: #fff;
+                margin: 2px 1px;
+                padding: 10px 14px;
+                border-radius: 50px;
+                font-weight: 500;
+
+            }
+
+            .old-price-wrapper {
+                padding: 10px;
             }
         }
 
@@ -196,12 +250,6 @@
             color: #856404;
         }
 
-        .qantas-points-price {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #d63031;
-            font-weight: 600;
-        }
     }
 
     // Product Description Section
@@ -236,24 +284,17 @@
 
     // Additional Info Section
     .product-additional-info {
-        .price-match-block,
-        .product-places {
-            margin-bottom: 20px;
+
+        .pricematch-caption{
+            background: #F2F2F7;
             padding: 15px;
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
+            border-radius: 30px;
+            color: #242426;
+            text-align: center;
 
-            h3 {
-                font-size: 18px;
-                margin-bottom: 10px;
-                color: #333;
-            }
-
-            p {
-                font-size: 14px;
-                color: #666;
-                line-height: 1.5;
+            .medWeight {
+                font-weight: 500;
+                display: block;
             }
         }
     }
@@ -273,145 +314,189 @@
 
     .product-info-main {
         width: 100% !important;
-    }
+        border: 1px solid #E6E6E6;
+        border-radius: 25px;
 
-    // Purchase Section Container
-    .product-purchase-section {
-        background: #ffffff;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        position: sticky;
-        top: 20px;
+        .product-add-form {
 
-        @media (max-width: @mobile-breakpoint) {
-            position: static;
-            padding: 20px;
-        }
-    }
+            .box-tocart {
+                padding: 5px;
+                margin: 5px !important;
 
-    // Stock Info
-    .product-stock-info {
-        .responsive-spacing(10px, 15px, 20px);
-
-        .stock {
-            &.available {
-                color: #27ae60;
-                font-weight: 600;
-
-                &:before {
-                    content: "✓ ";
-                    font-weight: bold;
-                }
-            }
-
-            &.unavailable {
-                color: #e74c3c;
-                font-weight: 600;
-
-                &:before {
-                    content: "✗ ";
-                    font-weight: bold;
+                .label {
+                    display: none;
                 }
             }
         }
 
-        .product-sku {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
+        // Quantity input styling
+        .field.qty {
+            .qty-group-control {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid #C7C7CC;
+                border-radius: 25px;
+                padding: 3px 8px;
 
-        .store-availability {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-    }
+                .qty-buttons {
+                    display: flex;
+                    align-items: center;
+                    gap: 2px;
 
-    // Product Options
-    .product-options-section {
-        .responsive-spacing(15px, 20px, 25px);
+                    // Quantity decrease button (minus)
+                    .qty-decrease,
+                    .qty-increase {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 25px;
+                        height: 25px;
+                        border-radius: 50%;
+                        border: none;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
 
-        .field {
-            margin-bottom: 15px;
+                        svg {
+                            width: 16px;
+                            height: 16px;
+                        }
 
-            .label {
-                font-weight: 600;
-                margin-bottom: 8px;
-                display: block;
-                color: #333;
-            }
+                        &:hover {
+                            transform: scale(1.05);
+                        }
+                    }
 
-            .control {
-                select,
-                input[type="text"],
-                input[type="number"] {
-                    width: 100%;
-                    padding: 12px;
-                    border: 1px solid #ddd;
-                    border-radius: 6px;
-                    font-size: 16px;
+                    // Minus button (dark)
+                    .qty-decrease {
+                        background-color: #333;
+                        color: #fff;
 
-                    &:focus {
-                        border-color: #007bff;
+                        &:hover {
+                            background-color: #222;
+                        }
+
+                        &:active {
+                            transform: scale(0.95);
+                        }
+                    }
+
+                    // Plus button (light gray)
+                    .qty-increase {
+                        background-color: #e0e0e0;
+                        color: #666;
+
+                        &:hover {
+                            background-color: #d0d0d0;
+                        }
+
+                        &:active {
+                            transform: scale(0.95);
+                        }
+                    }
+
+                    // Quantity input field
+                    .input-text.qty {
+                        width: 40px;
+                        height: 32px;
+                        text-align: center;
+                        border: none;
+                        background: transparent;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #333;
                         outline: none;
-                        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+
+                        // Remove number input arrows
+                        &::-webkit-outer-spin-button,
+                        &::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+
+                        &[type=number] {
+                            -moz-appearance: textfield;
+                        }
                     }
                 }
+            }
+        }
 
-                .qty {
-                    width: 80px;
-                    text-align: center;
+        // Add to cart button styling (if you need it)
+        .btn-add-to-cart,
+        .action.tocart {
+            background: #FE4C25;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+            width: 100%;
+            min-width: 275px !important;
+
+            &:hover {
+                background: #FE4C25;
+                box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+            }
+        }
+
+        // Container layout
+        .product-add-form,
+        .product-options-wrapper {
+            .field.qty {
+                margin-bottom: 16px;
+            }
+
+            .actions {
+                padding-top: 0px !important;
+
+                .btn-add-to-cart,
+                .action.tocart {
+                    width: 100%;
+                    min-width: 200px;
+                }
+            }
+        }
+
+        // Responsive adjustments
+        @media (max-width: 768px) {
+            .field.qty {
+                .qty-group-control {
+                    .qty-buttons {
+                        .qty-decrease,
+                        .qty-increase {
+                            width: 28px;
+                            height: 28px;
+
+                            svg {
+                                width: 12px;
+                                height: 12px;
+                            }
+                        }
+
+                        .input-text.qty {
+                            width: 35px;
+                            height: 28px;
+                            font-size: 14px;
+                        }
+                    }
                 }
             }
         }
     }
 
-    // Add to Cart Section
-    .product-addtocart-section {
-        .responsive-spacing(20px, 25px, 30px);
-
-        .actions {
-            .action.tocart {
-                width: 100%;
-                background: #007bff;
-                color: white;
-                border: none;
-                padding: 15px 20px;
-                font-size: 18px;
-                font-weight: 600;
-                border-radius: 8px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #0056b3;
-                    transform: translateY(-1px);
-                    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-                }
-
-                &:active {
-                    transform: translateY(0);
-                }
-
-                &:disabled {
-                    background: #6c757d;
-                    cursor: not-allowed;
-                    transform: none;
-                    box-shadow: none;
-                }
-
-                @media (max-width: @mobile-breakpoint) {
-                    padding: 12px 16px;
-                    font-size: 16px;
-                }
-            }
-        }
-    }
 
     // Payment Gateways
     .payment-gateways-container {
@@ -444,17 +529,6 @@
         background: #f8f9fa;
         border-radius: 6px;
         text-align: center;
-    }
-
-    // Qantas Block
-    .qantas-block {
-        .responsive-spacing(10px, 15px, 20px);
-        padding: 12px;
-        background: #fff3cd;
-        border: 1px solid #ffeaa7;
-        border-radius: 6px;
-        text-align: center;
-        font-size: 14px;
     }
 
     // Secure Pay
