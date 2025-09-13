@@ -56,11 +56,10 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
     <script type="text/javascript">
         require([
             'jquery',
-            'accordionStep',
             'emailNextBtn',
             'shippingAddressNextBtn'
             ],
-        function($, accordionStep,emailNextBtn,shippingAddressNextBtn) {
+        function($,emailNextBtn,shippingAddressNextBtn) {
 
             $("body").on("click", ".shipping-methods.table-checkout-shipping-method.items li:not('.collect')", function(){
 
