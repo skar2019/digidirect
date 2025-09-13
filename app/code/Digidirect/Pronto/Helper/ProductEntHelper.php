@@ -931,6 +931,8 @@ class ProductEntHelper extends AbstractHelper
                     }
                 }
 
+                $avgcost = number_format($avgcost, 2, '.', '');
+
 
                 $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
                 $final_price2 = $product->getFinalPrice();
