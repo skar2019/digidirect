@@ -89,16 +89,25 @@ class QuoteManagement
         }
         $shippingMethod = $quote->getShippingAddress()->getShippingMethod();
 
-        if ($this->collectHelper->isCollectItems($quote->getId())
-            && ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD)) {
+        $logger = \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class);
+        $logger->debug('digidebug1 ' . $this->collectHelper->isCollectItems($quote->getId()));
+        $logger->debug('digidebug2 shipping method = ' . $shippingMethod);
+        $logger->debug('digidebug3 collect carrier = ' . Collectcarrier::COLLECT_SHIPPING_METHOD);
+        $logger->debug('digidebug4 value = ' . ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD));
+        $logger->debug('digidebug4 quote data = ' . json_encode($quote->getData()));
+        $logger->debug('digidebug4 shipping address data = ' . json_encode($quote->getShippingAddress()->getData()));
+
+        if ($this->collectHelper->isCollectItems($quote->getId())){
+            $logger->debug('digidebug7');
             throw new SelectedShippingMethodException(
                 __(
-                    'Click&Collect is not compatible with another delivery methods other than "%1", please select %1.',
+                    'Shipping method, Click & Collect is not compatible with another delivery methods other than "%1", please select %1.',
                     $this->collectHelper->getCollectMethodTitle()
                 )
             );
+            $logger->debug('digidebug8');
         }
-
+        $logger->debug('digidebug9');
         if ($this->collectHelper->isDeliveryItems($quote->getId())
             && ($shippingMethod === Collectcarrier::COLLECT_SHIPPING_METHOD)) {
             throw new SelectedShippingMethodException(

@@ -30,6 +30,8 @@ define([
     }
 
     function toggleShippingAddress() {
+        $('input[name="street[0]"]').attr('placeholder', 'Street');
+
         $('#checkoutSteps li').removeClass('active').addClass('inactive');
         $('.opc-wrapper .step-content').hide();
         $('.opc-wrapper li .action-extension-toolbar').hide();
@@ -53,8 +55,6 @@ define([
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return; //NOT VALID EMAIL
         }
-
-        fullScreenLoader.startLoader();
 
         validateEmail(email).done(function () {
             // Email is NOT registered → guest
