@@ -1038,8 +1038,8 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $category3;
                 $data[] = $category4;
                 $data[] = $regular_price;
-                $data[] = $actualcost;
                 $data[] = $avgcost;
+                $data[] = $actualcost;
                 $data[] = $final_price3;
                 $data[] = $stockC;
                 $data[] = $sckGrp;
