@@ -9,7 +9,8 @@ define([
     'Magento_Checkout/js/model/quote',
     'uiRegistry',
     'mage/validation',
-    'Magento_Customer/js/model/customer'
+    'Magento_Customer/js/model/customer',
+    'Magento_Checkout/js/model/address-converter'
 ], function (
     $,
     domReady,
@@ -21,7 +22,8 @@ define([
     quote,
     registry,
     validation,
-    customer
+    customer,
+    addressConverter
 ) {
     'use strict';
 
@@ -64,6 +66,25 @@ define([
     }
 
     $(document).on("click", "#delivery-info-button-extension", function () {
+
+        if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+            var dummyAddress = {
+                firstname: 'Store',
+                lastname: 'Pickup',
+                street: ['Click & Collect'],
+                city: 'N/A',
+                region: 'N/A',
+                regionId: 0,
+                regionCode: null,
+                countryId: 'AU', // Replace with your store country
+                postcode: '0000',
+                telephone: '0000000000',
+                save_in_address_book: 0
+            };
+
+            var shippingAddress = addressConverter.formAddressDataToQuoteAddress(dummyAddress);
+            quote.shippingAddress(shippingAddress);
+        }
 
         var shippingView = registry.get('checkout.steps.shipping-step.shippingAddress');
 
