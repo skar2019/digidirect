@@ -62,4 +62,12 @@
             <argument name="context" xsi:type="object">DigidirectCollectControllerCheckoutCartAddContext</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="digidirect_collect_force_address_on_placeorder" type="Digidirect\Collect\Plugin\Checkout\ForceCollectAddressOnPlaceOrder" sortOrder="10"/>
+    </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="digidirect_collect_force_address_on_placeorder_guest" type="Digidirect\Collect\Plugin\Checkout\ForceCollectAddressOnPlaceOrder" sortOrder="10"/>
+    </type>
+
 </config>
