@@ -88,6 +88,28 @@ class QuoteManagement
             return true;
         }
 
+        $shippingMethod = $quote->getShippingAddress()->getShippingMethod();
+
+        if ($this->collectHelper->isCollectItems($quote->getId())
+            && ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD)){
+            throw new SelectedShippingMethodException(
+                __(
+                    'Shipping method, Click & Collect is not compatible with another delivery methods other than "%1", please select %1.',
+                    $this->collectHelper->getCollectMethodTitle()
+                )
+            );
+        }
+
+        if ($this->collectHelper->isDeliveryItems($quote->getId())
+            && ($shippingMethod === Collectcarrier::COLLECT_SHIPPING_METHOD)) {
+            throw new SelectedShippingMethodException(
+                __(
+                    'Delivery is not compatible with "%1" delivery method, please select another delivery method.',
+                    $this->collectHelper->getCollectMethodTitle()
+                )
+            );
+        }
+
         return true;
     }
 
