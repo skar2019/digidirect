@@ -76,8 +76,14 @@ script;
         ?>
         <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false); ?>
     <?php endif ?>
-    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], 'window.checkout = ' .
-     /* @noEscape */ $block->getSerializedConfig(), false); ?>
+    <?php
+        $checkoutConfig = trim((string)$block->getSerializedConfig());
+        if ($checkoutConfig === '' || $checkoutConfig === 'null') {
+            $checkoutConfig = '{}';
+        }
+    ?>
+
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], 'window.checkout = ' . $checkoutConfig . ';', false); ?>
     <script type="text/x-magento-init">
     {
         "[data-block='minicart']": {

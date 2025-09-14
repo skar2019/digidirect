@@ -23,6 +23,16 @@
 
                 <!-- LEFT COLUMN: Product Images -->
                 <container name="product.left.column" htmlTag="div" htmlClass="product-left-column product-media-column">
+                    <!-- Add Wishlist Block on top of product media -->
+                    <block class="Magento\Wishlist\Block\Catalog\Product\ProductList\Item\AddTo\Wishlist"
+                           name="product.info.wishlist"
+                           template="Magento_Wishlist::catalog/product/list/addto/wishlist.phtml"
+                           before="product.info.media">
+                        <arguments>
+                            <argument name="addToWishlistViewModel" xsi:type="object">Magento\Wishlist\ViewModel\AddToWishlistViewModel</argument>
+                        </arguments>
+                    </block>
+
                     <referenceContainer name="product.info.media">
                         <block class="Digidirect\Catalog\Block\ProductInfoBlock" template="Magento_Catalog::product/online-only.phtml" name="pdp-online-only" before="product.info.media.image"/>
                         <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
@@ -203,8 +213,10 @@
         <move element="page.main.title" destination="product.breadcrumbs.wrapper" after="breadcrumbs"/>
         <move element="digimarket.side.banner.ads" destination="product.title.section" before="page.main.title" />
 
-        <!-- Move SKU to top of middle column -->
+        <!-- Move SKU to top of middle column, after marketplacer info -->
         <move element="product.info.sku" destination="product.sku.section" before="-"/>
+        <!-- Move marketplacer/seller info to SKU section, before SKU -->
+        <move element="product.info.marketplacer" destination="product.sku.section" after="product.info.sku"  />
         <move element="product.info.stock.sku" destination="product.sku.section" after="product.info.sku"/>
 
         <move element="product.store.availability" destination="product.price.section" before="product.info.price"/>
@@ -215,13 +227,11 @@
         <move element="product.description.section" destination="product.middle.column" after="product.additional.info"/>
 
         <!-- Move Add to Cart to top of right column -->
-        product-purchase-section
         <move element="product.purchase.section" destination="product-info-main" before="-"/>
         <move element="product.addtocart.section" destination="product-purchase-section" before="-"/>
 
         <move element="product.info.options.wrapper" destination="product.options.section" before="-"/>
-        <!--        <move element="product.info.addtocart.additional" destination="product.addtocart.section" after="product.info.addtocart"/>-->
-        <move element="product.info.marketplacer" destination="product.title.section" after="page.main.title" />
+
         <move element="product.info.media" destination="product.left.column" before="-"/>
         <move element="product.info.main" destination="product.right.column" before="-"/>
         <move element="product.info.details" destination="product.details.tabs" before="-"/>

@@ -20,6 +20,7 @@ define([
         payload = {
             cartId: quote.getQuoteId(),
             billingAddress: quote.billingAddress(),
+            shippingAddress: quote.shippingAddress(),
             paymentMethod: paymentData
         };
 
