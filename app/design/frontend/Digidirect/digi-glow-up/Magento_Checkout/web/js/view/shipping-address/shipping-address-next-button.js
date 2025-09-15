@@ -67,6 +67,8 @@ define([
 
     $(document).on("click", "#delivery-info-button-extension", function () {
 
+        $("#shipping-method-buttons-container .continue").trigger("click");
+
         if ($('input[name="delivery_type"]:checked').val() == 'collect') {
             var dummyAddress = {
                 firstname: 'Store',
