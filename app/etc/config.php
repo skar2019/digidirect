@@ -1,4 +1,5 @@
 <?php
+
 return [
     'scopes' => [
         'websites' => [

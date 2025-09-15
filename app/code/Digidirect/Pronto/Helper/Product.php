@@ -198,6 +198,7 @@ class Product extends AbstractHelper
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 
                 }
+                
                 else
                 {
                     //web flag
