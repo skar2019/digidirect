@@ -30,7 +30,10 @@ define([
     }
 
     function toggleShippingAddress() {
-        $('input[name="street[0]"]').attr('placeholder', 'Street');
+        $('input[name="street[0]"]').attr({
+            'placeholder': 'Street',
+            'digidirect-autocomplete': 'on'
+        });
 
         $('#checkoutSteps li').removeClass('active').addClass('inactive');
         $('.opc-wrapper .step-content').hide();

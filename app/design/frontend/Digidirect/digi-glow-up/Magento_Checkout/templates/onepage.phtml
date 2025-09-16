@@ -55,11 +55,9 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
     <script type="text/javascript">
         require([
-            'jquery',
-            'emailNextBtn',
-            'shippingAddressNextBtn'
+            'jquery'
             ],
-        function($,emailNextBtn,shippingAddressNextBtn) {
+        function($) {
 
             $("body").on("click", "#shipping-button-extension", function(){
 
@@ -117,3 +115,11 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
     window.hasWebOnly = <?= $hasWebOnly ?>;
 </script>
 <?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "emailNextBtn": {},
+            "shippingAddressNextBtn": {}
+        }
+    }
+</script>
