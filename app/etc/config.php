@@ -1,5 +1,4 @@
 <?php
-
 return [
     'scopes' => [
         'websites' => [
@@ -795,10 +794,10 @@ return [
         'Mageplaza_Shopbybrand' => 0,
         'Mageplaza_Webhook' => 1,
         'Magestat_SplitOrder' => 1,
-        'Magezon_Core' => 0,
-        'Magezon_Builder' => 0,
-        'Magezon_Newsletter' => 0,
-        'Magezon_PageBuilder' => 0,
+        'Magezon_Core' => 1,
+        'Magezon_Builder' => 1,
+        'Magezon_Newsletter' => 1,
+        'Magezon_PageBuilder' => 1,
         'Magezon_PageBuilderIconBox' => 0,
         'Magezon_PageBuilderPageableContainer' => 0,
         'Marketplacer_Base' => 1,
