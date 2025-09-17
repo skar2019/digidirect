@@ -1,0 +1,14 @@
+<?php
+/**
+ * Mobile Navigation Header Template
+ */
+?>
+<button type="button" 
+        class="action nav-toggle" 
+        id="menu-icon"
+        data-action="toggle-nav" 
+        data-mage-init='{"toggleAdvanced": {"selectorsToggleClass": {"#navigation": "active", "body": "nav-open"}}}' 
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle navigation')) ?>"
+        aria-expanded="false">
+    <span><?= $escaper->escapeHtml(__('Menu')) ?></span>
+</button>
