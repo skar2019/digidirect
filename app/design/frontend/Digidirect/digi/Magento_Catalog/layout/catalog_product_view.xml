@@ -12,21 +12,21 @@
         <referenceBlock name="product.places" remove="true" /><!--    Free shipping on orders over $99    -->
         <referenceBlock name="product.info.attachment" remove="true" />
         <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
-        
+
         <referenceContainer name="product.info.main">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiprint_info.phtml" name="pdp-digiprint-info" after="product.info.price"/>
         </referenceContainer>
-        
+
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml"/> 
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml"/>
             <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" before="studio19.wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways-main.phtml" />
             </container>
-            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="payment.gateways"/>    
+            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="payment.gateways"/>
             <block class="Magento\Framework\View\Element\Template" name="qantas.block" template="Magento_Catalog::product/qantas.phtml"/>
         </referenceContainer>
-        
+
         <referenceBlock name="product.info.main">
             <block class="Magento\Cms\Block\Block" name="digimarket.side.banner.ads">
                 <arguments>
@@ -42,7 +42,7 @@
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
                     <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" before="-" />
                 </container>
-                
+
                 <container name="most.bottom.product.info" htmlTag="div" htmlClass="most-bottom-product-info" after="-">
                     <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
                         <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
@@ -59,7 +59,7 @@
                 <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
             </container>
         </referenceBlock>
-        
+
         <referenceContainer name="content">
             <block class="Magento\Cms\Block\Block" name="digimarket.product.page">
                 <arguments>
@@ -95,7 +95,7 @@
                 </block>
             </referenceBlock>
         </referenceContainer>
-        
+
         <referenceContainer name="page.wrapper">
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
@@ -110,7 +110,7 @@
                 <block class="Magento\Framework\View\Element\Template" name="sticky.addtocart" template="Magento_Catalog::product/sticky-addtocart.phtml" />
             </container>
         </referenceContainer>
-        
+
         <referenceContainer name="product.info.media">
             <block class="Digidirect\Catalog\Block\ProductInfoBlock" template="Magento_Catalog::product/online-only.phtml" name="pdp-online-only" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
@@ -119,7 +119,7 @@
             </block>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/overlay-container.phtml" name="overlay-container" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>
-            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>    
+            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>
         </referenceContainer>
 
         <referenceContainer name="product.info.extrahint">
@@ -131,7 +131,7 @@
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
-        
+
         <referenceContainer name="content.aside">
             <block class="Magento\Cms\Block\Block" name="also.viewed">
                 <arguments>
@@ -167,13 +167,13 @@
                 </block>
             </block>
         </container>
-       
+
         <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
             <arguments>
                 <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
             </arguments>
         </block>
-        
+
         <move element="side.banner.ads" destination="page.wrapper" before="page.messages" />
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
@@ -193,6 +193,6 @@
         <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
         <move element="product.info.options.wrapper" destination="product.info.options.wrapper.bottom" after="product.info.addtocart.additional"/>
-        <move element="product.info.marketplacer" destination="product.info.main" after="page.main.title" />       
+        <move element="product.info.marketplacer" destination="product.info.main" after="page.main.title" />
     </body>
 </page>

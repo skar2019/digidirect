@@ -427,6 +427,13 @@ define([
         },
 
         afterRenderHandler: function () {
+            if (quote.getQuoteId()) {
+                $('.cart-id .cart-id-txt').text('Your Cart ID:');
+                $('.cart-id .cart-id-value').text(quote.getQuoteId());
+            }
+
+            $('#checkoutSteps li#customer-info').css('border-bottom', 'none');
+
             setTimeout(() => {
                 if (quote.getQuoteId()) {
                     $('.cart-id .cart-id-txt').text('Your Cart ID:');
@@ -465,7 +472,7 @@ define([
                     }
                 }
 
-            }, 400);
+            }, 600);
         },
 
         /**

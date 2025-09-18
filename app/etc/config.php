@@ -1,5 +1,4 @@
 <?php
-
 return [
     'scopes' => [
         'websites' => [
@@ -799,8 +798,8 @@ return [
         'Magezon_Builder' => 1,
         'Magezon_Newsletter' => 1,
         'Magezon_PageBuilder' => 1,
-        'Magezon_PageBuilderIconBox' => 1,
-        'Magezon_PageBuilderPageableContainer' => 1,
+        'Magezon_PageBuilderIconBox' => 0,
+        'Magezon_PageBuilderPageableContainer' => 0,
         'Marketplacer_Base' => 1,
         'Marketplacer_BrandApi' => 1,
         'Marketplacer_Brand' => 1,

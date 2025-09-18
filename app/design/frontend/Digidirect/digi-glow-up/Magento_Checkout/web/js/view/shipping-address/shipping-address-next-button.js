@@ -78,7 +78,7 @@ define([
                 region: 'N/A',
                 regionId: 0,
                 regionCode: null,
-                countryId: 'AU', // Replace with your store country
+                countryId: 'AU',
                 postcode: '0000',
                 telephone: '0000000000',
                 save_in_address_book: 0
