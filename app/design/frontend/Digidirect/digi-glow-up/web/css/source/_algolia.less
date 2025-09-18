@@ -666,6 +666,15 @@
         padding-right: 0;
     }
     
+    .ais-RangeSlider .rheostat-handle {
+        top: -5px !important;
+    }
+    
+    .rheostat-handle {
+        width: 13px !important;
+        height: 13px !important;
+    }
+    
     .ais-RangeSlider .rheostat-background {
         background-color: #E6E6E6 !important;
         height: 3px !important;
@@ -689,7 +698,7 @@
     }
     
     .rheostat-handle.rheostat-handle-lower, .rheostat-handle.rheostat-handle-upper {
-        border: 3px solid transparent;
+        border: 2px solid transparent;
         background: linear-gradient(white, white) padding-box, /* inner fill color */ linear-gradient(to right, #982d16, #fe4c25) border-box;
     }
     
@@ -843,6 +852,37 @@
         gap: 10px;
     }
     
+    #price-histogram {
+        display: flex;
+        align-items: flex-end;
+        height: 60px;
+        margin-top: 10px;
+        gap: 2px;
+    }
+    
+    #price-histogram .bar {
+        flex: 1;
+        border-radius: 2px;
+        transition: height 0.3s, background 0.2s;
+        cursor: pointer;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    .histogram {
+        display: contents;
+    }
+    
+    .ais-RangeSlider {
+        margin: 0 !important;
+        padding: 0 1px 0 11px;
+        background: #e6e6e6;
+    }
+    
+    .ais-RangeSlider .rheostat {
+        margin-top: 0px !important;
+    }
+
 }
 
 @media only screen and (max-width: 390px) {

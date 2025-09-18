@@ -31,6 +31,7 @@ define([
          * Docs: https://www.algolia.com/doc/api-reference/widgets/instantsearch/js/
          */
         async buildInstantSearch() {
+            
             const templateProcessor = await templateEngine.getSelectedEngineAdapter();
 
             const mockAlgoliaBundle = this.mockAlgoliaBundle();
@@ -460,11 +461,6 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }*/
-                            
-                            let imgUrl = item.image_url;
-                            let tempImgUrl = imgUrl.replace('mcstaging2', 'www');
-                            
-                            item.tempImgUrl = tempImgUrl;
 
                             if (!item.item_condition || item.item_condition == "" || item.item_condition == " ") {
                                 item.isDigiSeconds = false;
@@ -1136,6 +1132,7 @@ define([
         },
 
         addWidget(search, type, config) {
+            
             if (type === 'custom') {
                 search.addWidgets([config]);
                 return;
@@ -1161,17 +1158,168 @@ define([
 
             search.addWidgets([widget(config)]);
             
-            search.addWidgets([
-                instantsearch.widgets.hitsPerPage({
+            function histogramWidget({ container, attribute, buckets = 20 }) {
+                if (typeof container === 'string') {
+                    container = document.querySelector(container)
+                }
+                if (!container) {
+                    console.warn(`Histogram container not found.`)
+                    return { render() {} }
+                }
+                  
+                return {
+                    render({ results, helper }) {
+                        const stats = results.getFacetStats(attribute)
+                        if (!stats) return
+
+                        const min = stats.min
+                        const max = stats.max
+
+                        console.log("min", min);
+                        console.log("max", max);
+
+                        if (min === max) return
+
+                        const step = (max - min) / buckets
+                        const counts = Array(buckets).fill(0)
+
+                        // ⚠️ Don’t loop through all hits (slow on large catalogs).
+                        // Instead, use facet counts from Algolia:
+                        const facetValues = results.getFacetValues(attribute, { sortBy: ['name:asc'] })
+                        facetValues.forEach(fv => {
+                            const price = parseFloat(fv.name)
+                            const index = Math.min(Math.floor((price - min) / step), buckets - 1)
+                            counts[index] += fv.count
+                        })
+
+                        const maxCount = Math.max(...counts)
+
+                        container.innerHTML = `<div class="histogram">
+                          ${counts.map((c, i) => {
+                            const from = Math.floor(min + i * step)
+                            const to = Math.floor(from + step)
+                            return `<div class="bar"
+                                title="${from} – ${to} (${c} products)"
+                                data-from="${from}" data-to="${to}"
+                                style="height:${(c / maxCount) * 100}%"></div>`
+                            }).join('')}
+                        </div>`
+
+                        // Optional: make bars clickable
+                        container.querySelectorAll('.bar').forEach(bar => {
+                            bar.addEventListener('click', () => {
+                                helper.removeNumericRefinement(attribute)
+                                helper.addNumericRefinement(attribute, '>=', +bar.dataset.from)
+                                helper.addNumericRefinement(attribute, '<=', +bar.dataset.to)
+                                helper.search()
+                            })
+                        })
+                    }
+                }
+            }
+
+            
+            window.addEventListener('load', function () {
+                
+                // Add widgets (these get picked up by the already-started search)
+                search.addWidgets([
+                  instantsearch.widgets.hitsPerPage({
                     container: '#hits-per-page',
                     items: [
-                        { label: '4', value: 4 },
-                        { label: '8', value: 8 },
-                        { label: '16', value: 16, default: true },
-                        { label: '32', value: 32 },
+                      { label: '4', value: 4 },
+                      { label: '8', value: 8 },
+                      { label: '16', value: 16, default: true },
+                      { label: '32', value: 32 },
                     ],
-                }),
-            ]);
+                  }),
+                  histogramWidget({
+                    container: '#price-histogram',
+                    attribute: 'price.AUD.default',
+                    buckets: 20,
+                  }),
+                ]);
+
+                // Function to recolor bars
+                function updateHistogramColors(min, max) {
+                    document.querySelectorAll('#price-histogram .bar').forEach(bar => {
+                        const from = parseFloat(bar.dataset.from);
+                        const to = parseFloat(bar.dataset.to);
+                        if (to >= min && from <= max) {
+                            bar.style.background = 'linear-gradient(180deg, #ffe9e4 0%, #ff9a85 100%)'; // active
+                        } else {
+                            bar.style.background = 'linear-gradient(180deg, #FFF 0%, #E6E6E6 25%)'; // inactive
+                        }
+                    });
+                }
+
+                // Get current slider values
+                function getSliderValues() {
+                    const handles = document.querySelectorAll('.rheostat-handle');
+                    if (handles.length < 2) return { min: 0, max: 0 };
+                    const min = parseFloat(handles[0].getAttribute('aria-valuenow'));
+                    const max = parseFloat(handles[1].getAttribute('aria-valuenow'));
+                    return { min, max };
+                }
+
+                // Run logic every time InstantSearch re-renders
+                search.on('render', () => {
+                    const priceSlider = document.querySelector('.is-widget-container-price_AUD_default');
+                    const aisSlider = document.querySelector('.ais-RangeSlider');
+
+                    // Insert histogram container before slider (only once)
+                    if (priceSlider && aisSlider && !document.querySelector('#price-histogram')) {
+                        const histo = document.createElement('div');
+                        histo.id = 'price-histogram';
+                        aisSlider.before(histo);
+                    }
+
+                    // Update bar colors if slider exists
+                    const { min, max } = getSliderValues();
+                    if (min && max) updateHistogramColors(min, max);
+                });
+
+                // ❌ No search.start() here → avoids double start error
+                
+                function clampHandles() {
+                    const track = document.querySelector('.rheostat-background');
+                    const handles = document.querySelectorAll('.rheostat-handle');
+
+                    if (track && handles.length === 2) {
+                        const trackWidth = track.offsetWidth;
+
+                        const minAttr = parseFloat(handles[0].getAttribute('aria-valuemin'));
+                        const maxAttr = parseFloat(handles[1].getAttribute('aria-valuemax'));
+
+                        // convert 10px margins into slider values
+                        const marginValue = (10 / trackWidth) * (maxAttr - minAttr);
+
+                        // current values
+                        let minNow = parseFloat(handles[0].getAttribute('aria-valuenow'));
+                        let maxNow = parseFloat(handles[1].getAttribute('aria-valuenow'));
+
+                        // clamp
+                        if (minNow < minAttr + marginValue) {
+                            minNow = minAttr + marginValue;
+                        }
+                        if (maxNow > maxAttr - marginValue) {
+                            maxNow = maxAttr - marginValue;
+                        }
+
+                        // Apply clamped values back to the slider
+                        // Rheostat exposes `onValuesUpdated` and `onChange` events, but since InstantSearch controls it,
+                        // we can dispatch directly:
+                        const event = new CustomEvent('change', {
+                            detail: [minNow, maxNow],
+                        });
+                        document.querySelector('.ais-RangeSlider').dispatchEvent(event);
+                    }
+                }
+
+                // Run clamp every time the slider updates
+                document.querySelector('.rheostat').addEventListener('mousemove', clampHandles);
+                document.querySelector('.rheostat').addEventListener('mouseup', clampHandles);
+
+            })
 
         },
 
