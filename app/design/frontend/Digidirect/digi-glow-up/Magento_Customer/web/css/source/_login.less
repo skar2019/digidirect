@@ -1,0 +1,267 @@
+// //
+// //  Magento_Customer extend
+// //  _____________________________________________
+
+// //
+// //  Imports
+// //  ---------------------------------------------
+
+// @import 'module/_password-extend.less';
+// @import 'theme/_block-title.less';
+// @import 'theme/_orders-tables.less';
+// @import 'extends/_common.less';
+// @import 'theme/_box.less';
+// @import 'theme/_block-wishlist.less';
+// @import 'theme/_form-edit-account.less';
+// @import 'theme/_block-navigation.less';
+// @import 'theme/signup/_captcha.less';
+// @import 'theme/signup/_layout.less';
+// @import 'theme/signup/_login.less';
+// @import 'theme/signup/_logout.less';
+// @import 'theme/signup/_newcustomer.less';
+// @import 'theme/signup/_register.less';
+// @import 'theme/_table-reviews.less';
+// @import 'theme/_newsletter-subscription.less';
+// @import 'theme/_address-book.less';
+// @import 'theme/_form-address-edit.less';
+
+// //
+// //  Variables
+// //  ---------------------------------------------
+// @not-account__is-enabled: false;
+
+.customer-account-login,
+.customer-account-create {
+    position: relative;
+    background: #171717;
+
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("@{baseDir}images/black-gradient.png") bottom center
+                no-repeat,
+            url("@{baseDir}images/signin-bg.png") center center no-repeat;
+        background-size: cover, 75%;
+        filter: blur(2px);
+        z-index: -1;
+    }
+    .page-title-wrapper,
+    .page-header,
+    .page-footer {
+        display: none !important;
+    }
+
+    .page-main {
+        position: relative;
+        z-index: 1;
+    }
+    .fieldset > .field {
+        margin-bottom: 15px;
+    }
+}
+
+.customer-account-login {
+    .login-container {
+        display: flex;
+        width: 85%;
+        flex-direction: column;
+        margin: 0 auto;
+        max-width: 500px;
+
+        > .block {
+            margin-bottom: 10px;
+        }
+
+        .fieldset:after {
+            display: none;
+        }
+
+        .block {
+            width: 100% !important;
+            .block-title {
+                border-bottom: none;
+                text-align: center;
+                h2 {
+                    margin-bottom: 0;
+                }
+            }
+
+            &.block-customer-login,
+            &.block-new-company,
+            &.block-new-customer {
+                padding: 24px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 32px;
+                background-color: rgb(255, 255, 255, 1);
+
+                .actions-toolbar {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .primary {
+                        margin-right: 0;
+                        .action.create {
+                            min-width: 187px;
+                            width: max-content;
+                        }
+                    }
+                }
+            }
+            &.block-new-company {
+                margin-top: 0;
+                .block-content {
+                    color: #626262;
+                    text-align: center;
+                    padding: 0 25px;
+                }
+                .action.create {
+                    width: max-content;
+                }
+            }
+            &.block-new-customer {
+                .tick-block {
+                    ul {
+                        list-style: none;
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+        .fieldset > {
+            .field.password {
+                display: flex;
+                align-items: flex-end;
+
+                > .control {
+                    align-items: flex-end;
+                }
+            }
+            .field:not(.choice) > .control {
+                width: 100%;
+
+                input[type="text"],
+                input[type="email"],
+                input[type="password"] {
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 5px;
+                    opacity: 1;
+                    border: 1px solid #d9d9d9;
+                    padding: 10px 15px;
+                    font-size: 14px;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        outline: none;
+                        border-color: #2c2c2c;
+                    }
+                }
+            }
+        }
+    }
+    .login-form {
+        background-color: rgb(245, 245, 247, 1);
+        padding: 35px;
+        border-radius: 10px;
+    }
+
+    .form.form-login {
+        .actions-toolbar {
+            display: flex;
+            flex-direction: column;
+            .primary {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .back-button {
+        .action.back {
+            color: #ffffff;
+            font-size: 16px;
+            font-family: "SF Pro";
+            font-weight: 500;
+            margin: 11px 0;
+            line-height: 30px;
+            display: inline-block;
+
+            &::before {
+                content: "<";
+                margin-right: 5px;
+                font-size: 16px;
+                font-family: "SF Pro";
+                font-weight: 500;
+            }
+        }
+    }
+
+    button,
+    .button {
+        &.login,
+        &.create {
+            background-color: @login-button__bg__color;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 10px 25px;
+            border-radius: 32px;
+        }
+    }
+}
+
+.login-footer-links {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    color: #ffffff;
+    margin-bottom: 0;
+
+    a {
+        color: #ffffff;
+    }
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #626262;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+    font-family: "SF Pro";
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.fieldset > {
+    .field.password {
+        display: flex;
+        align-items: flex-end;
+    }
+    .field:not(.choice) > .control {
+        width: 100%;
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            height: 40px;
+            border-radius: 5px;
+            opacity: 1;
+            border: 1px solid #d9d9d9;
+            padding: 10px 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #2c2c2c;
+            }
+        }
+    }
+}
