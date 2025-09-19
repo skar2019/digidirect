@@ -17,6 +17,6 @@ class Wiserdata extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-        $this->helper->mwaveData();
+        $this->helper->productData();
     }
 }
