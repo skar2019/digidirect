@@ -1065,20 +1065,20 @@ class ProductEntHelper extends AbstractHelper
     public function debugWiserData()
     {
 
-        $this->attributeOptions = $this->getOptionHash('brand');
+        //$this->attributeOptions = $this->getOptionHash('brand');
 
         $parentID = 2; // default category
-        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+        //$getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        $filepath = 'export/debugwiserdata.csv';
-        $this->directory->create('export');
-        $stream = $this->directory->openFile($filepath, 'w+');
-        $stream->lock();
-        $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
-            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
-
-        $stream->writeCsv($header);
+//        $filepath = 'export/debugwiserdata.csv';
+//        $this->directory->create('export');
+//        $stream = $this->directory->openFile($filepath, 'w+');
+//        $stream->lock();
+//        $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
+//            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
+//            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
+//
+//        $stream->writeCsv($header);
         $collection = $this->getProductCollection();
         $id = "";
         foreach ($collection as $product) {
@@ -1314,6 +1314,8 @@ class ProductEntHelper extends AbstractHelper
             }
 
         }
+
+        exit;
 
     }
 
