@@ -1260,23 +1260,91 @@ define([
                     const max = parseFloat(handles[1].getAttribute('aria-valuenow'));
                     return { min, max };
                 }
+                
+                
 
-                // Run logic every time InstantSearch re-renders
                 search.on('render', () => {
-                    const priceSlider = document.querySelector('.is-widget-container-price_AUD_default');
-                    const aisSlider = document.querySelector('.ais-RangeSlider');
+                    const helper = search.helper
+                    const attribute = 'price.AUD.default'
+                    const slider = document.querySelector('.ais-RangeSlider .rheostat')
+
+                    function setSliderValues(min, max) {
+                        if (!slider) return
+                        console.log("setSliderValues", min, max)
+                        helper.removeNumericRefinement(attribute)
+                        helper.addNumericRefinement(attribute, '>=', min)
+                        helper.addNumericRefinement(attribute, '<=', max)
+                        helper.search()
+                    }
+
+                    function getSliderValues() {
+                      const handles = slider ? slider.querySelectorAll('.rheostat-handle') : []
+                        if (handles.length < 2) return { min: 0, max: 0 }
+                        return {
+                            min: parseFloat(handles[0].getAttribute('aria-valuenow')),
+                            max: parseFloat(handles[1].getAttribute('aria-valuenow'))
+                        }
+                    }
+
+                    const priceSlider = document.querySelector('.is-widget-container-price_AUD_default')
+                    const aisSlider = document.querySelector('.ais-RangeSlider')
 
                     // Insert histogram container before slider (only once)
                     if (priceSlider && aisSlider && !document.querySelector('#price-histogram')) {
-                        const histo = document.createElement('div');
-                        histo.id = 'price-histogram';
-                        aisSlider.before(histo);
+                        const histo = document.createElement('div')
+                        histo.id = 'price-histogram'
+                        aisSlider.before(histo)
                     }
 
-                    // Update bar colors if slider exists
-                    const { min, max } = getSliderValues();
-                    if (min && max) updateHistogramColors(min, max);
-                });
+                    // Insert price input boxes above slider (only once)
+                    if (priceSlider && !document.querySelector('#price-inputs')) {
+                        const inputWrapper = document.createElement('div')
+                        inputWrapper.id = 'price-inputs'
+                        inputWrapper.innerHTML = `
+                            <div class="price-input-wrapper">
+                              <span class="currency">$</span>
+                              <input type="number" id="min-price" placeholder="Min" />
+                            </div>
+                            <div class="price-input-wrapper">
+                              <span class="currency">$</span>
+                              <input type="number" id="max-price" placeholder="Max" />
+                            </div>
+                        `
+                        aisSlider.after(inputWrapper)
+
+                        // Input → slider sync
+                        document.getElementById('min-price').addEventListener('change', e => {
+                            const { max } = getSliderValues()
+                            setSliderValues(Number(e.target.value), max)
+                        })
+                        document.getElementById('max-price').addEventListener('change', e => {
+                            const { min } = getSliderValues()
+                            setSliderValues(min, Number(e.target.value))
+                        })
+                    }
+
+                    // Grab your input boxes
+                    const minInput = document.querySelector('#min-price')
+                    const maxInput = document.querySelector('#max-price')
+
+                    function syncInputs() {
+                        const { min, max } = getSliderValues()
+                        if (min && max) {
+                            if (minInput) minInput.value = min
+                            if (maxInput) maxInput.value = max
+                            updateHistogramColors(min, max)
+                        }
+                    }
+
+                    // Sync inputs now + whenever slider changes
+                    syncInputs()
+                    if (slider && !slider.dataset.synced) {
+                        slider.addEventListener('mouseup', syncInputs)
+                        slider.addEventListener('keyup', syncInputs)
+                        slider.dataset.synced = "true"
+                    }
+                })
+
 
                 // ❌ No search.start() here → avoids double start error
                 
