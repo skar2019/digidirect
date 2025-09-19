@@ -1384,8 +1384,15 @@ define([
                 }
 
                 // Run clamp every time the slider updates
-                document.querySelector('.rheostat').addEventListener('mousemove', clampHandles);
-                document.querySelector('.rheostat').addEventListener('mouseup', clampHandles);
+                
+                
+                function attachClamp() {
+                    document.querySelector('.rheostat').addEventListener('mousemove', clampHandles);
+                    document.querySelector('.rheostat').addEventListener('mouseup', clampHandles);
+                }
+
+                // run after InstantSearch render
+                search.on('render', attachClamp)
 
             })
 
