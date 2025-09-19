@@ -1232,11 +1232,6 @@ define([
                       { label: '32', value: 32 },
                     ],
                   }),
-                  histogramWidget({
-                    container: '#price-histogram',
-                    attribute: 'price.AUD.default',
-                    buckets: 20,
-                  }),
                 ]);
 
                 // Function to recolor bars
@@ -1251,18 +1246,7 @@ define([
                         }
                     });
                 }
-
-                // Get current slider values
-                function getSliderValues() {
-                    const handles = document.querySelectorAll('.rheostat-handle');
-                    if (handles.length < 2) return { min: 0, max: 0 };
-                    const min = parseFloat(handles[0].getAttribute('aria-valuenow'));
-                    const max = parseFloat(handles[1].getAttribute('aria-valuenow'));
-                    return { min, max };
-                }
                 
-                
-
                 search.on('render', () => {
                     const helper = search.helper
                     const attribute = 'price.AUD.default'
@@ -1294,6 +1278,17 @@ define([
                         const histo = document.createElement('div')
                         histo.id = 'price-histogram'
                         aisSlider.before(histo)
+                    }
+                    
+                    if (document.querySelector('#price-histogram') && !search.__histogramAdded) {
+                        search.addWidgets([
+                            histogramWidget({
+                                container: '#price-histogram',
+                                attribute: attribute,
+                                buckets: 20,
+                            }),
+                        ])
+                        search.__histogramAdded = true
                     }
 
                     // Insert price input boxes above slider (only once)
