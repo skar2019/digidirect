@@ -1284,8 +1284,8 @@ class ProductEntHelper extends AbstractHelper
 //                    $noteligiblefordiscount = 0;
 //                }
 
-                echo $product->getSku();
-                echo "<br/>";
+                echo $product->getSku() ."<br/>";
+
 //                $data[] = $brandname;
 //                $data[] = $description;
 //                $data[] = $gtin;
