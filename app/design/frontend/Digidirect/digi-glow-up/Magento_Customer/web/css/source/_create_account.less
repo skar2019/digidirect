@@ -13,7 +13,7 @@
         .block-title {
             h3 {
                 font-size: 20px;
-                font-family: "SF Pro";
+                font-family: "Inter";
                 font-weight: 500;
                 color: #000000;
                 text-align: center;
@@ -95,17 +95,29 @@
         .back {
             color: #ffffff;
             font-size: 16px;
-            font-family: "SF Pro";
+            font-family: "Inter";
             font-weight: 500;
             line-height: 30px;
             display: inline-block;
+            position: relative;
+            padding-left: 16px;
 
             &::before {
-                content: "<";
+                content: "";
+                border: 2px solid #ffffff;
+                border-top: 0;
+                border-right: 0;
                 margin-right: 5px;
+                transform: rotate(45deg);
                 font-size: 16px;
-                font-family: "SF Pro";
+                font-family: "Inter";
                 font-weight: 500;
+                width: 8px;
+                height: 8px;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 11px;
             }
         }
     }
