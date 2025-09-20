@@ -18,7 +18,7 @@ require(['jquery'], function ($) {
     if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/index/getconfig",
             type: "POST",
             data: {
                 customerId: customerId
@@ -79,7 +79,7 @@ require(['jquery'], function ($) {
 
     $.ajax({
         async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/productlisting", //getRecommendationsUrl,
+        url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/index/productlisting", //getRecommendationsUrl,
         type: "POST",
         data: {
             customerId: customerId,
@@ -171,11 +171,11 @@ require(['jquery'], function ($) {
             let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
             
             if (categories.options[0].value == "PRELOVED") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
             } else if (categories.options[0].value == "OPENBOX") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
@@ -197,7 +197,7 @@ require(['jquery'], function ($) {
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="<?= $block->getBaseUrl(); ?>checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -455,7 +455,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             //async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/slots",
             type: "POST",
             data: {
                 eventData: slotData
@@ -589,7 +589,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/clicks",
             type: "POST",
             data: {
                 eventData: clickData
@@ -679,7 +679,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
                 eventData: productData
