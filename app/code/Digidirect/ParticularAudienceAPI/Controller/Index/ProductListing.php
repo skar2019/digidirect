@@ -59,7 +59,7 @@ class ProductListing extends Action implements HttpPostActionInterface {
             $customerIdParam = "";
         }
 
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au".$urlPath."&expandProductDetails=true".$customerIdParam;
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au".$urlPath."&expandProductDetails=true";
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
