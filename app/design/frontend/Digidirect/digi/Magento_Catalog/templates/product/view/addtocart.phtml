@@ -10,6 +10,7 @@
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
+$_specialOrder = $isSpecialOrder = (bool) $block->getProduct()->getData('special_order');
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -53,6 +54,22 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
                             <span class="addcart_words"><?= /* @escapeNotVerified */ 'Pre-Order' ?></span>
                         </button>
+                    <?php elseif  ($_specialOrder): ?>
+                    <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                            style="background: #00C3FF !important"
+                    >
+                        <div class="addtocart-tooltip" style="float: left;">
+                            <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
+                            <div class="addtocart-tooltiptext tooltip-bottom">
+                                Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
+                        <span class="addcart_words"><?= /* @escapeNotVerified */ 'Special Order' ?></span>
+                    </button>
                     <?php else : ?>
                         <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn"

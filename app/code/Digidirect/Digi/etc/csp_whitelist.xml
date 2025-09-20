@@ -78,6 +78,7 @@
                 <value id="latitudescriptsrc" type="host">*.latitudepayapps.com</value>
                 <value id="clarity" type="host">*.clarity.ms</value>
                 <value id="digizendscript" type="host">*.zendesk.com</value>
+                <value id="digidirectprod" type="host">*.digidirect.com</value>
 
             </values>
         </policy>
@@ -102,6 +103,7 @@
                 <value id="particularaudiencestyle" type="host">*.particularaudience.com</value>
                 <value id="cloudfrontstylesrc" type="host">*.cloudfront.net</value>
                 <value id="zipstylesrc" type="host">*.zip.co</value>
+                <value id="digidirectprodstyle" type="host">*.digidirect.com</value>
                 <!--<value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>-->
             </values>
         </policy>
@@ -155,6 +157,7 @@
                 <value id="qantasmedia" type="host">*.services.qantasloyalty.com</value>
                 <value id="zipmediasrc" type="host">*.zip.co</value>
                 <value id="zipmoneymediasrc" type="host">*.zipmoney.com.au</value>
+                <value id="digidirectprodmedia" type="host">*.digidirect.com</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -210,6 +213,7 @@
                 <value id="visitors" type="host">visitors.live</value>
                 <value id="insightadsrver" type="host">insight.adsrvr.org</value>
                 <value id="luckorangepreview" type="host">api-preview.luckyorange.com</value>
+                <value id="digidirectprodconnect" type="host">*.digidirect.com</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -226,18 +230,21 @@
                 <value id="bootstrapfont" type="host">*.bootstrapcdn.com</value>
                 <value id="pafont" type="host">p-a.io</value>
                 <value id="particularaudiencefont" type="host">*.particularaudience.com</value>
+                <value id="digidirectprodfont" type="host">*.digidirect.com</value>
             </values>
         </policy>
         <policy id="frame-src">
             <values>
                 <value id="all_potential_frame" type="host">*</value>
                 <value id="zipmoneyframesrc" type="host">*.zipmoney.com.au</value>
+                <value id="digidirectprodframe" type="host">*.digidirect.com</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="all_potential_form" type="host">*</value>
                 <value id="zipmoneyformaction" type="host">*.zipmoney.com.au</value>
+                <value id="digidirectprodform" type="host">*.digidirect.com</value>
             </values>
         </policy>
     </policies>
