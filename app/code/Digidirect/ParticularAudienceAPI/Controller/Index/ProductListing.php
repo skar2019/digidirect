@@ -58,8 +58,6 @@ class ProductListing extends Action implements HttpPostActionInterface {
         } else {
             $customerIdParam = "";
         }
-        
-        $customerIdParam = "&customerId=0ee828fd-7c42-4e3c-b7f8-e41166f2e590";
 
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au".$urlPath."&expandProductDetails=true".$customerIdParam;
         //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß

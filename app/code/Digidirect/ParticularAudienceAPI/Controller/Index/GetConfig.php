@@ -93,7 +93,7 @@ class GetConfig extends Action implements HttpPostActionInterface {
         $getConfigResultJson = $this->jsonSerializer->unserialize($getConfigResult);
         $result->setData($getConfigResultJson);
         
-        $this->setCustomerId($getConfigResultJson['payload']['customerId']);
+        $this->setCustomerId("0ee828fd-7c42-4e3c-b7f8-e41166f2e590");
         $this->setSessionId($getConfigResultJson['payload']['session']['id']);
         
         return $result;
