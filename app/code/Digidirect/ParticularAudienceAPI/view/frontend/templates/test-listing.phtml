@@ -12,7 +12,7 @@ require(['jquery'], function ($) {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
     
-    var customerId = getCookie('pa_customer_id');
+    var customerId = "0ee828fd-7c42-4e3c-b7f8-e41166f2e590";//getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
     if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
