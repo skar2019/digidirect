@@ -15,7 +15,7 @@ require(['jquery'], function ($) {
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
     
-    if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
+    /*if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
         $.ajax({
             async: false,
             url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
@@ -32,17 +32,14 @@ require(['jquery'], function ($) {
                 console.log('AJAX Get Config Fail!');
             }
         });
-    }
+    }*/
     
     var currentUrl = window.location.href;
     
     var configCustomerId;
     var configSessionId;
     
-    customerId = "0ee828fd-7c42-4e3c-b7f8-e41166f2e590";//getCookie('pa_customer_id');
-    sessionId = "505afaa4-8d69-4158-8576-b5545bc8b298";//getCookie('pa_session_id');
-    
-    configCustomerId = customerId;
+    configCustomerId = "";
     configSessionId = sessionId;
     
     var urlPath = "";
