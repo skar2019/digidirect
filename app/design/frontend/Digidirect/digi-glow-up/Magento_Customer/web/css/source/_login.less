@@ -1,37 +1,6 @@
-// //
-// //  Magento_Customer extend
-// //  _____________________________________________
-
-// //
-// //  Imports
-// //  ---------------------------------------------
-
-// @import 'module/_password-extend.less';
-// @import 'theme/_block-title.less';
-// @import 'theme/_orders-tables.less';
-// @import 'extends/_common.less';
-// @import 'theme/_box.less';
-// @import 'theme/_block-wishlist.less';
-// @import 'theme/_form-edit-account.less';
-// @import 'theme/_block-navigation.less';
-// @import 'theme/signup/_captcha.less';
-// @import 'theme/signup/_layout.less';
-// @import 'theme/signup/_login.less';
-// @import 'theme/signup/_logout.less';
-// @import 'theme/signup/_newcustomer.less';
-// @import 'theme/signup/_register.less';
-// @import 'theme/_table-reviews.less';
-// @import 'theme/_newsletter-subscription.less';
-// @import 'theme/_address-book.less';
-// @import 'theme/_form-address-edit.less';
-
-// //
-// //  Variables
-// //  ---------------------------------------------
-// @not-account__is-enabled: false;
-
 .customer-account-login,
-.customer-account-create {
+.customer-account-create,
+.customer-account-forgotpassword {
     position: relative;
     background: #171717;
 
@@ -61,6 +30,11 @@
     }
     .fieldset > .field {
         margin-bottom: 15px;
+    }
+    .button,
+    a.action,
+    button.action {
+        min-width: @form-buton__min__width;
     }
 }
 
@@ -105,8 +79,9 @@
                     .primary {
                         margin-right: 0;
                         .action.create {
-                            min-width: 187px;
+                            min-width: @form-buton__min__width;
                             width: max-content;
+                            margin-right: 0;
                         }
                     }
                 }
@@ -124,6 +99,7 @@
             }
             &.block-new-customer {
                 .tick-block {
+                    text-align: center;
                     ul {
                         list-style: none;
                         padding-left: 0;
@@ -141,7 +117,7 @@
                 }
             }
             .field:not(.choice) > .control {
-                width: 100%;
+                width: 100% !important;
 
                 input[type="text"],
                 input[type="email"],
@@ -208,6 +184,7 @@
             font-size: 16px;
             padding: 10px 25px;
             border-radius: 32px;
+            margin-right: 0;
         }
     }
 }
