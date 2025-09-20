@@ -1,0 +1,67 @@
+// Base reset for inputs
+input[type="checkbox"],
+input[type="radio"] {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid @color-grey;
+    border-radius: 0;
+    outline: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: @color-gray60; // darker on hover
+    }
+
+    &:checked {
+        background-color: @color-orange; // Magento’s primary blue
+        border-color: @color-orange;
+
+        // checkmark
+        &::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 4px;
+            height: 8px;
+            border: solid @color-grey;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+// Radio buttons (round)
+input[type="radio"] {
+    border-radius: 50%;
+
+    &:checked::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 8px;
+        height: 8px;
+        background: @color-orange;
+        border-radius: 50%;
+    }
+}
+
+// Labels aligned nicely
+.field.choice label,
+label[for^="checkbox"],
+label[for^="radio"] {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+@form-buton__min__width: 187px;

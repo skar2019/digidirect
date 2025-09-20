@@ -20,17 +20,41 @@
 @button__font-weight: @font-weight__semibold;
 
 //  Default = secondary button
-// @button__background: @color-gray-darken0;
-// @button__border: 1px solid @border-color__base;
-// @button__hover__color: @button__color;
-// @button__hover__background: darken(@button__background, 5%);
-// @button__active__background: @color-gray-darken1;
+@button__background: @color-black;
+@button__border: 1px solid @color-black;
+@button__color: @color-white;
+@button__hover__color: @color-white;
+@button__hover__background: darken(@button__background, 5%);
+@button__active__background: @color-black;
 
 //  Primary button
-@button-primar__background: @color-orange;
+@button-primary__background: @color-orange;
 @button-primary__hover__color: @color-white;
 @button-primary__active__background: @color-orange;
 @button-primary__active__color: @color-white;
+@button-primary__border: 1px solid @color-orange;
+@button-primary__color: @color-white;
+@button__padding: 11px 30px;
 
+// @_button-background: @color-black;
+// @_button-color: @color-white;
+// // @button-secondary__background: @color-black;
+// @_button-border: 1px solid @color-black;
+
+// @_button-font-family: @button__font-family,
+// @_button-font-size: @button__font-size,
+// @_button-font-weight: @button__font-weight, @_button-cursor: @button__cursor,
+// @_button-display: @button__display,
+// @_button-disabled-opacity: @button__disabled__opacity,
+// @_button-line-height: @button__line-height, @_button-width: @button__width,
+// @_button-margin: @button__margin, @_button-padding: @button__padding,
+// @_button-color: @button__color, @_button-background: @button__background,
+// @_button-border: @button__border,
+// @_button-color-hover: @button__hover__color,
+// @_button-background-hover: @button__hover__background,
+// @_button-border-hover: @button__hover__border,
+// @_button-color-active: @button__active__color,
+// @_button-background-active: @button__active__background,
+// @_button-border-active: @button__active__border,
 //  Button with icon
 @button-icon__line-height: @icon-font__line-height;
