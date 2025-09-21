@@ -56,6 +56,9 @@ define([
         const email = $('#customer-email').val();
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            $('#customer-email-error').show();
+            fullScreenLoader.stopLoader();
+            console.log('Email is not in correct format');
             return; //NOT VALID EMAIL
         }
 
