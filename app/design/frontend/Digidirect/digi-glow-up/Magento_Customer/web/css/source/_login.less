@@ -1,37 +1,6 @@
-// //
-// //  Magento_Customer extend
-// //  _____________________________________________
-
-// //
-// //  Imports
-// //  ---------------------------------------------
-
-// @import 'module/_password-extend.less';
-// @import 'theme/_block-title.less';
-// @import 'theme/_orders-tables.less';
-// @import 'extends/_common.less';
-// @import 'theme/_box.less';
-// @import 'theme/_block-wishlist.less';
-// @import 'theme/_form-edit-account.less';
-// @import 'theme/_block-navigation.less';
-// @import 'theme/signup/_captcha.less';
-// @import 'theme/signup/_layout.less';
-// @import 'theme/signup/_login.less';
-// @import 'theme/signup/_logout.less';
-// @import 'theme/signup/_newcustomer.less';
-// @import 'theme/signup/_register.less';
-// @import 'theme/_table-reviews.less';
-// @import 'theme/_newsletter-subscription.less';
-// @import 'theme/_address-book.less';
-// @import 'theme/_form-address-edit.less';
-
-// //
-// //  Variables
-// //  ---------------------------------------------
-// @not-account__is-enabled: false;
-
 .customer-account-login,
-.customer-account-create {
+.customer-account-create,
+.customer-account-forgotpassword {
     position: relative;
     background: #171717;
 
@@ -61,6 +30,26 @@
     }
     .fieldset > .field {
         margin-bottom: 15px;
+    }
+    .button,
+    a.action,
+    button.action {
+        min-width: @form-buton__min__width;
+    }
+
+    h3 {
+        &[role="heading"] {
+            color: @color-black;
+            font-size: 20px;
+        }
+    }
+
+    h4 {
+        &[role="heading"] {
+            font-size: 16px;
+            color: @color-black-1;
+            font-weight: 500;
+        }
     }
 }
 
@@ -105,8 +94,9 @@
                     .primary {
                         margin-right: 0;
                         .action.create {
-                            min-width: 187px;
+                            min-width: @form-buton__min__width;
                             width: max-content;
+                            margin-right: 0;
                         }
                     }
                 }
@@ -124,6 +114,7 @@
             }
             &.block-new-customer {
                 .tick-block {
+                    text-align: center;
                     ul {
                         list-style: none;
                         padding-left: 0;
@@ -141,7 +132,7 @@
                 }
             }
             .field:not(.choice) > .control {
-                width: 100%;
+                width: 100% !important;
 
                 input[type="text"],
                 input[type="email"],
@@ -179,26 +170,6 @@
         }
     }
 
-    .back-button {
-        .action.back {
-            color: #ffffff;
-            font-size: 16px;
-            font-family: "SF Pro";
-            font-weight: 500;
-            margin: 11px 0;
-            line-height: 30px;
-            display: inline-block;
-
-            &::before {
-                content: "<";
-                margin-right: 5px;
-                font-size: 16px;
-                font-family: "SF Pro";
-                font-weight: 500;
-            }
-        }
-    }
-
     button,
     .button {
         &.login,
@@ -208,6 +179,7 @@
             font-size: 16px;
             padding: 10px 25px;
             border-radius: 32px;
+            margin-right: 0;
         }
     }
 }
@@ -224,44 +196,5 @@
 
     a {
         color: #ffffff;
-    }
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: #626262;
-    font-style: normal;
-    font-size: 14px;
-    line-height: 18px;
-    font-family: "SF Pro";
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-.fieldset > {
-    .field.password {
-        display: flex;
-        align-items: flex-end;
-    }
-    .field:not(.choice) > .control {
-        width: 100%;
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            height: 40px;
-            border-radius: 5px;
-            opacity: 1;
-            border: 1px solid #d9d9d9;
-            padding: 10px 15px;
-            font-size: 14px;
-            box-sizing: border-box;
-
-            &:focus {
-                outline: none;
-                border-color: #2c2c2c;
-            }
-        }
     }
 }

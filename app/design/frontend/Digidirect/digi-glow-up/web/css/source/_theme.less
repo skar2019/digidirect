@@ -1,16 +1,3 @@
-// /**
-//  * Copyright © Magento, Inc. All rights reserved.
-//  * See COPYING.txt for license details.
-//  */
-
-//
-//  Blank theme overrides
-//  _____________________________________________
-
-//  Theme file should contain declarations (overrides) ONLY OF EXISTING variables
-//  Otherwise this theme won't be available for parent nesting
-//  All new variables should be placed in local theme lib or local theme files
-
 //  Form field note icon
 @form-field-note-icon-font__content: false;
 //
@@ -20,17 +7,19 @@
 @button__font-weight: @font-weight__semibold;
 
 //  Default = secondary button
-// @button__background: @color-gray-darken0;
-// @button__border: 1px solid @border-color__base;
-// @button__hover__color: @button__color;
-// @button__hover__background: darken(@button__background, 5%);
-// @button__active__background: @color-gray-darken1;
+@button__background: @color-black;
+@button__border: 1px solid @color-black;
+@button__color: @color-white;
+@button__hover__color: @color-white;
+@button__hover__background: darken(@button__background, 5%);
+@button__active__background: @color-black;
 
 //  Primary button
-@button-primar__background: @color-orange;
+@button-primary__background: @color-orange;
 @button-primary__hover__color: @color-white;
 @button-primary__active__background: @color-orange;
 @button-primary__active__color: @color-white;
-
-//  Button with icon
+@button-primary__border: 1px solid @color-orange;
+@button-primary__color: @color-white;
+@button__padding: 11px 30px;
 @button-icon__line-height: @icon-font__line-height;

@@ -7,16 +7,8 @@
        <referenceContainer name="header.container" remove="true"/>
         <referenceBlock name="header.container" remove="true"/>
         <referenceBlock name="global.newsletter" remove="true"/>
-        <referenceContainer name="page.footer" remove="true"/>
+        <referenceContainer name="footer-container" remove="true"/>
 
-         <!-- <referenceBlock name="customer_form_register">
-            <block class="Magento\Customer\Block\Account\Link" name="customer.backbutton" template="Magento_Customer::form/backbutton.phtml" before="-">
-                <arguments>
-                    <argument name="label" xsi:type="string" translate="true">Back</argument>
-                </arguments>    
-            </block>
-
-        </referenceBlock> -->
         <referenceBlock name="content">
             <block class="Magento\Framework\View\Element\Template"
                    name="login.footer.links"
