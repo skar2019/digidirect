@@ -25,11 +25,6 @@
                     <container name="product.additional.actions" htmlTag="div" htmlClass="product-additional-actions">
                         <block class="Magento\Catalog\Block\Product\View" name="product.info.addto"
                                as="addto" template="Magento_Catalog::product/view/addto.phtml"/>
-                        <container name="live.chat.additional.link" htmlTag="div" htmlClass="live-chat-additional">
-                            <block class="Magento\Framework\View\Element\Template"
-                                   name="live.chat.link.block"
-                                   template="Magento_Catalog::product/live-chat.phtml"/>
-                        </container>
                     </container>
                 </container>
 
@@ -53,33 +48,14 @@
                                template="Magento_Catalog::product/price/digiprint_info.phtml"
                                name="pdp-digiprint-info"/>
 
-                        <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
-                               name="digidirectextended.catalog.price.rule.product.view.core"
-                               template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml"/>
                     </container>
 
                     <container name="product.description.section" htmlTag="div" htmlClass="product-description-section"/>
-                    <move element="product.info.description" destination="product.description.section" after="-"/>
 
                     <container name="product.additional.info" htmlTag="div" htmlClass="product-additional-info">
                         <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm"
                                template="Itoris_PriceMatch::product/form.phtml"/>
 
-                        <container name="product.places" htmlTag="div" htmlClass="product-places">
-                            <block class="Digidirect\Digi\Block\Places" name="product.places.helper"
-                                   template="Magento_Catalog::product/view/product_places.phtml">
-                                <block class="Magento\Cms\Block\Block" name="product.delivery.message">
-                                    <arguments>
-                                        <argument name="block_id" xsi:type="string">product-detail-delivery-tab-message</argument>
-                                    </arguments>
-                                </block>
-                                <block class="Magento\Cms\Block\Block" name="web.only.message">
-                                    <arguments>
-                                        <argument name="block_id" xsi:type="string">web-only-message</argument>
-                                    </arguments>
-                                </block>
-                            </block>
-                        </container>
                     </container>
                 </container>
 
