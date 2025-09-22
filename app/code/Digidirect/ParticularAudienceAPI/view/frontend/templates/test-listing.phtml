@@ -616,6 +616,40 @@ require(['jquery'], function ($) {
         observer.disconnect(); 
     }
     
+    $(document).ready(function(){                                               
+        $(".owl-carousel.custom").owlCarousel({
+            loop: false,
+            nav: true,
+            margin: 15,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
+    });
+    
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var widgetId = $(this).attr("widget-id");
@@ -944,9 +978,6 @@ require(['jquery'], function ($) {
         </div>
         <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         <div id="recommended-for-you-widget-mobile" class="pa-digidirect-product-widget-container mobile-widget"></div>
-        <div class="load-more mgz-element mgz-child mgz-element-text product-tab-mobile-widget-load-more grid-toggle-more" onclick="loadMoreProducts('recommended-for-you-widget');"><div class="mgz-element-inner"><p>Load More</p></div></div>
-        <div class="view-less mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-less grid-toggle-more" onclick="viewLessProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View Less</p></div></div>
-        <div class="view-all mgz-element mgz-child mgz-element-text product-tab-mobile-widget-view-all grid-toggle-more" onclick="viewAllProducts('recommended-for-you-widget');" style="display: none;"><div class="mgz-element-inner"><p>View All</p></div></div>
     </div>
 </div>
 
