@@ -217,7 +217,7 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                                '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>'
                             '</form>'
             }
@@ -282,7 +282,7 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <div> ' +
+                algoliaPriceBlock = '<div class="price-wrapper"><span class="price-container"> <span class="price"></span></span><div> ' +
                                         '<span class="after_special">' + priceToDisplay +'</span>' +
                                     '</div></div> ';
             }
@@ -335,17 +335,17 @@ require(['jquery'], function ($) {
                                     '<div class="result-sub-content">' +
                                         '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
                                         '<div class="ratings">' +
-                                            '<div class="result-sub-content">'+
-                                                '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
-                                                    algoliaPriceBlock +
-                                                '</div>' +
-                                            '</div>' +
+                                            '<div class="result-sub-content"></div>' +
                                         '</div>' +
                                         '<div class="result-description text-ellipsis"></div>' +
                                         '<div class="s19-rental-price-target">' +
                                             '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
-                                        '</div>' + addToCart +
+                                        '</div>' + 
+                                        '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
+                                            algoliaPriceBlock +
+                                        '</div>' +
+                                        '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price">' + addToCart + '</div></div>' +
                                     '</div>' + 
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
