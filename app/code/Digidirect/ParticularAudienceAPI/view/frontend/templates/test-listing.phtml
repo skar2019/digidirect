@@ -650,19 +650,6 @@ require(['jquery'], function ($) {
         });
     });
     
-    $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
-        let $carousel = $(this);
-        let $secondLastItem = $carousel.find('.owl-item').eq(-3); // second to last
-
-        if ($secondLastItem.hasClass('active')) {
-            // second to last slide is active → disable the next button
-            $carousel.find('.owl-next').addClass('unclickable').prop('disabled', true);
-        } else {
-            // otherwise enable it
-            $carousel.find('.owl-next').removeClass('unclickable').prop('disabled', false);
-        }
-    });
-    
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
         var widgetId = $(this).attr("widget-id");
