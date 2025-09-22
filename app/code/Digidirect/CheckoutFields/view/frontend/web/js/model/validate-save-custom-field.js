@@ -14,6 +14,7 @@ define([
          * @returns {boolean}
          */
         validate: function () {
+            $('#customer-email-error').hide();
             var config = window.customCheckoutFieldConfig,
                 provider = registry.get(config.provider),
                 billingStepConfig = config.fields['billing-step'],
