@@ -345,7 +345,7 @@ require(['jquery'], function ($) {
                                         '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
                                             algoliaPriceBlock +
                                         '</div>' +
-                                        '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price">' + addToCart + '</div></div>' +
+                                        '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>' +
                                     '</div>' + 
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
@@ -586,7 +586,7 @@ require(['jquery'], function ($) {
                                 '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
                                     product.name +
                                 '</a>' +
-                            '</strong>' +
+                            '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                             priceBlock + zip +
                         '</div>' +
                     '</div>'
