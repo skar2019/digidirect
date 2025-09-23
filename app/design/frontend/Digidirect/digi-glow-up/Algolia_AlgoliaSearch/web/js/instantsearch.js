@@ -433,7 +433,12 @@ define([
                                 currency: 'AUD',
                                 minimumFractionDigits: 2
                             });
+                            
+                            // Original Algolia image
+                            let imageUrl = item.image_url;
 
+                            console.log("imageUrl", imageUrl);
+                            
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
