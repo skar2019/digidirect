@@ -66,6 +66,7 @@ $suffix = $block->showSuffix();
                 <input type="text" id="<?= $block->escapeHtmlAttr($block->getFieldId('firstname')) ?>"
                        name="<?= $block->escapeHtmlAttr($block->getFieldName('firstname')) ?>"
                        placeholder="<?= $block->escapeHtmlAttr($block->getFieldId('First Name')) ?>"
+                       value="<?= $block->escapeHtmlAttr($block->getObject()->getFirstname()) ?>"
                        title="<?= $block->escapeHtmlAttr($block->getStoreLabel('firstname')) ?>"
                        class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('firstname')) ?>" <?php if ($block->getAttributeValidationClass('firstname') == 'required-entry') echo ' data-validate="{required:true}"' ?>>
             </div>
