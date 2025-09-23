@@ -1,54 +1,21 @@
 .form-edit-account {
-    font-size: 14px;
-    color: #242426;
     max-width: 1344px;
-    /* padding: 40px; */ /* Optional: Uncomment if you want padding around the form */
-    border-radius: 8px;
-    background-color: #f4f5f7;
-    margin: 0 auto;
-
-    form {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Fieldset Styles */
-    fieldset {
-        border: none;
-        padding: 0;
-        margin-bottom: 40px;
-    }
 
     fieldset .legend {
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 30px;
-        display: inline-block;
+        //display: inline-block;
         margin-left: 0 !important;
         margin-top: 20px;
     }
 
-    /* Labels */
     .label span {
         margin-bottom: 6px;
-        font-weight: 590;
+        font-weight: 500;
         font-size: 14px;
         letter-spacing: 0.2px;
         color: #545456;
-    }
-
-    /* Text Input Styling */
-    .input-text {
-        width: 100%;
-        padding: 10px 14px;
-        font-size: 14px;
-        border: 1px solid #d1d1d1;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border 0.3s ease;
-        background-color: #fff;
     }
 
     .input-text:focus {
@@ -68,58 +35,109 @@
         font-size: 1.2rem;
         margin: 0 0 0 5px;
     }
-    /* Flexbox Layout for First Name and Last Name */
+
     .field.-half {
-        width: 48%; /* Adjust width to allow two fields in one row */
+        width: 48%;
         vertical-align: top;
         padding-right: 20px;
     }
 
     .field.-half:first-child {
-        margin-right: 4%; /* Space between the two fields */
+        margin-right: 4%;
     }
 
-    /* Date of Birth Layout */
     .field-dob {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         width: 50%;
         padding-top: 30px;
     }
 
     .field-dob input {
-        width: calc(50% - 10px); /* Input field takes half width */
+        width: calc(50% - 10px);
         padding-right: 40px;
         background: url('/static/images/calendar-icon.png') no-repeat right 10px center;
         background-size: 20px;
     }
 
     .field-dob .ui-datepicker-trigger {
-        width: 50%; /* Calendar button takes the remaining space */
+        width: 50%;
     }
 
-    /* Checkbox Styles */
+    .fieldset > .field:not(.choice) > .label {
+        text-align: left !important;
+        float: unset !important;
+    }
+
+
     .field.choice {
         margin: 20px 0;
     }
 
     .field.choice label {
-        display: inline-block;
         margin-left: 8px;
         font-weight: 500;
         font-size: 14px;
     }
 
-    /* Save Button */
+    .fieldset .field:not(.choice) > .control input[type="text"] {
+        background: @color-white !important;
+        width: 86% !important;
+    }
+
+    .fieldset .field:not(.choice) > .control input[type="email"] {
+        width: 36% !important;
+    }
+
+    .fieldset .field:not(.choice) > .control {
+        width: auto !important;
+        float: unset !important;
+    }
+
+    .field .control {
+        margin-top: 15px;
+    }
+
+    .customer-dob {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .field-dob .ui-datepicker-trigger {
+        width: 20%;
+    }
+
+    ._has-datepicker ~ .ui-datepicker-trigger:before {
+        color: @color-orange;
+    }
+
+    .fieldset > .field.choice:before {
+        width: auto !important;
+        padding: 15px 0 5px 0 !important;
+    }
+
+    #contact_number {
+        max-width: 40%;
+    }
+
+    .field-contact_number {
+        padding-top: 20px;
+    }
+
+    .actions-toolbar {
+        justify-content: unset !important;
+    }
+
     .action.save {
-        background-color: #ff6600;
+        margin-right: 0;
+        background-color: @color-orange;
+        color: @color-white;
+        font-size: 16px;
+        padding: 11px 30px;
+        border-radius: 32px;
+        width: 100%;
+        max-width: 187px;
         border: none;
-        padding: 12px 24px;
-        color: #fff;
-        font-size: 14px;
         font-weight: 600;
-        border-radius: 4px;
         cursor: pointer;
         transition: background 0.3s ease;
     }
@@ -128,22 +146,10 @@
         background-color: #e85c00;
     }
 
-    /* Qantas Promo Box */
-    .qff-fieldset {
-        margin-top: 40px;
+    .qff-fieldset.hide {
+        display: none;
     }
 
-    .qantas-promo-box {
-        background-color: #fff8e6;
-        padding: 12px 16px;
-        border: 1px solid #ffd699;
-        border-radius: 6px;
-        font-size: 14px;
-        color: #444;
-        margin-bottom: 20px;
-    }
-
-    /* Media Queries for Smaller Screens */
     @media screen and (max-width: 768px) {
         .field.-half {
             display: block;
@@ -152,13 +158,8 @@
             margin-bottom: 16px;
         }
 
-        /* Adjust Form Padding for Small Screens */
         .form-edit-account {
             padding: 20px;
-        }
-
-        .qantas-promo-box {
-            font-size: 13px;
         }
 
         .action.save {

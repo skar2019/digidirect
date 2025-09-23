@@ -433,7 +433,7 @@ define([
                                 currency: 'AUD',
                                 minimumFractionDigits: 2
                             });
-
+                            
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
