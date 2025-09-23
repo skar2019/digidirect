@@ -18,13 +18,14 @@ $seller = $product->getData('marketplacer_seller');
                 data-action="add-to-cart-action"
                 >
                 <div class="credit-cards">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>visa.png"/>
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>mastercard.png"/>
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>amex.png"/>
+                    <img src="<?= $block->getViewFileUrl('images/checkout/credit-card.png'); ?>"/>
+                    <!-- <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/>
+                    <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/> -->
                 </div>
             </button>
         </form>
         <div id="paypal-custom">
+            <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/>
         </div>
     </div>
     <div class="row-second">
@@ -41,13 +42,11 @@ $seller = $product->getData('marketplacer_seller');
     </div>
     
     <div class="row-third" style="margin: 10px 0; background: #B2FCE4; border-radius: 25px; text-align: center;">
-        <div class="pdp-afterpay-logo" style="padding-top: 11px; padding-bottom: 5px;">
-            <strong>
+        <div class="pdp-afterpay-logo">
                 <span data-afterpay-modal="en_AU">
-                    <img src="https://www.digidirect.com.au/media/wysiwyg/afterpay/afterpay-logo-no-space.png" alt="Checkout with Afterpay" width="120">
-                    <span style="vertical-align: super !important;">&nbsp;&nbsp;ⓘ</span>
+                    <img src="<?= $block->getViewFileUrl('images/checkout/afterpay.png'); ?>" alt="Checkout with Afterpay">
+                    <span>ⓘ</span>
                 </span>
-            </strong>
         </div>
     </div>
 </div>

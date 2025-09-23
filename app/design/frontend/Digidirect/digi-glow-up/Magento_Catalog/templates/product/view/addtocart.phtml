@@ -76,6 +76,17 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
         </div>
     </div>
 
+<div class="order-limit"> 
+    <div class="order-limit-tooltip"> 
+        <span class="order-limit-text"> 
+            <img src="<?= $block->getViewFileUrl('images/box-remove.png'); ?>"/> 
+            <span>order limits apply</span> 
+            <i class="tooltip-toggle">ⓘ</i> 
+            <span class="tooltip-content">Details hereDetails hereDetails hereDetails here</span> 
+        </span> 
+    </div> 
+</div>
+
 <?php endif; ?>
 
 <script type="text/x-magento-init">
