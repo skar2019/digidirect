@@ -434,13 +434,6 @@ define([
                                 minimumFractionDigits: 2
                             });
                             
-                            // Original Algolia image
-                            let imageUrl = item.image_url;
-
-                            let newUrl = imageUrl.replace("mcstaging2.digidirect.com.au", "digidirect.com.au");
-                            
-                            item.image_url = newUrl;
-                            
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
