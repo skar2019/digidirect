@@ -17,7 +17,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
-            color: #1D1D1F;
+            color: @color-black-1;
             text-align: center;
         }
 
@@ -29,7 +29,7 @@
         }
 
         table.table-order-items.recent tbody {
-            background: #FFFFFF;
+            background: @color-white;
         }
 
         table.table-order-items.recent tbody tr {
@@ -64,7 +64,7 @@
         }
 
         table.table-order-items.recent td.actions a {
-            color: #1D1D1F;
+            color: @color-black-1;
             text-decoration: none;
             margin-right: 12px;
             font-weight: 600;
@@ -114,10 +114,13 @@
         }
     }
 
-    .block-dashboard-addresses {
+    .block-dashboard-addresses{
         .block-title {
             display: none;
         }
+    }
 
+    .block-reviews-dashboard {
+        display: none;
     }
 }
