@@ -806,6 +806,7 @@ return [
         'Marketplacer_Marketplacer' => 1,
         'Mbs_BestSeller' => 1,
         'OuterEdge_StructuredData' => 1,
+        'OlegKoval_RegenerateUrlRewrites' => 1,
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
         'Plumrocket_Base' => 1,
