@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77163e68f57bee526e56e45b06b2cd96",
+    "content-hash": "915fa986a66919a2d9bd9a549dc55809",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -3191,6 +3191,39 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2023-06-05T12:46:42+00:00"
+        },
+        {
+            "name": "impact_tech/module-magento-integration",
+            "version": "2.6.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ImpactInc/saasler-magento-impact-integration.git",
+                "reference": "f92c974e0eeeb31dfb35ac01d9647ab769327b09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ImpactInc/saasler-magento-impact-integration/zipball/f92c974e0eeeb31dfb35ac01d9647ab769327b09",
+                "reference": "f92c974e0eeeb31dfb35ac01d9647ab769327b09",
+                "shasum": ""
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Impact\\Integration\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Magento Impact Integration",
+            "support": {
+                "source": "https://github.com/ImpactInc/saasler-magento-impact-integration/tree/2.6.6"
+            },
+            "time": "2025-04-29T15:49:51+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
