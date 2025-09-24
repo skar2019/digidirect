@@ -59,3 +59,72 @@
         }
     }
 }
+/* Accordion container */
+.product-accordion {
+    border-top: 1px solid #e0e0e0;
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+
+    [data-role="trigger"] {
+        padding: 25px 0;
+        color: #242426;
+        font-size: 16px;
+        font-weight: 600;
+        border-top: 1px solid #e6e6e6;
+    }
+}
+
+/* Collapsible section */
+// .product-accordion [data-role="collapsible"] {
+//     border-bottom: 1px solid #e0e0e0;
+// }
+
+// /* Trigger header */
+// .product-accordion [data-role="trigger"] {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     padding: 12px 16px;
+//     cursor: pointer;
+//     font-weight: bold;
+//     font-size: 16px;
+//     background-color: #fff;
+//     transition: background-color 0.3s ease;
+// }
+
+// .product-accordion [data-role="trigger"]:hover {
+//     background-color: #f9f9f9;
+// }
+
+/* Content section */
+// .product-accordion [data-role="content"] {
+//     padding: 12px 16px;
+//     display: none; /* hidden by default */
+//     font-size: 14px;
+//     color: #333;
+// }
+
+// /* Show content when active */
+// .product-accordion .ui-accordion-content-active {
+//     display: block;
+// }
+
+/* Optional: style links inside content */
+.product-accordion [data-role="content"] a {
+    color: #d60000;
+    text-decoration: none;
+}
+
+// .product-accordion [data-role="content"] a:hover {
+//     text-decoration: underline;
+// }
+
+// /* Add an arrow icon */
+// .product-accordion [data-role="trigger"]::after {
+//     content: "\25BC"; /* down arrow */
+//     transition: transform 0.3s ease;
+// }
+
+// .product-accordion .ui-accordion-header-active [data-role="trigger"]::after {
+//     transform: rotate(-180deg); /* rotate arrow when open */
+// }

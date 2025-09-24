@@ -360,7 +360,7 @@
                     bottom: 120%; // above the icon
                     left: 50%;
                     transform: translateX(-50%);
-                    background: #f2f2f7;
+                    background: #000;
                     color: #fff;
                     font-size: 12px;
                     font-weight: 400;
@@ -1008,12 +1008,17 @@
             margin-bottom: 30px;
 
             .data.switch {
-                background: #007bff;
-                color: white;
-                padding: 15px 20px;
+                background: transparent;
+                color: #8e8e93;
                 border-radius: 6px 6px 0 0;
                 cursor: pointer;
                 font-weight: 600;
+                height: auto;
+                padding: 5px 15px;
+                border: none;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Inter";
             }
 
             .data.content {
@@ -1023,7 +1028,28 @@
                 border-radius: 0 0 6px 6px;
                 background: white;
             }
+
+            &.active {
+                .data.switch {
+                    color: @color-orange;
+                    border-bottom: 1px solid @color-orange;
+                }
+            }
+            &:first-of-type {
+                .data.switch {
+                    border-left: none;
+                }
+            }
         }
+    }
+
+    table.specTable tr {
+        vertical-align: top;
+    }
+
+    table.specTable th,
+    table.specTable td {
+        width: 50%;
     }
 
     // Recommendations Section

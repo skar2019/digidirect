@@ -38,6 +38,8 @@
                         </block>
                     </container>
 
+
+
                     <container name="product.sku.section" htmlTag="div" htmlClass="product-sku-section"/>
 
                     <container name="product.price.section" htmlTag="div" htmlClass="product-price-section">
@@ -57,6 +59,13 @@
                                template="Itoris_PriceMatch::product/form.phtml"/>
 
                     </container>
+
+                    <block class="Magento\Framework\View\Element\Template"
+                    name="custom.pdp.accordion"
+                    template="Magento_Catalog::product/view/product-details-accordian.phtml" after="-">
+                                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/> 
+                    </block>
+
                 </container>
 
                 <!-- RIGHT COLUMN -->
