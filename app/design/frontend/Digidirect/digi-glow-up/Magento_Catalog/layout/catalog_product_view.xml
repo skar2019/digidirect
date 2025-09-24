@@ -72,6 +72,11 @@
                             <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper"/>
                         </container>
                     </referenceContainer>
+
+                <block class="Magento\Framework\View\Element\Template"
+                   name="custom.help.block"
+                   template="Magento_Catalog::product/help.phtml"
+                   after="product.info.main"/>
                     
 
                 </container>

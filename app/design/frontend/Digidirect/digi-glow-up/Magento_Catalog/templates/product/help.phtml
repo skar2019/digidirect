@@ -1,0 +1,14 @@
+<div class="product-help-box">
+    <div class="product-help-icon">
+        <img src="<?= $block->getViewFileUrl('images/icons/warning.png'); ?>"
+             alt="<?= $block->escapeHtmlAttr(__('Help')) ?>" />
+    </div>
+    <div class="product-help-content">
+        <p><?= $block->escapeHtml(__('Need help? Ask our team')) ?></p>
+        <div class="product-help-links">
+            <a href="#" class="help-chat"><?= $block->escapeHtml(__('Chat')) ?></a> |
+            <a href="tel:123456789" class="help-call"><?= $block->escapeHtml(__('Call Us')) ?></a> |
+            <a href="mailto:support@example.com" class="help-email"><?= $block->escapeHtml(__('Email')) ?></a>
+        </div>
+    </div>
+</div>
