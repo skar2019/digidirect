@@ -3,9 +3,97 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
+    .digiclubmember-customer-index {
+        .page-title-wrapper {
+            display: none !important;
+        }
+    }
+    .form-digiclub-manage {
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
 
-    .digiclub-description {
-        margin-bottom: 20px;
+        li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+
+        .field label {
+            font-size: 14px;
+            font-weight: 590;
+            letter-spacing: 0.3px;
+            padding-bottom: 5px;
+            color: #545456;
+        }
+
+        .field._required > .label:after {
+            content: '*';
+            color: #e02b27;
+            font-size: 1.2rem;
+            margin: 0 0 0 5px;
+        }
+
+        .field .control {
+            padding-top: 10px;
+        }
+
+        .fieldset > .field.choice:before {
+            float: unset !important;
+        }
+
+        .action.save {
+            margin-right: 0;
+            background-color: #FE4C25 !important;
+            color: #FFFFFF;
+            font-size: 16px;
+            padding: 11px 30px;
+            border-radius: 32px !important;
+            width: 100% !important;
+            max-width: 187px;
+            border: none;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .digiclub-description {
+            margin-bottom: 20px;
+            color: #545456;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .digiclub-t-c {
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 23px;
+            max-width: 400px;
+        }
+
+        h1.page-title {
+            display: none !important;
+        }
+
+        .digiclub-dob-text-o {
+            color: #FE4C25;
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .join-digi-o {
+            color: #FE4C25;
+            font-weight: 600;
+        }
+
+        img {
+            border-radius: 50px;
+        }
+
+        .fieldset > .field {
+            margin: 0 0 10px !important;
+        }
     }
 
     .digiclub-redirect.customer-account-login .page-title-wrapper {
