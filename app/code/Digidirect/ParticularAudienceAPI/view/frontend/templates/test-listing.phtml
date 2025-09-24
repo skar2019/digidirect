@@ -236,6 +236,8 @@ require(['jquery'], function ($) {
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
+                } else {
+                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
@@ -324,7 +326,7 @@ require(['jquery'], function ($) {
             
             
             var paProductItem = '<li class="ais-Hits-item">' +
-                    digiDealsLogo + digiSeconds +
+                    digiDealsLogo +
                     '<div id="'+ tileId +'" class="pa-product product-item-info col-md-4 col-sm-6" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                         '<div class="result-wrapper" itemprop="item" itemtype="http://schema.org/Product">' +
                             '<a class="result" href="' + product.url + '" data-objectid="'+ product.refId +'">' +
@@ -499,7 +501,7 @@ require(['jquery'], function ($) {
             if (discount === "$NaN") {
                 var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
             } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span></div>' + addToCart + '</div>'
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
@@ -508,6 +510,8 @@ require(['jquery'], function ($) {
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
                     }
+                } else {
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div></div>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
@@ -580,7 +584,7 @@ require(['jquery'], function ($) {
                             '</a>' +
                         '</div>' +
                         '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                            digiDealsLogo + digiSeconds +
+                            digiDealsLogo +
                             '<span class="product-image-container">' +
                                 '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                     '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
