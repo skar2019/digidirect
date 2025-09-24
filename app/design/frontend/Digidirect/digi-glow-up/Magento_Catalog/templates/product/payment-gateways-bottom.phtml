@@ -17,20 +17,18 @@ $seller = $_product->getData('marketplacer_seller');
                     data-action="add-to-cart-action"
                     >
                     <div id="union-alipay-wechat">
-                        <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>union-alipay-wechat.png"/>
+                        <img src="<?= $block->getViewFileUrl('images/checkout/latipay.png'); ?>"/>
                     </div>
                 </button>
             </form>
             <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
                 <?php echo $block->getBlockHtml('formkey')?>
                 <button type="submit"
-                    class="action tocart btn_cart tocart-pdp-btn"
+                    class="action tocart btn_cart tocart-pdp-btn latitude-pay-custom"
                     id="product-addtocart-button"
                     data-action="add-to-cart-action"
                     >
-                    <div id="latitude-pay-custom">
-                        <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>latitudepay-interest-free.png"/>
-                    </div>
+                        <img src="<?= $block->getViewFileUrl('images/checkout/latitude-white.png'); ?>"/>
                 </button>
             </form>
         </div>
@@ -44,13 +42,17 @@ $seller = $_product->getData('marketplacer_seller');
                     data-action="add-to-cart-action"
                     >
                     <div id="union-alipay-wechat">
-                        <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>union-alipay-wechat.png"/>
+                        <img src="<?= $block->getViewFileUrl('images/checkout/latitude-white.png'); ?>"/>
                     </div>
                 </button>
             </form>
         </div>
     <?php } ?>
-    
+    <div class="last-row">
+        <span class="bank-transfer">
+            <img src="<?= $block->getViewFileUrl('images/checkout/bank-transfer.png'); ?>"/>
+        </span>
+    </div>
 </div>
 
 <script>

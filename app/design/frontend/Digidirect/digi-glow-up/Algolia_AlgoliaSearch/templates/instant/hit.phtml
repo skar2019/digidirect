@@ -23,17 +23,12 @@ $seller = $block->escapeHtml('marketplacer_seller');
     {{#isNotDigiSeconds}}
         {{#hasCustomFinalPrice}}
             {{#isDigiOnly}}
-                <div class="ribbon-digideals"><span style="color: #FE4C25">digi</span>Deals</div>
+                <div class="ribbon-digideals"><span>digi</span>Deals</div>
             {{/isDigiOnly}}
         {{/hasCustomFinalPrice}}
     {{/isNotDigiSeconds}}
     {{#isDigiSeconds}}
-        <div class="digiseconds-overlay">
-            <img src="{{digiSecondsBadge}}"/>
-            <div class="digiseconds-rating">
-                {{{digiSecondsRating}}}
-            </div>
-        </div>
+        <div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Deals</div>
     {{/isDigiSeconds}}
             
     <a href="javascript:void(0);"
@@ -54,7 +49,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                 data-queryid="{{__queryID}}">
                 <div class="result-content">
                     <div class="result-thumbnail">
-                        {{#image_url}}<img itemprop="image" src="{{tempImgUrl}}" alt="{{{name}}}" />{{/image_url}}
+                        {{#image_url}}<img itemprop="image" src="{{{image_url}}}" alt="{{{name}}}" />{{/image_url}}
                         {{^image_url}}<span class="no-image"></span>{{/image_url}}
                     </div>
                     <div class="result-sub-content">
