@@ -214,6 +214,8 @@
                 <value id="insightadsrver" type="host">insight.adsrvr.org</value>
                 <value id="luckorangepreview" type="host">api-preview.luckyorange.com</value>
                 <value id="digidirectprodconnect" type="host">*.digidirect.com</value>
+                <value id="impactpxf" type="host">digidirect.pxf.io</value>
+                <value id="impactsite" type="host">d.impct.site</value>
             </values>
         </policy>
         <policy id="font-src">
