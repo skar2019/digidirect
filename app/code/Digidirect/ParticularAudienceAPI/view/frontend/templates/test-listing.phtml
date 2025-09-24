@@ -492,6 +492,8 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '<div class="ribbon-container"></div>';
                 }
+            } else {
+                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
             }
 
             let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
@@ -511,7 +513,7 @@ require(['jquery'], function ($) {
                         digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div></div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +

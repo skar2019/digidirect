@@ -23,17 +23,12 @@ $seller = $block->escapeHtml('marketplacer_seller');
     {{#isNotDigiSeconds}}
         {{#hasCustomFinalPrice}}
             {{#isDigiOnly}}
-                <div class="ribbon-digideals"><span style="color: #FE4C25">digi</span>Deals</div>
+                <div class="ribbon-digideals"><span>digi</span>Deals</div>
             {{/isDigiOnly}}
         {{/hasCustomFinalPrice}}
     {{/isNotDigiSeconds}}
     {{#isDigiSeconds}}
-        <div class="digiseconds-overlay">
-            <img src="{{digiSecondsBadge}}"/>
-            <div class="digiseconds-rating">
-                {{{digiSecondsRating}}}
-            </div>
-        </div>
+        <div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Deals</div>
     {{/isDigiSeconds}}
             
     <a href="javascript:void(0);"
