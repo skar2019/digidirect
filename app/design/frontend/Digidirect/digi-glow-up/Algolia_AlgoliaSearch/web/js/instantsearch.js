@@ -461,8 +461,14 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }*/
+                            
+                            let categoryIds = item.categoryIds;
+                            let digiSecondsIds = ["2564","2567","2570","2573"];
 
-                            if (!item.item_condition || item.item_condition == "" || item.item_condition == " ") {
+                            let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
+                            console.log("hasMatch", hasMatch);
+
+                            if (!hasMatch) {
                                 item.isDigiSeconds = false;
                                 item.isNotDigiSeconds = true;
                             } else {
