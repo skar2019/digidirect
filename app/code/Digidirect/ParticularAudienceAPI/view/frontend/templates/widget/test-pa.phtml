@@ -1101,24 +1101,29 @@ require(['jquery'], function ($) {
         });
     });
     
-    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
+   $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         let $carousel = $(this);
         let $items = $carousel.find('.owl-item');
 
-        // slice from 5th (index 4) to 9th (index 8)
-        let $rangeItems = $items.slice(4, 9);
-        let $activeItems = $items.filter('.active');
+        // Get all active indexes
+        let activeIndexes = [];
+        $items.each(function (i) {
+            if ($(this).hasClass('active')) activeIndexes.push(i);
+        });
 
-        // Condition: all active items are inside 5–9 AND only 5–9 are active
-        let onlyWithinRange = $activeItems.length === $rangeItems.filter('.active').length 
-                              && $activeItems.length > 0;
+        // Target range: 4–8 (0-based, so this is 5th–9th)
+        let expectedRange = [4, 5, 6, 7, 8];
+
+        // Check if activeIndexes exactly match expectedRange
+        let onlyWithinRange =
+            activeIndexes.length === expectedRange.length &&
+            activeIndexes.every((val, idx) => val === expectedRange[idx]);
 
         if (onlyWithinRange) {
-            console.log('✅ Only items 5 to 9 are active');
-            // Example: hide next
+            console.log('✅ Only items 5–9 are active');
             $carousel.find('.owl-next').addClass('unclickable');
         } else {
-            console.log('❌ Other items are also active');
+            console.log('❌ Active items are different:', activeIndexes);
             $carousel.find('.owl-next').removeClass('unclickable');
         }
     });
