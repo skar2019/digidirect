@@ -216,8 +216,12 @@ a.action.towishlist {
 
 //Owl Carousels
 
-.cms-home .pa-digidirect-product-widget-container .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+.cms-home .owl-stage-outer:has(.owl-item:nth-child(6).active) {
     margin-left: -275px;
+}
+
+.owl-nav .unclickable {
+    visiblity: hidden;
 }
 
 .owl-nav .disabled {
@@ -310,7 +314,7 @@ a.action.towishlist {
 }
 
 .owl-carousel.brands .owl-stage-outer {
-    margin-right: -225px;
+    margin-right: -275px;
 }
 
 //Featured Videos
@@ -352,6 +356,10 @@ a.action.towishlist {
 
 .cms-home .owl-carousel.featured-videos .owl-stage-outer {
     margin-right: -270px;
+}
+
+.cms-home .owl-carousel.featured-videos .owl-stage-outer:has(.owl-item:nth-child(3).active) {
+    margin-left: -275px;
 }
 
 //Product Widgets
