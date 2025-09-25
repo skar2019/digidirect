@@ -1101,35 +1101,18 @@ require(['jquery'], function ($) {
         });
     });
     
-    $('.owl-carousel.custom').on('initialized.owl.carousel changed.owl.carousel', function(event) {
-        const $carousel = $(this);
+    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
+        let $carousel = $(this);
+        let $items = $carousel.find('.owl-item');
 
-        // Make sure event data exists
-        if (!event || !event.item) return;
+        let $fourthItem = $items.eq(3);      // 4th item (0-based index)
+        let $secondLastItem = $items.eq(-2); // second-to-last
 
-        // Prefer page info (more reliable with pagination); fallback to item.index
-        const visibleCount = (event.page && event.page.size) ? event.page.size : (event.item.size || 1);
-        const firstVisibleIndex = (event.page && typeof event.page.index !== 'undefined')
-          ? event.page.index * visibleCount
-          : event.item.index;
-        const lastVisibleIndex = firstVisibleIndex + visibleCount - 1;
-
-        const totalItems = event.item.count; // number of original items (0-based indexing)
-
-        // Debugging — open console to check values
-        console.log('owl-debug:', {
-          firstVisibleIndex,
-          lastVisibleIndex,
-          visibleCount,
-          totalItems
-        });
-
-        // If the last visible index is exactly the second-to-last item (totalItems - 2),
-        // then the second-to-last is visible and the last is not -> disable next
-        if (lastVisibleIndex === totalItems - 2) {
-          $carousel.find('.owl-next').addClass('unclickable');
+        if (!$fourthItem.hasClass('active') && $secondLastItem.hasClass('active')) {
+            // Hide/disable next if 4th is not active AND 2nd-to-last is active
+            $carousel.find('.owl-next').addClass('unclickable');
         } else {
-          $carousel.find('.owl-next').removeClass('unclickable');
+            $carousel.find('.owl-next').removeClass('unclickable');
         }
     });
 
