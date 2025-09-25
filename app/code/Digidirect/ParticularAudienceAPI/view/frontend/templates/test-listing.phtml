@@ -265,9 +265,8 @@ require(['jquery'], function ($) {
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
-                                '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"> <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">'+ priceToDisplay +'</span></span>' +
+                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
                                         '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
                                     '</div>' +
                                     '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>';
@@ -289,6 +288,12 @@ require(['jquery'], function ($) {
                                     '</div></div> ';
             }
             
+            if (!discount) {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+            }
+            
             var view = "";
             if (isMobile) {
                 view = "-mobile";
@@ -296,34 +301,6 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<li class="item product product-item">' +
-                        '<div id="'+ tileId +'" class="pa-product product-item-info" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                                digiDealsLogo + digiSeconds +
-                                '<span class="product-image-container" style="width: 240px;">' +
-                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
-                                    '</span>' +
-                                '</span>' +
-                            '</a><div class="testfreaks-items"></div>' +
-                            '<strong class="product name product-item-name -grid default-product-name">' +
-                                '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
-                                    product.name +
-                                '</a>' +
-                            '</strong>' +
-                            '<div class="product details product-item-details">' +
-                                priceBlock +
-                                '<div class="product-item-inner">' +
-                                    '<div class="product actions product-item-actions">' +
-                                        '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
-                                            addToCart +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-            
             
             var paProductItem = '<li class="ais-Hits-item">' +
                     digiDealsLogo +
@@ -346,8 +323,7 @@ require(['jquery'], function ($) {
                                         '</div>' + 
                                         '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
                                             algoliaPriceBlock +
-                                        '</div>' +
-                                        '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>' +
+                                        '</div>' + productInfoBottom +
                                     '</div>' + 
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
