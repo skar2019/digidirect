@@ -1101,19 +1101,20 @@ require(['jquery'], function ($) {
         });
     });
     
-    $('.owl-carousel').on('changed.owl.carousel initialized.owl.carousel', function(event) {
+    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function(event) {
         let $carousel = $(this);
-        let $secondLastItem = $carousel.find('.owl-item').eq(-3); // second to last
+        let $items = $carousel.find('.owl-item');
+        let $secondLastItem = $items.eq(-3); // second to last item
+        let $lastActiveItem = $items.filter('.active').last(); // the last active/visible item
 
-        if ($secondLastItem.hasClass('active')) {
-            // second to last slide is active → disable the next button
-            $carousel.find('.owl-next').addClass('unclickable').prop('disabled', true);
+        if ($lastActiveItem.is($secondLastItem)) {
+            // If the last active item is the second-to-last → disable next
+            $carousel.find('.owl-next').addClass('unclickable');
         } else {
-            // otherwise enable it
-            $carousel.find('.owl-next').removeClass('unclickable').prop('disabled', false);
+            $carousel.find('.owl-next').removeClass('unclickable');
         }
     });
-    
+
     $(".owl-carousel.featured-videos").on("initialized.owl.carousel", function () {
         $(".owl-video-tn").each(function () {
             var src = $(this).attr("srctype");
