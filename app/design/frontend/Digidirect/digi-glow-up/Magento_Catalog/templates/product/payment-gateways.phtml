@@ -7,7 +7,6 @@ $seller = $product->getData('marketplacer_seller');
 ?>
 
 <script defer type="text/javascript" src="https://static.zip.co/lib/js/zm-widget-js/dist/zip-widget.min.js"></script>
-
 <div class="payment-gateways">
     <div class="row-first">
         <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
@@ -18,14 +17,13 @@ $seller = $product->getData('marketplacer_seller');
                 data-action="add-to-cart-action"
                 >
                 <div class="credit-cards">
-                    <img src="<?= $block->getViewFileUrl('images/checkout/credit-card.png'); ?>"/>
-                    <!-- <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/>
-                    <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/> -->
+                    <img src="<?= $block->getViewFileUrl('images/checkout/Visa,Master,AMEX.png'); ?>"/>
+                    
                 </div>
             </button>
         </form>
         <div id="paypal-custom">
-            <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/>
+            <!-- <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/> -->
         </div>
     </div>
     <div class="row-second">
