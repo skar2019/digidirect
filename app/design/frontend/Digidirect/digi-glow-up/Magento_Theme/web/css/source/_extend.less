@@ -216,16 +216,24 @@ a.action.towishlist {
 
 //Owl Carousels
 
-.cms-home .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+    margin-left: -275px;
+}
+
+.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(8).active) {
+    margin-left: -275px;
+}
+
+.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
     margin-left: -275px;
 }
 
 .owl-nav .unclickable {
-    visiblity: hidden;
+    display: none !important;
 }
 
 .owl-nav .disabled {
-    visiblity: hidden;
+    display: none !important;
 }
 
 .owl-carousel .owl-nav button.owl-prev {
