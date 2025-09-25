@@ -1,20 +1,12 @@
 .customer-address-form {
     .form-address-edit {
         max-width: 800px;
-        fieldset {
-            legend {
-               /* margin-left: unset !important;
-                font-size: 20px;
-                font-weight: 600;*/
-            }
-        }
     }
 
     fieldset .legend {
         font-size: 20px;
         font-weight: 600;
-        margin-bottom: 30px;
-        //display: inline-block;
+        margin-bottom: 20px;
         margin-left: 0 !important;
         margin-top: 20px;
     }
@@ -48,7 +40,7 @@
     .field.-half {
         width: 48%;
         vertical-align: top;
-        padding-right: 20px;
+        //padding-right: 20px;
     }
 
     .field.-half:first-child {
@@ -62,6 +54,7 @@
     .fieldset > .field:not(.choice) > .label {
         text-align: left !important;
         float: unset !important;
+        width: 30% !important;
     }
 
 
@@ -75,13 +68,35 @@
         font-size: 14px;
     }
 
-    .field .company {
+    .field.company {
         padding-top: 10px;
+    }
+
+    .address-raw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 29px;
+    }
+
+    .country-raw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 29px;
+    }
+
+    .field.telephone {
+        width: 48% !important;
+    }
+
+    .field.-region {
+        margin-left: 30px !important;
     }
 
     .fieldset .field:not(.choice) > .control input[type="text"] {
         background: @color-white !important;
-        width: 96% !important;
+       // width: 96% !important;
     }
 
     .fieldset .field:not(.choice) > .control {
@@ -98,19 +113,11 @@
         padding: 15px 0 5px 0 !important;
     }
 
-    #contact_number {
-        max-width: 40%;
-    }
-
-    .field-contact_number {
-        padding-top: 20px;
-    }
-
     .actions-toolbar {
-        justify-content: unset !important;
+        justify-content: left !important;
     }
 
-    .action.save {
+    .action.submit {
         margin-right: 0;
         background-color: @color-orange;
         color: @color-white;
@@ -118,11 +125,11 @@
         padding: 11px 30px;
         border-radius: 32px;
         width: 100%;
-        max-width: 187px;
         border: none;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.3s ease;
+        text-transform: uppercase;
     }
 
     .action.save:hover {

@@ -37,43 +37,47 @@
             </div>
         </div>
         <?php endif; ?>
-        <div class="field city -half _required">
-            <label class="label" for="city"><span><?= /* @escapeNotVerified */ __('City') ?></span></label>
-            <div class="control">
-                <input type="text" name="city" value="<?= $block->escapeHtml($block->getAddress()->getCity()) ?>" title="<?= /* @escapeNotVerified */ __('City') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city"/>
-            </div>
-        </div>
-        <div class="field -region _required">
-            <label class="label" for="region_id"><span><?= /* @escapeNotVerified */ __('State/Territory') ?></span></label>
-            <div class="control">
-                <select id="region_id" name="region_id" title="<?= /* @escapeNotVerified */ __('State/Territory') ?>" class="validate-select" <?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
-                   <option value=""><?= /* @escapeNotVerified */ __('Please select') ?></option>
-                </select>
-                <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>"  title="<?= /* @escapeNotVerified */ __('State/Province') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
-            </div>
-        </div>
-        <div class="field -postcode _required">
-            <label class="label" for="zip"><span><?= /* @escapeNotVerified */ __('Postcode') ?></span></label>
-            <div class="control">
-                <input type="text" name="postcode" value="<?= $block->escapeHtml($block->getAddress()->getPostcode()) ?>" title="<?= /* @escapeNotVerified */ __('Postcode') ?>" id="zip" class="input-text validate-zip-international <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>"/>
-            </div>
-        </div>
-        <div class="field -half -country _required">
-            <label class="label" for="country"><span><?= /* @escapeNotVerified */ __('Country') ?></span></label>
-            <div class="control">
-                <?= $block->getCountryHtmlSelect() ?>
-            </div>
-        </div>
-        <?php if ($block->getChildBlock('account.phone.field.prefix')): ?>
-            <?php echo /* @noEscape */ $block->getChildBlock('account.phone.field.prefix')->setAddress($block->getAddress())->toHtml();?>
-        <?php else: ?>
-            <div class="field -half -telephone _required">
-                <label class="label" for="telephone"><span><?= /* @escapeNotVerified */ __('Phone Number') ?></span></label>
+        <div class="address-raw">
+            <div class="field city -half _required">
+                <label class="label" for="city"><span><?= /* @escapeNotVerified */ __('City') ?></span></label>
                 <div class="control">
-                    <input type="text" name="telephone" value="<?= $block->escapeHtml($block->getAddress()->getTelephone()) ?>" title="<?= /* @escapeNotVerified */ __('Phone Number') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="telephone"/>
+                    <input type="text" name="city" value="<?= $block->escapeHtml($block->getAddress()->getCity()) ?>" title="<?= /* @escapeNotVerified */ __('City') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city"/>
                 </div>
             </div>
-        <?php endif; ?>
+            <div class="field -postcode _required">
+                <label class="label" for="zip"><span><?= /* @escapeNotVerified */ __('Postcode') ?></span></label>
+                <div class="control">
+                    <input type="text" name="postcode" value="<?= $block->escapeHtml($block->getAddress()->getPostcode()) ?>" title="<?= /* @escapeNotVerified */ __('Postcode') ?>" id="zip" class="input-text validate-zip-international <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>"/>
+                </div>
+            </div>
+            <div class="field -region _required">
+                <label class="label" for="region_id"><span><?= /* @escapeNotVerified */ __('State/Territory') ?></span></label>
+                <div class="control">
+                    <select id="region_id" name="region_id" title="<?= /* @escapeNotVerified */ __('State/Territory') ?>" class="validate-select" <?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
+                        <option value=""><?= /* @escapeNotVerified */ __('Please select') ?></option>
+                    </select>
+                    <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>"  title="<?= /* @escapeNotVerified */ __('State/Province') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
+                </div>
+            </div>
+        </div>
+        <div class="country-raw">
+            <div class="field -half -country _required">
+                <label class="label" for="country"><span><?= /* @escapeNotVerified */ __('Country') ?></span></label>
+                <div class="control">
+                    <?= $block->getCountryHtmlSelect() ?>
+                </div>
+            </div>
+            <?php if ($block->getChildBlock('account.phone.field.prefix')): ?>
+                <?php echo /* @noEscape */ $block->getChildBlock('account.phone.field.prefix')->setAddress($block->getAddress())->toHtml();?>
+            <?php else: ?>
+                <div class="field -half -telephone _required">
+                    <label class="label" for="telephone"><span><?= /* @escapeNotVerified */ __('Phone Number') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="telephone" value="<?= $block->escapeHtml($block->getAddress()->getTelephone()) ?>" title="<?= /* @escapeNotVerified */ __('Phone Number') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="telephone"/>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
 
         <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_address_user_attributes'); ?>
         <?php if ($userDefinedAttributes):?>
