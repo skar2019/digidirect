@@ -1105,8 +1105,8 @@ require(['jquery'], function ($) {
         let $carousel = $(this);
         let $items = $carousel.find('.owl-item');
 
-        let $fourthItem = $items.eq(3);      // 4th item (0-based index)
-        let $secondLastItem = $items.eq(-2); // second-to-last
+        let $fourthItem = $items.eq(2);      // 4th item (0-based index)
+        let $secondLastItem = $items.eq(-3); // second-to-last
 
         if (!$fourthItem.hasClass('active') && $secondLastItem.hasClass('active')) {
             // Hide/disable next if 4th is not active AND 2nd-to-last is active
