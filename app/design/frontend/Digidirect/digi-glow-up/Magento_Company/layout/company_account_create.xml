@@ -17,7 +17,9 @@
                 <block class="Magento\Company\Block\Company\Login\Info" name="company.new"
                        ifconfig="btob/website_configuration/company_active"
                        template="Magento_Company::company/account/create_link.phtml"/>
-            </block>  
+            </block>
         </referenceContainer>
+
+        <referenceBlock name="global.newsletter" remove="true" />
     </body>
 </page>

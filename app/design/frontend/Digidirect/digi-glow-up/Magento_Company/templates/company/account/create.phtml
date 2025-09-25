@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-use Magento\Customer\Block\Widget\Gender;   
+use Magento\Customer\Block\Widget\Gender;
 use Magento\Customer\Block\Widget\Name;
 use Magento\Company\Block\Company\Account\Create;
 use Magento\Directory\Helper\Data as DirectoryHelper;
@@ -23,9 +23,16 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 <?php
     echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('b2b-registration-header')->toHtml();
 ?>
-
-
-
+<div class="top-image-container">
+    <div class="overlay"></div>
+    <img src="<?= $block->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'media/wysiwyg/myaccount/signup-bg.png' ?>" alt="Top Banner" class="top-image">
+    <div class="text-overlay">
+        <span class="sign-up-heading">Sign Up</span>
+        <p class="sign-up-text">
+            Want a digiDirect Business Account? Complete the below short sign-up form below and we will send you a follow-up email with a link to fill out our customer sign-up form. Once this process is all finalized, we will confirm if your application was successful.
+        </p>
+    </div>
+</div>
 <form class="form create account form-create-account"
       action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
       method="post" id="form-validate"
@@ -34,22 +41,17 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
     <?= $block->getBlockHtml('formkey') ?>
 
     <div class="b2bregbox">
-        
-
-        <h1 style="font-weight: 600; text-align: center; margin: 25px 0 55px 0; font-size: 32px;">Welcome to <span class="title-text-orange">digi</span>Direct Business</h1>
-
-        <br>
-
+        <h1>Welcome to <span class="title-text-orange">digi</span>Direct Business</h1>
         <fieldset class="fieldset create info  b2b-row">
             <legend class="legend"><span><?= $block->escapeHtml(__('Personal Information')) ?></span></legend><br>
 
-            
+
             <?= $block->getLayout()->createBlock(Name::class)
                 ->setFieldNameFormat('customer[%s]')
                 ->setObject($block->getFormData())
                 ->setNoWrap(true)
                 ->setForceUseCustomerAttributes(true)
-                ->toHtml() 
+                ->toHtml()
             ?>
 
             <div class="field legal-name b2b-column p-r">
@@ -67,7 +69,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
             <!-- <//?= $block->getLayout()->createBlock(Gender::class)
                 ->setFieldNameFormat('customer[%s]')
                 ->setGender($block->getFormData()->getGender())
-                ->toHtml() 
+                ->toHtml()
             ?> -->
 
             <div class="field required b2b-column">
@@ -105,7 +107,7 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                     <span><?= $block->escapeHtml(__('Company Name')) ?></span>
                 </label>
                 <div class="control">
-                    <input type="text" name="company[company_name]" id="company_name" 
+                    <input type="text" name="company[company_name]" id="company_name"
                         placeholder="Company Name*"
                         value=""
                         title="<?= $block->escapeHtmlAttr(__('Company Name')) ?>"
@@ -297,13 +299,14 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
                 <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>">
                     <span><?= $block->escapeHtml(__('Submit')) ?></span>
                 </button>
-                <span>Please note applications take 1-2 weeks to approve.</span>
+
             </div>
         </div>
 
-        <br><br>
-        <span class="redirection-login">Already have an account? <a href="/customer/account/login">Login</a></span>
-        
+        <div class="bottom-text">
+            <span class="time-approve-text">Please note applications take 1-2 weeks to approve.</span>
+            <span class="redirection-login">Already have an account? <a href="/customer/account/login">Login</a></span>
+        </div>
     </div>
 
 </form>
