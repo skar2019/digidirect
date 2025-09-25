@@ -1112,7 +1112,7 @@ require(['jquery'], function ($) {
         });
 
         // Target range: 4–8 (0-based, so this is 5th–9th)
-        let expectedRange = [4, 5, 6, 7, 8];
+        let expectedRange = [3, 4, 5, 6, 7];
 
         // Check if activeIndexes exactly match expectedRange
         let onlyWithinRange =
@@ -1120,7 +1120,7 @@ require(['jquery'], function ($) {
             activeIndexes.every((val, idx) => val === expectedRange[idx]);
 
         if (onlyWithinRange) {
-            console.log('✅ Only items 5–9 are active');
+            console.log('✅ Only items 3-6 are active');
             $carousel.find('.owl-next').addClass('unclickable');
         } else {
             console.log('❌ Active items are different:', activeIndexes);
