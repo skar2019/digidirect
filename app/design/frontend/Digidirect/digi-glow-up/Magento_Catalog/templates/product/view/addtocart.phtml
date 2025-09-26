@@ -44,21 +44,22 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
                 </div>
             <?php endif; ?>
             <div class="actions">
-                    <?php if ($_attributeValue == "Yes"): ?>
+                   <?php if ($_attributeValue == "Yes"): ?>
                         <button type="submit"
-                            class="action tocart btn_cart tocart-pdp-btn"
+                            class="action tocart btn_cart tocart-pdp-btn pre-order-btn"
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
-                            style="background: #00C3FF !important"
                         >
-                            <div class="addtocart-tooltip" style="float: left;">
-                                <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
-                                <div class="addtocart-tooltiptext tooltip-bottom">
-                                    Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ 'Pre-Order' ?></span>
+                            <span class="addcart_words">
+                                <?= /* @escapeNotVerified */ 'Pre-Order' ?>
+                                <span class="icon-info tooltip-wrapper">
+                                    <span class="addtocart-tooltip">
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. 
+                                        For the latest ETA, please click 
+                                        <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                                    </span>
+                                </span>
+                            </span>
                         </button>
                     <?php else : ?>
                         <button type="submit"
@@ -66,7 +67,6 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
                             >
-                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;color: #fff;padding-right: 5px;"></i>
                             <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                         </button>
                     <?php endif; ?>
@@ -79,10 +79,10 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_
 <div class="order-limit"> 
     <div class="order-limit-tooltip"> 
         <span class="order-limit-text"> 
-            <img src="<?= $block->getViewFileUrl('images/box-remove.png'); ?>"/> 
+            <span class="icon-box-remove"></span>
             <span>order limits apply</span> 
-            <i class="tooltip-toggle">ⓘ</i> 
-            <span class="tooltip-content">Details hereDetails hereDetails hereDetails here</span> 
+            <i class="tooltip-toggle"><img src="<?= $block->getViewFileUrl('images/icons/info.svg'); ?>" /></i> 
+            <span class="tooltip-content">Orders of multiple units may be cancelled due to availability constraints.</span> 
         </span> 
     </div> 
 </div>

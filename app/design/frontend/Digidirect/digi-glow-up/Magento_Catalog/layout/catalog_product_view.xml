@@ -12,6 +12,8 @@
         <referenceBlock name="product.info.attachment" remove="true"/>
         <referenceBlock name="collect_places_detail" remove="true"/>
         <referenceBlock name="product-social-links" remove="true"/>
+        <referenceBlock name="reviews.tab" remove="true"/>
+        <referenceBlock name="product.review.form" remove="true"/>
 
         <!-- Breadcrumbs wrapper -->
         <referenceContainer name="content">
@@ -99,7 +101,13 @@
                     </arguments>
                 </block>
 
-                <container name="product.details.tabs" htmlTag="div" htmlClass="product-details-tabs">
+                <block class="Magento\Cms\Block\Block" name="frequently.bought.with" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
+                    </arguments>
+                </block>
+
+                <container name="product.details.tabs" htmlTag="div" htmlClass="product-details-tabs" after="frequently.bought.with">
                     <referenceBlock name="product.info.details">
                         <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec"
                                as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info">
@@ -122,11 +130,6 @@
                     </referenceBlock>
                 </container>
 
-                <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
-                    <arguments>
-                        <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
-                    </arguments>
-                </block>
 
                 <container name="product.recommendations" htmlTag="div" htmlClass="product-recommendations">
                     <block class="Magento\Cms\Block\Block" name="also.viewed">
@@ -163,5 +166,6 @@
         <move element="product.info.price.zipmoney.productwidget" destination="payment.gateways" after="-"/>
         <move element="product.additional.info" destination="product.price.section" after="product.info.price"/>
         <move element="product.description.section" destination="product.middle.column" after="product.additional.info"/>
+
     </body>
 </page>

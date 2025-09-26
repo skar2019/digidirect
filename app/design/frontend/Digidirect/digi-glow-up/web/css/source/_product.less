@@ -132,6 +132,8 @@
     .flex-column();
     gap: 20px;
     order: 2;
+    max-width: 100% !important;
+    min-width: 443px;
 
     @media (max-width: @mobile-breakpoint) {
         order: 2;
@@ -1003,6 +1005,7 @@
     // Product Details Tabs
     .product-details-tabs {
         margin-bottom: 40px;
+        margin-top: 40px;
 
         .data.item {
             margin-bottom: 30px;
@@ -1041,6 +1044,23 @@
                 }
             }
         }
+        .product.data.items > .item.content {
+            padding-left: 0;
+            ul {
+                padding-left: 0;
+                li {
+                    list-style: none;
+                }
+            }
+
+            .item.spec {
+                table {
+                    th {
+                        width: 20%;
+                    }
+                }
+            }
+        }
     }
 
     table.specTable {
@@ -1048,12 +1068,12 @@
             vertical-align: top;
         }
         th {
-            width: 30%;
+            width: 20%;
         }
     }
 
     table.specTable td {
-        width: 70%;
+        width: 80%;
     }
 
     // Recommendations Section
@@ -1226,5 +1246,14 @@
         width: 100%;
         float: none;
         margin-bottom: 30px;
+    }
+}
+@media (max-width: @mobile-breakpoint) {
+    .product-left-column,
+    .product-middle-column,
+    .product-right-column {
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: none !important;
     }
 }
