@@ -1062,19 +1062,19 @@ require(['jquery'], function ($) {
                     items: 2
                 },
                 992: {
-                    items: 2
+                    items: 4
                 },
                 1024: {
                     items: 5
                 },
                 1310: {
-                    items: 6
+                    items: 5
                 },
                 1366: {
                     items: 5
                 },
                 1550: {
-                    items: 6
+                    items: 5
                 }
             },
             dots: false,
@@ -1101,16 +1101,29 @@ require(['jquery'], function ($) {
         });
     });
     
-    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function(event) {
+   $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         let $carousel = $(this);
         let $items = $carousel.find('.owl-item');
-        let $secondLastItem = $items.eq(-1); // second to last item
-        let $lastActiveItem = $items.filter('.active').last(); // the last active/visible item
 
-        if ($lastActiveItem.is($secondLastItem)) {
-            // If the last active item is the second-to-last → disable next
+        // Get all active indexes
+        let activeIndexes = [];
+        $items.each(function (i) {
+            if ($(this).hasClass('active')) activeIndexes.push(i);
+        });
+
+        // Target range: 4–8 (0-based, so this is 5th–9th)
+        let expectedRange = [3, 4, 5, 6, 7];
+
+        // Check if activeIndexes exactly match expectedRange
+        let onlyWithinRange =
+            activeIndexes.length === expectedRange.length &&
+            activeIndexes.every((val, idx) => val === expectedRange[idx]);
+
+        if (onlyWithinRange) {
+            console.log('✅ Only items 3-6 are active');
             $carousel.find('.owl-next').addClass('unclickable');
         } else {
+            console.log('❌ Active items are different:', activeIndexes);
             $carousel.find('.owl-next').removeClass('unclickable');
         }
     });
