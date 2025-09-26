@@ -61,7 +61,7 @@ class Data extends AbstractHelper
         $nonDigidirectSeller = 0;
         $digidirectSellerCount = 0;
         $nonDigidirectSellerCount = 0;
-        $standardShipping = 8.95;
+        $standardShipping = 0; //8.95;
 
         foreach ($sellers as $seller) {
             $sellerTotal = 0;
@@ -133,7 +133,13 @@ class Data extends AbstractHelper
                 }
             }
 
+            //Free Shipping
             $sellerShipping = 8.95;
+            if ($itemSeller == "digiDirect") {
+                $sellerShipping = 0;
+            }
+            //
+            
             if (in_array($seller, $zeroShipping)) {
                 $sellerShipping = 0;
             }
@@ -180,7 +186,7 @@ class Data extends AbstractHelper
 
     public function getDigiShipping()
     {
-        $standardShipping = 8.95;
+        $standardShipping = 0; //8.95;
         $bulkItemSurcharge = 0;
         if ($this->checkForBulkyItems()) {
             $bulkItemSurcharge = 20;
