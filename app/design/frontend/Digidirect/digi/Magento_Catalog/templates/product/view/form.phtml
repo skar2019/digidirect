@@ -31,6 +31,11 @@ $awaiting = $_product->getAwaitingProduct();
 if($brand == 'canon' || $brand == 'sony' )
 {
     $awaiting = 0;
+    if($sku == '141845')
+    {
+        $awaiting = 1;
+    }
+
 }
 //if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
 //    $qff_bonus_points = $_product->getQffBonusPoints();
