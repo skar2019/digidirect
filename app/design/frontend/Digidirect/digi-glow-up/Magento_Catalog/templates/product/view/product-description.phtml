@@ -1,8 +1,7 @@
 <?php
-    $getDescription = $block->getProduct()->getDescription();
+    $getDescription = $block->getProduct()->getShortDescription();
 ?>
 <div class="short-desc-container">
-    <div class="short-desc-title">Product Description</div>
     <div class="short-desc">
         <?php 
             if (!is_null($getDescription)) {
@@ -10,7 +9,7 @@
             }
         ?>
     </div>
-    <span onclick="scrollToProductOverview();"><div class="short-desc-read-more">Read More</div></span>
+    <span onclick="scrollToProductOverview();" class="short-desc-read-more">View full item details</span>
 </div>
 <script>
     function scrollToProductOverview() {

@@ -216,8 +216,34 @@ a.action.towishlist {
 
 //Owl Carousels
 
-.cms-home .pa-digidirect-product-widget-container .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
     margin-left: -275px;
+}
+
+.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+6).active) {
+    margin-left: -275px;
+}
+
+.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+    margin-left: -275px;
+}
+
+.owl-nav .unclickable {
+    display: none !important;
+}
+
+.owl-nav .disabled {
+    display: none !important;
+}
+
+.owl-carousel .owl-nav button.owl-prev {
+    position: absolute;
+    left: -265px;
+}
+
+.owl-carousel .owl-nav button.owl-next {
+    position: absolute;
+    right: -265px;
 }
 
 .owl-carousel .owl-nav [class*="owl-"]:hover {
@@ -267,6 +293,11 @@ a.action.towishlist {
     line-height: unset;
 }
 
+.pa-digidirect-product-widget .product-item-info.product-item:hover {
+    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.25s ease, box-shadow 0.5s ease !important;
+}
+
 //Home Page
 
 //Feature Brands
@@ -296,7 +327,7 @@ a.action.towishlist {
 }
 
 .owl-carousel.brands .owl-stage-outer {
-    margin-right: -225px;
+    margin-right: -275px;
 }
 
 //Featured Videos
@@ -338,6 +369,10 @@ a.action.towishlist {
 
 .cms-home .owl-carousel.featured-videos .owl-stage-outer {
     margin-right: -270px;
+}
+
+.cms-home .owl-carousel.featured-videos .owl-stage-outer:has(.owl-item:nth-child(n+3).active) {
+    margin-left: -275px;
 }
 
 //Product Widgets
