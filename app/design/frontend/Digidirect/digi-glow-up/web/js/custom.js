@@ -33,6 +33,8 @@ define(['jquery'], function ($) {
 
         initSticky();
 
+        const $carousel = $('.owl-carousel'); // change selector if needed
+
         let startX = 0;
 
         // 📱 Mobile: detect 2-finger swipe
