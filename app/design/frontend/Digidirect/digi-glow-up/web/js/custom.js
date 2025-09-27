@@ -34,7 +34,7 @@ define(['jquery'], function ($) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-        positionAAPanel(); // 🧠 immediately position aa-Panel
+        positionAAPanel();
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
@@ -47,7 +47,6 @@ define(['jquery'], function ($) {
       setSticky(scrollTop >= stickyPoint);
     }
 
-    // ✅ Initial setup
     setTimeout(() => {
       recalcStickyPoint();
       updateSticky();
@@ -59,13 +58,12 @@ define(['jquery'], function ($) {
       updateSticky();
     });
 
-    // 🧠 Watch DOM for aa-Panel activation
     if (window.MutationObserver) {
       const observer = new MutationObserver(() => {
         setTimeout(() => {
           recalcStickyPoint();
           updateSticky();
-          positionAAPanel(); // 👈 reposition immediately if sticky
+          positionAAPanel();
         }, 200);
       });
       observer.observe(document.body, {
@@ -77,63 +75,38 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (move exactly 1 slide)
+       🌀 Owl Carousel: Enable mouse drag, convert 2-finger scroll into drag
     ======================== */
     const $carousels = $('.owl-carousel');
-    const threshold = 150; // 🎚 adjust sensitivity (px)
 
     $carousels.each(function () {
       const $carousel = $(this);
-      let startX = 0;
-      let active = false;
-      let hasSwiped = false;
 
-      // 📱 2-finger swipe detection
-      $carousel.on('touchstart', function (e) {
-        const touches = e.originalEvent.touches;
-        if (touches.length === 2) {
-          active = true;
-          startX = (touches[0].clientX + touches[1].clientX) / 2;
-          hasSwiped = false;
-          e.preventDefault(); // prevent browser gestures
-        }
-      });
+      // 🖱️ Simulate drag on 2-finger swipe (trackpad)
+      let isScrolling = false;
+      let scrollTimeout = null;
 
-      $carousel.on('touchmove', function (e) {
-        if (!active || hasSwiped) return;
-        const touches = e.originalEvent.touches;
-        if (touches.length === 2) {
-          const currentX = (touches[0].clientX + touches[1].clientX) / 2;
-          const deltaX = currentX - startX;
-
-          if (Math.abs(deltaX) > threshold) {
-            // ✅ use built-in next/prev to move exactly 1 slide
-            if (deltaX > 0) {
-              $carousel.trigger('prev.owl.carousel', [500]); // smooth 500ms
-            } else {
-              $carousel.trigger('next.owl.carousel', [500]);
-            }
-            hasSwiped = true;
-          }
-          e.preventDefault(); // prevent back gesture
-        }
-      });
-
-      $carousel.on('touchend', function () {
-        active = false;
-        hasSwiped = false;
-      });
-
-      // 💻 Trackpad horizontal swipe
       $carousel.on('wheel', function (e) {
         const ev = e.originalEvent;
+
+        // Only handle horizontal gestures (2-finger swipe)
         if (Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) {
           e.preventDefault();
+
+          if (isScrolling) return; // prevent spamming
+          isScrolling = true;
+
           if (ev.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel', [500]);
+            $carousel.trigger('next.owl.carousel', [300]);
           } else {
-            $carousel.trigger('prev.owl.carousel', [500]);
+            $carousel.trigger('prev.owl.carousel', [300]);
           }
+
+          // Reset after delay
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            isScrolling = false;
+          }, 400);
         }
       });
     });
