@@ -34,7 +34,7 @@ define(['jquery'], function ($) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-        positionAAPanel(); // 🧠 ensure it's positioned immediately
+        positionAAPanel(); // 🧠 immediately position aa-Panel
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
@@ -59,7 +59,7 @@ define(['jquery'], function ($) {
       updateSticky();
     });
 
-    // 🧠 Watch DOM changes for aa-Panel activation
+    // 🧠 Watch DOM for aa-Panel activation
     if (window.MutationObserver) {
       const observer = new MutationObserver(() => {
         setTimeout(() => {
@@ -86,13 +86,16 @@ define(['jquery'], function ($) {
 
       let startX = 0;
       let activeCarousel = null;
+      let hasSwiped = false;
+      const threshold = 150; // 🎚️ adjust sensitivity (higher = less sensitive)
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
         const touches = e.originalEvent.touches;
         if (touches.length === 2) {
-          activeCarousel = $carousel; // only handle current
+          activeCarousel = $carousel;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
+          hasSwiped = false;
           e.preventDefault(); // prevent browser gestures
         }
       });
@@ -101,18 +104,17 @@ define(['jquery'], function ($) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
 
         const touches = e.originalEvent.touches;
-        if (touches.length === 2) {
+        if (touches.length === 2 && !hasSwiped) {
           const currentX = (touches[0].clientX + touches[1].clientX) / 2;
           const deltaX = currentX - startX;
 
-          const threshold = 80; // adjust for sensitivity
           if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
               $carousel.trigger('prev.owl.carousel');
             } else {
               $carousel.trigger('next.owl.carousel');
             }
-            startX = currentX; // reset for smooth next move
+            hasSwiped = true; // 🔒 only one slide per gesture
           }
           e.preventDefault(); // avoid browser navigation
         }
@@ -120,6 +122,7 @@ define(['jquery'], function ($) {
 
       $carousel.on('touchend', function () {
         activeCarousel = null;
+        hasSwiped = false;
       });
 
       // 💻 Trackpad 2-finger horizontal swipe
