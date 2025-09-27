@@ -273,6 +273,11 @@ define([
             };
 
             const getItemUrl = ({item}) => {
+                //Workaround, remove on go live!
+                    var productUrl = item.url;
+                    let newProductUrl = productUrl.replace("https://www.digidirect.com.au", "https://mcstaging2.digidirect.com.au");
+                    item.url = newProductUrl;
+                //
                 return this.getNavigatorUrl(item.url);
             };
 

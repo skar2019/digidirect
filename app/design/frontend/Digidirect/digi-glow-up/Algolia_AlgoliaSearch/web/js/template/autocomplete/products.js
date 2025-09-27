@@ -10,7 +10,7 @@ define([], function () {
         },
 
         getHeaderHtml: function () {
-            return "";
+            return html`<p>Top Selling Products</p>`;
         },
 
         getItemHtml: function ({item, components, html}) {
