@@ -15,24 +15,30 @@ define(['jquery'], function ($) {
       }
     }
 
-    function setSticky(active) {
+    function positionAAPanel() {
       const $aaPanel = $('.aa-Panel');
+      if ($aaPanel.length && isSticky) {
+        const headerHeight = $header.outerHeight();
+        $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
+      }
+    }
 
+    function removeAAPanelSticky() {
+      const $aaPanel = $('.aa-Panel');
+      if ($aaPanel.length) {
+        $aaPanel.removeClass('is-sticky').css('top', '');
+      }
+    }
+
+    function setSticky(active) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-
-        if ($aaPanel.length) {
-          const headerHeight = $header.outerHeight();
-          $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
-        }
+        positionAAPanel(); // 🧠 ensure it's positioned immediately
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
-
-        if ($aaPanel.length) {
-          $aaPanel.removeClass('is-sticky').css('top', '');
-        }
+        removeAAPanelSticky();
       }
     }
 
@@ -53,11 +59,13 @@ define(['jquery'], function ($) {
       updateSticky();
     });
 
+    // 🧠 Watch DOM changes for aa-Panel activation
     if (window.MutationObserver) {
       const observer = new MutationObserver(() => {
         setTimeout(() => {
           recalcStickyPoint();
           updateSticky();
+          positionAAPanel(); // 👈 reposition immediately if sticky
         }, 200);
       });
       observer.observe(document.body, {
