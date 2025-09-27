@@ -34,7 +34,7 @@ define(['jquery'], function ($) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-        positionAAPanel();
+        positionAAPanel(); // 🧠 immediately position aa-Panel
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
@@ -47,6 +47,7 @@ define(['jquery'], function ($) {
       setSticky(scrollTop >= stickyPoint);
     }
 
+    // ✅ Initial setup
     setTimeout(() => {
       recalcStickyPoint();
       updateSticky();
@@ -58,12 +59,13 @@ define(['jquery'], function ($) {
       updateSticky();
     });
 
+    // 🧠 Watch DOM for aa-Panel activation
     if (window.MutationObserver) {
       const observer = new MutationObserver(() => {
         setTimeout(() => {
           recalcStickyPoint();
           updateSticky();
-          positionAAPanel();
+          positionAAPanel(); // 👈 reposition immediately if sticky
         }, 200);
       });
       observer.observe(document.body, {
@@ -75,38 +77,77 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel: Enable mouse drag, convert 2-finger scroll into drag
+       🌀 Owl Carousel 2-Finger Swipe (Smooth, 1 Item)
     ======================== */
     const $carousels = $('.owl-carousel');
 
     $carousels.each(function () {
       const $carousel = $(this);
+      let startX = 0;
+      let activeCarousel = null;
+      let hasSwiped = false;
+      const threshold = 120; // 🎚 sensitivity (px distance)
+      const lockDuration = 250; // ⏱ lock time to avoid multiple triggers
 
-      // 🖱️ Simulate drag on 2-finger swipe (trackpad)
-      let isScrolling = false;
-      let scrollTimeout = null;
+      // 📱 2-finger swipe detection
+      $carousel.on('touchstart', function (e) {
+        const touches = e.originalEvent.touches;
+        if (touches.length === 2) {
+          activeCarousel = $carousel;
+          startX = (touches[0].clientX + touches[1].clientX) / 2;
+          hasSwiped = false;
+          e.preventDefault(); // stop browser gestures
+        }
+      });
 
+      $carousel.on('touchmove', function (e) {
+        if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
+
+        const touches = e.originalEvent.touches;
+        if (touches.length === 2 && !hasSwiped) {
+          const currentX = (touches[0].clientX + touches[1].clientX) / 2;
+          const deltaX = currentX - startX;
+
+          if (Math.abs(deltaX) > threshold) {
+            if (deltaX > 0) {
+              $carousel.trigger('prev.owl.carousel', [300]); // smooth 300ms
+            } else {
+              $carousel.trigger('next.owl.carousel', [300]);
+            }
+            hasSwiped = true;
+
+            // unlock for next gesture after short delay
+            setTimeout(() => {
+              hasSwiped = false;
+              activeCarousel = null;
+            }, lockDuration);
+          }
+
+          e.preventDefault(); // block browser back/forward gesture
+        }
+      });
+
+      $carousel.on('touchend', function () {
+        activeCarousel = null;
+      });
+
+      // 💻 Trackpad horizontal scroll (2-finger swipe)
       $carousel.on('wheel', function (e) {
-        const ev = e.originalEvent;
-
-        // Only handle horizontal gestures (2-finger swipe)
-        if (Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) {
+        const event = e.originalEvent;
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
           e.preventDefault();
+          if (hasSwiped) return;
+          hasSwiped = true;
 
-          if (isScrolling) return; // prevent spamming
-          isScrolling = true;
-
-          if (ev.deltaX > 0) {
+          if (event.deltaX > 0) {
             $carousel.trigger('next.owl.carousel', [300]);
           } else {
             $carousel.trigger('prev.owl.carousel', [300]);
           }
 
-          // Reset after delay
-          clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(() => {
-            isScrolling = false;
-          }, 400);
+          setTimeout(() => {
+            hasSwiped = false;
+          }, lockDuration);
         }
       });
     });
