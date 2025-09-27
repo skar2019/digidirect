@@ -79,20 +79,10 @@ define(['jquery'], function ($) {
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe
     ======================== */
-    const $carousels = $('.owl-carousel.custom');
+    const $carousels = $('.owl-carousel');
 
     $carousels.each(function () {
       const $carousel = $(this);
-
-      $carousel.owlCarousel({
-        items: 1,
-        loop: true,
-        autoplay: false,
-        dots: true,
-        nav: false,
-        mouseDrag: false, // disable single-finger drag
-        touchDrag: false  // disable default swipe
-      });
 
       let startX = 0;
       let activeCarousel = null;
