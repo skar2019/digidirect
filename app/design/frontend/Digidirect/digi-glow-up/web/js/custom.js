@@ -32,22 +32,44 @@ define(['jquery'], function ($) {
         }
 
         initSticky();
-        
-        let lastScrollTime = 0;
+
+        let startX = 0;
+
+        // 📱 Mobile: detect 2-finger swipe
+        $carousel.on('touchstart', function (e) {
+          if (e.originalEvent.touches.length === 2) {
+            const touches = e.originalEvent.touches;
+            startX = (touches[0].clientX + touches[1].clientX) / 2;
+          }
+        });
+
+        $carousel.on('touchmove', function (e) {
+          if (e.originalEvent.touches.length === 2) {
+            const touches = e.originalEvent.touches;
+            const currentX = (touches[0].clientX + touches[1].clientX) / 2;
+            const deltaX = currentX - startX;
+
+            if (Math.abs(deltaX) > 50) { // swipe threshold
+              if (deltaX > 0) {
+                $carousel.trigger('prev.owl.carousel');
+              } else {
+                $carousel.trigger('next.owl.carousel');
+              }
+              startX = currentX; // reset for next move
+            }
+          }
+        });
+
+        // 💻 Desktop: detect 2-finger trackpad swipe (wheel)
         $carousel.on('wheel', function (e) {
-          const deltaX = e.originalEvent.deltaX;
-          const deltaY = e.originalEvent.deltaY;
-          const now = Date.now();
-
-          // Only handle mostly-horizontal scrolls
-          if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 5) {
-            e.preventDefault();
-
-            // Add slight debounce to prevent overscrolling
-            if (now - lastScrollTime > 400) {
-              if (deltaX > 0) $(this).trigger('next.owl.carousel');
-              else $(this).trigger('prev.owl.carousel');
-              lastScrollTime = now;
+          const event = e.originalEvent;
+          // horizontal scroll dominates
+          if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+            e.preventDefault(); // stop page scroll
+            if (event.deltaX > 0) {
+              $carousel.trigger('next.owl.carousel');
+            } else {
+              $carousel.trigger('prev.owl.carousel');
             }
           }
         });
