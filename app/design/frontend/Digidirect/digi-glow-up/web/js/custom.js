@@ -34,7 +34,7 @@ define(['jquery'], function ($) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-        positionAAPanel(); // 🧠 immediately position aa-Panel
+        positionAAPanel();
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
@@ -65,7 +65,7 @@ define(['jquery'], function ($) {
         setTimeout(() => {
           recalcStickyPoint();
           updateSticky();
-          positionAAPanel(); // 👈 reposition immediately if sticky
+          positionAAPanel();
         }, 200);
       });
       observer.observe(document.body, {
@@ -86,8 +86,9 @@ define(['jquery'], function ($) {
       let startX = 0;
       let activeCarousel = null;
       let hasSwiped = false;
-      const threshold = 120; // 🎚 sensitivity (px distance)
-      const lockDuration = 250; // ⏱ lock time to avoid multiple triggers
+      const threshold = 120; // sensitivity
+      const lockDuration = 250; // prevent double-swipe
+      const transitionSpeed = 400; // 🎨 smooth transition (ms)
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
@@ -96,7 +97,7 @@ define(['jquery'], function ($) {
           activeCarousel = $carousel;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
           hasSwiped = false;
-          e.preventDefault(); // stop browser gestures
+          e.preventDefault();
         }
       });
 
@@ -110,20 +111,19 @@ define(['jquery'], function ($) {
 
           if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
-              $carousel.trigger('prev.owl.carousel', [100]); // smooth 300ms
+              $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
             } else {
-              $carousel.trigger('next.owl.carousel', [100]);
+              $carousel.trigger('next.owl.carousel', [transitionSpeed]);
             }
             hasSwiped = true;
 
-            // unlock for next gesture after short delay
             setTimeout(() => {
               hasSwiped = false;
               activeCarousel = null;
             }, lockDuration);
           }
 
-          e.preventDefault(); // block browser back/forward gesture
+          e.preventDefault();
         }
       });
 
@@ -131,7 +131,7 @@ define(['jquery'], function ($) {
         activeCarousel = null;
       });
 
-      // 💻 Trackpad horizontal scroll (2-finger swipe)
+      // 💻 Trackpad horizontal scroll
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -140,9 +140,9 @@ define(['jquery'], function ($) {
           hasSwiped = true;
 
           if (event.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel', [100]);
+            $carousel.trigger('next.owl.carousel', [transitionSpeed]);
           } else {
-            $carousel.trigger('prev.owl.carousel', [100]);
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
           }
 
           setTimeout(() => {
