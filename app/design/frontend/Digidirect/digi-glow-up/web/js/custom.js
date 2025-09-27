@@ -36,8 +36,11 @@ define(['jquery'], function ($) {
         const $carousel = $('.owl-carousel'); // change selector if needed
 
         let startX = 0;
+        let lastSwipeTime = 0;
+        const SWIPE_THRESHOLD = 120; // pixels — increase = slower
+        const COOLDOWN = 500; // ms — prevent rapid multiple swipes
 
-        // 📱 Mobile: detect 2-finger swipe
+        // 📱 2-finger swipe (mobile)
         $carousel.on('touchstart', function (e) {
           if (e.originalEvent.touches.length === 2) {
             const touches = e.originalEvent.touches;
@@ -47,31 +50,40 @@ define(['jquery'], function ($) {
 
         $carousel.on('touchmove', function (e) {
           if (e.originalEvent.touches.length === 2) {
+            const now = Date.now();
+            if (now - lastSwipeTime < COOLDOWN) return; // too soon
+
             const touches = e.originalEvent.touches;
             const currentX = (touches[0].clientX + touches[1].clientX) / 2;
             const deltaX = currentX - startX;
 
-            if (Math.abs(deltaX) > 50) { // swipe threshold
+            if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
               if (deltaX > 0) {
                 $carousel.trigger('prev.owl.carousel');
               } else {
                 $carousel.trigger('next.owl.carousel');
               }
-              startX = currentX; // reset for next move
+              lastSwipeTime = now;
+              startX = currentX;
             }
           }
         });
 
-        // 💻 Desktop: detect 2-finger trackpad swipe (wheel)
+        // 💻 Trackpad swipe
         $carousel.on('wheel', function (e) {
           const event = e.originalEvent;
-          // horizontal scroll dominates
+          const now = Date.now();
+          if (now - lastSwipeTime < COOLDOWN) return;
+
           if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-            e.preventDefault(); // stop page scroll
-            if (event.deltaX > 0) {
-              $carousel.trigger('next.owl.carousel');
-            } else {
-              $carousel.trigger('prev.owl.carousel');
+            if (Math.abs(event.deltaX) > 40) { // scroll threshold
+              e.preventDefault();
+              if (event.deltaX > 0) {
+                $carousel.trigger('next.owl.carousel');
+              } else {
+                $carousel.trigger('prev.owl.carousel');
+              }
+              lastSwipeTime = now;
             }
           }
         });
