@@ -3,7 +3,7 @@ define(['jquery'], function ($) {
 
   $(function () {
     /* ========================
-       ✅ Sticky Header (smooth)
+       ✅ Sticky Header (unchanged)
     ======================== */
     const $header = $('.header.content');
     let stickyPoint = 0;
@@ -34,7 +34,7 @@ define(['jquery'], function ($) {
       if (active && !isSticky) {
         $header.addClass('is-sticky');
         isSticky = true;
-        positionAAPanel();
+        positionAAPanel(); // 🧠 immediately position aa-Panel
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
@@ -65,7 +65,7 @@ define(['jquery'], function ($) {
         setTimeout(() => {
           recalcStickyPoint();
           updateSticky();
-          positionAAPanel();
+          positionAAPanel(); // 👈 reposition immediately if sticky
         }, 200);
       });
       observer.observe(document.body, {
@@ -77,73 +77,70 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (1 slide per swipe)
+       🌀 Owl Carousel 2-Finger Swipe (1 item per gesture)
     ======================== */
     const $carousels = $('.owl-carousel');
+    const threshold = 150; // 🎚 adjust sensitivity (px)
 
     $carousels.each(function () {
       const $carousel = $(this);
-      const owlData = $carousel.data('owl.carousel'); // will be set after initialization
-
       let startX = 0;
-      let activeCarousel = null;
+      let active = false;
       let hasSwiped = false;
-      const threshold = 120; // 🎚️ adjust sensitivity
+
+      function getOwl() {
+        return $carousel.data('owl.carousel');
+      }
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
         const touches = e.originalEvent.touches;
         if (touches.length === 2) {
-          activeCarousel = $carousel;
+          active = true;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
           hasSwiped = false;
-          e.preventDefault();
+          e.preventDefault(); // prevent browser gestures
         }
       });
 
       $carousel.on('touchmove', function (e) {
-        if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
+        if (!active || hasSwiped) return;
         const touches = e.originalEvent.touches;
-        if (touches.length === 2 && !hasSwiped) {
+        if (touches.length === 2) {
           const currentX = (touches[0].clientX + touches[1].clientX) / 2;
           const deltaX = currentX - startX;
 
           if (Math.abs(deltaX) > threshold) {
-            const owl = $carousel.data('owl.carousel');
+            const owl = getOwl();
+            if (!owl) return;
+
             const currentIndex = owl.relative(owl.current());
+            const targetIndex = deltaX > 0 ? currentIndex - 1 : currentIndex + 1;
 
-            if (deltaX > 0) {
-              // 👈 Swipe Right → previous item
-              $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
-            } else {
-              // 👉 Swipe Left → next item
-              $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
-            }
-
+            // ✅ Move exactly 1 item smoothly
+            $carousel.trigger('to.owl.carousel', [targetIndex, 500]);
             hasSwiped = true;
           }
-          e.preventDefault();
+          e.preventDefault(); // prevent back navigation
         }
       });
 
       $carousel.on('touchend', function () {
-        activeCarousel = null;
+        active = false;
         hasSwiped = false;
       });
 
-      // 💻 Trackpad 2-finger horizontal swipe
+      // 💻 Trackpad horizontal swipe
       $carousel.on('wheel', function (e) {
-        const event = e.originalEvent;
-        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        const ev = e.originalEvent;
+        if (Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) {
           e.preventDefault();
-          const owl = $carousel.data('owl.carousel');
-          const currentIndex = owl.relative(owl.current());
+          const owl = getOwl();
+          if (!owl) return;
 
-          if (event.deltaX > 0) {
-            $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
-          } else {
-            $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
-          }
+          const currentIndex = owl.relative(owl.current());
+          const targetIndex = ev.deltaX > 0 ? currentIndex + 1 : currentIndex - 1;
+          $carousel.trigger('to.owl.carousel', [targetIndex, 500]);
         }
       });
     });
