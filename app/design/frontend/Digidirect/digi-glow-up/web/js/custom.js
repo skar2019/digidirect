@@ -103,4 +103,49 @@ define(['jquery'], function ($) {
 
       $carousel.on('touchmove', function (e) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
-        co
+        const touches = e.originalEvent.touches;
+        if (touches.length === 2 && !hasSwiped) {
+          const currentX = (touches[0].clientX + touches[1].clientX) / 2;
+          const deltaX = currentX - startX;
+
+          if (Math.abs(deltaX) > threshold) {
+            const owl = $carousel.data('owl.carousel');
+            const currentIndex = owl.relative(owl.current());
+
+            if (deltaX > 0) {
+              // 👈 Swipe Right → previous item
+              $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
+            } else {
+              // 👉 Swipe Left → next item
+              $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
+            }
+
+            hasSwiped = true;
+          }
+          e.preventDefault();
+        }
+      });
+
+      $carousel.on('touchend', function () {
+        activeCarousel = null;
+        hasSwiped = false;
+      });
+
+      // 💻 Trackpad 2-finger horizontal swipe
+      $carousel.on('wheel', function (e) {
+        const event = e.originalEvent;
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+          e.preventDefault();
+          const owl = $carousel.data('owl.carousel');
+          const currentIndex = owl.relative(owl.current());
+
+          if (event.deltaX > 0) {
+            $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
+          } else {
+            $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
+          }
+        }
+      });
+    });
+  });
+});
