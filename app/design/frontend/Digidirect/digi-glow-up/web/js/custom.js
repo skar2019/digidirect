@@ -77,7 +77,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (Smooth, 1 Item)
+       🌀 Owl Carousel 2-Finger Swipe (⚡ Fast + Smooth)
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -85,9 +85,7 @@ define(['jquery'], function ($) {
       const $carousel = $(this);
       let startX = 0;
       let activeCarousel = null;
-      let hasSwiped = false;
-      const threshold = 120; // 🎚 sensitivity (px distance)
-      const lockDuration = 250; // ⏱ lock time to avoid multiple triggers
+      const threshold = 120; // 🎚 swipe distance before trigger
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
@@ -95,8 +93,7 @@ define(['jquery'], function ($) {
         if (touches.length === 2) {
           activeCarousel = $carousel;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
-          hasSwiped = false;
-          e.preventDefault(); // stop browser gestures
+          e.preventDefault(); // prevent browser gestures
         }
       });
 
@@ -104,26 +101,19 @@ define(['jquery'], function ($) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
 
         const touches = e.originalEvent.touches;
-        if (touches.length === 2 && !hasSwiped) {
+        if (touches.length === 2) {
           const currentX = (touches[0].clientX + touches[1].clientX) / 2;
           const deltaX = currentX - startX;
 
           if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
-              $carousel.trigger('prev.owl.carousel', [300]); // smooth 300ms
+              $carousel.trigger('prev.owl.carousel', [200]); // fast 200ms
             } else {
-              $carousel.trigger('next.owl.carousel', [300]);
+              $carousel.trigger('next.owl.carousel', [200]);
             }
-            hasSwiped = true;
-
-            // unlock for next gesture after short delay
-            setTimeout(() => {
-              hasSwiped = false;
-              activeCarousel = null;
-            }, lockDuration);
+            startX = currentX; // reset immediately for continuous swiping
           }
-
-          e.preventDefault(); // block browser back/forward gesture
+          e.preventDefault(); // block browser navigation
         }
       });
 
@@ -131,23 +121,17 @@ define(['jquery'], function ($) {
         activeCarousel = null;
       });
 
-      // 💻 Trackpad horizontal scroll (2-finger swipe)
+      // 💻 Trackpad horizontal swipe
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
           e.preventDefault();
-          if (hasSwiped) return;
-          hasSwiped = true;
 
           if (event.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel', [300]);
+            $carousel.trigger('next.owl.carousel', [200]);
           } else {
-            $carousel.trigger('prev.owl.carousel', [300]);
+            $carousel.trigger('prev.owl.carousel', [200]);
           }
-
-          setTimeout(() => {
-            hasSwiped = false;
-          }, lockDuration);
         }
       });
     });
