@@ -7,41 +7,36 @@ define(['jquery'], function ($) {
 
     const stickyPoint = $header.offset().top;
 
+    // 🔹 Sticky header logic
     function updateSticky() {
       const scrollTop = $(window).scrollTop();
       const $aaPanel = $('.aa-Panel');
-      if (!$aaPanel.length) return;
 
       if (scrollTop >= stickyPoint) {
         $header.addClass('is-sticky');
-        const headerHeight = $header.outerHeight();
-        $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
+        if ($aaPanel.length) {
+          const headerHeight = $header.outerHeight();
+          $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
+        }
       } else {
         $header.removeClass('is-sticky');
-        $aaPanel.removeClass('is-sticky').css('top', '');
+        if ($aaPanel.length) {
+          $aaPanel.removeClass('is-sticky').css('top', '');
+        }
       }
     }
 
-    // 🔹 Wait for .aa-Panel, then attach scroll + initial check
-    function initSticky() {
-      const $aaPanel = $('.aa-Panel');
-      if (!$aaPanel.length) {
-        setTimeout(initSticky, 200);
-        return;
-      }
+    $(window).on('scroll', updateSticky);
+    updateSticky(); // 👈 run immediately
 
-      $(window).on('scroll', updateSticky);
-      updateSticky(); // 👈 run immediately on first load
-    }
-    initSticky();
-
-    // 🔹 Carousel 2-finger swipe logic
-    const $carousel = $('.owl-carousel'); // adjust selector if needed
+    // 🔹 Carousel with 2-finger smooth swipe
+    const $carousel = $('.owl-carousel');
+    if (!$carousel.length) return;
 
     let startX = 0;
     let lastSwipeTime = 0;
-    const SWIPE_THRESHOLD = 120;
-    const COOLDOWN = 500;
+    const SWIPE_THRESHOLD = 120; // 👈 how far you swipe before it triggers
+    const COOLDOWN = 700;        // 👈 delay between swipes in ms
 
     // 📱 Touch: 2-finger swipe
     $carousel.on('touchstart', function (e) {
@@ -60,9 +55,9 @@ define(['jquery'], function ($) {
 
         if (Math.abs(deltaX) > SWIPE_THRESHOLD && now - lastSwipeTime > COOLDOWN) {
           if (deltaX > 0) {
-            $carousel.trigger('prev.owl.carousel');
+            $carousel.trigger('prev.owl.carousel', [600]); // 👈 smooth duration
           } else {
-            $carousel.trigger('next.owl.carousel');
+            $carousel.trigger('next.owl.carousel', [600]);
           }
           lastSwipeTime = now;
           startX = currentX;
@@ -70,7 +65,7 @@ define(['jquery'], function ($) {
       }
     });
 
-    // 💻 Trackpad: horizontal 2-finger swipe
+    // 💻 Trackpad: 2-finger horizontal scroll
     let wheelAccum = 0;
     $carousel.on('wheel', function (e) {
       const event = e.originalEvent;
@@ -81,9 +76,9 @@ define(['jquery'], function ($) {
         if (Math.abs(wheelAccum) > SWIPE_THRESHOLD && now - lastSwipeTime > COOLDOWN) {
           e.preventDefault();
           if (wheelAccum > 0) {
-            $carousel.trigger('next.owl.carousel');
+            $carousel.trigger('next.owl.carousel', [600]); // 👈 smooth
           } else {
-            $carousel.trigger('prev.owl.carousel');
+            $carousel.trigger('prev.owl.carousel', [600]);
           }
           wheelAccum = 0;
           lastSwipeTime = now;
