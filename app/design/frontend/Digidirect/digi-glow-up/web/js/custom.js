@@ -33,30 +33,23 @@ define(['jquery'], function ($) {
 
         initSticky();
         
-        $('.owl-carousel').each(function () {
-            const $carousel = $(this);
+        let lastScrollTime = 0;
+        $carousel.on('wheel', function (e) {
+          const deltaX = e.originalEvent.deltaX;
+          const deltaY = e.originalEvent.deltaY;
+          const now = Date.now();
 
-            //Prevent accidental navigation during swipe
-            let isDragging = false;
-            let startX = 0;
+          // Only handle mostly-horizontal scrolls
+          if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 5) {
+            e.preventDefault();
 
-            $carousel.on('mousedown touchstart', function (e) {
-              isDragging = false;
-              startX = e.pageX || e.originalEvent.touches[0].pageX;
-            });
-
-            $carousel.on('mousemove touchmove', function (e) {
-              const x = e.pageX || e.originalEvent.touches[0].pageX;
-              if (Math.abs(x - startX) > 10) {
-                isDragging = true;
-              }
-            });
-
-            $carousel.find('a').on('click', function (e) {
-              if (isDragging) {
-                e.preventDefault(); // ⛔ Stop link navigation if it was a swipe
-              }
-            });
+            // Add slight debounce to prevent overscrolling
+            if (now - lastScrollTime > 400) {
+              if (deltaX > 0) $(this).trigger('next.owl.carousel');
+              else $(this).trigger('prev.owl.carousel');
+              lastScrollTime = now;
+            }
+          }
         });
 
     });
