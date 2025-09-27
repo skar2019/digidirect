@@ -77,7 +77,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (1 item per gesture)
+       🌀 Owl Carousel 2-Finger Swipe (move exactly 1 slide)
     ======================== */
     const $carousels = $('.owl-carousel');
     const threshold = 150; // 🎚 adjust sensitivity (px)
@@ -87,10 +87,6 @@ define(['jquery'], function ($) {
       let startX = 0;
       let active = false;
       let hasSwiped = false;
-
-      function getOwl() {
-        return $carousel.data('owl.carousel');
-      }
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
@@ -111,17 +107,15 @@ define(['jquery'], function ($) {
           const deltaX = currentX - startX;
 
           if (Math.abs(deltaX) > threshold) {
-            const owl = getOwl();
-            if (!owl) return;
-
-            const currentIndex = owl.relative(owl.current());
-            const targetIndex = deltaX > 0 ? currentIndex - 1 : currentIndex + 1;
-
-            // ✅ Move exactly 1 item smoothly
-            $carousel.trigger('to.owl.carousel', [targetIndex, 500]);
+            // ✅ use built-in next/prev to move exactly 1 slide
+            if (deltaX > 0) {
+              $carousel.trigger('prev.owl.carousel', [500]); // smooth 500ms
+            } else {
+              $carousel.trigger('next.owl.carousel', [500]);
+            }
             hasSwiped = true;
           }
-          e.preventDefault(); // prevent back navigation
+          e.preventDefault(); // prevent back gesture
         }
       });
 
@@ -135,12 +129,11 @@ define(['jquery'], function ($) {
         const ev = e.originalEvent;
         if (Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) {
           e.preventDefault();
-          const owl = getOwl();
-          if (!owl) return;
-
-          const currentIndex = owl.relative(owl.current());
-          const targetIndex = ev.deltaX > 0 ? currentIndex + 1 : currentIndex - 1;
-          $carousel.trigger('to.owl.carousel', [targetIndex, 500]);
+          if (ev.deltaX > 0) {
+            $carousel.trigger('next.owl.carousel', [500]);
+          } else {
+            $carousel.trigger('prev.owl.carousel', [500]);
+          }
         }
       });
     });
