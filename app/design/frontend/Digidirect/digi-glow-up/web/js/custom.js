@@ -77,7 +77,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (⚡ Fast + Smooth)
+       🌀 Owl Carousel 2-Finger Swipe (Smooth, 1 Item)
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -85,7 +85,9 @@ define(['jquery'], function ($) {
       const $carousel = $(this);
       let startX = 0;
       let activeCarousel = null;
-      const threshold = 120; // 🎚 swipe distance before trigger
+      let hasSwiped = false;
+      const threshold = 120; // 🎚 sensitivity (px distance)
+      const lockDuration = 250; // ⏱ lock time to avoid multiple triggers
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
@@ -93,7 +95,8 @@ define(['jquery'], function ($) {
         if (touches.length === 2) {
           activeCarousel = $carousel;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
-          e.preventDefault(); // prevent browser gestures
+          hasSwiped = false;
+          e.preventDefault(); // stop browser gestures
         }
       });
 
@@ -101,19 +104,26 @@ define(['jquery'], function ($) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
 
         const touches = e.originalEvent.touches;
-        if (touches.length === 2) {
+        if (touches.length === 2 && !hasSwiped) {
           const currentX = (touches[0].clientX + touches[1].clientX) / 2;
           const deltaX = currentX - startX;
 
           if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
-              $carousel.trigger('prev.owl.carousel', [200]); // fast 200ms
+              $carousel.trigger('prev.owl.carousel', [100]); // smooth 300ms
             } else {
-              $carousel.trigger('next.owl.carousel', [200]);
+              $carousel.trigger('next.owl.carousel', [100]);
             }
-            startX = currentX; // reset immediately for continuous swiping
+            hasSwiped = true;
+
+            // unlock for next gesture after short delay
+            setTimeout(() => {
+              hasSwiped = false;
+              activeCarousel = null;
+            }, lockDuration);
           }
-          e.preventDefault(); // block browser navigation
+
+          e.preventDefault(); // block browser back/forward gesture
         }
       });
 
@@ -121,17 +131,23 @@ define(['jquery'], function ($) {
         activeCarousel = null;
       });
 
-      // 💻 Trackpad horizontal swipe
+      // 💻 Trackpad horizontal scroll (2-finger swipe)
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
           e.preventDefault();
+          if (hasSwiped) return;
+          hasSwiped = true;
 
           if (event.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel', [200]);
+            $carousel.trigger('next.owl.carousel', [100]);
           } else {
-            $carousel.trigger('prev.owl.carousel', [200]);
+            $carousel.trigger('prev.owl.carousel', [100]);
           }
+
+          setTimeout(() => {
+            hasSwiped = false;
+          }, lockDuration);
         }
       });
     });
