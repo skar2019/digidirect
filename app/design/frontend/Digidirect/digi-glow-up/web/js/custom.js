@@ -37,10 +37,10 @@ define(['jquery'], function ($) {
 
         let startX = 0;
         let lastSwipeTime = 0;
-        const SWIPE_THRESHOLD = 120; // pixels — increase = slower
-        const COOLDOWN = 500; // ms — prevent rapid multiple swipes
+        const SWIPE_THRESHOLD = 120; // ⬆️ increase from 50 to make slower
+        const COOLDOWN = 600;        // ⬆️ prevent multiple triggers within 600ms
 
-        // 📱 2-finger swipe (mobile)
+        // 📱 Mobile: detect 2-finger swipe
         $carousel.on('touchstart', function (e) {
           if (e.originalEvent.touches.length === 2) {
             const touches = e.originalEvent.touches;
@@ -51,40 +51,39 @@ define(['jquery'], function ($) {
         $carousel.on('touchmove', function (e) {
           if (e.originalEvent.touches.length === 2) {
             const now = Date.now();
-            if (now - lastSwipeTime < COOLDOWN) return; // too soon
+            if (now - lastSwipeTime < COOLDOWN) return; // wait cooldown
 
             const touches = e.originalEvent.touches;
             const currentX = (touches[0].clientX + touches[1].clientX) / 2;
             const deltaX = currentX - startX;
 
-            if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+            if (Math.abs(deltaX) > SWIPE_THRESHOLD) { // slower response
               if (deltaX > 0) {
                 $carousel.trigger('prev.owl.carousel');
               } else {
                 $carousel.trigger('next.owl.carousel');
               }
               lastSwipeTime = now;
-              startX = currentX;
+              startX = currentX; // reset for next move
             }
           }
         });
 
-        // 💻 Trackpad swipe
+        // 💻 Desktop: detect 2-finger trackpad swipe (wheel)
         $carousel.on('wheel', function (e) {
           const event = e.originalEvent;
           const now = Date.now();
-          if (now - lastSwipeTime < COOLDOWN) return;
+          if (now - lastSwipeTime < COOLDOWN) return; // wait cooldown
 
-          if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-            if (Math.abs(event.deltaX) > 40) { // scroll threshold
-              e.preventDefault();
-              if (event.deltaX > 0) {
-                $carousel.trigger('next.owl.carousel');
-              } else {
-                $carousel.trigger('prev.owl.carousel');
-              }
-              lastSwipeTime = now;
+          if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 60) { 
+            // ⬆️ added deltaX > 60 to make it less sensitive
+            e.preventDefault(); // stop page scroll
+            if (event.deltaX > 0) {
+              $carousel.trigger('next.owl.carousel');
+            } else {
+              $carousel.trigger('prev.owl.carousel');
             }
+            lastSwipeTime = now;
           }
         });
 
