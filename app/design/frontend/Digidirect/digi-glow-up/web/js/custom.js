@@ -77,7 +77,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe
+       🌀 Owl Carousel 2-Finger Swipe (1 slide per swipe)
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -109,10 +109,15 @@ define(['jquery'], function ($) {
           const deltaX = currentX - startX;
 
           if (Math.abs(deltaX) > threshold) {
+            const $active = $carousel.find('.owl-item.active');
+            const currentIndex = $active.index();
+
             if (deltaX > 0) {
-              $carousel.trigger('prev.owl.carousel');
+              // 👈 Swipe Right → previous item
+              $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
             } else {
-              $carousel.trigger('next.owl.carousel');
+              // 👉 Swipe Left → next item
+              $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
             }
             hasSwiped = true; // 🔒 only one slide per gesture
           }
@@ -130,10 +135,13 @@ define(['jquery'], function ($) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
           e.preventDefault(); // prevent page scroll or back nav
+          const $active = $carousel.find('.owl-item.active');
+          const currentIndex = $active.index();
+
           if (event.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel');
+            $carousel.trigger('to.owl.carousel', [currentIndex + 1, 600, true]);
           } else {
-            $carousel.trigger('prev.owl.carousel');
+            $carousel.trigger('to.owl.carousel', [currentIndex - 1, 600, true]);
           }
         }
       });
