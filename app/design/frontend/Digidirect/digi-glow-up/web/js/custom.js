@@ -32,6 +32,33 @@ define(['jquery'], function ($) {
         }
 
         initSticky();
+        
+        $('.owl-carousel').each(function () {
+            const $carousel = $(this);
+
+            //Prevent accidental navigation during swipe
+            let isDragging = false;
+            let startX = 0;
+
+            $carousel.on('mousedown touchstart', function (e) {
+              isDragging = false;
+              startX = e.pageX || e.originalEvent.touches[0].pageX;
+            });
+
+            $carousel.on('mousemove touchmove', function (e) {
+              const x = e.pageX || e.originalEvent.touches[0].pageX;
+              if (Math.abs(x - startX) > 10) {
+                isDragging = true;
+              }
+            });
+
+            $carousel.find('a').on('click', function (e) {
+              if (isDragging) {
+                e.preventDefault(); // ⛔ Stop link navigation if it was a swipe
+              }
+            });
+        });
+
     });
 });
 
