@@ -395,10 +395,17 @@
 }
 
 @media screen and (min-width: 768px) {
-    .opc-block-summary {
-        position: sticky;
-        top: 20px;
-        z-index: 100;
+    .sticky-order-summary {
+        position: relative;
+    }
+    #opc-sidebar.opc-sidebar.shipping-step {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        right: 265px;
+        top: 200px;
+        z-index: 10;
     }
 }
 
