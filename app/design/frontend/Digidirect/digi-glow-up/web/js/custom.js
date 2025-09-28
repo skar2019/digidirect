@@ -1,92 +1,155 @@
 define(['jquery'], function ($) {
   'use strict';
 
-    $(function () {
-        const $header = $('.header.content');
-        if (!$header.length) return;
+  $(function () {
+    /* ========================
+       ✅ Sticky Header (unchanged)
+    ======================== */
+    const $header = $('.header.content');
+    let stickyPoint = 0;
+    let isSticky = false;
 
-        const stickyPoint = $header.offset().top;
+    function recalcStickyPoint() {
+      if (!isSticky && $header.length) {
+        stickyPoint = $header.offset().top;
+      }
+    }
 
-        // Function to initialize once .aa-Panel exists
-        function initSticky() {
-            const $aaPanel = $('.aa-Panel');
-            if (!$aaPanel.length) {
-                setTimeout(initSticky, 200); // retry every 200ms until found
-                return;
-            }
+    function positionAAPanel() {
+      const $aaPanel = $('.aa-Panel');
+      if ($aaPanel.length && isSticky) {
+        const headerHeight = $header.outerHeight();
+        $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
+      }
+    }
 
-            $(window).on('scroll', function () {
-                const scrollTop = $(window).scrollTop();
+    function removeAAPanelSticky() {
+      const $aaPanel = $('.aa-Panel');
+      if ($aaPanel.length) {
+        $aaPanel.removeClass('is-sticky').css('top', '');
+      }
+    }
 
-                if (scrollTop >= stickyPoint) {
-                    $header.addClass('is-sticky');
+    function setSticky(active) {
+      if (active && !isSticky) {
+        $header.addClass('is-sticky');
+        isSticky = true;
+        positionAAPanel();
+      } else if (!active && isSticky) {
+        $header.removeClass('is-sticky');
+        isSticky = false;
+        removeAAPanelSticky();
+      }
+    }
 
-                    // Calculate header height dynamically
-                    const headerHeight = $header.outerHeight();
-                    $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px');
-                } else {
-                    $header.removeClass('is-sticky');
-                    $aaPanel.removeClass('is-sticky').css('top', '');
-                }
-            });
-        }
+    function updateSticky() {
+      const scrollTop = $(window).scrollTop();
+      setSticky(scrollTop >= stickyPoint);
+    }
 
-        initSticky();
+    // ✅ Initial setup
+    setTimeout(() => {
+      recalcStickyPoint();
+      updateSticky();
+    }, 300);
 
-        const $carousel = $('.owl-carousel'); // change selector if needed
-
-        let startX = 0;
-        let lastSwipeTime = 0;
-        const SWIPE_THRESHOLD = 120; // ⬆️ increase from 50 to make slower
-        const COOLDOWN = 600;        // ⬆️ prevent multiple triggers within 600ms
-
-        // 📱 Mobile: detect 2-finger swipe
-        $carousel.on('touchstart', function (e) {
-          if (e.originalEvent.touches.length === 2) {
-            const touches = e.originalEvent.touches;
-            startX = (touches[0].clientX + touches[1].clientX) / 2;
-          }
-        });
-
-        $carousel.on('touchmove', function (e) {
-          if (e.originalEvent.touches.length === 2) {
-            const now = Date.now();
-            if (now - lastSwipeTime < COOLDOWN) return; // wait cooldown
-
-            const touches = e.originalEvent.touches;
-            const currentX = (touches[0].clientX + touches[1].clientX) / 2;
-            const deltaX = currentX - startX;
-
-            if (Math.abs(deltaX) > SWIPE_THRESHOLD) { // slower response
-              if (deltaX > 0) {
-                $carousel.trigger('prev.owl.carousel');
-              } else {
-                $carousel.trigger('next.owl.carousel');
-              }
-              lastSwipeTime = now;
-              startX = currentX; // reset for next move
-            }
-          }
-        });
-
-        // 💻 Desktop: detect 2-finger trackpad swipe (wheel)
-        $carousel.on('wheel', function (e) {
-          const event = e.originalEvent;
-          const now = Date.now();
-          if (now - lastSwipeTime < COOLDOWN) return; // wait cooldown
-
-          if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 60) { 
-            // ⬆️ added deltaX > 60 to make it less sensitive
-            e.preventDefault(); // stop page scroll
-            if (event.deltaX > 0) {
-              $carousel.trigger('next.owl.carousel');
-            } else {
-              $carousel.trigger('prev.owl.carousel');
-            }
-            lastSwipeTime = now;
-          }
-        });
-
+    $(window).on('scroll', updateSticky);
+    $(window).on('resize', function () {
+      recalcStickyPoint();
+      updateSticky();
     });
-});
 
+    // 🧠 Watch DOM for aa-Panel activation
+    if (window.MutationObserver) {
+      const observer = new MutationObserver(() => {
+        setTimeout(() => {
+          recalcStickyPoint();
+          updateSticky();
+          positionAAPanel();
+        }, 200);
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+      });
+    }
+
+    /* ========================
+       🌀 Owl Carousel 2-Finger Swipe (Smooth, 1 Item)
+    ======================== */
+    const $carousels = $('.owl-carousel');
+
+    $carousels.each(function () {
+      const $carousel = $(this);
+      let startX = 0;
+      let activeCarousel = null;
+      let hasSwiped = false;
+      const threshold = 120; // sensitivity
+      const lockDuration = 250; // prevent double-swipe
+      const transitionSpeed = 400; // 🎨 smooth transition (ms)
+
+      // 📱 2-finger swipe detection
+      $carousel.on('touchstart', function (e) {
+        const touches = e.originalEvent.touches;
+        if (touches.length === 2) {
+          activeCarousel = $carousel;
+          startX = (touches[0].clientX + touches[1].clientX) / 2;
+          hasSwiped = false;
+          e.preventDefault();
+        }
+      });
+
+      $carousel.on('touchmove', function (e) {
+        if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
+
+        const touches = e.originalEvent.touches;
+        if (touches.length === 2 && !hasSwiped) {
+          const currentX = (touches[0].clientX + touches[1].clientX) / 2;
+          const deltaX = currentX - startX;
+
+          if (Math.abs(deltaX) > threshold) {
+            if (deltaX > 0) {
+              $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
+            } else {
+              $carousel.trigger('next.owl.carousel', [transitionSpeed]);
+            }
+            hasSwiped = true;
+
+            setTimeout(() => {
+              hasSwiped = false;
+              activeCarousel = null;
+            }, lockDuration);
+          }
+
+          e.preventDefault();
+        }
+      });
+
+      $carousel.on('touchend', function () {
+        activeCarousel = null;
+      });
+
+      // 💻 Trackpad horizontal scroll
+      $carousel.on('wheel', function (e) {
+        const event = e.originalEvent;
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+          e.preventDefault();
+          if (hasSwiped) return;
+          hasSwiped = true;
+
+          if (event.deltaX > 0) {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed]);
+          } else {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
+          }
+
+          setTimeout(() => {
+            hasSwiped = false;
+          }, lockDuration);
+        }
+      });
+    });
+  });
+});
