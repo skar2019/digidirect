@@ -444,19 +444,32 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                                '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
             }
             //console.log(product.name, sellerName);
+            
+            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${widgetId}","uenc":"${product.url}"}}'><img src="<?= $block->getViewFileUrl('images/iconsax-heart.png') ?>"/></a>`;
+            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</div>';
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container"></div>';
+                    digiDealsLogo = '<div class="ribbon-container">'+ addToWishList +'</div>';
                 }
             } else {
-                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
+                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
+            }
+
+            let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+            let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+            let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
+            
+            if (discount === "$NaN") {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
@@ -468,10 +481,6 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
                 }
-
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
-                let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
@@ -555,8 +564,8 @@ require(['jquery'], function ($) {
                                 '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
                                     product.name +
                                 '</a>' +
-                            '</strong>' +
-                            priceBlock + zip +
+                            '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                            priceBlock + productInfoBottom +
                         '</div>' +
                     '</div>'
             $(appendTo).append(productItem);
@@ -999,8 +1008,8 @@ require(['jquery'], function ($) {
         bundleOverlay('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pdp-bundle-overlay-desktop');
     }*/
 
-    productTile('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-desktop', false);
-    productTile('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frquently-bought-with-mobile', true);
+    productTile('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frequently-bought-with-desktop', false);
+    productTile('ca223b70-fc3d-ec11-aae9-02dca44cceec', '#pdp-frequently-bought-with-mobile', true);
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-desktop', false);
     productTile('011987ea-124e-ef11-abf3-02bf4bf6447c', '#explore-digimarket-mobile', true);
     productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-desktop', false);
