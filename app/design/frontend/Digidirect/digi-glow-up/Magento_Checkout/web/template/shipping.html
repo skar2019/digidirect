@@ -10,7 +10,7 @@
                     <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
             <!--/ko-->
-
+            <span id="customer-info-change-extension" class="change-link hide continue">Change</span>
         </div>
     </div>
 
@@ -43,6 +43,28 @@
         <div id="checkout-step-shipping"
              class="step-content"
              data-role="content">
+
+            <div id="delivery_info_change_link_section" class="hide">
+                <div class="shipping-title-change">
+                    <span id="shipping_delivery_content" class="shipping-content">Delivery</span>
+                    <span id="delivery-info-change-extension" class="change-link">Change</span>
+                </div>
+                <div class="shipping-address-change">
+                    <div id="shipping_delivery_address_content" class="shipping-content"></div>
+                    <span id="delivery-address-change-extension" class="change-link">Change</span>
+                </div>
+            </div>
+
+            <div id="clickcollect_info_change_link_section" class="hide">
+                <div class="shipping-title-change">
+                    <span id="shipping_clickcollect_content" class="shipping-content">Click &amp; Collect</span>
+                    <span id="clickcollect-info-change-extension" class="change-link">Change</span>
+                </div>
+                <div class="shipping-address-change">
+                    <div id="shipping_clickcollect_store_content" class="shipping-content"></div>
+                    <span id="clickcollect-store-change-extension" class="change-link">Change</span>
+                </div>
+            </div>
 
             <!-- ko if: (isDefaultShipping) -->
             <!-- ko foreach: getRegion('address-list') -->
@@ -221,6 +243,14 @@
                     </div>
                 </div>
             </form>
+
+            <div id="shipping-method-change-main" class="hide">
+                <div class="shipping-method-change">
+                    <span id="shipping_method_content" class="shipping-content"></span>
+                    <span id="shipping-method-change-extension" class="change-link">Change</span>
+                </div>
+            </div>
+
             <!-- /ko -->
             <!-- ko ifnot: rates().length > 0 --><div data-bind="css: 'no-quotes-block ' + methodListClasses()"><!-- ko i18n: 'Sorry, no quotes are available for this order at this time'--><!-- /ko --></div><!-- /ko -->
         </div>

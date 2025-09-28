@@ -110,7 +110,7 @@
 
     .checkout-shipping-address {
         input[type="radio"] {
-            display: none;
+            //display: none;
         }
         label {
             position: relative;
@@ -132,16 +132,18 @@
             border-radius: 50%;
         }
 
-        input[type="radio"]:checked + label:before {
-            height: 1em;
-            width: 1em;
-            border: 0.65em solid #ffffff;
-            background-color: #4189e0;
-        }
+        .collect-type {
+            input[type="radio"]:checked + label:before {
+                height: 1em;
+                width: 1em;
+                border: 0.65em solid #ffffff;
+                background-color: #4189e0;
+            }
 
-        input[type="radio"]:checked + label {
-            background-color: #FE4C25;
-            color: #ffffff;
+            input[type="radio"]:checked + label {
+                background-color: #FE4C25;
+                color: #ffffff;
+            }
         }
     }
 
@@ -179,6 +181,29 @@
         border-radius: 5px;
         border: 1px solid #D9D9D9;
     }
+
+    input[type="checkbox"], input[type="radio"] {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 1px solid #d9d9d9;
+        outline: none;
+        transition: all 0.2s ease;
+        background-color: #fff;
+    }
+
+    input[type="checkbox"] {
+        border-radius: 0 !important;
+    }
+
+    input[type="radio"] {
+        border-radius: 50% !important;
+    }
 }
 
 .opc-wrapper.-hide-methods {
@@ -202,7 +227,7 @@
 #opc-shipping_method  .table-checkout-shipping-method .row.collect {
     display: none;
 }
-.table-checkout-shipping-method input {
+.table-checkout-shipping-method input:not([type="radio"]) {
     width: auto;
     padding: 10px;
     border: 1px solid #d9d9d9;
@@ -285,5 +310,16 @@ button {
     border-radius: 100px;
     border: none !important;
 }
-@color-orange: #FE4C25;
+
+.change-link {
+    padding-left: 10px;
+    color: #0066CC;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+#checkout-step-customerinfo {
+    display: flex;
+    align-items: center;
+}
 /****Checkout sections style end***/

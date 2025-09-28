@@ -26,14 +26,14 @@
 }
 
 .modal-popup .modal-content {
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex: 1 1 auto;    /* Make content area grow */
-    -ms-overflow-style: none;  /* Hide scrollbar in IE/Edge */
-    scrollbar-width: none;     /* Hide scrollbar in Firefox */
+    overflow-y: auto;
+    flex: 1 1 auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .modal-popup .modal-content::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in Chrome/Safari */
+    display: none;
 }
 
 .modal-popup .action.primary {
@@ -51,4 +51,38 @@
 
 .modal-popup .fieldset > .field:not(.choice) > .label {
     text-align: left !important;
+}
+
+.locator-item.locator-details .-cannington-note {
+    padding-left: 20px !important;
+    max-width: 250px !important;
+}
+
+.locator-item.selected-store {
+    background-color: #ffe8c4;
+    border: 2px solid #f90;
+}
+
+.wrap-block .link.-collect.action.primary {
+    background-color: gray;
+}
+
+.shipping-content{
+    position: relative;
+    color: #7F7F7F;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8em;
+    border: 1px solid #D9D9D9;
+    padding: 0.7em 2em;
+    border-radius: 0.5em;
+    width: 100%;
+}
+
+.shipping-title-change, .shipping-address-change, .shipping-method-change {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
 }

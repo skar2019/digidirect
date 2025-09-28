@@ -31,7 +31,7 @@ define([
 
     function toggleShippingAddress() {
         $('input[name="street[0]"]').attr({
-            'placeholder': 'Street',
+            'placeholder': 'Street *',
             'digidirect-autocomplete': 'on'
         });
 
@@ -48,10 +48,22 @@ define([
         $('#checkoutSteps li#shipping .step-content').show();
         $('#checkoutSteps li#shipping').css('border', 'none');
         $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
+
+        /*if (customer.isLoggedIn()) {
+            $(".field.addresses").attr("style", "display: block !important");
+            $("li#shipping .action.action-show-popup").attr("style", "display: block !important");
+        }*/
+
         fullScreenLoader.stopLoader();
     }
 
-    $(document).on("click", "#customer-info-button-extension", function () {
+    function changeEmailLinkShow() {
+        $("#customer-info-change-extension").removeClass('hide');
+        $("#customer-info-change-extension").show();
+        $("#customer-info-button-extension").hide()
+    }
+
+    $(document).on("click", "#customer-info-button-extension, #customer-info-change-extension", function () {
         fullScreenLoader.startLoader();
         const email = $('#customer-email').val();
 
@@ -66,11 +78,12 @@ define([
             // Email is NOT registered → guest
             quote.guestEmail = email;
             checkoutData.setValidatedEmailValue(email);
-            fullScreenLoader.stopLoader();
             console.log('Email is NOT registered (guest)');
            // stepNavigator.next();
             //stepNavigator.setHash('shipping-address');
+            changeEmailLinkShow();
             toggleShippingAddress();
+            fullScreenLoader.stopLoader();
         }).fail(function () {
             // Email is registered → show password
             registry.get('checkout.steps.shipping-step.customer-email', function (component) {

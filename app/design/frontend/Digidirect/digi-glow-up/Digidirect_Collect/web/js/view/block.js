@@ -47,7 +47,7 @@ define([
         },
         initialize: function () {
             setBlockPlaces();
-            
+
             window.selectStore = ko.observable(false);
 
             this._super();
@@ -77,7 +77,7 @@ define([
         },
         renderItems: function () {
             var self = this;
-            
+
             if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
@@ -101,7 +101,7 @@ define([
 
             $('#collect_quote_item_id').val(this.formItemId);
 
-            if (!singleCartPopUp) { 
+            if (!singleCartPopUp) {
                 this.popUpForm.options.buttons = [];
                 this.popUpForm.options.closed = function () {
                     self.isSingleCartFormPopUpVisible(false);
@@ -196,7 +196,7 @@ define([
             } else {
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
-                
+
                 this.showFormPopUp();
             }
         },
@@ -240,6 +240,7 @@ define([
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
             this.updateCollectPlaces(JSON.parse(response));
+            $('.wrap-block').attr("style", "display: none !important");
             this.collectPlaceRows.removeAll();
             this.setPlacesToQuote();
         },

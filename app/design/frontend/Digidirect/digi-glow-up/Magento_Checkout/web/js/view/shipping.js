@@ -435,25 +435,16 @@ define([
             $('#checkoutSteps li#customer-info').css('border-bottom', 'none');
 
             setTimeout(() => {
-                if (quote.getQuoteId()) {
-                    $('.cart-id .cart-id-txt').text('Your Cart ID:');
-                    $('.cart-id .cart-id-value').text(quote.getQuoteId());
-                }
-
-                $('#checkoutSteps li#customer-info').css('border-bottom', 'none');
-
                 $('#checkoutSteps li').removeClass('active').addClass('inactive');
                 $('.opc-wrapper .step-content').hide();
                 $('.opc-wrapper li .action-extension-toolbar').hide();
+
+                $('#collect_type_delivery').prop('checked', true).trigger('change');
 
                 if (!isCustomerLoggedIn) {
                     $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
                     $('#checkoutSteps li#customer-info .step-content').show();
                     $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
-
-                    if ($('input[name="delivery_type"]:checked').val() == 'collect') {
-                        $('#payment .step-title.accordion-step').text('3. Payment');
-                    }
 
                 } else {
                     $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
@@ -466,10 +457,6 @@ define([
                     $('#shipping .step-title').text('1. Delivery or Click & Collect');
                     $('#opc-shipping_method .step-title').text('2. Shipping Method');
                     $('#payment .step-title.accordion-step').text('3. Payment');
-
-                    if ($('input[name="delivery_type"]:checked').val() == 'collect') {
-                        $('#payment .step-title.accordion-step').text('2. Payment');
-                    }
                 }
 
             }, 600);

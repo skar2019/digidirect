@@ -161,11 +161,12 @@
             }
 
             .radio {
-                transform: scale(0.6);
+               margin-left: 20px;
+               /* transform: scale(0.6);
                 cursor: pointer;
                 margin-right: 10px;
                 accent-color: #0070f3;
-                width: 40px !important;
+                width: 40px !important;*/
             }
 
             .label, .latipay-main-label {
@@ -206,11 +207,11 @@
             }
         }
 
-        input, select {
-            width: 40px !important;
+        input:not([type="radio"]), select {
+            //width: 40px !important;
         }
 
-        .latipay-options-item input {
+        .latipay-options-item input:not([type="radio"]) {
             width: 20px !important;
         }
     }
