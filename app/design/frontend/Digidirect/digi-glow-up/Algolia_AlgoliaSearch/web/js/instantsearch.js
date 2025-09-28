@@ -472,7 +472,12 @@ define([
                             let digiSecondsIds = ["2564","2567","2570","2573"];
 
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
-                            console.log("hasMatch", hasMatch);
+                            //console.log("hasMatch", hasMatch);
+                            
+                            let categoriesWithoutPath = item.categories_without_path;
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim();
+                            
+                            item.firstCategory = firstCategory;
 
                             if (!hasMatch) {
                                 item.isDigiSeconds = false;
