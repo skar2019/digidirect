@@ -50,6 +50,14 @@ define([
             $('#checkoutSteps li#opc-shipping_method').css('border', 'none');
             $('#checkoutSteps  li#opc-shipping_method .action-extension-toolbar').show();
 
+            var target = $('#checkoutSteps li#opc-shipping_method');
+
+            if (target.length) {
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 600);
+            }
+
             $('#checkoutSteps  .shipping-methods li').removeClass('inactive').addClass('active');
 
             $('#checkout-step-shipping .collect-block').hide();
@@ -76,6 +84,14 @@ define([
             $('#checkoutSteps li#payment .step-content').show();
             $('#checkoutSteps li#payment').css('border', 'none');
             $('#checkoutSteps  li#payment .action-extension-toolbar').show();
+
+            var target = $('#checkoutSteps li#payment');
+
+            if (target.length) {
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 600);
+            }
 
             $('#checkoutSteps li#payment #latipay-form li.latipay-options-item').removeClass('inactive').addClass('active');
         }

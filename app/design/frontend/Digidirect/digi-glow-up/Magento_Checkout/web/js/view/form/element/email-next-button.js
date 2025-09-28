@@ -55,6 +55,14 @@ define([
         }*/
 
         fullScreenLoader.stopLoader();
+
+        var target = $('#checkoutSteps li#shipping');
+
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top
+            }, 600);
+        }
     }
 
     function changeEmailLinkShow() {

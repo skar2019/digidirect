@@ -104,6 +104,14 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 }
 
                 $("#shipping-method-buttons-container .continue").trigger("click");
+
+                var target = $('#checkoutSteps li#payment');
+
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 600);
+                }
             });
 
             $(document).on("click", "#shipping-method-change-extension", function () {
