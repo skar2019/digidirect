@@ -25,5 +25,6 @@
                    template="Digidirect_ParticularAudienceAPI::pa-you-may-also-like-widget.phtml"
                    after="-" />
         </referenceContainer>
+        <referenceBlock name="pa.you.may.also.like.widget" remove="true" />
     </body>
 </page>

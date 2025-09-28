@@ -222,22 +222,27 @@ require(['jquery'], function ($) {
                             '</form>'
             }
             //console.log(product.name, sellerName);
+            
+            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${widgetId}","uenc":"${product.url}"}}'></a>`;
+            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</div>';
                 } else {
-                    digiDealsLogo = '';
+                    digiDealsLogo = '<div class="ribbon-container">'+ addToWishList +'</div>';
                 }
+            } else {
+                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
             }
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
-                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                        digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</div>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
                 }
                 
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
