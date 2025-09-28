@@ -235,6 +235,10 @@ require(['jquery'], function ($) {
                 digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
             }
             
+            let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+            let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+            let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
+            
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
                     digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</div>';
@@ -245,9 +249,6 @@ require(['jquery'], function ($) {
                     digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
                 }
                 
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
-                let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +

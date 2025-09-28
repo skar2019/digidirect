@@ -530,6 +530,13 @@ require(['jquery'], function ($) {
             if (isMobile && productCtr > 4) {
                 hideProductItem = "hide-product-item";
             }
+            
+            if (!discount) {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+            }
+            
             var view = "";
             if (isMobile) {
                 view = "mobile";
