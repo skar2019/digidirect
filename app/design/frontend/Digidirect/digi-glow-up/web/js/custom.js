@@ -3,7 +3,7 @@ define(['jquery'], function ($) {
 
   $(function () {
     /* ========================
-       ✅ Sticky Header (unchanged)
+       ✅ Sticky Header
     ======================== */
     const $header = $('.header.content');
     let stickyPoint = 0;
@@ -77,7 +77,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (Smooth, 1 Item)
+       🌀 Owl Carousel 2-Finger Swipe
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -86,9 +86,9 @@ define(['jquery'], function ($) {
       let startX = 0;
       let activeCarousel = null;
       let hasSwiped = false;
-      const threshold = 120; // sensitivity
-      const lockDuration = 250; // prevent double-swipe
-      const transitionSpeed = 400; // 🎨 smooth transition (ms)
+      const threshold = 120;
+      const lockDuration = 250;
+      const transitionSpeed = 400;
 
       // 📱 2-finger swipe detection
       $carousel.on('touchstart', function (e) {
@@ -103,7 +103,6 @@ define(['jquery'], function ($) {
 
       $carousel.on('touchmove', function (e) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
-
         const touches = e.originalEvent.touches;
         if (touches.length === 2 && !hasSwiped) {
           const currentX = (touches[0].clientX + touches[1].clientX) / 2;
@@ -122,7 +121,6 @@ define(['jquery'], function ($) {
               activeCarousel = null;
             }, lockDuration);
           }
-
           e.preventDefault();
         }
       });
@@ -151,47 +149,29 @@ define(['jquery'], function ($) {
         }
       });
     });
-    
-    define(['jquery'], function ($) {
-        'use strict'
 
-        
-        //Update Autocomplete Header
-        $(function () {
-          // Listen for typing in the Algolia search input
-          $(document).on('keyup', '#autocomplete-0-input', function () {
-            const query = $(this).val().trim()
+    /* ========================
+       🔍 Update Autocomplete Header
+    ======================== */
+    $(document).on('keyup', '#autocomplete-0-input', function () {
+      const query = $(this).val().trim();
+      setTimeout(function () {
+        const $header = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p');
+        if ($header.length) {
+          $header.text(query.length ? `Results for "${query}"` : 'Top Selling Products');
+        }
+      }, 100);
+    });
 
-            // Delay slightly so Algolia has rendered the dropdown
-            setTimeout(function () {
-              const $header = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p')
-
-              if ($header.length) {
-                if (query.length > 0) {
-                  $header.text('Results for "' + query + '"')
-                } else {
-                  $header.text('Top Selling Products')
-                }
-              }
-            }, 100)
-          })
-        })
-        
-        //Add Class For Minicart Modal
-        const observer = new MutationObserver(function () {
-        const $minicartModal = $('aside.modal-popup .modal-content #minicart-content-wrapper')
-          .closest('aside.modal-popup')
-
-        // If found and not yet tagged, add unique class
-        if ($minicartModal.length && !$minicartModal.hasClass('minicart-modal')) {
-            $minicartModal.addClass('minicart-modal')
-          }
-        })
-        // Start observing the body for modal changes
-        observer.observe(document.body, { childList: true, subtree: true })
-        
-        
-    })
-
+    /* ========================
+       🛒 Add Class For Minicart Modal
+    ======================== */
+    const observer2 = new MutationObserver(function () {
+      const $minicartModal = $('aside.modal-popup .modal-content #minicart-content-wrapper').closest('aside.modal-popup');
+      if ($minicartModal.length && !$minicartModal.hasClass('minicart-modal')) {
+        $minicartModal.addClass('minicart-modal');
+      }
+    });
+    observer2.observe(document.body, { childList: true, subtree: true });
   });
 });
