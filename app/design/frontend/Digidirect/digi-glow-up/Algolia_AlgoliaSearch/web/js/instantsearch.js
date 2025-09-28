@@ -453,6 +453,12 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }
+                            
+                            //Workaround, remove on go live!
+                                var productUrl = item.url;
+                                let newProductUrl = productUrl.replace("https://www.digidirect.com.au", "https://mcstaging2.digidirect.com.au");
+                                item.url = newProductUrl;
+                            //
 
                             /*if (item.pre_order_status == "Yes") {
                                 item.isPreorder = true;
@@ -466,7 +472,12 @@ define([
                             let digiSecondsIds = ["2564","2567","2570","2573"];
 
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
-                            console.log("hasMatch", hasMatch);
+                            //console.log("hasMatch", hasMatch);
+                            
+                            let categoriesWithoutPath = item.categories_without_path;
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim();
+                            
+                            item.firstCategory = firstCategory;
 
                             if (!hasMatch) {
                                 item.isDigiSeconds = false;

@@ -151,6 +151,7 @@ a.action.towishlist {
     right: 0;
     margin: 12px;
     z-index: 1;
+    top: 0;
 }
 
 .action.towishlist img {
@@ -263,6 +264,14 @@ a.action.towishlist {
 .owl-prev,
 .owl-next {
     pointer-events: unset !important;
+}
+
+.owl-carousel.custom .owl-stage-outer {
+    margin-right: -270px;
+}
+
+.catalog-category-view .owl-carousel a.action.towishlist {
+    background: url("@{baseDir}images/heart.png") no-repeat center center;
 }
 
 .pa-digidirect-product-widget .product-tab-mobile-widget-load-more.grid-toggle-more, 

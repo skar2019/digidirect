@@ -9,8 +9,8 @@ define([], function () {
             return html`<p>${algoliaConfig.translations.noResults}</p>`;
         },
 
-        getHeaderHtml: function () {
-            return "";
+        getHeaderHtml: function ({html}) {
+            return html`<p>Top Selling Products</p>`;
         },
 
         getItemHtml: function ({item, components, html}) {

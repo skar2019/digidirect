@@ -12,6 +12,10 @@ and open the template in the editor.
     display: none !important;
 }
 
+.minicart-wrapper .block-minicart {
+    display: none !important;
+}
+
 .modals-wrapper .modal-popup .modal-inner-wrap {
     width: unset;
     max-width: 940px;
@@ -221,4 +225,23 @@ span.item-qty-text {
 
 footer.modal-footer {
     display: none;
+}
+
+.modals-wrapper .modal-popup.minicart-modal .modal-inner-wrap {
+    height: auto;
+    overflow-y: unset !important;
+    max-width: 940px !important;
+    top: 10%;
+}
+
+.modal-slide._inner-scroll.minicart-modal .modal-footer {
+    display: none !important;
+}
+
+.modal-popup.minicart-modal .action-close:before {
+    font-weight: 600;
+    font-family: 'Font Awesome 5 Free';
+    content: '\f00d';
+    font-size: 15px !important;
+    margin-top: 0 !important;
 }

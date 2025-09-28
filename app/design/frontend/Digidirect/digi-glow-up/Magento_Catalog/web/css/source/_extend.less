@@ -37,6 +37,10 @@
         }
     }
 }
+.paypal-buttons-layout-horizontal {
+    height: 25px !important;
+}
+
 .paypal-button-tagline {
     display: none !important;
 }
@@ -126,6 +130,7 @@
     font-weight: 600;
     padding: 20px 0;
     display: block;
+    cursor: pointer;
 }
 
 .itoris-pm-modal {
@@ -144,9 +149,13 @@
         width: 95% !important;
         max-width: 940px !important;
         height: 90vh;
-
+        max-height: 95vh !important;
+        top: 5%;
         .modal-content {
             padding: 0 50px;
+            h2 {
+                margin-top: 0;
+            }
         }
         .modal-footer {
             display: flex !important;
@@ -209,6 +218,72 @@
             &[for="itoris_pm_modal_product_name"] {
                 margin-bottom: 15px;
             }
+        }
+    }
+}
+
+.action.tocart.btn_cart {
+    &.pre-order-btn {
+        background: #00c3ff !important;
+
+        .addcart_words {
+            position: relative;
+
+            .icon-info {
+                margin-left: 5px;
+            }
+        }
+
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .addtocart-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            width: 250px;
+            background-color: #f2f2f7;
+            color: #242426;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 99;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: opacity 0.3s ease;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: 400;
+        }
+
+        .tooltip-wrapper:hover .addtocart-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .addtocart-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #f2f2f7 transparent transparent transparent;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .modals-wrapper .modal-popup.itoris-pm-modal {
+        .modal-inner-wrap {
+            margin-left: -343px !important;
+            left: 50% !important;
         }
     }
 }

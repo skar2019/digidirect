@@ -1,7 +1,5 @@
 var config = {
-    map: {
-        '*': {
-            facetsCollapsible: 'js/facets-collapsible'
-        }
-    }
+    deps: [
+        'js/custom' // path to your file
+    ]
 };
