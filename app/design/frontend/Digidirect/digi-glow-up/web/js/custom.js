@@ -151,5 +151,47 @@ define(['jquery'], function ($) {
         }
       });
     });
+    
+    define(['jquery'], function ($) {
+        'use strict'
+
+        
+        //Update Autocomplete Header
+        $(function () {
+          // Listen for typing in the Algolia search input
+          $(document).on('keyup', '#autocomplete-0-input', function () {
+            const query = $(this).val().trim()
+
+            // Delay slightly so Algolia has rendered the dropdown
+            setTimeout(function () {
+              const $header = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p')
+
+              if ($header.length) {
+                if (query.length > 0) {
+                  $header.text('Results for "' + query + '"')
+                } else {
+                  $header.text('Top Selling Products')
+                }
+              }
+            }, 100)
+          })
+        })
+        
+        //Add Class For Minicart Modal
+        const observer = new MutationObserver(function () {
+        const $minicartModal = $('aside.modal-popup .modal-content #minicart-content-wrapper')
+          .closest('aside.modal-popup')
+
+        // If found and not yet tagged, add unique class
+        if ($minicartModal.length && !$minicartModal.hasClass('minicart-modal')) {
+            $minicartModal.addClass('minicart-modal')
+          }
+        })
+        // Start observing the body for modal changes
+        observer.observe(document.body, { childList: true, subtree: true })
+        
+        
+    })
+
   });
 });
