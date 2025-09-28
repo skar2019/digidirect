@@ -85,7 +85,32 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                 }
 
+                if ($('#s_method_standard_standard').is(':checked') || $('#s_method_express_express').is(':checked')) {
+                    $('#shipping-method-change-main').attr("style", "display: block !important");
+
+                    var $selectedRadio = $('input[type="radio"][name^="ko_unique_"]:checked');
+                    var $parentLi = $selectedRadio.closest('li');
+                    var carrierTitle = $parentLi.find('.col-carrier').text().trim();
+                    var methodTitle = $parentLi.find('.col-method').text().trim();
+                    var shippingPrice = $parentLi.find('.col-price .price').first().text().trim();
+
+                    $('#shipping_method_content').text(carrierTitle+' '+methodTitle+' '+shippingPrice);
+                    $('.form.methods-shipping').attr("style", "display: none !important");
+                    $('#shipping-button-extension').attr("style", "display: none !important");
+                } else {
+                    $('#checkoutSteps li#payment').removeClass('active').addClass('inactive');
+                    $('#checkoutSteps li#payment .step-content').hide();
+                    $('#checkoutSteps  li#payment .action-extension-toolbar').hide();
+                }
+
                 $("#shipping-method-buttons-container .continue").trigger("click");
+            });
+
+            $(document).on("click", "#shipping-method-change-extension", function () {
+                $('#shipping-method-change-main').attr("style", "display: none !important");
+
+                $('.form.methods-shipping').attr("style", "display: block !important");
+                $('#shipping-button-extension').attr("style", "display: block !important");
             });
 
             $("body").on("click", "#payment-button-extension", function(){
