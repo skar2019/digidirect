@@ -222,33 +222,29 @@ require(['jquery'], function ($) {
                             '</form>'
             }
             //console.log(product.name, sellerName);
-            
-            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}'></a>`;
-            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</div>';
+                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container">'+ addToWishList +'</div>';
+                    digiDealsLogo = '';
                 }
             } else {
-                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
+                digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
             }
-            
-            let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-            let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
-            let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
-                        digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</div>';
+                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
                 }
                 
+                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+                let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +

@@ -3,9 +3,13 @@ define(['jquery'], function ($) {
 
   $(function () {
     /* ========================
-       ✅ Sticky Header
+       ✅ Sticky Header (with placeholder)
     ======================== */
     const $header = $('.header.content');
+    const $placeholder = $('<div class="header-placeholder"></div>');
+    $placeholder.hide();
+    $header.after($placeholder);
+
     let stickyPoint = 0;
     let isSticky = false;
 
@@ -32,12 +36,14 @@ define(['jquery'], function ($) {
 
     function setSticky(active) {
       if (active && !isSticky) {
+        $placeholder.height($header.outerHeight()).show(); // maintain layout
         $header.addClass('is-sticky');
         isSticky = true;
         positionAAPanel();
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
+        $placeholder.hide(); // restore original position
         removeAAPanelSticky();
       }
     }
