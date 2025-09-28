@@ -4,7 +4,7 @@ define(['jquery'], function ($) {
   $(function () {
     /* ========================
        ✅ Sticky Header (with placeholder)
-       ⚠️ Owl Carousel untouched
+       ⚠️ DO NOT TOUCH — unchanged
     ======================== */
     const $header = $('.header.content');
     const $placeholder = $('<div class="header-placeholder"></div>');
@@ -15,8 +15,9 @@ define(['jquery'], function ($) {
     let isSticky = false;
 
     function recalcStickyPoint() {
-      // 🧠 FIX: Use placeholder position (consistent even after sticky toggle)
-      stickyPoint = $placeholder.length ? $placeholder.offset().top : $header.offset().top;
+      if (!isSticky && $header.length) {
+        stickyPoint = $header.offset().top;
+      }
     }
 
     function positionAAPanel() {
@@ -83,7 +84,6 @@ define(['jquery'], function ($) {
 
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe (✅ fixed click issue)
-       ⚠️ UNCHANGED
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -96,6 +96,7 @@ define(['jquery'], function ($) {
       const lockDuration = 250;
       const transitionSpeed = 400;
 
+      // Touch start
       $carousel.on('touchstart', function (e) {
         const touches = e.originalEvent.touches;
         if (touches.length === 2) {
@@ -103,10 +104,11 @@ define(['jquery'], function ($) {
           startX = (touches[0].clientX + touches[1].clientX) / 2;
           hasSwiped = false;
         } else {
-          isTwoFinger = false;
+          isTwoFinger = false; // allow single-finger click
         }
       });
 
+      // Touch move (only act if 2-finger)
       $carousel.on('touchmove', function (e) {
         if (!isTwoFinger || hasSwiped) return;
         const touches = e.originalEvent.touches;
@@ -122,7 +124,10 @@ define(['jquery'], function ($) {
             $carousel.trigger('next.owl.carousel', [transitionSpeed]);
           }
           hasSwiped = true;
+
+          // prevent only after actual swipe
           e.preventDefault();
+
           setTimeout(() => {
             hasSwiped = false;
             isTwoFinger = false;
@@ -130,10 +135,12 @@ define(['jquery'], function ($) {
         }
       });
 
+      // Reset after touch end
       $carousel.on('touchend touchcancel', function () {
         isTwoFinger = false;
       });
 
+      // 💻 Trackpad horizontal scroll
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
