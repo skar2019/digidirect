@@ -40,17 +40,20 @@
         <div class="actions" if="getCartParam('possible_onepage_checkout')">
             <div class="primary">
                 <button
-                        id="top-cart-btn-checkout"
-                        type="button"
-                        class="action primary checkout"
-                        data-action="close"
-                        data-bind="
-                            attr: {
-                                title: $t('Proceed to Checkout')
-                            },
-                            click: closeMinicart
-                        "
-                        translate="'Proceed to Checkout'">
+                    id="top-cart-btn-checkout"
+                    type="button"
+                    class="action primary checkout"
+                    data-action="close"
+                    data-bind="
+                      attr: { title: $t('Proceed to Checkout') },
+                      click: function() {
+                        closeMinicart();
+                        setTimeout(function() {
+                          window.location.href = '/checkout';
+                        }, 300);
+                      }
+                    "
+                    translate="'Proceed to Checkout'">
                 </button>
                 <div data-bind="html: getCartParamUnsanitizedHtml('extra_actions')"></div>
             </div>
