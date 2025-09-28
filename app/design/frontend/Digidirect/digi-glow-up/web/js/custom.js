@@ -36,14 +36,14 @@ define(['jquery'], function ($) {
 
     function setSticky(active) {
       if (active && !isSticky) {
-        $placeholder.height($header.outerHeight()).show(); // maintain layout
+        $placeholder.height($header.outerHeight()).show();
         $header.addClass('is-sticky');
         isSticky = true;
         positionAAPanel();
       } else if (!active && isSticky) {
         $header.removeClass('is-sticky');
         isSticky = false;
-        $placeholder.hide(); // restore original position
+        $placeholder.hide();
         removeAAPanelSticky();
       }
     }
@@ -83,7 +83,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe
+       🌀 Owl Carousel 2-Finger Swipe (with clickable items)
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -96,17 +96,18 @@ define(['jquery'], function ($) {
       const lockDuration = 250;
       const transitionSpeed = 400;
 
-      // 📱 2-finger swipe detection
+      // 📱 Detect 2-finger touch start
       $carousel.on('touchstart', function (e) {
         const touches = e.originalEvent.touches;
         if (touches.length === 2) {
           activeCarousel = $carousel;
           startX = (touches[0].clientX + touches[1].clientX) / 2;
           hasSwiped = false;
-          e.preventDefault();
+          // ❌ Don’t block default, allow taps/clicks
         }
       });
 
+      // 📱 Handle 2-finger swipe
       $carousel.on('touchmove', function (e) {
         if (!activeCarousel || activeCarousel[0] !== $carousel[0]) return;
         const touches = e.originalEvent.touches;
@@ -126,8 +127,9 @@ define(['jquery'], function ($) {
               hasSwiped = false;
               activeCarousel = null;
             }, lockDuration);
+
+            e.preventDefault(); // ✅ only block when actually swiping
           }
-          e.preventDefault();
         }
       });
 
