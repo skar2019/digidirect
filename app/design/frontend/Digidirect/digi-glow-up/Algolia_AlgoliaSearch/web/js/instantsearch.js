@@ -453,6 +453,12 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }
+                            
+                            //Workaround, remove on go live!
+                                var productUrl = item.url;
+                                let newProductUrl = productUrl.replace("https://www.digidirect.com.au", "https://mcstaging2.digidirect.com.au");
+                                item.url = newProductUrl;
+                            //
 
                             /*if (item.pre_order_status == "Yes") {
                                 item.isPreorder = true;
