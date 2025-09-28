@@ -475,7 +475,7 @@ define([
                             //console.log("hasMatch", hasMatch);
                             
                             let categoriesWithoutPath = item.categories_without_path;
-                            let firstCategory = categoriesWithoutPath.split(',')[0].trim();
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim().replace(/&amp;/g, "&");
                             
                             item.firstCategory = firstCategory;
 
