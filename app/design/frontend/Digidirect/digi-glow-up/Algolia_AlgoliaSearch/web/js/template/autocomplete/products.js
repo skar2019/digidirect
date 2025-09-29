@@ -14,13 +14,57 @@ define([], function () {
         },
 
         getItemHtml: function ({item, components, html}) {
+            
+            var badge = '';
+            
+            console.log("item", JSON.stringify(item));
+            
+            if (item['price'] !== undefined && item['price']['AUD'] !== undefined) {
+
+                let defaultOriginalPrice = 0;
+                let defaultOriginalPriceStr = item['price']['AUD']['default_original_formated'];
+                
+                if (defaultOriginalPriceStr) {
+                    defaultOriginalPrice = Number(defaultOriginalPriceStr.replace("$", "").replace(",", ""));
+                }
+
+                //console.log("defaultOriginalPriceStr", defaultOriginalPriceStr);
+                
+                let basePrice = defaultOriginalPrice > item['price']['AUD']['default']
+                    ? defaultOriginalPrice
+                    : item['price']['AUD']['default'];
+
+                let priceDiscount = 0;
+                if (defaultOriginalPrice > item['price']['AUD']['default']) {
+                    priceDiscount = defaultOriginalPrice - item['price']['AUD']['default'];
+                }
+
+                let wiserDiscount = 0;
+                if (item['wiser_price']) {
+                    wiserDiscount = basePrice - item['wiser_price'];
+                }
+                
+                console.log(item['name'], priceDiscount, wiserDiscount);
+
+                if (priceDiscount > 0 || wiserDiscount > 0) {
+                    badge = html`<div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>`;
+                }
+            }
+            
+            let categoryIds = item['categoryIds'] || [];
+            let digiSecondsIds = ["2564","2567","2570","2573"];
+            let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
+
+            if (hasMatch) {
+                badge = html`<div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>`;
+            }
+            
             return html`<a class="algoliasearch-autocomplete-hit"
                            href="${item.url}"
                            data-objectId="${item.objectID}"
                            data-position="${item.position}"
                            data-index="${item.__autocomplete_indexName}"
-                           data-queryId="${item.__autocomplete_queryID}">
-                <div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
+                           data-queryId="${item.__autocomplete_queryID}">${badge}<div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
                 <div class="info">
                     <div class="algoliasearch-autocomplete-name">
                         ${this.safeHighlight(components, item, "name")}
