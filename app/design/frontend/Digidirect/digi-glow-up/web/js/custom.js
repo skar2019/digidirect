@@ -195,7 +195,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🛑 PDP: Disable Default Minicart and Trigger Custom
+       🛑 PDP: Disable Default Minicart and Use Custom
     ======================== */
     if ($('body').hasClass('catalog-product-view')) {
       const $defaultMinicart = $('#minicart-content-wrapper').closest('aside.modal-popup');
@@ -207,18 +207,38 @@ define(['jquery'], function ($) {
       // Disable default toggle
       $(document).off('click', '[data-role="minicart-toggle"]');
 
+      // Function to populate custom minicart with KO content
+      function populateCustomMinicart() {
+        const $originalMiniCart = $('#mini-cart');
+        if ($originalMiniCart.length && $customMinicart.find('#mini-cart').length === 0) {
+          const $clone = $originalMiniCart.clone(true, true); // clone with data & events
+          $customMinicart.empty().append($clone);
+
+          // Reapply Knockout bindings
+          if (window.ko) {
+            ko.cleanNode($clone[0]);
+            ko.applyBindings(window.checkoutConfig, $clone[0]);
+          }
+        }
+      }
+
+      // Populate initially
+      populateCustomMinicart();
+
       // Bind custom toggle
       $('[data-role="minicart-toggle"]').on('click', function (e) {
         e.preventDefault();
+        populateCustomMinicart();
         $customMinicart.toggle();
       });
 
-      // Open PDP minicart on Add to Cart
+      // Show custom minicart on Add to Cart
       $(document).on('click', '.action.tocart, .product-add-to-cart', function () {
+        populateCustomMinicart();
         $customMinicart.show();
       });
 
-      // MutationObserver to ensure default minicart stays hidden even if KO re-renders
+      // Ensure default minicart stays hidden
       if (window.MutationObserver) {
         const observerPDP = new MutationObserver(function () {
           $defaultMinicart.hide();
