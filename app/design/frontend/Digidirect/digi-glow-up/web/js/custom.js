@@ -96,7 +96,6 @@ define(['jquery'], function ($) {
       const lockDuration = 250;
       const transitionSpeed = 400;
 
-      // Touch start
       $carousel.on('touchstart', function (e) {
         const touches = e.originalEvent.touches;
         if (touches.length === 2) {
@@ -104,11 +103,10 @@ define(['jquery'], function ($) {
           startX = (touches[0].clientX + touches[1].clientX) / 2;
           hasSwiped = false;
         } else {
-          isTwoFinger = false; // allow single-finger click
+          isTwoFinger = false;
         }
       });
 
-      // Touch move (only act if 2-finger)
       $carousel.on('touchmove', function (e) {
         if (!isTwoFinger || hasSwiped) return;
         const touches = e.originalEvent.touches;
@@ -124,8 +122,6 @@ define(['jquery'], function ($) {
             $carousel.trigger('next.owl.carousel', [transitionSpeed]);
           }
           hasSwiped = true;
-
-          // prevent only after actual swipe
           e.preventDefault();
 
           setTimeout(() => {
@@ -135,12 +131,10 @@ define(['jquery'], function ($) {
         }
       });
 
-      // Reset after touch end
       $carousel.on('touchend touchcancel', function () {
         isTwoFinger = false;
       });
 
-      // 💻 Trackpad horizontal scroll
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent;
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -184,5 +178,39 @@ define(['jquery'], function ($) {
       }
     });
     observer2.observe(document.body, { childList: true, subtree: true });
+
+    /* ========================
+       👁️ Hide Facelift Dropdown when AA Panel is active
+    ======================== */
+    const $dropdown = $('.facelift-dropdown-container');
+    if ($dropdown.length) {
+      function toggleDropdown() {
+        if ($('.aa-Panel').length) {
+          $dropdown.hide();
+        } else {
+          $dropdown.show();
+        }
+      }
+
+      toggleDropdown();
+      setInterval(toggleDropdown, 300);
+    }
+
+    /* ========================
+       🛑 PDP: Disable Default Minicart and Trigger Custom
+    ======================== */
+    if ($('body').hasClass('catalog-product-view')) {
+      // Disable default minicart toggle
+      $(document).off('click', '[data-role="minicart-toggle"]');
+
+      // Bind custom minicart open
+      $('[data-role="minicart-toggle"]').on('click', function (e) {
+        e.preventDefault();
+        $('#custom-minicart-wrapper').toggle(); // replace with your custom minicart ID
+      });
+
+      // Optionally hide default minicart completely
+      $('#minicart-content-wrapper').hide();
+    }
   });
 });
