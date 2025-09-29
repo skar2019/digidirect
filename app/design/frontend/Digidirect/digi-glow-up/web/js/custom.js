@@ -4,7 +4,6 @@ define(['jquery'], function ($) {
   $(function () {
     /* ========================
        ✅ Sticky Header (with placeholder)
-       ⚠️ DO NOT TOUCH — unchanged
     ======================== */
     const $header = $('.header.content');
     const $placeholder = $('<div class="header-placeholder"></div>');
@@ -54,7 +53,6 @@ define(['jquery'], function ($) {
       setSticky(scrollTop >= stickyPoint);
     }
 
-    // ✅ Initial setup
     setTimeout(() => {
       recalcStickyPoint();
       updateSticky();
@@ -83,7 +81,7 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe (✅ fixed click issue)
+       🌀 Owl Carousel 2-Finger Swipe
     ======================== */
     const $carousels = $('.owl-carousel');
 
@@ -200,17 +198,33 @@ define(['jquery'], function ($) {
        🛑 PDP: Disable Default Minicart and Trigger Custom
     ======================== */
     if ($('body').hasClass('catalog-product-view')) {
-      // Disable default minicart toggle
+      const $defaultMinicart = $('#minicart-content-wrapper').closest('aside.modal-popup');
+      const $customMinicart = $('#custom-minicart-wrapper');
+
+      // Hide default minicart immediately
+      $defaultMinicart.hide();
+
+      // Disable default toggle
       $(document).off('click', '[data-role="minicart-toggle"]');
 
-      // Bind custom minicart open
+      // Bind custom toggle
       $('[data-role="minicart-toggle"]').on('click', function (e) {
         e.preventDefault();
-        $('#custom-minicart-wrapper').toggle(); // replace with your custom minicart ID
+        $customMinicart.toggle();
       });
 
-      // Optionally hide default minicart completely
-      $('#minicart-content-wrapper').hide();
+      // Open PDP minicart on Add to Cart
+      $(document).on('click', '.action.tocart, .product-add-to-cart', function () {
+        $customMinicart.show();
+      });
+
+      // MutationObserver to ensure default minicart stays hidden even if KO re-renders
+      if (window.MutationObserver) {
+        const observerPDP = new MutationObserver(function () {
+          $defaultMinicart.hide();
+        });
+        observerPDP.observe(document.body, { childList: true, subtree: true });
+      }
     }
   });
 });
