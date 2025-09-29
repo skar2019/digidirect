@@ -1626,12 +1626,12 @@ require(['jquery'], function ($) {
     });
     $("#pa-bundle-overlay-total").text('$' + Number(overlayBundleTotal).toFixed(2));
     
-    const observerMinicart = new MutationObserver((mutations) => {
+    /*const observerMinicart = new MutationObserver((mutations) => {
         console.log("MutationObserver!");
         $('.action.showcart').addClass("-active");
         $('#minicartSidebar').addClass("-active");
         $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
-    }); 
+    });*/ 
 
     var miniCart = document.querySelector('.minicart-wrapper');
     const configMinicart = { attributes: false, childList: true, subtree: true }; 
@@ -1790,7 +1790,7 @@ require(['jquery'], function ($) {
         $("#pa-bundle-overlay-total").text('$' + Number(newBundleTotal).toFixed(2));
     });
 
-    $("#add-bundle-overlay-tocart").click(function(){
+    /*$("#add-bundle-overlay-tocart").click(function(){
 
         var productIds = [];
         $('.pa-bundle-overlay-product').each(function(){
@@ -1909,7 +1909,7 @@ require(['jquery'], function ($) {
         });
         
         $("#bundle-overlay-container").hide();
-    });
+    });*/
 
     $("#bundle-overlay-exit").click(function(){
         $("#bundle-overlay-container").hide();
@@ -1938,13 +1938,13 @@ require(['jquery'], function ($) {
         });
     });
     
-    const observer = new MutationObserver((mutations) => { 
+    /*const observer = new MutationObserver((mutations) => { 
         if ($("#pa-minicart-desktop").length) {
             //console.log("MutationObserver!");
             productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
             stopMutationObserver();
         }
-    }); 
+    });*/ 
     
     const config = { attributes: true, childList: true, subtree: true }; 
     observer.observe(document.body, config); 
@@ -2014,7 +2014,7 @@ require(['jquery'], function ($) {
         
         var htmlBody = $("#html-body");
 
-        const minicartObserver = new MutationObserver((mutations) => { 
+        /*const minicartObserver = new MutationObserver((mutations) => { 
             if (htmlBody.hasClass("-minicart-opened")) {
                 $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
                     var element = $(this).attr("id");
@@ -2037,7 +2037,7 @@ require(['jquery'], function ($) {
         }); 
 
         const minicartConfig = { attributes: true, childList: false, subtree: false }; 
-        minicartObserver.observe(htmlBody, minicartConfig); 
+        minicartObserver.observe(htmlBody, minicartConfig);*/ 
 
     });
     
