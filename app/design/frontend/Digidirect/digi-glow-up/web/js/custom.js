@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(['jquery', 'Magento_Ui/js/core/app'], function ($, uiApp) {
   'use strict';
 
   $(function () {
@@ -195,60 +195,42 @@ define(['jquery'], function ($) {
     }
 
     /* ========================
-       🛑 PDP: Disable Default Minicart and Use Custom
+       🧩 Custom Minicart Fix for PDP
     ======================== */
-    if ($('body').hasClass('catalog-product-view')) {
-      const $defaultMinicart = $('#minicart-content-wrapper').closest('aside.modal-popup');
-      const $customMinicart = $('#custom-minicart-wrapper');
+    function initCustomMinicart() {
+      const $customMinicart = $('#minicart-content-wrapper');
 
-      // Hide default minicart immediately
-      $defaultMinicart.hide();
-
-      // Disable default toggle
-      $(document).off('click', '[data-role="minicart-toggle"]');
-
-      // Function to populate custom minicart with KO content
-      function populateCustomMinicart() {
-        const $originalMiniCart = $('#mini-cart');
-        if ($originalMiniCart.length) {
-          // Clear previous content
-          $customMinicart.empty();
-
-          // Create KO container
-          const $koContainer = $('<ol id="mini-cart" class="minicart-items"></ol>');
-          $customMinicart.append($koContainer);
-
-          // Apply KO bindings using the default cart model
-          if (window.ko && window.checkout && window.checkout.cart) {
-            ko.cleanNode($koContainer[0]);
-            ko.applyBindings(window.checkout.cart, $koContainer[0]);
+      // Initialize KO scope if not bound
+      if ($customMinicart.length && !$customMinicart.hasClass('mage-init')) {
+        console.log('🔄 Initializing custom minicart Knockout scope...');
+        $customMinicart.addClass('mage-init');
+        uiApp({
+          components: {
+            minicart_content: {
+              component: 'Magento_Checkout/js/view/minicart'
+            }
           }
-        }
-      }
-
-      // Populate initially
-      populateCustomMinicart();
-
-      // Bind custom toggle
-      $('[data-role="minicart-toggle"]').on('click', function (e) {
-        e.preventDefault();
-        populateCustomMinicart();
-        $customMinicart.toggle();
-      });
-
-      // Show custom minicart on Add to Cart
-      $(document).on('click', '.action.tocart, .product-add-to-cart', function () {
-        populateCustomMinicart();
-        $customMinicart.show();
-      });
-
-      // Keep default minicart hidden
-      if (window.MutationObserver) {
-        const observerPDP = new MutationObserver(function () {
-          $defaultMinicart.hide();
         });
-        observerPDP.observe(document.body, { childList: true, subtree: true });
       }
     }
+
+    // Prevent default minicart from opening
+    $(document).on('click', '[data-block="minicart"] .action.showcart', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('🛑 Default minicart opening blocked (PDP)');
+    });
+
+    // Initialize immediately
+    initCustomMinicart();
+
+    // Observe for modal open
+    const modalObserver = new MutationObserver(() => {
+      if ($('.minicart-modal._show').length) {
+        console.log('🧩 Custom minicart modal opened');
+        initCustomMinicart();
+      }
+    });
+    modalObserver.observe(document.body, { childList: true, subtree: true });
   });
 });
