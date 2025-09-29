@@ -109,7 +109,8 @@ class TestPdp extends \Magento\Framework\View\Element\Template
             $this->curl->get($getConfigUrl);
 
             $getConfigResult = $this->curl->getBody();
-            if (isset($getConfigResult['recommendations']) && !empty($getConfigResult['recommendations'])) {
+            $dataPA = json_decode($getConfigResult, true);
+            if (isset($dataPA['payload']) && !empty($dataPA['payload'])) {
                 $getConfigResultJson = $this->jsonSerializer->unserialize($getConfigResult);
 
                 $this->setCookie(self::PA_CUSTOMER_ID, $getConfigResultJson['payload']['customerId']);
@@ -188,8 +189,9 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         $this->curl->get($getRecommendationsUrl);
 
         $getRecommendationsResult = $this->curl->getBody();
+        $dataPA = json_decode($getRecommendationsResult, true);
         $getRecommendationsResultJson = '';
-        if (isset($getConfigResult['recommendations']) && !empty($getConfigResult['recommendations'])) {
+        if (isset($dataPA['recommendations']) && !empty($dataPA['recommendations'])) {
             $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
         }
 
