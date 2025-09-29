@@ -210,14 +210,18 @@ define(['jquery'], function ($) {
       // Function to populate custom minicart with KO content
       function populateCustomMinicart() {
         const $originalMiniCart = $('#mini-cart');
-        if ($originalMiniCart.length && $customMinicart.find('#mini-cart').length === 0) {
-          const $clone = $originalMiniCart.clone(true, true); // clone with data & events
-          $customMinicart.empty().append($clone);
+        if ($originalMiniCart.length) {
+          // Clear previous content
+          $customMinicart.empty();
 
-          // Reapply Knockout bindings
-          if (window.ko) {
-            ko.cleanNode($clone[0]);
-            ko.applyBindings(window.checkoutConfig, $clone[0]);
+          // Create KO container
+          const $koContainer = $('<ol id="mini-cart" class="minicart-items"></ol>');
+          $customMinicart.append($koContainer);
+
+          // Apply KO bindings using the default cart model
+          if (window.ko && window.checkout && window.checkout.cart) {
+            ko.cleanNode($koContainer[0]);
+            ko.applyBindings(window.checkout.cart, $koContainer[0]);
           }
         }
       }
@@ -238,7 +242,7 @@ define(['jquery'], function ($) {
         $customMinicart.show();
       });
 
-      // Ensure default minicart stays hidden
+      // Keep default minicart hidden
       if (window.MutationObserver) {
         const observerPDP = new MutationObserver(function () {
           $defaultMinicart.hide();
