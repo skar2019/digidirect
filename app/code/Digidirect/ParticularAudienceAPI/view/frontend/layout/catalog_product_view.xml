@@ -19,7 +19,7 @@
             <block class="Magento\Framework\View\Element\Template"
                    name="pa.also.viewed.widget"
                    template="Digidirect_ParticularAudienceAPI::pa-also-viewed-widget.phtml"
-                   after="product.details.tabs" />
+                   after="-" />
             <block class="Magento\Framework\View\Element\Template"
                    name="pa.you.may.also.like.widget"
                    template="Digidirect_ParticularAudienceAPI::pa-you-may-also-like-widget.phtml"
