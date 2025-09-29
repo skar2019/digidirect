@@ -1,4 +1,4 @@
-define(['jquery', 'Magento_Ui/js/core/app'], function ($, uiApp) {
+define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko, registry, uiApp) {
   'use strict';
 
   $(function () {
@@ -197,13 +197,25 @@ define(['jquery', 'Magento_Ui/js/core/app'], function ($, uiApp) {
     /* ========================
        🧩 Custom Minicart Fix for PDP
     ======================== */
-    function initCustomMinicart() {
-      const $customMinicart = $('#minicart-content-wrapper');
+    function bindCustomMinicart() {
+      const $wrapper = $('#minicart-content-wrapper');
 
-      // Initialize KO scope if not bound
-      if ($customMinicart.length && !$customMinicart.hasClass('mage-init')) {
-        console.log('🔄 Initializing custom minicart Knockout scope...');
-        $customMinicart.addClass('mage-init');
+      if (!$wrapper.length) return;
+
+      // Prevent double binding
+      if ($wrapper.data('ko-bound')) return;
+
+      console.log('🔄 Binding Knockout for custom minicart...');
+      $wrapper.data('ko-bound', true);
+
+      // Try to get existing minicart view model
+      const minicartVM = registry.get('minicart_content');
+
+      if (minicartVM) {
+        console.log('✅ Found existing minicart view model, applying bindings...');
+        ko.applyBindings(minicartVM, $wrapper[0]);
+      } else {
+        console.warn('⚠️ minicart_content not found — initializing manually...');
         uiApp({
           components: {
             minicart_content: {
@@ -211,24 +223,29 @@ define(['jquery', 'Magento_Ui/js/core/app'], function ($, uiApp) {
             }
           }
         });
+        // Retry after a short delay
+        setTimeout(bindCustomMinicart, 500);
       }
     }
 
-    // Prevent default minicart from opening
-    $(document).on('click', '[data-block="minicart"] .action.showcart', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log('🛑 Default minicart opening blocked (PDP)');
-    });
+    function blockDefaultMinicart() {
+      $(document).on('click', '[data-block="minicart"] .action.showcart', function (e) {
+        if ($('body.catalog-product-view').length) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🛑 Blocked default minicart on PDP');
+        }
+      });
+    }
 
-    // Initialize immediately
-    initCustomMinicart();
+    // 🧠 Initialize
+    blockDefaultMinicart();
+    bindCustomMinicart();
 
-    // Observe for modal open
     const modalObserver = new MutationObserver(() => {
       if ($('.minicart-modal._show').length) {
-        console.log('🧩 Custom minicart modal opened');
-        initCustomMinicart();
+        console.log('🧩 Custom minicart modal opened — rebind if needed');
+        bindCustomMinicart();
       }
     });
     modalObserver.observe(document.body, { childList: true, subtree: true });
