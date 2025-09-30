@@ -54,6 +54,17 @@
             <a href="<?= $block->getShoppingCartUrl() ?>" class="view-cart-btn"><?= __('View Cart') ?></a>
             <a href="<?= $block->getCheckoutUrl() ?>" class="checkout-btn"><?= __('Checkout') ?></a>
         </div>
+
+        <!-- 🔹 Custom Remove Confirmation -->
+        <div class="custom-remove-confirm" style="display: none;">
+            <div class="confirm-box">
+                <p><?= __('Remove this item from cart?') ?></p>
+                <div class="confirm-actions">
+                    <button type="button" class="confirm-yes"><?= __('Yes') ?></button>
+                    <button type="button" class="confirm-no"><?= __('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 🔹 Magento Knockout Init -->
@@ -77,33 +88,60 @@ require(['jquery'], function ($) {
     const \$popup = $('#custom-minicart-popup');
     const \$overlay = $('.custom-minicart-overlay');
     const \$trigger = $('#minicart-trigger');
+    const \$confirmBox = \$popup.find('.custom-remove-confirm');
+    let \$currentItemToRemove = null;
 
+    // 🟢 Popup open/close
     function openPopup() {
       \$overlay.fadeIn(200);
       \$popup.fadeIn(200);
+      $('body').css('overflow', 'hidden');
     }
-
     function closePopup() {
       \$overlay.fadeOut(200);
       \$popup.fadeOut(200);
+      $('body').css('overflow', '');
     }
 
-    // Open on trigger
+    // 🟢 Confirmation open/close
+    function openConfirm(\$btn) {
+      \$currentItemToRemove = \$btn;
+      \$confirmBox.fadeIn(200);
+    }
+    function closeConfirm() {
+      \$confirmBox.fadeOut(200);
+      \$currentItemToRemove = null;
+    }
+
+    // 🟢 Events
     \$trigger.on('click', function (e) {
       e.preventDefault();
       openPopup();
     });
-
-    // ✅ Delegated close events
     $(document).on('click', '.popup-close, .custom-minicart-overlay', closePopup);
-
-    // ESC key
     $(document).on('keyup', function(e) {
       if (e.key === 'Escape') closePopup();
     });
+
+    // 🟢 Intercept default remove
+    $(document).on('click', '.action.delete', function (e) {
+      e.preventDefault();
+      openConfirm($(this));
+    });
+
+    // 🟢 Confirm Yes
+    \$confirmBox.find('.confirm-yes').on('click', function () {
+      if (\$currentItemToRemove) {
+        const href = \$currentItemToRemove.attr('href');
+        if (href) window.location.href = href;
+      }
+      closeConfirm();
+    });
+
+    // 🟢 Confirm No
+    \$confirmBox.find('.confirm-no').on('click', closeConfirm);
   });
 });
 JS;
 echo $secureRenderer->renderTag('script', [], $script, false);
 ?>
-
