@@ -8,24 +8,24 @@
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
         <span>Wishlist</span>
         <?php
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
-            $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
-            if ($customerSession->isLoggedIn()) {
-                $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
-                ?><div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div><?php
-            }
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
+        $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
+        if ($customerSession->isLoggedIn()) {
+            $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
+            ?><div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div><?php
+        }
         ?>
     </a>
 
-    <!-- 🔹 Cart trigger -->
+    <!-- 🔹 Cart Trigger -->
     <a id="minicart-trigger" class="action showcart" href="javascript:void(0)" data-bind="scope: 'minicart_content'">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
         <span>Cart</span>
         <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
         <span class="counter qty empty"
               data-bind="css: { empty: !!getCartParam('summary_count') == false && !isLoading() },
-               blockLoader: isLoading">
+                         blockLoader: isLoading">
             <span class="counter-number">
                 <!-- ko if: getCartParam('summary_count') -->
                 <!-- ko text: getCartParam('summary_count').toLocaleString(window.LOCALE) --><!-- /ko -->
@@ -46,7 +46,7 @@
     <!-- 🔹 Custom Popup -->
     <div id="custom-minicart-popup" class="custom-minicart-popup" style="display: none;" data-bind="scope: 'minicart_content'">
         <div class="popup-content">
-            <button type="button" class="popup-close"></button>
+            <button type="button" class="popup-close">×</button>
             <!-- ko template: getTemplate() --><!-- /ko -->
         </div>
 
@@ -69,8 +69,12 @@
 
     <!-- 🔹 Magento Knockout Init -->
     <?= $block->getChildHtml('minicart.addons') ?>
-    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], 'window.checkout = ' .
-         /* @noEscape */ $block->getSerializedConfig(), false); ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag(
+        'script',
+        [],
+        'window.checkout = ' . /* @noEscape */ $block->getSerializedConfig(),
+        false
+    ); ?>
     <script type="text/x-magento-init">
     {
         "[data-block='minicart']": {
@@ -123,7 +127,12 @@ require(['jquery'], function ($) {
       if (e.key === 'Escape') closePopup();
     });
 
-    // 🟢 Intercept default remove
+    // 🟢 Listen to custom event from mixin
+    $(document).on('custom:minicartRemove', function (e, \$elem) {
+      openConfirm(\$elem);
+    });
+
+    // 🟢 Intercept default remove clicks (fallback)
     $(document).on('click', '.action.delete', function (e) {
       e.preventDefault();
       openConfirm($(this));
