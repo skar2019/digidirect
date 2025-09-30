@@ -217,11 +217,9 @@ a.action.towishlist {
 }
 
 .ribbon-digideals.digiseconds {
-    background: #F2F2F7;
+    background: #f2f2f7;
     color: #242426;
 }
-
-
 
 //Sponsored Label
 
@@ -251,7 +249,7 @@ a.action.towishlist {
     margin-left: -275px;
 }
 
-.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+6).active) {
+.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n + 6).active) {
     margin-left: -275px;
 }
 
@@ -304,9 +302,12 @@ a.action.towishlist {
     background: url("@{baseDir}images/heart.png") no-repeat center center;
 }
 
-.pa-digidirect-product-widget .product-tab-mobile-widget-load-more.grid-toggle-more, 
-.pa-digidirect-product-widget .product-tab-mobile-widget-view-less.grid-toggle-more, 
-.pa-digidirect-product-widget .product-tab-mobile-widget-view-all.grid-toggle-more {
+.pa-digidirect-product-widget
+    .product-tab-mobile-widget-load-more.grid-toggle-more,
+.pa-digidirect-product-widget
+    .product-tab-mobile-widget-view-less.grid-toggle-more,
+.pa-digidirect-product-widget
+    .product-tab-mobile-widget-view-all.grid-toggle-more {
     display: none;
 }
 
@@ -416,7 +417,9 @@ a.action.towishlist {
     margin-right: -270px;
 }
 
-.cms-home .owl-carousel.featured-videos .owl-stage-outer:has(.owl-item:nth-child(n+3).active) {
+.cms-home
+    .owl-carousel.featured-videos
+    .owl-stage-outer:has(.owl-item:nth-child(n + 3).active) {
     margin-left: -275px;
 }
 
@@ -450,10 +453,19 @@ a.action.towishlist {
     background: #f2f2f7;
     padding: 30px;
     border-radius: 25px;
+
+    .newsletter-left {
+        width: 100%;
+        margin-top: -10px;
+    }
 }
 
 .block.newsletter .content {
     margin-left: auto;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
 .block.newsletter .field.newsletter {
@@ -466,7 +478,7 @@ a.action.towishlist {
 }
 
 .block.newsletter input {
-    width: 840px;
+    width: 100%;
     height: 43px;
     border-radius: 22px;
     border: 1px solid #8e8e9338;
@@ -508,4 +520,20 @@ a.action.towishlist {
     top: 0;
     font-size: 14px;
     color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .block.newsletter {
+        flex-direction: column;
+        gap: 10px;
+        .newsletter-left {
+            margin-top: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .block.newsletter .newsletter-left {
+        max-width: 35%;
+    }
 }
