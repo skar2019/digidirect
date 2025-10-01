@@ -7,8 +7,7 @@ define([
     'Magento_Checkout/js/checkout-data',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/step-navigator',
-    'uiRegistry',
-    'Magento_Checkout/js/model/full-screen-loader'
+    'uiRegistry'
 ], function (
     $,
     domReady,
@@ -21,7 +20,6 @@ define([
     registry
 ) {
     'use strict';
-
 
     function validateEmail(email) {
         const deferred = $.Deferred();
@@ -39,24 +37,21 @@ define([
         $('.opc-wrapper .step-content').hide();
         $('.opc-wrapper li .action-extension-toolbar').hide();
 
-        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#customer-info .step-content').show();
-        $('#checkoutSteps li#customer-info').css('border', 'none');
-        $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+        $('#checkoutSteps li#customer-info')
+            .removeClass('inactive')
+            .addClass('active')
+            .css('border', 'none')
+            .find('.step-content, .action-extension-toolbar').show();
 
-        $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#shipping .step-content').show();
-        $('#checkoutSteps li#shipping').css('border', 'none');
-        $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
-
-        /*if (customer.isLoggedIn()) {
-            $(".field.addresses").attr("style", "display: block !important");
-            $("li#shipping .action.action-show-popup").attr("style", "display: block !important");
-        }*/
+        $('#checkoutSteps li#shipping')
+            .removeClass('inactive')
+            .addClass('active')
+            .css('border', 'none')
+            .find('.step-content, .action-extension-toolbar').show();
 
         fullScreenLoader.stopLoader();
 
-        var target = $('#checkoutSteps li#shipping');
+        let target = $('#checkoutSteps li#shipping');
 
         if (target.length) {
             $('html, body').animate({
@@ -66,19 +61,19 @@ define([
     }
 
     function changeEmailLinkShow() {
-        $("#customer-info-change-extension").removeClass('hide');
-        $("#customer-info-change-extension").show();
-        $("#customer-info-button-extension").hide()
+        $("#customer-info-change-extension").removeClass('hide').show();
+        $("#customer-info-button-extension").hide();
+       // $("#checkout-step-customerinfo .form-login").hide();
+        $('input[name="username"]').prop('disabled', true).css('color', '#AEAEB2');
     }
 
-    $(document).on("click", "#customer-info-button-extension, #customer-info-change-extension", function () {
+    $(document).on("click", "#customer-info-button-extension", function () {
         fullScreenLoader.startLoader();
         const email = $('#customer-email').val();
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             $('#customer-email-error').show();
             fullScreenLoader.stopLoader();
-            console.log('Email is not in correct format');
             return; //NOT VALID EMAIL
         }
 
@@ -86,9 +81,6 @@ define([
             // Email is NOT registered → guest
             quote.guestEmail = email;
             checkoutData.setValidatedEmailValue(email);
-            console.log('Email is NOT registered (guest)');
-           // stepNavigator.next();
-            //stepNavigator.setHash('shipping-address');
             changeEmailLinkShow();
             toggleShippingAddress();
             fullScreenLoader.stopLoader();
@@ -97,9 +89,28 @@ define([
             registry.get('checkout.steps.shipping-step.customer-email', function (component) {
                 component.isPasswordVisible(true);
                 $('#customer-password').focus();
-                console.log('Email IS registered');
                 fullScreenLoader.stopLoader();
             });
         });
+    });
+
+    $(document).on("click", "#customer-info-change-extension", function () {
+        $("#customer-info-change-extension").hide();
+        $("#customer-info-button-extension").show();
+        $('input[name="username"]').prop('disabled', false).css('color', '#1d1d1f');
+
+        /*$('#checkoutSteps li').removeClass('active').addClass('inactive');
+        $('.opc-wrapper .step-content').hide();
+        $('.opc-wrapper li .action-extension-toolbar').hide();
+
+        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
+        $('#checkoutSteps li#customer-info .step-content').show();
+        $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
+
+        $('#checkoutSteps li#customer-info')
+            .removeClass('inactive')
+            .addClass('active')
+            .find('.step-content, .action-extension-toolbar').show();
+        */
     });
 });
