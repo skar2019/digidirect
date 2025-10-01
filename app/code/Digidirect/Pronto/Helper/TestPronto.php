@@ -1465,17 +1465,17 @@ class TestPronto extends AbstractHelper
                 $todiscount = $price * $qty;
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
+                if($discount > 0)
+                {
+                    $discperc = (($discount / $price) * 100) / $qty; // in pronto, discount % are mutliplied by qty, so here we divide it
+                }
                 if($coupon != "")
                 {
+                    $discount = 0; //set this to zero since we subtract it to total
                     $discperc = 0;
                     if(str_contains($coupon, 'PMC-'))
                     {
                         $data['sales-order']['header']['rep'] = "PMC";
-                    }
-
-                    if($price > 0)
-                    {
-                        $discperc = (($discount / $price) * 100) / $qty; // in pronto, discount % are mutliplied by qty, so here we divide it
                     }
                 }
                 echo "discperc - " .$discperc ." <br/>";
