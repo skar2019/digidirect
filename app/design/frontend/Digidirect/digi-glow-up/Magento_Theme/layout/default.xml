@@ -30,12 +30,6 @@
             </container>
         </referenceContainer>
 
-        <referenceBlock name="minicart">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">Magento_Theme::custom/minicart.phtml</argument>
-            </action>
-        </referenceBlock>
-
         <referenceBlock name="logo">
             <arguments>
                 <argument name="logo_file" xsi:type="string">images/digi-logo.svg</argument>
