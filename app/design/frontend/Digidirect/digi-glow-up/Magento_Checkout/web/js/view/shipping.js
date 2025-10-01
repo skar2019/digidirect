@@ -427,9 +427,9 @@ define([
         },
 
         afterRenderHandler: function () {
-            if (quote.getQuoteId()) {
+            if (isCustomerLoggedIn && quote.getQuoteId()) {
                 $('.cart-id .cart-id-txt').text('Your Cart ID:');
-                $('.cart-id .cart-id-value').text(quote.getQuoteId());
+                $('.cart-id .cart-id-value').text(quote.getQuoteId().toString().match(/.{1,3}/g).join('-'));
             }
 
             $('#checkoutSteps li#customer-info').css('border-bottom', 'none');
