@@ -8,29 +8,26 @@
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
         <span>Wishlist</span>
         <?php
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
-            $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
-            if ($customerSession->isLoggedIn()) {
-                $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
-                ?><div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div><?php
-            }
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
+        $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
+        if ($customerSession->isLoggedIn()) {
+            $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
+            ?>
+            <div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div>
+            <?php
+        }
         ?>
     </a>
 
-    <!-- 🔹 Cart trigger -->
-    <a id="minicart-trigger" class="action showcart" href="javascript:void(0)" data-bind="scope: 'minicart_content'">
+    <!-- 🔹 Cart Trigger -->
+    <a class="action showcart" href="javascript:void(0);" data-bind="scope: 'minicart_content'">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
         <span>Cart</span>
         <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
         <span class="counter qty empty"
-              data-bind="css: { empty: !!getCartParam('summary_count') == false && !isLoading() },
-               blockLoader: isLoading">
-            <span class="counter-number">
-                <!-- ko if: getCartParam('summary_count') -->
-                <!-- ko text: getCartParam('summary_count').toLocaleString(window.LOCALE) --><!-- /ko -->
-                <!-- /ko -->
-            </span>
+              data-bind="css: { empty: !getCartParam('summary_count') }, blockLoader: isLoading">
+            <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
         </span>
     </a>
 
@@ -40,70 +37,48 @@
         <span>Login</span>
     </a>
 
-    <!-- 🔹 Overlay -->
-    <div class="custom-minicart-overlay" style="display: none;"></div>
+    <!-- 🔹 Default Dropdown Container -->
+    <div class="block block-minicart"
+         data-role="dropdownDialog"
+         data-mage-init='{
+            "dropdownDialog": {
+                "appendTo": ".minicart-wrapper",
+                "triggerTarget": ".showcart",
+                "timeout": 2000,
+                "closeOnClickOutside": true,
+                "closeOnEscape": true,
+                "triggerClass": "active",
+                "parentClass": "active",
+                "buttons": []
+            }
+         }'
+         aria-hidden="true"
+         data-bind="scope: 'minicart_content'">
 
-    <!-- 🔹 Custom Popup -->
-    <div id="custom-minicart-popup" class="custom-minicart-popup" style="display: none;" data-bind="scope: 'minicart_content'">
-        <div class="popup-content">
-            <button type="button" class="popup-close"></button>
-            <!-- ko template: getTemplate() --><!-- /ko -->
-        </div>
-
-        <div class="popup-footer">
-            <a href="<?= $block->getShoppingCartUrl() ?>" class="view-cart-btn"><?= __('View Cart') ?></a>
-            <a href="<?= $block->getCheckoutUrl() ?>" class="checkout-btn"><?= __('Checkout') ?></a>
-        </div>
+        <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
-    <!-- 🔹 Magento Knockout Init -->
+    <!-- 🔹 Knockout / JS Init -->
     <?= $block->getChildHtml('minicart.addons') ?>
-    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], 'window.checkout = ' .
-         /* @noEscape */ $block->getSerializedConfig(), false); ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag(
+        'script',
+        [],
+        'window.checkout = ' . /* @noEscape */ $block->getSerializedConfig(),
+        false
+    ); ?>
+
     <script type="text/x-magento-init">
     {
-        "[data-block='minicart']": {
+        "*": {
             "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+        },
+        ".showcart": {
+            "Magento_Checkout/js/sidebar": {
+                "targetElement": "div.block.block-minicart",
+                "url": "<?= $block->getUrl('checkout/cart') ?>",
+                "button": ".action.showcart"
+            }
         }
     }
     </script>
 </div>
-
-<!-- 🔹 Custom JS -->
-<?php
-$script = <<<JS
-require(['jquery'], function ($) {
-  $(function () {
-    const \$popup = $('#custom-minicart-popup');
-    const \$overlay = $('.custom-minicart-overlay');
-    const \$trigger = $('#minicart-trigger');
-
-    function openPopup() {
-      \$overlay.fadeIn(200);
-      \$popup.fadeIn(200);
-    }
-
-    function closePopup() {
-      \$overlay.fadeOut(200);
-      \$popup.fadeOut(200);
-    }
-
-    // Open on trigger
-    \$trigger.on('click', function (e) {
-      e.preventDefault();
-      openPopup();
-    });
-
-    // ✅ Delegated close events
-    $(document).on('click', '.popup-close, .custom-minicart-overlay', closePopup);
-
-    // ESC key
-    $(document).on('keyup', function(e) {
-      if (e.key === 'Escape') closePopup();
-    });
-  });
-});
-JS;
-echo $secureRenderer->renderTag('script', [], $script, false);
-?>
-
