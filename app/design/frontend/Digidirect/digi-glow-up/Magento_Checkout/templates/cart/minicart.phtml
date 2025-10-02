@@ -38,7 +38,7 @@
     </a>
 
     <!-- 🔹 Overlay -->
-    <div class="minicart-overlay"></div>
+    <div class="minicart-overlay" style="display:none;"></div>
 
     <!-- 🔹 Dropdown Minicart -->
     <div class="block block-minicart"
@@ -49,7 +49,6 @@
                 "triggerTarget": ".showcart",
                 "closeOnClickOutside": true,
                 "closeOnEscape": true,
-                "closeOnMouseLeave": false,
                 "triggerClass": "active",
                 "parentClass": "active",
                 "buttons": []
@@ -64,19 +63,13 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
-    <!-- 🔹 Knockout / JS Init -->
     <?= $block->getChildHtml('minicart.addons') ?>
-    <?= /* @noEscape */ $secureRenderer->renderTag(
-        'script',
-        [],
-        'window.checkout = ' . /* @noEscape */ $block->getSerializedConfig(),
-        false
-    ); ?>
+    <?= $secureRenderer->renderTag('script', [], 'window.checkout = ' . $block->getSerializedConfig(), false); ?>
 
     <script type="text/x-magento-init">
     {
         "*": {
-            "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+            "Magento_Ui/js/core/app": <?= $block->getJsLayout() ?>
         },
         ".showcart": {
             "Magento_Checkout/js/sidebar": {
@@ -88,49 +81,32 @@
     }
     </script>
 
-    <!-- 🔹 Custom Toggle Script -->
     <script>
     require(['jquery', 'mage/dropdown'], function ($) {
-        $(document).ready(function () {
-            const $wrapper = $('.minicart-wrapper');
-            const $minicart = $wrapper.find('.block-minicart');
-            const $trigger = $wrapper.find('.showcart');
-            const $close = $wrapper.find('.minicart-close');
-            const $overlay = $wrapper.find('.minicart-overlay');
+        $(function () {
+            const $minicart = $('.block-minicart');
+            const $overlay = $('.minicart-overlay');
+            const $close = $('.minicart-close');
 
-            function openMinicart() {
-                $minicart.dropdownDialog('open');
+            // Fade in/out overlay based on dropdown events
+            $minicart.on('dropdownDialogOpen', function () {
                 $overlay.fadeIn(200);
-            }
+                $minicart.stop().fadeIn(200);
+            });
 
-            function closeMinicart() {
-                $minicart.dropdownDialog('close');
+            $minicart.on('dropdownDialogClose', function () {
                 $overlay.fadeOut(200);
-            }
-
-            // ✅ Toggle on trigger
-            $trigger.on('click', function (e) {
-                e.preventDefault();
-                if ($minicart.attr('aria-hidden') === 'false') {
-                    closeMinicart();
-                } else {
-                    openMinicart();
-                }
+                $minicart.stop().fadeOut(200);
             });
 
-            // ✅ Close button
-            $close.on('click', function () {
-                closeMinicart();
-            });
-
-            // ✅ Overlay click
+            // Close on overlay click
             $overlay.on('click', function () {
-                closeMinicart();
+                $minicart.dropdownDialog('close');
             });
 
-            // ✅ ESC key
-            $(document).on('keyup', function (e) {
-                if (e.key === "Escape") closeMinicart();
+            // Close button
+            $close.on('click', function () {
+                $minicart.dropdownDialog('close');
             });
         });
     });
