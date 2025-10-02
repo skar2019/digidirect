@@ -1319,4 +1319,178 @@ class ProductEntHelper extends AbstractHelper
 
     }
 
+    public function mwaveExtraData()
+    {
+
+        $this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+        $filepath = 'export/digiDirectProductAttributes.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['SKU','Product Title','Brand Name','Model Number','UPC','Description','Category 1','Category 2',
+            'Category 3','Category 4','Product Overview','Specs','Whats in the box','Package Weight','Length Width Height','Warranty','Image URLs'];
+
+        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        $id = "";
+        foreach ($collection as $product) {
+            $data = [];
+            $description = "";
+            $overview = "";
+            $imageurl = "";
+            $specification = "";
+            $whatsinthebox = "";
+
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
+            {
+                if(!empty($product->getDescription()))
+                {
+                    $description = strip_tags($product->getDescription());
+                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+                }
+
+                $overview = $product->getShortDescription();
+
+                $specification = $product->getSpecification();
+
+                $whatsinthebox = $product->getWhatsInTheBox();
+
+                if(isset($this->attributeOptions[$product->getBrand()]))
+                {
+                    $brandname = $this->attributeOptions[$product->getBrand()];
+
+                }
+                else
+                {
+                    $brandname = "";
+                }
+
+                $category1 = "";
+                $category2 = "";
+                $category3 = "";
+                $category4 = "";
+                //echo $product->getId() ."<br/>";
+                $productCategoryIds = $product->getCategoryIds();
+                if((count($productCategoryIds)))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+
+                        if($category['id'] == $productCategoryIds[0])
+                        {
+                            $category1 =$category['name'];
+                        }
+
+                        if(isset($productCategoryIds[1]))
+                        {
+                            if($category['id'] == $productCategoryIds[1])
+                            {
+                                $category2 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[2]))
+                        {
+                            if($category['id'] == $productCategoryIds[2])
+                            {
+                                $category3 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[3]))
+                        {
+                            if($category['id'] == $productCategoryIds[3])
+                            {
+                                $category4 =$category['name'];
+                            }
+                        }
+
+                    }
+                }
+
+                //echo $product->getBarcode1()."b1 <br/>";
+                $gtin = "";
+                $barcode1 = $product->getCustomAttribute('barcode1');
+                if(is_null($barcode1))
+                {
+                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    if(is_null($barcode2))
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    $bc = $barcode1->getValue();
+                    if(is_numeric($bc))
+                    {
+                        $gtin = $bc;
+                    }
+                    else
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+                        if(is_null($barcode2))
+                        {
+
+                        }
+                        else
+                        {
+                            $gtin = $barcode2;
+                        }
+
+                    }
+                }
+
+                $title = $product->getName();
+                $title = strip_tags($title);
+                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+
+                $weight = $product->getWeight();
+                $dimensions = $product->getCustomAttribute('product_dimensions');
+                $warranty = "";
+
+                $imageUrl = "";
+                if(empty($product->getImage()))
+                {
+                    $imageUrl = "";
+                }
+
+                $imageUrl = $product->getMediaConfig()->getMediaUrl($product->getImage());
+                if(empty($imageUrl))
+                {
+                    $imageUrl = "";
+                }
+
+                //echo $stockonhand."<br/>";
+                $data[] = $product->getSku();
+                $data[] = $title;
+                $data[] = $brandname;
+                $data[] = $product->getApn();
+                $data[] = $gtin;
+                $data[] = $description;
+                $data[] = $category1;
+                $data[] = $category2;
+                $data[] = $category3;
+                $data[] = $category4;
+                $data[] = $overview;
+                $data[] = $specification;
+                $data[] = $whatsinthebox;
+                $data[] = $weight;
+                $data[] = $dimensions;
+                $data[] = $warranty;
+                $data[] = $imageUrl;
+
+                $stream->writeCsv($data);
+            }
+
+        }
+
+    }
+
 }

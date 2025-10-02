@@ -22,6 +22,11 @@ class MwaveData
         $this->helper->mwaveData();
     }
 
+    public function mwaveExtraData()
+    {
+        $this->helper->mwaveExtraData();
+    }
+
 
 
 }

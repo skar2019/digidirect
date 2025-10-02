@@ -16,4 +16,9 @@ class SendMWaveFile
     {
         $this->helper->sendFile();
     }
+
+    public function sendExtraData()
+    {
+        $this->helper->sendExtraData();
+    }
 }

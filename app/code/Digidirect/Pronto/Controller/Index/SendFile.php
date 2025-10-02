@@ -19,6 +19,6 @@ class SendFile extends \Magento\Framework\App\Action\Action
     {
 
 
-        $this->helper->sendFile();
+        $this->helper->sendExtraData();
     }
 }

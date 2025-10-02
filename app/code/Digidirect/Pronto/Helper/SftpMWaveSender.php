@@ -51,4 +51,35 @@ class SftpMWaveSender extends AbstractHelper
             return false;
         }
     }
+
+    public function sendExtraData()
+    {
+
+        $destinationPath = '/uploads/digiDirectProductAttributes.csv';
+        $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/digiDirectProductAttributes.csv';
+        $hostname = 'sda9s7da86.testing.mwave.net.au';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/hostname');
+        $username = 'digidirect';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/username');
+        $password = ')<aqfZUJ28.9SnhE';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/password');;
+
+        $sftpConfig = [
+            'host' => $hostname,
+            'port' => '22',
+            'username' => $username,
+            'password' => $password
+        ];
+
+
+
+        try {
+            $this->sftp->open($sftpConfig);
+            $this->sftp->write($destinationPath, $this->file->read($filePath));
+            $this->sftp->close();
+            echo "send it";
+            return true;
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur during the file transfer
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }
