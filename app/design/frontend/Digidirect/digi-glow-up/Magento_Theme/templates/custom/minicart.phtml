@@ -37,6 +37,9 @@
         <span>Login</span>
     </a>
 
+    <!-- 🔹 Overlay -->
+    <div class="minicart-overlay"></div>
+
     <!-- 🔹 Dropdown Minicart -->
     <div class="block block-minicart"
          data-role="dropdownDialog"
@@ -57,9 +60,8 @@
          data-bind="scope: 'minicart_content'">
 
         <!-- 🔹 Close Button -->
-        <button type="button" class="minicart-close" aria-label="Close minicart">✕</button>
+        <button type="button" class="minicart-close" aria-label="Close minicart"></button>
 
-        <!-- 🔹 Knockout Template -->
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
@@ -95,19 +97,43 @@
             const $minicart = $wrapper.find('.block-minicart');
             const $trigger = $wrapper.find('.showcart');
             const $close = $wrapper.find('.minicart-close');
+            const $overlay = $wrapper.find('.minicart-overlay');
 
-            // ✅ Close minicart when close button clicked
-            $close.on('click', function () {
-                $minicart.attr('aria-hidden', 'true').removeClass('active');
+            function openMinicart() {
+                $minicart.attr('aria-hidden', 'false').addClass('visible');
+                $trigger.addClass('active');
+                $overlay.fadeIn(200);
+            }
+
+            function closeMinicart() {
+                $minicart.attr('aria-hidden', 'true').removeClass('visible');
                 $trigger.removeClass('active');
+                $overlay.fadeOut(200);
+            }
+
+            // ✅ Toggle open/close on trigger
+            $trigger.on('click', function (e) {
+                e.preventDefault();
+                if ($minicart.hasClass('visible')) {
+                    closeMinicart();
+                } else {
+                    openMinicart();
+                }
             });
 
-            // 🧠 Optional: Keep open until user clicks close or outside
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('.minicart-wrapper').length) {
-                    $minicart.attr('aria-hidden', 'true').removeClass('active');
-                    $trigger.removeClass('active');
-                }
+            // ✅ Close button click
+            $close.on('click', function () {
+                closeMinicart();
+            });
+
+            // ✅ Overlay click closes minicart
+            $overlay.on('click', function () {
+                closeMinicart();
+            });
+
+            // ✅ ESC key closes minicart
+            $(document).on('keyup', function (e) {
+                if (e.key === "Escape") closeMinicart();
             });
         });
     });
