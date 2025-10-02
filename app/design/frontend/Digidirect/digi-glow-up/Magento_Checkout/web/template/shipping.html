@@ -1,4 +1,4 @@
-<li id="customer-info" class="checkout-customer-information" data-bind="fadeVisible: visible()">
+<li id="customer-info" class="checkout-customer-information glowup-checkout-li-main-steps" data-bind="fadeVisible: visible()">
     <div data-bind="fadeVisible: isShippingVisible">
         <div class="step-title accordion-step" data-bind="i18n: '1. Customer Information'" data-role="title" data-step="checkout-step-customerinfo"></div>
         <div id="checkout-step-customerinfo"
@@ -37,7 +37,7 @@
 
 </li>
 
-<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible(), afterRender: afterRenderHandler">
+<li id="shipping" class="checkout-shipping-address glowup-checkout-li-main-steps with-border" data-bind="fadeVisible: visible(), afterRender: afterRenderHandler">
     <div data-bind="fadeVisible: isShippingVisible">
         <div class="step-title accordion-step" data-bind="i18n: '2. Delivery or Click & Collect'" data-role="title" data-step="checkout-step-shipping"></div>
         <div id="checkout-step-shipping"
@@ -46,22 +46,22 @@
 
             <div id="delivery_info_change_link_section" class="hide">
                 <div class="shipping-title-change">
-                    <span id="shipping_delivery_content" class="shipping-content">Delivery</span>
+                    <span id="shipping_delivery_content" class="change-content">Delivery</span>
                     <span id="delivery-info-change-extension" class="change-link">Change</span>
                 </div>
                 <div class="shipping-address-change">
-                    <div id="shipping_delivery_address_content" class="shipping-content"></div>
+                    <div id="shipping_delivery_address_content" class="change-content"></div>
                     <span id="delivery-address-change-extension" class="change-link">Change</span>
                 </div>
             </div>
 
             <div id="clickcollect_info_change_link_section" class="hide">
                 <div class="shipping-title-change">
-                    <span id="shipping_clickcollect_content" class="shipping-content">Click &amp; Collect</span>
+                    <span id="shipping_clickcollect_content" class="change-content">Click &amp; Collect</span>
                     <span id="clickcollect-info-change-extension" class="change-link">Change</span>
                 </div>
                 <div class="shipping-address-change">
-                    <div id="shipping_clickcollect_store_content" class="shipping-content"></div>
+                    <div id="shipping_clickcollect_store_content" class="change-content"></div>
                     <span id="clickcollect-store-change-extension" class="change-link">Change</span>
                 </div>
             </div>
@@ -113,7 +113,7 @@
 <!--Shipping method template-->
 <li id="opc-shipping_method"
     data-bind="fadeVisible: visible(), blockLoader: isLoading"
-    role="presentation">
+    role="presentation" class="glowup-checkout-li-main-steps with-border">
     <div class="checkout-shipping-method">
         <div data-bind="i18n: '3. Shipping Method', css: 'step-title accordion-step' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
         <div id="checkout-step-shipping_method"
@@ -246,7 +246,7 @@
 
             <div id="shipping-method-change-main" class="hide">
                 <div class="shipping-method-change">
-                    <span id="shipping_method_content" class="shipping-content"></span>
+                    <span id="shipping_method_content" class="change-content"></span>
                     <span id="shipping-method-change-extension" class="change-link">Change</span>
                 </div>
             </div>

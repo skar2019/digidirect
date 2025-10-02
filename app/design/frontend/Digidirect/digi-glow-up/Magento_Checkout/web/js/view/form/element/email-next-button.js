@@ -5,6 +5,7 @@ define([
     'Magento_Customer/js/action/check-email-availability',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/checkout-data',
+    'Magento_Checkout/js/view/checkout-toggle',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/step-navigator',
     'uiRegistry'
@@ -15,6 +16,7 @@ define([
     checkEmailAvailability,
     quote,
     checkoutData,
+    checkoutToggle,
     fullScreenLoader,
     stepNavigator,
     registry
@@ -27,44 +29,38 @@ define([
         return deferred.promise();
     }
 
-    function toggleShippingAddress() {
+    function toggleUpShippingAddress() {
+        // Set placeholder and autocomplete for street address
         $('input[name="street[0]"]').attr({
             'placeholder': 'Street *',
             'digidirect-autocomplete': 'on'
         });
 
-        $('#checkoutSteps li').removeClass('active').addClass('inactive');
-        $('.opc-wrapper .step-content').hide();
-        $('.opc-wrapper li .action-extension-toolbar').hide();
+        checkoutToggle.toggleDownAllSections();
+        checkoutToggle.toggleUpCustomerInfoSection();
+        checkoutToggle.toggleUpShippingAddressSection();
 
-        $('#checkoutSteps li#customer-info')
-            .removeClass('inactive')
-            .addClass('active')
-            .css('border', 'none')
-            .find('.step-content, .action-extension-toolbar').show();
+        checkoutToggle.showChangeEmailLink();
+        checkoutToggle.hideChangeShippingAddressLink();
 
-        $('#checkoutSteps li#shipping')
-            .removeClass('inactive')
-            .addClass('active')
-            .css('border', 'none')
-            .find('.step-content, .action-extension-toolbar').show();
+        $('#collect_type_delivery').prop('checked', true).trigger('change');
 
-        fullScreenLoader.stopLoader();
-
+        // Scroll to shipping section
         let target = $('#checkoutSteps li#shipping');
-
         if (target.length) {
             $('html, body').animate({
                 scrollTop: target.offset().top
             }, 600);
         }
-    }
 
-    function changeEmailLinkShow() {
-        $("#customer-info-change-extension").removeClass('hide').show();
-        $("#customer-info-button-extension").hide();
-       // $("#checkout-step-customerinfo .form-login").hide();
-        $('input[name="username"]').prop('disabled', true).css('color', '#AEAEB2');
+        // Hide shipping address change links sections
+        //$("#delivery_info_change_link_section").hide();
+        //$("#clickcollect_info_change_link_section").hide();
+
+        // Show shipping address form and related sections
+        //$(".collect-type").show();
+        //$('#co-shipping-form').show();
+
     }
 
     $(document).on("click", "#customer-info-button-extension", function () {
@@ -81,8 +77,7 @@ define([
             // Email is NOT registered → guest
             quote.guestEmail = email;
             checkoutData.setValidatedEmailValue(email);
-            changeEmailLinkShow();
-            toggleShippingAddress();
+            toggleUpShippingAddress();
             fullScreenLoader.stopLoader();
         }).fail(function () {
             // Email is registered → show password
@@ -95,22 +90,10 @@ define([
     });
 
     $(document).on("click", "#customer-info-change-extension", function () {
-        $("#customer-info-change-extension").hide();
-        $("#customer-info-button-extension").show();
-        $('input[name="username"]').prop('disabled', false).css('color', '#1d1d1f');
+        checkoutToggle.toggleDownAllSections();
+        checkoutToggle.toggleUpCustomerInfoSection();
 
-        /*$('#checkoutSteps li').removeClass('active').addClass('inactive');
-        $('.opc-wrapper .step-content').hide();
-        $('.opc-wrapper li .action-extension-toolbar').hide();
+        checkoutToggle.hideChangeEmailLink();
 
-        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#customer-info .step-content').show();
-        $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
-
-        $('#checkoutSteps li#customer-info')
-            .removeClass('inactive')
-            .addClass('active')
-            .find('.step-content, .action-extension-toolbar').show();
-        */
     });
 });
