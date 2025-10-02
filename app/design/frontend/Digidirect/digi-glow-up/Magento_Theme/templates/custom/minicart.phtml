@@ -37,14 +37,14 @@
         <span>Login</span>
     </a>
 
-    <!-- 🔹 Default Dropdown Container -->
+    <!-- 🔹 Dropdown Minicart -->
     <div class="block block-minicart"
          data-role="dropdownDialog"
          data-mage-init='{
             "dropdownDialog": {
                 "appendTo": ".minicart-wrapper",
                 "triggerTarget": ".showcart",
-                "closeOnClickOutside": true,
+                "closeOnClickOutside": false,
                 "closeOnEscape": true,
                 "timeout": "2000",
                 "closeOnMouseLeave": false,
@@ -56,6 +56,10 @@
          aria-hidden="true"
          data-bind="scope: 'minicart_content'">
 
+        <!-- 🔹 Close Button -->
+        <button type="button" class="minicart-close" aria-label="Close minicart">✕</button>
+
+        <!-- 🔹 Knockout Template -->
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
@@ -81,5 +85,31 @@
             }
         }
     }
+    </script>
+
+    <!-- 🔹 Custom Toggle Script -->
+    <script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+            const $wrapper = $('.minicart-wrapper');
+            const $minicart = $wrapper.find('.block-minicart');
+            const $trigger = $wrapper.find('.showcart');
+            const $close = $wrapper.find('.minicart-close');
+
+            // ✅ Close minicart when close button clicked
+            $close.on('click', function () {
+                $minicart.attr('aria-hidden', 'true').removeClass('active');
+                $trigger.removeClass('active');
+            });
+
+            // 🧠 Optional: Keep open until user clicks close or outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.minicart-wrapper').length) {
+                    $minicart.attr('aria-hidden', 'true').removeClass('active');
+                    $trigger.removeClass('active');
+                }
+            });
+        });
+    });
     </script>
 </div>
