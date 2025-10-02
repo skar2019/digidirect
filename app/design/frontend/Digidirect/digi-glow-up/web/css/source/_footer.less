@@ -96,7 +96,8 @@ nav#footer_nav {
     .footer-black-gradient-div {
         display: block;
         position: absolute;
-        top: 12px;
+        top: auto;
+        bottom: 0;
         height: 44px;
         left: 0;
         width: 100%;
@@ -133,10 +134,16 @@ nav#footer_nav {
         letter-spacing: 0.28px;
     }
     .footer-line {
-        padding-bottom: 52px;
-        margin-bottom: 40px;
+        padding-bottom: 0px;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        .footer-top {
+            position: relative;
+        }
         .footer-bottom {
-            bottom: -6px;
+            position: static;
             padding: 20px;
             width: 100%;
             left: 0;
@@ -151,6 +158,8 @@ nav#footer_nav {
                         color: #f7f7f7;
                         font-size: 8px;
                         text-decoration: underline;
+                        display: inline-block;
+                        padding: 0 4px;
                     }
                 }
             }
