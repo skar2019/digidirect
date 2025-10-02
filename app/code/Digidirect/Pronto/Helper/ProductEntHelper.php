@@ -1441,7 +1441,7 @@ class ProductEntHelper extends AbstractHelper
                         }
                         else
                         {
-                            $gtin = $barcode2;
+                            $gtin = $barcode2->getValue();
                         }
 
                     }
@@ -1452,7 +1452,12 @@ class ProductEntHelper extends AbstractHelper
                 $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
 
                 $weight = $product->getWeight();
-                $dimensions = $product->getCustomAttribute('product_dimensions');
+                $dimensions = "";
+                $dimensionsAttr = $product->getCustomAttribute('product_dimensions');
+                if(!is_null($dimensionsAttr))
+                {
+                    $dimensions = $dimensionsAttr->getValue();
+                }
                 $warranty = "";
 
                 $imageUrl = "";
@@ -1490,7 +1495,7 @@ class ProductEntHelper extends AbstractHelper
             }
 
         }
-
+        exit;
     }
 
 }
