@@ -13,24 +13,21 @@
         $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
         if ($customerSession->isLoggedIn()) {
             $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
-            ?><div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div><?php
+            ?>
+            <div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div>
+            <?php
         }
         ?>
     </a>
 
     <!-- 🔹 Cart Trigger -->
-    <a id="minicart-trigger" class="action showcart" href="javascript:void(0)" data-bind="scope: 'minicart_content'">
+    <a class="action showcart" href="javascript:void(0);" data-bind="scope: 'minicart_content'">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
         <span>Cart</span>
         <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
         <span class="counter qty empty"
-              data-bind="css: { empty: !!getCartParam('summary_count') == false && !isLoading() },
-                         blockLoader: isLoading">
-            <span class="counter-number">
-                <!-- ko if: getCartParam('summary_count') -->
-                <!-- ko text: getCartParam('summary_count').toLocaleString(window.LOCALE) --><!-- /ko -->
-                <!-- /ko -->
-            </span>
+              data-bind="css: { empty: !getCartParam('summary_count') }, blockLoader: isLoading">
+            <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
         </span>
     </a>
 
@@ -40,34 +37,33 @@
         <span>Login</span>
     </a>
 
-    <!-- 🔹 Overlay -->
-    <div class="custom-minicart-overlay" style="display: none;"></div>
+    <!-- 🔹 Dropdown Minicart -->
+    <div class="block block-minicart"
+         data-role="dropdownDialog"
+         data-mage-init='{
+            "dropdownDialog": {
+                "appendTo": ".minicart-wrapper",
+                "triggerTarget": ".showcart",
+                "closeOnClickOutside": false,
+                "closeOnEscape": true,
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "triggerClass": "active",
+                "parentClass": "active",
+                "buttons": []
+            }
+         }'
+         aria-hidden="true"
+         data-bind="scope: 'minicart_content'">
 
-    <!-- 🔹 Custom Popup -->
-    <div id="custom-minicart-popup" class="custom-minicart-popup" style="display: none;" data-bind="scope: 'minicart_content'">
-        <div class="popup-content">
-            <button type="button" class="popup-close"></button>
-            <!-- ko template: getTemplate() --><!-- /ko -->
-        </div>
+        <!-- 🔹 Close Button -->
+        <button type="button" class="minicart-close" aria-label="Close minicart">✕</button>
 
-        <div class="popup-footer">
-            <a href="<?= $block->getShoppingCartUrl() ?>" class="view-cart-btn"><?= __('View Cart') ?></a>
-            <a href="<?= $block->getCheckoutUrl() ?>" class="checkout-btn"><?= __('Checkout') ?></a>
-        </div>
-
-        <!-- 🔹 Custom Remove Confirmation -->
-        <div class="custom-remove-confirm" style="display: none;">
-            <div class="confirm-box">
-                <p><?= __('Remove this item from cart?') ?></p>
-                <div class="confirm-actions">
-                    <button type="button" class="confirm-yes"><?= __('Yes') ?></button>
-                    <button type="button" class="confirm-no"><?= __('Cancel') ?></button>
-                </div>
-            </div>
-        </div>
+        <!-- 🔹 Knockout Template -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
-    <!-- 🔹 Magento Knockout Init -->
+    <!-- 🔹 Knockout / JS Init -->
     <?= $block->getChildHtml('minicart.addons') ?>
     <?= /* @noEscape */ $secureRenderer->renderTag(
         'script',
@@ -75,82 +71,45 @@
         'window.checkout = ' . /* @noEscape */ $block->getSerializedConfig(),
         false
     ); ?>
+
     <script type="text/x-magento-init">
     {
-        "[data-block='minicart']": {
+        "*": {
             "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+        },
+        ".showcart": {
+            "Magento_Checkout/js/sidebar": {
+                "targetElement": "div.block.block-minicart",
+                "url": "<?= $block->getUrl('checkout/cart') ?>",
+                "button": ".action.showcart"
+            }
         }
     }
     </script>
+
+    <!-- 🔹 Custom Toggle Script -->
+    <script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+            const $wrapper = $('.minicart-wrapper');
+            const $minicart = $wrapper.find('.block-minicart');
+            const $trigger = $wrapper.find('.showcart');
+            const $close = $wrapper.find('.minicart-close');
+
+            // ✅ Close minicart when close button clicked
+            $close.on('click', function () {
+                $minicart.attr('aria-hidden', 'true').removeClass('active');
+                $trigger.removeClass('active');
+            });
+
+            // 🧠 Optional: Keep open until user clicks close or outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.minicart-wrapper').length) {
+                    $minicart.attr('aria-hidden', 'true').removeClass('active');
+                    $trigger.removeClass('active');
+                }
+            });
+        });
+    });
+    </script>
 </div>
-
-<!-- 🔹 Custom JS -->
-<?php
-$script = <<<JS
-require(['jquery'], function ($) {
-  $(function () {
-    const \$popup = $('#custom-minicart-popup');
-    const \$overlay = $('.custom-minicart-overlay');
-    const \$trigger = $('#minicart-trigger');
-    const \$confirmBox = \$popup.find('.custom-remove-confirm');
-    let \$currentItemToRemove = null;
-
-    // 🟢 Popup open/close
-    function openPopup() {
-      \$overlay.fadeIn(200);
-      \$popup.fadeIn(200);
-      $('body').css('overflow', 'hidden');
-    }
-    function closePopup() {
-      \$overlay.fadeOut(200);
-      \$popup.fadeOut(200);
-      $('body').css('overflow', '');
-    }
-
-    // 🟢 Confirmation open/close
-    function openConfirm(\$btn) {
-      \$currentItemToRemove = \$btn;
-      \$confirmBox.fadeIn(200);
-    }
-    function closeConfirm() {
-      \$confirmBox.fadeOut(200);
-      \$currentItemToRemove = null;
-    }
-
-    // 🟢 Events
-    \$trigger.on('click', function (e) {
-      e.preventDefault();
-      openPopup();
-    });
-    $(document).on('click', '.popup-close, .custom-minicart-overlay', closePopup);
-    $(document).on('keyup', function(e) {
-      if (e.key === 'Escape') closePopup();
-    });
-
-    // 🟢 Listen to custom event from mixin
-    $(document).on('custom:minicartRemove', function (e, \$elem) {
-      openConfirm(\$elem);
-    });
-
-    // 🟢 Intercept default remove clicks (fallback)
-    $(document).on('click', '.action.delete', function (e) {
-      e.preventDefault();
-      openConfirm($(this));
-    });
-
-    // 🟢 Confirm Yes
-    \$confirmBox.find('.confirm-yes').on('click', function () {
-      if (\$currentItemToRemove) {
-        const href = \$currentItemToRemove.attr('href');
-        if (href) window.location.href = href;
-      }
-      closeConfirm();
-    });
-
-    // 🟢 Confirm No
-    \$confirmBox.find('.confirm-no').on('click', closeConfirm);
-  });
-});
-JS;
-echo $secureRenderer->renderTag('script', [], $script, false);
-?>
