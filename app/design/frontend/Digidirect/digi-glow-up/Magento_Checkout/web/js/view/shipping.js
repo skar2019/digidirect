@@ -27,7 +27,8 @@ define([
     'Magento_Checkout/js/checkout-data',
     'uiRegistry',
     'mage/translate',
-    'Magento_Checkout/js/model/shipping-rate-service'
+    'Magento_Checkout/js/model/shipping-rate-service',
+    'Magento_Checkout/js/view/checkout-toggle'
 ], function (
     $,
     _,
@@ -51,7 +52,9 @@ define([
     checkoutDataResolver,
     checkoutData,
     registry,
-    $t
+    $t,
+    shippingRateService,
+    checkoutToggle
 ) {
     'use strict';
 
@@ -432,25 +435,18 @@ define([
                 $('.cart-id .cart-id-value').text(quote.getQuoteId().toString().match(/.{1,3}/g).join('-'));
             }
 
-            $('#checkoutSteps li#customer-info').css('border-bottom', 'none');
+            //$('#checkoutSteps li#customer-info').css('border-bottom', 'none');
 
             setTimeout(() => {
-                $('#checkoutSteps li').removeClass('active').addClass('inactive');
-                $('.opc-wrapper .step-content').hide();
-                $('.opc-wrapper li .action-extension-toolbar').hide();
+                checkoutToggle.toggleDownAllSections();
 
                 $('#collect_type_delivery').prop('checked', true).trigger('change');
 
                 if (!isCustomerLoggedIn) {
-                    $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-                    $('#checkoutSteps li#customer-info .step-content').show();
-                    $('#checkoutSteps li#customer-info .action-extension-toolbar').show();
+                    checkoutToggle.toggleUpCustomerInfoSection();
 
                 } else {
-                    $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
-                    $('#checkoutSteps li#shipping .step-content').show();
-                    $('#checkoutSteps li#shipping').css('border', 'none');
-                    $('#checkoutSteps li#shipping .action-extension-toolbar').show();
+                    checkoutToggle.toggleUpShippingAddressSection();
 
                     $('#customer-info').css('display', 'none');
                     $('.account-signin-banner').css('display', 'none');

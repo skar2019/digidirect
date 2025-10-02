@@ -23,7 +23,10 @@
 
     li {
         padding-top: 30px;
-        border-bottom: 1px solid #d2d2d9;
+
+        &.with-border {
+            border-bottom: 2px solid #D9D9D9;
+        }
     }
 
     .form-login,
@@ -331,15 +334,38 @@
      border: none !important;
  }
 
-#checkoutSteps .change-link {
-    padding-left: 10px;
-    color: #0066cc;
-    font-weight: 400;
-    font-size: 14px;
-}
-
 #checkoutSteps #checkout-step-customerinfo {
     display: flex;
     align-items: center;
 }
 /****Checkout sections style end***/
+
+/**** Change link sections start ***/
+.change-content {
+    position: relative;
+    color: #AEAEB2;
+    //cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8em;
+    border: 1px solid #D9D9D9;
+    padding: 0.7em 2em;
+    border-radius: 0.5em;
+    width: 100%;
+}
+
+#checkoutSteps .change-link {
+    padding-left: 10px;
+    color: #0066cc;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.shipping-title-change, .shipping-address-change, .shipping-method-change {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+/**** Change link sections end ***/

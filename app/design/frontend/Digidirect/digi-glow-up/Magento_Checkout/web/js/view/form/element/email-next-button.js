@@ -5,10 +5,10 @@ define([
     'Magento_Customer/js/action/check-email-availability',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/checkout-data',
+    'Magento_Checkout/js/view/checkout-toggle',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/step-navigator',
-    'uiRegistry',
-    'Magento_Checkout/js/model/full-screen-loader'
+    'uiRegistry'
 ], function (
     $,
     domReady,
@@ -16,12 +16,12 @@ define([
     checkEmailAvailability,
     quote,
     checkoutData,
+    checkoutToggle,
     fullScreenLoader,
     stepNavigator,
     registry
 ) {
     'use strict';
-
 
     function validateEmail(email) {
         const deferred = $.Deferred();
@@ -29,56 +29,47 @@ define([
         return deferred.promise();
     }
 
-    function toggleShippingAddress() {
+    function toggleUpShippingAddress() {
+        // Set placeholder and autocomplete for street address
         $('input[name="street[0]"]').attr({
             'placeholder': 'Street *',
             'digidirect-autocomplete': 'on'
         });
 
-        $('#checkoutSteps li').removeClass('active').addClass('inactive');
-        $('.opc-wrapper .step-content').hide();
-        $('.opc-wrapper li .action-extension-toolbar').hide();
+        checkoutToggle.toggleDownAllSections();
+        checkoutToggle.toggleUpCustomerInfoSection();
+        checkoutToggle.toggleUpShippingAddressSection();
 
-        $('#checkoutSteps li#customer-info').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#customer-info .step-content').show();
-        $('#checkoutSteps li#customer-info').css('border', 'none');
-        $('#checkoutSteps  li#customer-info .action-extension-toolbar').show();
+        checkoutToggle.showChangeEmailLink();
+        checkoutToggle.hideChangeShippingAddressLink();
 
-        $('#checkoutSteps li#shipping').removeClass('inactive').addClass('active');
-        $('#checkoutSteps li#shipping .step-content').show();
-        $('#checkoutSteps li#shipping').css('border', 'none');
-        $('#checkoutSteps  li#shipping .action-extension-toolbar').show();
+        $('#collect_type_delivery').prop('checked', true).trigger('change');
 
-        /*if (customer.isLoggedIn()) {
-            $(".field.addresses").attr("style", "display: block !important");
-            $("li#shipping .action.action-show-popup").attr("style", "display: block !important");
-        }*/
-
-        fullScreenLoader.stopLoader();
-
-        var target = $('#checkoutSteps li#shipping');
-
+        // Scroll to shipping section
+        let target = $('#checkoutSteps li#shipping');
         if (target.length) {
             $('html, body').animate({
                 scrollTop: target.offset().top
             }, 600);
         }
+
+        // Hide shipping address change links sections
+        //$("#delivery_info_change_link_section").hide();
+        //$("#clickcollect_info_change_link_section").hide();
+
+        // Show shipping address form and related sections
+        //$(".collect-type").show();
+        //$('#co-shipping-form').show();
+
     }
 
-    function changeEmailLinkShow() {
-        $("#customer-info-change-extension").removeClass('hide');
-        $("#customer-info-change-extension").show();
-        $("#customer-info-button-extension").hide()
-    }
-
-    $(document).on("click", "#customer-info-button-extension, #customer-info-change-extension", function () {
+    $(document).on("click", "#customer-info-button-extension", function () {
         fullScreenLoader.startLoader();
         const email = $('#customer-email').val();
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             $('#customer-email-error').show();
             fullScreenLoader.stopLoader();
-            console.log('Email is not in correct format');
             return; //NOT VALID EMAIL
         }
 
@@ -86,20 +77,23 @@ define([
             // Email is NOT registered → guest
             quote.guestEmail = email;
             checkoutData.setValidatedEmailValue(email);
-            console.log('Email is NOT registered (guest)');
-           // stepNavigator.next();
-            //stepNavigator.setHash('shipping-address');
-            changeEmailLinkShow();
-            toggleShippingAddress();
+            toggleUpShippingAddress();
             fullScreenLoader.stopLoader();
         }).fail(function () {
             // Email is registered → show password
             registry.get('checkout.steps.shipping-step.customer-email', function (component) {
                 component.isPasswordVisible(true);
                 $('#customer-password').focus();
-                console.log('Email IS registered');
                 fullScreenLoader.stopLoader();
             });
         });
+    });
+
+    $(document).on("click", "#customer-info-change-extension", function () {
+        checkoutToggle.toggleDownAllSections();
+        checkoutToggle.toggleUpCustomerInfoSection();
+
+        checkoutToggle.hideChangeEmailLink();
+
     });
 });
