@@ -47,9 +47,8 @@
             "dropdownDialog": {
                 "appendTo": ".minicart-wrapper",
                 "triggerTarget": ".showcart",
-                "closeOnClickOutside": false,
+                "closeOnClickOutside": true,
                 "closeOnEscape": true,
-                "timeout": "2000",
                 "closeOnMouseLeave": false,
                 "triggerClass": "active",
                 "parentClass": "active",
@@ -91,7 +90,7 @@
 
     <!-- 🔹 Custom Toggle Script -->
     <script>
-    require(['jquery'], function ($) {
+    require(['jquery', 'mage/dropdown'], function ($) {
         $(document).ready(function () {
             const $wrapper = $('.minicart-wrapper');
             const $minicart = $wrapper.find('.block-minicart');
@@ -100,38 +99,36 @@
             const $overlay = $wrapper.find('.minicart-overlay');
 
             function openMinicart() {
-                $minicart.attr('aria-hidden', 'false').addClass('visible');
-                $trigger.addClass('active');
+                $minicart.dropdownDialog('open');
                 $overlay.fadeIn(200);
             }
 
             function closeMinicart() {
-                $minicart.attr('aria-hidden', 'true').removeClass('visible');
-                $trigger.removeClass('active');
+                $minicart.dropdownDialog('close');
                 $overlay.fadeOut(200);
             }
 
-            // ✅ Toggle open/close on trigger
+            // ✅ Toggle on trigger
             $trigger.on('click', function (e) {
                 e.preventDefault();
-                if ($minicart.hasClass('visible')) {
+                if ($minicart.attr('aria-hidden') === 'false') {
                     closeMinicart();
                 } else {
                     openMinicart();
                 }
             });
 
-            // ✅ Close button click
+            // ✅ Close button
             $close.on('click', function () {
                 closeMinicart();
             });
 
-            // ✅ Overlay click closes minicart
+            // ✅ Overlay click
             $overlay.on('click', function () {
                 closeMinicart();
             });
 
-            // ✅ ESC key closes minicart
+            // ✅ ESC key
             $(document).on('keyup', function (e) {
                 if (e.key === "Escape") closeMinicart();
             });
