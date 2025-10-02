@@ -49,6 +49,8 @@
                 "triggerTarget": ".showcart",
                 "closeOnClickOutside": true,
                 "closeOnEscape": true,
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
                 "triggerClass": "active",
                 "parentClass": "active",
                 "buttons": []
@@ -81,31 +83,31 @@
     }
     </script>
 
+    <!-- ✅ Fixed Custom Script -->
     <script>
     require(['jquery', 'mage/dropdown'], function ($) {
         $(function () {
             const $minicart = $('.block-minicart');
             const $overlay = $('.minicart-overlay');
-            const $close = $('.minicart-close');
 
-            // Fade in/out overlay based on dropdown events
+            // Fade overlay with dropdown
             $minicart.on('dropdownDialogOpen', function () {
-                $overlay.fadeIn(200);
-                $minicart.stop().fadeIn(200);
+                $overlay.stop(true, true).fadeIn(200);
+                $minicart.stop(true, true).fadeIn(200);
             });
 
             $minicart.on('dropdownDialogClose', function () {
-                $overlay.fadeOut(200);
-                $minicart.stop().fadeOut(200);
+                $overlay.stop(true, true).fadeOut(200);
+                $minicart.stop(true, true).fadeOut(200);
             });
 
-            // Close on overlay click
+            // Overlay click closes minicart
             $overlay.on('click', function () {
                 $minicart.dropdownDialog('close');
             });
 
-            // Close button
-            $close.on('click', function () {
+            // ✅ Delegated close button event (works even inside dropdown)
+            $(document).on('click', '.minicart-close', function () {
                 $minicart.dropdownDialog('close');
             });
         });
