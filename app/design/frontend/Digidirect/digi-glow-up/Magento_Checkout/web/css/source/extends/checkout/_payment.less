@@ -161,11 +161,16 @@
             }
 
             .radio {
-                transform: scale(0.6);
+               margin-left: 20px;
+               /* transform: scale(0.6);
                 cursor: pointer;
                 margin-right: 10px;
                 accent-color: #0070f3;
-                width: 40px !important;
+                width: 40px !important;*/
+            }
+            input[type="radio"]:checked::after {
+                top: 1px !important;
+                left: 1px !important;
             }
 
             .label, .latipay-main-label {
@@ -206,11 +211,11 @@
             }
         }
 
-        input, select {
-            width: 40px !important;
+        input:not([type="radio"]), select {
+            //width: 40px !important;
         }
 
-        .latipay-options-item input {
+        .latipay-options-item input:not([type="radio"]) {
             width: 20px !important;
         }
     }
@@ -270,6 +275,26 @@
     letter-spacing: 0.2px;
 }
 
+.checkout-payment-method .payment-option-title .action-toggle:after {
+    width: 10px;
+    height: 10px;
+    border: 1px solid;
+    transition: transform .3s ease;
+    transform: rotate(45deg);
+    position: absolute;
+    content: "";
+    border-top: none;
+    border-left: none;
+    margin-left: 20px;
+    margin-top: 4px;
+}
+
+.checkout-payment-method .payment-option._active .payment-option-title .action-toggle:after {
+    content: "" !important;
+    transform: rotate(-135deg);
+    margin-top: 9px;
+}
+
 .checkout-payment-method #block-discount-heading span {
     font-size: 14px !important;
     font-weight: 700 !important;
@@ -300,7 +325,7 @@
 .checkout-index-index .afterpay .label::after {
     content: "AfterPay" !important;
     font-weight: 700;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
 }
 
 .checkout-index-index .afterpay .choice::after {
@@ -458,6 +483,8 @@
 
     hr {
         border: none !important;
+        margin-bottom: unset !important;
+        margin-top: unset !important;
     }
 
     .form-discount {
@@ -496,12 +523,13 @@
         display: flex;
         margin: 0 0 20px;
         justify-content: space-between;
-        max-width: none !important;
+        max-width: none !important;afterpay
 
         .payment-option-inner, .fieldset.remove {
             margin: 0 !important;
             display: flex;
             justify-content: initial;
+            gap: 4px;
 
             input[name="giftcard_code"] {
                 padding-right: 30px;

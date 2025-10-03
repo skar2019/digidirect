@@ -124,8 +124,8 @@
                                                                 <item name="telephone" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="tooltip" xsi:type="boolean">false</item>
-                                                                        <item name="additionalClasses" xsi:type="string">-telephone</item>
-                                                                        <item name="placeholder" xsi:type="string" translate="true">Phone Number</item>
+                                                                        <item name="additionalClasses" xsi:type="string">-telephone required</item>
+                                                                        <item name="placeholder" xsi:type="string" translate="true">Phone Number *</item>
                                                                     </item>
                                                                     <item name="validation" xsi:type="array">
                                                                         <item name="validate-number" xsi:type="boolean">true</item>

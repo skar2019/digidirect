@@ -27,14 +27,14 @@
 }
 
 .modal-popup .modal-content {
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex: 1 1 auto; /* Make content area grow */
-    -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
-    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    overflow-y: auto;
+    flex: 1 1 auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .modal-popup .modal-content::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in Chrome/Safari */
+    display: none;
 }
 
 .modal-popup .action.primary {
@@ -52,4 +52,22 @@
 
 .modal-popup .fieldset > .field:not(.choice) > .label {
     text-align: left !important;
+}
+
+.locator-item.locator-details .-cannington-note {
+    padding-left: 20px !important;
+    max-width: 250px !important;
+}
+
+.locator-item.selected-store {
+    background-color: #ffe8c4;
+    border: 2px solid #f90;
+}
+
+.wrap-block .link.-collect.action.primary {
+    background-color: #f2f2f2;
+}
+
+#checkout-step-shipping .fieldset:has(.field):has(.delivery-number) {
+    display: none !important;
 }

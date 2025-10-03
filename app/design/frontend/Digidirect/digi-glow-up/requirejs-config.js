@@ -1,5 +1,5 @@
 var config = {
     deps: [
-        'js/custom' // path to your file
+        'js/custom' // your existing custom file
     ]
 };

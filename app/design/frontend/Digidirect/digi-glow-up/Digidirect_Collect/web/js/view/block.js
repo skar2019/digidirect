@@ -13,7 +13,8 @@ define([
     'mage/storage',
     'Magento_Checkout/js/model/quote',
     'Magento_Ui/js/lib/core/events',
-], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, locations, storage, quote, events) {
+    'Magento_Checkout/js/model/full-screen-loader'
+], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, locations, storage, quote, events,fullScreenLoader) {
     'use strict';
 
     var singleCartPopUp = null,
@@ -47,7 +48,7 @@ define([
         },
         initialize: function () {
             setBlockPlaces();
-            
+
             window.selectStore = ko.observable(false);
 
             this._super();
@@ -77,7 +78,7 @@ define([
         },
         renderItems: function () {
             var self = this;
-            
+
             if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
@@ -101,7 +102,7 @@ define([
 
             $('#collect_quote_item_id').val(this.formItemId);
 
-            if (!singleCartPopUp) { 
+            if (!singleCartPopUp) {
                 this.popUpForm.options.buttons = [];
                 this.popUpForm.options.closed = function () {
                     self.isSingleCartFormPopUpVisible(false);
@@ -185,6 +186,7 @@ define([
             return true;
         },
         toggleCollectType: function (data, e) {
+            fullScreenLoader.startLoader();
             var method = $(e.currentTarget).val();
             $(this.collectBlock).removeClass(this.visibleClass);
             $('[data-collect-type="' + method + '"]').addClass(this.visibleClass);
@@ -196,9 +198,10 @@ define([
             } else {
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
-                
+
                 this.showFormPopUp();
             }
+            fullScreenLoader.stopLoader();
         },
         applyDeliveryToAllItems: function () {
             var self = this,
@@ -227,7 +230,7 @@ define([
                     collectPlaceId: id,
                     storageName: name
                 };
-
+                fullScreenLoader.startLoader();
                 storage.post(serviceUrl, JSON.stringify(payload)).done(function (response) {
                     self.onSuccessApplyPlace(response);
                     self.isInProgress = false;
@@ -235,11 +238,13 @@ define([
                     self.onErrorApplyPlace(response);
                     self.isInProgress = false;
                 });
+                fullScreenLoader.stopLoader();
             }
         },
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
             this.updateCollectPlaces(JSON.parse(response));
+            $('.wrap-block').attr("style", "display: none !important");
             this.collectPlaceRows.removeAll();
             this.setPlacesToQuote();
         },

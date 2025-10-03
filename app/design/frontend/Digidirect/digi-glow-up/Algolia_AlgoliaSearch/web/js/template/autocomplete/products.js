@@ -14,13 +14,57 @@ define([], function () {
         },
 
         getItemHtml: function ({item, components, html}) {
+            
+            var badge = '';
+            
+            console.log("item", JSON.stringify(item));
+            
+            if (item['price'] !== undefined && item['price']['AUD'] !== undefined) {
+
+                let defaultOriginalPrice = 0;
+                let defaultOriginalPriceStr = item['price']['AUD']['default_original_formated'];
+                
+                if (defaultOriginalPriceStr) {
+                    defaultOriginalPrice = Number(defaultOriginalPriceStr.replace("$", "").replace(",", ""));
+                }
+
+                //console.log("defaultOriginalPriceStr", defaultOriginalPriceStr);
+                
+                let basePrice = defaultOriginalPrice > item['price']['AUD']['default']
+                    ? defaultOriginalPrice
+                    : item['price']['AUD']['default'];
+
+                let priceDiscount = 0;
+                if (defaultOriginalPrice > item['price']['AUD']['default']) {
+                    priceDiscount = defaultOriginalPrice - item['price']['AUD']['default'];
+                }
+
+                let wiserDiscount = 0;
+                if (item['wiser_price']) {
+                    wiserDiscount = basePrice - item['wiser_price'];
+                }
+                
+                console.log(item['name'], priceDiscount, wiserDiscount);
+
+                if (priceDiscount > 0 || wiserDiscount > 0) {
+                    badge = html`<div class="ribbon-digideals"><span>digi</span>Deals</div>`;
+                }
+            }
+            
+            let categoryIds = item['categoryIds'] || [];
+            let digiSecondsIds = ["2564","2567","2570","2573"];
+            let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
+
+            if (hasMatch) {
+                badge = html`<div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>`;
+            }
+            
             return html`<a class="algoliasearch-autocomplete-hit"
                            href="${item.url}"
                            data-objectId="${item.objectID}"
                            data-position="${item.position}"
                            data-index="${item.__autocomplete_indexName}"
-                           data-queryId="${item.__autocomplete_queryID}">
-                <div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
+                           data-queryId="${item.__autocomplete_queryID}">${badge}<div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
                 <div class="info">
                     <div class="algoliasearch-autocomplete-name">
                         ${this.safeHighlight(components, item, "name")}
@@ -74,121 +118,64 @@ define([], function () {
         },
 
         getPricingHtml: function(item, html) {
-            if (item['price'] == undefined) return "";
+            if (!item || !item.price || !item.price.AUD) return "";
 
-            const priceGroup =  algoliaConfig.priceGroup || 'default';
-            
+            const priceGroup = algoliaConfig.priceGroup || 'default';
+            const currencyCode = algoliaConfig.currencyCode || 'AUD';
+            const priceAUD = item.price.AUD;
+
             const formatter = new Intl.NumberFormat('en-AU', {
-                style: 'currency',
-                currency: 'AUD',
-                minimumFractionDigits: 2
+              style: 'currency',
+              currency: 'AUD',
+              minimumFractionDigits: 2
             });
-            
-            //custom_final_price
-            /*if (item['custom_final_price']) {
-                //Set price to custom_final_price
-                if ((item['custom_final_price'] < item['price']['AUD']['default']) && item['custom_final_price'] != 0) {
-                    item.customFinalPrice =  formatter.format(item['custom_final_price']);
-                    hasCustomFinalPrice = true;
-                }
 
-                //Set price to default
-                //item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                //hasCustomFinalPrice = false;
-            }*/
-            
-            //wiser_price
-            if (item['wiser_price']) {
-                //Set price to wiser_price
-                var wiserDiscount = item['price']['AUD']['default'] - item['wiser_price'];
-                if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
-                    item.customFinalPrice =  formatter.format(item['wiser_price']);
-                    return html `<div className="algoliasearch-autocomplete-price">
-                            <span className="after_special custom_final_price">
-                                ${formatter.format(item['wiser_price'])}
-                            </span>
-                        </div>`;
-                } else {
-                    item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                }
+            const parsePrice = (val) => {
+              if (val === undefined || val === null) return 0;
+              if (typeof val === 'number') return val;
+              const n = Number(String(val).replace(/\$/g, '').replace(/,/g, '').trim());
+              return isNaN(n) ? 0 : n;
+            };
+
+            const defaultPrice = Number(priceAUD.default) || 0;
+            const originalPrice = parsePrice(priceAUD.default_original_formated); // 0 if not available
+            const basePrice = originalPrice > 0 ? originalPrice : defaultPrice;
+
+            const wiserPrice = (item.wiser_price === undefined || item.wiser_price === null || item.wiser_price === '')
+              ? null
+              : (isNaN(Number(item.wiser_price)) ? null : Number(item.wiser_price));
+
+            // discounts
+            const priceDiscount = originalPrice > defaultPrice ? (originalPrice - defaultPrice) : 0;
+            const wiserDiscount = (wiserPrice !== null && basePrice > wiserPrice) ? (basePrice - wiserPrice) : 0;
+
+            // PROMOTION (original > default)
+            if (priceDiscount > 0) {
+              return html`<div className="algoliasearch-autocomplete-price">
+                <span className="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
+                <span className="after_special custom_final_price">${formatter.format(defaultPrice)}</span>
+                <div className="discount">SAVE ${formatter.format(priceDiscount)}</div>
+              </div>`;
             }
-            
-            if ((item['price']['AUD']['default'] < item['wiser_price']) || !item['wiser_price'] || item['wiser_price'] === null || item['wiser_price'] === undefined) {
-                //programmed_promotion_price
-                if (item['price']['AUD']['default_original_formated'] && item['price']['AUD']['default_original_formated'] !== "undefined") {
-                    var defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
-                    defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
 
-                    if (defaultOriginalPrice > item['price']['AUD']['default']) {
-                        //Set price to custom_final_price
-                        var priceDiscount = defaultOriginalPrice - item['price']['AUD']['default'];
-                        /*item.defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
-                        item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                        item.discount = formatter.format(priceDiscount);
-                        item.hasCustomFinalPrice = true;
-                        item.hasNoCustomFinalPrice = false;
-                        item.customFinalPrice =  formatter.format(item['wiser_price']);*/
-                        
-                        return html `<div className="algoliasearch-autocomplete-price">
-                            <span className="before_price promotional">
-                                ${item['price']['AUD']['default_original_formated']}
-                            </span>
-                            <span className="after_special custom_final_price">
-                                ${formatter.format(item['price']['AUD']['default'])}
-                            </span>
-                            <div className="discount">
-                                SAVE ${formatter.format(priceDiscount)}
-                            </div>
-                        </div>`;
-                    }
-                }
-            } else {
-                //wiser_price
-                if (item['wiser_price']) {
-
-                    var basePrice;
-
-                    //Set price to custom_final_price
-                    var defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
-
-                    if (defaultOriginalPrice) {
-                        defaultOriginalPrice = Number(defaultOriginalPrice.replace("$", "").replace(",", ""));
-                        basePrice = defaultOriginalPrice;
-                    } else {
-                        basePrice = item['price']['AUD']['default'];
-                    }
-
-                    var wiserDiscount = basePrice - item['wiser_price'];
-                    if ((item['wiser_price'] < item['price']['AUD']['default']) && item['wiser_price'] != 0) {
-                        /*item.defaultOriginalPrice = item['price']['AUD']['default_original_formated'];
-                        item.customFinalPrice =  formatter.format(item['wiser_price']);
-                        item.discount = formatter.format(wiserDiscount);
-                        item.hasCustomFinalPrice = true;
-                        item.hasNoCustomFinalPrice = false;*/
-                        return html `<div className="algoliasearch-autocomplete-price">
-                            <span className="before_price wiser">
-                                ${item['price']['AUD']['default_original_formated']}
-                            </span>
-                            <span className="after_special custom_final_price">
-                                ${formatter.format(item['wiser_price'])}
-                            </span>
-                            <div className="discount">
-                                SAVE ${formatter.format(wiserDiscount)}
-                            </div>
-                        </div>`;
-                    }
-                    //Set price to default
-                    //item.customFinalPrice =  formatter.format(item['price']['AUD']['default']);
-                    //item.hasCustomFinalPrice = false;
-                    //item.hasNoCustomFinalPrice = true;
-                }
+            // WISER DISCOUNT (basePrice > wiserPrice)
+            if (wiserDiscount > 0) {
+              return html`<div className="algoliasearch-autocomplete-price">
+                <span className="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
+                <span className="after_special custom_final_price">${formatter.format(wiserPrice)}</span>
+                <div className="discount">SAVE ${formatter.format(wiserDiscount)}</div>
+              </div>`;
             }
-            
-            return html `<div className="algoliasearch-autocomplete-price">
-                    <span className="after_special ${item['price'][algoliaConfig.currencyCode][priceGroup + '_original_formated'] != null ? 'promotion' : ''}">
-                        ${item['price'][algoliaConfig.currencyCode][priceGroup + '_formated']}
-                    </span>
-                </div>`;
+
+            // FALLBACK: no discount
+            const formatted = (item.price[currencyCode] && item.price[currencyCode][priceGroup + '_formated'])
+              || formatter.format(defaultPrice);
+
+            return html`<div className="algoliasearch-autocomplete-price">
+              <span className="after_special ${ (item.price[currencyCode] && item.price[currencyCode][priceGroup + '_original_formated']) != null ? 'promotion' : '' }">
+                ${formatted}
+              </span>
+            </div>`;
         },
 
         getFooterSearchCategoryLinks: (html, resultDetails) => {

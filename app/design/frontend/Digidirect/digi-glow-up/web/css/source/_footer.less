@@ -72,3 +72,97 @@ nav#footer_nav {
     position: absolute;
     bottom: 0;
 }
+.footer-black-gradient-div {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    img.footer-black-gradient {
+        display: none;
+    }
+    .footer-menu {
+        .sub-items {
+            ul.menu {
+                margin-top: 4px;
+                li {
+                    margin-bottom: 4px;
+                }
+            }
+        }
+    }
+    .footer-line img {
+        left: 0;
+        width: 100%;
+    }
+    .footer-black-gradient-div {
+        display: block;
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        height: 44px;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(
+            to top,
+            #000000 2.69%,
+            rgba(0, 0, 0, 0) 66.51%
+        );
+        z-index: 9;
+    }
+
+    footer.page-footer {
+        border-top-left-radius: 42px;
+        border-top-right-radius: 42px;
+        .footer.content {
+            padding-top: 0;
+        }
+        .footer-menu {
+            span.link {
+                font-size: 16px;
+                margin-bottom: 4px;
+            }
+        }
+    }
+    nav#footer_nav {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px 40px;
+        gap: 20px;
+    }
+
+    .footer a.link {
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.28px;
+    }
+    .footer-line {
+        padding-bottom: 0px;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        .footer-top {
+            position: relative;
+        }
+        .footer-bottom {
+            position: static;
+            padding: 20px;
+            width: 100%;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .menu {
+                li {
+                    color: #f7f7f7;
+                    font-size: 8px;
+                    a {
+                        color: #f7f7f7;
+                        font-size: 8px;
+                        text-decoration: underline;
+                        display: inline-block;
+                        padding: 0 4px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,8 @@
 define([
     'ko',
-    'jquery'
-], function (ko, $) {
+    'jquery',
+    'Magento_Checkout/js/model/full-screen-loader'
+], function (ko, $, fullScreenLoader) {
     'use strict';
 
     return function (target) {
@@ -10,17 +11,35 @@ define([
                 entityName: 'abstract_entity_store',
                 collectLocatorBlock: '[data-role="collect-locator"]'
             },
+            selectedStore: ko.observable(),
             isLocatorLoading: ko.observable(true),
+
+            initialize: function () {
+                this._super();
+
+                this.selectedStore.subscribe(function (store) {
+                    if (store && store.entity_id) {
+                        this.submitLocatorStore(store);
+                        $('.wrap-block').attr("style", "display: none !important");
+                    }
+                }, this);
+
+                return this;
+            },
+
+
             showFormPopUp: function (data, e) {
+                fullScreenLoader.startLoader();
                 this._super(data, e);
 
                 if (this.isLocatorLoading()) {
                     this.getLocatorBlock();
                 }
+                fullScreenLoader.stopLoader();
             },
             getLocatorBlock: function () {
                 console.log("getLocatorBlock() called!");
-                
+
                 var self = this;
 
                 $.ajax({

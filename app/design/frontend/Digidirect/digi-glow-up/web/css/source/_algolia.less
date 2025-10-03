@@ -75,8 +75,11 @@
         float: none !important;
         border-radius: 20px;
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
-        padding: 12px !important;
         overflow: hidden;
+    }
+    
+    .grid-view-col {
+        padding: 0 !important;
     }
     
     .result-wrapper {
@@ -86,6 +89,7 @@
     .result-thumbnail {
         height: 180px;
         text-decoration: none;
+        padding: 12px;
     }
     
     .ais-Hits-item img {
@@ -119,6 +123,7 @@
         white-space: unset !important;
         max-width: 200px;
         height: 42px;
+        margin-top: 2px;
     }
     
     /*.ais-Hits-item .price-wrapper {
@@ -216,6 +221,7 @@
     .aa-Panel .algoliasearch-autocomplete-hit .thumb img {
         width: 70px !important;
         object-fit: contain;
+        max-height: 70px;
     }
 
     .algoliasearch-autocomplete-hit .info {
@@ -234,6 +240,7 @@
         width: 70px !important;
         white-space: nowrap;
         overflow: hidden;
+        margin-top: 5px;
     }
 
     .aa-SourceFooter a {
@@ -331,8 +338,8 @@
         border-radius: 5px;
         margin-bottom: 10px;
         position: absolute;
-        right: 0;
-        top: 57px;
+        right: 12px;
+        top: 84px;
     }
     
     .ais-Hits-item .s19-rental-price-target p {
@@ -458,6 +465,8 @@
     
     .result-sub-content {
         position: relative;
+        padding: 12px;
+        background: #fbfbfb;
     }
     
     .result-wrapper .price {
@@ -476,8 +485,10 @@
     }
 
     input.ais-RefinementList-checkbox {
-        width: 16.7px;
-        height: 16.7px;
+        width: 16.7px !important;
+        height: 16.7px !important;
+        appearance: auto !important;
+        -webkit-appearance: auto !important;
     }
 
     input[type="checkbox"] {
@@ -524,6 +535,13 @@
         background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
         background-size: contain;
         transition: transform 0.3s ease;
+    }
+    
+    .aa-Panel .ribbon-digideals {
+        padding: 2px 12px 2px 12px;
+        font-size: 9px;
+        width: fit-content;
+        border-radius: 28px 0 28px;
     }
 
     /* Rotate arrow when collapsed */
@@ -727,6 +745,7 @@
 
     .list-view .list-view-col {
         display: block;
+        padding: 12px !important;
     }
 
     .list-view .grid-view-col {
@@ -743,6 +762,7 @@
     
     .list-view .result-sub-content {
         padding-left: 15px;
+        background: #fff;
     }
     
     .list-view .ais-Hits-item {

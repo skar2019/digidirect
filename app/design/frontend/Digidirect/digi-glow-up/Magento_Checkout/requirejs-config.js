@@ -6,6 +6,7 @@ var config = {
             'digidirectStoreCheckout': 'Magento_Checkout/js/dist/common/store',
             'emailNextBtn': 'Magento_Checkout/js/view/form/element/email-next-button',
             'shippingAddressNextBtn': 'Magento_Checkout/js/view/shipping-address/shipping-address-next-button',
+            'shippingMethodNextBtn': 'Magento_Checkout/js/view/shipping-method/shipping-method-next-button',
             'qantasLoader': 'Magento_Checkout/js/qantas',
             'clickAndCollect': 'Digidirect_Locator/js/view/list'
         }

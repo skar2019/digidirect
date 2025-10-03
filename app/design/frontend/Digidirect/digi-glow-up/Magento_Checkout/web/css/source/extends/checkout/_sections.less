@@ -4,8 +4,18 @@
 }
 
 .opc-wrapper {
-
     color: #242426 !important;
+
+    .shipping-methods, .store-section {
+        input[type="radio"] {
+            &:checked {
+                &::after {
+                    top: 1px;
+                    left: 1px;
+                }
+            }
+        }
+    }
 
     .step-content {
         margin: 0 0 30px !important;
@@ -13,10 +23,14 @@
 
     li {
         padding-top: 30px;
-        border-bottom: 1px solid #d2d2d9;
+
+        &.with-border {
+            border-bottom: 2px solid #D9D9D9;
+        }
     }
 
-    .form-login, .form-shipping-address {
+    .form-login,
+    .form-shipping-address {
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
@@ -26,9 +40,10 @@
         padding: 7px 0px;
     }
 
-    #checkout-step-shipping, #checkout-step-customerinfo,
-    #checkout-step-shipping_method, #checkout-step-payment
-    {
+    #checkout-step-shipping,
+    #checkout-step-customerinfo,
+    #checkout-step-shipping_method,
+    #checkout-step-payment {
         border: 1px solid #fff;
         border-radius: 25px;
         background: #fff;
@@ -45,18 +60,20 @@
         padding: 0px 2px;
     }
 
-    .collect-type radio, .payment-methods radio {
+    .collect-type radio,
+    .payment-methods radio {
         width: auto !important;
     }
 
-    input, select {
+    input,
+    select {
         width: 100%;
         padding: 10px;
         border: 1px solid #d9d9d9;
         border-radius: 5px;
         font-size: 14px;
         height: 40px;
-        color: #1D1D1F;
+        color: #1d1d1f;
 
         &:focus {
             outline: none;
@@ -110,16 +127,16 @@
 
     .checkout-shipping-address {
         input[type="radio"] {
-            display: none;
+            //display: none;
         }
         label {
             position: relative;
-            color: #7F7F7F;
+            color: #7f7f7f;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 0.8em;
-            border: 1px solid #D9D9D9;
+            border: 1px solid #d9d9d9;
             padding: 0.7em 2em;
             border-radius: 0.5em;
             width: 49%;
@@ -128,20 +145,22 @@
             content: "";
             height: 1em;
             width: 1em;
-            border: 1px solid #D9D9D9;
+            border: 1px solid #d9d9d9;
             border-radius: 50%;
         }
 
-        input[type="radio"]:checked + label:before {
-            height: 1em;
-            width: 1em;
-            border: 0.65em solid #ffffff;
-            background-color: #4189e0;
-        }
+        .collect-type {
+            input[type="radio"]:checked + label:before {
+                height: 1em;
+                width: 1em;
+                border: 0.65em solid #ffffff;
+                background-color: #4189e0;
+            }
 
-        input[type="radio"]:checked + label {
-            background-color: #FE4C25;
-            color: #ffffff;
+            input[type="radio"]:checked + label {
+                background-color: #fe4c25;
+                color: #ffffff;
+            }
         }
     }
 
@@ -151,7 +170,7 @@
 
     .note14 {
         font-size: 14px;
-        color: #1D1D1F;
+        color: #1d1d1f;
         font-weight: 600;
         display: block;
         margin: 8px 0;
@@ -166,7 +185,7 @@
 
     .delivery-notes {
         font-size: 14px;
-        color: #1D1D1F;
+        color: #1d1d1f;
         font-weight: 600;
 
         span {
@@ -177,7 +196,31 @@
 
     .delivery-notes .control > textarea {
         border-radius: 5px;
-        border: 1px solid #D9D9D9;
+        border: 1px solid #d9d9d9;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 1px solid #d9d9d9;
+        outline: none;
+        transition: all 0.2s ease;
+        background-color: #fff;
+    }
+
+    input[type="checkbox"] {
+        border-radius: 0 !important;
+    }
+
+    input[type="radio"] {
+        border-radius: 50% !important;
     }
 }
 
@@ -199,10 +242,10 @@
     }
 }
 
-#opc-shipping_method  .table-checkout-shipping-method .row.collect {
+#opc-shipping_method .table-checkout-shipping-method .row.collect {
     display: none;
 }
-.table-checkout-shipping-method input {
+.table-checkout-shipping-method input:not([type="radio"]) {
     width: auto;
     padding: 10px;
     border: 1px solid #d9d9d9;
@@ -216,15 +259,20 @@
     vertical-align: middle;
 }
 
+#opc-shipping_method .methods-shipping ul.table-checkout-shipping-method {
+    display: flex;
+}
+
 #opc-shipping_method .methods-shipping li {
     padding: 10px;
     border: 1px solid #d2d2d9;
     margin: 10px 3px;
     width: 49%;
-    display: inline-block;
+    width: 100%;
+    display: flex;
+    align-items: center;
     border-radius: 5px;
 }
-
 
 /* Credit card info section */
 .credit-card-info {
@@ -261,11 +309,11 @@
 
 #checkoutSteps li.active {
     pointer-events: auto;
-    filter: none ;
+    filter: none;
     opacity: unset;
 }
 
-.action-extension-toolbar {
+#checkoutSteps .action-extension-toolbar {
     display: flex;
     justify-content: right;
     button {
@@ -281,9 +329,43 @@
     }
 }
 
-button {
-    border-radius: 100px;
-    border: none !important;
+#checkoutSteps button {
+     border-radius: 100px;
+     border: none !important;
+ }
+
+#checkoutSteps #checkout-step-customerinfo {
+    display: flex;
+    align-items: center;
 }
-@color-orange: #FE4C25;
 /****Checkout sections style end***/
+
+/**** Change link sections start ***/
+.change-content {
+    position: relative;
+    color: #AEAEB2;
+    //cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8em;
+    border: 1px solid #D9D9D9;
+    padding: 0.7em 2em;
+    border-radius: 0.5em;
+    width: 100%;
+}
+
+#checkoutSteps .change-link {
+    padding-left: 10px;
+    color: #0066cc;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.shipping-title-change, .shipping-address-change, .shipping-method-change {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+/**** Change link sections end ***/
