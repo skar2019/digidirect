@@ -101,6 +101,7 @@ define([
             if (customer.isLoggedIn()) {
                 $(".field.addresses").attr("style", "display: block !important");
                 $("li#shipping .action.action-show-popup").attr("style", "display: block !important");
+                $('#opc-new-shipping-address').attr("style", "display: none !important");
             }
 
             $("#checkout-step-shipping .wrap-block").attr("style", "display: none !important");
