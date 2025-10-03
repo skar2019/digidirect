@@ -1064,20 +1064,46 @@
 
             .item.spec {
                 table {
+                    tr {
+                        vertical-align: top;
+                        &:nth-child(2n) {
+                            th,
+                            td {
+                                background: #f7f7f7;
+                            }
+                        }
+                    }
                     th {
                         width: 20%;
                     }
+                }
+                h3 {
+                    padding: 12px 0;
+                    border-bottom: 1px solid #ccc;
+                    display: flex;
+                    justify-content: space-between;
                 }
             }
         }
     }
 
     table.specTable {
-        tr {
-            vertical-align: top;
-        }
+        margin-bottom: 30px;
+        // tr {
+        //     vertical-align: top;
+        //     &:nth-child(2n) {
+        //         th,
+        //         td {
+        //             background: #f7f7f7;
+        //         }
+        //     }
+        // }
         th {
             width: 20%;
+            text-align: left !important;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px;
         }
     }
 
