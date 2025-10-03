@@ -57,9 +57,9 @@ class SftpMWaveSender extends AbstractHelper
 
         $destinationPath = '/uploads/digiDirectProductAttributes.csv';
         $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/digiDirectProductAttributes.csv';
-        $hostname = 'sda9s7da86.testing.mwave.net.au';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/hostname');
-        $username = 'digidirect';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/username');
-        $password = ')<aqfZUJ28.9SnhE';//$this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/password');;
+        $hostname = $this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/hostname');
+        $username = $this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/username');
+        $password = $this->scopeConfig->getValue('mwave_credential_section/mwave_settings_group/password');;
 
         $sftpConfig = [
             'host' => $hostname,

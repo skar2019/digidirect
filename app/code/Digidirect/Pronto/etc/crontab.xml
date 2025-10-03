@@ -47,5 +47,8 @@
         <job name="pronto_mwavesftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="execute">
             <schedule>55 * * * *</schedule>
         </job>
+        <job name="pronto_mwavesftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="sendExtraData">
+            <schedule>55 * * * *</schedule>
+        </job>
     </group>
 </config>
