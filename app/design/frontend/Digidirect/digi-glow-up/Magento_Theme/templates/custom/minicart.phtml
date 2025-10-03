@@ -37,6 +37,9 @@
         <span>Login</span>
     </a>
 
+    <!-- 🔹 Overlay -->
+    <div class="minicart-overlay" style="display:none;"></div>
+
     <!-- 🔹 Dropdown Minicart -->
     <div class="block block-minicart"
          data-role="dropdownDialog"
@@ -44,7 +47,7 @@
             "dropdownDialog": {
                 "appendTo": ".minicart-wrapper",
                 "triggerTarget": ".showcart",
-                "closeOnClickOutside": false,
+                "closeOnClickOutside": true,
                 "closeOnEscape": true,
                 "timeout": "2000",
                 "closeOnMouseLeave": false,
@@ -57,25 +60,18 @@
          data-bind="scope: 'minicart_content'">
 
         <!-- 🔹 Close Button -->
-        <button type="button" class="minicart-close" aria-label="Close minicart">✕</button>
+        <button type="button" class="minicart-close" aria-label="Close minicart"></button>
 
-        <!-- 🔹 Knockout Template -->
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 
-    <!-- 🔹 Knockout / JS Init -->
     <?= $block->getChildHtml('minicart.addons') ?>
-    <?= /* @noEscape */ $secureRenderer->renderTag(
-        'script',
-        [],
-        'window.checkout = ' . /* @noEscape */ $block->getSerializedConfig(),
-        false
-    ); ?>
+    <?= $secureRenderer->renderTag('script', [], 'window.checkout = ' . $block->getSerializedConfig(), false); ?>
 
     <script type="text/x-magento-init">
     {
         "*": {
-            "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+            "Magento_Ui/js/core/app": <?= $block->getJsLayout() ?>
         },
         ".showcart": {
             "Magento_Checkout/js/sidebar": {
@@ -87,27 +83,32 @@
     }
     </script>
 
-    <!-- 🔹 Custom Toggle Script -->
+    <!-- ✅ Fixed Custom Script -->
     <script>
-    require(['jquery'], function ($) {
-        $(document).ready(function () {
-            const $wrapper = $('.minicart-wrapper');
-            const $minicart = $wrapper.find('.block-minicart');
-            const $trigger = $wrapper.find('.showcart');
-            const $close = $wrapper.find('.minicart-close');
+    require(['jquery', 'mage/dropdown'], function ($) {
+        $(function () {
+            const $minicart = $('.block-minicart');
+            const $overlay = $('.minicart-overlay');
 
-            // ✅ Close minicart when close button clicked
-            $close.on('click', function () {
-                $minicart.attr('aria-hidden', 'true').removeClass('active');
-                $trigger.removeClass('active');
+            // Fade overlay with dropdown
+            $minicart.on('dropdownDialogOpen', function () {
+                $overlay.stop(true, true).fadeIn(200);
+                $minicart.stop(true, true).fadeIn(200);
             });
 
-            // 🧠 Optional: Keep open until user clicks close or outside
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('.minicart-wrapper').length) {
-                    $minicart.attr('aria-hidden', 'true').removeClass('active');
-                    $trigger.removeClass('active');
-                }
+            $minicart.on('dropdownDialogClose', function () {
+                $overlay.stop(true, true).fadeOut(200);
+                $minicart.stop(true, true).fadeOut(200);
+            });
+
+            // Overlay click closes minicart
+            $overlay.on('click', function () {
+                $minicart.dropdownDialog('close');
+            });
+
+            // ✅ Delegated close button event (works even inside dropdown)
+            $(document).on('click', '.minicart-close', function () {
+                $minicart.dropdownDialog('close');
             });
         });
     });
