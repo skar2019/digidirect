@@ -129,6 +129,7 @@ define([
             } else {
                 this.showChangeDeliveryLink();
             }
+
         },
 
         /**
@@ -197,6 +198,7 @@ define([
             $(".collect-type").hide();
             $('#co-shipping-form').attr("style", "display: none !important");
             $('.store-locator-wrapper').attr("style", "display: none !important");
+            $('.form-shipping-address').attr("style", "display: none !important");
 
             $("#checkoutSteps li#shipping")
                 .addClass('with-border')
@@ -211,6 +213,7 @@ define([
             $("#clickcollect_info_change_link_section").hide();
 
             $(".collect-type").show();
+            $('#opc-new-shipping-address').show(); // Only when customer logged in.
             $('#co-shipping-form').show();
             $('.store-locator-wrapper').attr("style", "display: block !important");
         },

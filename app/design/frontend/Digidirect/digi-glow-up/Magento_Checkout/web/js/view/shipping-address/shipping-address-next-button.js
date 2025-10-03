@@ -78,14 +78,14 @@ define([
     $(document).on("click",
         "#clickcollect-info-change-extension, #clickcollect-store-change-extension, #delivery-info-change-extension, #delivery-address-change-extension",
         function () {
-        checkoutToggle.toggleDownAllSections();
-        checkoutToggle.toggleUpCustomerInfoSection();
-        checkoutToggle.toggleUpShippingAddressSection();
+            checkoutToggle.toggleDownAllSections();
+            checkoutToggle.toggleUpCustomerInfoSection();
+            checkoutToggle.toggleUpShippingAddressSection();
 
-        checkoutToggle.showChangeEmailLink();
-        checkoutToggle.hideChangeShippingAddressLink();
+            checkoutToggle.showChangeEmailLink();
+            checkoutToggle.hideChangeShippingAddressLink();
 
-    });
+        });
 
     $(document).on("click",'input[name="delivery_type"]', function () {
         if ($(this).val() == 'collect') {
@@ -118,6 +118,12 @@ define([
 
         //shipping address error fix
         if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+
+            const $form = $('#shipping-new-address-form');
+            const requiredFields = ['firstname', 'lastname', 'telephone'];
+            const isEmpty = requiredFields.some(name => !$.trim($form.find(`input[name="${name}"]`).val()));
+            if (isEmpty) return;
+
             var dummyAddress = {
                 firstname: 'Store',
                 lastname: 'Pickup',
