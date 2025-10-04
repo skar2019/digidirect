@@ -193,6 +193,76 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       toggleDropdown();
       setInterval(toggleDropdown, 300);
     }
+    
+    // =========================
+    // ✅ Rheostat Tooltip Boundary Fix (with retry)
+    // =========================
+    function limitRheostatTooltips() {
+      console.log('limitRheostatTooltips init');
+
+      function init() {
+        const $slider = $('.ais-RangeSlider');
+        if (!$slider.length) {
+          console.log('Slider not found, retrying...');
+          setTimeout(init, 500); // retry every 500ms
+          return;
+        }
+
+        console.log('Slider found!');
+        const $handles = $slider.find('.rheostat-handle');
+
+        function adjustTooltips() {
+          console.log('adjustTooltips running');
+          const sliderRect = $slider[0].getBoundingClientRect();
+
+          $handles.each(function () {
+            const $handle = $(this);
+            const $tooltip = $handle.find('.rheostat-tooltip');
+
+            if ($tooltip.length) {
+              const handleRect = $handle[0].getBoundingClientRect();
+              const tooltipRect = $tooltip[0].getBoundingClientRect();
+
+              const tooltipLeft = handleRect.left + handleRect.width / 2 - tooltipRect.width / 2;
+              const minLeft = sliderRect.left;
+              const maxLeft = sliderRect.right - tooltipRect.width;
+
+              let newLeft = tooltipLeft;
+              if (tooltipLeft < minLeft) newLeft = minLeft;
+              if (tooltipLeft > maxLeft) newLeft = maxLeft;
+
+              const offsetLeft = newLeft - handleRect.left;
+              console.log('tooltip adjusted:', { tooltipLeft, newLeft, offsetLeft });
+
+              $tooltip.css({
+                position: 'absolute',
+                left: offsetLeft + 'px',
+                transform: 'translateX(0)',
+              });
+            }
+          });
+        }
+
+        // Initial adjust
+        adjustTooltips();
+
+        // Adjust on resize
+        $(window).on('resize', adjustTooltips);
+
+        // Adjust whenever handle moves
+        const observer = new MutationObserver(adjustTooltips);
+        $handles.each(function () {
+          observer.observe(this, { attributes: true, attributeFilter: ['style'] });
+        });
+
+        // Also adjust while dragging
+        $(document).on('pointermove mousemove touchmove', adjustTooltips);
+      }
+
+      init();
+    }
+
+    limitRheostatTooltips();
 
   });
 });
