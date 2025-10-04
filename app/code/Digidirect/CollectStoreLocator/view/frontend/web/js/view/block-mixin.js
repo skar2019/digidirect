@@ -18,12 +18,10 @@ define([
                 this._super();
 
                 this.selectedStore.subscribe(function (store) {
-                    fullScreenLoader.startLoader();
                     if (store && store.entity_id) {
                         this.submitLocatorStore(store);
                         $('.wrap-block').attr("style", "display: none !important");
                     }
-                    fullScreenLoader.stopLoader();
                 }, this);
 
                 return this;
@@ -31,11 +29,13 @@ define([
 
 
             showFormPopUp: function (data, e) {
+                fullScreenLoader.startLoader();
                 this._super(data, e);
 
                 if (this.isLocatorLoading()) {
                     this.getLocatorBlock();
                 }
+                fullScreenLoader.stopLoader();
             },
             getLocatorBlock: function () {
                 console.log("getLocatorBlock() called!");
