@@ -1,6 +1,6 @@
 // Product 3-Column Layout LESS Styles
 // Variables
-@product-container-max-width: 1344px;
+@product-container-max-width: 1384px;
 @column-gap: 23px;
 @mobile-breakpoint: 768px;
 @tablet-breakpoint: 1024px;
@@ -45,6 +45,7 @@
     .flex-row();
     gap: @column-gap;
     padding: 20px;
+    justify-content: space-between;
 
     // Mobile: Stack vertically
     @media (max-width: @mobile-breakpoint) {
@@ -62,9 +63,9 @@
 
 // LEFT COLUMN - Product Images
 .product-left-column {
-    flex: 0 033%;
     .flex-column();
     order: 1;
+    width: 100%;
     max-width: 445px;
     position: relative;
 
@@ -128,12 +129,14 @@
 
 // MIDDLE COLUMN - Product Information
 .product-middle-column {
-    flex: 1;
     .flex-column();
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
     order: 2;
-    max-width: 100% !important;
-    min-width: 443px;
+    max-width: 443px;
+    min-width: 0;
+    width: 100%;
 
     @media (max-width: @mobile-breakpoint) {
         order: 2;
@@ -309,7 +312,8 @@
 
 // RIGHT COLUMN - Purchase Actions
 .product-right-column {
-    flex: 0 0 33%;
+    max-width: 401px;
+    width: 100%;
     .flex-column();
     gap: 5px;
     order: 3;
@@ -545,7 +549,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
             width: 100%;
-            min-width: 275px !important;
+            min-width: 0 !important;
 
             &:hover {
                 background: #fe4c25;
@@ -590,7 +594,7 @@
                         }
 
                         .input-text.qty {
-                            width: 35px;
+                            width: 27px;
                             height: 29px;
                             font-size: 14px;
                         }
@@ -1084,20 +1088,21 @@
                     justify-content: space-between;
                 }
             }
+            .title {
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+            .list {
+                li {
+                    margin-bottom: 5px;
+                }
+            }
         }
     }
 
     table.specTable {
         margin-bottom: 30px;
-        // tr {
-        //     vertical-align: top;
-        //     &:nth-child(2n) {
-        //         th,
-        //         td {
-        //             background: #f7f7f7;
-        //         }
-        //     }
-        // }
+
         th {
             width: 20%;
             text-align: left !important;
