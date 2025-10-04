@@ -2924,6 +2924,7 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     border-radius: 20px;
     border: 0.2px #e5e5e5 solid;
     position: relative;
+    transition: all .3s cubic-bezier(0, 0, .5, 1);
 }
 
 .megamenu-brands-list .brand img {
@@ -2932,11 +2933,10 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 80px;
-    transition: transform 0.3s ease;
 }
 
-.megamenu-brands-list .brand:hover img {
-    transform: translate(-50%, -50%) scale(1.01);
+.megamenu-brands-list .brand:hover {
+    transform: scale3d(1.01, 1.01, 1.01);
 }
 
 //digiSeconds
@@ -2949,16 +2949,19 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     gap: 22px;
 }
 
+.digiseconds-container .digiseconds {
+    transition: all .3s cubic-bezier(0, 0, .5, 1);
+}
+
+.digiseconds-container .digiseconds:hover {
+    transform: scale3d(1.01, 1.01, 1.01);
+}
+
 a.digiseconds {
     overflow: hidden;
     text-decoration: none;
     position: relative;
     border-radius: 28px;
-}
-
-.digiseconds:hover img {
-    transform: scale(1.05);
-    transition: transform 0.8s ease;
 }
 
 a.digiseconds span {
