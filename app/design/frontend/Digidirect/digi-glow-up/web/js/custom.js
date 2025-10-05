@@ -264,5 +264,28 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
 
     limitRheostatTooltips();
 
+    /* ========================
+       🏷️ Toggle ribbon visibility based on autocomplete input
+    ======================== */
+    const $input = $('#autocomplete-0-input');
+    function toggleRibbonVisibility() {
+      const $ribbon = $('.aa-Item .ribbon-digideals');
+      if ($input.val().trim() === '') {
+        $ribbon.css('visibility', 'hidden');
+      } else {
+        $ribbon.css('visibility', 'visible');
+      }
+    }
+
+    // Run once on load
+    toggleRibbonVisibility();
+
+    // Run on input change
+    $input.on('input', toggleRibbonVisibility);
+
+    // Optional: Re-check whenever autocomplete items update
+    const observer3 = new MutationObserver(toggleRibbonVisibility);
+    observer3.observe(document.body, { childList: true, subtree: true });
+
   });
 });
