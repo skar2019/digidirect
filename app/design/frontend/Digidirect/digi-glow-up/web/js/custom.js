@@ -194,5 +194,98 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       setInterval(toggleDropdown, 300);
     }
 
+    // =========================
+    // ✅ Rheostat Tooltip Boundary Fix (with retry)
+    // =========================
+    function limitRheostatTooltips() {
+      function init() {
+        const $slider = $('.ais-RangeSlider');
+        if (!$slider.length) {
+          setTimeout(init, 500); // retry every 500ms
+          return;
+        }
+
+        const $handles = $slider.find('.rheostat-handle');
+
+        function adjustTooltips() {
+          const sliderRect = $slider[0].getBoundingClientRect();
+
+          $handles.each(function () {
+            const $handle = $(this);
+            const $tooltip = $handle.find('.rheostat-tooltip');
+
+            if ($tooltip.length) {
+              const handleRect = $handle[0].getBoundingClientRect();
+              const tooltipRect = $tooltip[0].getBoundingClientRect();
+
+              const tooltipLeft = handleRect.left + handleRect.width / 2 - tooltipRect.width / 2;
+              const minLeft = sliderRect.left;
+              const maxLeft = sliderRect.right - tooltipRect.width;
+
+              let newLeft = tooltipLeft;
+              if (tooltipLeft < minLeft) newLeft = minLeft;
+              if (tooltipLeft > maxLeft) newLeft = maxLeft;
+
+              const offsetLeft = newLeft - handleRect.left;
+
+              $tooltip.css({
+                position: 'absolute',
+                left: offsetLeft + 'px',
+                transform: 'translateX(0)',
+              });
+            }
+          });
+        }
+
+        // Initial adjust
+        adjustTooltips();
+
+        // Adjust on resize
+        $(window).on('resize', adjustTooltips);
+
+        // Adjust whenever handle moves
+        const observer = new MutationObserver(adjustTooltips);
+        $handles.each(function () {
+          observer.observe(this, { attributes: true, attributeFilter: ['style'] });
+        });
+
+        // Also adjust while dragging
+        $(document).on('pointermove mousemove touchmove', adjustTooltips);
+      }
+
+      init();
+    }
+
+    limitRheostatTooltips();
+
+    /* ========================
+       === RIBBON LOGIC (robust)
+    ======================== */
+    function toggleRibbonVisibility() {
+      const $ribbons = $('.aa-Item .ribbon-digideals');
+      let $input = $('#autocomplete-0-input');
+      if (!$input.length) $input = $('.aa-Panel').find('input').first();
+
+      let val = '';
+      if ($input && $input.length) {
+        val = String($input.val() || '').trim();
+      }
+
+      if (val === '') {
+        $ribbons.css('visibility', 'hidden');
+      } else {
+        $ribbons.css('visibility', 'visible');
+      }
+    }
+
+    setTimeout(toggleRibbonVisibility, 150);
+    $(document).on('input', '#autocomplete-0-input', toggleRibbonVisibility);
+    $(document).on('input', '.aa-Panel input', toggleRibbonVisibility);
+
+    const ribbonObserver = new MutationObserver(() => toggleRibbonVisibility());
+    ribbonObserver.observe(document.body, { childList: true, subtree: true });
+
+    const checkInterval = setInterval(toggleRibbonVisibility, 500);
+    setTimeout(() => clearInterval(checkInterval), 15000);
   });
 });

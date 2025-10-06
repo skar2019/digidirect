@@ -8,6 +8,7 @@ div.ruby-menu-demo-header {
     margin: 0;
     z-index: 2;
     background: #fff;
+    outline: 1px #E5E5EA solid;
 }
 
 div.ruby-menu-demo-header-bg {
@@ -1207,7 +1208,7 @@ div.ruby-wrapper {
     //height: 50px;
     margin: 0 auto;
     background: #fff;
-    //max-width: 1325px;
+    //max-width: 1327px;
 }
 
 div.ruby-wrapper ul {
@@ -1221,7 +1222,7 @@ div.ruby-wrapper > ul {
     display: flex;
     gap: 40px;
     margin: 0;
-    max-width: 1325px;
+    max-width: 1327px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 !important;
@@ -1484,7 +1485,7 @@ ul.ruby-menu > li.ruby-menu-mega-blog > div > ul.ruby-menu-mega-blog-nav {
     left: 0;
     top: 0;
     background: #fff;
-    width: 1325px;
+    width: 1327px;
     margin: 0 auto;
     background: #fff;
 }
@@ -2897,7 +2898,7 @@ li.facelift-mega-menu-item a.item-link:hover:after {
 
 .megamenu-brands-container {
     position: relative;
-    width: 1325px;
+    width: 1327px;
     margin: 0 auto;
 }
 
@@ -2924,6 +2925,7 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     border-radius: 20px;
     border: 0.2px #e5e5e5 solid;
     position: relative;
+    transition: all .3s cubic-bezier(0, 0, .5, 1);
 }
 
 .megamenu-brands-list .brand img {
@@ -2932,21 +2934,28 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 80px;
-    transition: transform 0.3s ease;
 }
 
-.megamenu-brands-list .brand:hover img {
-    transform: translate(-50%, -50%) scale(1.01);
+.megamenu-brands-list .brand:hover {
+    transform: scale3d(1.01, 1.01, 1.01);
 }
 
 //digiSeconds
 
 .digiseconds-container {
-    max-width: 1325px;
+    max-width: 1327px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
+}
+
+.digiseconds-container .digiseconds {
+    transition: all .3s cubic-bezier(0, 0, .5, 1);
+}
+
+.digiseconds-container .digiseconds:hover {
+    transform: scale3d(1.01, 1.01, 1.01);
 }
 
 a.digiseconds {
@@ -2954,11 +2963,6 @@ a.digiseconds {
     text-decoration: none;
     position: relative;
     border-radius: 28px;
-}
-
-.digiseconds:hover img {
-    transform: scale(1.05);
-    transition: transform 0.8s ease;
 }
 
 a.digiseconds span {
