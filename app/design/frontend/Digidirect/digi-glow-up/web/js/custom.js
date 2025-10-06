@@ -81,6 +81,61 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     /* ========================
+       🧊 Global Blur Overlay
+    ======================== */
+    const $blurOverlay = $('<div class="global-blur-overlay"></div>');
+    if (!$('.global-blur-overlay').length) {
+      $('#maincontent').before($blurOverlay);
+    }
+
+    function positionBlurOverlay() {
+      const $overlay = $('.global-blur-overlay');
+      const $main = $('#maincontent');
+      if ($main.length && $overlay.length) {
+        const offsetTop = $main.offset().top;
+        const documentHeight = Math.max(
+          $(document).height(),
+          $('body').prop('scrollHeight')
+        );
+
+        $overlay.css({
+          position: 'absolute',
+          top: offsetTop + 'px',
+          height: (documentHeight - offsetTop) + 'px'
+        });
+      }
+    }
+
+    positionBlurOverlay();
+    $(window).on('resize scroll', positionBlurOverlay);
+
+    if (window.MutationObserver) {
+      const blurObserver = new MutationObserver(() => {
+        positionBlurOverlay();
+      });
+      blurObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // Hover trigger for blur
+    $(document).on('mouseenter', '.has-dropdown', function () {
+      $('body').addClass('blur-active');
+    }).on('mouseleave', '.has-dropdown', function () {
+      $('body').removeClass('blur-active');
+    });
+
+    // Auto trigger blur when aa-Panel is visible
+    if (window.MutationObserver) {
+      const aaObserver = new MutationObserver(() => {
+        if ($('.aa-Panel').length) {
+          $('body').addClass('blur-active');
+        } else {
+          $('body').removeClass('blur-active');
+        }
+      });
+      aaObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    /* ========================
        🌀 Owl Carousel 2-Finger Swipe
     ======================== */
     const $carousels = $('.owl-carousel');
@@ -189,19 +244,18 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
           $dropdown.show();
         }
       }
-
       toggleDropdown();
       setInterval(toggleDropdown, 300);
     }
 
-    // =========================
-    // ✅ Rheostat Tooltip Boundary Fix (with retry)
-    // =========================
+    /* ========================
+       ✅ Rheostat Tooltip Boundary Fix
+    ======================== */
     function limitRheostatTooltips() {
       function init() {
         const $slider = $('.ais-RangeSlider');
         if (!$slider.length) {
-          setTimeout(init, 500); // retry every 500ms
+          setTimeout(init, 500);
           return;
         }
 
@@ -209,120 +263,57 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
 
         function adjustTooltips() {
           const sliderRect = $slider[0].getBoundingClientRect();
-
           $handles.each(function () {
             const $handle = $(this);
             const $tooltip = $handle.find('.rheostat-tooltip');
-
             if ($tooltip.length) {
               const handleRect = $handle[0].getBoundingClientRect();
               const tooltipRect = $tooltip[0].getBoundingClientRect();
-
               const tooltipLeft = handleRect.left + handleRect.width / 2 - tooltipRect.width / 2;
               const minLeft = sliderRect.left;
               const maxLeft = sliderRect.right - tooltipRect.width;
-
               let newLeft = tooltipLeft;
               if (tooltipLeft < minLeft) newLeft = minLeft;
               if (tooltipLeft > maxLeft) newLeft = maxLeft;
-
               const offsetLeft = newLeft - handleRect.left;
-
-              $tooltip.css({
-                position: 'absolute',
-                left: offsetLeft + 'px',
-                transform: 'translateX(0)',
-              });
+              $tooltip.css({ position: 'absolute', left: offsetLeft + 'px', transform: 'translateX(0)' });
             }
           });
         }
 
-        // Initial adjust
         adjustTooltips();
-
-        // Adjust on resize
         $(window).on('resize', adjustTooltips);
-
-        // Adjust whenever handle moves
         const observer = new MutationObserver(adjustTooltips);
         $handles.each(function () {
           observer.observe(this, { attributes: true, attributeFilter: ['style'] });
         });
-
-        // Also adjust while dragging
         $(document).on('pointermove mousemove touchmove', adjustTooltips);
       }
-
       init();
     }
 
     limitRheostatTooltips();
 
     /* ========================
-       === RIBBON LOGIC (robust)
+       === RIBBON LOGIC
     ======================== */
     function toggleRibbonVisibility() {
       const $ribbons = $('.aa-Item .ribbon-digideals');
       let $input = $('#autocomplete-0-input');
       if (!$input.length) $input = $('.aa-Panel').find('input').first();
-
       let val = '';
       if ($input && $input.length) {
         val = String($input.val() || '').trim();
       }
-
-      if (val === '') {
-        $ribbons.css('visibility', 'hidden');
-      } else {
-        $ribbons.css('visibility', 'visible');
-      }
+      $ribbons.css('visibility', val === '' ? 'hidden' : 'visible');
     }
 
     setTimeout(toggleRibbonVisibility, 150);
     $(document).on('input', '#autocomplete-0-input', toggleRibbonVisibility);
     $(document).on('input', '.aa-Panel input', toggleRibbonVisibility);
-
     const ribbonObserver = new MutationObserver(() => toggleRibbonVisibility());
     ribbonObserver.observe(document.body, { childList: true, subtree: true });
-
     const checkInterval = setInterval(toggleRibbonVisibility, 500);
     setTimeout(() => clearInterval(checkInterval), 15000);
-
-    /* ========================
-        🍎 Blur Overlay on Hover or AA Panel
-     ======================== */
-     const $sections = $('#maincontent, .page-bottom, .page-footer');
-
-     // Add overlay to each section if missing
-     $sections.each(function () {
-       const $section = $(this);
-       if (!$section.find('.blur-overlay').length) {
-         $section.prepend('<div class="blur-overlay"></div>');
-       }
-     });
-
-     // Function to toggle blur on all target sections
-     function toggleBlur() {
-       const hasDropdownHover = $('.has-dropdown:hover').length > 0;
-       const hasAAPanel = $('.aa-Panel').length > 0;
-
-       if (hasDropdownHover || hasAAPanel) {
-         $sections.addClass('blur-active');
-       } else {
-         $sections.removeClass('blur-active');
-       }
-     }
-
-     // Hover listener for dropdowns
-     $('.has-dropdown').on('mouseenter mouseleave', toggleBlur);
-
-     // Mutation observer for AA Panel presence
-     const blurObserver = new MutationObserver(toggleBlur);
-     blurObserver.observe(document.body, { childList: true, subtree: true });
-
-     // Initial check
-     toggleBlur();
-
-
   });
 });

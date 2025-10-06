@@ -537,11 +537,10 @@ a.action.towishlist {
 
 //Blur Overlay
 /* 🧊 Apple-like blur overlay */
-#maincontent { position: relative; }
-
-.blur-overlay {
+.global-blur-overlay {
   position: absolute;
-  inset: 0;
+  left: 0;
+  width: 100%;
   background: rgba(255, 255, 255, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px);
@@ -549,13 +548,17 @@ a.action.towishlist {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
-  z-index: 50;
+  z-index: 5; /* below header */
 }
 
-#maincontent.blur-active .blur-overlay {
+body.blur-active .global-blur-overlay {
   opacity: 1;
 }
 
+.header.content {
+  position: relative;
+  z-index: 10; /* keep header above overlay */
+}
 
 @media screen and (max-width: 768px) {
     .block.newsletter {
