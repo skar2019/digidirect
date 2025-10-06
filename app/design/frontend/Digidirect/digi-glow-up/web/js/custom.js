@@ -195,7 +195,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     // =========================
-    // ✅ Rheostat Tooltip Boundary Fix (stable after drag)
+    // ✅ Rheostat Tooltip Boundary Fix (with retry)
     // =========================
     function limitRheostatTooltips() {
       function init() {
@@ -206,9 +206,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         }
 
         const $handles = $slider.find('.rheostat-handle');
-
-        // Ensure the slider is a positioning context
-        $slider.css('position', 'relative');
 
         function adjustTooltips() {
           const sliderRect = $slider[0].getBoundingClientRect();
@@ -221,24 +218,19 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
               const handleRect = $handle[0].getBoundingClientRect();
               const tooltipRect = $tooltip[0].getBoundingClientRect();
 
-              // Calculate tooltip center relative to slider
-              let newLeft =
-                handleRect.left +
-                handleRect.width / 2 -
-                tooltipRect.width / 2 -
-                sliderRect.left;
+              const tooltipLeft = handleRect.left + handleRect.width / 2 - tooltipRect.width / 2;
+              const minLeft = sliderRect.left;
+              const maxLeft = sliderRect.right - tooltipRect.width;
 
-              // Clamp within slider
-              const minLeft = 0;
-              const maxLeft = sliderRect.width - tooltipRect.width;
+              let newLeft = tooltipLeft;
+              if (tooltipLeft < minLeft) newLeft = minLeft;
+              if (tooltipLeft > maxLeft) newLeft = maxLeft;
 
-              if (newLeft < minLeft) newLeft = minLeft;
-              if (newLeft > maxLeft) newLeft = maxLeft;
+              const offsetLeft = newLeft - handleRect.left;
 
-              // Apply position relative to slider
               $tooltip.css({
                 position: 'absolute',
-                left: newLeft + 'px',
+                left: offsetLeft + 'px',
                 transform: 'translateX(0)',
               });
             }
@@ -251,7 +243,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         // Adjust on resize
         $(window).on('resize', adjustTooltips);
 
-        // Adjust when handle style changes (dragging)
+        // Adjust whenever handle moves
         const observer = new MutationObserver(adjustTooltips);
         $handles.each(function () {
           observer.observe(this, { attributes: true, attributeFilter: ['style'] });
@@ -265,7 +257,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     limitRheostatTooltips();
-
 
     /* ========================
        === RIBBON LOGIC (robust)
