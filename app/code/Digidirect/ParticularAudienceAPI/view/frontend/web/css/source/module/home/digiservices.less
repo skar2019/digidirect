@@ -31,47 +31,71 @@
     }
 
     .digiservices-grid {
-        column-count: 3;
-        column-gap: 20px;
+        position: relative;
+        opacity: 0;
+        transition: opacity 0.3s ease;
 
-        @media (max-width: 1200px) {
-            column-count: 2;
-        }
+        /* column-count: 3;
+         column-gap: 20px;
 
-        @media (max-width: 768px) {
-            column-count: 1;
-        }
+         @media (max-width: 1200px) {
+             column-count: 2;
+         }
+
+         @media (max-width: 768px) {
+             column-count: 1;
+         }*/
 
         .digiservice-wrapper {
-            perspective: 1000px;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+            /*  perspective: 1000px;
+              -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+              backface-visibility: hidden;
+              -webkit-backface-visibility: hidden;*/
+        }
+
+        .digiservice-wrapper:hover .digiservice-card {
+            /*    transform: scale3d(1.01, 1.01, 1.01);
+               // box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+               // z-index: 5;*/
+        }
+
+        .digiservice-card-inner {
+           // background: #fff;
+          //  border-radius: 16px;
+          //  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
+            will-change: transform;
+            transform-style: preserve-3d;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
         }
 
-        .digiservice-wrapper:hover .digiservice-card {
+        .digiservice-card:hover .digiservice-card-inner {
             transform: scale3d(1.01, 1.01, 1.01);
-           // box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-           // z-index: 5;
+           // box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+            z-index: 5;
         }
 
         .digiservice-card {
-           // width: 100%;
+            // width: 100%;
             background-color: #f2f2f7;
             border-radius: 25px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
+            // transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
             margin-bottom: 25px;
 
             //transition: transform 0.35s ease, box-shadow 0.35s ease;
-            transform-style: preserve-3d;
-            will-change: transform;
+            /*  transform-style: preserve-3d;
+              will-change: transform;*/
 
-            &:hover {
-               // transform: scale3d(1.01, 1.01, 1.01);
-            }
+            position: absolute;
+            width: 31%;
+
+            /*    &:hover {
+                    transform: scale3d(1.01, 1.01, 1.01);
+                }*/
 
             img {
                 width: 100%;
@@ -87,10 +111,10 @@
                 padding: 18px 15px 15px 20px;
                 background-color: #f2f2f7;
 
-               // padding: 16px;
-                opacity: 1;
+                // padding: 16px;
+              /*  opacity: 1;
                 transform: none;
-                transition: none;
+                transition: none;*/
 
                 .digicard-header {
                     display: flex;
@@ -197,6 +221,15 @@
             &.digiservice-card-trade .digi-orange-text,
             &.digiservice-card-price .digi-orange-text {
                 color: #333333 !important;
+            }
+
+            &.digiservice-card-direct h1 {
+                font-size: 38px !important;
+
+                .digi-black-text.small {
+                    font-size: 23px !important;
+                }
+
             }
         }
     }
