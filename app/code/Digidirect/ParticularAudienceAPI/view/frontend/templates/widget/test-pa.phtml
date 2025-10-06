@@ -2,18 +2,18 @@
     use Magento\Framework\App\Action\Action;
 ?>
 <script>
-    
+
 require(['jquery'], function ($) {
-    
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    
+
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
-    
+
     if (!customerId || customerId === undefined || !sessionId || sessionId === undefined) {
         $.ajax({
             async: false,
@@ -32,9 +32,9 @@ require(['jquery'], function ($) {
             }
         });
     }
-    
+
     var result;
-    
+
     $.ajax({
         async: false,
         url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/index/homepage", //getRecommendationsUrl,
@@ -49,14 +49,14 @@ require(['jquery'], function ($) {
             console.log('Recommendations Error!', data);
         }
     });
-    
+
     console.log('result', result);
     var recommendationsResult = result;
-    
+
     var widgets  = recommendationsResult.recommendations.route.widgets;
     var routeId  = recommendationsResult.recommendations.route.id;
     var currentUrl = window.location.href;
-    
+
     function productTile(widgetId, appendTo, isMobile) {
         let productItem = "";
         let widget = widgets.find(obj => {
@@ -65,10 +65,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         Object.keys(widgetSlots).forEach(key => {
-            
+
             let product = widgetSlots[key].products[0];
             let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
-            
+
             productCtr++;
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
@@ -110,7 +110,7 @@ require(['jquery'], function ($) {
                 return obj.name === 'item_rating';
             })
 
-            let digiSecondsRating = "";            
+            let digiSecondsRating = "";
 
             if (digiSecondsRatingValue.stringValue == "5") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
@@ -209,7 +209,7 @@ require(['jquery'], function ($) {
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -218,10 +218,10 @@ require(['jquery'], function ($) {
                                         '<span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
                                     '</div>' +
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label"></span>' + 
+                                        '<span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ discountPriceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -233,16 +233,16 @@ require(['jquery'], function ($) {
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
-                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">' + priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -262,9 +262,9 @@ require(['jquery'], function ($) {
             var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
             var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
-            
+
             var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;">Learn how.</a></div>';
-            
+
             productItem = productItemDiv +
                         '<div class="wish-list-wrapper" data-role="add-to-links">' +
                             '<a href="#"' +
@@ -281,7 +281,7 @@ require(['jquery'], function ($) {
                                     '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                 '</span>' +
                             '</span>' +
-                        '</a>' + 
+                        '</a>' +
                         '<div class="product details product-item-details">' +
                             '<strong class="product-item-name">' +
                                 '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
@@ -296,7 +296,7 @@ require(['jquery'], function ($) {
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
-    
+
     function productTileMinicart(widgetId, appendTo, isMobile) {
         let productItem = "";
         let widget = widgets.find(obj => {
@@ -318,38 +318,38 @@ require(['jquery'], function ($) {
             let hmacSalt = widgetSlots[key].hmacSalt;
             let hmac = widgetSlots[key].hmac;
             let keywordId = widgetSlots[key].keywordId;
-            
+
             let digiDealsLogo = "";
             let priceBlock = "";
             let addToCart = "";
             let s19Label = "";
-            
+
             let digiSeconds = "";
             let digiSecondsOverlay = "";
             let sellerName = "";
-            
+
             let categories = product.attributes.find(obj => {
                 return obj.name === 'Categories';
             })
-            
+
             let seller = product.attributes.find(obj => {
                 return obj.name === 'DDR_Seller_Id';
             })
-            
+
             let digiPrint = product.attributes.find(obj => {
                 return obj.name === 'is_digiprint';
             })
-            
+
             let digiPrintLink = product.attributes.find(obj => {
                 return obj.name === 'digiprint_customlink';
             })
-            
+
             let digiSecondsRatingValue = product.attributes.find(obj => {
                 return obj.name === 'item_rating';
             })
-            
-            let digiSecondsRating = "";            
-            
+
+            let digiSecondsRating = "";
+
             if (digiSecondsRatingValue.stringValue == "5") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             } else if (digiSecondsRatingValue.stringValue == "4") {
@@ -361,12 +361,12 @@ require(['jquery'], function ($) {
             } else if (digiSecondsRatingValue.stringValue == "1") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             }
-            
+
             sellerName = seller.stringValue;
-            
+
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
             let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
-            
+
             if (categories.options[0].value == "PRELOVED") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
             } else if (categories.options[0].value == "OPENBOX") {
@@ -374,7 +374,7 @@ require(['jquery'], function ($) {
             } else if (categories.options[0].value == "REFURB") {
                 digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
-            
+
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
             //console.log(attribute);
 
@@ -424,7 +424,7 @@ require(['jquery'], function ($) {
                     digiDealsLogo = '';
                 }
             }
-            
+
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
                     digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
@@ -432,17 +432,17 @@ require(['jquery'], function ($) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
                 }
-                
+
                 let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
                 let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label">Price Slashed </span>' + 
+                                        '<span class="price-label">Price Slashed </span>' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -451,10 +451,10 @@ require(['jquery'], function ($) {
                                         '<span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
                                     '</div>' +
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label"></span>' + 
+                                        '<span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ discountPriceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -465,16 +465,16 @@ require(['jquery'], function ($) {
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
-                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">' + priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
                             '</div>';
             }
-            
+
             var view = "-minicart";
             var tileId = widgetId + '-product-' + product.refId + view;
             productItem = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
@@ -493,7 +493,7 @@ require(['jquery'], function ($) {
                                         '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                                     '</span>' +
                                 '</span>' +
-                            '</a>' + 
+                            '</a>' +
                             '<div class="product details product-item-details">' +
                                 '<strong class="product-item-name">' +
                                     '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
@@ -513,7 +513,7 @@ require(['jquery'], function ($) {
         });
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
-    
+
     productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
     productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-mobile', true);
     productTile('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
@@ -530,7 +530,7 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
-    
+
     if (customerId && sessionId) {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
@@ -567,19 +567,19 @@ require(['jquery'], function ($) {
             isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }
-    
+
     function slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
         //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        
+
         var events = {
                 currentUrl: currentUrl,
                 eventTime: date.toISOString(),
                 refId: productId,
                 widgetId: widgetId,
-                routeId: routeId,              
+                routeId: routeId,
                 recommenderId: recommenderId,
                 campaignId: campaignId,
                 tacticId: tacticId,
@@ -592,30 +592,30 @@ require(['jquery'], function ($) {
                 hmac: hmac,
                 keywordId: keywordId
             }
-            
+
         if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
+            delete events['retailBoostCollectionCampaignId'];
         }
         if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
+            delete events['adSetId'];
         }
         if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
+            delete events['adSetVersion'];
         }
         if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
+            delete events['costPerClick'];
         }
         if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
+            delete events['timeStamp'];
         }
         if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
+            delete events['hmacSalt'];
         }
         if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
+            delete events['hmac'];
         }
         if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
+            delete events['keywordId'];
         }
 
         const slotData = {
@@ -641,21 +641,21 @@ require(['jquery'], function ($) {
             }
         });
     }
-    
+
     function uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
         .replace(/[xy]/g, function (c) {
-            const r = Math.random() * 16 | 0, 
+            const r = Math.random() * 16 | 0,
                 v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }
-    
+
     //Product Info Add To Cart
     $(".price-final_price").click(function() {
         $(this).siblings('.product-item-actions').find('.action.tocart.primary').trigger('click');
     });
-    
+
     $(".product-item-info.product-item").click(function(){
 
         var widgetId = $(this).attr("widget-id");
@@ -671,11 +671,11 @@ require(['jquery'], function ($) {
         var hmacSalt = $(this).attr("hmac-salt");
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
-        
+
         //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
-        
+
         var events = {
                 currentUrl: currentUrl,
                 eventTime: date.toISOString(),
@@ -685,7 +685,7 @@ require(['jquery'], function ($) {
                 contextType: 1,
                 routeId: routeId,
                 widgetId: widgetId,
-                routeId: routeId,              
+                routeId: routeId,
                 recommenderId: recommenderId,
                 campaignId: campaignId,
                 tacticId: tacticId,
@@ -698,30 +698,30 @@ require(['jquery'], function ($) {
                 hmac: hmac,
                 keywordId: keywordId
             }
-            
+
         if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
+            delete events['retailBoostCollectionCampaignId'];
         }
         if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
+            delete events['adSetId'];
         }
         if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
+            delete events['adSetVersion'];
         }
         if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
+            delete events['costPerClick'];
         }
         if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
+            delete events['timeStamp'];
         }
         if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
+            delete events['hmacSalt'];
         }
         if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
+            delete events['hmac'];
         }
         if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
+            delete events['keywordId'];
         }
 
         const clickData = {
@@ -748,7 +748,7 @@ require(['jquery'], function ($) {
         });
 
     });
-    
+
     $(".pa-digidirect-product-widget .action.tocart").click(function(){
 
         var widgetId = $(this).attr("widget-id");
@@ -764,18 +764,18 @@ require(['jquery'], function ($) {
         var hmacSalt = $(this).attr("hmac-salt");
         var hmac = $(this).attr("hmac");
         var keywordId = $(this).attr("keyword-id");
-        
+
         //var widgetId = '631dfdd4-dc01-ef11-abf3-02bf4bf6447c';
 
         var date = new Date();
         var product = {"refId": productId, "quantity": 1};
-        
+
         var events = {
                 currentUrl: currentUrl,
                 eventTime: date.toISOString(),
                 product: product,
                 widgetId: widgetId,
-                routeId: routeId,              
+                routeId: routeId,
                 recommenderId: recommenderId,
                 campaignId: campaignId,
                 tacticId: tacticId,
@@ -788,38 +788,38 @@ require(['jquery'], function ($) {
                 hmac: hmac,
                 keywordId: keywordId
             }
-            
+
         if (!retailBoostCollectionCampaignId || retailBoostCollectionCampaignId == "undefined") {
-            delete events['retailBoostCollectionCampaignId']; 
+            delete events['retailBoostCollectionCampaignId'];
         }
         if (!adSetId || adSetId == "undefined") {
-            delete events['adSetId']; 
+            delete events['adSetId'];
         }
         if (!adSetVersion || adSetVersion == "undefined") {
-            delete events['adSetVersion']; 
+            delete events['adSetVersion'];
         }
         if (!costPerClick || costPerClick == "undefined") {
-            delete events['costPerClick']; 
+            delete events['costPerClick'];
         }
         if (!timeStamp || timeStamp == "undefined") {
-            delete events['timeStamp']; 
+            delete events['timeStamp'];
         }
         if (!hmacSalt || hmacSalt == "undefined") {
-            delete events['hmacSalt']; 
+            delete events['hmacSalt'];
         }
         if (!hmac || hmac == "undefined") {
-            delete events['hmac']; 
+            delete events['hmac'];
         }
         if (!keywordId || keywordId == "undefined") {
-            delete events['keywordId']; 
+            delete events['keywordId'];
         }
-        
+
         const productData = {
             customerId: customerId,
             sessionId: sessionId,
             events: [events]
         };
-        
+
         //console.log("productData", JSON.stringify(productData));
 
         $.ajax({
@@ -838,7 +838,7 @@ require(['jquery'], function ($) {
         });
 
     });
-    
+
     function isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
@@ -851,7 +851,7 @@ require(['jquery'], function ($) {
             $(thisElement).addClass("slot");
         }
     }
-    
+
     jQuery.extend( jQuery.fn, {
         // Name of our method & one argument (the parent selector)
         hasParent: function(p) {
@@ -862,7 +862,7 @@ require(['jquery'], function ($) {
             });
         }
     });
-    
+
     function isElementInViewPortOwlCarousel(currentElement, element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId){
         var thisElement = document.getElementById(element);
         let rect = thisElement.getBoundingClientRect();
@@ -875,7 +875,7 @@ require(['jquery'], function ($) {
             currentElement.addClass("slot");
         }
     }
-    
+
     window.addEventListener('scroll', function() {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
             var element = $(this).attr("id");
@@ -929,7 +929,7 @@ require(['jquery'], function ($) {
             isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     }, false);
-    
+
     $("#minicart-content-wrapper").on('scroll', function(){
         $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
             console.log();
@@ -950,23 +950,23 @@ require(['jquery'], function ($) {
             isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
         });
     });
-    
-    const observer = new MutationObserver((mutations) => { 
+
+    const observer = new MutationObserver((mutations) => {
         if ($("#pa-minicart-desktop").length) {
             //console.log("MutationObserver!");
             productTileMinicart('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-desktop', false);
             stopMutationObserver();
         }
-    }); 
-    
-    const config = { attributes: true, childList: true, subtree: true }; 
-    observer.observe(document.body, config); 
-    
+    });
+
+    const config = { attributes: true, childList: true, subtree: true };
+    observer.observe(document.body, config);
+
     function stopMutationObserver() {
-        observer.disconnect(); 
+        observer.disconnect();
     }
-    
-    $(document).ready(function(){                                               
+
+    $(document).ready(function(){
         $(".owl-carousel.custom").owlCarousel({
             loop: false,
             nav: true,
@@ -1002,7 +1002,7 @@ require(['jquery'], function ($) {
             autoplay: false,
             autoplayTimeout: 3000
         });
-    
+
         //Owl Nav Slot Observer
         $(".owl-carousel.custom .owl-prev, .owl-carousel.custom .owl-next").click(function() {
             console.log("Owl Nav Button Clicked!");
@@ -1024,10 +1024,10 @@ require(['jquery'], function ($) {
                 isElementInViewPortOwlCarousel($(this), element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
             });
         });
-        
+
         var htmlBody = $("#html-body");
 
-        const minicartObserver = new MutationObserver((mutations) => { 
+        const minicartObserver = new MutationObserver((mutations) => {
             if (htmlBody.hasClass("-minicart-opened")) {
                 $("#pa-minicart-desktop .product-item-info.product-item:not(.slot)").each(function() {
                     var element = $(this).attr("id");
@@ -1047,13 +1047,13 @@ require(['jquery'], function ($) {
                     isElementInViewPort(element, widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId);
                 });
             }
-        }); 
+        });
 
-        const minicartConfig = { attributes: true, childList: false, subtree: false }; 
+        const minicartConfig = { attributes: true, childList: false, subtree: false };
         minicartObserver.observe(htmlBody, minicartConfig);
     });
-    
-    $(document).ready(function(){                                               
+
+    $(document).ready(function(){
         $(".owl-carousel.brands").owlCarousel({
             loop: false,
             nav: true,
@@ -1089,7 +1089,7 @@ require(['jquery'], function ($) {
             autoplayTimeout: 3000
         });
     });
-    
+
     $(document).ready(function () {
         $(".owl-carousel.featured-videos").owlCarousel({
             merge: true,
@@ -1110,7 +1110,7 @@ require(['jquery'], function ($) {
             autoplay: false
         });
     });
-    
+
    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         let $carousel = $(this);
         let $items = $carousel.find('.owl-item');
@@ -1146,7 +1146,7 @@ require(['jquery'], function ($) {
             }
         });
     });
-    
+
     // Reset all videos back to thumbnails
     function resetOwlVideos($carousel) {
         $carousel.find(".owl-video-wrapper").each(function () {
@@ -1320,7 +1320,14 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row" style="padding: 30px 0 10px;">
     <div class="digiservice-row">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up')->toHtml(); ?>
+        <?php
+        $httpUserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
+        $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
+        //$blockId = 'digi-services-glow-up';
+
+        ?>
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0 10px;">
@@ -1359,20 +1366,20 @@ require(['jquery'], function ($) {
 <script>
 
     function loadMoreProducts(widgetClass) {
-        var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
+        var hiddenTiles = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item');
         var ctr = 0;
         for (let x = 0; x < hiddenTiles.length; x++) {
           ctr++;
           hiddenTiles[x].classList.remove('hide-product-item');
           if (ctr == 4) break;
         }
-        var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item'); 
+        var hiddenTilesCount = document.querySelectorAll('.'+ widgetClass + ' ' + ' .hide-product-item');
         if (hiddenTilesCount.length == 0) {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";    
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";    
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "none";
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "block";
 
             try {
-                document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block"; 
+                document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "block";
             }
             catch(err) {
             }
@@ -1380,7 +1387,7 @@ require(['jquery'], function ($) {
     }
 
     function viewLessProducts(widgetClass) {
-        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + '.mobile-widget .product-item'); 
+        var productTiles = document.querySelectorAll('.'+ widgetClass + ' ' + '.mobile-widget .product-item');
 
         var ctr = 0;
         for (let x = 0; x < productTiles.length; x++) {
@@ -1390,10 +1397,10 @@ require(['jquery'], function ($) {
           }
         }
 
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";    
-        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";    
+        document.querySelectorAll('.'+ widgetClass + ' ' + '.load-more')[0].style.display = "block";
+        document.querySelectorAll('.'+ widgetClass + ' ' + '.view-less')[0].style.display = "none";
         try {
-            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none"; 
+            document.querySelectorAll('.'+ widgetClass + ' ' + '.view-all')[0].style.display = "none";
         }
         catch(err) {
         }
@@ -1405,5 +1412,59 @@ require(['jquery'], function ($) {
         window.location.href = viewAllLink;
     }
 
-    
+
+</script>
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+            var $grid = $('.digiservices-grid');
+            var $cards = $grid.find('.digiservice-card');
+            if (!$grid.length || !$cards.length) return;
+            function masonryLayout() {
+                var gridWidth = $grid.width();
+                var columnCount = 3;
+                if ($(window).width() <= 1024) columnCount = 2;
+                if ($(window).width() <= 767) {
+                    $grid.hide();
+                    return;
+                } else {
+                    $grid.show();
+                }
+                var columnHeights = new Array(columnCount).fill(0);
+                var gap = 24;
+                var cardWidth = (gridWidth - gap * (columnCount - 1)) / columnCount;
+                $cards.each(function () {
+                    var $card = $(this);
+                    $card.css('width', cardWidth + 'px');
+                    var minColumn = columnHeights.indexOf(Math.min.apply(Math, columnHeights));
+                    var x = (cardWidth + gap) * minColumn;
+                    var y = columnHeights[minColumn];
+                    $card.css({
+                        transform: 'translate(' + x + 'px,' + y + 'px)'
+                    });
+                    columnHeights[minColumn] += $card.outerHeight(true) + gap;
+                });
+                $grid.css('height', Math.max.apply(Math, columnHeights) + 'px');
+            }
+            function imagesLoaded($images, callback) {
+                var loaded = 0, count = $images.length;
+                if (count === 0) return callback();
+                $images.each(function () {
+                    if (this.complete) {
+                        if (++loaded === count) callback();
+                    } else {
+                        $(this).on('load error', function () {
+                            if (++loaded === count) callback();
+                        });
+                    }
+                });
+            }
+            imagesLoaded($grid.find('img'), function() {
+                masonryLayout();
+                $grid.css('opacity', 1);
+            });
+            $(window).on('resize', masonryLayout);
+        });
+    });
 </script>
