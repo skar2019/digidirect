@@ -29,11 +29,24 @@ nav#footer_nav {
 
 .footer a.link {
     color: #a2a2a2;
-    font-size: 16px;
+    font-size: 12px;
     font-family: "Inter";
-    line-height: 33.44px;
-    letter-spacing: 0.32px;
     word-wrap: break-word;
+    position: relative;
+}
+
+.footer a.link:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+}
+
+.footer a.link:hover:after {
+    width: 100%;
 }
 
 .footer-bottom {
@@ -72,9 +85,15 @@ nav#footer_nav {
     position: absolute;
     bottom: 0;
 }
+
 .footer-black-gradient-div {
     display: none;
 }
+
+.footer .sub-items .menu li {
+    margin-bottom: 5px;
+}
+
 @media screen and (max-width: 768px) {
     img.footer-black-gradient {
         display: none;
@@ -126,12 +145,6 @@ nav#footer_nav {
         grid-template-columns: repeat(2, 1fr);
         padding: 20px 40px;
         gap: 20px;
-    }
-
-    .footer a.link {
-        font-size: 14px;
-        line-height: 24px;
-        letter-spacing: 0.28px;
     }
     .footer-line {
         padding-bottom: 0px;

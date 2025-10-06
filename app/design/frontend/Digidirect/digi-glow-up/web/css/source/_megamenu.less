@@ -6,7 +6,7 @@ div.ruby-menu-demo-header {
     height: auto;
     padding: 0;
     margin: 0;
-    z-index: 2;
+    z-index: 55;
     background: #fff;
     outline: 1px #E5E5EA solid;
 }
@@ -429,7 +429,7 @@ img.iphone7 {
 
 svg.arrow-left {
     float: right;
-    margin-top: 5px;
+    margin-top: 2px;
     margin-right: -5px;
     margin-bottom: 0;
 }
@@ -447,6 +447,14 @@ span.category-name {
     text-align: center;
     width: 100%;
     padding: 0 5px;
+}
+
+.ruby-menu-mega-blog:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.ruby-menu-mega-blog .dropdown-arrow {
+    transition: transform 0.3s ease;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -734,9 +742,10 @@ ul.ruby-menu
     > li.ruby-menu-mega-blog
     > div
     > ul.ruby-menu-mega-blog-nav
-    > li.ruby-active-menu-item
+    > li
     > a {
     background: #fff;
+    transition: width 0.4s ease;
 }
 
 ul.ruby-menu
@@ -756,7 +765,7 @@ ul.ruby-menu
     > a {
     font-family: Inter;
     word-wrap: break-word;
-    width: 238px;
+    width: 248px;
     padding: 8px 12px;
     background: #fe4c25 !important;
     color: #fff;
@@ -2833,6 +2842,7 @@ ul.facelift-mega-menu-items {
 }
 
 ul.ruby-menu > li:hover .facelift-dropdown-container {
+    height: 700px;
     max-height: 1000px;
     opacity: 1;
     transform: translateY(0);
@@ -2868,7 +2878,7 @@ li.ruby-menu-mega-blog:hover ul.ruby-menu-mega-blog-nav {
 li.facelift-mega-menu-item a.item-link {
     position: relative;
     text-decoration: none;
-    color: #86868B !important;
+    color: #1d1d1f !important;
 }
 
 li.facelift-mega-menu-item a.item-link:after {
@@ -2879,7 +2889,6 @@ li.facelift-mega-menu-item a.item-link:after {
     width: 0%;
     height: 2px;
     background-color: currentColor;
-    transition: width 0.3s ease;
 }
 
 li.facelift-mega-menu-item a.item-link:hover:after {
