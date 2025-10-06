@@ -195,51 +195,62 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     // =========================
-    // ✅ Rheostat Tooltip Boundary Fix (Stable While Dragging)
+    // ✅ Rheostat Tooltip Boundary Fix (Stable on Drag)
     // =========================
     function limitRheostatTooltips() {
       function init() {
         const $slider = $('.ais-RangeSlider');
         if (!$slider.length) {
-          setTimeout(init, 500); // retry every 500ms
+          setTimeout(init, 500); // retry until slider exists
           return;
         }
 
+        $slider.css('position', 'relative');
+
         const $handles = $slider.find('.rheostat-handle');
 
-        // Make sure tooltip is positioned relative to slider
-        $slider.css('position', 'relative');
+        // Move tooltips to be direct children of the slider
+        $handles.each(function (index) {
+          const $handle = $(this);
+          const $tooltip = $handle.find('.rheostat-tooltip');
+
+          if ($tooltip.length) {
+            $tooltip.appendTo($slider); // move tooltip to slider container
+            $tooltip.attr('data-handle-index', index); // tag for tracking
+          }
+        });
 
         function adjustTooltips() {
           const sliderRect = $slider[0].getBoundingClientRect();
 
-          $handles.each(function () {
+          $handles.each(function (index) {
             const $handle = $(this);
-            const $tooltip = $handle.find('.rheostat-tooltip');
+            const $tooltip = $slider.find(`.rheostat-tooltip[data-handle-index="${index}"]`);
 
             if ($tooltip.length) {
               const handleRect = $handle[0].getBoundingClientRect();
               const tooltipRect = $tooltip[0].getBoundingClientRect();
 
-              // Compute center position relative to slider
-              const desiredLeft =
+              // Compute desired center position relative to slider
+              let desiredLeft =
                 handleRect.left +
                 handleRect.width / 2 -
                 tooltipRect.width / 2 -
-                sliderRect.left; // relative to slider
+                sliderRect.left;
 
+              // Clamp within slider
               const minLeft = 0;
               const maxLeft = sliderRect.width - tooltipRect.width;
 
-              let finalLeft = desiredLeft;
-              if (desiredLeft < minLeft) finalLeft = minLeft;
-              if (desiredLeft > maxLeft) finalLeft = maxLeft;
+              if (desiredLeft < minLeft) desiredLeft = minLeft;
+              if (desiredLeft > maxLeft) desiredLeft = maxLeft;
 
-              // Apply absolute position relative to slider
+              // Apply new position
               $tooltip.css({
                 position: 'absolute',
-                left: finalLeft + 'px',
-                transform: 'translateX(0)',
+                left: desiredLeft + 'px',
+                top: handleRect.top - sliderRect.top - tooltipRect.height - 8 + 'px', // place above handle
+                transform: 'none',
               });
             }
           });
@@ -248,23 +259,22 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         // Initial adjust
         adjustTooltips();
 
-        // Adjust on resize
+        // Adjust on resize or drag
         $(window).on('resize', adjustTooltips);
+        $(document).on('pointermove mousemove touchmove', adjustTooltips);
 
-        // Observe handle movements
+        // Observe handle movement
         const observer = new MutationObserver(adjustTooltips);
         $handles.each(function () {
           observer.observe(this, { attributes: true, attributeFilter: ['style'] });
         });
-
-        // Adjust during dragging
-        $(document).on('pointermove mousemove touchmove', adjustTooltips);
       }
 
       init();
     }
 
     limitRheostatTooltips();
+
 
     /* ========================
        === RIBBON LOGIC (robust)
