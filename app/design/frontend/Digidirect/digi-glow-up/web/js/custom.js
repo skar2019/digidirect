@@ -287,5 +287,42 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
 
     const checkInterval = setInterval(toggleRibbonVisibility, 500);
     setTimeout(() => clearInterval(checkInterval), 15000);
+
+    /* ========================
+        🍎 Blur Overlay on Hover or AA Panel
+     ======================== */
+     const $sections = $('#maincontent, .page-bottom, .page-footer');
+
+     // Add overlay to each section if missing
+     $sections.each(function () {
+       const $section = $(this);
+       if (!$section.find('.blur-overlay').length) {
+         $section.prepend('<div class="blur-overlay"></div>');
+       }
+     });
+
+     // Function to toggle blur on all target sections
+     function toggleBlur() {
+       const hasDropdownHover = $('.has-dropdown:hover').length > 0;
+       const hasAAPanel = $('.aa-Panel').length > 0;
+
+       if (hasDropdownHover || hasAAPanel) {
+         $sections.addClass('blur-active');
+       } else {
+         $sections.removeClass('blur-active');
+       }
+     }
+
+     // Hover listener for dropdowns
+     $('.has-dropdown').on('mouseenter mouseleave', toggleBlur);
+
+     // Mutation observer for AA Panel presence
+     const blurObserver = new MutationObserver(toggleBlur);
+     blurObserver.observe(document.body, { childList: true, subtree: true });
+
+     // Initial check
+     toggleBlur();
+
+
   });
 });
