@@ -193,26 +193,21 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       toggleDropdown();
       setInterval(toggleDropdown, 300);
     }
-    
+
     // =========================
     // ✅ Rheostat Tooltip Boundary Fix (with retry)
     // =========================
     function limitRheostatTooltips() {
-      console.log('limitRheostatTooltips init');
-
       function init() {
         const $slider = $('.ais-RangeSlider');
         if (!$slider.length) {
-          console.log('Slider not found, retrying...');
           setTimeout(init, 500); // retry every 500ms
           return;
         }
 
-        console.log('Slider found!');
         const $handles = $slider.find('.rheostat-handle');
 
         function adjustTooltips() {
-          console.log('adjustTooltips running');
           const sliderRect = $slider[0].getBoundingClientRect();
 
           $handles.each(function () {
@@ -232,7 +227,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
               if (tooltipLeft > maxLeft) newLeft = maxLeft;
 
               const offsetLeft = newLeft - handleRect.left;
-              console.log('tooltip adjusted:', { tooltipLeft, newLeft, offsetLeft });
 
               $tooltip.css({
                 position: 'absolute',
@@ -264,5 +258,34 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
 
     limitRheostatTooltips();
 
+    /* ========================
+       === RIBBON LOGIC (robust)
+    ======================== */
+    function toggleRibbonVisibility() {
+      const $ribbons = $('.aa-Item .ribbon-digideals');
+      let $input = $('#autocomplete-0-input');
+      if (!$input.length) $input = $('.aa-Panel').find('input').first();
+
+      let val = '';
+      if ($input && $input.length) {
+        val = String($input.val() || '').trim();
+      }
+
+      if (val === '') {
+        $ribbons.css('visibility', 'hidden');
+      } else {
+        $ribbons.css('visibility', 'visible');
+      }
+    }
+
+    setTimeout(toggleRibbonVisibility, 150);
+    $(document).on('input', '#autocomplete-0-input', toggleRibbonVisibility);
+    $(document).on('input', '.aa-Panel input', toggleRibbonVisibility);
+
+    const ribbonObserver = new MutationObserver(() => toggleRibbonVisibility());
+    ribbonObserver.observe(document.body, { childList: true, subtree: true });
+
+    const checkInterval = setInterval(toggleRibbonVisibility, 500);
+    setTimeout(() => clearInterval(checkInterval), 15000);
   });
 });

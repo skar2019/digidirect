@@ -10,15 +10,24 @@ body {
 
 .breadcrumbs {
     padding: 0;
-    margin: 0 auto 20px;
+    margin: 15px auto;
     max-width: 1327px;
 }
 
-.page-title-wrapper {
-    border-bottom: 0.5px solid #e5e5ea;
+.breadcrumbs .item:not(:last-child):after {
+    content: '\f054';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0 10px;
 }
 
-.page-title {
+.catalog-category-view .page-title-wrapper, .catalogsearch-result-index .page-title-wrapper {
+    border-bottom: 1px #E5E5EA solid !important;
+}
+
+.catalog-category-view .page-title, .catalogsearch-result-index .page-title  {
+    margin-top: 20px;
     margin-bottom: 15px;
 }
 
@@ -254,11 +263,7 @@ a.action.towishlist {
     margin-left: -275px;
 }
 
-.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n + 6).active) {
-    margin-left: -275px;
-}
-
-.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+7).active) {
     margin-left: -275px;
 }
 
@@ -308,7 +313,7 @@ a.action.towishlist {
 }
 
 .owl-item:hover {
-    transform: scale3d(1.01, 1.01, 1.01);
+    transform: scale3d(1.01, 1.01, 1.01) !important;
 }
 
 .catalog-category-view .owl-carousel a.action.towishlist {
@@ -359,7 +364,7 @@ a.action.towishlist {
 .glow-up-brands {
     max-width: 1327px;
     margin: 0 auto;
-    padding: 30px 0;
+    //padding: 30px 0;
 }
 
 #glow-up-brands .owl-item {
@@ -434,7 +439,7 @@ a.action.towishlist {
 //Product Widgets
 
 .pa-digidirect-product-widget .product-widget-header {
-    padding: 10px 0 15px;
+    padding: 0 0 10px;
     width: 100%;
 }
 
