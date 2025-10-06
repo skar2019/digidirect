@@ -195,7 +195,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     // =========================
-    // ✅ Rheostat Tooltip Boundary Fix (with retry)
+    // ✅ Rheostat Tooltip Boundary Fix (Stable While Dragging)
     // =========================
     function limitRheostatTooltips() {
       function init() {
@@ -206,6 +206,9 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         }
 
         const $handles = $slider.find('.rheostat-handle');
+
+        // Make sure tooltip is positioned relative to slider
+        $slider.css('position', 'relative');
 
         function adjustTooltips() {
           const sliderRect = $slider[0].getBoundingClientRect();
@@ -218,19 +221,24 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
               const handleRect = $handle[0].getBoundingClientRect();
               const tooltipRect = $tooltip[0].getBoundingClientRect();
 
-              const tooltipLeft = handleRect.left + handleRect.width / 2 - tooltipRect.width / 2;
-              const minLeft = sliderRect.left;
-              const maxLeft = sliderRect.right - tooltipRect.width;
+              // Compute center position relative to slider
+              const desiredLeft =
+                handleRect.left +
+                handleRect.width / 2 -
+                tooltipRect.width / 2 -
+                sliderRect.left; // relative to slider
 
-              let newLeft = tooltipLeft;
-              if (tooltipLeft < minLeft) newLeft = minLeft;
-              if (tooltipLeft > maxLeft) newLeft = maxLeft;
+              const minLeft = 0;
+              const maxLeft = sliderRect.width - tooltipRect.width;
 
-              const offsetLeft = newLeft - handleRect.left;
+              let finalLeft = desiredLeft;
+              if (desiredLeft < minLeft) finalLeft = minLeft;
+              if (desiredLeft > maxLeft) finalLeft = maxLeft;
 
+              // Apply absolute position relative to slider
               $tooltip.css({
                 position: 'absolute',
-                left: offsetLeft + 'px',
+                left: finalLeft + 'px',
                 transform: 'translateX(0)',
               });
             }
@@ -243,13 +251,13 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         // Adjust on resize
         $(window).on('resize', adjustTooltips);
 
-        // Adjust whenever handle moves
+        // Observe handle movements
         const observer = new MutationObserver(adjustTooltips);
         $handles.each(function () {
           observer.observe(this, { attributes: true, attributeFilter: ['style'] });
         });
 
-        // Also adjust while dragging
+        // Adjust during dragging
         $(document).on('pointermove mousemove touchmove', adjustTooltips);
       }
 
