@@ -171,6 +171,21 @@ class UpgradeData implements UpgradeDataInterface
             </div>
         </div>
 
+<div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-life">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/10.png'}}" alt="digiLife">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Life</span></h1>
+                            <a href="#" class="btn">Join</a>
+                        </div>
+                        <p>A photography community built to educate people on how to use their camera equipment and master their settings!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="digiservice-wrapper">
             <div class="digiservice-card digiservice-card-events">
                 <div class="digiservice-card-inner">
@@ -186,24 +201,9 @@ class UpgradeData implements UpgradeDataInterface
             </div>
         </div>
 
-
-        <div class="digiservice-wrapper">
-            <div class="digiservice-card digiservice-card-life">
-                <div class="digiservice-card-inner">
-                    <img src="{{media url='wysiwyg/glowup-digiservices/10.png'}}" alt="digiLife">
-                    <div class="digicard-body">
-                        <div class="digicard-header">
-                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Life</span></h1>
-                            <a href="#" class="btn">Join</a>
-                        </div>
-                        <p>A photography community built to educate people on how to use their camera equipment and master their settings!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </section>
+
 HTML;
 
         if (version_compare($context->getVersion(), '1.0.1', '<')) {
