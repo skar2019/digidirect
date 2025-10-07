@@ -70,13 +70,19 @@
             display: none;
         }
 
+        .fieldset.login {
+            margin-bottom: 0;
+        }
+
         .block {
             width: 100% !important;
             .block-title {
                 border-bottom: none;
                 text-align: center;
+                margin-bottom: 0;
                 h2 {
                     margin-bottom: 0;
+                    margin-top: 14px;
                 }
             }
 
@@ -111,11 +117,19 @@
                 }
                 .action.create {
                     width: max-content;
+                    background-color: #2c2c2c;
+                    &:hover {
+                        background: @color-light-black;
+                    }
                 }
             }
             &.block-new-customer {
                 .tick-block {
                     text-align: center;
+
+                    h4 {
+                        margin-top: 0;
+                    }
                     ul {
                         list-style: none;
                         padding-left: 0;
@@ -124,14 +138,6 @@
             }
         }
         .fieldset > {
-            .field.password {
-                display: flex;
-                align-items: flex-end;
-
-                > .control {
-                    align-items: flex-end;
-                }
-            }
             .field:not(.choice) > .control {
                 width: 100% !important;
 
@@ -152,6 +158,15 @@
                         border-color: #2c2c2c;
                     }
                 }
+            }
+        }
+        .action.remind {
+            color: #626262;
+            opacity: 0.8;
+
+            &:hover {
+                opacity: 1;
+                color: #1d1d1f;
             }
         }
     }
@@ -175,12 +190,16 @@
     .button {
         &.login,
         &.create {
-            background-color: @login-button__bg__color;
+            background: @login-button__bg__color;
             color: #ffffff;
             font-size: 16px;
             padding: 10px 25px;
             border-radius: 32px;
             margin-right: 0;
+
+            &:hover {
+                background: @color-light-black;
+            }
         }
     }
 }

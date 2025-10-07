@@ -24,13 +24,13 @@
                     <!-- <label for="pass" class="label"><span><?= $block->escapeHtml(__('Password')) ?></span></label> -->
                     <div class="control">
                         <input name="login[password]" placeholder="Password" type="password" <?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?> class="input-text" id="pass" title="<?= $block->escapeHtmlAttr(__('Password')) ?>" data-validate="{required:true}">
-                        <div class="secondary"><a class="action remind" href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>" title="<?= $block->escapeHtml(__('Password Reset')) ?>"><span><?= $block->escapeHtml(__('Forgot Password?')) ?></span></a></div>
+                        
                     </div>
                 </div>
                 <?= $block->getChildHtml('form_additional_info') ?>
                 <div class="actions-toolbar">
                     <div class="primary"><button type="submit" class="action login -responsive" name="send" id="send2"><span><?= $block->escapeHtml(__('Continue')) ?></span></button></div>
-
+<div class="secondary"><a class="action remind" href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>" title="<?= $block->escapeHtml(__('Password Reset')) ?>"><span><?= $block->escapeHtml(__('Forgot Password?')) ?></span></a></div>
                 </div>
             </fieldset>
         </form>
