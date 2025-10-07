@@ -118,7 +118,7 @@ define([
       blurObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    // ✅ CSS for blur (inline)
+    // CSS for blur (inline kept to ensure immediate availability)
     const blurStyle = `
       .global-blur-overlay {
         width: 100%;
@@ -158,12 +158,12 @@ define([
     }
 
     /* ========================
-       🛒 AJAX Add to Cart + Auto Open Minicart
+       🛒 AJAX Add to Cart (PLP + PDP) + Auto Open Minicart
     ======================== */
-    $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
+    $(document).on('submit', 'form[data-role="tocart-form"], #product_addtocart_form', function (e) {
       e.preventDefault();
       const $form = $(this);
-      const formData = new FormData(this);
+      const formData = new FormData($form[0]);
       const actionUrl = $form.attr('action');
 
       $.ajax({
@@ -173,27 +173,76 @@ define([
         processData: false,
         contentType: false,
         showLoader: true,
-        success: function () {
-          // ✅ Reload minicart data
-          const sections = ['cart'];
-          customerData.invalidate(sections);
-          customerData.reload(sections, true);
+        success: function (response) {
+          // reload minicart data (Magento customer-data)
+          customerData.invalidate(['cart']);
+          customerData.reload(['cart'], true);
 
-          // ✅ Open minicart popup
+          // stop global loader if any
+          $('body').trigger('processStop');
+
+          // Auto-open minicart after short delay (let the cart refresh)
           setTimeout(function () {
-            $('[data-block="minicart"]').find('.action.showcart').trigger('click');
+            // Some themes use .action.showcart inside [data-block="minicart"]
+            const $showCart = $('[data-block="minicart"]').find('.action.showcart');
+            if ($showCart.length) {
+              $showCart.trigger('click');
+            } else {
+              // fallback: trigger click on the minicart block itself
+              $('[data-block="minicart"]').trigger('click');
+            }
+            // ensure overlay/header state updated
+            updateMinicartOverlay();
           }, 500);
         },
         error: function (err) {
           console.error('Add to cart failed', err);
+          $('body').trigger('processStop');
         },
       });
+    });
+
+    /* ========================
+       🧱 Minicart Overlay & Header Z-Index Handling
+       - when minicart dropdown (.block-minicart[data-role="dropdownDialog"]) is visible:
+         set .ruby-menu-demo-header z-index:0 and show .minicart-overlay (display:block)
+       - revert when minicart closes
+    ======================== */
+    function updateMinicartOverlay() {
+      const $minicart = $('.block-minicart[data-role="dropdownDialog"]');
+      const $headerMenu = $('.ruby-menu-demo-header');
+      const $miniOverlay = $('.minicart-overlay');
+
+      const isVisible = $minicart.length && $minicart.is(':visible') && $minicart.css('display') !== 'none';
+
+      if (isVisible) {
+        // apply requested styles
+        if ($headerMenu.length) $headerMenu.css('z-index', 0);
+        if ($miniOverlay.length) $miniOverlay.css('display', 'block');
+      } else {
+        // revert
+        if ($headerMenu.length) $headerMenu.css('z-index', '');
+        if ($miniOverlay.length) $miniOverlay.css('display', 'none');
+      }
+    }
+
+    // Observe DOM changes that might open/close minicart
+    if (window.MutationObserver) {
+      const miniObserver = new MutationObserver(() => updateMinicartOverlay());
+      miniObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+    }
+    // extra fallback periodic check (keeps state synced)
+    const miniInterval = setInterval(updateMinicartOverlay, 300);
+    // optional: clear interval when leaving page or unloading
+    $(window).on('unload beforeunload', function () {
+      clearInterval(miniInterval);
     });
 
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe
     ======================== */
     const $carousels = $('.owl-carousel');
+
     $carousels.each(function () {
       const $carousel = $(this);
       let startX = 0;
@@ -248,11 +297,13 @@ define([
           e.preventDefault();
           if (hasSwiped) return;
           hasSwiped = true;
+
           if (event.deltaX > 0) {
             $carousel.trigger('next.owl.carousel', [transitionSpeed]);
           } else {
             $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
           }
+
           setTimeout(() => {
             hasSwiped = false;
           }, lockDuration);
@@ -266,9 +317,9 @@ define([
     $(document).on('keyup', '#autocomplete-0-input', function () {
       const query = $(this).val().trim();
       setTimeout(function () {
-        const $header = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p');
-        if ($header.length) {
-          $header.text(query.length ? `Results for "${query}"` : 'Top Selling Products');
+        const $headerEl = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p');
+        if ($headerEl.length) {
+          $headerEl.text(query.length ? `Results for "${query}"` : 'Top Selling Products');
         }
       }, 100);
     });
@@ -290,11 +341,8 @@ define([
     const $dropdown = $('.facelift-dropdown-container');
     if ($dropdown.length) {
       function toggleDropdown() {
-        if ($('.aa-Panel').length) {
-          $dropdown.hide();
-        } else {
-          $dropdown.show();
-        }
+        if ($('.aa-Panel').length) $dropdown.hide();
+        else $dropdown.show();
       }
       toggleDropdown();
       setInterval(toggleDropdown, 300);
