@@ -1430,7 +1430,8 @@ require(['jquery'], function ($) {
                 var columnCount = 3;
                 if ($(window).width() <= 1024) columnCount = 2;
                 if ($(window).width() <= 767) {
-                    $grid.hide();
+                    //$grid.hide();
+                    columnCount = 1;
                     return;
                 } else {
                     $grid.show();
