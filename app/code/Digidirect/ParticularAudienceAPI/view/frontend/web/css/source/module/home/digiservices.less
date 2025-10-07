@@ -112,7 +112,7 @@
                         font-weight: 500.25;
                         font-size: 12px;
                         white-space: nowrap;
-                        text-transform: uppercase;
+                        //text-transform: uppercase;
                         letter-spacing: 0.1px;
                         width: 104px;
                         text-align: center;
@@ -197,7 +197,7 @@
 @media only screen and (max-width: 768px) {
     .digiservices-header h2 {
         font-weight: 600;
-        font-size: 16px;
+        font-size: 17px;
     }
     .digicard-header h1 {
         font-size: 24px;
@@ -212,6 +212,8 @@
         font-family: "Inter", sans-serif;
 
         .digiservices-header {
+            margin-top: -25px;
+
             h2 {
                 line-height: 136%;
                 letter-spacing: normal;
@@ -220,13 +222,11 @@
 
                 .digi-orange-text {
                     color: #fe4c25;
-                    font-weight: 510;
                 }
 
                 .digi-black-text {
                     color: #000000;
                     padding-right: 3px;
-                    font-weight: 410;
                 }
 
                 .registered {
@@ -238,7 +238,6 @@
 
         .digiservices-grid {
             column-count: 1;
-            //column-gap: 20px;
 
             .digiservice-card {
                 display: inline-block;
@@ -278,8 +277,8 @@
                                 font-weight: 400;
 
                                 &.small {
-                                    font-weight: 510 !important;
                                     font-size: 18px;
+                                    padding-left: 10px !important;
                                 }
                             }
 
@@ -292,16 +291,15 @@
                         a.btn {
                             background-color: #ff4b2b;
                             color: #fff;
-                            padding: 8px 16px;
                             border-radius: 20px;
                             text-decoration: none;
                             font-weight: 500.25;
                             font-size: 12px;
                             white-space: nowrap;
-                            text-transform: uppercase;
                             letter-spacing: 0.1px;
                             width: 104px;
                             text-align: center;
+                            padding: 20px 16px;
 
                             &:hover {
                                 background-color: #e63e20;
@@ -315,8 +313,9 @@
                         margin: 0;
                         letter-spacing: 0.8px;
                         font-weight: lighter;
-                        max-width: 380px;
+                        max-width: 300px;
                         padding-top: 3px;
+                        line-height: 1.4 !important;
                     }
                 }
 
@@ -325,42 +324,9 @@
                     transform-origin: center;
                 }
 
-                &.digiservice-card-print img {
-                    height: 140px;
-                }
-
-                &.digiservice-card-seconds img {
-                    height: 135px;
-                }
-
-                &.digiservice-card-click-collect img {
-                    height: 160px;
-                }
-
-                &.digiservice-card-direct img {
-                    height: 135px;
-                }
-
-                &.digiservice-card-trade img {
-                    height: 182px;
-                }
-
                 &.digiservice-card-protect img {
-                    height: 140px;
                     object-fit: none;
                     transform: scaleX(1);
-                }
-
-                &.digiservice-card-events img {
-                    height: 140px;
-                }
-
-                &.digiservice-card-price img {
-                    height: 180px;
-                }
-
-                &.digiservice-card-life img {
-                    height: 125px;
                 }
 
                 &.digiservice-card-trade .digi-orange-text,
@@ -377,6 +343,7 @@
         }
         .pagebuilder-overlay.pagebuilder-poster-overlay{
             height: unset !important;
+            padding-top: unset !important;
         }
     }
 }

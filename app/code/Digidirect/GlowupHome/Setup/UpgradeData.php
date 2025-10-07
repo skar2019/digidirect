@@ -34,7 +34,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Rent</span></h1>
-                            <a href="#" class="btn">Learn More</a>
+                            <a href="#" class="btn">Learn more</a>
                         </div>
                         <p>Your ultimate flexible rental solution.</p>
                     </div>
@@ -48,7 +48,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Print</span></h1>
-                            <a href="#" class="btn">Shop Now</a>
+                            <a href="#" class="btn">Shop now</a>
                         </div>
                         <p>A world of options for printing & preserving your photographs.</p>
                     </div>
@@ -76,7 +76,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Seconds</span></h1>
-                            <a href="#" class="btn">Shop Now</a>
+                            <a href="#" class="btn">Shop now</a>
                         </div>
                         <p>Save money on pre-loved, open-box, and refurbished gear.</p>
                     </div>
@@ -91,7 +91,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Direct</span><span class="digi-black-text small">Business</span></h1>
-                            <a href="#" class="btn">Enter Now</a>
+                            <a href="#" class="btn">Enter now</a>
                         </div>
                         <p>Specially designed to meet each customer's needs as our team goes beyond a one-size-fits-all approach.</p>
                     </div>
@@ -105,7 +105,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-black-text">Click &amp; Collect</span></h1>
-                            <a href="#" class="btn">Learn More</a>
+                            <a href="#" class="btn">Learn more</a>
                         </div>
                         <p>digiDirect offers a Click & Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.</p>
                     </div>
@@ -119,7 +119,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">Trade</span><span class="digi-black-text">Up</span><span class="digi-black-text small">Program</span></h1>
-                            <a href="#" class="btn">Trade Now</a>
+                            <a href="#" class="btn">Trade now</a>
                         </div>
                         <p>digiDirect offers a Click & Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.</p>
                     </div>
@@ -134,7 +134,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Protect</span></h1>
-                            <a href="#" class="btn">Learn More</a>
+                            <a href="#" class="btn">Learn more</a>
                         </div>
                         <p>Will add up to 3 years beyond the manufacturer's warranty.</p>
                     </div>
@@ -147,7 +147,7 @@ class UpgradeData implements UpgradeDataInterface
                     <img src="{{media url='wysiwyg/glowup-digiservices/8.png'}}" alt="digiClub">
                     <div class="digicard-body">
                         <div class="digicard-header">
-                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Club</span></h1>
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Club</span><span class="registered">®</span></h1>
                             <a href="#" class="btn">Join</a>
                         </div>
                         <p>And unlock ultimate benefits.</p>
@@ -163,7 +163,7 @@ class UpgradeData implements UpgradeDataInterface
                     <div class="digicard-body">
                         <div class="digicard-header">
                             <h1><span class="digi-orange-text">Price</span><span class="digi-black-text">Match</span></h1>
-                            <a href="#" class="btn">Learn More</a>
+                            <a href="#" class="btn">Learn more</a>
                         </div>
                         <p>digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers..</p>
                     </div>
@@ -231,6 +231,227 @@ HTML;
                 $block->setTitle('Digi Services Glow Up Mobile')
                     ->setIdentifier($blockIdentifier)
                     ->setContent($content)
+                    ->setIsActive(true)
+                    ->setStores([0])
+                    ->save();
+            }
+        }
+
+        if (version_compare($context->getVersion(), '1.0.3', '<')) {
+            $contentMobile = <<<HTML
+<style>#html-body [data-pb-style=VSLCMAS]{justify-content:flex-start;display:flex;flex-direction:column;background-position:left top;background-size:cover;background-repeat:no-repeat;background-attachment:scroll}#html-body [data-pb-style=UR1IQSP]{min-height:300px}#html-body [data-pb-style=SRIVRL7]{background-position:left top;background-size:cover;background-repeat:no-repeat;min-height:300px}#html-body [data-pb-style=MJM5IKV]{min-height:300px;background-color:transparent}#html-body [data-pb-style=KE3AEF2]{background-position:left top;background-size:cover;background-repeat:no-repeat;min-height:300px}#html-body [data-pb-style=LGMXK1R]{min-height:300px;background-color:transparent}#html-body [data-pb-style=BD0FWMT]{background-position:left top;background-size:cover;background-repeat:no-repeat;min-height:300px}#html-body [data-pb-style=FRWALUD]{min-height:300px;background-color:transparent}#html-body [data-pb-style=LARFDCP]{background-position:left top;background-size:cover;background-repeat:no-repeat;min-height:300px}#html-body [data-pb-style=YGL1S99]{min-height:300px;background-color:transparent}</style><div data-content-type="row" data-appearance="contained" data-element="main"><div data-enable-parallax="0" data-parallax-speed="0.5" data-background-images="{}" data-background-type="image" data-video-loop="true" data-video-play-only-visible="true" data-video-lazy-load="true" data-video-fallback-src="" data-element="inner" data-pb-style="VSLCMAS"><div class="pagebuilder-slider" data-content-type="slider" data-appearance="default" data-autoplay="false" data-autoplay-speed="4000" data-fade="false" data-infinite-loop="false" data-show-arrows="false" data-show-dots="true" data-element="main" data-pb-style="UR1IQSP"><div data-content-type="slide" data-slide-name="" data-appearance="poster" data-show-button="never" data-show-overlay="never" data-element="main"><div data-element="empty_link"><div class="pagebuilder-slide-wrapper" data-background-images="{}" data-background-type="image" data-video-loop="true" data-video-play-only-visible="true" data-video-lazy-load="true" data-video-fallback-src="" data-element="wrapper" data-pb-style="SRIVRL7"><div class="pagebuilder-overlay pagebuilder-poster-overlay" data-overlay-color="" aria-label="" title="" data-element="overlay" data-pb-style="MJM5IKV"><div class="pagebuilder-poster-content"><div data-element="content"><p>&lt;section class="digiservices-section-mobile"&gt;&lt;div class="digiservices-header"&gt;&lt;h2&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Services.&lt;/span&gt;&lt;br/&gt;Do even more with digi products and services&lt;/h2&gt;&lt;/div&gt;&lt;div class="digiservices-grid"&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-rent"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/1.png" alt="digiRent"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Rent&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Learn more&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Your ultimate flexible rental solution.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-print"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/2.png" alt="digiPrint"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Print&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Shop now&lt;/a&gt;&lt;/div&gt;&lt;p&gt;A world of options for printing &amp; preserving your photographs.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-market"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/3.png" alt="digiDeals"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Deals&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Explore&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Endless aisles of products &amp; categories.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;</p></div></div></div></div></div></div><div data-content-type="slide" data-slide-name="" data-appearance="poster" data-show-button="never" data-show-overlay="never" data-element="main"><div data-element="empty_link"><div class="pagebuilder-slide-wrapper" data-background-images="{}" data-background-type="image" data-video-loop="true" data-video-play-only-visible="true" data-video-lazy-load="true" data-video-fallback-src="" data-element="wrapper" data-pb-style="KE3AEF2"><div class="pagebuilder-overlay pagebuilder-poster-overlay" data-overlay-color="" aria-label="" title="" data-element="overlay" data-pb-style="LGMXK1R"><div class="pagebuilder-poster-content"><div data-element="content"><p>&lt;section class="digiservices-section-mobile"&gt;&lt;div class="digiservices-header"&gt;&lt;h2&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Services.&lt;/span&gt;&lt;br/&gt;Do even more with digi products and services.&lt;/h2&gt;&lt;/div&gt;&lt;div class="digiservices-grid"&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-seconds"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/4.png" alt="digiSeconds"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Seconds&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Shop now&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Save money on pre-loved, open-box, and refurbished gear.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-direct"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/6.png" alt="digiDirect Business"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Direct&lt;/span&gt;&lt;span class="digi-black-text small"&gt;Business&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Enter now&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Specially designed to meet each customer's needs as our team goes beyond a one-size-fits-all approach.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-click-collect"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/5.png" alt="Click &amp; Collect"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-black-text"&gt;Click &amp;amp; Collect&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Learn more&lt;/a&gt;&lt;/div&gt;&lt;p&gt;digiDirect offers a Click &amp; Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;</p></div></div></div></div></div></div><div data-content-type="slide" data-slide-name="" data-appearance="poster" data-show-button="never" data-show-overlay="never" data-element="main"><div data-element="empty_link"><div class="pagebuilder-slide-wrapper" data-background-images="{}" data-background-type="image" data-video-loop="true" data-video-play-only-visible="true" data-video-lazy-load="true" data-video-fallback-src="" data-element="wrapper" data-pb-style="BD0FWMT"><div class="pagebuilder-overlay pagebuilder-poster-overlay" data-overlay-color="" aria-label="" title="" data-element="overlay" data-pb-style="FRWALUD"><div class="pagebuilder-poster-content"><div data-element="content"><p>&lt;section class="digiservices-section-mobile"&gt;&lt;div class="digiservices-header"&gt;&lt;h2&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Services.&lt;/span&gt;&lt;br/&gt;Do even more with digi products and services.&lt;/h2&gt;&lt;/div&gt;&lt;div class="digiservices-grid"&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-trade"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/7.png" alt="Trade Up Program"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;Trade&lt;/span&gt;&lt;span class="digi-black-text"&gt;Up&lt;/span&gt;&lt;span class="digi-black-text small"&gt;Program&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Trade now&lt;/a&gt;&lt;/div&gt;&lt;p&gt;digiDirect offers a Click &amp; Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-protect"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/9.png" alt="digiProtect"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Protect&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Learn more&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Will add up to 3 years beyond the manufacturer's warranty.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-club"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/8.png" alt="digiClub"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Club&lt;/span&gt;&lt;span class="registered"&gt;®&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Join&lt;/a&gt;&lt;/div&gt;&lt;p&gt;And unlock ultimate benefits.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;</p></div></div></div></div></div></div><div data-content-type="slide" data-slide-name="" data-appearance="poster" data-show-button="never" data-show-overlay="never" data-element="main"><div data-element="empty_link"><div class="pagebuilder-slide-wrapper" data-background-images="{}" data-background-type="image" data-video-loop="true" data-video-play-only-visible="true" data-video-lazy-load="true" data-video-fallback-src="" data-element="wrapper" data-pb-style="LARFDCP"><div class="pagebuilder-overlay pagebuilder-poster-overlay" data-overlay-color="" aria-label="" title="" data-element="overlay" data-pb-style="YGL1S99"><div class="pagebuilder-poster-content"><div data-element="content"><p>&lt;section class="digiservices-section-mobile"&gt;&lt;div class="digiservices-header"&gt;&lt;h2&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Services.&lt;/span&gt;&lt;br/&gt;Do even more with digi products and services.&lt;/h2&gt;&lt;/div&gt;&lt;div class="digiservices-grid"&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-price"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/12.png" alt="Price Match"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;Price&lt;/span&gt;&lt;span class="digi-black-text"&gt;Match&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Learn more&lt;/a&gt;&lt;/div&gt;&lt;p&gt;digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers..&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-life"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/10.png" alt="digiLife"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-orange-text"&gt;digi&lt;/span&gt;&lt;span class="digi-black-text"&gt;Life&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Join&lt;/a&gt;&lt;/div&gt;&lt;p&gt;A photography community built to educate people on how to use their camera equipment and master their settings!&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="digiservice-wrapper"&gt;&lt;div class="digiservice-card digiservice-card-events"&gt;&lt;div class="digiservice-card-inner"&gt;&lt;img src="https://www.digidirect.com.au/media/wysiwyg/glowup-digiservices/11.png" alt="Events"&gt;&lt;div class="digicard-body"&gt;&lt;div class="digicard-header"&gt;&lt;h1&gt;&lt;span class="digi-black-text"&gt;Events&lt;/span&gt;&lt;/h1&gt;&lt;a href="#" class="btn"&gt;Explore&lt;/a&gt;&lt;/div&gt;&lt;p&gt;Join exclusive photography events, workshops, and in-store sessions across Australia.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;</p></div></div></div></div></div></div></div></div></div>
+HTML;
+
+            $blockIdentifierMobile = 'digi-services-glow-up-mobile';
+            $blockMobile = $this->blockFactory->create()->load($blockIdentifierMobile, 'identifier');
+
+            if ($blockMobile->getId()) {
+                $blockMobile->setContent($contentMobile)
+                    ->save();
+            } else {
+                $blockMobile->setTitle('Digi Services Glow Up Mobile')
+                    ->setIdentifier($blockIdentifierMobile)
+                    ->setContent($contentMobile)
+                    ->setIsActive(true)
+                    ->setStores([0])
+                    ->save();
+            }
+
+            $contentDesktop = <<<HTML
+<section class="digiservices-section">
+    <div class="digiservices-header">
+        <h2><span class="digi-orange-text">digi</span><span class="digi-black-text">Services.</span>Do even more with digi products and services.</h2>
+    </div>
+
+    <div class="digiservices-grid">
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-rent">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/1.png'}}" alt="digiRent">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Rent</span></h1>
+                            <a href="#" class="btn">Learn more</a>
+                        </div>
+                        <p>Your ultimate flexible rental solution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-print">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/2.png'}}" alt="digiPrint">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Print</span></h1>
+                            <a href="#" class="btn">Shop now</a>
+                        </div>
+                        <p>A world of options for printing & preserving your photographs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-market">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/3.png'}}" alt="digiDeals">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Deals</span></h1>
+                            <a href="#" class="btn">Explore</a>
+                        </div>
+                        <p>Endless aisles of products & categories.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-seconds">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/4.png'}}" alt="digiSeconds">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Seconds</span></h1>
+                            <a href="#" class="btn">Shop now</a>
+                        </div>
+                        <p>Save money on pre-loved, open-box, and refurbished gear.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-direct">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/6.png'}}" alt="digiDirect Business">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Direct</span><span class="digi-black-text small">Business</span></h1>
+                            <a href="#" class="btn">Enter now</a>
+                        </div>
+                        <p>Specially designed to meet each customer's needs as our team goes beyond a one-size-fits-all approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-click-collect">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/5.png'}}" alt="Click & Collect">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-black-text">Click &amp; Collect</span></h1>
+                            <a href="#" class="btn">Learn more</a>
+                        </div>
+                        <p>digiDirect offers a Click & Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-trade">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/7.png'}}" alt="Trade Up Program">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">Trade</span><span class="digi-black-text">Up</span><span class="digi-black-text small">Program</span></h1>
+                            <a href="#" class="btn">Trade now</a>
+                        </div>
+                        <p>digiDirect offers a Click & Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-protect">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/9.png'}}" alt="digiProtect">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Protect</span></h1>
+                            <a href="#" class="btn">Learn more</a>
+                        </div>
+                        <p>Will add up to 3 years beyond the manufacturer's warranty.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-club">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/8.png'}}" alt="digiClub">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Club</span><span class="registered">®</span></h1>
+                            <a href="#" class="btn">Join</a>
+                        </div>
+                        <p>And unlock ultimate benefits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-price">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/12.png'}}" alt="Price Match">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">Price</span><span class="digi-black-text">Match</span></h1>
+                            <a href="#" class="btn">Learn more</a>
+                        </div>
+                        <p>digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers..</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-life">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/10.png'}}" alt="digiLife">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-orange-text">digi</span><span class="digi-black-text">Life</span></h1>
+                            <a href="#" class="btn">Join</a>
+                        </div>
+                        <p>A photography community built to educate people on how to use their camera equipment and master their settings!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-events">
+                <div class="digiservice-card-inner">
+                    <img src="{{media url='wysiwyg/glowup-digiservices/11.png'}}" alt="Events">
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1><span class="digi-black-text">Events</span></h1>
+                            <a href="#" class="btn">Explore</a>
+                        </div>
+                        <p>Join exclusive photography events, workshops, and in-store sessions across Australia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+HTML;
+
+            $blockIdentifierDesktop = 'digi-services-glow-up';
+            $blockDesktop = $this->blockFactory->create()->load($blockIdentifierDesktop, 'identifier');
+
+            if ($blockDesktop->getId()) {
+                $blockDesktop->setContent($contentDesktop)
+                    ->save();
+            } else {
+                $blockDesktop->setTitle('Digi Services Glow Up')
+                    ->setIdentifier($blockIdentifierDesktop)
+                    ->setContent($contentDesktop)
                     ->setIsActive(true)
                     ->setStores([0])
                     ->save();
