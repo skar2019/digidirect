@@ -18,13 +18,16 @@ require(['jquery'], function($) {
             }
         );
 
-        var currentUrl = window.location.pathname;
-        $('.footer-nav-item').each(function() {
-            var href = $(this).attr('href');
-            if (href && currentUrl.indexOf(href) > -1 && href !== '/') {
-                $('.footer-nav-item').removeClass('active');
-                $(this).addClass('active');
-            }
+        document.querySelectorAll('.footer-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all footer nav items
+                document.querySelectorAll('.footer-nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+
+                // Add active class to the clicked item
+                this.classList.add('active');
+            });
         });
 
     });
