@@ -5,7 +5,6 @@
 
 body {
     font-family: "Inter";
-    letter-spacing: 1px;
 }
 
 .breadcrumbs {
@@ -263,11 +262,7 @@ a.action.towishlist {
     margin-left: -275px;
 }
 
-.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n + 6).active) {
-    margin-left: -275px;
-}
-
-.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
+.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+7).active) {
     margin-left: -275px;
 }
 
@@ -368,7 +363,7 @@ a.action.towishlist {
 .glow-up-brands {
     max-width: 1327px;
     margin: 0 auto;
-    padding: 30px 0;
+    //padding: 30px 0;
 }
 
 #glow-up-brands .owl-item {
@@ -443,7 +438,7 @@ a.action.towishlist {
 //Product Widgets
 
 .pa-digidirect-product-widget .product-widget-header {
-    padding: 10px 0 15px;
+    padding: 0 0 10px;
     width: 100%;
 }
 
@@ -538,6 +533,86 @@ a.action.towishlist {
     top: 0;
     font-size: 14px;
     color: #fff;
+}
+
+//Blur Overlay
+/* 🧊 Apple-like blur overlay */
+.global-blur-overlay {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5; /* below header */
+}
+
+body.blur-active .global-blur-overlay {
+  opacity: 1;
+}
+
+.header.content {
+  position: relative;
+  z-index: 10; /* keep header above overlay */
+}
+
+#newspopup_up_bg_13 {
+    position: absolute !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: rgba(255, 255, 255, .35) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 1;
+    transition: opacity .3s ease;
+    z-index: 5;
+    height: 100%;
+}
+
+.view-all-link {
+    float: right;
+    font-size: 15px;
+    font-weight: 500;
+    color: #8e8e93 !important;
+    margin-top: 15px;
+}
+
+.view-all-link span {
+    position: relative;
+}
+
+.view-all-link span::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+}
+
+.view-all-link:hover span::after {
+    width: 100%;
+}
+
+.view-all-link img {
+    margin-bottom: -5px;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.digiservices-header {
+    margin-bottom: 10px;
+}
+
+.digiservices-section .digiservices-grid {
+    margin-bottom: -30px;
 }
 
 @media screen and (max-width: 768px) {
