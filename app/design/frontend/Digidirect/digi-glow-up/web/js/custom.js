@@ -98,7 +98,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
           $('body').prop('scrollHeight')
         );
 
-        // Only set height when blur is active
         if ($('body').hasClass('blur-active')) {
           $overlay.css({
             position: 'absolute',
@@ -106,7 +105,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
             height: (documentHeight - offsetTop) + 'px',
           });
         } else {
-          // Initially height 0 to avoid white gap
           $overlay.css({
             position: 'absolute',
             top: offsetTop + 'px',
@@ -151,7 +149,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       positionBlurOverlay();
     });
 
-    // Auto trigger blur when aa-Panel is visible
+    // Blur when aa-Panel is open
     if (window.MutationObserver) {
       const aaObserver = new MutationObserver(() => {
         if ($('.aa-Panel').length) {
@@ -164,11 +162,22 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       aaObserver.observe(document.body, { childList: true, subtree: true });
     }
 
+    // Blur when minicart opens
+    const minicartObserver = new MutationObserver(() => {
+      const $minicart = $('aside.minicart-modal.active, aside.modal-popup.active');
+      if ($minicart.length) {
+        $('body').addClass('blur-active');
+      } else {
+        $('body').removeClass('blur-active');
+      }
+      positionBlurOverlay();
+    });
+    minicartObserver.observe(document.body, { childList: true, subtree: true });
+
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe
     ======================== */
     const $carousels = $('.owl-carousel');
-
     $carousels.each(function () {
       const $carousel = $(this);
       let startX = 0;
@@ -223,13 +232,11 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
           e.preventDefault();
           if (hasSwiped) return;
           hasSwiped = true;
-
           if (event.deltaX > 0) {
             $carousel.trigger('next.owl.carousel', [transitionSpeed]);
           } else {
             $carousel.trigger('prev.owl.carousel', [transitionSpeed]);
           }
-
           setTimeout(() => {
             hasSwiped = false;
           }, lockDuration);
@@ -251,7 +258,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     });
 
     /* ========================
-       🛒 Add Class For Minicart Modal
+       🛒 Minicart Modal Add Class
     ======================== */
     const observer2 = new MutationObserver(function () {
       const $minicartModal = $('aside.modal-popup .modal-content #minicart-content-wrapper').closest('aside.modal-popup');
@@ -262,7 +269,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     observer2.observe(document.body, { childList: true, subtree: true });
 
     /* ========================
-       👁️ Hide Facelift Dropdown when AA Panel is active
+       👁️ Hide Facelift Dropdown when AA Panel active
     ======================== */
     const $dropdown = $('.facelift-dropdown-container');
     if ($dropdown.length) {
@@ -320,7 +327,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       }
       init();
     }
-
     limitRheostatTooltips();
 
     /* ========================
