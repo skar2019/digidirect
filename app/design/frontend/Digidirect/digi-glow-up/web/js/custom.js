@@ -1,4 +1,4 @@
-define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko, registry, uiApp) {
+define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app', 'Magento_Customer/js/customer-data'], function ($, ko, registry, uiApp, customerData) {
   'use strict';
 
   $(function () {
@@ -81,36 +81,30 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     /* ========================
-       🧊 Global Blur Overlay
+       🧊 Global Blur Overlay (Full Page)
     ======================== */
     const $blurOverlay = $('<div class="global-blur-overlay"></div>');
     if (!$('.global-blur-overlay').length) {
-      $('#maincontent').before($blurOverlay);
+      $('body').append($blurOverlay);
     }
 
     function positionBlurOverlay() {
       const $overlay = $('.global-blur-overlay');
-      const $main = $('#maincontent');
-      if ($main.length && $overlay.length) {
-        const offsetTop = $main.offset().top;
-        const documentHeight = Math.max(
-          $(document).height(),
-          $('body').prop('scrollHeight')
-        );
-
-        if ($('body').hasClass('blur-active')) {
-          $overlay.css({
-            position: 'absolute',
-            top: offsetTop + 'px',
-            height: (documentHeight - offsetTop) + 'px',
-          });
-        } else {
-          $overlay.css({
-            position: 'absolute',
-            top: offsetTop + 'px',
-            height: '0',
-          });
-        }
+      const documentHeight = Math.max($(document).height(), $('body').prop('scrollHeight'));
+      if ($('body').hasClass('blur-active')) {
+        $overlay.css({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: documentHeight + 'px',
+        });
+      } else {
+        $overlay.css({
+          position: 'absolute',
+          top: 0,
+          height: '0',
+        });
       }
     }
 
@@ -122,11 +116,11 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       blurObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    // CSS for blur
     const blurStyle = `
       .global-blur-overlay {
         width: 100%;
         left: 0;
+        top: 0;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         opacity: 0;
@@ -140,16 +134,16 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     `;
     $('head').append(`<style>${blurStyle}</style>`);
 
-    // Hover trigger for blur
-    $(document).on('mouseenter', '.has-dropdown', function () {
-      $('body').addClass('blur-active');
-      positionBlurOverlay();
-    }).on('mouseleave', '.has-dropdown', function () {
-      $('body').removeClass('blur-active');
-      positionBlurOverlay();
-    });
+    $(document)
+      .on('mouseenter', '.has-dropdown', function () {
+        $('body').addClass('blur-active');
+        positionBlurOverlay();
+      })
+      .on('mouseleave', '.has-dropdown', function () {
+        $('body').removeClass('blur-active');
+        positionBlurOverlay();
+      });
 
-    // Blur when aa-Panel is open
     if (window.MutationObserver) {
       const aaObserver = new MutationObserver(() => {
         if ($('.aa-Panel').length) {
@@ -162,7 +156,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       aaObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    // Blur when minicart opens
     const minicartObserver = new MutationObserver(() => {
       const $minicart = $('aside.minicart-modal.active, aside.modal-popup.active');
       if ($minicart.length) {
@@ -173,6 +166,51 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       positionBlurOverlay();
     });
     minicartObserver.observe(document.body, { childList: true, subtree: true });
+
+    /* ========================
+       🛒 AJAX Add to Cart (Algolia PLP)
+    ======================== */
+    $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
+      e.preventDefault();
+      const $form = $(this);
+      const formData = $form.serialize();
+      const actionUrl = $form.attr('action');
+      const $button = $form.find('button[type="submit"]');
+
+      $button.prop('disabled', true).addClass('loading');
+
+      $.ajax({
+        url: actionUrl,
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        showLoader: true,
+        success: function (response) {
+          customerData.reload(['cart'], true);
+          setTimeout(function () {
+            $('[data-block="minicart"]').trigger('click');
+            $('body').addClass('blur-active');
+          }, 500);
+        },
+        error: function (xhr, status, error) {
+          console.error('❌ Add to Cart failed:', error);
+        },
+        complete: function () {
+          $button.prop('disabled', false).removeClass('loading');
+        },
+      });
+    });
+
+    /* ========================
+       🧠 Auto-open minicart on cart update
+    ======================== */
+    const cartData = customerData.get('cart');
+    cartData.subscribe(function (updatedCart) {
+      if (updatedCart && updatedCart.items && updatedCart.items.length > 0) {
+        $('[data-block="minicart"]').trigger('click');
+        $('body').addClass('blur-active');
+      }
+    });
 
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe
