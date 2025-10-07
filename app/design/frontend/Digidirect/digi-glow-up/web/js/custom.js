@@ -98,11 +98,21 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
           $('body').prop('scrollHeight')
         );
 
-        $overlay.css({
-          position: 'absolute',
-          top: offsetTop + 'px',
-          height: (documentHeight - offsetTop) + 'px'
-        });
+        // Only set height when blur is active
+        if ($('body').hasClass('blur-active')) {
+          $overlay.css({
+            position: 'absolute',
+            top: offsetTop + 'px',
+            height: (documentHeight - offsetTop) + 'px',
+          });
+        } else {
+          // Initially height 0 to avoid white gap
+          $overlay.css({
+            position: 'absolute',
+            top: offsetTop + 'px',
+            height: '0',
+          });
+        }
       }
     }
 
@@ -110,17 +120,35 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     $(window).on('resize scroll', positionBlurOverlay);
 
     if (window.MutationObserver) {
-      const blurObserver = new MutationObserver(() => {
-        positionBlurOverlay();
-      });
+      const blurObserver = new MutationObserver(() => positionBlurOverlay());
       blurObserver.observe(document.body, { childList: true, subtree: true });
     }
+
+    // CSS for blur
+    const blurStyle = `
+      .global-blur-overlay {
+        width: 100%;
+        left: 0;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        opacity: 0;
+        transition: opacity 0.3s ease, height 0.3s ease;
+        pointer-events: none;
+        z-index: 9;
+      }
+      body.blur-active .global-blur-overlay {
+        opacity: 1;
+      }
+    `;
+    $('head').append(`<style>${blurStyle}</style>`);
 
     // Hover trigger for blur
     $(document).on('mouseenter', '.has-dropdown', function () {
       $('body').addClass('blur-active');
+      positionBlurOverlay();
     }).on('mouseleave', '.has-dropdown', function () {
       $('body').removeClass('blur-active');
+      positionBlurOverlay();
     });
 
     // Auto trigger blur when aa-Panel is visible
@@ -131,6 +159,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
         } else {
           $('body').removeClass('blur-active');
         }
+        positionBlurOverlay();
       });
       aaObserver.observe(document.body, { childList: true, subtree: true });
     }
