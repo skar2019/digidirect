@@ -574,29 +574,30 @@ body.blur-active .global-blur-overlay {
 }
 
 .view-all-link {
-    height: fit-content;
     float: right;
     font-size: 15px;
     font-weight: 500;
-    color: #8E8E93 !important;
+    color: #8e8e93 !important;
     margin-top: 15px;
-    margin-right: 0;
-    margin-left: auto;
-    position: relative
 }
 
-.view-all-link:hover:after {
-    width: 100%;
+.view-all-link span {
+    position: relative;
 }
 
-.view-all-link:after {
-    content: "";
+.view-all-link span::after {
+    content: '';
     position: absolute;
+    bottom: -2px;
     left: 0;
-    bottom: -3px;
-    width: 0;
+    width: 0%;
     height: 2px;
     background-color: currentColor;
+    transition: width 0.3s ease;
+}
+
+.view-all-link:hover span::after {
+    width: 100%;
 }
 
 .view-all-link img {
