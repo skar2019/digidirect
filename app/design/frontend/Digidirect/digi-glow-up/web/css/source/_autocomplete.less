@@ -109,7 +109,7 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
 }
 
 .aa-SourceHeader {
-    padding-left: 25px !important;
+    padding: 0 !important;
 }
 
 .aa-SourceHeader p {
@@ -146,6 +146,7 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
     left: 0 !important;
     right: 0 !important;
     border-top: .5px solid #e5e5ea !important;
+    padding: 0 !important;
 }
 
 .aa-Panel .aa-PanelLayout section:nth-child(1) {
@@ -156,6 +157,7 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
 
 .aa-Panel .aa-PanelLayout section:nth-child(1) .aa-Item {
     display: flex;
+    margin-bottom: 2px;
 }
 
 .aa-Panel .aa-PanelLayout section:nth-child(1) svg {
@@ -178,7 +180,7 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
 .aa-Panel section:nth-child(2) .aa-List {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    padding: 0 10px;
+    column-gap: 10px;
 }
 
 .aa-Panel section:nth-child(2) .aa-List li {
@@ -191,4 +193,8 @@ a.aa-ItemLink.algolia-suggestions.algoliasearch-autocomplete-hit {
 
 div#autocomplete-products-footer {
     display: none;
+}
+
+.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p {
+    padding-left: 15px;
 }
