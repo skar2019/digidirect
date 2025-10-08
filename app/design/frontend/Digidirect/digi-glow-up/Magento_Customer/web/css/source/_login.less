@@ -101,6 +101,7 @@
                     .primary {
                         margin-right: 0;
                         .action.create {
+                            font-weight: 600;
                             min-width: @form-buton__min__width;
                             width: max-content;
                             margin-right: 0;
@@ -116,6 +117,7 @@
                     padding: 0 25px;
                 }
                 .action.create {
+                    font-weight: 600;
                     width: max-content;
                     background-color: #2c2c2c;
                     &:hover {
@@ -193,9 +195,11 @@
             background: @login-button__bg__color;
             color: #ffffff;
             font-size: 16px;
-            padding: 10px 25px;
+            padding: 11px 25px;
             border-radius: 32px;
+            line-height: 16px;
             margin-right: 0;
+            font-weight: 600;
 
             &:hover {
                 background: @color-light-black;
@@ -216,5 +220,11 @@
 
     a {
         color: #ffffff;
+        &:visited {
+            color: #ffffff;
+        }
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

@@ -321,7 +321,7 @@
         color: white;
         border-radius: 100px;
         height: 40px;
-        width: 231px;
+        width: 250px;
         text-transform: uppercase;
         font-size: 14px;
         font-weight: 700;
@@ -369,3 +369,50 @@
     padding-bottom: 20px;
 }
 /**** Change link sections end ***/
+
+@media (max-width: 768px) {
+    .checkout-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .opc-block-summary {
+        order: -1;
+        margin-bottom: 15px;
+        padding: 20px 10px !important;
+    }
+
+    #checkoutSteps .action-extension-toolbar {
+        display: block;
+        button {
+            width: 100% !important;
+        }
+    }
+
+}
+
+@media (max-width: 380px) {
+    .opc-block-summary .minicart-items-wrapper {
+        margin: 0 -20px !important;
+    }
+}
+
+.thank-you-wrapper .actions-toolbar {
+    padding-top : 20px;
+    .action.primary {
+        background-color: #000000;
+        color: white;
+        border-radius: 100px;
+        height: 40px;
+        width: 250px;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        border: none !important;
+
+        &:hover {
+            background-color: #000000;
+        }
+    }
+}
