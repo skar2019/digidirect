@@ -228,11 +228,11 @@
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
     .header.content {
-        padding: 15px 12px 55px;
+        padding: 15px 12px 55px !important;
     }
 
     .page-header .header.panel {
-        height: 50px;
+        height: 50px !important;
     }
 
     .page-header .header.panel > * {
@@ -240,11 +240,11 @@
     }
 
     .page-header .header.panel {
-        height: 50px;
+        height: 50px !important;
     }
 
     .hellobar-slider {
-        display: block;
+        display: block !important;
     }
 
     .hellobar-slider .hellobar-slides {
@@ -263,17 +263,21 @@
         margin-left: auto;
         justify-content: center;
         align-items: center;
-        gap: 2px;
+        gap: 2px !important;
     }
 
     .hellobar-slider .hellobar-dots .hellobar-dot {
-        width: 4px;
-        height: 4px;
+        width: 4px !important;
+        height: 4px !important;
+    }
+    
+    .logo img {
+        width: 116px !important;
     }
 
     .minicart-wrapper {
-        margin-right: 0;
-        margin-left: auto;
+        margin-right: 0 !important;
+        margin-left: auto !important;
     }
 
     .minicart-wrapper a span {
@@ -285,20 +289,20 @@
     }
 
     .minicart-wrapper a:not(:last-of-type) {
-        margin-right: 20px;
+        margin-right: 20px !important;
     }
 
 
     #algoliaAutocomplete .aa-SubmitButton {
-        height: 26px !important;
-        padding: 0;
-        margin: 0;
-        margin-top: 1px;
+        height: 26px !important !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        margin-top: 1px !important;
     }
 
     button.aa-SubmitButton:before {
-        font-size: 12px;
-        padding: 7px 15px;
+        font-size: 12px !important;
+        padding: 7px 15px !important;
     }
 
     div#algoliaAutocomplete {
