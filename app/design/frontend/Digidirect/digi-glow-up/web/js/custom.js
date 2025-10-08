@@ -236,77 +236,235 @@ define([
     })
 
     /* ========================
-        📱 Mobile Menu Overlay + Sliding Submenu (Apple Style)
-     ======================== */
-     const $mobileMenu = $('.mobile-menu')
-     const $mobileMenuToggle = $('.mobile-menu-icon')
+       🌀 Owl Carousel 2-Finger Swipe
+    ======================== */
+    const $carousels = $('.owl-carousel')
 
-     if ($mobileMenu.length && $mobileMenuToggle.length) {
-       // Add close button dynamically if not exists
-       if (!$mobileMenu.find('.mobile-menu-close').length) {
-         $mobileMenu.prepend(
-           '<button class="mobile-menu-close" aria-label="Close menu">×</button>'
-         )
-       }
+    $carousels.each(function () {
+      const $carousel = $(this)
+      let startX = 0
+      let isTwoFinger = false
+      let hasSwiped = false
+      const threshold = 120
+      const lockDuration = 250
+      const transitionSpeed = 400
 
-       $mobileMenu.removeClass('active')
-       $('body').removeClass('menu-open')
+      $carousel.on('touchstart', function (e) {
+        const touches = e.originalEvent.touches
+        if (touches.length === 2) {
+          isTwoFinger = true
+          startX = (touches[0].clientX + touches[1].clientX) / 2
+          hasSwiped = false
+        } else {
+          isTwoFinger = false
+        }
+      })
 
-       // ✅ Open menu
-       $mobileMenuToggle.on('click', function (e) {
-         e.preventDefault()
-         $mobileMenu.addClass('active')
-         $('body').addClass('menu-open')
-         $mobileMenuToggle.attr('aria-expanded', true)
-       })
+      $carousel.on('touchmove', function (e) {
+        if (!isTwoFinger || hasSwiped) return
+        const touches = e.originalEvent.touches
+        if (touches.length !== 2) return
 
-       // ✅ Close menu
-       $(document).on('click', '.mobile-menu-close', function () {
-         $mobileMenu.removeClass('active')
-         $('body').removeClass('menu-open')
-         $mobileMenuToggle.attr('aria-expanded', false)
+        const currentX = (touches[0].clientX + touches[1].clientX) / 2
+        const deltaX = currentX - startX
 
-         // Reset all levels
-         $mobileMenu.find('.menu-level').removeClass('active').css('left', '100%')
-         $mobileMenu.find('.level-1').addClass('active').css('left', '0')
-       })
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX > 0) {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          }
+          hasSwiped = true
+          e.preventDefault()
 
-       // ✅ ESC key
-       $(document).on('keydown', function (e) {
-         if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
-           $mobileMenu.removeClass('active')
-           $('body').removeClass('menu-open')
-           $mobileMenuToggle.attr('aria-expanded', false)
+          setTimeout(() => {
+            hasSwiped = false
+            isTwoFinger = false
+          }, lockDuration)
+        }
+      })
 
-           // Reset levels
-           $mobileMenu.find('.menu-level').removeClass('active').css('left', '100%')
-           $mobileMenu.find('.level-1').addClass('active').css('left', '0')
-         }
-       })
+      $carousel.on('touchend touchcancel', function () {
+        isTwoFinger = false
+      })
 
-       // ✅ Navigate forward
-       $mobileMenu.on('click', '.menu-item.has-children > .menu-link', function (e) {
-         e.preventDefault()
-         const $submenu = $(this).siblings('.menu-level')
-         const $current = $(this).closest('.menu-level')
+      $carousel.on('wheel', function (e) {
+        const event = e.originalEvent
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+          e.preventDefault()
+          if (hasSwiped) return
+          hasSwiped = true
 
-         if ($submenu.length) {
-           $current.animate({ left: '-100%' }, 300).removeClass('active')
-           $submenu.css('left', '100%').addClass('active').animate({ left: '0' }, 300)
-         }
-       })
+          if (event.deltaX > 0) {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          }
 
-       // ✅ Navigate backward
-       $mobileMenu.on('click', '.menu-back', function (e) {
-         e.preventDefault()
-         const $current = $(this).closest('.menu-level')
-         const $parent = $current.closest('.menu-item').closest('.menu-level')
+          setTimeout(() => {
+            hasSwiped = false
+          }, lockDuration)
+        }
+      })
+    })
 
-         $current.animate({ left: '100%' }, 300).removeClass('active')
-         $parent.addClass('active').animate({ left: '0' }, 300)
-       })
-     }
+    /* ========================
+       🔍 Update Autocomplete Header
+    ======================== */
+    $(document).on('keyup', '#autocomplete-0-input', function () {
+      const query = $(this).val().trim()
+      setTimeout(function () {
+        const $headerEl = $(
+          '.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p'
+        )
+        if ($headerEl.length) {
+          $headerEl.text(
+            query.length
+              ? `Results for "${query}"`
+              : 'Top Selling Products'
+          )
+        }
+      }, 100)
+    })
 
+    /* ========================
+       🛒 Minicart Modal Add Class
+    ======================== */
+    const observer2 = new MutationObserver(function () {
+      const $minicartModal = $(
+        'aside.modal-popup .modal-content #minicart-content-wrapper'
+      ).closest('aside.modal-popup')
+      if ($minicartModal.length && !$minicartModal.hasClass('minicart-modal')) {
+        $minicartModal.addClass('minicart-modal')
+      }
+    })
+    observer2.observe(document.body, { childList: true, subtree: true })
+
+    /* ========================
+       👁️ Hide Facelift Dropdown when AA Panel active
+    ======================== */
+    const $dropdown = $('.facelift-dropdown-container')
+    if ($dropdown.length) {
+      function toggleDropdown() {
+        if ($('.aa-Panel').length) $dropdown.hide()
+        else $dropdown.show()
+      }
+      toggleDropdown()
+      setInterval(toggleDropdown, 300)
+    }
+
+    /* ========================
+       ✅ Rheostat Tooltip Boundary Fix
+    ======================== */
+    function limitRheostatTooltips() {
+      function init() {
+        const $slider = $('.ais-RangeSlider')
+        if (!$slider.length) {
+          setTimeout(init, 500)
+          return
+        }
+
+        const $handles = $slider.find('.rheostat-handle')
+
+        function adjustTooltips() {
+          const sliderRect = $slider[0].getBoundingClientRect()
+          $handles.each(function () {
+            const $handle = $(this)
+            const $tooltip = $handle.find('.rheostat-tooltip')
+            if ($tooltip.length) {
+              const handleRect = $handle[0].getBoundingClientRect()
+              const tooltipRect = $tooltip[0].getBoundingClientRect()
+              const tooltipLeft =
+                handleRect.left + handleRect.width / 2 - tooltipRect.width / 2
+              const minLeft = sliderRect.left
+              const maxLeft = sliderRect.right - tooltipRect.width
+              let newLeft = tooltipLeft
+              if (tooltipLeft < minLeft) newLeft = minLeft
+              if (tooltipLeft > maxLeft) newLeft = maxLeft
+              const offsetLeft = newLeft - handleRect.left
+              $tooltip.css({
+                position: 'absolute',
+                left: offsetLeft + 'px',
+                transform: 'translateX(0)',
+              })
+            }
+          })
+        }
+
+        adjustTooltips()
+        $(window).on('resize', adjustTooltips)
+        const observer = new MutationObserver(adjustTooltips)
+        $handles.each(function () {
+          observer.observe(this, {
+            attributes: true,
+            attributeFilter: ['style'],
+          })
+        })
+        $(document).on('pointermove mousemove touchmove', adjustTooltips)
+      }
+      init()
+    }
+    limitRheostatTooltips()
+
+    /* ========================
+       === RIBBON LOGIC
+    ======================== */
+    function toggleRibbonVisibility() {
+      const $ribbons = $('.aa-Item .ribbon-digideals')
+      let $input = $('#autocomplete-0-input')
+      if (!$input.length) $input = $('.aa-Panel').find('input').first()
+      let val = ''
+      if ($input && $input.length) {
+        val = String($input.val() || '').trim()
+      }
+      $ribbons.css('visibility', val === '' ? 'hidden' : 'visible')
+    }
+
+    setTimeout(toggleRibbonVisibility, 150)
+    $(document).on('input', '#autocomplete-0-input', toggleRibbonVisibility)
+    $(document).on('input', '.aa-Panel input', toggleRibbonVisibility)
+    const ribbonObserver = new MutationObserver(() => toggleRibbonVisibility())
+    ribbonObserver.observe(document.body, { childList: true, subtree: true })
+    const checkInterval = setInterval(toggleRibbonVisibility, 500)
+    setTimeout(() => clearInterval(checkInterval), 15000)
+
+    /* ========================
+       📱 Mobile Menu Overlay Toggle
+    ======================== */
+    const $mobileMenu = $('.mobile-menu')
+    const $mobileMenuToggle = $('.mobile-menu-icon')
+
+    if ($mobileMenu.length && $mobileMenuToggle.length) {
+      // Ensure initial state hidden
+      $mobileMenu.removeClass('active')
+      $('body').removeClass('menu-open')
+
+      $mobileMenuToggle.on('click', function (e) {
+        e.preventDefault()
+        const isActive = $mobileMenu.toggleClass('active').hasClass('active')
+        $('body').toggleClass('menu-open', isActive)
+        $mobileMenuToggle.attr('aria-expanded', isActive)
+      })
+
+      // Optional: close when clicking outside or pressing ESC
+      $(document).on('click', function (e) {
+        if (
+          $mobileMenu.hasClass('active') &&
+          !$(e.target).closest('.mobile-menu, .mobile-menu-icon').length
+        ) {
+          $mobileMenu.removeClass('active')
+          $('body').removeClass('menu-open')
+          $mobileMenuToggle.attr('aria-expanded', false)
+        }
+      })
+
+      $(document).on('keydown', function (e) {
+        if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
+          $mobileMenu.removeClass('active')
+          $('body').removeClass('menu-open')
+          $mobileMenuToggle.attr('aria-expanded', false)
+        }
+      })
     }
   })
 })
