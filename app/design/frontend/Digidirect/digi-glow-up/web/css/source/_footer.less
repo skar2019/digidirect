@@ -253,7 +253,7 @@ footer.page-footer {
 
 /* Background glow effect - hidden by default */
 .footer-nav-item::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -276,7 +276,6 @@ footer.page-footer {
     transition: opacity 0.3s ease;
 }
 
-
 /* Show glow and brighten text when active, hovered, or focused */
 .footer-nav-item.active::before,
 .footer-nav-item:hover::before,
@@ -287,10 +286,8 @@ button:focus {
     outline: none !important;
     box-shadow: none !important;
     border: none !important;
-    background: transparent !important;
+    // background: transparent !important;
 }
-
-
 
 .footer-nav-item svg line {
     stroke: #545456;
@@ -344,6 +341,10 @@ button:focus {
 /* Hide on desktop */
 @media (min-width: 768px) {
     .mobile-footer-nav {
+        display: none;
+    }
+
+    #mobile-account-popup {
         display: none;
     }
 }

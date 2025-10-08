@@ -28,10 +28,23 @@
         max-width: 1344px;
     }
 
+    .checkout-logo { display: block; }
+    .checkout-logo-mobile { display: none; }
+
+    .secure-white-img { display: block; }
+    .secure-white-img-mobile { display: none; }
+
     .checkout-logo {
-        padding-top: 20px;
+        //background: url('/pub/media/logo-desktop.png') no-repeat center center;
+
+        //background-image: url('@{baseDir}images/checkout/paypal.png');
+        padding-top: 5px;
         padding-right: 20px;
     }
+
+    /*.checkout-logo a{
+        background: url('@{baseDir}images/checkout/logo-white.svg') no-repeat center center;
+    }*/
 }
 
 .secure-text-header {
@@ -224,10 +237,13 @@
     float: right;
     font-weight: 400;
     font-size: 14px;
-    color: #0066cc;
     text-decoration: none;
     margin-top: 4px;
 }
+#opc-sidebar .action.viewcart span {
+    color: #0066cc;
+}
+
 #opc-sidebar .action.viewcart:hover {
     text-decoration: underline;
 }
@@ -401,12 +417,19 @@
     }
     #opc-sidebar.opc-sidebar.shipping-step {
         position: fixed;
-        /*display: flex;
-        align-items: center;
-        justify-content: right;*/
         right: 265px;
         top: 180px;
         z-index: 10;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    #opc-sidebar .title {
+        font-size: 18px;
+    }
+
+    #opc-sidebar .item-count, #opc-sidebar a.action.viewcart span {
+        font-size: 12px;
     }
 }
 
@@ -508,6 +531,26 @@
         width: 50%;
     }
 }
+@media screen and (max-width: 840px) {
+    .secure-text-header {
+        font-size: 4vw !important;
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .checkout-logo { display: none !important;}
+    .checkout-logo-mobile { display: block !important; padding-right: 30px;}
+
+    .secure-white-img { display: none !important; }
+    .secure-white-img-mobile { display: block !important; }
+
+    .page-header .header-content {
+        padding: 40px 20px 0 20px !important;
+        .secure-text-header {
+             display: none;
+        }
+    }
+}
 
 @media screen and (max-width: 768px) {
     .checkout-index-index,
@@ -515,16 +558,17 @@
         .page-header .header-content {
             padding: 0 20px;
             .secure-text-header {
-                display: none;
+               // display: none;
             }
         }
         .help-bar-white {
             .help-bar-content {
                 flex-wrap: wrap;
                 padding: 8px 10px;
+                font-size: 10px !important;
 
                 .contact-options {
-                    gap: 1px;
+                    gap: 5px;
                     flex-wrap: wrap;
                 }
             }
@@ -570,5 +614,12 @@
     .checkout-index-index .afterpay .choice::after {
         max-width: 90px;
     }
+}
+
+@media only screen and (max-width: 639px) {
+    .opc-wrapper .form-login {
+        border-bottom: none !important;
+    }
+
 }
 /****** checkout footer end******/

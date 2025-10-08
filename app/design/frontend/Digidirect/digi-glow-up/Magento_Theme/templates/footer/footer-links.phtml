@@ -1,3 +1,9 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+$viewModel = $block->getViewModel();
+$isLoggedIn = $viewModel->isLoggedIn();
+?>
+
 <nav data-action="navigation" class="footer-nav" id="footer_nav">
     <ul class="footer-menu footer-categories">
         <li class="category-item item">
@@ -145,7 +151,7 @@
         <span class="nav-label">Cart</span>
     </button>
 
-    <button onclick="window.location.href='<?php echo $block->getUrl('customer/account/'); ?>'" class="footer-nav-item">
+    <button class="footer-nav-item" <?php if ($isLoggedIn) echo 'id="open-account-popup"'; else echo 'onclick="window.location.href=\'' . $block->getUrl('customer/account') . '\'"'; ?>>
         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
             <g clip-path="url(#clip0_7798_148425)">
                 <mask id="mask0_7798_148425" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -165,3 +171,39 @@
         <span class="nav-label">Account</span>
     </button>
 </nav>
+
+<!-- Account Popup Overlay -->
+<div id="mobile-account-popup" class="account-popup">
+    <div class="account-popup-header">
+        <span class="signout">Sign Out</span>
+        <button class="close-popup" aria-label="Close">&times;</button>
+    </div>
+    <ul class="account-menu">
+        <div class="block-collapsible-nav navigation">
+            <div class="content block-collapsible-nav-content active" id="block-collapsible-nav">
+                <ul class="nav items">
+                    <li class="nav item"><a href="<?= $block->getUrl('customer/account/')?>">Account</a></li>
+                    <li class="nav item -icon -account"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('customer/account/edit/')?>">Profile</a></li>
+                    <li class="nav item -icon -profile"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('customer/address/')?>">Address Book</a></li>
+                    <li class="nav item -icon -address"><!-- li--></li>
+                    <li class="nav item -icon -orders"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('review/customer/')?>">Product Reviews</a></li>
+                    <li class="nav item -icon -reviews"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('wishlist/')?>">Wishlist</a></li>
+                    <li class="nav item -icon -account-wishlist"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('sales/order/history/')?>">My Orders</a></li>
+                    <li class="nav item"><a href="http://digistaging.dev.local/giftcard/customer/">Gift Card</a></li>
+                    <li class="nav item -icon -account-gift"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('newsletter/manage')?>">Newsletter Subscription</a></li>
+                    <li class="nav item -icon -newsletter"><!-- li--></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('company/')?>">Company Structure</a></li>
+                    <li class="nav item">
+                        <span class="delimiter"></span>
+                    </li>
+                    <li class="nav item"><a href="<?= $block->getUrl('digiclubmember/customer/index/')?>" class="digiclub-icon">digiClub</a></li><li class="nav item -icon -digiclub"></li></ul>    </div>
+        </div>
+
+    </ul>
+</div>

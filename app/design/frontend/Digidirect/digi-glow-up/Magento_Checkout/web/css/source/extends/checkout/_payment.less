@@ -350,6 +350,7 @@
 .checkout-index-index .afterpay.actions-toolbar-wraper {
     display: flex !important;
     align-items: center !important;
+    flex-wrap: wrap;
 }
 
 #method-latitude .latitude-icon {
@@ -604,6 +605,16 @@
         }
     }
 }
+@media only screen and (max-width: 768px) {
+    .checkout-payment-method .payment-option {
+        margin : 0 !important;
+    }
+
+    .checkout-payment-method .step-title {
+        padding-left: 0 !important;
+    }
+}
+
 
 .checkout-payment-method .ccard .legend {
     overflow: visible !important;

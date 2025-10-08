@@ -494,7 +494,6 @@ html {
     border: none;
     position: absolute;
     right: 0px;
-    height: 32px;
     box-shadow: none;
 }
 #algoliaAutocomplete .aa-ClearButton{
