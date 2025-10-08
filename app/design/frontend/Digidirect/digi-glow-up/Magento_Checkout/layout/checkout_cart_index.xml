@@ -36,7 +36,7 @@
                             <item name="children" xsi:type="array">
                                 <item name="grand-total" xsi:type="array">
                                     <item name="config" xsi:type="array">
-                                        <item name="title" xsi:type="string" translate="true">Grand Total (Incl. GST)</item>
+                                        <item name="title" xsi:type="string" translate="true">Order Total</item>
                                     </item>
                                 </item>
                             </item>
