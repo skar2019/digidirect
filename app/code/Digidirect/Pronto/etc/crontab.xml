@@ -42,13 +42,13 @@
             <schedule>30 * * * *</schedule>
         </job>
         <job name="pronto_mwaveextradata" instance="Digidirect\Pronto\Cron\MwaveData" method="mwaveExtraData">
-            <schedule>30 * * * *</schedule>
+            <schedule>30 1 * * *</schedule>
         </job>
         <job name="pronto_mwavesftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="execute">
             <schedule>55 * * * *</schedule>
         </job>
         <job name="pronto_mwaveextrasftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="sendExtraData">
-            <schedule>55 * * * *</schedule>
+            <schedule>55 1 * * *</schedule>
         </job>
     </group>
 </config>
