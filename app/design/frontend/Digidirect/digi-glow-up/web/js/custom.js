@@ -1,4 +1,10 @@
-define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko, registry, uiApp) {
+define([
+  'jquery',
+  'ko',
+  'uiRegistry',
+  'Magento_Ui/js/core/app',
+  'Magento_Customer/js/customer-data',
+], function ($, ko, registry, uiApp, customerData) {
   'use strict';
 
   $(function () {
@@ -14,9 +20,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     let isSticky = false;
 
     function recalcStickyPoint() {
-      if (!isSticky && $header.length) {
-        stickyPoint = $header.offset().top;
-      }
+      if (!isSticky && $header.length) stickyPoint = $header.offset().top;
     }
 
     function positionAAPanel() {
@@ -29,9 +33,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
 
     function removeAAPanelSticky() {
       const $aaPanel = $('.aa-Panel');
-      if ($aaPanel.length) {
-        $aaPanel.removeClass('is-sticky').css('top', '');
-      }
+      if ($aaPanel.length) $aaPanel.removeClass('is-sticky').css('top', '');
     }
 
     function setSticky(active) {
@@ -81,38 +83,30 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     }
 
     /* ========================
-       🧊 Global Blur Overlay
+       🧊 Global Blur Overlay (Only from #maincontent and below)
     ======================== */
     const $blurOverlay = $('<div class="global-blur-overlay"></div>');
-    if (!$('.global-blur-overlay').length) {
-      $('#maincontent').before($blurOverlay);
-    }
+    if (!$('.global-blur-overlay').length) $('body').append($blurOverlay);
 
     function positionBlurOverlay() {
       const $overlay = $('.global-blur-overlay');
       const $main = $('#maincontent');
-      if ($main.length && $overlay.length) {
-        const offsetTop = $main.offset().top;
-        const documentHeight = Math.max(
-          $(document).height(),
-          $('body').prop('scrollHeight')
-        );
+      if (!$main.length) return;
 
-        // Only set height when blur is active
-        if ($('body').hasClass('blur-active')) {
-          $overlay.css({
-            position: 'absolute',
-            top: offsetTop + 'px',
-            height: (documentHeight - offsetTop) + 'px',
-          });
-        } else {
-          // Initially height 0 to avoid white gap
-          $overlay.css({
-            position: 'absolute',
-            top: offsetTop + 'px',
-            height: '0',
-          });
-        }
+      const mainOffset = $main.offset().top;
+      const documentHeight = Math.max($(document).height(), $('body').prop('scrollHeight'));
+      const height = documentHeight - mainOffset;
+
+      if ($('body').hasClass('blur-active')) {
+        $overlay.css({
+          position: 'absolute',
+          top: mainOffset + 'px',
+          left: 0,
+          width: '100%',
+          height: height + 'px',
+        });
+      } else {
+        $overlay.css({ height: '0' });
       }
     }
 
@@ -124,7 +118,7 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       blurObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    // CSS for blur
+    // CSS for blur (inline kept to ensure immediate availability)
     const blurStyle = `
       .global-blur-overlay {
         width: 100%;
@@ -142,27 +136,107 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     `;
     $('head').append(`<style>${blurStyle}</style>`);
 
-    // Hover trigger for blur
-    $(document).on('mouseenter', '.has-dropdown', function () {
-      $('body').addClass('blur-active');
-      positionBlurOverlay();
-    }).on('mouseleave', '.has-dropdown', function () {
-      $('body').removeClass('blur-active');
-      positionBlurOverlay();
-    });
+    // 🌀 Blur only for dropdown hover
+    $(document)
+      .on('mouseenter', '.has-dropdown', function () {
+        $('body').addClass('blur-active');
+        positionBlurOverlay();
+      })
+      .on('mouseleave', '.has-dropdown', function () {
+        $('body').removeClass('blur-active');
+        positionBlurOverlay();
+      });
 
-    // Auto trigger blur when aa-Panel is visible
+    // 🧊 Blur when Algolia panel open
     if (window.MutationObserver) {
       const aaObserver = new MutationObserver(() => {
-        if ($('.aa-Panel').length) {
-          $('body').addClass('blur-active');
-        } else {
-          $('body').removeClass('blur-active');
-        }
+        if ($('.aa-Panel').length) $('body').addClass('blur-active');
+        else $('body').removeClass('blur-active');
         positionBlurOverlay();
       });
       aaObserver.observe(document.body, { childList: true, subtree: true });
     }
+
+    /* ========================
+       🛒 AJAX Add to Cart (PLP + PDP) + Auto Open Minicart
+    ======================== */
+    $(document).on('submit', 'form[data-role="tocart-form"], #product_addtocart_form', function (e) {
+      e.preventDefault();
+      const $form = $(this);
+      const formData = new FormData($form[0]);
+      const actionUrl = $form.attr('action');
+
+      $.ajax({
+        url: actionUrl,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        showLoader: true,
+        success: function (response) {
+          // reload minicart data (Magento customer-data)
+          customerData.invalidate(['cart']);
+          customerData.reload(['cart'], true);
+
+          // stop global loader if any
+          $('body').trigger('processStop');
+
+          // Auto-open minicart after short delay (let the cart refresh)
+          setTimeout(function () {
+            // Some themes use .action.showcart inside [data-block="minicart"]
+            const $showCart = $('[data-block="minicart"]').find('.action.showcart');
+            if ($showCart.length) {
+              $showCart.trigger('click');
+            } else {
+              // fallback: trigger click on the minicart block itself
+              $('[data-block="minicart"]').trigger('click');
+            }
+            // ensure overlay/header state updated
+            updateMinicartOverlay();
+          }, 500);
+        },
+        error: function (err) {
+          console.error('Add to cart failed', err);
+          $('body').trigger('processStop');
+        },
+      });
+    });
+
+    /* ========================
+       🧱 Minicart Overlay & Header Z-Index Handling
+       - when minicart dropdown (.block-minicart[data-role="dropdownDialog"]) is visible:
+         set .ruby-menu-demo-header z-index:0 and show .minicart-overlay (display:block)
+       - revert when minicart closes
+    ======================== */
+    function updateMinicartOverlay() {
+      const $minicart = $('.block-minicart[data-role="dropdownDialog"]');
+      const $headerMenu = $('.ruby-menu-demo-header');
+      const $miniOverlay = $('.minicart-overlay');
+
+      const isVisible = $minicart.length && $minicart.is(':visible') && $minicart.css('display') !== 'none';
+
+      if (isVisible) {
+        // apply requested styles
+        if ($headerMenu.length) $headerMenu.css('z-index', 0);
+        if ($miniOverlay.length) $miniOverlay.css('display', 'block');
+      } else {
+        // revert
+        if ($headerMenu.length) $headerMenu.css('z-index', '');
+        if ($miniOverlay.length) $miniOverlay.css('display', 'none');
+      }
+    }
+
+    // Observe DOM changes that might open/close minicart
+    if (window.MutationObserver) {
+      const miniObserver = new MutationObserver(() => updateMinicartOverlay());
+      miniObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+    }
+    // extra fallback periodic check (keeps state synced)
+    const miniInterval = setInterval(updateMinicartOverlay, 300);
+    // optional: clear interval when leaving page or unloading
+    $(window).on('unload beforeunload', function () {
+      clearInterval(miniInterval);
+    });
 
     /* ========================
        🌀 Owl Carousel 2-Finger Swipe
@@ -243,15 +317,15 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     $(document).on('keyup', '#autocomplete-0-input', function () {
       const query = $(this).val().trim();
       setTimeout(function () {
-        const $header = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p');
-        if ($header.length) {
-          $header.text(query.length ? `Results for "${query}"` : 'Top Selling Products');
+        const $headerEl = $('.aa-Source[data-autocomplete-source-id="products"] .aa-SourceHeader p');
+        if ($headerEl.length) {
+          $headerEl.text(query.length ? `Results for "${query}"` : 'Top Selling Products');
         }
       }, 100);
     });
 
     /* ========================
-       🛒 Add Class For Minicart Modal
+       🛒 Minicart Modal Add Class
     ======================== */
     const observer2 = new MutationObserver(function () {
       const $minicartModal = $('aside.modal-popup .modal-content #minicart-content-wrapper').closest('aside.modal-popup');
@@ -262,16 +336,13 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
     observer2.observe(document.body, { childList: true, subtree: true });
 
     /* ========================
-       👁️ Hide Facelift Dropdown when AA Panel is active
+       👁️ Hide Facelift Dropdown when AA Panel active
     ======================== */
     const $dropdown = $('.facelift-dropdown-container');
     if ($dropdown.length) {
       function toggleDropdown() {
-        if ($('.aa-Panel').length) {
-          $dropdown.hide();
-        } else {
-          $dropdown.show();
-        }
+        if ($('.aa-Panel').length) $dropdown.hide();
+        else $dropdown.show();
       }
       toggleDropdown();
       setInterval(toggleDropdown, 300);
@@ -320,7 +391,6 @@ define(['jquery', 'ko', 'uiRegistry', 'Magento_Ui/js/core/app'], function ($, ko
       }
       init();
     }
-
     limitRheostatTooltips();
 
     /* ========================

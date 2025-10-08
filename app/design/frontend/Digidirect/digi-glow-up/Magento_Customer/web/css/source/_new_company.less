@@ -26,26 +26,42 @@
             justify-content: center;
             margin-top: 25px;
             .create.button {
-                background-color: @color-black;
                 color: @color-white;
-                border-color: @color-black;
                 font-size: 16px;
                 padding: 11px 30px;
                 border-radius: 32px;
                 width: max-content;
                 display: inline-block;
-                line-height: 18px;
+                line-height: 16px;
                 margin-right: 0;
             }
         }
     }
 }
 
-.customer-account-create {
-    .actions-toolbar {
-        .create.button {
-            background-color: @color-orange !important;
-            border-color: @color-orange !important;
+.customer-account-login {
+    .block-new-company {
+        .actions-toolbar {
+            .create.button {
+                // background-color: @color-orange !important;
+                border-color: @color-black;
+                line-height: 16px;
+                font-weight: 600;
+            }
+        }
+    }
+}
+.customer-account-forgotpassword {
+    button.action {
+        border-radius: 32px;
+    }
+    .block-new-company {
+        .actions-toolbar {
+            .create.button {
+                background: @color-black;
+                border-color: @color-black;
+                font-weight: 600;
+            }
         }
     }
 }

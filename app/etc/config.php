@@ -773,7 +773,7 @@ return [
         'Digidirect_ShopByBrandMenu' => 0,
         'Digidirect_ShopByCategory' => 1,
         'Digidirect_SingleCheckoutButton' => 1,
-        'Digidirect_SocialSharing' => 1,
+        'Digidirect_SocialSharing' => 0,
         'Digidirect_StoreLocator' => 1,
         'Digidirect_CollectStoreLocator' => 1,
         'Digidirect_StoreLocatorInfiniteScroll' => 0,
