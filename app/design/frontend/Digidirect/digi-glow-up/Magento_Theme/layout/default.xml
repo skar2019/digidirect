@@ -9,6 +9,9 @@
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
     <body>
+        <referenceContainer name="before.body.start">
+            <block class="Magento\Framework\View\Element\Template" name="mobile.menu" template="Magento_Theme::mobile-menu.phtml" />
+        </referenceContainer>
         <referenceContainer name="main.content">
             <container name="blur.overlay.container" as="blur_overlay" htmlTag="div" htmlClass="blur-overlay"/>
         </referenceContainer>
