@@ -28,16 +28,29 @@
         max-width: 1344px;
     }
 
+    .checkout-logo { display: block; }
+    .checkout-logo-mobile { display: none; }
+
+    .secure-white-img { display: block; }
+    .secure-white-img-mobile { display: none; }
+
     .checkout-logo {
+        //background: url('/pub/media/logo-desktop.png') no-repeat center center;
+
+        //background-image: url('@{baseDir}images/checkout/paypal.png');
         padding-top: 5px;
         padding-right: 20px;
     }
+
+    /*.checkout-logo a{
+        background: url('@{baseDir}images/checkout/logo-white.svg') no-repeat center center;
+    }*/
 }
 
 .secure-text-header {
     font-family: "Inter", sans-serif;
     font-weight: 100;
-    font-size: 40px;
+    font-size: 4vw;
     line-height: 100%;
     letter-spacing: normal;
     color: #ffffff;
@@ -519,13 +532,28 @@
     }
 }
 
+@media screen and (max-width: 402px) {
+    .checkout-logo { display: none !important;}
+    .checkout-logo-mobile { display: block !important; padding-right: 30px;}
+
+    .secure-white-img { display: none !important; }
+    .secure-white-img-mobile { display: block !important; }
+
+    .page-header .header-content {
+        padding: 40px 20px 0 20px !important;
+        .secure-text-header {
+             display: none;
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     .checkout-index-index,
     .checkout-onepage-success {
         .page-header .header-content {
-            padding: 30px 20px 0 20px;
+            padding: 0 20px;
             .secure-text-header {
-                display: none;
+               // display: none;
             }
         }
         .help-bar-white {
