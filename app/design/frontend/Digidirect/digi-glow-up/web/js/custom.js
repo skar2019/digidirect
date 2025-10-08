@@ -236,64 +236,77 @@ define([
     })
 
     /* ========================
-       📱 Mobile Menu Overlay + Submenu Accordion
-    ======================== */
-    const $mobileMenu = $('.mobile-menu')
-    const $mobileMenuToggle = $('.mobile-menu-icon')
+        📱 Mobile Menu Overlay + Sliding Submenu (Apple Style)
+     ======================== */
+     const $mobileMenu = $('.mobile-menu')
+     const $mobileMenuToggle = $('.mobile-menu-icon')
 
-    if ($mobileMenu.length && $mobileMenuToggle.length) {
-      // ✅ Add close button if not exists
-      if (!$mobileMenu.find('.mobile-menu-close').length) {
-        $mobileMenu.prepend(
-          '<button class="mobile-menu-close" aria-label="Close menu">×</button>'
-        )
-      }
+     if ($mobileMenu.length && $mobileMenuToggle.length) {
+       // Add close button dynamically if not exists
+       if (!$mobileMenu.find('.mobile-menu-close').length) {
+         $mobileMenu.prepend(
+           '<button class="mobile-menu-close" aria-label="Close menu">×</button>'
+         )
+       }
 
-      $mobileMenu.removeClass('active')
-      $('body').removeClass('menu-open')
+       $mobileMenu.removeClass('active')
+       $('body').removeClass('menu-open')
 
-      // ✅ Toggle open
-      $mobileMenuToggle.on('click', function (e) {
-        e.preventDefault()
-        $mobileMenu.addClass('active')
-        $('body').addClass('menu-open')
-        $mobileMenuToggle.attr('aria-expanded', true)
-      })
+       // ✅ Open menu
+       $mobileMenuToggle.on('click', function (e) {
+         e.preventDefault()
+         $mobileMenu.addClass('active')
+         $('body').addClass('menu-open')
+         $mobileMenuToggle.attr('aria-expanded', true)
+       })
 
-      // ✅ Close on close button
-      $(document).on('click', '.mobile-menu-close', function () {
-        $mobileMenu.removeClass('active')
-        $('body').removeClass('menu-open')
-        $mobileMenuToggle.attr('aria-expanded', false)
-      })
+       // ✅ Close menu
+       $(document).on('click', '.mobile-menu-close', function () {
+         $mobileMenu.removeClass('active')
+         $('body').removeClass('menu-open')
+         $mobileMenuToggle.attr('aria-expanded', false)
 
-      // ✅ Close on ESC
-      $(document).on('keydown', function (e) {
-        if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
-          $mobileMenu.removeClass('active')
-          $('body').removeClass('menu-open')
-          $mobileMenuToggle.attr('aria-expanded', false)
-        }
-      })
+         // Reset all levels
+         $mobileMenu.find('.menu-level').removeClass('active').css('left', '100%')
+         $mobileMenu.find('.level-1').addClass('active').css('left', '0')
+       })
 
-      // ✅ Submenu toggle (accordion)
-      $mobileMenu.on('click', '.menu-link', function (e) {
-        const $link = $(this)
-        const $parent = $link.parent('.menu-item')
+       // ✅ ESC key
+       $(document).on('keydown', function (e) {
+         if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
+           $mobileMenu.removeClass('active')
+           $('body').removeClass('menu-open')
+           $mobileMenuToggle.attr('aria-expanded', false)
 
-        if ($parent.hasClass('has-children')) {
-          e.preventDefault() // prevent navigation
-          $parent.toggleClass('open')
-          $parent.children('.submenu').slideToggle(300)
+           // Reset levels
+           $mobileMenu.find('.menu-level').removeClass('active').css('left', '100%')
+           $mobileMenu.find('.level-1').addClass('active').css('left', '0')
+         }
+       })
 
-          // Optional accordion: close siblings
-          $parent
-            .siblings('.menu-item.open')
-            .removeClass('open')
-            .children('.submenu')
-            .slideUp(300)
-        }
-      })
+       // ✅ Navigate forward
+       $mobileMenu.on('click', '.menu-item.has-children > .menu-link', function (e) {
+         e.preventDefault()
+         const $submenu = $(this).siblings('.menu-level')
+         const $current = $(this).closest('.menu-level')
+
+         if ($submenu.length) {
+           $current.animate({ left: '-100%' }, 300).removeClass('active')
+           $submenu.css('left', '100%').addClass('active').animate({ left: '0' }, 300)
+         }
+       })
+
+       // ✅ Navigate backward
+       $mobileMenu.on('click', '.menu-back', function (e) {
+         e.preventDefault()
+         const $current = $(this).closest('.menu-level')
+         const $parent = $current.closest('.menu-item').closest('.menu-level')
+
+         $current.animate({ left: '100%' }, 300).removeClass('active')
+         $parent.addClass('active').animate({ left: '0' }, 300)
+       })
+     }
+
     }
   })
 })

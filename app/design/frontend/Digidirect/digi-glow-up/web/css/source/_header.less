@@ -396,6 +396,64 @@ ul.slick-dots {
     .submenu .menu-link {
       font-size: 14px;
     }
+    
+    .mobile-menu-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .menu-level {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: auto;
+        background: rgba(255, 255, 255, 0.93);
+        transition: transform 0.4s ease, left 0.4s ease;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .menu-level.active {
+        left: 0;
+      }
+
+      .menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+
+      .menu-back {
+        background: none;
+        border: none;
+        font-size: 16px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .menu-title {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .menu-link {
+        display: block;
+        padding: 12px 0;
+        font-size: 16px;
+        text-decoration: none;
+        color: #000;
+      }
+
+      .menu-item.has-children .menu-link::after {
+        content: '›';
+        float: right;
+      }
+
 
     
 }
