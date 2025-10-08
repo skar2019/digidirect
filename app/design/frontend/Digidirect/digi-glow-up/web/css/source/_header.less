@@ -346,6 +346,7 @@ ul.slick-dots {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
+        display: block !important;
     }
     
     body.menu-open {
@@ -354,5 +355,47 @@ ul.slick-dots {
         position: fixed;
         width: 100%;
     }
+    
+    .mobile-menu-list,
+    .submenu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .menu-link {
+      display: block;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .has-children > .menu-link::after {
+      content: '›';
+      float: right;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item.open > .menu-link::after {
+      transform: rotate(90deg);
+    }
+
+    .submenu {
+      display: none;
+      padding-left: 16px;
+      border-left: 1px solid #ddd;
+    }
+
+    .submenu .menu-link {
+      font-size: 14px;
+    }
+
     
 }

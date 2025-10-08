@@ -236,13 +236,13 @@ define([
     })
 
     /* ========================
-       📱 Mobile Menu Overlay + Close Button
+       📱 Mobile Menu Overlay + Submenu Accordion
     ======================== */
     const $mobileMenu = $('.mobile-menu')
     const $mobileMenuToggle = $('.mobile-menu-icon')
 
     if ($mobileMenu.length && $mobileMenuToggle.length) {
-      // Add close button dynamically if not exists
+      // ✅ Add close button if not exists
       if (!$mobileMenu.find('.mobile-menu-close').length) {
         $mobileMenu.prepend(
           '<button class="mobile-menu-close" aria-label="Close menu">×</button>'
@@ -252,7 +252,7 @@ define([
       $mobileMenu.removeClass('active')
       $('body').removeClass('menu-open')
 
-      // Toggle open
+      // ✅ Toggle open
       $mobileMenuToggle.on('click', function (e) {
         e.preventDefault()
         $mobileMenu.addClass('active')
@@ -260,19 +260,38 @@ define([
         $mobileMenuToggle.attr('aria-expanded', true)
       })
 
-      // Close on close button click
+      // ✅ Close on close button
       $(document).on('click', '.mobile-menu-close', function () {
         $mobileMenu.removeClass('active')
         $('body').removeClass('menu-open')
         $mobileMenuToggle.attr('aria-expanded', false)
       })
 
-      // Optional: close on ESC
+      // ✅ Close on ESC
       $(document).on('keydown', function (e) {
         if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
           $mobileMenu.removeClass('active')
           $('body').removeClass('menu-open')
           $mobileMenuToggle.attr('aria-expanded', false)
+        }
+      })
+
+      // ✅ Submenu toggle (accordion)
+      $mobileMenu.on('click', '.menu-link', function (e) {
+        const $link = $(this)
+        const $parent = $link.parent('.menu-item')
+
+        if ($parent.hasClass('has-children')) {
+          e.preventDefault() // prevent navigation
+          $parent.toggleClass('open')
+          $parent.children('.submenu').slideToggle(300)
+
+          // Optional accordion: close siblings
+          $parent
+            .siblings('.menu-item.open')
+            .removeClass('open')
+            .children('.submenu')
+            .slideUp(300)
         }
       })
     }
