@@ -63,9 +63,7 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
     <?php else: ?>
         </span>
     <?php endif; ?>
-        <span class="item-actions">
-            <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
-        </span>
+        
         <div class="product-item-details">
             <strong class="product-item-name">
                 <?php if ($block->hasProductUrl()):?>
@@ -165,6 +163,9 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         <?php else: ?>
             <?php echo $block->getRowTotalHtml($_item); ?>
         <?php endif; ?>
+        <span class="item-actions">
+            <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
+        </span>
     </td>
 </tr>
 </tbody>
