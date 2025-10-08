@@ -615,6 +615,13 @@ $orderArray = $block->getOrderArray();
         <?php endif;?>
 
         <?= $block->getAdditionalInfoHtml() ?>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <a class="action primary continue" title="Continue Shopping" href="<?= /* @escapeNotVerified */$block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */__('Continue Shopping') ?></span></a>
+            </div>
+        </div>
+
     </div>
 </div>
 <script>

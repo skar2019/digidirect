@@ -167,11 +167,11 @@
                                     data-bind="text: method.method_title + ' *', attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></span>
 
                             <!-- ko if: ((method.carrier_code == 'express') || (method.carrier_code == 'nextdaydelivery')) -->
-                                <span> ** ***</span>
+<!--                                <span> ** ***</span>-->
                             <!-- /ko -->
 
                             <!-- ko if: (method.carrier_code == 'AP') -->
-                                <span> ****</span>
+<!--                                <span> ****</span>-->
                             <!-- /ko -->
 
                             <strong class="col col-price">
@@ -259,7 +259,7 @@
     <div class="action-extension-toolbar">
         <div class="primary">
             <button id="shipping-button-extension" class="extension-action button continue primary" type="button">
-                <span>Continue</span>
+                <span>Save & Continue</span>
             </button>
         </div>
     </div>
