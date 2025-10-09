@@ -433,9 +433,8 @@ define([
     ======================== */
     const $mobileMenu = $('.mobile-menu')
     const $mobileMenuToggle = $('.mobile-menu-icon')
-    const $mobileFooterMenuToggle = $('.footer-mobile-menu-icon') /* clint */
 
-    if ($mobileMenu.length && ($mobileMenuToggle.length || $mobileFooterMenuToggle.length)) {
+    if ($mobileMenu.length && $mobileMenuToggle.length) {
       // Ensure initial state hidden
       $mobileMenu.removeClass('active')
       $('body').removeClass('menu-open')
