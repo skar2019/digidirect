@@ -30,6 +30,19 @@ require(['jquery'], function($) {
             });
         });
 
+
+        $('.footer-mobile-menu-icon').on('click', function(){
+            $('.mobile-menu').addClass('active');
+        });
+
+        $('.footer-search').on('click', function(){
+
+            document.querySelector('.aa-Input').focus();
+        });
+
+
+
+
         $('#open-account-popup').on('click', function(){
             $('#mobile-account-popup').addClass('active');
             $('body').css('overflow', 'hidden');
