@@ -1324,11 +1324,9 @@ require(['jquery'], function ($) {
 <div class="homepage-row" style="padding: 30px 0 10px;">
     <div class="digiservice-row">
         <?php
-        $httpUserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
-        $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
-        $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
-        //$blockId = 'digi-services-glow-up';
-
+            $httpUserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+            $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
+            $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
         ?>
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
     </div>
