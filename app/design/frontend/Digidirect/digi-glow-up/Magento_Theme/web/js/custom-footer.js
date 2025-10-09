@@ -30,6 +30,24 @@ require(['jquery'], function($) {
             });
         });
 
+
+        const $mobileMenu = $('.mobile-menu')
+        const $mobileMenuToggle = $('.mobile-menu-icon')
+        const $mobileFooterMenuToggle = $('.footer-mobile-menu-icon') /* clint */
+
+        if ($mobileMenu.length && $mobileFooterMenuToggle.length) {
+            // Ensure initial state hidden
+            $mobileMenu.removeClass('active')
+            $('body').removeClass('menu-open')
+
+            $mobileFooterMenuToggle.on('click', function (e) {
+                e.preventDefault()
+                const isActive = $mobileMenu.toggleClass('active').hasClass('active')
+                $('body').toggleClass('menu-open', isActive)
+            })
+
+        }
+
         $('#open-account-popup').on('click', function(){
             $('#mobile-account-popup').addClass('active');
             $('body').css('overflow', 'hidden');
