@@ -447,6 +447,12 @@ define([
         $mobileMenuToggle.attr('aria-expanded', isActive)
       })
 
+        $mobileFooterMenuToggle.on('click', function (e) {
+            e.preventDefault()
+            const isActive = $mobileMenu.toggleClass('active').hasClass('active')
+            $('body').toggleClass('menu-open', isActive)
+        })
+
       // Optional: close when clicking outside or pressing ESC
       $(document).on('click', function (e) {
         if (
