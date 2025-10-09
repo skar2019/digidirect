@@ -30,5 +30,19 @@ require(['jquery'], function($) {
             });
         });
 
+        $('#open-account-popup').on('click', function(){
+            $('#mobile-account-popup').addClass('active');
+            $('body').css('overflow', 'hidden');
+        });
+
+        $('#mobile-account-popup .close-popup').on('click', function(){
+            $('#mobile-account-popup').removeClass('active');
+            $('body').css('overflow', '');
+        });
+
+        $('#mobile-account-popup .signout').on('click', function(){
+            window.location.href = '/customer/account/logout/';
+        });
+
     });
 });
