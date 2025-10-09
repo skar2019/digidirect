@@ -2,22 +2,19 @@
 /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
 /** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 ?>
+<?php
+$viewModel = $block->getViewModel();
+$isLoggedIn = $viewModel->isLoggedIn();
+?>
 <div data-block="minicart" class="minicart-wrapper">
     <!-- 🔹 Wishlist -->
     <a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
         <span>Wishlist</span>
-        <?php
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $wishlist = $objectManager->create(\Magento\Wishlist\Model\Wishlist::class);
-        $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
-        if ($customerSession->isLoggedIn()) {
-            $wishlist = $wishlist->loadByCustomerId($customerSession->getCustomerId(), true);
-            ?>
-            <div class="wishlist-count"><?= $wishlist->getItemsCount() ?></div>
-            <?php
-        }
-        ?>
+
+        <?php if ($isLoggedIn) :?>
+            <div class="wishlist-count"><?= $viewModel->getWishlistItemsCount(); ?></div>
+        <?php endif; ?>
     </a>
 
     <!-- 🔹 Cart Trigger -->
@@ -32,11 +29,22 @@
     </a>
 
     <!-- 🔹 Login -->
-    <a href="<?= $block->getUrl('customer/account/login') ?>">
-        <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
-        <span>Login</span>
-    </a>
-
+    <?php if (!$isLoggedIn) :?>
+        <a href="<?= $block->getUrl('customer/account/login') ?>">
+            <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
+            <span>Login</span>
+        </a>
+    <?php else :?>
+        <a href="<?= $block->getUrl('customer/account/logout') ?>" class="account-box">
+            <div class="account-icon">
+                <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Log out" />
+            </div>
+            <div class="account-text">
+                <p class="hello">Hello, <span class="username"><?= $viewModel->getFirstName();?></span></p>
+                <span class="logout">Logout</span>
+            </div>
+        </a>
+    <?php endif; ?>
     <!-- 🔹 Overlay -->
     <div class="minicart-overlay" style="display:none;"></div>
 

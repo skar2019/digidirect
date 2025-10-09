@@ -217,12 +217,21 @@ svg.aa-SubmitIcon {
 }
 
 ul.slick-dots {
-    bottom: 180px;
+    bottom: 10px;
     position: absolute;
 }
 
+.pagebuilder-slide-wrapper {
+    width: 100vw;
+    height: 338px;
+    background-size: cover !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    
+
     .header.content {
         padding: 15px 12px 55px !important;
     }
@@ -238,7 +247,7 @@ ul.slick-dots {
     .page-header .header.panel {
         height: 50px !important;
     }
-    
+
     .hellobar.wrapper {
         padding: 5px;
         height: 31px;
@@ -271,7 +280,7 @@ ul.slick-dots {
         width: 4px !important;
         height: 4px !important;
     }
-    
+
     .logo img {
         width: 116px !important;
     }
@@ -292,7 +301,7 @@ ul.slick-dots {
     .minicart-wrapper a:not(:last-of-type) {
         margin-right: 20px !important;
     }
-    
+
     input#autocomplete-0-input {
         height: 30px;
     }
@@ -312,11 +321,11 @@ ul.slick-dots {
     div#algoliaAutocomplete {
         margin-top: 40px !important;
     }
-    
+
     .ruby-wrapper {
         display: none !important;
     }
-    
+
     .mobile-menu-icon {
         display: block !important;
         background: none !important;
@@ -325,7 +334,7 @@ ul.slick-dots {
         border: none !important;
         box-shadow: none !important;
     }
-    
+
     .mobile-menu {
         position: fixed;
         top: 0;
@@ -341,19 +350,50 @@ ul.slick-dots {
         visibility: hidden;
         transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
     }
-    
+
     .mobile-menu.active {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
         display: block !important;
     }
-    
+
     body.menu-open {
         overflow: hidden;
         height: 100vh;
         position: fixed;
         width: 100%;
     }
-    
+
+}
+
+.minicart-wrapper {
+    .account-box {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .account-icon {
+        display: flex;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+    }
+
+    .account-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .hello {
+        margin: 0;
+    }
+
+    .logout {
+        color: #AEAEB2;
+    }
+
 }

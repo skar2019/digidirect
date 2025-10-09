@@ -66,5 +66,10 @@
         <referenceContainer name="footer-container">
             <block class="Magento\Framework\View\Element\Template" name="footer-black-gradient" template="Magento_Theme::footer/footer-black-gradient.phtml" after="-"/>
         </referenceContainer>
+        <referenceBlock name="minicart">
+            <arguments>
+                <argument name="view_model" xsi:type="object">Digidirect\Customer\ViewModel\Customer</argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>
