@@ -163,5 +163,10 @@
 
 <!--        <move element="customer_account_navigation" destination="customer_account_navigation_block" before="-" />-->
 <!--        <move element="customer_account_navigation_block" destination="div.account.navigation.container" before="-" />-->
+
+        <referenceContainer name="header.container">
+            <block class="Magento\Framework\View\Element\Template" name="glow.up.mobile.signout" template="Magento_Theme::mobile-signout.phtml"/>
+        </referenceContainer>
+
     </body>
 </page>

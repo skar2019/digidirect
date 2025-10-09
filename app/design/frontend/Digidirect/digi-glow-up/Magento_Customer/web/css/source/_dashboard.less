@@ -31,9 +31,12 @@ a:visited, .alink:visited, a, .alink {
 select {
     height: 42px !important;
     border-radius: 5px !important;
-    //color: #AEAEB2;
 }
-
+@media (min-width: 768px) {
+    .account-popup-header-in-pages {
+        display: none;
+    }
+}
 
 @media (max-width: 768px) {
     .account-popup {
@@ -62,65 +65,39 @@ select {
         display: flex;
     }
 
-    .account-popup-header {
+    .account-popup-header, .account-popup-header-in-pages {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px;
-        border-bottom: 1px solid #ddd;
-        font-weight: bold;
+        padding: 20px;
     }
 
-    .account-popup-header .signout {
-        color: #999;
+    .account-popup-header-in-pages {
+        padding: 50px 20px 0 20px !important;
     }
 
-    .account-popup-header .close-popup {
+    .account-popup-header .signout, .account-popup-header-in-pages .signout {
+        color: #7C7C80;
+        font-size: 14px;
+        font-weight: 590;
+        letter-spacing: 0.2px;
+        padding-top: 8px;
+    }
+
+    .account-popup-header .close-popup, .account-popup-header-in-pages .close-popup {
         background: none;
         border: none;
-        font-size: 28px;
+        font-size: 40px;
         color: #000;
+        font-weight: 100;
     }
 
-    .account-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .account .block-collapsible-nav .nav.item a {
+        font-size: 18px;
     }
 
-    .account-menu li {
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .account-menu a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px;
-        text-decoration: none;
-        color: #000;
-        font-size: 16px;
-    }
-
-    .account-menu a:hover {
-        background: #f9f9f9;
-    }
-
-    .icon-account,
-    .icon-profile,
-    .icon-address,
-    .icon-review,
-    .icon-wishlist,
-    .icon-orders,
-    .icon-gift,
-    .icon-newsletter,
-    .icon-company,
-    .icon-club {
-        width: 20px;
-        height: 20px;
-        background-color: #ff4400;
-        border-radius: 50%;
-        display: inline-block;
+    .block-collapsible-nav .content {
+        border-bottom: none !important;
     }
 
     #mobile-account-popup .block-collapsible-nav {
@@ -128,14 +105,54 @@ select {
     }
 
     .account {
+        .page-main {
+            padding-top: 10px;
+        }
+
         #maincontent {
             padding-left: 20px;
         }
 
-        .sidebar-main {
-            display: none;
+        .sidebar-main,
+        .panel.wrapper,
+        .header.content,
+        .header-placeholder,
+        div.ruby-menu-demo-header,
+        nav.footer-nav,
+        .footer-line{
+            display: none !important;
         }
-    }
 
+        .page-header {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .page-title-wrapper span.base {
+            font-size: 18px;
+        }
+
+        footer.page-footer {
+            background-color: unset;
+        }
+
+        .fieldset .field:not(.choice) > .control input[type="text"] {
+            width: 80%;
+        }
+
+        .multiselect {
+            width: 90%;
+        }
+
+        button {
+            border-radius: 100px;
+        }
+
+        .filters-collapse {
+            text-align: left !important;
+            margin-left: 20px;
+        }
+
+    }
 
 }

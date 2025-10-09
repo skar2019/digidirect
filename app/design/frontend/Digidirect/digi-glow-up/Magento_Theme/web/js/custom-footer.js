@@ -35,13 +35,17 @@ require(['jquery'], function($) {
             $('body').css('overflow', 'hidden');
         });
 
-        $('.close-popup').on('click', function(){
+        $('.account-popup-header .close-popup').on('click', function(){
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
 
-        $('#mobile-account-popup').on('click', function(){
+        $('.account-popup-header .signout, .account-popup-header-in-pages .signout').on('click', function(){
             window.location.href = '/customer/account/logout/';
+        });
+
+        $('.account-popup-header-in-pages .close-popup').on('click', function(){
+            window.location.href = '/';
         });
 
     });
