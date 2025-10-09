@@ -282,11 +282,14 @@ footer.page-footer {
 .footer-nav-item:focus::before {
     opacity: 1;
 }
-button:focus {
+
+.footer-nav-item button:focus,
+.footer-nav-item button:active{
     outline: none !important;
     box-shadow: none !important;
     border: none !important;
-    // background: transparent !important;
+    background: transparent !important;
+
 }
 
 .footer-nav-item svg line {
