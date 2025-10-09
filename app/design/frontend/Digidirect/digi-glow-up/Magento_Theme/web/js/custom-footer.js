@@ -35,12 +35,12 @@ require(['jquery'], function($) {
             $('body').css('overflow', 'hidden');
         });
 
-        $('.close-popup').on('click', function(){
+        $('#mobile-account-popup .close-popup').on('click', function(){
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
 
-        $('#mobile-account-popup').on('click', function(){
+        $('#mobile-account-popup .signout').on('click', function(){
             window.location.href = '/customer/account/logout/';
         });
 
