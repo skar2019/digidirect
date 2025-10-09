@@ -110,7 +110,8 @@ select {
         }
 
         #maincontent {
-            padding-left: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         .sidebar-main,
@@ -140,7 +141,7 @@ select {
             width: 80%;
         }
 
-        .multiselect {
+        .multiselect, select#country {
             width: 90%;
         }
 
@@ -151,6 +152,55 @@ select {
         .filters-collapse {
             text-align: left !important;
             margin-left: 20px;
+        }
+
+        .message.message {
+            margin: 10px 0 !important
+        }
+
+         span.base[data-ui-id="page-title-wrapper"]::before {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .customer-account-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/account.svg');
+        }
+        .customer-account-edit span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/profile.svg');
+        }
+        .customer-address-index span.base[data-ui-id="page-title-wrapper"]::before,
+        .customer-address-form span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/address.svg');
+        }
+        .review-customer-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/reviews.svg');
+        }
+        .wishlist-index-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/wishlist.svg');
+        }
+        .sales-order-history span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/orders.svg');
+        }
+        .sales-order-view span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/orders.svg');
+        }
+        .magento_giftcardaccount-customer-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/giftcard.svg');
+        }
+        .newsletter-manage-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/newsletter.svg');
+        }
+        .company-index-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/company.svg');
+        }
+        .digiclubmember-customer-index span.base[data-ui-id="page-title-wrapper"]::before {
+            content: url('@{baseDir}images/myaccount/digiclub.svg');
+        }
+
+        .actions-toolbar {
+            display: block !important;
         }
 
     }

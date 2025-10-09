@@ -21,12 +21,9 @@
 
 <form class="form form-digiclub-manage block" action="/digiclubmember/customer/save" method="post">
 
-    <div style="
-        display: grid;
-        grid-template-columns: 60% 45%;
-        column-gap: 20px;
-    ">
+    <div class='digiclub-content-wrapper'>
         <fieldset class="fieldset">
+            <div class="myacount-digiclub-mobile-img"><img src="<?= $block->getUrl("media/wysiwyg/digiClub/")?>digiclub-signup-image-glowup.png"/></div>
             <div class="block-title"><span>As a digiClub member you will gain access to exclusive deals and rewards.</span></div><br>
             <div class="digiclub-description">
                 <ul>
@@ -110,7 +107,7 @@
             </div>
             <div class="digiclub-t-c">Click SAVE below to acknowledge your agreement to join digiClub in line with our <a href="https://www.digidirect.com.au/terms/">Terms & Conditions</a> and <a href="https://www.digidirect.com.au/privacy">Privacy Policy</a>.</div>
         </fieldset>
-        <div><img src="<?= $block->getUrl("media/wysiwyg/digiClub/")?>digiclub-signup-image-glowup.png"/></div>
+        <div class="myacount-digiclub-desktop-img"><img src="<?= $block->getUrl("media/wysiwyg/digiClub/")?>digiclub-signup-image-glowup.png"/></div>
     </div>
 
     <div class="actions-toolbar">
