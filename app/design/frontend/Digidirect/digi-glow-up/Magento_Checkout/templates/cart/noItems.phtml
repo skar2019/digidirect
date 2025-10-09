@@ -8,12 +8,18 @@
 ?>
 <div class="cart-empty">
     <div class="page-title-wrapper">
-        <h1 class="page-title"><?= /* @escapeNotVerified */ __('Shopping Cart') ?></h1>
+        <h1 class="page-title"><?= /* @escapeNotVerified */ __('My Cart') ?></h1>
     </div>
     <?= $block->getChildHtml('checkout_cart_empty_widget') ?>
-    <p class="text"><?= /* @escapeNotVerified */ __('You have no items in your shopping cart.') ?></p>
-    <div class="action"><?php /* @escapeNotVerified */ echo __('<a href="%1" class="button">Continue Shopping</a>',
-            $block->escapeUrl($block->getContinueShoppingUrl())) ?></div>
+    <div class="cart-empty-wrapper">
+        <p class="text"><?= /* @escapeNotVerified */ __('No products added yet.') ?></p>
+        <span class='empty-cart-icon'>
+            <img src="<?php echo $block->getViewFileUrl('images/checkout/empty-cart.png') ?>" alt="<?= /* @escapeNotVerified */ __('No products added yet.') ?>" />
+        </span>
+        <div class="action"><?php /* @escapeNotVerified */ echo __('<a href="%1" class="button action primary">Continue Shopping</a>',
+                $block->escapeUrl($block->getContinueShoppingUrl())) ?></div>
+    </div>
+
     <?php if($block->getChildBlock('empty.cart.products')):?><?= $block->getChildHtml('empty.cart.products') ?> <?php endif; ?>
     <?= $block->getChildHtml('shopping.cart.table.after') ?>
 </div>
