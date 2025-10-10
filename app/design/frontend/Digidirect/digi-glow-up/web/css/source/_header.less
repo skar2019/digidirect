@@ -358,13 +358,11 @@ ul.slick-dots {
         background: rgba(255, 255, 255, 0.96);
         z-index: 9999;
         overflow-y: auto;
-        padding: 60px 30px;
+        padding: 30px;
         transform: translateY(-100%);
         opacity: 0;
         visibility: hidden;
         transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
     }
 
     .mobile-menu.active {
@@ -372,6 +370,7 @@ ul.slick-dots {
         opacity: 1;
         visibility: visible;
         display: block !important;
+        background: #FAFAFC !important;
     }
 
     body.menu-open {
@@ -532,6 +531,35 @@ ul.slick-dots {
         color: #242426;
         cursor: pointer;
         transition: color .2s ease;
+    }
+    
+    .mobile-brands-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        position: relative;
+        height: 700px;
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .mobile-brands-list .brand {
+        text-align: center;
+        width: 100%;
+        background: #fff;
+        border-radius: 20px;
+        border: .2px #e5e5e5 solid;
+        position: relative;
+        height: 99px;
+    }
+    
+    .mobile-brands-list .brand img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80px;
     }
 }
 
