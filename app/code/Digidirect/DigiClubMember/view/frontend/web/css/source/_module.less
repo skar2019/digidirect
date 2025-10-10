@@ -149,12 +149,37 @@
         background: #000000 !important;
     }
 
+    .myacount-digiclub-mobile-img {
+        display: none;
+    }
+    .myacount-digiclub-desktop-img {
+        display: block;
+    }
+
+    .digiclub-content-wrapper {
+        display: grid;
+        grid-template-columns: 60% 45%;
+        column-gap: 20px;
+    }
+
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+@media (max-width: 768px) {
+    .digiclubmember-customer-index {
+        .myacount-digiclub-mobile-img {
+            display: block;
+        }
+        .myacount-digiclub-desktop-img {
+            display: none;
+        }
 
-    .digiclub-customer-index .fieldset .field {
-        //width: 50%;
+        .digiclub-content-wrapper {
+            display: block;
+        }
+
+        input[type="number"] {
+            height: 40px !important;
+        }
     }
 
 }

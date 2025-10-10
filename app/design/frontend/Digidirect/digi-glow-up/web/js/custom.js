@@ -429,43 +429,119 @@ define([
     setTimeout(() => clearInterval(checkInterval), 15000)
 
     /* ========================
-       📱 Mobile Menu Overlay Toggle
-    ======================== */
-    const $mobileMenu = $('.mobile-menu')
-    const $mobileMenuToggle = $('.mobile-menu-icon')
+   📱 Mobile Menu Overlay Toggle
+======================== */
+const $mobileMenu = $('.mobile-menu')
+const $mobileMenuToggle = $('.mobile-menu-icon')
+const $mobileFooterMenuToggle = $('.footer-mobile-menu-icon') /* clint */
 
-    if ($mobileMenu.length && $mobileMenuToggle.length) {
-      // Ensure initial state hidden
+if ($mobileMenu.length && ($mobileMenuToggle.length || $mobileFooterMenuToggle.length)) {
+  // Ensure initial state hidden
+  $mobileMenu.removeClass('active')
+  $('body').removeClass('menu-open')
+
+  $mobileMenuToggle.on('click', function (e) {
+    e.preventDefault()
+    const isActive = $mobileMenu.toggleClass('active').hasClass('active')
+    $('body').toggleClass('menu-open', isActive)
+    $mobileMenuToggle.attr('aria-expanded', isActive)
+  })
+
+  $mobileFooterMenuToggle.on('click', function (e) {
+    e.preventDefault()
+    const isActive = $mobileMenu.toggleClass('active').hasClass('active')
+    $('body').toggleClass('menu-open', isActive)
+  })
+
+  // Optional: close when clicking outside or pressing ESC
+  $(document).on('click', function (e) {
+    if (
+      $mobileMenu.hasClass('active') &&
+      !$(e.target).closest('.mobile-menu, .mobile-menu-icon').length
+    ) {
       $mobileMenu.removeClass('active')
       $('body').removeClass('menu-open')
-
-      $mobileMenuToggle.on('click', function (e) {
-        e.preventDefault()
-        const isActive = $mobileMenu.toggleClass('active').hasClass('active')
-        $('body').toggleClass('menu-open', isActive)
-        $mobileMenuToggle.attr('aria-expanded', isActive)
-      })
-
-
-      // Optional: close when clicking outside or pressing ESC
-        $(document).on('click', function (e) {
-            if (
-                $mobileMenu.hasClass('active') &&
-                !$(e.target).closest('.mobile-menu, .mobile-menu-icon, .footer-mobile-menu-icon').length
-            ) {
-                $mobileMenu.removeClass('active')
-                $('body').removeClass('menu-open')
-                $mobileMenuToggle.attr('aria-expanded', false)
-            }
-        })
-
-      $(document).on('keydown', function (e) {
-        if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
-          $mobileMenu.removeClass('active')
-          $('body').removeClass('menu-open')
-          $mobileMenuToggle.attr('aria-expanded', false)
-        }
-      })
+      $mobileMenuToggle.attr('aria-expanded', false)
     }
+  })
+
+  $(document).on('keydown', function (e) {
+    if (e.key === 'Escape' && $mobileMenu.hasClass('active')) {
+      $mobileMenu.removeClass('active')
+      $('body').removeClass('menu-open')
+      $mobileMenuToggle.attr('aria-expanded', false)
+    }
+  })
+}
+
+/* ========================
+   📱 Apple-style Multi-Level Navigation
+======================== */
+
+const $menuContainer = $('.mobile-menu-content')
+const $menuLevels = $menuContainer.find('.menu-level')
+const $backBtn = $('.back-btn')
+const $menuTitle = $('.mobile-menu-title')
+
+let menuHistory = []
+
+// Handle click to go to next level
+$(document).on('click', '.menu-item[data-target]', function () {
+  const target = $(this).data('target')
+  const $currentLevel = $menuLevels.filter('.active')
+  const $nextLevel = $menuLevels.filter(`[data-parent="${target}"]`)
+
+  if ($nextLevel.length) {
+    menuHistory.push($currentLevel)
+    $currentLevel.removeClass('active').addClass('previous')
+    $nextLevel.addClass('active')
+
+    $menuTitle.text($(this).text())
+    $backBtn.show()
+  }
+})
+
+// Back button handler
+$backBtn.on('click', function () {
+  const $currentLevel = $menuLevels.filter('.active')
+  const $prevLevel = menuHistory.pop()
+
+  if ($prevLevel && $prevLevel.length) {
+    $currentLevel.removeClass('active')
+    $prevLevel.removeClass('previous').addClass('active')
+
+    if (menuHistory.length === 0) {
+      $menuTitle.text('Menu')
+      $backBtn.hide()
+    } else {
+      const parentTarget = $prevLevel.data('parent') || 'Menu'
+      $menuTitle.text(parentTarget.charAt(0).toUpperCase() + parentTarget.slice(1))
+    }
+  }
+})
+
+// Reset to root when menu closes
+$(document).on('click', '.mobile-menu-close', function () {
+  resetMenuToRoot()
+})
+
+function resetMenuToRoot() {
+  $menuLevels.removeClass('active previous')
+  $menuLevels.filter('[data-level="1"]').addClass('active')
+  $menuTitle.text('Menu')
+  $backBtn.hide()
+  menuHistory = []
+}
+
+const $mobileMenuClose = $('.mobile-menu-close')
+
+if ($mobileMenuClose.length) {
+  $mobileMenuClose.on('click', function () {
+    $mobileMenu.removeClass('active')
+    $('body').removeClass('menu-open')
+    $mobileMenuToggle.attr('aria-expanded', false)
+  })
+}
+
   })
 })
