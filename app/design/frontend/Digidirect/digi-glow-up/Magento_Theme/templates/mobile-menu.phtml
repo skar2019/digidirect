@@ -36,8 +36,8 @@
 
     <!-- Level 2 -->
     <ul class="menu-level" data-level="2" data-parent="products">
-      <div style="font-size: 28px; color: #333237; margin-bottom: 13px;">Products</div>
-      <button class="menu-item" data-target="cameras">
+      <div style="font-size: 28px; color: #333237; margin-bottom: 13px; margin-top: 2px; font-weight: 500;">Products</div>
+      <button class="menu-item" data-target="photography">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M12.279 2.999c-.407 0-.78-.234-.967-.594l-.48-.966C10.525.832 9.725.332 9.045.332H7.52c-.687 0-1.487.5-1.794 1.107l-.48.966c-.186.36-.56.594-.966.594a2.5 2.5 0 0 0-2.5 2.66l.346 5.506c.08 1.374.82 2.5 2.66 2.5h6.987c1.84 0 2.573-1.126 2.66-2.5l.347-5.506a2.5 2.5 0 0 0-2.5-2.66m-5 .833h2c.273 0 .5.227.5.5s-.227.5-.5.5h-2a.504.504 0 0 1-.5-.5c0-.273.226-.5.5-.5m1 7.247a2.255 2.255 0 0 1-2.254-2.254A2.25 2.25 0 0 1 8.28 6.572a2.25 2.25 0 0 1 2.253 2.253A2.255 2.255 0 0 1 8.28 11.08"></path></svg> <span>Photography</span>
       </button>
       <button class="menu-item" data-target="cameras">
@@ -73,9 +73,35 @@
     </ul>
 
     <!-- Level 3 -->
-    <ul class="menu-level" data-level="3" data-parent="cameras">
-      <li><button class="menu-item" data-target="dslr">DSLR</button></li>
-      <li><button class="menu-item" data-target="mirrorless">Mirrorless</button></li>
+    <ul class="menu-level" data-level="3" data-parent="photography">
+        <div style="font-size: 28px;color: #333237;margin-bottom: 13px;margin-top: 2px;font-weight: 500;">Photography</div>
+        <li class="menu-item-cat">
+            <a href="<?= $block->getBaseUrl(); ?>cameras">Cameras</a> 
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>drones">Drones</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>photo-accessories/camera-system-accessories/camera-cables-and-adapters">Cables & Adaptors</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>lenses">Lenses</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>photo-accessories">Photo Accessories</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>computers-mobile/printers-and-scanners">Printers &amp; Scanners</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="<?= $block->getBaseUrl(); ?>lighting-and-studio">Lighting &amp; Studio</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="#">Studio</a>
+        </li>
+        <li class="menu-item-cat">
+           <a href="#">Video Accessories</a>
+        </li>
     </ul>
 
     <!-- Level 4 -->
