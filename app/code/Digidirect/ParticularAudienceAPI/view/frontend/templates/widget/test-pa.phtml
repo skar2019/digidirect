@@ -1322,7 +1322,7 @@ require(['jquery'], function ($) {
     </div>
 </div>
 <div class="homepage-row" style="padding: 30px 0 10px;">
-    <div class="digiservice-row">
+    <div class="digiservice-row" id="digiservices">
         <?php
             $httpUserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
             $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
