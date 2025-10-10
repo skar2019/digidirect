@@ -435,7 +435,7 @@ const $mobileMenu = $('.mobile-menu')
 const $mobileMenuToggle = $('.mobile-menu-icon')
 const $mobileFooterMenuToggle = $('.footer-mobile-menu-icon') /* clint */
 
-if ($mobileMenu.length && ($mobileMenuToggle.length || $mobileFooterMenuToggle.length)) {
+if ($mobileMenu.length && $mobileMenuToggle.length) {
   // Ensure initial state hidden
   $mobileMenu.removeClass('active')
   $('body').removeClass('menu-open')
@@ -447,17 +447,11 @@ if ($mobileMenu.length && ($mobileMenuToggle.length || $mobileFooterMenuToggle.l
     $mobileMenuToggle.attr('aria-expanded', isActive)
   })
 
-  $mobileFooterMenuToggle.on('click', function (e) {
-    e.preventDefault()
-    const isActive = $mobileMenu.toggleClass('active').hasClass('active')
-    $('body').toggleClass('menu-open', isActive)
-  })
-
   // Optional: close when clicking outside or pressing ESC
   $(document).on('click', function (e) {
     if (
       $mobileMenu.hasClass('active') &&
-      !$(e.target).closest('.mobile-menu, .mobile-menu-icon').length
+      !$(e.target).closest('.mobile-menu, .mobile-menu-icon, .footer-mobile-menu-icon').length
     ) {
       $mobileMenu.removeClass('active')
       $('body').removeClass('menu-open')
