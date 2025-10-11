@@ -240,11 +240,12 @@ $(window).on('scroll resize', () => {
     })
 
     /* ========================
-   🌀 Owl Carousel Free Scroll (Apple-like)
+   🌀 Owl Carousel Free Glide (Apple-like)
 ======================== */
-const $owl = $('.owl-carousel.custom')
+const $owl = $('.owl-carousel')
 
 if ($owl.length) {
+  const $stageOuter = $owl.find('.owl-stage-outer')
   const $stage = $owl.find('.owl-stage')
   let isDown = false
   let startX
@@ -252,23 +253,33 @@ if ($owl.length) {
   let velocity = 0
   let momentumId
 
-  // Disable Owl snapping transitions
-  $stage.css('transition', 'none')
+  /* 🧱 Remove Owl’s restrictive layout */
+  $stageOuter.css({
+    overflow: 'hidden',
+    width: '100%',
+  })
+  $stage.css({
+    transform: 'none',
+    width: 'max-content',
+    transition: 'margin 0.3s ease-out',
+  })
 
-  // Enable native scroll
+  /* 🧲 Make carousel scrollable by native behavior */
   $owl.css({
     overflowX: 'auto',
+    overflowY: 'hidden',
     scrollBehavior: 'auto',
     cursor: 'grab',
-    '-webkit-overflow-scrolling': 'touch'
+    '-webkit-overflow-scrolling': 'touch',
   })
 
-  // Default visual offset (right padding illusion)
+  // Default right offset for breathing space
   $stage.css({
     marginLeft: '0px',
-    marginRight: '80px' // extend right edge by default
+    marginRight: '80px',
   })
 
+  /* Drag-based scrolling */
   $owl.on('mousedown touchstart', function (e) {
     isDown = true
     $owl.addClass('dragging')
@@ -301,37 +312,33 @@ if ($owl.length) {
     momentumId = requestAnimationFrame(applyMomentum)
   }
 
-  /* 🧲 Edge Stretch + Illusion */
+  /* 🧲 Edge Stretch Illusion */
   $owl.on('scroll', function () {
     const maxScroll = $stage.width() - $owl.outerWidth()
     const scrollLeft = $owl.scrollLeft()
     const atLeftEdge = scrollLeft <= 0
     const atRightEdge = scrollLeft >= maxScroll - 5
 
-    // “Push” effect on left edge
     if (atLeftEdge) {
-      const stretch = Math.min(Math.abs(scrollLeft) * 0.2 + 40, 80)
+      const stretch = Math.min(Math.abs(scrollLeft) * 0.3 + 40, 100)
       $stage.css({
         marginLeft: `${stretch}px`,
-        marginRight: '80px'
+        marginRight: '80px',
       })
-    } 
-    // Normal right-side margin
-    else if (atRightEdge) {
+    } else if (atRightEdge) {
       $stage.css({
         marginLeft: '0px',
-        marginRight: '0px'
+        marginRight: '0px',
       })
-    } 
-    // Normal scrolling area
-    else {
+    } else {
       $stage.css({
         marginLeft: '0px',
-        marginRight: '80px'
+        marginRight: '80px',
       })
     }
   })
 }
+
 
 
     /* ========================

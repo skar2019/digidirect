@@ -320,24 +320,27 @@ a.action.towishlist {
   transition: transform 0.3s ease-out;
 }
 
-/* Hide scrollbar entirely */
-.owl-carousel.custom {
+.owl-carousel {
   cursor: grab;
   overflow-x: auto !important;
+  overflow-y: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
-.owl-carousel.custom::-webkit-scrollbar {
+.owl-carousel::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
-.owl-carousel.custom.dragging {
+.owl-carousel.dragging {
   cursor: grabbing;
 }
 
 .owl-stage {
   display: flex;
+  gap: 15px; /* consistent spacing between items */
   transition: margin 0.3s ease-out !important;
+  transform: none !important;
+  width: max-content !important;
 }
 
 
