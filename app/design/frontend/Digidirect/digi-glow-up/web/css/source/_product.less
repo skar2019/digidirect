@@ -208,6 +208,7 @@
         .price-box {
             display: inline-flex;
             gap: 5px;
+            align-items: center;
 
             .price {
                 font-size: 28px;
@@ -237,10 +238,11 @@
             .discount-price-wrapper {
                 background: #242426;
                 color: #fff;
-                margin: 2px 1px;
-                padding: 10px 14px;
+                margin: 0;
+                padding: 3px 14px;
                 border-radius: 50px;
                 font-weight: 500;
+                height: 25px;
             }
 
             .old-price-wrapper {
@@ -1221,17 +1223,12 @@
 .breadcrumbs-wrapper {
     max-width: @product-container-max-width;
     margin: 0 auto 20px;
+    padding: 0 25px;
 
     .breadcrumbs {
-        font-size: 12px;
-        color: #7c7c80 !important;
-        padding-left: 0px !important;
-        margin-left: 0px !important;
-
         .items {
             font-size: 12px !important;
             color: #7c7c80 !important;
-            padding-top: 10px;
         }
 
         a {
@@ -1244,13 +1241,14 @@
         }
 
         .item {
-            &:not(:last-child):after {
-                content: " > ";
-                margin: 0 8px;
-                color: #7c7c80;
-                font-size: 14px;
-                line-height: 14px;
-            }
+            // &:not(:last-child):after {
+            //     content: "\e608";
+            //     margin: 0 8px;
+            //     color: #7c7c80;
+            //     font-size: 14px;
+            //     line-height: 14px;
+            //     font-family: "Icomoon";
+            // }
         }
         .product {
             font-weight: 700;
