@@ -23,6 +23,7 @@ define([
      let isSticky = false
 
      function recalcStickyPoint() {
+       // Don't recalc while sticky or header is fixed
        if (!isSticky && $header.length) {
          stickyPoint = $header.offset().top
        }
@@ -60,19 +61,29 @@ define([
        setSticky(scrollTop >= stickyPoint)
      }
 
-     /* --- 🧠 FIX on load/refresh --- */
-     $(window).on('load', () => {
-       // If the page restores a scroll and header should already be sticky
-       if ($(window).scrollTop() > 0) {
+     /* === 💡 Strong load + scroll restore handling === */
+     function safeInitSticky() {
+       recalcStickyPoint()
+       updateSticky()
+
+       // If the page loads already scrolled, enforce correct layout
+       if ($(window).scrollTop() > stickyPoint) {
          $placeholder.height($header.outerHeight()).show()
          $header.addClass('is-sticky')
          isSticky = true
        }
+     }
 
+     /* Run after all rendering + scroll restoration */
+     $(window).on('load', () => {
+       // Wait for layout + scroll restore to settle
        setTimeout(() => {
-         recalcStickyPoint()
-         updateSticky()
-       }, 300)
+         requestAnimationFrame(() => {
+           requestAnimationFrame(() => {
+             safeInitSticky()
+           })
+         })
+       }, 800)
      })
 
      $(window).on('scroll', updateSticky)
