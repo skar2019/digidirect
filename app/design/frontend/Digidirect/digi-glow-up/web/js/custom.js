@@ -240,104 +240,117 @@ $(window).on('scroll resize', () => {
     })
 
     /* ========================
-   🌀 Owl Carousel Free Glide (Apple-like)
+   🌀 Owl Carousel – Smooth Apple-like Sliding + Edge Illusion
 ======================== */
-const $owl = $('.owl-carousel')
+const $carousels = $('.owl-carousel')
 
-if ($owl.length) {
-  const $stageOuter = $owl.find('.owl-stage-outer')
-  const $stage = $owl.find('.owl-stage')
-  let isDown = false
-  let startX
-  let scrollLeft
-  let velocity = 0
-  let momentumId
+$carousels.each(function () {
+  const $carousel = $(this)
+  let startX = 0
+  let isTwoFinger = false
+  let hasSwiped = false
+  let isAtEdge = false
+  const threshold = 50
+  const lockDuration = 250
+  const transitionSpeed = 600
+  const edgeElastic = 50 // how far it visually pushes when at edges
 
-  /* 🧱 Remove Owl’s restrictive layout */
-  $stageOuter.css({
-    overflow: 'hidden',
-    width: '100%',
-  })
-  $stage.css({
-    transform: 'none',
-    width: 'max-content',
-    transition: 'margin 0.3s ease-out',
+  // 🧽 Reset style (removes Owl inline max-width/overflow)
+  $carousel.css({
+    'max-width': 'none',
+    'overflow': 'hidden',
+    'scroll-behavior': 'auto',
   })
 
-  /* 🧲 Make carousel scrollable by native behavior */
-  $owl.css({
-    overflowX: 'auto',
-    overflowY: 'hidden',
-    scrollBehavior: 'auto',
-    cursor: 'grab',
-    '-webkit-overflow-scrolling': 'touch',
-  })
-
-  // Default right offset for breathing space
-  $stage.css({
-    marginLeft: '0px',
-    marginRight: '80px',
-  })
-
-  /* Drag-based scrolling */
-  $owl.on('mousedown touchstart', function (e) {
-    isDown = true
-    $owl.addClass('dragging')
-    startX = e.pageX || e.originalEvent.touches[0].pageX
-    scrollLeft = $owl.scrollLeft()
-    velocity = 0
-    cancelAnimationFrame(momentumId)
-  })
-
-  $owl.on('mousemove touchmove', function (e) {
-    if (!isDown) return
-    const x = e.pageX || e.originalEvent.touches[0].pageX
-    const walk = (x - startX)
-    $owl.scrollLeft(scrollLeft - walk)
-    velocity = (x - startX) * 0.25
-    e.preventDefault()
-  })
-
-  $owl.on('mouseup mouseleave touchend', function () {
-    if (!isDown) return
-    isDown = false
-    $owl.removeClass('dragging')
-    applyMomentum()
-  })
-
-  function applyMomentum() {
-    if (Math.abs(velocity) < 0.5) return
-    $owl.scrollLeft($owl.scrollLeft() - velocity)
-    velocity *= 0.95
-    momentumId = requestAnimationFrame(applyMomentum)
-  }
-
-  /* 🧲 Edge Stretch Illusion */
-  $owl.on('scroll', function () {
-    const maxScroll = $stage.width() - $owl.outerWidth()
-    const scrollLeft = $owl.scrollLeft()
-    const atLeftEdge = scrollLeft <= 0
-    const atRightEdge = scrollLeft >= maxScroll - 5
-
-    if (atLeftEdge) {
-      const stretch = Math.min(Math.abs(scrollLeft) * 0.3 + 40, 100)
-      $stage.css({
-        marginLeft: `${stretch}px`,
-        marginRight: '80px',
-      })
-    } else if (atRightEdge) {
-      $stage.css({
-        marginLeft: '0px',
-        marginRight: '0px',
-      })
+  // ✅ Touch start
+  $carousel.on('touchstart', function (e) {
+    const touches = e.originalEvent.touches
+    if (touches.length === 2) {
+      isTwoFinger = true
+      startX = (touches[0].clientX + touches[1].clientX) / 2
+      hasSwiped = false
+      isAtEdge = false
     } else {
-      $stage.css({
-        marginLeft: '0px',
-        marginRight: '80px',
-      })
+      isTwoFinger = false
     }
   })
-}
+
+  // ✅ Touch move (gliding + illusion)
+  $carousel.on('touchmove', function (e) {
+    if (!isTwoFinger || hasSwiped) return
+    const touches = e.originalEvent.touches
+    if (touches.length !== 2) return
+
+    const currentX = (touches[0].clientX + touches[1].clientX) / 2
+    const deltaX = currentX - startX
+
+    const carouselData = $carousel.data('owl.carousel')
+    const atFirst = carouselData.current() === 0
+    const atLast = carouselData.current() === carouselData.maximum()
+
+    // 🎬 Edge Illusion: left/right overflow push
+    if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
+      const elastic = Math.min(Math.abs(deltaX) / 3, edgeElastic)
+      $carousel.find('.owl-stage').css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+      isAtEdge = true
+      return
+    }
+
+    // 🧭 Smooth Slide
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0) {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      }
+      hasSwiped = true
+      e.preventDefault()
+
+      setTimeout(() => {
+        hasSwiped = false
+        isTwoFinger = false
+      }, lockDuration)
+    }
+  })
+
+  // ✅ Touch end — reset illusion
+  $carousel.on('touchend touchcancel', function () {
+    isTwoFinger = false
+
+    if (isAtEdge) {
+      const $stage = $carousel.find('.owl-stage')
+      $stage.css({
+        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+        transform: 'translateX(0)',
+      })
+      setTimeout(() => {
+        $stage.css('transition', '')
+      }, 300)
+      isAtEdge = false
+    }
+  })
+
+  // ✅ Smooth horizontal wheel scroll
+  $carousel.on('wheel', function (e) {
+    const event = e.originalEvent
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      e.preventDefault()
+      if (hasSwiped) return
+      hasSwiped = true
+
+      if (event.deltaX > 0) {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      }
+
+      setTimeout(() => {
+        hasSwiped = false
+      }, lockDuration)
+    }
+  })
+})
+
 
 
 
