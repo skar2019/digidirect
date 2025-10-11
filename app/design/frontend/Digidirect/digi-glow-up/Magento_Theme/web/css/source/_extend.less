@@ -258,10 +258,6 @@ a.action.towishlist {
     overflow: visible !important;
 }
 
-.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+7).active) {
-    margin-left: -275px;
-}
-
 .owl-nav .unclickable {
     display: none !important;
 }
@@ -319,6 +315,19 @@ a.action.towishlist {
   will-change: transform;
   transition: transform 0.3s ease-out;
 }
+
+//Test CSS
+
+.owl-stage-outer {
+  overflow: visible !important;
+}
+
+.owl-item {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+//
 
 .pa-digidirect-product-widget
     .product-tab-mobile-widget-load-more.grid-toggle-more,
@@ -432,12 +441,6 @@ a.action.towishlist {
 
 .cms-home .owl-carousel.featured-videos .owl-stage-outer {
     margin-right: -270px;
-}
-
-.cms-home
-    .owl-carousel.featured-videos
-    .owl-stage-outer:has(.owl-item:nth-child(n + 3).active) {
-    margin-left: -275px;
 }
 
 //Product Widgets
