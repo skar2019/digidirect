@@ -9,7 +9,7 @@ define([
 
   $(function () {
     /* ========================
-        ✅ Sticky Header (with placeholder)
+        ✅ Sticky Header (with Owl + scroll restore safe)
      ======================== */
      const $header = $('.header.content')
      let $placeholder = $('.header-placeholder')
@@ -23,7 +23,6 @@ define([
      let isSticky = false
 
      function recalcStickyPoint() {
-       // Don't recalc while sticky or header is fixed
        if (!isSticky && $header.length) {
          stickyPoint = $header.offset().top
        }
@@ -61,12 +60,10 @@ define([
        setSticky(scrollTop >= stickyPoint)
      }
 
-     /* === 💡 Strong load + scroll restore handling === */
+     /* --- 🧠 Delayed + robust initialization --- */
      function safeInitSticky() {
        recalcStickyPoint()
        updateSticky()
-
-       // If the page loads already scrolled, enforce correct layout
        if ($(window).scrollTop() > stickyPoint) {
          $placeholder.height($header.outerHeight()).show()
          $header.addClass('is-sticky')
@@ -74,9 +71,7 @@ define([
        }
      }
 
-     /* Run after all rendering + scroll restoration */
      $(window).on('load', () => {
-       // Wait for layout + scroll restore to settle
        setTimeout(() => {
          requestAnimationFrame(() => {
            requestAnimationFrame(() => {
@@ -92,21 +87,35 @@ define([
        updateSticky()
      })
 
-     if (window.MutationObserver) {
-       const observer = new MutationObserver(() => {
+     /* 🧩 FIX: Recalculate when Owl Carousel reflows */
+     $(document).on(
+       'initialized.owl.carousel refreshed.owl.carousel resized.owl.carousel',
+       '.owl-carousel',
+       function () {
          setTimeout(() => {
            recalcStickyPoint()
            updateSticky()
-           positionAAPanel()
-         }, 200)
-       })
-       observer.observe(document.body, {
-         childList: true,
-         subtree: true,
-         attributes: true,
-         attributeFilter: ['class', 'style'],
-       })
-     }
+         }, 300)
+       }
+     )
+
+/* Mutation observer (in case of other layout changes) */
+if (window.MutationObserver) {
+  const observer = new MutationObserver(() => {
+    setTimeout(() => {
+      recalcStickyPoint()
+      updateSticky()
+      positionAAPanel()
+    }, 200)
+  })
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class', 'style'],
+  })
+}
+
 
 
     /* ========================
