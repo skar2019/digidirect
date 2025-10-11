@@ -240,7 +240,7 @@ $(window).on('scroll resize', () => {
     })
 
     /* ========================
-   🌀 Owl Carousel – Smooth Apple-like Sliding + Edge Illusion
+   🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
 ======================== */
 const $carousels = $('.owl-carousel')
 
@@ -250,19 +250,11 @@ $carousels.each(function () {
   let isTwoFinger = false
   let hasSwiped = false
   let isAtEdge = false
-  const threshold = 50
+  const threshold = 50            // ⬅️ lower sensitivity (was 120)
   const lockDuration = 250
-  const transitionSpeed = 600
-  const edgeElastic = 50 // how far it visually pushes when at edges
+  const transitionSpeed = 600     // ⬅️ smoother animation
+  const edgeElastic = 40          // ⬅️ how far to "indent" when hitting edge
 
-  // 🧽 Reset style (removes Owl inline max-width/overflow)
-  $carousel.css({
-    'max-width': 'none',
-    'overflow': 'hidden',
-    'scroll-behavior': 'auto',
-  })
-
-  // ✅ Touch start
   $carousel.on('touchstart', function (e) {
     const touches = e.originalEvent.touches
     if (touches.length === 2) {
@@ -275,7 +267,6 @@ $carousels.each(function () {
     }
   })
 
-  // ✅ Touch move (gliding + illusion)
   $carousel.on('touchmove', function (e) {
     if (!isTwoFinger || hasSwiped) return
     const touches = e.originalEvent.touches
@@ -284,19 +275,19 @@ $carousels.each(function () {
     const currentX = (touches[0].clientX + touches[1].clientX) / 2
     const deltaX = currentX - startX
 
+    // detect if at the edge (no more items)
     const carouselData = $carousel.data('owl.carousel')
     const atFirst = carouselData.current() === 0
     const atLast = carouselData.current() === carouselData.maximum()
 
-    // 🎬 Edge Illusion: left/right overflow push
+    // Elastic push visual
     if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
-      const elastic = Math.min(Math.abs(deltaX) / 3, edgeElastic)
-      $carousel.find('.owl-stage').css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
+      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
       isAtEdge = true
       return
     }
 
-    // 🧭 Smooth Slide
     if (Math.abs(deltaX) > threshold) {
       if (deltaX > 0) {
         $carousel.trigger('prev.owl.carousel', [transitionSpeed])
@@ -313,24 +304,23 @@ $carousels.each(function () {
     }
   })
 
-  // ✅ Touch end — reset illusion
   $carousel.on('touchend touchcancel', function () {
     isTwoFinger = false
 
+    // Reset elastic bounce
     if (isAtEdge) {
-      const $stage = $carousel.find('.owl-stage')
-      $stage.css({
+      $carousel.css({
         transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
         transform: 'translateX(0)',
       })
       setTimeout(() => {
-        $stage.css('transition', '')
+        $carousel.css('transition', '')
       }, 300)
       isAtEdge = false
     }
   })
 
-  // ✅ Smooth horizontal wheel scroll
+  // Smooth horizontal wheel scrolling
   $carousel.on('wheel', function (e) {
     const event = e.originalEvent
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -350,9 +340,6 @@ $carousels.each(function () {
     }
   })
 })
-
-
-
 
     /* ========================
        🔍 Update Autocomplete Header
