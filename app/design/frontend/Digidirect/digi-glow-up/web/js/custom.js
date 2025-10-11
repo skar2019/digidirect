@@ -9,78 +9,91 @@ define([
 
   $(function () {
     /* ========================
-       ✅ Sticky Header (with placeholder)
-    ======================== */
-    const $header = $('.header.content')
-    const $placeholder = $('<div class="header-placeholder"></div>')
-    $placeholder.hide()
-    $header.after($placeholder)
+        ✅ Sticky Header (with placeholder)
+     ======================== */
+     const $header = $('.header.content')
+     const $placeholder = $('<div class="header-placeholder"></div>')
+     $placeholder.hide()
+     $header.after($placeholder)
 
-    let stickyPoint = 0
-    let isSticky = false
+     let stickyPoint = 0
+     let isSticky = false
 
-    function recalcStickyPoint() {
-      if (!isSticky && $header.length) stickyPoint = $header.offset().top
-    }
+     function recalcStickyPoint() {
+       if (!isSticky && $header.length) {
+         stickyPoint = $header.offset().top
+       }
+     }
 
-    function positionAAPanel() {
-      const $aaPanel = $('.aa-Panel')
-      if ($aaPanel.length && isSticky) {
-        const headerHeight = $header.outerHeight()
-        $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px')
-      }
-    }
+     function positionAAPanel() {
+       const $aaPanel = $('.aa-Panel')
+       if ($aaPanel.length && isSticky) {
+         const headerHeight = $header.outerHeight()
+         $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px')
+       }
+     }
 
-    function removeAAPanelSticky() {
-      const $aaPanel = $('.aa-Panel')
-      if ($aaPanel.length) $aaPanel.removeClass('is-sticky').css('top', '')
-    }
+     function removeAAPanelSticky() {
+       const $aaPanel = $('.aa-Panel')
+       if ($aaPanel.length) $aaPanel.removeClass('is-sticky').css('top', '')
+     }
 
-    function setSticky(active) {
-      if (active && !isSticky) {
-        $placeholder.height($header.outerHeight()).show()
-        $header.addClass('is-sticky')
-        isSticky = true
-        positionAAPanel()
-      } else if (!active && isSticky) {
-        $header.removeClass('is-sticky')
-        isSticky = false
-        $placeholder.hide()
-        removeAAPanelSticky()
-      }
-    }
+     function setSticky(active) {
+       if (active && !isSticky) {
+         $placeholder.height($header.outerHeight()).show()
+         $header.addClass('is-sticky')
+         isSticky = true
+         positionAAPanel()
+       } else if (!active && isSticky) {
+         $header.removeClass('is-sticky')
+         isSticky = false
+         $placeholder.hide()
+         removeAAPanelSticky()
+       }
+     }
 
-    function updateSticky() {
-      const scrollTop = $(window).scrollTop()
-      setSticky(scrollTop >= stickyPoint)
-    }
+     function updateSticky() {
+       const scrollTop = $(window).scrollTop()
+       setSticky(scrollTop >= stickyPoint)
+     }
 
-    setTimeout(() => {
-      recalcStickyPoint()
-      updateSticky()
-    }, 300)
+     /* --- 🧠 FIX: Wait for layout + scroll restore --- */
+     function initSticky() {
+       recalcStickyPoint()
+       updateSticky()
+     }
 
-    $(window).on('scroll', updateSticky)
-    $(window).on('resize', function () {
-      recalcStickyPoint()
-      updateSticky()
-    })
+     /* 
+       Use requestAnimationFrame + small delay to ensure 
+       correct sticky position after scroll restoration 
+     */
+     $(window).on('load', () => {
+       setTimeout(initSticky, 500)
+       requestAnimationFrame(initSticky)
+     })
 
-    if (window.MutationObserver) {
-      const observer = new MutationObserver(() => {
-        setTimeout(() => {
-          recalcStickyPoint()
-          updateSticky()
-          positionAAPanel()
-        }, 200)
-      })
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class', 'style'],
-      })
-    }
+     $(window).on('scroll', updateSticky)
+     $(window).on('resize', function () {
+       recalcStickyPoint()
+       updateSticky()
+     })
+
+     if (window.MutationObserver) {
+       const observer = new MutationObserver(() => {
+         setTimeout(() => {
+           recalcStickyPoint()
+           updateSticky()
+           positionAAPanel()
+         }, 200)
+       })
+       observer.observe(document.body, {
+         childList: true,
+         subtree: true,
+         attributes: true,
+         attributeFilter: ['class', 'style'],
+       })
+     }
+
 
     /* ========================
        🧊 Global Blur Overlay
