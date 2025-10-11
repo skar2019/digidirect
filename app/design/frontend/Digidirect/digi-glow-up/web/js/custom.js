@@ -252,15 +252,21 @@ if ($owl.length) {
   let velocity = 0
   let momentumId
 
-  // Disable Owl’s snapping transitions
+  // Disable Owl snapping transitions
   $stage.css('transition', 'none')
 
-  // Enable native horizontal scroll
+  // Enable native scroll
   $owl.css({
     overflowX: 'auto',
     scrollBehavior: 'auto',
     cursor: 'grab',
     '-webkit-overflow-scrolling': 'touch'
+  })
+
+  // Default visual offset (right padding illusion)
+  $stage.css({
+    marginLeft: '0px',
+    marginRight: '80px' // extend right edge by default
   })
 
   $owl.on('mousedown touchstart', function (e) {
@@ -295,20 +301,34 @@ if ($owl.length) {
     momentumId = requestAnimationFrame(applyMomentum)
   }
 
-  /* 🧲 Edge Stretch Effect */
+  /* 🧲 Edge Stretch + Illusion */
   $owl.on('scroll', function () {
     const maxScroll = $stage.width() - $owl.outerWidth()
     const scrollLeft = $owl.scrollLeft()
     const atLeftEdge = scrollLeft <= 0
     const atRightEdge = scrollLeft >= maxScroll - 5
 
+    // “Push” effect on left edge
     if (atLeftEdge) {
-      $stage.css('margin-left', `${scrollLeft * 0.2}px`)
-    } else if (atRightEdge) {
-      const extra = (scrollLeft - maxScroll) * 0.2
-      $stage.css('margin-right', `${-extra}px`)
-    } else {
-      $stage.css({ marginLeft: 0, marginRight: 0 })
+      const stretch = Math.min(Math.abs(scrollLeft) * 0.2 + 40, 80)
+      $stage.css({
+        marginLeft: `${stretch}px`,
+        marginRight: '80px'
+      })
+    } 
+    // Normal right-side margin
+    else if (atRightEdge) {
+      $stage.css({
+        marginLeft: '0px',
+        marginRight: '0px'
+      })
+    } 
+    // Normal scrolling area
+    else {
+      $stage.css({
+        marginLeft: '0px',
+        marginRight: '80px'
+      })
     }
   })
 }

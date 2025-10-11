@@ -320,6 +320,27 @@ a.action.towishlist {
   transition: transform 0.3s ease-out;
 }
 
+/* Hide scrollbar entirely */
+.owl-carousel.custom {
+  cursor: grab;
+  overflow-x: auto !important;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.owl-carousel.custom::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.owl-carousel.custom.dragging {
+  cursor: grabbing;
+}
+
+.owl-stage {
+  display: flex;
+  transition: margin 0.3s ease-out !important;
+}
+
+
 .pa-digidirect-product-widget
     .product-tab-mobile-widget-load-more.grid-toggle-more,
 .pa-digidirect-product-widget
