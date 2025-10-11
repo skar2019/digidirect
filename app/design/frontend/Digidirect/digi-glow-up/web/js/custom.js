@@ -12,9 +12,12 @@ define([
         ✅ Sticky Header (with placeholder)
      ======================== */
      const $header = $('.header.content')
-     const $placeholder = $('<div class="header-placeholder"></div>')
-     $placeholder.hide()
-     $header.after($placeholder)
+     let $placeholder = $('.header-placeholder')
+
+     if (!$placeholder.length) {
+       $placeholder = $('<div class="header-placeholder"></div>')
+       $header.after($placeholder)
+     }
 
      let stickyPoint = 0
      let isSticky = false
@@ -57,19 +60,19 @@ define([
        setSticky(scrollTop >= stickyPoint)
      }
 
-     /* --- 🧠 FIX: Wait for layout + scroll restore --- */
-     function initSticky() {
-       recalcStickyPoint()
-       updateSticky()
-     }
-
-     /* 
-       Use requestAnimationFrame + small delay to ensure 
-       correct sticky position after scroll restoration 
-     */
+     /* --- 🧠 FIX on load/refresh --- */
      $(window).on('load', () => {
-       setTimeout(initSticky, 500)
-       requestAnimationFrame(initSticky)
+       // If the page restores a scroll and header should already be sticky
+       if ($(window).scrollTop() > 0) {
+         $placeholder.height($header.outerHeight()).show()
+         $header.addClass('is-sticky')
+         isSticky = true
+       }
+
+       setTimeout(() => {
+         recalcStickyPoint()
+         updateSticky()
+       }, 300)
      })
 
      $(window).on('scroll', updateSticky)
