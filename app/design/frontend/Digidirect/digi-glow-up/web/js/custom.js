@@ -9,112 +9,80 @@ define([
 
   $(function () {
     /* ========================
-        ✅ Sticky Header (with Owl + scroll restore safe)
-     ======================== */
-     const $header = $('.header.content')
-     let $placeholder = $('.header-placeholder')
+   ✅ Sticky Header (Self-correcting)
+======================== */
+const $header = $('.header.content')
+let $placeholder = $('.header-placeholder')
 
-     if (!$placeholder.length) {
-       $placeholder = $('<div class="header-placeholder"></div>')
-       $header.after($placeholder)
-     }
+if (!$placeholder.length) {
+  $placeholder = $('<div class="header-placeholder"></div>')
+  $header.after($placeholder)
+}
 
-     let stickyPoint = 0
-     let isSticky = false
+let stickyPoint = 0
+let isSticky = false
+let lastTop = 0
+let stableCounter = 0
 
-     function recalcStickyPoint() {
-       if (!isSticky && $header.length) {
-         stickyPoint = $header.offset().top
-       }
-     }
+function recalcStickyPoint() {
+  if (!isSticky && $header.length) {
+    stickyPoint = $header.offset().top
+  }
+}
 
-     function positionAAPanel() {
-       const $aaPanel = $('.aa-Panel')
-       if ($aaPanel.length && isSticky) {
-         const headerHeight = $header.outerHeight()
-         $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px')
-       }
-     }
+function setSticky(active) {
+  if (active && !isSticky) {
+    $placeholder.height($header.outerHeight()).show()
+    $header.addClass('is-sticky')
+    isSticky = true
+  } else if (!active && isSticky) {
+    $header.removeClass('is-sticky')
+    isSticky = false
+    $placeholder.hide()
+  }
+}
 
-     function removeAAPanelSticky() {
-       const $aaPanel = $('.aa-Panel')
-       if ($aaPanel.length) $aaPanel.removeClass('is-sticky').css('top', '')
-     }
+function updateSticky() {
+  const scrollTop = $(window).scrollTop()
+  setSticky(scrollTop >= stickyPoint)
+}
 
-     function setSticky(active) {
-       if (active && !isSticky) {
-         $placeholder.height($header.outerHeight()).show()
-         $header.addClass('is-sticky')
-         isSticky = true
-         positionAAPanel()
-       } else if (!active && isSticky) {
-         $header.removeClass('is-sticky')
-         isSticky = false
-         $placeholder.hide()
-         removeAAPanelSticky()
-       }
-     }
+/* 🧠 Continuous layout stabilization check */
+function watchLayoutStability() {
+  const currentTop = $header.offset().top
+  if (currentTop === lastTop) {
+    stableCounter++
+  } else {
+    stableCounter = 0
+    lastTop = currentTop
+  }
 
-     function updateSticky() {
-       const scrollTop = $(window).scrollTop()
-       setSticky(scrollTop >= stickyPoint)
-     }
+  if (stableCounter < 10) {
+    // not stable yet → keep checking every frame
+    requestAnimationFrame(watchLayoutStability)
+  } else {
+    // stable → recalc sticky safely
+    recalcStickyPoint()
+    updateSticky()
+  }
+}
 
-     /* --- 🧠 Delayed + robust initialization --- */
-     function safeInitSticky() {
-       recalcStickyPoint()
-       updateSticky()
-       if ($(window).scrollTop() > stickyPoint) {
-         $placeholder.height($header.outerHeight()).show()
-         $header.addClass('is-sticky')
-         isSticky = true
-       }
-     }
-
-     $(window).on('load', () => {
-       setTimeout(() => {
-         requestAnimationFrame(() => {
-           requestAnimationFrame(() => {
-             safeInitSticky()
-           })
-         })
-       }, 800)
-     })
-
-     $(window).on('scroll', updateSticky)
-     $(window).on('resize', function () {
-       recalcStickyPoint()
-       updateSticky()
-     })
-
-     /* 🧩 FIX: Recalculate when Owl Carousel reflows */
-     $(document).on(
-       'initialized.owl.carousel refreshed.owl.carousel resized.owl.carousel',
-       '.owl-carousel',
-       function () {
-         setTimeout(() => {
-           recalcStickyPoint()
-           updateSticky()
-         }, 300)
-       }
-     )
-
-/* Mutation observer (in case of other layout changes) */
-if (window.MutationObserver) {
-  const observer = new MutationObserver(() => {
-    setTimeout(() => {
+$(window).on('load', () => {
+  // wait for scroll restore + first layout
+  setTimeout(() => {
+    requestAnimationFrame(() => {
       recalcStickyPoint()
       updateSticky()
-      positionAAPanel()
-    }, 200)
-  })
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class', 'style'],
-  })
-}
+      watchLayoutStability()
+    })
+  }, 400)
+})
+
+$(window).on('scroll resize', () => {
+  recalcStickyPoint()
+  updateSticky()
+})
+
 
 
 
@@ -272,106 +240,79 @@ if (window.MutationObserver) {
     })
 
     /* ========================
-   🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
+   🌀 Owl Carousel Free Scroll (Apple-like)
 ======================== */
-const $carousels = $('.owl-carousel')
+const $owl = $('.owl-carousel.custom')
 
-$carousels.each(function () {
-  const $carousel = $(this)
-  let startX = 0
-  let isTwoFinger = false
-  let hasSwiped = false
-  let isAtEdge = false
-  const threshold = 50            // ⬅️ lower sensitivity (was 120)
-  const lockDuration = 250
-  const transitionSpeed = 600     // ⬅️ smoother animation
-  const edgeElastic = 40          // ⬅️ how far to "indent" when hitting edge
+if ($owl.length) {
+  const $stage = $owl.find('.owl-stage')
+  let isDown = false
+  let startX
+  let scrollLeft
+  let velocity = 0
+  let momentumId
 
-  $carousel.on('touchstart', function (e) {
-    const touches = e.originalEvent.touches
-    if (touches.length === 2) {
-      isTwoFinger = true
-      startX = (touches[0].clientX + touches[1].clientX) / 2
-      hasSwiped = false
-      isAtEdge = false
+  // Disable Owl’s snapping transitions
+  $stage.css('transition', 'none')
+
+  // Enable native horizontal scroll
+  $owl.css({
+    overflowX: 'auto',
+    scrollBehavior: 'auto',
+    cursor: 'grab',
+    '-webkit-overflow-scrolling': 'touch'
+  })
+
+  $owl.on('mousedown touchstart', function (e) {
+    isDown = true
+    $owl.addClass('dragging')
+    startX = e.pageX || e.originalEvent.touches[0].pageX
+    scrollLeft = $owl.scrollLeft()
+    velocity = 0
+    cancelAnimationFrame(momentumId)
+  })
+
+  $owl.on('mousemove touchmove', function (e) {
+    if (!isDown) return
+    const x = e.pageX || e.originalEvent.touches[0].pageX
+    const walk = (x - startX)
+    $owl.scrollLeft(scrollLeft - walk)
+    velocity = (x - startX) * 0.25
+    e.preventDefault()
+  })
+
+  $owl.on('mouseup mouseleave touchend', function () {
+    if (!isDown) return
+    isDown = false
+    $owl.removeClass('dragging')
+    applyMomentum()
+  })
+
+  function applyMomentum() {
+    if (Math.abs(velocity) < 0.5) return
+    $owl.scrollLeft($owl.scrollLeft() - velocity)
+    velocity *= 0.95
+    momentumId = requestAnimationFrame(applyMomentum)
+  }
+
+  /* 🧲 Edge Stretch Effect */
+  $owl.on('scroll', function () {
+    const maxScroll = $stage.width() - $owl.outerWidth()
+    const scrollLeft = $owl.scrollLeft()
+    const atLeftEdge = scrollLeft <= 0
+    const atRightEdge = scrollLeft >= maxScroll - 5
+
+    if (atLeftEdge) {
+      $stage.css('margin-left', `${scrollLeft * 0.2}px`)
+    } else if (atRightEdge) {
+      const extra = (scrollLeft - maxScroll) * 0.2
+      $stage.css('margin-right', `${-extra}px`)
     } else {
-      isTwoFinger = false
+      $stage.css({ marginLeft: 0, marginRight: 0 })
     }
   })
+}
 
-  $carousel.on('touchmove', function (e) {
-    if (!isTwoFinger || hasSwiped) return
-    const touches = e.originalEvent.touches
-    if (touches.length !== 2) return
-
-    const currentX = (touches[0].clientX + touches[1].clientX) / 2
-    const deltaX = currentX - startX
-
-    // detect if at the edge (no more items)
-    const carouselData = $carousel.data('owl.carousel')
-    const atFirst = carouselData.current() === 0
-    const atLast = carouselData.current() === carouselData.maximum()
-
-    // Elastic push visual
-    if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
-      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
-      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
-      isAtEdge = true
-      return
-    }
-
-    if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0) {
-        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-      } else {
-        $carousel.trigger('next.owl.carousel', [transitionSpeed])
-      }
-      hasSwiped = true
-      e.preventDefault()
-
-      setTimeout(() => {
-        hasSwiped = false
-        isTwoFinger = false
-      }, lockDuration)
-    }
-  })
-
-  $carousel.on('touchend touchcancel', function () {
-    isTwoFinger = false
-
-    // Reset elastic bounce
-    if (isAtEdge) {
-      $carousel.css({
-        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-        transform: 'translateX(0)',
-      })
-      setTimeout(() => {
-        $carousel.css('transition', '')
-      }, 300)
-      isAtEdge = false
-    }
-  })
-
-  // Smooth horizontal wheel scrolling
-  $carousel.on('wheel', function (e) {
-    const event = e.originalEvent
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      e.preventDefault()
-      if (hasSwiped) return
-      hasSwiped = true
-
-      if (event.deltaX > 0) {
-        $carousel.trigger('next.owl.carousel', [transitionSpeed])
-      } else {
-        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-      }
-
-      setTimeout(() => {
-        hasSwiped = false
-      }, lockDuration)
-    }
-  })
-})
 
     /* ========================
        🔍 Update Autocomplete Header
