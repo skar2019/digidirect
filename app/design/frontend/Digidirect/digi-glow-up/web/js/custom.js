@@ -247,84 +247,97 @@ const $carousels = $('.owl-carousel')
 $carousels.each(function () {
   const $carousel = $(this)
   let startX = 0
-  let currentX = 0
-  let deltaX = 0
-  let isSwiping = false
-  let isLocked = false
-  let animationFrame = null
-
-  const threshold = 50
-  const transitionSpeed = 600
-  const edgeElastic = 40
+  let isTwoFinger = false
+  let hasSwiped = false
+  let isAtEdge = false
+  const threshold = 50            // ⬅️ lower sensitivity (was 120)
   const lockDuration = 250
-
-  // Ensure visible overflow for peek effect
-  $carousel.find('.owl-stage-outer').css('overflow', 'visible')
-
-  const animateTransform = () => {
-    $carousel.find('.owl-stage').css('transform', `translate3d(${deltaX}px, 0, 0)`)
-    animationFrame = requestAnimationFrame(animateTransform)
-  }
+  const transitionSpeed = 600     // ⬅️ smoother animation
+  const edgeElastic = 40          // ⬅️ how far to "indent" when hitting edge
 
   $carousel.on('touchstart', function (e) {
-    if (isLocked) return
-    const touch = e.originalEvent.touches[0]
-    startX = touch.clientX
-    isSwiping = true
-    cancelAnimationFrame(animationFrame)
+    const touches = e.originalEvent.touches
+    if (touches.length === 2) {
+      isTwoFinger = true
+      startX = (touches[0].clientX + touches[1].clientX) / 2
+      hasSwiped = false
+      isAtEdge = false
+    } else {
+      isTwoFinger = false
+    }
   })
 
   $carousel.on('touchmove', function (e) {
-    if (!isSwiping) return
-    const touch = e.originalEvent.touches[0]
-    currentX = touch.clientX
-    deltaX = currentX - startX
+    if (!isTwoFinger || hasSwiped) return
+    const touches = e.originalEvent.touches
+    if (touches.length !== 2) return
 
+    const currentX = (touches[0].clientX + touches[1].clientX) / 2
+    const deltaX = currentX - startX
+
+    // detect if at the edge (no more items)
     const carouselData = $carousel.data('owl.carousel')
-    if (!carouselData) return
-
     const atFirst = carouselData.current() === 0
     const atLast = carouselData.current() === carouselData.maximum()
 
-    // Apply gentle edge resistance
+    // Elastic push visual
     if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
-      deltaX = deltaX / 4
+      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
+      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+      isAtEdge = true
+      return
     }
 
-    cancelAnimationFrame(animationFrame)
-    animationFrame = requestAnimationFrame(animateTransform)
-  })
-
-  $carousel.on('touchend touchcancel', function () {
-    cancelAnimationFrame(animationFrame)
-    isSwiping = false
-
-    const absX = Math.abs(deltaX)
-    const carouselData = $carousel.data('owl.carousel')
-    if (!carouselData) return
-
-    if (absX > threshold) {
+    if (Math.abs(deltaX) > threshold) {
       if (deltaX > 0) {
         $carousel.trigger('prev.owl.carousel', [transitionSpeed])
       } else {
         $carousel.trigger('next.owl.carousel', [transitionSpeed])
       }
-    } else {
-      $carousel.find('.owl-stage').css({
+      hasSwiped = true
+      e.preventDefault()
+
+      setTimeout(() => {
+        hasSwiped = false
+        isTwoFinger = false
+      }, lockDuration)
+    }
+  })
+
+  $carousel.on('touchend touchcancel', function () {
+    isTwoFinger = false
+
+    // Reset elastic bounce
+    if (isAtEdge) {
+      $carousel.css({
         transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-        transform: 'translate3d(0,0,0)',
+        transform: 'translateX(0)',
       })
       setTimeout(() => {
-        $carousel.find('.owl-stage').css('transition', '')
+        $carousel.css('transition', '')
       }, 300)
+      isAtEdge = false
     }
+  })
 
-    // Reset
-    deltaX = 0
-    isLocked = true
-    setTimeout(() => {
-      isLocked = false
-    }, lockDuration)
+  // Smooth horizontal wheel scrolling
+  $carousel.on('wheel', function (e) {
+    const event = e.originalEvent
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      e.preventDefault()
+      if (hasSwiped) return
+      hasSwiped = true
+
+      if (event.deltaX > 0) {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      }
+
+      setTimeout(() => {
+        hasSwiped = false
+      }, lockDuration)
+    }
   })
 })
 
