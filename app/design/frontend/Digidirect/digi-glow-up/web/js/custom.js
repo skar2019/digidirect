@@ -585,29 +585,27 @@ if ($mobileMenuClose.length) {
 
       $nav.css({
         position: 'fixed',
-        top: 0,
-        left: 0,
+        inset: 0, // shorthand for top/right/bottom/left = 0
         width: '100%',
-        height: '100vh',
-        pointerEvents: 'auto', // nav wrapper non-clickable
+        height: '100%',
+        pointerEvents: 'none', // ✅ let swipe/touch go through
         zIndex: 9999,
       })
 
       $nav.find('button').css({
-        pointerEvents: 'auto', // buttons clickable
+        pointerEvents: 'auto', // ✅ only buttons receive clicks
         position: 'fixed',
         borderRadius: '50%',
-        background: '#fff',
+        backdropFilter: 'blur(10px)',
+        background: 'rgba(255,255,255,0.7)',
         border: 'none',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+        boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
-        transition: 'opacity 0.3s ease',
+        transition: 'all 0.25s ease',
         zIndex: 10000,
-        padding: 0,
-        opacity: 0.5,
       })
     })
 
@@ -643,8 +641,8 @@ if ($mobileMenuClose.length) {
       }
 
       const visible = rect.bottom > 0 && rect.top < window.innerHeight
-      $prev.css('opacity', visible ? 1 : 0)
-      $next.css('opacity', visible ? 1 : 0)
+      $prev.css('opacity', visible ? 0.5 : 0)
+      $next.css('opacity', visible ? 0.5 : 0)
     })
   }
 
