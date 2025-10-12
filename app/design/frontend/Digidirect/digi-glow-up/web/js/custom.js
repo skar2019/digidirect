@@ -604,7 +604,6 @@ if ($mobileMenuClose.length) {
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'pointer',
-        transition: 'all 0.25s ease',
         zIndex: 10000,
         padding: 0,
       })
