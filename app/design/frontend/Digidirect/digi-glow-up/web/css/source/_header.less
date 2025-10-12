@@ -67,13 +67,18 @@ div#algoliaAutocomplete {
 
 .aa-InputWrapper input {
     border-radius: 22px;
-    padding: 3px 12px 3px 17px;
+    padding: 3px 12px 3px 25px;
     height: 43px;
     box-shadow: 0px 3.4177639484405518px 6.8355278968811035px
         rgba(171, 171, 171, 0.06);
     border: 0;
     outline: 1px rgba(142, 142, 147, 0.22) solid;
     outline-offset: -1px;
+}
+
+#algoliaAutocomplete input::placeholder {
+    font-size: 15px !important;
+    color: #7C7C80;
 }
 
 #algoliaAutocomplete .aa-SubmitButton {
