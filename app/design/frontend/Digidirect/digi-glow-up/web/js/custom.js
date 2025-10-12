@@ -593,7 +593,7 @@ if ($mobileMenuClose.length) {
       })
 
       $nav.find('button').css({
-        pointerEvents: 'auto', // ✅ only buttons receive clicks
+        pointerEvents: 'auto !important', // ✅ only buttons receive clicks
         position: 'fixed',
         borderRadius: '50%',
         backdropFilter: 'blur(10px)',
@@ -606,6 +606,7 @@ if ($mobileMenuClose.length) {
         cursor: 'pointer',
         transition: 'all 0.25s ease',
         zIndex: 10000,
+        padding: 0,
       })
     })
 
