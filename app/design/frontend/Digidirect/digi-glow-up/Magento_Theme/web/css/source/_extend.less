@@ -4,28 +4,45 @@
 */
 
 body {
-    font-family: "Inter";
+    font-family: @font-family__base;
 }
 
 .breadcrumbs {
     padding: 0;
-    margin: 15px auto;
+    margin: 0 auto 15px;
     max-width: 1327px;
+
+    strong {
+        color: #7c7c80 !important;
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    a {
+        font-weight: 500;
+        font-size: 12px;
+        &:visited {
+            color: #7c7c80 !important;
+            font-weight: 500;
+        }
+    }
 }
 
 .breadcrumbs .item:not(:last-child):after {
-    content: '\f054';
-    font-family: 'Font Awesome 5 Free';
+    content: "\e903";
+    font-family: "Icomoon";
     font-weight: 600;
     font-size: 12px;
-    margin: 0 10px;
+    margin: 0 8px;
 }
 
-.catalog-category-view .page-title-wrapper, .catalogsearch-result-index .page-title-wrapper {
-    border-bottom: 1px #E5E5EA solid !important;
+.catalog-category-view .page-title-wrapper,
+.catalogsearch-result-index .page-title-wrapper {
+    border-bottom: 1px #e5e5ea solid !important;
 }
 
-.catalog-category-view .page-title, .catalogsearch-result-index .page-title  {
+.catalog-category-view .page-title,
+.catalogsearch-result-index .page-title {
     margin-top: 20px;
     margin-bottom: 15px;
 }
@@ -300,7 +317,7 @@ a.action.towishlist {
 }
 
 .owl-item {
-    transition: all .3s cubic-bezier(0, 0, .5, 1);
+    transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
 }
 
 .owl-item:hover {
@@ -312,12 +329,11 @@ a.action.towishlist {
 }
 
 .owl-carousel {
-  will-change: transform;
-  transition: transform 0.3s ease-out;
+    will-change: transform;
+    transition: transform 0.3s ease-out;
 }
 
 //Test CSS
-
 
 //
 
@@ -538,37 +554,37 @@ a.action.towishlist {
 //Blur Overlay
 /* 🧊 Apple-like blur overlay */
 .global-blur-overlay {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 5; /* below header */
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5; /* below header */
 }
 
 body.blur-active .global-blur-overlay {
-  opacity: 1;
+    opacity: 1;
 }
 
 .header.content {
-  position: relative;
-  z-index: 10; /* keep header above overlay */
+    position: relative;
+    z-index: 10; /* keep header above overlay */
 }
 
 #newspopup_up_bg_13 {
     position: absolute !important;
     left: 0 !important;
     width: 100% !important;
-    background: rgba(255, 255, 255, .35) !important;
+    background: rgba(255, 255, 255, 0.35) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     opacity: 1 !important;
-    transition: opacity .3s ease;
+    transition: opacity 0.3s ease;
     height: 100%;
 }
 
@@ -587,7 +603,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .view-all-link span::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
@@ -637,13 +653,14 @@ body.blur-active .global-blur-overlay {
     padding-bottom: 10px;
 }
 
-.page-header .header-links.header-link-left, .page-header .header-links.header-link-right {
+.page-header .header-links.header-link-left,
+.page-header .header-links.header-link-right {
     a:visited {
         color: #ffffff !important;
     }
 }
 
-.message.success>*:first-child:before {
+.message.success > *:first-child:before {
     position: relative !important;
     left: 0 !important;
     top: 6px !important;
