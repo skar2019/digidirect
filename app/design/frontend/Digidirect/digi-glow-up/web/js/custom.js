@@ -570,5 +570,91 @@ if ($mobileMenuClose.length) {
   })
 }
 
+/* ========================
+   🎯 Owl Nav Fixed to Screen Edges (Global)
+======================== */
+(function () {
+  function moveAllNavsToBody() {
+    $('.owl-carousel').each(function () {
+      const $carousel = $(this)
+      const $nav = $carousel.find('.owl-nav')
+      if (!$nav.length || $nav.data('moved')) return
+
+      $nav.data('moved', true)
+      $('body').append($nav)
+
+      $nav.css({
+        position: 'fixed',
+        width: '100%',
+        pointerEvents: 'none',
+        zIndex: 9999,
+      })
+
+      $nav.find('button').css({
+        pointerEvents: 'all',
+        position: 'fixed',
+        width: '44px',
+        height: '44px',
+        borderRadius: '50%',
+        background: '#fff',
+        border: 'none',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'opacity 0.3s ease',
+      })
+    })
+
+    updateNavPositions()
+  }
+
+  function updateNavPositions() {
+    $('.owl-carousel').each(function () {
+      const $carousel = $(this)
+      const rect = this.getBoundingClientRect()
+      const centerY = rect.top + rect.height / 2
+      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
+      const $nav = $('.owl-nav').eq($('.owl-carousel').index($carousel))
+      const $prev = $nav.find('.owl-prev')
+      const $next = $nav.find('.owl-next')
+      const offset = 16
+
+      if ($prev.length) {
+        $prev.css({
+          left: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      if ($next.length) {
+        $next.css({
+          right: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      // fade out when carousel not visible
+      const visible =
+        rect.bottom > 0 && rect.top < window.innerHeight
+      $prev.css('opacity', visible ? 1 : 0)
+      $next.css('opacity', visible ? 1 : 0)
+    })
+  }
+
+  $(window).on('scroll resize', updateNavPositions)
+
+  // Watch for carousels appearing later
+  const observer = new MutationObserver(() => moveAllNavsToBody())
+  observer.observe(document.body, { childList: true, subtree: true })
+
+  $(window).on('load', () => {
+    setTimeout(moveAllNavsToBody, 600)
+  })
+})()
+
+
   })
 })

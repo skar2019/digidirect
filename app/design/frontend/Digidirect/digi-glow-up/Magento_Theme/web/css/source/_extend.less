@@ -275,10 +275,6 @@ a.action.towishlist {
     overflow: visible !important;
 }
 
-.owl-nav .unclickable {
-    display: none !important;
-}
-
 .owl-nav .disabled {
     display: none !important;
 }
@@ -343,6 +339,23 @@ a.action.towishlist {
 }
 
 //Test CSS
+
+.owl-nav button.owl-prev,
+.owl-nav button.owl-next {
+  background: #fff !important;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .owl-nav button.owl-prev,
+  .owl-nav button.owl-next {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 
 //
 
