@@ -89,18 +89,17 @@
         position: relative;
         cursor: pointer;
         &:after {
-            content: ""; /* down arrow */
+            content: "\e903";
+            font-family: "icomoon";
             position: absolute;
             width: 12px;
             height: 12px;
-            border: 1px solid #010202;
+            color: #010202;
             right: 5px;
             top: 25px;
             transform: translateY(-50%);
             transition: transform 0.3s ease;
-            transform: rotate(45deg);
-            border-top: none;
-            border-left: none;
+            transform: rotate(90deg);
         }
     }
     [role="tab"] {
@@ -109,7 +108,7 @@
             [data-role="trigger"] {
                 padding-bottom: 10px;
                 &:after {
-                    transform: rotate(-135deg);
+                    transform: rotate(-90deg);
                 }
             }
         }
@@ -307,11 +306,10 @@
 }
 
 .fotorama-item {
-    .fotorama__stage {
-        .fotorama__thumb-border {
-            border-radius: 8px;
-        }
+    .fotorama__thumb-border {
+        border-radius: 8px;
     }
+
     .fotorama__nav-wrap {
         .fotorama__nav {
             text-align: center;
