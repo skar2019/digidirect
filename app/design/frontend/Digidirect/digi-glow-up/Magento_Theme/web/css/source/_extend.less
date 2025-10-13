@@ -43,14 +43,18 @@ body {
 
 .catalog-category-view .page-title,
 .catalogsearch-result-index .page-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
+    margin-top: 12px;
+    margin-bottom: 13px;
 }
 
 .page-title-wrapper span.base {
     color: #000;
     font-size: 24px;
     font-weight: 700;
+}
+
+.category-view {
+    display: none;
 }
 
 .page-wrapper > .page-bottom {
@@ -267,6 +271,37 @@ a.action.towishlist {
 .sponsored-label .fa-info-circle {
     margin-right: 2px;
     color: #969696;
+}
+
+//Slick Carousel
+
+.slick-prev:before, .slick-next:before, .slick-prev:after, .slick-next:after {
+    display: none;
+}
+
+.slick-arrow.slick-disabled {
+    display: none !important;
+}
+
+.pagebuilder-slider.slick-initialized .slick-arrow {
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.slick-prev {
+    left: 16px !important;
+}
+
+.slick-next {
+    right: 16px !important;
 }
 
 //Owl Carousels
@@ -538,9 +573,15 @@ a.action.towishlist {
 .catalog-category-view #maincontent {
     max-width: 1327px;
 }
+
+.catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
+    padding-top: 10px;
+}
+
 .list-view a.action.towishlist {
     left: 200px;
 }
+
 .field.choice input[type="checkbox"]:checked + label::before {
     background: #171717;
     border-color: #171717;

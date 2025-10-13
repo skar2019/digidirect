@@ -170,6 +170,21 @@
         padding: 0 !important;
     }
     
+    .aa-Panel {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transform: translateY(-10px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+        pointer-events: none !important; // Prevent interaction when hidden
+    }
+
+    .aa-Panel.is-ready {
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+    }
+    
     #autocomplete-products-footer {
         background-color: unset !important;
         position: relative !important;
@@ -358,6 +373,10 @@
     
     .ais-HierarchicalMenu {
         margin-top: 10px;
+    }
+    
+    .ais-RefinementList-item {
+        margin-bottom: 3px;
     }
     
     #algolia-right-container .category-page-banner {
