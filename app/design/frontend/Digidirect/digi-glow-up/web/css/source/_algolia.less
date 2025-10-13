@@ -831,6 +831,22 @@
     
     .ais-ViewToggle-button.is-active {
         background: #242426;
+        color: #fff;
+    }
+    
+    .ais-ViewToggle-button {
+        color: #242426;
+    }
+    
+    .ais-ViewToggle-button.is-active:hover {
+        background: #242426;
+        color: #fff;
+    }
+    
+    .ais-ViewToggle-button:hover {
+        background: unset;
+        border: 0;
+        color: #242426;
     }
     
     .ais-ViewToggle-button.is-active img {
@@ -861,11 +877,6 @@
         cursor: pointer;
         overflow: hidden;
         background: unset;
-    }
-    
-    .ais-ViewToggle-button:hover {
-        background: unset;
-        border: 0;
     }
     
     .ais-CurrentRefinements-list:not(:empty) {
@@ -947,8 +958,23 @@
         margin-left: -15% !important; 
     }
     
-    li.ais-HierarchicalMenu-item {
-        margin: 5px;
+    .aa-Panel {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transform: translateY(-10px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+        pointer-events: none !important;
+    }
+
+    .aa-Panel.is-ready {
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+    }
+
+    .ais-HierarchicalMenu-item {
+        margin: 3px;
     }
 
 }
