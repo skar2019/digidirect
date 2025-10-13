@@ -706,13 +706,30 @@ if (window.MutationObserver) {
 }
 
 /* ========================
-   ⚪ Owl Carousel – Sliding Active Dot Indicator
+   ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
 ======================== */
 $(document).on('initialized.owl.carousel', function (event) {
   const $carousel = $(event.target)
-  const $dots = $carousel.find('.owl-dots')
-  if ($dots.length && !$dots.find('.dot-indicator').length) {
-    $dots.append('<span class="dot-indicator"></span>')
+  const $dotsContainer = $carousel.find('.owl-dots')
+
+  if ($dotsContainer.length && !$dotsContainer.find('.dot-indicator').length) {
+    const $firstDot = $dotsContainer.find('.owl-dot').first()
+    if ($firstDot.length) {
+      const size = $firstDot.outerWidth()
+      const offset = $firstDot.position().left
+      $dotsContainer.append(`<span class="dot-indicator" style="
+        position:absolute;
+        top:0;
+        left:${offset}px;
+        width:${size}px;
+        height:${size}px;
+        border-radius:50%;
+        background:#000;
+        transform:translateX(0);
+        transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        z-index:2;
+      "></span>`)
+    }
   }
 })
 
@@ -723,15 +740,13 @@ $(document).on('changed.owl.carousel', function (event) {
   const $indicator = $carousel.find('.dot-indicator')
   if (!$dots.length || !$indicator.length) return
 
-  const dotWidth = $dots.first().outerWidth(true)
-  const gap = parseInt($dots.css('gap')) || (
-    $dots.length > 1 
-      ? $dots.eq(1).offset().left - $dots.eq(0).offset().left - $dots.eq(0).outerWidth()
-      : 0
-  )
-  const moveX = index * (dotWidth + gap)
+  const $targetDot = $dots.eq(index)
+  if (!$targetDot.length) return
+
+  const moveX = $targetDot.position().left
   $indicator.css('transform', `translateX(${moveX}px)`)
 })
+
 
 
 /* ========================
@@ -751,9 +766,8 @@ function alignAaPanel() {
   if ($header.hasClass('is-sticky')) {
     $panel.css({
       position: 'fixed',
-      top: inputOffset.top - $(window).scrollTop() + headerHeight + 'px',
+      top: '89px !important',
       left: inputOffset.left + 'px',
-      width: $input.outerWidth() + 'px',
       zIndex: 10000,
     })
   } else {
