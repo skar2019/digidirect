@@ -189,7 +189,7 @@ class Data extends AbstractHelper
         $standardShipping = 0; //8.95;
         $bulkItemSurcharge = 0;
         if ($this->checkForBulkyItems()) {
-            $bulkItemSurcharge = 20;
+            //$bulkItemSurcharge = 20; Revert once free shipping is done!
         }
         return $standardShipping + $bulkItemSurcharge;
     }
