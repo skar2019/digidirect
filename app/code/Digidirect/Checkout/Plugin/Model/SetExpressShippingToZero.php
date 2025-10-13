@@ -1,13 +1,12 @@
-<?php
+ <?php
+ 
 namespace Digidirect\Checkout\Plugin\Model;
 
 use Magento\Shipping\Model\Shipping;
-use Magento\Quote\Model\QuoteRepository;
+use Magento\Quote\Model\Quote\Address\RateRequest;
 
 class SetExpressShippingToZero
 {
-    protected $quoteRepository;
-
     // SKUs that trigger free express shipping
     protected $restrictedSkus = [
         '164929','129575','120156','109388','120365','134594','134405','108475','146709','155256','133565',
@@ -31,26 +30,32 @@ class SetExpressShippingToZero
         '150811','127908','145315','132192'
     ];
 
-    public function __construct(QuoteRepository $quoteRepository)
-    {
-        $this->quoteRepository = $quoteRepository;
-    }
-
     /**
      * After plugin for Shipping::collectRates()
+     *
+     * @param Shipping $subject
+     * @param mixed $result
+     * @param RateRequest $request
+     * @return mixed
      */
     public function afterCollectRates(Shipping $subject, $result)
     {
-        $quote = $subject->getQuote();
-        if (!$quote || !$result) {
+        /** @var RateRequest $request */
+        $request = $subject->getRequest();
+
+        if (!$request || !$result) {
             return $result;
         }
 
-        $items = $quote->getAllVisibleItems();
-        $containsRestrictedSku = false;
+        $items = $request->getAllItems();
+        if (!$items) {
+            return $result;
+        }
 
+        // Check if cart contains restricted SKUs
+        $containsRestrictedSku = false;
         foreach ($items as $item) {
-            if (in_array($item->getSku(), $this->restrictedSkus)) {
+            if (in_array($item->getSku(), $this->restrictedSkus, true)) {
                 $containsRestrictedSku = true;
                 break;
             }
@@ -60,8 +65,8 @@ class SetExpressShippingToZero
             return $result;
         }
 
+        // Set express_express method price to 0
         foreach ($result->getAllRates() as $rate) {
-            // Match full method code (carrier_method)
             if ($rate->getCode() === 'express_express') {
                 $rate->setPrice(0.00);
                 $rate->setCost(0.00);
