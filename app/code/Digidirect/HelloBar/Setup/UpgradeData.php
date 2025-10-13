@@ -35,10 +35,6 @@ class UpgradeData implements UpgradeDataInterface
                 <div class="tcl-banner__heading">
                   For a limited time, shop <span class="hello-bar-bold-txt">tax-free</span> on selected products in certain states -- online and in-store. <a href="#">Learn More</a>
                 </div>
-                <!--<div>
-                  <div class="tcl-banner__body">Ends 31 October 2025.</div>
-                  <button class="tds-link tcl-banner__button"><span>See Terms</span></button>
-                </div>-->
               </div>
             </div>
 
