@@ -655,7 +655,7 @@ if ($mobileMenuClose.length) {
 })()
 
 /* ========================
-   🎯 Replace Owl Carousel Nav Arrows with SVGs
+   🎯 Replace Carousel Nav Arrows (Owl + Slick) with SVGs
 ======================== */
 const prevSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="50" height="50">
@@ -667,13 +667,38 @@ const nextSVG = `
   <path d="M23.5587,16.916 C24.1447,17.4999987 24.1467,18.446 23.5647,19.034 L16.6077,26.056 C16.3147,26.352 15.9287,26.4999987 15.5427,26.4999987 C15.1607,26.4999987 14.7787,26.355 14.4867,26.065 C13.8977,25.482 13.8947,24.533 14.4777,23.944 L20.3818,17.984 L14.4408,12.062 C13.8548,11.478 13.8528,10.5279 14.4378,9.941 C15.0218,9.354 15.9738,9.353 16.5588,9.938 L23.5588,16.916 Z"></path>
 </svg>`
 
-$('.owl-carousel').each(function () {
-  const $carousel = $(this)
-  const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
-  const $next = $carousel.find('.owl-next span[aria-label="Next"]')
-  if ($prev.length) $prev.replaceWith(prevSVG)
-  if ($next.length) $next.replaceWith(nextSVG)
+function replaceCarouselArrows() {
+  /* 🦉 Owl Carousel */
+  $('.owl-carousel').each(function () {
+    const $carousel = $(this)
+    const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
+    const $next = $carousel.find('.owl-next span[aria-label="Next"]')
+    if ($prev.length) $prev.replaceWith(prevSVG)
+    if ($next.length) $next.replaceWith(nextSVG)
+  })
+
+  /* 🧊 Slick Slider (Magento PageBuilder) */
+  $('.pagebuilder-slider.slick-initialized').each(function () {
+    const $slider = $(this)
+    const $prev = $slider.find('.slick-prev')
+    const $next = $slider.find('.slick-next')
+
+    // Replace content if not already an SVG
+    if ($prev.length && !$prev.find('svg').length) $prev.html(prevSVG)
+    if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
+  })
+}
+
+/* Run once on DOM ready and again after sliders initialize */
+$(document).ready(function () {
+  replaceCarouselArrows()
 })
+
+// Optional: If some sliders initialize dynamically later (Magento does this)
+$(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
+  replaceCarouselArrows()
+})
+
 
 /* ========================
    🚫 Hide aa-Panel until content ready
@@ -768,7 +793,7 @@ function alignAaPanel() {
       position: 'fixed',
       top: '89px !important',
       left: inputOffset.left + 'px',
-      zIndex: 10000,
+      zIndex: 10000 + ' !important',
     })
   } else {
     // restore normal flow
