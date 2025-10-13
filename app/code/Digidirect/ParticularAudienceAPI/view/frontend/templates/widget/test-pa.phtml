@@ -1113,6 +1113,27 @@ require(['jquery'], function ($) {
         });
     });
 
+    $(document).ready(function () {
+        $(".owl-carousel.promotions").owlCarousel({
+            merge: true,
+            loop: false,
+            nav: true,
+            dots: true,
+            margin: 0,
+            video: true,
+            lazyLoad: true,
+            freeDrag: true, 
+            touchDrag: false,
+            mouseDrag: false,
+            slideBy: 1,
+            responsive: {
+                0: { items: 1 }
+            },
+            dots: false,
+            autoplay: false
+        });
+    });
+
    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         let $carousel = $(this);
         let $items = $carousel.find('.owl-item');
