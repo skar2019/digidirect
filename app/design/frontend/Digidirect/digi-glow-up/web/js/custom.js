@@ -701,48 +701,29 @@ $(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
 
 
 /* ========================
-   🚫 Hide aa-Panel until content ready (Strong Version)
+   🧩 Show aa-Panel only when it has content
 ======================== */
-if (window.MutationObserver) {
-  const hideAaPanelUntilReady = () => {
-    const $panel = $('.aa-Panel')
-    if (!$panel.length) return
+function toggleAaPanelVisibility() {
+  const $panel = $('.aa-Panel')
+  if (!$panel.length) return
 
-    const textContent = $panel.text().trim()
-    const hasItems = $panel.find('.aa-Item, .aa-Source').length > 0
-    const shouldHide = !textContent || !hasItems
+  // Check if panel has visible content (items, suggestions, etc.)
+  const hasContent = $panel.find('.aa-Item, .aa-Source, .aa-List').children().length > 0
 
-    if (shouldHide) {
-      $panel.css({
-        visibility: 'hidden',
-        opacity: 0,
-        pointerEvents: 'none',
-        transition: 'opacity 0.25s ease',
-      })
-    } else {
-      $panel.css({
-        visibility: 'visible',
-        opacity: 1,
-        pointerEvents: 'auto',
-        transition: 'opacity 0.25s ease',
-      })
-    }
+  // Toggle visibility
+  if (hasContent) {
+    $panel.addClass('is-ready')
+  } else {
+    $panel.removeClass('is-ready')
   }
-
-  // Observe DOM changes that might affect .aa-Panel content
-  const panelObserver = new MutationObserver(hideAaPanelUntilReady)
-  panelObserver.observe(document.body, { childList: true, subtree: true })
-
-  // Also run on input/focus for immediate sync
-  $(document).on('input focus', '#autocomplete-0-input', hideAaPanelUntilReady)
-  $(window).on('scroll resize', hideAaPanelUntilReady)
-
-  // small interval safety net (Algolia re-renders asynchronously)
-  const aaInterval = setInterval(() => {
-    if ($('.aa-Panel').length) hideAaPanelUntilReady()
-  }, 300)
-  setTimeout(() => clearInterval(aaInterval), 10000)
 }
+
+/* Observe aa-Panel changes */
+const aaObserver = new MutationObserver(toggleAaPanelVisibility)
+aaObserver.observe(document.body, { childList: true, subtree: true })
+
+/* Initial check (for good measure) */
+toggleAaPanelVisibility()
 
 
 /* ========================

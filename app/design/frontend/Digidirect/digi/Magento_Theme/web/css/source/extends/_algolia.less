@@ -170,6 +170,20 @@
         padding: 0 !important;
     }
     
+    .aa-Panel {
+        display: none !important;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .aa-Panel.is-ready {
+        display: block !important;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
     #autocomplete-products-footer {
         background-color: unset !important;
         position: relative !important;
