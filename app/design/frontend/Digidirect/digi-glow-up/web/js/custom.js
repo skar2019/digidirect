@@ -570,5 +570,276 @@ if ($mobileMenuClose.length) {
   })
 }
 
+/* ========================
+   🎯 Owl Nav Fixed to Screen Edges (Global)
+======================== */
+(function () {
+  function moveAllNavsToBody() {
+    $('.owl-carousel').each(function (index) {
+      const $carousel = $(this)
+      const $nav = $carousel.find('.owl-nav')
+      if (!$nav.length || $nav.data('moved')) return
+
+      $nav.data('moved', true)
+      $('body').append($nav)
+
+      $nav.css({
+        position: 'fixed',
+        inset: 0, // shorthand for top/right/bottom/left = 0
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none', // ✅ let swipe/touch go through
+        zIndex: 999,
+      })
+
+      $nav.find('button').css({
+        pointerEvents: 'auto !important', // ✅ only buttons receive clicks
+        position: 'fixed',
+        borderRadius: '50%',
+        backdropFilter: 'blur(10px)',
+        background: 'rgba(255,255,255,0.7)',
+        border: 'none',
+        boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        zIndex: 10000,
+        padding: 0,
+      })
+    })
+
+    updateNavPositions()
+  }
+
+  function updateNavPositions() {
+    $('.owl-carousel').each(function (i) {
+      const $carousel = $(this)
+      const rect = this.getBoundingClientRect()
+      const centerY = rect.top + rect.height / 2
+      const $nav = $('.owl-nav').eq(i)
+      const $prev = $nav.find('.owl-prev')
+      const $next = $nav.find('.owl-next')
+      const offset = 16
+
+      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
+
+      if ($prev.length) {
+        $prev.css({
+          left: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      if ($next.length) {
+        $next.css({
+          right: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      const visible = rect.bottom > 0 && rect.top < window.innerHeight
+      $prev.css('opacity', visible ? 0.5 : 0)
+      $next.css('opacity', visible ? 0.5 : 0)
+    })
+  }
+
+  $(window).on('scroll resize', updateNavPositions)
+
+  const observer = new MutationObserver(() => moveAllNavsToBody())
+  observer.observe(document.body, { childList: true, subtree: true })
+
+  $(window).on('load', () => setTimeout(moveAllNavsToBody, 600))
+})()
+
+/* ========================
+   🎯 Replace Carousel Nav Arrows (Owl + Slick) with SVGs
+======================== */
+const prevSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="50" height="50">
+  <path d="M21.559,12.062 L15.618,17.984 L21.5221,23.944 C22.105,24.533 22.1021,25.482 21.5131,26.065 C21.2211,26.355 20.8391,26.4999987 20.4571,26.4999987 C20.0711,26.4999987 19.6851,26.352 19.3921,26.056 L12.4351,19.034 C11.8531,18.446 11.8551,17.4999987 12.4411,16.916 L19.4411,9.938 C20.0261,9.353 20.9781,9.354 21.5621,9.941 C22.1471,10.528 22.1451,11.478 21.5591,12.062 Z"></path>
+</svg>`
+
+const nextSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="50" height="50">
+  <path d="M23.5587,16.916 C24.1447,17.4999987 24.1467,18.446 23.5647,19.034 L16.6077,26.056 C16.3147,26.352 15.9287,26.4999987 15.5427,26.4999987 C15.1607,26.4999987 14.7787,26.355 14.4867,26.065 C13.8977,25.482 13.8947,24.533 14.4777,23.944 L20.3818,17.984 L14.4408,12.062 C13.8548,11.478 13.8528,10.5279 14.4378,9.941 C15.0218,9.354 15.9738,9.353 16.5588,9.938 L23.5588,16.916 Z"></path>
+</svg>`
+
+function replaceCarouselArrows() {
+  /* 🦉 Owl Carousel */
+  $('.owl-carousel').each(function () {
+    const $carousel = $(this)
+    const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
+    const $next = $carousel.find('.owl-next span[aria-label="Next"]')
+    if ($prev.length) $prev.replaceWith(prevSVG)
+    if ($next.length) $next.replaceWith(nextSVG)
+  })
+
+  /* 🧊 Slick Slider (Magento PageBuilder) */
+  $('.pagebuilder-slider.slick-initialized').each(function () {
+    const $slider = $(this)
+    const $prev = $slider.find('.slick-prev')
+    const $next = $slider.find('.slick-next')
+
+    // Replace content if not already an SVG
+    if ($prev.length && !$prev.find('svg').length) $prev.html(prevSVG)
+    if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
+  })
+}
+
+/* Run once on DOM ready and again after sliders initialize */
+$(document).ready(function () {
+  replaceCarouselArrows()
+})
+
+// Optional: If some sliders initialize dynamically later (Magento does this)
+$(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
+  replaceCarouselArrows()
+})
+
+
+/* ========================
+   🧩 Show aa-Panel only when it has content
+======================== */
+function toggleAaPanelVisibility() {
+  const $panel = $('.aa-Panel')
+  if (!$panel.length) return
+
+  // Check if panel has visible content (items, suggestions, etc.)
+  const hasContent = $panel.find('.aa-Item, .aa-Source, .aa-List').children().length > 0
+
+  // Toggle visibility
+  if (hasContent) {
+    $panel.addClass('is-ready')
+  } else {
+    $panel.removeClass('is-ready')
+  }
+}
+
+/* Observe aa-Panel changes */
+const aaObserver = new MutationObserver(toggleAaPanelVisibility)
+aaObserver.observe(document.body, { childList: true, subtree: true })
+
+/* Initial check (for good measure) */
+toggleAaPanelVisibility()
+
+
+/* ========================
+   ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
+======================== */
+$(document).on('initialized.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const $dotsContainer = $carousel.find('.owl-dots')
+
+  if ($dotsContainer.length && !$dotsContainer.find('.dot-indicator').length) {
+    const $firstDot = $dotsContainer.find('.owl-dot').first()
+    if ($firstDot.length) {
+      const size = $firstDot.outerWidth()
+      const offset = $firstDot.position().left
+      $dotsContainer.append(`<span class="dot-indicator" style="
+        position:absolute;
+        top:0;
+        left:${offset}px;
+        width:${size}px;
+        height:${size}px;
+        border-radius:50%;
+        background:#000;
+        transform:translateX(0);
+        transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        z-index:2;
+      "></span>`)
+    }
+  }
+})
+
+$(document).on('changed.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const index = event.item.index || 0
+  const $dots = $carousel.find('.owl-dot')
+  const $indicator = $carousel.find('.dot-indicator')
+  if (!$dots.length || !$indicator.length) return
+
+  const $targetDot = $dots.eq(index)
+  if (!$targetDot.length) return
+
+  const moveX = $targetDot.position().left
+  $indicator.css('transform', `translateX(${moveX}px)`)
+})
+
+
+
+/* ========================
+   🩹 Keep aa-Panel perfectly aligned under Sticky Header
+======================== */
+function alignAaPanel() {
+  const $panel = $('.aa-Panel')
+  const $input = $('#autocomplete-0-input')
+  const $header = $('.header.content')
+
+  if (!$panel.length || !$input.length || !$header.length) return
+
+  const inputOffset = $input.offset()
+  const headerHeight = $header.outerHeight() || 0
+  const scrollTop = $(window).scrollTop()
+  const inputTop = inputOffset.top - scrollTop
+  const newTop = $header.hasClass('is-sticky')
+    ? headerHeight + 1
+    : inputTop + $input.outerHeight() + 1
+
+  const newLeft = inputOffset.left
+  const newWidth = $input.outerWidth()
+
+  if ($header.hasClass('is-sticky')) {
+    $panel.css({
+      position: 'fixed',
+      top: `${newTop}px`,
+      left: `${newLeft}px`,
+      right: 'unset',
+      zIndex: 10000,
+      marginTop: 0,
+    })
+  } else {
+    // When not sticky, revert to Algolia’s normal flow
+    $panel.attr('style', '')
+  }
+}
+
+// Reactive updates
+$(window).on('scroll resize', alignAaPanel)
+$(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+
+// Observe DOM since Algolia dynamically replaces the panel
+const aaStickObserver = new MutationObserver(alignAaPanel)
+aaStickObserver.observe(document.body, { childList: true, subtree: true })
+
+
+/* ========================
+   🧩 Close aa-Panel on Blog Mega Menu Hover
+======================== */
+$(document)
+  .on('mouseenter', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Hide aa-Panel and reset input state
+    const $panel = $('.aa-Panel')
+    const $input = $('#autocomplete-0-input')
+
+    if ($panel.length) {
+      $panel.css({ visibility: 'hidden', opacity: 0 })
+      setTimeout(() => $panel.remove(), 100) // optional: fully remove if Algolia re-renders later
+    }
+
+    // Also blur the input to fully deactivate Algolia autocomplete
+    if ($input.length) $input.trigger('blur')
+
+    // Make sure blur overlay updates correctly
+    $('body').removeClass('blur-active')
+  })
+  .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Nothing special — let aa-Panel reappear if user focuses input again
+  })
+
+
+
   })
 })

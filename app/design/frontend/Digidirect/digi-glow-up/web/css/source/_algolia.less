@@ -87,15 +87,14 @@
     }
     
     .result-thumbnail {
-        height: 180px;
+        height: 228px;
         text-decoration: none;
         padding: 12px;
     }
     
     .ais-Hits-item img {
-        height: 150px !important;
+        height: 175px !important;
         width: auto !important;
-        max-height: 130px !important;
         margin-top: 30px !important;
         object-fit: contain;
     }
@@ -395,6 +394,7 @@
     
     .ais-HierarchicalMenu {
         margin-top: 10px;
+        margin-bottom: 15px;
     }
     
     #algolia-right-container .category-page-banner {
@@ -471,6 +471,13 @@
     .ais-Panel {
         margin: 0 !important;
         border: 0 !important;
+        border-bottom: 1px solid #e6e6e6 !important;
+    }
+    
+    .is-widget-container-categories, .is-widget-container-categories, .is-widget-container-brand, 
+    .is-widget-container-marketplacer_seller, .is-widget-container-marketplacer_brand, .is-widget-container-is_digideals, 
+    .is-widget-container-clearance   {
+        padding-top: 10px;
     }
 
     .ais-Panel-header .name {
@@ -545,7 +552,7 @@
     }
     
     #algolia-custom-refinement {
-        margin-top: 15px;
+        margin-top: 10px;
         display: flex;
         white-space: nowrap;
     }
@@ -568,13 +575,13 @@
         }
 
         .ais-CurrentRefinements-category {
-            background: #FFEDE9;
-            color: #CB3D1E;
+            background: #ffede9;
+            color: #cb3d1e;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 500;
             border-radius: 999px;
-            padding: 7px 7px 7px 12px;
-            outline: 1px #FFC9BE solid;
+            padding: 4px 14px 4px 14px;
+            outline: 1px #ffc9be solid;
             outline-offset: -1px;
             margin: 0;
         }
@@ -585,7 +592,7 @@
             border: 0;
             text-decoration: underline;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 500;
             text-transform: capitalize;
             padding: 7px 10px;
             margin-bottom: 0;
@@ -627,7 +634,7 @@
     .sort-by-label.pull-left {
         color: #000;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 500;
     }
     
     #algolia_instant_selector .pull-right {
@@ -701,12 +708,12 @@
     
     .rheostat-tooltip {
         background: #010202;
-        color: #F2F2F7;
+        color: #f2f2f7;
         font-size: 12px;
-        font-weight: 700;
-        padding: 4px 10px;
+        font-weight: 400;
+        padding: 2px 7px;
         border-radius: 999px;
-        top: -32px !important;
+        top: -27px !important;
         line-height: 16px;
     }
     
@@ -716,16 +723,25 @@
     }
     
     .algolia-instant-results-wrapper {
-        margin-top: 5px;
+        //margin-top: 5px;
     }
     
     #algolia_instant_selector .col-md-3 {
         width: 22% !important;
+        padding-right: 13px;
     }
     
     #algolia_instant_selector .col-md-9 {
         width: 78% !important;
-        padding-top: 10px;
+        padding-top: 0;
+    }
+    
+    #algolia_instant_selector .col-md-12 {
+        padding-left: 17px;
+    }
+    
+    #algolia-left-container .ais-Panel:first-child .ais-Panel-header {
+        padding-top: 7px !important;
     }
     
     //Grid View & List View Toggle
@@ -831,6 +847,22 @@
     
     .ais-ViewToggle-button.is-active {
         background: #242426;
+        color: #fff;
+    }
+    
+    .ais-ViewToggle-button {
+        color: #242426;
+    }
+    
+    .ais-ViewToggle-button.is-active:hover {
+        background: #242426;
+        color: #fff;
+    }
+    
+    .ais-ViewToggle-button:hover {
+        background: unset;
+        border: 0;
+        color: #242426;
     }
     
     .ais-ViewToggle-button.is-active img {
@@ -863,11 +895,6 @@
         background: unset;
     }
     
-    .ais-ViewToggle-button:hover {
-        background: unset;
-        border: 0;
-    }
-    
     .ais-CurrentRefinements-list:not(:empty) {
         display: flex;
         gap: 10px;
@@ -877,7 +904,7 @@
         display: flex;
         align-items: flex-end;
         height: 60px;
-        margin-top: 10px;
+        margin-top: 5px;
         gap: 2px;
     }
     
@@ -947,8 +974,27 @@
         margin-left: -15% !important; 
     }
     
-    li.ais-HierarchicalMenu-item {
-        margin: 5px;
+    .aa-Panel {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transform: translateY(-10px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+        pointer-events: none !important;
+    }
+
+    .aa-Panel.is-ready {
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+    }
+    
+    .ais-RefinementList-item {
+        margin-bottom: 3px;
+    }
+    
+    #algolia_instant_selector .col-md-3 {
+        padding-right: 13px;
     }
 
 }

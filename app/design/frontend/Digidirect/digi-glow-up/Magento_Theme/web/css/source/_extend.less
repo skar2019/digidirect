@@ -43,14 +43,18 @@ body {
 
 .catalog-category-view .page-title,
 .catalogsearch-result-index .page-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
+    margin-top: 12px;
+    margin-bottom: 13px;
 }
 
 .page-title-wrapper span.base {
     color: #000;
     font-size: 24px;
     font-weight: 700;
+}
+
+.category-view {
+    display: none;
 }
 
 .page-wrapper > .page-bottom {
@@ -269,14 +273,41 @@ a.action.towishlist {
     color: #969696;
 }
 
+//Slick Carousel
+
+.slick-prev:before, .slick-next:before, .slick-prev:after, .slick-next:after {
+    display: none;
+}
+
+.slick-arrow.slick-disabled {
+    display: none !important;
+}
+
+.pagebuilder-slider.slick-initialized .slick-arrow {
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.slick-prev {
+    left: 16px !important;
+}
+
+.slick-next {
+    right: 16px !important;
+}
+
 //Owl Carousels
 
 .owl-stage-outer {
     overflow: visible !important;
-}
-
-.owl-nav .unclickable {
-    display: none !important;
 }
 
 .owl-nav .disabled {
@@ -309,7 +340,7 @@ a.action.towishlist {
 
 .owl-prev,
 .owl-next {
-    pointer-events: unset !important;
+    pointer-events: auto !important;
 }
 
 .owl-carousel.custom .owl-stage-outer {
@@ -331,6 +362,15 @@ a.action.towishlist {
 .owl-carousel {
     will-change: transform;
     transition: transform 0.3s ease-out;
+}
+
+.owl-carousel .owl-video-play-icon:hover {
+    transform: scale(1.05, 1.05) !important;
+    -ms-transform: scale(1.05,1.05) !important;
+}
+
+.owl-carousel .owl-video-play-icon {
+    transition: transform .5s ease !important;
 }
 
 //Test CSS
@@ -397,7 +437,7 @@ a.action.towishlist {
     height: 191px;
 }
 
-#glow-up-brands .owl-item img {
+#glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -511,7 +551,7 @@ a.action.towishlist {
     height: 43px;
     border-radius: 22px;
     border: 1px solid #8e8e9338;
-    padding: 3px 12px 7px 17px;
+    padding: 7px 7px 7px 17px;
     margin: 0;
 }
 
@@ -533,9 +573,15 @@ a.action.towishlist {
 .catalog-category-view #maincontent {
     max-width: 1327px;
 }
+
+.catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
+    padding-top: 10px;
+}
+
 .list-view a.action.towishlist {
     left: 200px;
 }
+
 .field.choice input[type="checkbox"]:checked + label::before {
     background: #171717;
     border-color: #171717;
@@ -610,7 +656,6 @@ body.blur-active .global-blur-overlay {
     width: 0%;
     height: 2px;
     background-color: currentColor;
-    transition: width 0.3s ease;
 }
 
 .view-all-link:hover span::after {

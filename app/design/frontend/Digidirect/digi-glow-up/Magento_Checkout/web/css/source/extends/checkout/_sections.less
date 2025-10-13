@@ -5,6 +5,8 @@
 
 .opc-wrapper {
     color: #242426 !important;
+    width: 71.2% !important;
+    padding-right: unset !important;
 
     .shipping-methods, .store-section {
         input[type="radio"] {
@@ -86,10 +88,10 @@
 
     .step-title {
         color: #242426 !important;
-        font-size: 16px !important;
+        font-size: 18px !important;
         border-bottom: 0 !important;
         padding-bottom: 30px !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
     }
 
     .field.-half {
@@ -271,7 +273,11 @@
     width: 100%;
     display: flex;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 10px;
+}
+
+.opc-wrapper .delivery-notes .control > textarea {
+    border-radius: 10px;
 }
 
 /* Credit card info section */
@@ -313,6 +319,10 @@
     opacity: unset;
 }
 
+#checkoutSteps li.active .step-title {
+    font-size: 24px;
+}
+
 #checkoutSteps .action-extension-toolbar {
     display: flex;
     justify-content: right;
@@ -324,7 +334,7 @@
         width: 250px;
         text-transform: uppercase;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 600;
         letter-spacing: 0.5px;
     }
 }
@@ -350,7 +360,7 @@
     gap: 0.8em;
     border: 1px solid #D9D9D9;
     padding: 0.7em 2em;
-    border-radius: 0.5em;
+    border-radius: 0.72em;
     width: 100%;
 }
 
@@ -420,4 +430,18 @@
 body.checkout-onepage-success, body.checkout-index-index {
     display: flex !important;
     flex-direction: column !important;
+}
+
+.checkout-index-index {
+    .fieldset .field:not(.choice) > .control input[type="email"],
+    .fieldset .field:not(.choice) > .control input[type="text"],
+    .fieldset .field:not(.choice) > .control input[type="password"],
+    .fieldset .field:not(.choice) > .control select{
+        border-radius: 10px !important;
+    }
+}
+
+
+.opc-wrapper .checkout-shipping-address label {
+    border-radius: 0.72em !important;
 }

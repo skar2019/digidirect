@@ -36,7 +36,21 @@ $seller = $block->escapeHtml('marketplacer_seller');
         class="action towishlist"
         title="<?php echo __('Add to Wishlist') ?>"
         data-post='{"action":"/wishlist/index/add/","data":{"product":"{{objectID}}","uenc":"{{url}}"}}'>
-        <img src="<?= $block->getViewFileUrl('images/iconsax-heart.png') ?>"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <g clip-path="url(#clip0_7978_37674)">
+        <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13">
+        <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"/>
+        </mask>
+        <g mask="url(#mask0_7978_37674)">
+        <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"/>
+        </g>
+        </g>
+        <defs>
+        <clipPath id="clip0_7978_37674">
+        <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"/>
+        </clipPath>
+        </defs>
+        </svg>
     </a>
 
     <div class="col-md-4 col-sm-6 grid-view-col" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
