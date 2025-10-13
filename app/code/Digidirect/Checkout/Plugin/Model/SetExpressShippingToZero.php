@@ -61,7 +61,7 @@ class SetExpressShippingToZero
 
             if ($hasTargetSku && $result && method_exists($result, 'getAllRates')) {
                 foreach ($result->getAllRates() as $rate) {
-                    if ($rate instanceof Method && $rate->getMethod() === 'express_express') {
+                    if ($rate instanceof Method && $rate->getMethod() === 'express') {
                         $rate->setPrice(0);
                         $rate->setCost(0);
                     }
