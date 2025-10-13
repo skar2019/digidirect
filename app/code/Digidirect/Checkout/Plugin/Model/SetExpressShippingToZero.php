@@ -31,11 +31,15 @@ class SetExpressShippingToZero
         '145315','132192'
     ];
 
+    protected $logger;
+
     public function aroundCollectRates(
+        \Psr\Log\LoggerInterface $logger,
         Shipping $subject,
         \Closure $proceed,
         ...$args
     ) {
+        $this->logger = $logger;
         // Run original collectRates() first
         $result = $proceed(...$args);
 
@@ -57,10 +61,12 @@ class SetExpressShippingToZero
                     $hasTargetSku = true;
                     break;
                 }
+                $this->logger->info("hasTargetSku, " . $hasTargetSku);
             }
 
             if ($hasTargetSku && $result && method_exists($result, 'getAllRates')) {
                 foreach ($result->getAllRates() as $rate) {
+                    $this->logger->info("rate->getMethod(), " . $rate->getMethod());
                     if ($rate instanceof Method && $rate->getMethod() === 'express') {
                         $rate->setPrice(0);
                         $rate->setCost(0);
