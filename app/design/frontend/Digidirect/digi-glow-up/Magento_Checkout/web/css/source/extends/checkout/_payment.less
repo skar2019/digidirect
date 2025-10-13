@@ -24,6 +24,14 @@
     }
 }
 
+.payment-method-billing-address .checkout-billing-address {
+    margin-left: 40px !important;
+}
+
+.checkout-payment-method .billing-address-form {
+    max-width: unset !important;
+}
+
 .checkout-billing-address .fieldset>.field {
     margin: 0 5px 20px !important;
 }
@@ -119,8 +127,13 @@
     .payment-group {
         background-color: #ffffff;
         border-radius: 12px;
-        padding: 24px;
+        //padding: 24px;
         margin-bottom: 32px;
+        padding-top: 40px;
+
+        .step-title {
+            margin-bottom: unset !important;
+        }
     }
 
     .payment-method {
@@ -238,20 +251,37 @@
         display: block !important;
     }
 
+    #co-transparent-form-braintree {
+        margin: 15px 45px 0 40px !important;
+    }
+
     #co-transparent-form-braintree .fieldset.ccard .field .label {
         display: block !important;
+
+    }
+
+    #co-transparent-form-braintree .checkout-payment-method .payment-method-content .fieldset:not(:last-child) {
+        margin: 0 40px 20px 0;
     }
 
     .billing-address-details {
         border: 1px solid #D9D9D9;
         border-radius: 5px;
-        margin: 10px 40px 10px 20px;
+        margin: 10px 48px 10px 0;
         padding: 15px 0 0 20px !important;
     }
 
     .credit-card-types.braintree-credit-card-types {
         display: none !important;
     }
+}
+
+input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
+    display: none;
+}
+
+.payment-method:has(#banktransfer) .payment-method-content  p{
+    margin-left: 40px !important;
 }
 
 .checkout-payment-method .payment-method._active .payment-method-content {
@@ -270,7 +300,7 @@
 
 .checkout-payment-method .payment-option-title .action-toggle {
     color: #1D1D1F !important;
-    font-size: 16px !important;
+    font-size: 18px !important;
     font-weight: 700 !important;
     letter-spacing: 0.2px;
 }
@@ -351,6 +381,7 @@
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap;
+    margin-left: 35px;
 }
 
 #method-latitude .latitude-icon {
@@ -365,6 +396,16 @@
     background-size: contain;
     vertical-align: middle;
     background-image: url('@{baseDir}images/checkout/latitude.png');
+}
+
+.payment-method:has(#method-latitude) .payment-method-content {
+    margin-left: 60px !important;
+    padding: unset !important;
+    width: unset !important;
+
+    .payment-method-billing-address .checkout-billing-address {
+        margin-left: unset !important;
+    }
 }
 
 .payment-group .payment-method:has(#checkmo) {
@@ -451,6 +492,16 @@
 .checkout-index-index .zipmoney .zip-checkout-icon {
     display: none !important;
 }
+
+.checkout-index-index .zipmoney .payment-method-content {
+    margin-left: 40px !important;
+
+    .payment-method-billing-address .checkout-billing-address {
+        margin-left: 0 !important;
+    }
+}
+
+
 .checkout-index-index .checkout-billing-address label::after { //CHECK THIS
     //display: none !important;
 }
@@ -491,9 +542,18 @@
     .form-discount {
         display: flex !important;
         max-width: none !important;
+        align-items: center;
+        justify-content: space-between;
 
         .payment-option-inner {
             margin: 0 !important;
+            width: 100% !important;
+        }
+
+        .actions-toolbar {
+            button.primary {
+                margin-top: unset !important;
+            }
         }
     }
 
@@ -538,7 +598,9 @@
         }
 
         .actions-toolbar {
-            margin-left: 1%
+           // margin-left: 1%;
+            display: flex;
+            justify-content: flex-start;
         }
     }
 
@@ -580,7 +642,7 @@
 
     .billing-address-same-as-shipping-block.field {
         display: flex;
-        margin-left: 20px !important;
+        //margin-left: 40px !important;
         font-size: 14px;
         font-weight: 500;
         line-height: 24px;
@@ -685,5 +747,17 @@
 
 .field.choice:has(#braintree_enable_vault) {
     display: none;
+}
+
+.payment-option._collapsible.opc-payment-additional {
+    border-bottom: 2px solid #D9D9D9;
+}
+
+.checkout-payment-method .payment-option-content {
+    padding: 0 0 20px 0 !important;
+}
+
+.payment-option-item:has(.block-discount-heading) {
+    padding-top: 5px;
 }
 /**** Payment Information End ****/
