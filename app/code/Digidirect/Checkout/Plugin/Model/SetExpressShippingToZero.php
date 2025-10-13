@@ -1,5 +1,4 @@
- <?php
- 
+<?php
 namespace Digidirect\Checkout\Plugin\Model;
 
 use Magento\Shipping\Model\Shipping;
