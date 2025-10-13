@@ -786,27 +786,28 @@ function alignAaPanel() {
 
   const inputOffset = $input.offset()
   const headerHeight = $header.outerHeight()
+  const newTop = headerHeight + 1 
+  const newLeft = inputOffset.left
+  const newWidth = $input.outerWidth() 
 
-  // if header is sticky, reattach aa-Panel to body (absolute/fixed positioning)
   if ($header.hasClass('is-sticky')) {
     $panel.css({
-      position: 'fixed',
-      top: '89px !important',
-      left: inputOffset.left + 'px',
-      zIndex: 10000 + ' !important',
+      'position': 'fixed',
+      'top': `${newTop}px !important`, 
+      'left': `${newLeft}px`,
+      'width': `${newWidth}px`, 
+      'z-index': '10000 !important',
     })
   } else {
-    // restore normal flow
     $panel.css({
-      position: '',
-      top: '',
-      left: '',
-      width: '',
-      zIndex: '',
+      'position': '',
+      'top': '',
+      'left': '',
+      'width': '',
+      'z-index': '',
     })
   }
 }
-
 // keep it reactive
 $(window).on('scroll resize', alignAaPanel)
 $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
