@@ -17,13 +17,16 @@ $seller = $product->getData('marketplacer_seller');
                 data-action="add-to-cart-action"
                 >
                 <div class="credit-cards">
-                    <img src="<?= $block->getViewFileUrl('images/checkout/Visa,Master,AMEX.png'); ?>"/>
+                    
+                    <img src="<?= $block->getViewFileUrl('images/pdp/visa.svg'); ?>"/>
+                    <img src="<?= $block->getViewFileUrl('images/pdp/master.svg'); ?>"/>
+                    <img src="<?= $block->getViewFileUrl('images/pdp/amex.svg'); ?>"/>
                     
                 </div>
             </button>
         </form>
         <div id="paypal-custom">
-            <!-- <img src="<?= $block->getViewFileUrl('images/checkout/paypal.png'); ?>"/> -->
+           
         </div>
     </div>
     <div class="row-second">

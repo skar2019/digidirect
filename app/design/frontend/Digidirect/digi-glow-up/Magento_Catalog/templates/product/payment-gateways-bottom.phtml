@@ -17,7 +17,9 @@ $seller = $_product->getData('marketplacer_seller');
                     data-action="add-to-cart-action"
                     >
                     <div id="union-alipay-wechat">
-                        <img src="<?= $block->getViewFileUrl('images/checkout/latipay.png'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/unipay.svg'); ?>"/>
+                         <img src="<?= $block->getViewFileUrl('images/pdp/alipay.svg'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/wechat.svg'); ?>"/>
                     </div>
                 </button>
             </form>
@@ -28,7 +30,7 @@ $seller = $_product->getData('marketplacer_seller');
                     id="product-addtocart-button"
                     data-action="add-to-cart-action"
                     >
-                        <img src="<?= $block->getViewFileUrl('images/checkout/latitude-white.png'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/latitude-white.svg'); ?>"/>
                 </button>
             </form>
         </div>
@@ -42,7 +44,9 @@ $seller = $_product->getData('marketplacer_seller');
                     data-action="add-to-cart-action"
                     >
                     <div id="union-alipay-wechat">
-                        <img src="<?= $block->getViewFileUrl('images/checkout/latitude-white.png'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/unipay.svg'); ?>"/>
+                         <img src="<?= $block->getViewFileUrl('images/pdp/alipay.svg'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/wechat.svg'); ?>"/>
                     </div>
                 </button>
             </form>
@@ -50,7 +54,7 @@ $seller = $_product->getData('marketplacer_seller');
     <?php } ?>
     <div class="last-row">
         <span class="bank-transfer">
-            <img src="<?= $block->getViewFileUrl('images/checkout/bank-transfer.png'); ?>"/>
+            <span class="icon-bank"></span><span><?= __('Bank Transfer') ?></span>
         </span>
     </div>
 </div>
