@@ -32,7 +32,7 @@ class SetExpressShippingToZero
     ];
 
     protected $logger;
-    
+
     public function __construct(
         \Psr\Log\LoggerInterface $logger
     ) {
@@ -60,26 +60,31 @@ class SetExpressShippingToZero
                 if (!$item instanceof Item) {
                     continue;
                 }
+
                 $sku = $item->getSku();
                 if (in_array($sku, $this->targetSkus, true)) {
                     $hasTargetSku = true;
+                    $this->logger->info('[SetExpressShippingToZero] Found target SKU: ' . $sku);
                     break;
                 }
-                $this->logger->info("hasTargetSku, " . $hasTargetSku);
             }
+
+            $this->logger->info('[SetExpressShippingToZero] hasTargetSku = ' . ($hasTargetSku ? 'true' : 'false'));
 
             if ($hasTargetSku && $result && method_exists($result, 'getAllRates')) {
                 foreach ($result->getAllRates() as $rate) {
-                    $this->logger->info("rate->getMethod(), " . $rate->getMethod());
-                    if ($rate instanceof Method && $rate->getMethod() === 'express') {
+                    /** @var Method $rate */
+                    $this->logger->info('[SetExpressShippingToZero] rate: ' . $rate->getCarrier() . '_' . $rate->getMethod() . ' = ' . $rate->getPrice());
+
+                    if ($rate instanceof Method && $rate->getMethod() === 'express_express') {
                         $rate->setPrice(0);
                         $rate->setCost(0);
+                        $this->logger->info('[SetExpressShippingToZero] Set express_express to 0');
                     }
                 }
             }
         } catch (\Throwable $e) {
-            // Log but don't break checkout
-            error_log('SetExpressShippingToZero error: ' . $e->getMessage());
+            $this->logger->error('[SetExpressShippingToZero] Error: ' . $e->getMessage());
         }
 
         return $result;
