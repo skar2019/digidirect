@@ -602,6 +602,11 @@ class TestPronto extends AbstractHelper
 
             }
 
+            if($orderId = '002536857')
+            {
+                $territory = '3WHS';
+            }
+
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
 
@@ -1127,6 +1132,10 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                if($shipcity = 'Strathfield South')
+                {
+                    $data['sales-order']['header']['carrier-code'] = "COLLECT";
+                }
 
             }
             else if($rep == "WESTFIELD")
@@ -1661,11 +1670,18 @@ class TestPronto extends AbstractHelper
                     $marketplacesShipping = explode('|', $shippingDesc);
                     $shippingDesc = $marketplacesShipping[1];
                 }
+
+                echo $shippingDesc . "<br/>";
+
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
                 }
                 else if($shippingDesc == "Standard - (4 to 7 Days)")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else if($shippingDesc == "Standard - (6 to 9 Days)")
                 {
                     $shippingDesc = "Australia Post – eParcel";
                 }
@@ -2291,6 +2307,8 @@ class TestPronto extends AbstractHelper
                         $shippingDesc = $marketplacesShipping[1];
                     }
                 }
+                echo $shippingDesc . "<br/>";
+
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
@@ -2315,6 +2333,9 @@ class TestPronto extends AbstractHelper
                 {
                     $shippingDesc = "";
                 }
+
+                echo $shippingDesc . "<br/>";
+
                 //shipping details clint Mar 3 23
                 if($disregardshipping)
                 {
