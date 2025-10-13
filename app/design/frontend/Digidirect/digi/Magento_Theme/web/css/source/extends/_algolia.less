@@ -171,17 +171,18 @@
     }
     
     .aa-Panel {
-        display: none !important;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.25s ease,
-        transform 0.25s ease;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transform: translateY(-10px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+        pointer-events: none !important; // Prevent interaction when hidden
     }
 
     .aa-Panel.is-ready {
-        display: block !important;
-        opacity: 1;
-        transform: translateY(0);
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
     }
     
     #autocomplete-products-footer {
@@ -372,6 +373,10 @@
     
     .ais-HierarchicalMenu {
         margin-top: 10px;
+    }
+    
+    .ais-RefinementList-item {
+        margin-bottom: 3px;
     }
     
     #algolia-right-container .category-page-banner {
