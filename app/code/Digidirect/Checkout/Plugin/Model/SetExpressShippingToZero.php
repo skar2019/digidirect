@@ -71,16 +71,22 @@ class SetExpressShippingToZero
 
             $this->logger->info('[SetExpressShippingToZero] hasTargetSku = ' . ($hasTargetSku ? 'true' : 'false'));
 
-            if ($hasTargetSku && $result && method_exists($result, 'getAllRates')) {
-                foreach ($result->getAllRates() as $rate) {
-                    /** @var Method $rate */
-                    $this->logger->info('[SetExpressShippingToZero] rate: ' . $rate->getCarrier() . '_' . $rate->getMethod() . ' = ' . $rate->getPrice());
+            if ($hasTargetSku) {
+                $shippingResult = $subject->getResult();
+                $this->logger->info('[SetExpressShippingToZero] method_exists(), ' . method_exists($shippingResult, 'getAllRates'));
+                if ($shippingResult && method_exists($shippingResult, 'getAllRates')) {
+                    foreach ($shippingResult->getAllRates() as $rate) {
+                        /** @var Method $rate */
+                        $this->logger->info('[SetExpressShippingToZero] rate: ' . $rate->getCarrier() . '_' . $rate->getMethod() . ' = ' . $rate->getPrice());
 
-                    if ($rate instanceof Method && $rate->getMethod() === 'express_express') {
-                        $rate->setPrice(0);
-                        $rate->setCost(0);
-                        $this->logger->info('[SetExpressShippingToZero] Set express_express to 0');
+                        if ($rate instanceof Method && $rate->getCarrier() . '_' . $rate->getMethod() === 'express_express') {
+                            $rate->setPrice(0);
+                            $rate->setCost(0);
+                            $this->logger->info('[SetExpressShippingToZero] Set express_express to 0');
+                        }
                     }
+                } else {
+                    $this->logger->info('[SetExpressShippingToZero] No getAllRates() found on result');
                 }
             }
         } catch (\Throwable $e) {
