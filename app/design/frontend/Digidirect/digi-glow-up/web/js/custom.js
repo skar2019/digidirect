@@ -589,7 +589,7 @@ if ($mobileMenuClose.length) {
         width: '100%',
         height: '100%',
         pointerEvents: 'none', // ✅ let swipe/touch go through
-        zIndex: 9999,
+        zIndex: 999,
       })
 
       $nav.find('button').css({
