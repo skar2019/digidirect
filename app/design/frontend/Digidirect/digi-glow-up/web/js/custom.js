@@ -701,34 +701,49 @@ $(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
 
 
 /* ========================
-   🚫 Hide aa-Panel until content ready
+   🚫 Hide aa-Panel until content ready (Strong Version)
 ======================== */
 if (window.MutationObserver) {
-  const panelObserver = new MutationObserver(() => {
+  const hideAaPanelUntilReady = () => {
     const $panel = $('.aa-Panel')
-
     if (!$panel.length) return
 
-    // If panel is empty → hide it
-    if ($panel.text().trim().length === 0) {
+    const textContent = $panel.text().trim()
+    const hasItems = $panel.find('.aa-Item, .aa-Source').length > 0
+    const shouldHide = !textContent || !hasItems
+
+    if (shouldHide) {
       $panel.css({
         visibility: 'hidden',
         opacity: 0,
-        transition: 'opacity 0.2s ease',
+        pointerEvents: 'none',
+        transition: 'opacity 0.25s ease',
       })
     } else {
-      // When it has content → show smoothly
       $panel.css({
         visibility: 'visible',
         opacity: 1,
-        transition: 'opacity 0.2s ease',
+        pointerEvents: 'auto',
+        transition: 'opacity 0.25s ease',
       })
     }
-  })
+  }
 
-  // Observe any DOM changes that might affect .aa-Panel content
+  // Observe DOM changes that might affect .aa-Panel content
+  const panelObserver = new MutationObserver(hideAaPanelUntilReady)
   panelObserver.observe(document.body, { childList: true, subtree: true })
+
+  // Also run on input/focus for immediate sync
+  $(document).on('input focus', '#autocomplete-0-input', hideAaPanelUntilReady)
+  $(window).on('scroll resize', hideAaPanelUntilReady)
+
+  // small interval safety net (Algolia re-renders asynchronously)
+  const aaInterval = setInterval(() => {
+    if ($('.aa-Panel').length) hideAaPanelUntilReady()
+  }, 300)
+  setTimeout(() => clearInterval(aaInterval), 10000)
 }
+
 
 /* ========================
    ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
