@@ -17,7 +17,7 @@ header.page-header {
 
 .header-links a {
     color: #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 100;
 }
 
@@ -27,7 +27,12 @@ header.page-header {
 
 .header-links img {
     margin-bottom: -1px;
-    margin-right: 5px;
+    margin-right: 6px;
+}
+
+.header-links a span {
+    position: relative;
+    top: -1px;
 }
 
 .click-and-collect-link img {
@@ -52,8 +57,8 @@ a.logo {
 div#algoliaAutocomplete {
     width: 100%;
     padding: 0;
-    max-width: 840px;
-    margin: 0 auto;
+    max-width: 826px;
+    margin: 3px auto 0;
 }
 
 .minicart-wrapper {
@@ -62,13 +67,18 @@ div#algoliaAutocomplete {
 
 .aa-InputWrapper input {
     border-radius: 22px;
-    padding: 3px 12px 3px 17px;
+    padding: 3px 12px 3px 25px;
     height: 43px;
     box-shadow: 0px 3.4177639484405518px 6.8355278968811035px
         rgba(171, 171, 171, 0.06);
     border: 0;
     outline: 1px rgba(142, 142, 147, 0.22) solid;
     outline-offset: -1px;
+}
+
+#algoliaAutocomplete input::placeholder {
+    font-size: 15px !important;
+    color: #7C7C80;
 }
 
 #algoliaAutocomplete .aa-SubmitButton {
@@ -186,6 +196,10 @@ svg.aa-SubmitIcon {
     font-family: "Inter";
 }
 
+.minicart-wrapper span {
+    color: #AEAEB2 !important;
+}
+
 .header-placeholder {
     width: 100%;
 }
@@ -196,7 +210,7 @@ svg.aa-SubmitIcon {
     left: 0;
     right: 0;
     background: transparent;
-    z-index: 999;
+    z-index: 10000;
 }
 
 .header.content.is-sticky:before {
@@ -205,7 +219,7 @@ svg.aa-SubmitIcon {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 98px;
+    height: 80px;
     background: rgba(242, 242, 247, 0.93);
     z-index: -1;
     box-shadow: 0 8px 24px -5px #ccc;
@@ -560,6 +574,15 @@ ul.slick-dots {
         left: 50%;
         transform: translate(-50%, -50%);
         max-width: 80px;
+    }
+    
+    .header.content.is-sticky:before {
+        height: 98px !important;
+    }
+    
+    .digiseconds-container.mobile-content {
+        grid-template-columns: auto;
+        gap: 5px;
     }
 }
 

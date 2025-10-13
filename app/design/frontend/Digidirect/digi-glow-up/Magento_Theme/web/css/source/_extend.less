@@ -4,28 +4,45 @@
 */
 
 body {
-    font-family: "Inter";
+    font-family: @font-family__base;
 }
 
 .breadcrumbs {
     padding: 0;
-    margin: 15px auto;
+    margin: 0 auto 15px;
     max-width: 1327px;
+
+    strong {
+        color: #7c7c80 !important;
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    a {
+        font-weight: 500;
+        font-size: 12px;
+        &:visited {
+            color: #7c7c80 !important;
+            font-weight: 500;
+        }
+    }
 }
 
 .breadcrumbs .item:not(:last-child):after {
-    content: '\f054';
-    font-family: 'Font Awesome 5 Free';
+    content: "\e903";
+    font-family: "Icomoon";
     font-weight: 600;
     font-size: 12px;
-    margin: 0 10px;
+    margin: 0 8px;
 }
 
-.catalog-category-view .page-title-wrapper, .catalogsearch-result-index .page-title-wrapper {
-    border-bottom: 1px #E5E5EA solid !important;
+.catalog-category-view .page-title-wrapper,
+.catalogsearch-result-index .page-title-wrapper {
+    border-bottom: 1px #e5e5ea solid !important;
 }
 
-.catalog-category-view .page-title, .catalogsearch-result-index .page-title  {
+.catalog-category-view .page-title,
+.catalogsearch-result-index .page-title {
     margin-top: 20px;
     margin-bottom: 15px;
 }
@@ -252,22 +269,32 @@ a.action.towishlist {
     color: #969696;
 }
 
+//Slick Carousel
+
+.slick-prev:before, .slick-next:before, .slick-prev:after, .slick-next:after {
+    display: none;
+}
+
+button.slick-prev.slick-arrow.slick-disabled {
+    display: none;
+}
+
+.pagebuilder-slider.slick-initialized .slick-arrow {
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    opacity: 0.5;
+}
+
 //Owl Carousels
 
 .owl-stage-outer {
     overflow: visible !important;
-}
-
-.owl-carousel.custom .owl-stage-outer:has(.owl-item:nth-child(6).active) {
-    margin-left: -275px;
-}
-
-.owl-carousel.brands .owl-stage-outer:has(.owl-item:nth-child(n+7).active) {
-    margin-left: -275px;
-}
-
-.owl-nav .unclickable {
-    display: none !important;
 }
 
 .owl-nav .disabled {
@@ -300,7 +327,7 @@ a.action.towishlist {
 
 .owl-prev,
 .owl-next {
-    pointer-events: unset !important;
+    pointer-events: auto !important;
 }
 
 .owl-carousel.custom .owl-stage-outer {
@@ -308,7 +335,7 @@ a.action.towishlist {
 }
 
 .owl-item {
-    transition: all .3s cubic-bezier(0, 0, .5, 1);
+    transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
 }
 
 .owl-item:hover {
@@ -316,8 +343,26 @@ a.action.towishlist {
 }
 
 .catalog-category-view .owl-carousel a.action.towishlist {
-    background: url("@{baseDir}images/heart.png") no-repeat center center;
+    //background: url("@{baseDir}images/heart.png") no-repeat center center;
 }
+
+.owl-carousel {
+    will-change: transform;
+    transition: transform 0.3s ease-out;
+}
+
+.owl-carousel .owl-video-play-icon:hover {
+    transform: scale(1.05, 1.05) !important;
+    -ms-transform: scale(1.05,1.05) !important;
+}
+
+.owl-carousel .owl-video-play-icon {
+    transition: transform .5s ease !important;
+}
+
+//Test CSS
+
+//
 
 .pa-digidirect-product-widget
     .product-tab-mobile-widget-load-more.grid-toggle-more,
@@ -379,7 +424,7 @@ a.action.towishlist {
     height: 191px;
 }
 
-#glow-up-brands .owl-item img {
+#glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -433,16 +478,10 @@ a.action.towishlist {
     margin-right: -270px;
 }
 
-.cms-home
-    .owl-carousel.featured-videos
-    .owl-stage-outer:has(.owl-item:nth-child(n + 3).active) {
-    margin-left: -275px;
-}
-
 //Product Widgets
 
 .pa-digidirect-product-widget .product-widget-header {
-    padding: 0 0 10px;
+    padding: 0 0 30px;
     width: 100%;
 }
 
@@ -499,7 +538,7 @@ a.action.towishlist {
     height: 43px;
     border-radius: 22px;
     border: 1px solid #8e8e9338;
-    padding: 3px 12px 7px 17px;
+    padding: 7px 7px 7px 17px;
     margin: 0;
 }
 
@@ -542,38 +581,37 @@ a.action.towishlist {
 //Blur Overlay
 /* 🧊 Apple-like blur overlay */
 .global-blur-overlay {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 5; /* below header */
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5; /* below header */
 }
 
 body.blur-active .global-blur-overlay {
-  opacity: 1;
+    opacity: 1;
 }
 
 .header.content {
-  position: relative;
-  z-index: 10; /* keep header above overlay */
+    position: relative;
+    z-index: 10; /* keep header above overlay */
 }
 
 #newspopup_up_bg_13 {
     position: absolute !important;
     left: 0 !important;
     width: 100% !important;
-    background: rgba(255, 255, 255, .35) !important;
+    background: rgba(255, 255, 255, 0.35) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    opacity: 1;
-    transition: opacity .3s ease;
-    z-index: 5;
+    opacity: 1 !important;
+    transition: opacity 0.3s ease;
     height: 100%;
 }
 
@@ -592,14 +630,13 @@ body.blur-active .global-blur-overlay {
 }
 
 .view-all-link span::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
     width: 0%;
     height: 2px;
     background-color: currentColor;
-    transition: width 0.3s ease;
 }
 
 .view-all-link:hover span::after {
@@ -642,13 +679,14 @@ body.blur-active .global-blur-overlay {
     padding-bottom: 10px;
 }
 
-.page-header .header-links.header-link-left, .page-header .header-links.header-link-right {
+.page-header .header-links.header-link-left,
+.page-header .header-links.header-link-right {
     a:visited {
         color: #ffffff !important;
     }
 }
 
-.message.success>*:first-child:before {
+.message.success > *:first-child:before {
     position: relative !important;
     left: 0 !important;
     top: 6px !important;

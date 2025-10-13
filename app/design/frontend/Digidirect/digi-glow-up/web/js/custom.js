@@ -9,78 +9,82 @@ define([
 
   $(function () {
     /* ========================
-       ✅ Sticky Header (with placeholder)
-    ======================== */
-    const $header = $('.header.content')
-    const $placeholder = $('<div class="header-placeholder"></div>')
+   ✅ Sticky Header (Self-correcting)
+======================== */
+const $header = $('.header.content')
+let $placeholder = $('.header-placeholder')
+
+if (!$placeholder.length) {
+  $placeholder = $('<div class="header-placeholder"></div>')
+  $header.after($placeholder)
+}
+
+let stickyPoint = 0
+let isSticky = false
+let lastTop = 0
+let stableCounter = 0
+
+function recalcStickyPoint() {
+  if (!isSticky && $header.length) {
+    stickyPoint = $header.offset().top
+  }
+}
+
+function setSticky(active) {
+  if (active && !isSticky) {
+    $placeholder.height($header.outerHeight()).show()
+    $header.addClass('is-sticky')
+    isSticky = true
+  } else if (!active && isSticky) {
+    $header.removeClass('is-sticky')
+    isSticky = false
     $placeholder.hide()
-    $header.after($placeholder)
+  }
+}
 
-    let stickyPoint = 0
-    let isSticky = false
+function updateSticky() {
+  const scrollTop = $(window).scrollTop()
+  setSticky(scrollTop >= stickyPoint)
+}
 
-    function recalcStickyPoint() {
-      if (!isSticky && $header.length) stickyPoint = $header.offset().top
-    }
+/* 🧠 Continuous layout stabilization check */
+function watchLayoutStability() {
+  const currentTop = $header.offset().top
+  if (currentTop === lastTop) {
+    stableCounter++
+  } else {
+    stableCounter = 0
+    lastTop = currentTop
+  }
 
-    function positionAAPanel() {
-      const $aaPanel = $('.aa-Panel')
-      if ($aaPanel.length && isSticky) {
-        const headerHeight = $header.outerHeight()
-        $aaPanel.addClass('is-sticky').css('top', headerHeight + 'px')
-      }
-    }
+  if (stableCounter < 10) {
+    // not stable yet → keep checking every frame
+    requestAnimationFrame(watchLayoutStability)
+  } else {
+    // stable → recalc sticky safely
+    recalcStickyPoint()
+    updateSticky()
+  }
+}
 
-    function removeAAPanelSticky() {
-      const $aaPanel = $('.aa-Panel')
-      if ($aaPanel.length) $aaPanel.removeClass('is-sticky').css('top', '')
-    }
-
-    function setSticky(active) {
-      if (active && !isSticky) {
-        $placeholder.height($header.outerHeight()).show()
-        $header.addClass('is-sticky')
-        isSticky = true
-        positionAAPanel()
-      } else if (!active && isSticky) {
-        $header.removeClass('is-sticky')
-        isSticky = false
-        $placeholder.hide()
-        removeAAPanelSticky()
-      }
-    }
-
-    function updateSticky() {
-      const scrollTop = $(window).scrollTop()
-      setSticky(scrollTop >= stickyPoint)
-    }
-
-    setTimeout(() => {
+$(window).on('load', () => {
+  // wait for scroll restore + first layout
+  setTimeout(() => {
+    requestAnimationFrame(() => {
       recalcStickyPoint()
       updateSticky()
-    }, 300)
-
-    $(window).on('scroll', updateSticky)
-    $(window).on('resize', function () {
-      recalcStickyPoint()
-      updateSticky()
+      watchLayoutStability()
     })
+  }, 400)
+})
 
-    if (window.MutationObserver) {
-      const observer = new MutationObserver(() => {
-        setTimeout(() => {
-          recalcStickyPoint()
-          updateSticky()
-          positionAAPanel()
-        }, 200)
-      })
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class', 'style'],
-      })
-    }
+$(window).on('scroll resize', () => {
+  recalcStickyPoint()
+  updateSticky()
+})
+
+
+
 
     /* ========================
        🧊 Global Blur Overlay
@@ -236,77 +240,106 @@ define([
     })
 
     /* ========================
-       🌀 Owl Carousel 2-Finger Swipe
-    ======================== */
-    const $carousels = $('.owl-carousel')
+   🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
+======================== */
+const $carousels = $('.owl-carousel')
 
-    $carousels.each(function () {
-      const $carousel = $(this)
-      let startX = 0
-      let isTwoFinger = false
-      let hasSwiped = false
-      const threshold = 120
-      const lockDuration = 250
-      const transitionSpeed = 400
+$carousels.each(function () {
+  const $carousel = $(this)
+  let startX = 0
+  let isTwoFinger = false
+  let hasSwiped = false
+  let isAtEdge = false
+  const threshold = 50            // ⬅️ lower sensitivity (was 120)
+  const lockDuration = 250
+  const transitionSpeed = 600     // ⬅️ smoother animation
+  const edgeElastic = 40          // ⬅️ how far to "indent" when hitting edge
 
-      $carousel.on('touchstart', function (e) {
-        const touches = e.originalEvent.touches
-        if (touches.length === 2) {
-          isTwoFinger = true
-          startX = (touches[0].clientX + touches[1].clientX) / 2
-          hasSwiped = false
-        } else {
-          isTwoFinger = false
-        }
-      })
+  $carousel.on('touchstart', function (e) {
+    const touches = e.originalEvent.touches
+    if (touches.length === 2) {
+      isTwoFinger = true
+      startX = (touches[0].clientX + touches[1].clientX) / 2
+      hasSwiped = false
+      isAtEdge = false
+    } else {
+      isTwoFinger = false
+    }
+  })
 
-      $carousel.on('touchmove', function (e) {
-        if (!isTwoFinger || hasSwiped) return
-        const touches = e.originalEvent.touches
-        if (touches.length !== 2) return
+  $carousel.on('touchmove', function (e) {
+    if (!isTwoFinger || hasSwiped) return
+    const touches = e.originalEvent.touches
+    if (touches.length !== 2) return
 
-        const currentX = (touches[0].clientX + touches[1].clientX) / 2
-        const deltaX = currentX - startX
+    const currentX = (touches[0].clientX + touches[1].clientX) / 2
+    const deltaX = currentX - startX
 
-        if (Math.abs(deltaX) > threshold) {
-          if (deltaX > 0) {
-            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-          } else {
-            $carousel.trigger('next.owl.carousel', [transitionSpeed])
-          }
-          hasSwiped = true
-          e.preventDefault()
+    // detect if at the edge (no more items)
+    const carouselData = $carousel.data('owl.carousel')
+    const atFirst = carouselData.current() === 0
+    const atLast = carouselData.current() === carouselData.maximum()
 
-          setTimeout(() => {
-            hasSwiped = false
-            isTwoFinger = false
-          }, lockDuration)
-        }
-      })
+    // Elastic push visual
+    if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
+      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
+      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+      isAtEdge = true
+      return
+    }
 
-      $carousel.on('touchend touchcancel', function () {
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0) {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      }
+      hasSwiped = true
+      e.preventDefault()
+
+      setTimeout(() => {
+        hasSwiped = false
         isTwoFinger = false
+      }, lockDuration)
+    }
+  })
+
+  $carousel.on('touchend touchcancel', function () {
+    isTwoFinger = false
+
+    // Reset elastic bounce
+    if (isAtEdge) {
+      $carousel.css({
+        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+        transform: 'translateX(0)',
       })
+      setTimeout(() => {
+        $carousel.css('transition', '')
+      }, 300)
+      isAtEdge = false
+    }
+  })
 
-      $carousel.on('wheel', function (e) {
-        const event = e.originalEvent
-        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-          e.preventDefault()
-          if (hasSwiped) return
-          hasSwiped = true
+  // Smooth horizontal wheel scrolling
+  $carousel.on('wheel', function (e) {
+    const event = e.originalEvent
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      e.preventDefault()
+      if (hasSwiped) return
+      hasSwiped = true
 
-          if (event.deltaX > 0) {
-            $carousel.trigger('next.owl.carousel', [transitionSpeed])
-          } else {
-            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-          }
+      if (event.deltaX > 0) {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      }
 
-          setTimeout(() => {
-            hasSwiped = false
-          }, lockDuration)
-        }
-      })
-    })
+      setTimeout(() => {
+        hasSwiped = false
+      }, lockDuration)
+    }
+  })
+})
 
     /* ========================
        🔍 Update Autocomplete Header
@@ -536,6 +569,276 @@ if ($mobileMenuClose.length) {
     $mobileMenuToggle.attr('aria-expanded', false)
   })
 }
+
+/* ========================
+   🎯 Owl Nav Fixed to Screen Edges (Global)
+======================== */
+(function () {
+  function moveAllNavsToBody() {
+    $('.owl-carousel').each(function (index) {
+      const $carousel = $(this)
+      const $nav = $carousel.find('.owl-nav')
+      if (!$nav.length || $nav.data('moved')) return
+
+      $nav.data('moved', true)
+      $('body').append($nav)
+
+      $nav.css({
+        position: 'fixed',
+        inset: 0, // shorthand for top/right/bottom/left = 0
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none', // ✅ let swipe/touch go through
+        zIndex: 9999,
+      })
+
+      $nav.find('button').css({
+        pointerEvents: 'auto !important', // ✅ only buttons receive clicks
+        position: 'fixed',
+        borderRadius: '50%',
+        backdropFilter: 'blur(10px)',
+        background: 'rgba(255,255,255,0.7)',
+        border: 'none',
+        boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        zIndex: 10000,
+        padding: 0,
+      })
+    })
+
+    updateNavPositions()
+  }
+
+  function updateNavPositions() {
+    $('.owl-carousel').each(function (i) {
+      const $carousel = $(this)
+      const rect = this.getBoundingClientRect()
+      const centerY = rect.top + rect.height / 2
+      const $nav = $('.owl-nav').eq(i)
+      const $prev = $nav.find('.owl-prev')
+      const $next = $nav.find('.owl-next')
+      const offset = 16
+
+      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
+
+      if ($prev.length) {
+        $prev.css({
+          left: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      if ($next.length) {
+        $next.css({
+          right: `${offset}px`,
+          top: `${topValue}px`,
+          transform: 'translateY(-50%)',
+        })
+      }
+
+      const visible = rect.bottom > 0 && rect.top < window.innerHeight
+      $prev.css('opacity', visible ? 0.5 : 0)
+      $next.css('opacity', visible ? 0.5 : 0)
+    })
+  }
+
+  $(window).on('scroll resize', updateNavPositions)
+
+  const observer = new MutationObserver(() => moveAllNavsToBody())
+  observer.observe(document.body, { childList: true, subtree: true })
+
+  $(window).on('load', () => setTimeout(moveAllNavsToBody, 600))
+})()
+
+/* ========================
+   🎯 Replace Carousel Nav Arrows (Owl + Slick) with SVGs
+======================== */
+const prevSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="50" height="50">
+  <path d="M21.559,12.062 L15.618,17.984 L21.5221,23.944 C22.105,24.533 22.1021,25.482 21.5131,26.065 C21.2211,26.355 20.8391,26.4999987 20.4571,26.4999987 C20.0711,26.4999987 19.6851,26.352 19.3921,26.056 L12.4351,19.034 C11.8531,18.446 11.8551,17.4999987 12.4411,16.916 L19.4411,9.938 C20.0261,9.353 20.9781,9.354 21.5621,9.941 C22.1471,10.528 22.1451,11.478 21.5591,12.062 Z"></path>
+</svg>`
+
+const nextSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="50" height="50">
+  <path d="M23.5587,16.916 C24.1447,17.4999987 24.1467,18.446 23.5647,19.034 L16.6077,26.056 C16.3147,26.352 15.9287,26.4999987 15.5427,26.4999987 C15.1607,26.4999987 14.7787,26.355 14.4867,26.065 C13.8977,25.482 13.8947,24.533 14.4777,23.944 L20.3818,17.984 L14.4408,12.062 C13.8548,11.478 13.8528,10.5279 14.4378,9.941 C15.0218,9.354 15.9738,9.353 16.5588,9.938 L23.5588,16.916 Z"></path>
+</svg>`
+
+function replaceCarouselArrows() {
+  /* 🦉 Owl Carousel */
+  $('.owl-carousel').each(function () {
+    const $carousel = $(this)
+    const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
+    const $next = $carousel.find('.owl-next span[aria-label="Next"]')
+    if ($prev.length) $prev.replaceWith(prevSVG)
+    if ($next.length) $next.replaceWith(nextSVG)
+  })
+
+  /* 🧊 Slick Slider (Magento PageBuilder) */
+  $('.pagebuilder-slider.slick-initialized').each(function () {
+    const $slider = $(this)
+    const $prev = $slider.find('.slick-prev')
+    const $next = $slider.find('.slick-next')
+
+    // Replace content if not already an SVG
+    if ($prev.length && !$prev.find('svg').length) $prev.html(prevSVG)
+    if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
+  })
+}
+
+/* Run once on DOM ready and again after sliders initialize */
+$(document).ready(function () {
+  replaceCarouselArrows()
+})
+
+// Optional: If some sliders initialize dynamically later (Magento does this)
+$(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
+  replaceCarouselArrows()
+})
+
+
+/* ========================
+   🚫 Hide aa-Panel until content ready
+======================== */
+if (window.MutationObserver) {
+  const panelObserver = new MutationObserver(() => {
+    const $panel = $('.aa-Panel')
+
+    if (!$panel.length) return
+
+    // If panel is empty → hide it
+    if ($panel.text().trim().length === 0) {
+      $panel.css({
+        visibility: 'hidden',
+        opacity: 0,
+        transition: 'opacity 0.2s ease',
+      })
+    } else {
+      // When it has content → show smoothly
+      $panel.css({
+        visibility: 'visible',
+        opacity: 1,
+        transition: 'opacity 0.2s ease',
+      })
+    }
+  })
+
+  // Observe any DOM changes that might affect .aa-Panel content
+  panelObserver.observe(document.body, { childList: true, subtree: true })
+}
+
+/* ========================
+   ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
+======================== */
+$(document).on('initialized.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const $dotsContainer = $carousel.find('.owl-dots')
+
+  if ($dotsContainer.length && !$dotsContainer.find('.dot-indicator').length) {
+    const $firstDot = $dotsContainer.find('.owl-dot').first()
+    if ($firstDot.length) {
+      const size = $firstDot.outerWidth()
+      const offset = $firstDot.position().left
+      $dotsContainer.append(`<span class="dot-indicator" style="
+        position:absolute;
+        top:0;
+        left:${offset}px;
+        width:${size}px;
+        height:${size}px;
+        border-radius:50%;
+        background:#000;
+        transform:translateX(0);
+        transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        z-index:2;
+      "></span>`)
+    }
+  }
+})
+
+$(document).on('changed.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const index = event.item.index || 0
+  const $dots = $carousel.find('.owl-dot')
+  const $indicator = $carousel.find('.dot-indicator')
+  if (!$dots.length || !$indicator.length) return
+
+  const $targetDot = $dots.eq(index)
+  if (!$targetDot.length) return
+
+  const moveX = $targetDot.position().left
+  $indicator.css('transform', `translateX(${moveX}px)`)
+})
+
+
+
+/* ========================
+   🩹 Keep aa-Panel aligned with Sticky Header
+======================== */
+function alignAaPanel() {
+  const $panel = $('.aa-Panel')
+  const $input = $('#autocomplete-0-input')
+  const $header = $('.header.content')
+
+  if (!$panel.length || !$input.length) return
+
+  const inputOffset = $input.offset()
+  const headerHeight = $header.outerHeight()
+  const newTop = headerHeight + 1 
+  const newLeft = inputOffset.left
+  const newWidth = $input.outerWidth() 
+
+  if ($header.hasClass('is-sticky')) {
+    $panel.css({
+      'position': 'fixed',
+      'top': `${newTop}px !important`, 
+      'left': `${newLeft}px`,
+      'width': `${newWidth}px`, 
+      'z-index': '10000 !important',
+    })
+  } else {
+    $panel.css({
+      'position': '',
+      'top': '',
+      'left': '',
+      'width': '',
+      'z-index': '',
+    })
+  }
+}
+// keep it reactive
+$(window).on('scroll resize', alignAaPanel)
+$(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+const aaStickObserver = new MutationObserver(alignAaPanel)
+aaStickObserver.observe(document.body, { childList: true, subtree: true })
+
+/* ========================
+   🧩 Close aa-Panel on Blog Mega Menu Hover
+======================== */
+$(document)
+  .on('mouseenter', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Hide aa-Panel and reset input state
+    const $panel = $('.aa-Panel')
+    const $input = $('#autocomplete-0-input')
+
+    if ($panel.length) {
+      $panel.css({ visibility: 'hidden', opacity: 0 })
+      setTimeout(() => $panel.remove(), 100) // optional: fully remove if Algolia re-renders later
+    }
+
+    // Also blur the input to fully deactivate Algolia autocomplete
+    if ($input.length) $input.trigger('blur')
+
+    // Make sure blur overlay updates correctly
+    $('body').removeClass('blur-active')
+  })
+  .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Nothing special — let aa-Panel reappear if user focuses input again
+  })
+
+
 
   })
 })

@@ -54,12 +54,22 @@
 
 .catalog-product-view {
     a.action.towishlist {
-        background: url("@{baseDir}images/heart.png") no-repeat center center;
+        //background: url("@{baseDir}images/heart.png") no-repeat center center;
         width: 32px;
         height: 32px;
         border: 1px solid #eeeeee;
         box-shadow: 0px 1px 1px 0px rgba(150, 150, 150, 0.09);
         border-radius: 16px;
+
+        &::after {
+            width: 32px;
+            height: 32px;
+            content: "\e904";
+            line-height: 21px;
+            font-size: 16px;
+            font-family: "icomoon";
+            color: #fe947c;
+        }
 
         span {
             display: none;
@@ -79,25 +89,26 @@
         position: relative;
         cursor: pointer;
         &:after {
-            content: ""; /* down arrow */
+            content: "\e903";
+            font-family: "icomoon";
             position: absolute;
             width: 12px;
             height: 12px;
-            border: 1px solid #010202;
+            color: #010202;
             right: 5px;
             top: 25px;
             transform: translateY(-50%);
             transition: transform 0.3s ease;
-            transform: rotate(45deg);
-            border-top: none;
-            border-left: none;
+            transform: rotate(90deg);
         }
     }
     [role="tab"] {
-        &[aria-selected="true"] {
+        &[aria-selected="true"],
+        &[aria-expanded="true"] {
             [data-role="trigger"] {
+                padding-bottom: 10px;
                 &:after {
-                    transform: rotate(-135deg);
+                    transform: rotate(-90deg);
                 }
             }
         }
@@ -108,7 +119,7 @@
             padding-left: 3px;
             list-style: none;
             li {
-                margin-bottom: 5px;
+                margin-bottom: 0;
             }
         }
     }
@@ -117,9 +128,12 @@
         color: #545456;
         font-size: 14px;
         line-height: 20px;
+        p {
+            color: #545456;
+        }
 
         .short-desc {
-            max-height: 94px;
+            max-height: 100px;
             text-overflow: ellipsis;
             overflow: hidden;
         }
@@ -287,6 +301,35 @@
         .modal-inner-wrap {
             margin-left: -343px !important;
             left: 50% !important;
+        }
+    }
+}
+
+.fotorama-item {
+    .fotorama__thumb-border {
+        border-radius: 8px;
+    }
+
+    .fotorama__nav-wrap {
+        .fotorama__nav {
+            text-align: center;
+        }
+    }
+
+    .fotorama__fullscreen-icon {
+        border-radius: 50%;
+        height: 30px;
+        right: 0;
+        top: 0;
+        width: 30px;
+        background-image: none;
+        &::after {
+            font-size: 30px !important;
+            line-height: 30px !important;
+            margin-top: -1px;
+            content: "\e616";
+            color: #262628;
+            font-family: "icomoon";
         }
     }
 }

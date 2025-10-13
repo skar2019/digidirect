@@ -50,10 +50,10 @@ html {
     right: 0;
     width: 100%;
     z-index: 1000 !important;
-    border: 1px solid #BBB;
     border-top: 3px solid #8EB4D0;
     border-radius: 1px;
     background: white;
+    box-shadow: 0 8px 24px -5px #ccc;
 }
 @media (min-width: 992px) {
     #algolia-autocomplete-container .aa-dropdown-menu, .aa-Panel {
