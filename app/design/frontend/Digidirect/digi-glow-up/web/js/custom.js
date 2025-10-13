@@ -705,5 +705,100 @@ if (window.MutationObserver) {
   panelObserver.observe(document.body, { childList: true, subtree: true })
 }
 
+/* ========================
+   ⚪ Owl Carousel – Sliding Active Dot Indicator
+======================== */
+$(document).on('initialized.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const $dots = $carousel.find('.owl-dots')
+  if ($dots.length && !$dots.find('.dot-indicator').length) {
+    $dots.append('<span class="dot-indicator"></span>')
+  }
+})
+
+$(document).on('changed.owl.carousel', function (event) {
+  const $carousel = $(event.target)
+  const index = event.item.index || 0
+  const $dots = $carousel.find('.owl-dot')
+  const $indicator = $carousel.find('.dot-indicator')
+  if (!$dots.length || !$indicator.length) return
+
+  const dotWidth = $dots.first().outerWidth(true)
+  const gap = parseInt($dots.css('gap')) || (
+    $dots.length > 1 
+      ? $dots.eq(1).offset().left - $dots.eq(0).offset().left - $dots.eq(0).outerWidth()
+      : 0
+  )
+  const moveX = index * (dotWidth + gap)
+  $indicator.css('transform', `translateX(${moveX}px)`)
+})
+
+
+/* ========================
+   🩹 Keep aa-Panel aligned with Sticky Header
+======================== */
+function alignAaPanel() {
+  const $panel = $('.aa-Panel')
+  const $input = $('#autocomplete-0-input')
+  const $header = $('.header.content')
+
+  if (!$panel.length || !$input.length) return
+
+  const inputOffset = $input.offset()
+  const headerHeight = $header.outerHeight()
+
+  // if header is sticky, reattach aa-Panel to body (absolute/fixed positioning)
+  if ($header.hasClass('is-sticky')) {
+    $panel.css({
+      position: 'fixed',
+      top: inputOffset.top - $(window).scrollTop() + headerHeight + 'px',
+      left: inputOffset.left + 'px',
+      width: $input.outerWidth() + 'px',
+      zIndex: 10000,
+    })
+  } else {
+    // restore normal flow
+    $panel.css({
+      position: '',
+      top: '',
+      left: '',
+      width: '',
+      zIndex: '',
+    })
+  }
+}
+
+// keep it reactive
+$(window).on('scroll resize', alignAaPanel)
+$(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+const aaStickObserver = new MutationObserver(alignAaPanel)
+aaStickObserver.observe(document.body, { childList: true, subtree: true })
+
+/* ========================
+   🧩 Close aa-Panel on Blog Mega Menu Hover
+======================== */
+$(document)
+  .on('mouseenter', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Hide aa-Panel and reset input state
+    const $panel = $('.aa-Panel')
+    const $input = $('#autocomplete-0-input')
+
+    if ($panel.length) {
+      $panel.css({ visibility: 'hidden', opacity: 0 })
+      setTimeout(() => $panel.remove(), 100) // optional: fully remove if Algolia re-renders later
+    }
+
+    // Also blur the input to fully deactivate Algolia autocomplete
+    if ($input.length) $input.trigger('blur')
+
+    // Make sure blur overlay updates correctly
+    $('body').removeClass('blur-active')
+  })
+  .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
+    // Nothing special — let aa-Panel reappear if user focuses input again
+  })
+
+
+
   })
 })
