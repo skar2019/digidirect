@@ -59,13 +59,11 @@ class SetExpressShippingToZero
             return $result;
         }
 
-        // ✅ Modify express_express rate inside RateResult
-        foreach ($result->getRatesByCarrier() as $rates) {
-            foreach ($rates as $rate) {
-                if ($rate->getCode() === 'express_express') {
-                    $rate->setPrice(0.00);
-                    $rate->setCost(0.00);
-                }
+        // ✅ Modify express_express rate inside the $result object
+        foreach ($result->getAllRates() as $rate) {
+            if ($rate->getCode() === 'express_express') {
+                $rate->setPrice(0.00);
+                $rate->setCost(0.00);
             }
         }
 
