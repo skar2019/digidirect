@@ -675,7 +675,35 @@ $('.owl-carousel').each(function () {
   if ($next.length) $next.replaceWith(nextSVG)
 })
 
+/* ========================
+   🚫 Hide aa-Panel until content ready
+======================== */
+if (window.MutationObserver) {
+  const panelObserver = new MutationObserver(() => {
+    const $panel = $('.aa-Panel')
 
+    if (!$panel.length) return
+
+    // If panel is empty → hide it
+    if ($panel.text().trim().length === 0) {
+      $panel.css({
+        visibility: 'hidden',
+        opacity: 0,
+        transition: 'opacity 0.2s ease',
+      })
+    } else {
+      // When it has content → show smoothly
+      $panel.css({
+        visibility: 'visible',
+        opacity: 1,
+        transition: 'opacity 0.2s ease',
+      })
+    }
+  })
+
+  // Observe any DOM changes that might affect .aa-Panel content
+  panelObserver.observe(document.body, { childList: true, subtree: true })
+}
 
   })
 })
