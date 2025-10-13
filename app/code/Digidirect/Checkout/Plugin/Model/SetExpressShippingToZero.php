@@ -30,30 +30,25 @@ class SetExpressShippingToZero
     ];
 
     /**
-     * After plugin for Shipping::collectRates()
+     * Plugin for Shipping::collectRates()
      *
-     * @param Shipping $subject
-     * @param mixed $result
-     * @param RateRequest $request
+     * @param \Magento\Shipping\Model\Shipping $subject
+     * @param callable $proceed
+     * @param \Magento\Quote\Model\Quote\Address\RateRequest $request
      * @return mixed
      */
-    public function afterCollectRates(Shipping $subject, $result)
+    public function aroundCollectRates(Shipping $subject, callable $proceed, RateRequest $request)
     {
-        /** @var RateRequest $request */
-        $request = $subject->getRequest();
+        // Run the original collectRates first
+        $result = $proceed($request);
 
-        if (!$request || !$result) {
+        if (!$result || !$request->getAllItems()) {
             return $result;
         }
 
-        $items = $request->getAllItems();
-        if (!$items) {
-            return $result;
-        }
-
-        // Check if cart contains restricted SKUs
         $containsRestrictedSku = false;
-        foreach ($items as $item) {
+
+        foreach ($request->getAllItems() as $item) {
             if (in_array($item->getSku(), $this->restrictedSkus, true)) {
                 $containsRestrictedSku = true;
                 break;
@@ -64,7 +59,7 @@ class SetExpressShippingToZero
             return $result;
         }
 
-        // Set express_express method price to 0
+        // Modify express_express rate
         foreach ($result->getAllRates() as $rate) {
             if ($rate->getCode() === 'express_express') {
                 $rate->setPrice(0.00);
