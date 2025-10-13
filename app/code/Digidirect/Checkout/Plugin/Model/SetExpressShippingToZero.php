@@ -32,14 +32,18 @@ class SetExpressShippingToZero
     ];
 
     protected $logger;
+    
+    public function __construct(
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        $this->logger = $logger;
+    }
 
     public function aroundCollectRates(
-        \Psr\Log\LoggerInterface $logger,
         Shipping $subject,
         \Closure $proceed,
         ...$args
     ) {
-        $this->logger = $logger;
         // Run original collectRates() first
         $result = $proceed(...$args);
 
