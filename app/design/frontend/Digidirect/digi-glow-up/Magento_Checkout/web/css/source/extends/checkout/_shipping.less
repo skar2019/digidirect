@@ -83,3 +83,53 @@
         }
     }
 }
+
+/* Outer circle */
+/*.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label:before,
+.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"]:checked + label:before {
+    content: "";
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    border: 2px solid #A2A2A2;
+    border-radius: 50%;
+    background-color: #A2A2A2;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 8px;
+}*/
+
+/* Inner gray ball */
+//.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label:after,
+//.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"]:checked + label:after {
+//    content: "";
+//    position: absolute;
+//    width: 0.6em;
+//    height: 0.6em;
+//    top: 41%;
+//    left: 13%;
+//    transform: translate(-50%, -50%);
+//    border-radius: 50%;
+//    background-color: #A2A2A2;
+//}
+//
+//.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"]:checked + label:after {
+//  //  background-color: #41464b;
+//}
+
+.opc-wrapper .shipping-address-item.selected-item,
+.opc-wrapper .shipping-address-item {
+    border: 1px solid #ff5501 !important;
+    border-radius: 10px !important;
+}
+
+.opc-wrapper .shipping-address-item.selected-item:after {
+    display: none !important;
+}
+
+/*.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"]:checked + label:before {
+    height: unset !important;
+    width: unset !important;
+    border: unset !important;
+    background-color: unset !important;
+}*/
