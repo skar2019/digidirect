@@ -63,12 +63,12 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
                                 </span>
                             </span>
                         </button>
-                    <?php elseif ($_specialOrderValue == true): ?>
-                <button type="submit"
-                        class="action tocart btn_cart tocart-pdp-btn special-order-btn"
-                        id="product-addtocart-button"
-                        data-action="add-to-cart-action"
-                >
+                    <?php elseif ($_specialOrderValue): ?>
+                        <button type="submit"
+                                class="action tocart btn_cart tocart-pdp-btn special-order-btn"
+                                id="product-addtocart-button"
+                                data-action="add-to-cart-action"
+                        >
                             <span class="addcart_words">
                                 <?= /* @escapeNotVerified */ 'Special Order' ?>
                                 <span class="icon-info tooltip-wrapper">
@@ -79,8 +79,8 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
                                     </span>
                                 </span>
                             </span>
-                </button>
-                <?php else : ?>
+                        </button>
+                    <?php else : ?>
                         <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn"
                             id="product-addtocart-button"
@@ -95,7 +95,7 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
         </div>
     </div>
 
-    <?php if ($_orderLimit != " " || $_orderLimit > 0): ?>
+    <?php if (!empty($_orderLimit) && $_orderLimit > 0): ?>
     <div class="order-limit">
         <div class="order-limit-tooltip">
             <span class="order-limit-text">
@@ -106,7 +106,6 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
             </span>
         </div>
     </div>
-
     <?php endif; ?>
 
 <?php endif; ?>
