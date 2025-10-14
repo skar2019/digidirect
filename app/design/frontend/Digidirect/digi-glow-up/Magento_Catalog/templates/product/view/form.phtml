@@ -115,18 +115,17 @@ $awaiting = $_product->getAwaitingProduct();
     </div>
 <?php endif; ?>
 
-<!-- clint commented out requested by Haig 17 03 25-->
 <?php if($awaiting == 1):?>
     <div class="awaiting" id="awaiting-product">
 
-        <div class="awaiting-stock-tooltip"> 
-            <span class="awaiting-stock-text"> 
-                <img src="<?= $block->getViewFileUrl('images/timer.png'); ?>"/> 
-                <span>AWAITING STOCK</span> 
-                <i class="tooltip-toggle"><span class="icon-info"></span></i> 
-                <span class="tooltip-content">This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.</span> 
-            </span> 
-        </div> 
+        <div class="awaiting-stock-tooltip">
+            <span class="awaiting-stock-text">
+                <img src="<?= $block->getViewFileUrl('images/timer.png'); ?>"/>
+                <span>AWAITING STOCK</span>
+                <i class="tooltip-toggle"><span class="icon-info"></span></i>
+                <span class="tooltip-content">This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.</span>
+            </span>
+        </div>
     </div>
 <?php endif; ?>
 
