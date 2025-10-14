@@ -365,8 +365,8 @@
                 .tooltip-content {
                     display: none;
                     position: absolute;
-                    bottom: 120%; // above the icon
-                    left: 50%;
+                    bottom: 108%;
+                    left: 74%;
                     transform: translateX(-50%);
                     background: #000;
                     color: #fff;
@@ -1070,6 +1070,12 @@
         margin: 40px auto;
         max-width: @product-container-max-width;
         padding: 0 25px;
+        #description,
+        #faq,
+        #whatinthebox {
+            padding-left: 15px;
+        }
+
         .data.item {
             margin-bottom: 30px;
 
@@ -1357,4 +1363,26 @@
 }
 .fotorama__arr--next {
     right: 85px;
+}
+.modals-wrapper .modal-popup.itoris-pm-modal {
+    .modal-inner-wrap {
+        max-height: 80vh !important;
+    }
+    .action-close {
+        height: 30px;
+        width: 30px;
+        right: 10px;
+        top: 10px;
+        padding: 0;
+        &:focus {
+            right: 9px;
+            top: 6px;
+            border-radius: 50%;
+            border: 1px solid #d9d9d9 !important;
+            background: #ffffff !important;
+        }
+        &::before {
+            font-size: 29px !important;
+        }
+    }
 }
