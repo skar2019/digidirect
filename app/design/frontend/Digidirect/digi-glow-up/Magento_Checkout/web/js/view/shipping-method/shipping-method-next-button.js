@@ -37,7 +37,7 @@ define([
         } else {
             $('#checkoutSteps li#payment').removeClass('active').addClass('inactive');
             $('#checkoutSteps li#payment .step-content').hide();
-            $('#checkoutSteps  li#payment .action-extension-toolbar').hide();
+            $('#checkoutSteps li#payment .action-extension-toolbar').hide();
         }
 
         $("#shipping-method-buttons-container .continue").trigger("click");
@@ -60,7 +60,7 @@ define([
 
         checkoutToggle.showChangeEmailLink();
         checkoutToggle.showChangeDeliveryLink();
-        checkoutToggle.showShippingAddressChangeLink();
+        checkoutToggle.showChangeShippingAddressLink();
 
         checkoutToggle.hideChangeShippingMethodLink();
     });
