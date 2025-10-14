@@ -7,7 +7,7 @@
         padding-top: 20px;
         border-top: 1px solid #ccc;
 
-        .action.primary {
+        /*.action.primary {
             margin-right: 0;
             background-color: @color-orange;
             color: @color-white;
@@ -19,19 +19,31 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.3s ease;
-        }
+        }*/
+    }
+
+    .filters-collapse button {
+        border-radius: 100px;
+    }
+
+    .actions-toolbar .primary button.secondary {
+        background: #2c2c2c !important;
     }
 
     form#my-orders-search-advanced-form .actions-toolbar .primary {
         display: flex;
         gap: 10px;
+
+        &:first-letter {
+            text-transform: uppercase;
+        }
     }
 
-    form#my-orders-search-advanced-form .actions-toolbar .action {
+    /*form#my-orders-search-advanced-form .actions-toolbar .action {
         padding: 8px 16px;
         font-size: 14px;
         border-radius: 4px;
-    }
+    }*/
 
     form#my-orders-search-advanced-form fieldset.fieldset.info.extra-order-search {
         overflow: visible;

@@ -117,7 +117,7 @@
         justify-content: left !important;
     }
 
-    .action.submit {
+    /*.action.submit {
         margin-right: 0;
         background-color: @color-orange;
         color: @color-white;
@@ -129,12 +129,16 @@
         font-weight: 600;
         cursor: pointer;
         transition: background 0.3s ease;
-        text-transform: uppercase;
-    }
+        text-transform: lowercase;
 
-    .action.save:hover {
+        &:first-letter {
+            text-transform: uppercase;
+        }
+    }*/
+
+   /* .action.save:hover {
         background-color: #e85c00;
-    }
+    }*/
 
     @media screen and (max-width: 768px) {
         .field.-half {
@@ -153,10 +157,10 @@
 }
 
 .customer-address-index {
-    .actions-toolbar {
+   .actions-toolbar {
         justify-content: left !important;
 
-        .action.add {
+       /*  .action.add {
             margin-right: 0;
             background-color: @color-orange;
             color: @color-white;
@@ -169,7 +173,7 @@
             cursor: pointer;
             transition: background 0.3s ease;
             text-transform: uppercase;
-        }
+        }*/
     }
 }
 
@@ -178,4 +182,9 @@
         margin-bottom: 0 !important;
     }
 
+}
+
+.account .message.message {
+    margin: unset !important;
+    margin-top: 20px !important;
 }
