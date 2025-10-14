@@ -7,7 +7,7 @@ define([
   return function (Target) {
     return Target.extend({
       defaults: {
-        template: 'Magento_Checkout/minicart/custom-content'
+        template: 'Magento_Checkout/minicart/content'
       }
     });
   };
