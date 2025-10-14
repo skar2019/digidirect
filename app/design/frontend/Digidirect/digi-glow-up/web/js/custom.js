@@ -838,7 +838,26 @@ $(document)
   .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
+  
 
+/* ========================
+   🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
+======================== */
+$(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
+  const event = e.originalEvent
+  // detect horizontal gesture
+  if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+    e.preventDefault()
+    const $slider = $(this)
+    if (!$slider.hasClass('slick-initialized')) return
+
+    if (event.deltaX > 0) {
+      $slider.slick('slickNext')
+    } else {
+      $slider.slick('slickPrev')
+    }
+  }
+})
 
 
   })
