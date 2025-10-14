@@ -10,7 +10,8 @@
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
-$_orderLimit = true; 
+$_specialOrderValue = $block->getProduct()->getSpecialOrder();
+$_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -55,8 +56,25 @@ $_orderLimit = true;
                                 <?= /* @escapeNotVerified */ 'Pre-Order' ?>
                                 <span class="icon-info tooltip-wrapper">
                                     <span class="addtocart-tooltip">
-                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. 
-                                        For the latest ETA, please click 
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product.
+                                        For the latest ETA, please click
+                                        <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                                    </span>
+                                </span>
+                            </span>
+                        </button>
+                    <?php elseif ($_specialOrderValue): ?>
+                        <button type="submit"
+                                class="action tocart btn_cart tocart-pdp-btn special-order-btn"
+                                id="product-addtocart-button"
+                                data-action="add-to-cart-action"
+                        >
+                            <span class="addcart_words">
+                                <?= /* @escapeNotVerified */ 'Special Order' ?>
+                                <span class="icon-info tooltip-wrapper">
+                                    <span class="addtocart-tooltip">
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product.
+                                        For the latest ETA, please click
                                         <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
                                     </span>
                                 </span>
@@ -77,17 +95,17 @@ $_orderLimit = true;
         </div>
     </div>
 
-    <?php if ($_orderLimit): ?>
-        <div class="order-limit"> 
-            <div class="order-limit-tooltip"> 
-                <span class="order-limit-text"> 
-                    <span class="icon-box-remove"></span>
-                    <span>order limits apply</span> 
-                    <i class="tooltip-toggle"><span class="icon-info"></span></i> 
-                    <span class="tooltip-content">Orders of multiple units may be cancelled due to availability constraints.</span> 
-                </span> 
-            </div> 
+    <?php if (!empty($_orderLimit) && $_orderLimit > 0): ?>
+    <div class="order-limit">
+        <div class="order-limit-tooltip">
+            <span class="order-limit-text">
+                <span class="icon-box-remove"></span>
+                <span>order limits apply</span>
+                <i class="tooltip-toggle"><span class="icon-info"></span></i>
+                <span class="tooltip-content">Orders of units more than <?= $_orderLimit ?> may be cancelled due to availability constraints.</span>
+            </span>
         </div>
+    </div>
     <?php endif; ?>
 
 <?php endif; ?>

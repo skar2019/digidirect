@@ -30,12 +30,12 @@ $isLoggedIn = $viewModel->isLoggedIn();
 
     <!-- 🔹 Login -->
     <?php if (!$isLoggedIn) :?>
-        <a href="<?= $block->getUrl('customer/account/login') ?>">
+        <a class="action login" href="<?= $block->getUrl('customer/account/login') ?>">
             <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
             <span>Login</span>
         </a>
     <?php else :?>
-        <a href="<?= $block->getUrl('customer/account/logout') ?>" class="account-box">
+        <a class="action logout" href="<?= $block->getUrl('customer/account/logout') ?>" class="account-box">
             <div class="account-icon">
                 <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Log out" />
             </div>
