@@ -338,7 +338,7 @@
         .order-limit-tooltip,
         .awaiting-stock-tooltip {
             color: #545456;
-            padding: 10px 0;
+            padding: 0 10px 10px 10px;
 
             .order-limit-text,
             .awaiting-stock-text {
@@ -422,6 +422,7 @@
                 margin: 0;
                 display: flex;
                 width: 100%;
+                margin-bottom: 8px;
 
                 .label {
                     display: none;
@@ -705,6 +706,13 @@
                     position: absolute;
                     right: 16px;
                     color: @color-white;
+
+                    &:before {
+                        content: "\e900";
+                        font-family: "icomoon";
+                        color: #ffffff;
+                        font-size: 13px;
+                    }
                 }
             }
         }
@@ -716,12 +724,14 @@
                 justify-content: center;
                 height: 29px;
                 padding: 3px 20px;
+
                 .icon-info {
                     cursor: pointer;
                 }
                 span {
                     display: flex;
                     align-items: center;
+                    gap: 5px;
 
                     img {
                         height: 20px;
@@ -740,6 +750,12 @@
             align-items: center;
             max-height: 29px;
             margin-top: 10px;
+            font-weight: 600;
+            color: #242426;
+            padding: 4px 0;
+            font-size: 10px;
+            gap: 5px;
+            text-transform: uppercase;
 
             img {
                 max-width: 116px;
@@ -750,11 +766,13 @@
             display: flex;
             gap: 5px;
             width: 100%;
+            align-items: center;
             img {
                 object-fit: contain;
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
+                max-height: 17px;
             }
         }
 
@@ -793,6 +811,22 @@
 
                 &.latitude-pay-custom {
                     background: #0046aa !important;
+                }
+            }
+
+            #union-alipay-wechat {
+                display: flex;
+                gap: 5px;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    object-fit: contain;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-height: 17px;
                 }
             }
         }
@@ -1019,7 +1053,7 @@
         max-width: 100%;
         margin: 0 auto;
         background: #f2f2f7;
-        padding: 20px 20px 40px 20px;
+        padding: 30px 20px 30px 20px;
     }
 
     @media (max-width: @mobile-breakpoint) {
@@ -1070,7 +1104,7 @@
             }
         }
         .product.data.items > .item.content {
-            padding-left: 15px;
+            padding-left: 0;
             .item.spec {
                 table {
                     tr {
@@ -1306,4 +1340,24 @@
         flex: 1 1 100% !important;
         min-width: none !important;
     }
+}
+
+.fotorama__arr,
+.fotorama__thumb__arr {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+
+    .fotorama__arr__arr {
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+        border-radius: 50%;
+        backdrop-filter: blur(10px);
+    }
+}
+.fotorama__arr--prev {
+    left: 85px;
+}
+.fotorama__arr--next {
+    right: 85px;
 }

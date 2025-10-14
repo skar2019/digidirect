@@ -1,33 +1,56 @@
 require(['jquery'], function($) {
     $(document).ready(function() {
-        var slides = $('.hellobar-slide');
-        var current = 0;
+        const tabs = document.querySelectorAll('.tds-tab');
+        const slides = document.querySelectorAll('.tcl-banner__slide');
+        const backdrop = document.querySelector('.tds--animated-backdrop');
+        let currentIndex = 0;
 
-        function showSlide(index) {
-            slides.removeClass('active').eq(index).addClass('active');
-            $('.hellobar-dot').removeClass('active').eq(index).addClass('active');
+        let autoInterval;
+        let resumeTimeout;
+
+        function moveBackdrop() {
+            const activeTab = document.querySelector('.tds-tab[aria-selected="true"]');
+            backdrop.style.left = `${activeTab.offsetLeft}px`;
         }
 
-        function nextSlide() {
-            current = (current + 1) % slides.length;
-            showSlide(current);
+        function switchSlide(index) {
+            slides.forEach(slide => slide.classList.remove('tcl-banner__slide--active'));
+            slides[index].classList.add('tcl-banner__slide--active');
+
+            tabs.forEach(tab => tab.setAttribute('aria-selected', 'false'));
+            tabs[index].setAttribute('aria-selected', 'true');
+
+            moveBackdrop();
         }
 
-        setTimeout(() => {
-            showSlide(current);
-            setInterval(nextSlide, 5000);
-        }, 200);
+        function startAutoMove() {
+            clearInterval(autoInterval);
+            autoInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                switchSlide(currentIndex);
+            }, 3000);
+        }
 
-        var dotsHtml = '';
-        slides.each(function (index) {
-            dotsHtml += `<span class="hellobar-dot" data-index="${index}"></span>`;
+        function stopAutoMoveTemporarily() {
+            clearInterval(autoInterval);
+            clearTimeout(resumeTimeout);
+
+            resumeTimeout = setTimeout(() => {
+                startAutoMove();
+            }, 2000);
+        }
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                currentIndex = index;
+                switchSlide(index);
+                stopAutoMoveTemporarily();
+            });
         });
-        $('.hellobar-slider').append(`<div class="hellobar-dots">${dotsHtml}</div>`);
 
-        $('.hellobar-slider').on('click', '.hellobar-dot', function() {
-            current = parseInt($(this).data('index'));
-            showSlide(current);
+        window.addEventListener('DOMContentLoaded', () => {
+            moveBackdrop();
+            startAutoMove();
         });
-
     });
 });

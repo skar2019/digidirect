@@ -43,8 +43,8 @@ body {
 
 .catalog-category-view .page-title,
 .catalogsearch-result-index .page-title {
-    margin-top: 20px;
-    margin-bottom: 15px;
+    margin-top: 12px;
+    margin-bottom: 13px;
 }
 
 .page-title-wrapper span.base {
@@ -53,8 +53,12 @@ body {
     font-weight: 700;
 }
 
+.category-view {
+    display: none;
+}
+
 .page-wrapper > .page-bottom {
-    max-width: 1327px !important;
+    max-width: 100% !important;
     width: 100%;
     padding: 0;
 }
@@ -275,8 +279,8 @@ a.action.towishlist {
     display: none;
 }
 
-button.slick-prev.slick-arrow.slick-disabled {
-    display: none;
+.slick-arrow.slick-disabled {
+    display: none !important;
 }
 
 .pagebuilder-slider.slick-initialized .slick-arrow {
@@ -289,6 +293,15 @@ button.slick-prev.slick-arrow.slick-disabled {
     height: 50px;
     width: 50px;
     opacity: 0.5;
+    z-index: 1;
+}
+
+.slick-prev {
+    left: 16px !important;
+}
+
+.slick-next {
+    right: 16px !important;
 }
 
 //Owl Carousels
@@ -503,7 +516,8 @@ button.slick-prev.slick-arrow.slick-disabled {
 }
 
 .block.newsletter {
-    max-width: 100%;
+    max-width: 1327px;
+    margin: 0 auto;
     width: 100%;
     display: flex;
     background: #f2f2f7;
@@ -555,14 +569,24 @@ button.slick-prev.slick-arrow.slick-disabled {
     padding: 8px 17.3px 7px 19.7px;
 }
 
+.cms-home .block.newsletter {
+    margin-bottom: 40px;
+}
+
 //PLP
 
 .catalog-category-view #maincontent {
     max-width: 1327px;
 }
+
+.catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
+    padding-top: 10px;
+}
+
 .list-view a.action.towishlist {
     left: 200px;
 }
+
 .field.choice input[type="checkbox"]:checked + label::before {
     background: #171717;
     border-color: #171717;
@@ -576,6 +600,20 @@ button.slick-prev.slick-arrow.slick-disabled {
     top: 0;
     font-size: 14px;
     color: #fff;
+}
+
+.is-widget-container-brand .ais-Panel {
+    border-bottom: 0 !important;
+}
+
+.plp-row.pa-widget {
+    padding: 30px 0;
+    background: #f2f2f7;
+    margin: 10px 0 40px;
+}
+
+.catalog-category-view .block.newsletter, .catalogsearch-result-index .block.newsletter {
+    margin-bottom: 40px;
 }
 
 //Blur Overlay

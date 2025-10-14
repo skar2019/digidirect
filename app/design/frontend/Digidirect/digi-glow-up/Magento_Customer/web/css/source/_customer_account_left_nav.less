@@ -10,8 +10,14 @@
         background-color: #F2F2F7;
     }
     .page-main {
-        max-width: 1344px !important;
+        //max-width: 1344px !important;
         padding-top: 40px !important;
+        background: #FFFFFF;
+
+        .columns {
+            max-width: 1327px;
+            margin: 0 auto;
+        }
     }
 
     .block-collapsible-nav {
@@ -142,4 +148,8 @@
         }
     }
 
+}
+
+.account .block-collapsible-nav .nav.item:hover, .account .block-collapsible-nav .nav.item.current {
+    background-color: unset !important;
 }

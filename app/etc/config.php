@@ -784,6 +784,7 @@ return [
         'EthanYehuda_CronjobManager' => 1,
         'Experius_WysiwygDownloads' => 1,
         'Fastly_Cdn' => 1,
+        'Impact_Integration' => 1,
         'Itoris_Core' => 1,
         'Itoris_PriceMatch' => 1,
         'LatitudeNew_Payment' => 1,

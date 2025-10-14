@@ -60,11 +60,12 @@
         border: 1px solid #eeeeee;
         box-shadow: 0px 1px 1px 0px rgba(150, 150, 150, 0.09);
         border-radius: 16px;
+        text-align: center;
 
         &::after {
             width: 32px;
             height: 32px;
-            content: "\e904";
+            content: "\e601";
             line-height: 21px;
             font-size: 16px;
             font-family: "icomoon";
@@ -89,8 +90,7 @@
         position: relative;
         cursor: pointer;
         &:after {
-            content: "\e903";
-            font-family: "icomoon";
+            content: "";
             position: absolute;
             width: 12px;
             height: 12px;
@@ -99,7 +99,11 @@
             top: 25px;
             transform: translateY(-50%);
             transition: transform 0.3s ease;
-            transform: rotate(90deg);
+            transform: rotate(135deg);
+            border-top: 1px solid #010202;
+            border-right: 1px solid #010202;
+            box-sizing: border-box;
+            border-radius: 1px;
         }
     }
     [role="tab"] {
@@ -108,7 +112,7 @@
             [data-role="trigger"] {
                 padding-bottom: 10px;
                 &:after {
-                    transform: rotate(-90deg);
+                    transform: rotate(-45deg);
                 }
             }
         }

@@ -141,6 +141,12 @@ select {
             width: 80%;
         }
 
+        .fieldset .field:not(.choice) > .control input[type="password"],
+        .fieldset .field:not(.choice) > .control input[type="text"],
+        .fieldset .field:not(.choice) > .control input[type="email"]{
+            border-radius: 10px !important;
+        }
+
         .multiselect, select#country {
             width: 90%;
         }
@@ -155,7 +161,7 @@ select {
         }
 
         .message.message {
-            margin: 10px 0 !important
+            margin: 10px 0 !important;
         }
 
          span.base[data-ui-id="page-title-wrapper"]::before {

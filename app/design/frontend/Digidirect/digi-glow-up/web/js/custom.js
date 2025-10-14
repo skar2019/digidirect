@@ -589,7 +589,7 @@ if ($mobileMenuClose.length) {
         width: '100%',
         height: '100%',
         pointerEvents: 'none', // ✅ let swipe/touch go through
-        zIndex: 9999,
+        zIndex: 999,
       })
 
       $nav.find('button').css({
@@ -701,34 +701,30 @@ $(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
 
 
 /* ========================
-   🚫 Hide aa-Panel until content ready
+   🧩 Show aa-Panel only when it has content
 ======================== */
-if (window.MutationObserver) {
-  const panelObserver = new MutationObserver(() => {
-    const $panel = $('.aa-Panel')
+function toggleAaPanelVisibility() {
+  const $panel = $('.aa-Panel')
+  if (!$panel.length) return
 
-    if (!$panel.length) return
+  // Check if panel has visible content (items, suggestions, etc.)
+  const hasContent = $panel.find('.aa-Item, .aa-Source, .aa-List').children().length > 0
 
-    // If panel is empty → hide it
-    if ($panel.text().trim().length === 0) {
-      $panel.css({
-        visibility: 'hidden',
-        opacity: 0,
-        transition: 'opacity 0.2s ease',
-      })
-    } else {
-      // When it has content → show smoothly
-      $panel.css({
-        visibility: 'visible',
-        opacity: 1,
-        transition: 'opacity 0.2s ease',
-      })
-    }
-  })
-
-  // Observe any DOM changes that might affect .aa-Panel content
-  panelObserver.observe(document.body, { childList: true, subtree: true })
+  // Toggle visibility
+  if (hasContent) {
+    $panel.addClass('is-ready')
+  } else {
+    $panel.removeClass('is-ready')
+  }
 }
+
+/* Observe aa-Panel changes */
+const aaObserver = new MutationObserver(toggleAaPanelVisibility)
+aaObserver.observe(document.body, { childList: true, subtree: true })
+
+/* Initial check (for good measure) */
+toggleAaPanelVisibility()
+
 
 /* ========================
    ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
@@ -775,44 +771,49 @@ $(document).on('changed.owl.carousel', function (event) {
 
 
 /* ========================
-   🩹 Keep aa-Panel aligned with Sticky Header
+   🩹 Keep aa-Panel perfectly aligned under Sticky Header
 ======================== */
 function alignAaPanel() {
   const $panel = $('.aa-Panel')
   const $input = $('#autocomplete-0-input')
   const $header = $('.header.content')
 
-  if (!$panel.length || !$input.length) return
+  if (!$panel.length || !$input.length || !$header.length) return
 
   const inputOffset = $input.offset()
-  const headerHeight = $header.outerHeight()
-  const newTop = headerHeight + 1 
+  const headerHeight = $header.outerHeight() || 0
+  const scrollTop = $(window).scrollTop()
+  const inputTop = inputOffset.top - scrollTop
+  const newTop = $header.hasClass('is-sticky')
+    ? headerHeight + 1
+    : inputTop + $input.outerHeight() + 1
+
   const newLeft = inputOffset.left
-  const newWidth = $input.outerWidth() 
+  const newWidth = $input.outerWidth()
 
   if ($header.hasClass('is-sticky')) {
     $panel.css({
-      'position': 'fixed',
-      'top': `${newTop}px !important`, 
-      'left': `${newLeft}px`,
-      'width': `${newWidth}px`, 
-      'z-index': '10000 !important',
+      position: 'fixed',
+      top: `${newTop}px`,
+      left: `${newLeft}px`,
+      right: 'unset',
+      zIndex: 10000,
+      marginTop: 0,
     })
   } else {
-    $panel.css({
-      'position': '',
-      'top': '',
-      'left': '',
-      'width': '',
-      'z-index': '',
-    })
+    // When not sticky, revert to Algolia’s normal flow
+    $panel.attr('style', '')
   }
 }
-// keep it reactive
+
+// Reactive updates
 $(window).on('scroll resize', alignAaPanel)
 $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+
+// Observe DOM since Algolia dynamically replaces the panel
 const aaStickObserver = new MutationObserver(alignAaPanel)
 aaStickObserver.observe(document.body, { childList: true, subtree: true })
+
 
 /* ========================
    🧩 Close aa-Panel on Blog Mega Menu Hover
@@ -837,7 +838,26 @@ $(document)
   .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
+  
 
+/* ========================
+   🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
+======================== */
+$(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
+  const event = e.originalEvent
+  // detect horizontal gesture
+  if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+    e.preventDefault()
+    const $slider = $(this)
+    if (!$slider.hasClass('slick-initialized')) return
+
+    if (event.deltaX > 0) {
+      $slider.slick('slickNext')
+    } else {
+      $slider.slick('slickPrev')
+    }
+  }
+})
 
 
   })
