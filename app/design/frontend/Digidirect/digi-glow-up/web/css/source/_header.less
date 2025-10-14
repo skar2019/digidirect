@@ -179,7 +179,9 @@ svg.aa-SubmitIcon {
     font-family: "Inter";
 }
 
-.minicart-wrapper .action.showcart {
+.minicart-wrapper .action.showcart,
+.minicart-wrapper .action.login,
+.minicart-wrapper .action.logout{
     position: relative;
 }
 
@@ -552,7 +554,7 @@ ul.slick-dots {
         cursor: pointer;
         transition: color .2s ease;
     }
-    
+
     .mobile-brands-list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -563,7 +565,7 @@ ul.slick-dots {
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
-    
+
     .mobile-brands-list .brand {
         text-align: center;
         width: 100%;
@@ -573,7 +575,7 @@ ul.slick-dots {
         position: relative;
         height: 99px;
     }
-    
+
     .mobile-brands-list .brand img {
         position: absolute;
         top: 50%;
@@ -581,11 +583,11 @@ ul.slick-dots {
         transform: translate(-50%, -50%);
         max-width: 80px;
     }
-    
+
     .header.content.is-sticky:before {
         height: 98px !important;
     }
-    
+
     .digiseconds-container.mobile-content {
         grid-template-columns: auto;
         gap: 5px;
