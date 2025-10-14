@@ -602,6 +602,11 @@ class TestPronto extends AbstractHelper
 
             }
 
+            if($orderId = '002536857')
+            {
+                $territory = '3WHS';
+            }
+
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
 
@@ -709,6 +714,13 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'BU') !== false) {
                     $rep ="BUNNINGS";
                     $account = "BUNN01";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
@@ -1032,7 +1044,7 @@ class TestPronto extends AbstractHelper
                         echo "latipay pending";
                         continue;
                     }
-            }
+                }
 
                 if($payment_type == 'VI')
                 {
@@ -1120,6 +1132,10 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                if($shipcity = 'Strathfield South')
+                {
+                    $data['sales-order']['header']['carrier-code'] = "COLLECT";
+                }
 
             }
             else if($rep == "WESTFIELD")
@@ -1304,6 +1320,18 @@ class TestPronto extends AbstractHelper
                     $catchRef = str_replace("WW","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'BU') !== false) {
+                    $payment_type ="BN";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -1446,9 +1474,18 @@ class TestPronto extends AbstractHelper
                 $todiscount = $price * $qty;
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
-                if($price > 0)
+                if($discount > 0)
                 {
-                    $discperc = ($discount / $todiscount) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty; // in pronto, discount % are mutliplied by qty, so here we divide it
+                }
+                if($coupon != "")
+                {
+                    $discount = 0; //set this to zero since we subtract it to total
+                    $discperc = 0;
+                    if(str_contains($coupon, 'PMC-'))
+                    {
+                        $data['sales-order']['header']['rep'] = "PMC";
+                    }
                 }
                 echo "discperc - " .$discperc ." <br/>";
                 if($coupon != "")
@@ -1633,11 +1670,18 @@ class TestPronto extends AbstractHelper
                     $marketplacesShipping = explode('|', $shippingDesc);
                     $shippingDesc = $marketplacesShipping[1];
                 }
+
+                echo $shippingDesc . "<br/>";
+
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
                 }
                 else if($shippingDesc == "Standard - (4 to 7 Days)")
+                {
+                    $shippingDesc = "Australia Post – eParcel";
+                }
+                else if($shippingDesc == "Standard - (6 to 9 Days)")
                 {
                     $shippingDesc = "Australia Post – eParcel";
                 }
@@ -1676,23 +1720,23 @@ class TestPronto extends AbstractHelper
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
                 //TEST
-                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+                $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
                 //LIVE - port :8084
-                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+                //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
                 if(!$test)
                 {
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
-                    $this->curl->addHeader("compcode", "DIG"); //live
-                    $this->curl->addHeader("user", "ewaveapi");
-                    $this->curl->addHeader("token", "904241bdbf10efa9");
+//                    $this->curl->addHeader("compcode", "DIG"); //live
+//                    $this->curl->addHeader("user", "ewaveapi");
+//                    $this->curl->addHeader("token", "904241bdbf10efa9");
                     //
-//                    $this->curl->addHeader("compcode", "UA1"); //test
-//                    $this->curl->addHeader("user", "clint.mercado");
-//                    $this->curl->addHeader("token", "849cd5080faff5ce");
+                    $this->curl->addHeader("compcode", "UA1"); //test
+                    $this->curl->addHeader("user", "clint.mercado");
+                    $this->curl->addHeader("token", "849cd5080faff5ce");
 
                     $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
                     $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
@@ -2114,9 +2158,9 @@ class TestPronto extends AbstractHelper
 //                }
 //                else
 //                {
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 //}
             }
 
@@ -2161,7 +2205,7 @@ class TestPronto extends AbstractHelper
                 $discperc = 0;
                 if($price > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if($coupon != "")
                 {
@@ -2263,6 +2307,8 @@ class TestPronto extends AbstractHelper
                         $shippingDesc = $marketplacesShipping[1];
                     }
                 }
+                echo $shippingDesc . "<br/>";
+
                 if($shippingDesc == "Express - (1 to 3 Days)")
                 {
                     $shippingDesc = "Australia Post – express";
@@ -2287,6 +2333,9 @@ class TestPronto extends AbstractHelper
                 {
                     $shippingDesc = "";
                 }
+
+                echo $shippingDesc . "<br/>";
+
                 //shipping details clint Mar 3 23
                 if($disregardshipping)
                 {
