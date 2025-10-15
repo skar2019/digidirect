@@ -120,13 +120,35 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                             /** @var \Magento\Framework\Pricing\Render $priceRender */
                             $priceRender = $layout->createBlock(\Magento\Framework\Pricing\Render::class);
                             if ($priceRender) {
-                                echo $priceRender
-                                    ->setData('price_render_handle', 'sales_quote_item_price') // ✅ valid handle
+                                $priceRender->setData('price_render_handle', 'sales_quote_item_price')
                                     ->setData('use_link', false)
                                     ->setData('display_minimal_price', true)
-                                    ->setData('product', $product)
                                     ->setData('zone', \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST)
-                                    ->toHtml();
+                                    ->setProduct($product);
+
+                                echo '<div class="price-container">';
+
+                                // Regular price (if different from final)
+                                $regularPriceHtml = $priceRender->render(
+                                    \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE,
+                                    $product,
+                                    ['include_container' => true, 'display_label' => false]
+                                );
+
+                                // Final (discounted) price
+                                $finalPriceHtml = $priceRender->render(
+                                    \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                                    $product,
+                                    ['include_container' => true, 'display_label' => false]
+                                );
+
+                                // Check if slashed price should appear
+                                if (trim(strip_tags($regularPriceHtml)) !== trim(strip_tags($finalPriceHtml))) {
+                                    echo '<div class="old-price-wrapper" style="display:flex;">' . $regularPriceHtml . '</div>';
+                                }
+
+                                echo $finalPriceHtml;
+                                echo '</div>';
                             } else {
                                 echo $block->getRowTotalHtml($_item);
                             }
