@@ -550,20 +550,8 @@
             height: 37px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
             width: 100%;
             min-width: 0 !important;
-
-            &:hover {
-                background: #fe4c25;
-                box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
-                transform: translateY(-1px);
-            }
-
-            &:active {
-                transform: translateY(0);
-                box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
-            }
         }
 
         // Container layout
@@ -1376,7 +1364,8 @@
         right: 10px;
         top: 10px;
         padding: 0;
-        &:focus {
+        &:focus,
+        :active {
             right: 9px;
             top: 6px;
             border-radius: 50%;
@@ -1385,6 +1374,9 @@
         }
         &::before {
             font-size: 29px !important;
+        }
+        &:active {
+            transform: none !important;
         }
     }
 }
