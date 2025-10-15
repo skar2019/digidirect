@@ -1089,7 +1089,7 @@ $(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
 
 
 /* ========================
- 🎯 Owl Dots Animated Backdrop 
+ 🎯 Owl Dots Animated Backdrop (Instant + Smooth)
 ======================== */
 $(document).ready(function () {
   function initOwlBackdrop($carousel) {
@@ -1106,44 +1106,40 @@ $(document).ready(function () {
       $dots.append($backdrop)
     }
 
-    function moveBackdrop(animate = true) {
-      const $activeDot = $dots.find('.owl-dot.active')
-      if (!$activeDot.length) return
+    function moveBackdrop($dot, animate = true) {
+      if (!$dot?.length) return
 
-      const dotOffset = $activeDot.position()?.left || 0
-      const dotWidth = $activeDot.outerWidth() || 0
+      const dotOffset = $dot.position()?.left || 0
+      const dotWidth = $dot.outerWidth() || 0
 
-      // disable animation for instant setup
       if (!animate) $backdrop.css('transition', 'none')
 
       $backdrop.css({
         transform: `translateX(${dotOffset}px)`,
-        width: `${dotWidth}px`
+        width: `${dotWidth}px`,
       })
 
       if (!animate) {
-        setTimeout(() => {
-          $backdrop.css('transition', '')
-        }, 50)
+        setTimeout(() => $backdrop.css('transition', ''), 50)
       }
     }
 
-    // Initial placement
-    setTimeout(() => moveBackdrop(false), 100)
+    // Initial placement (first active dot)
+    setTimeout(() => moveBackdrop($dots.find('.owl-dot.active'), false), 100)
 
-    // On slide change (sync backdrop)
+    // ✅ On slide change → sync to active dot
     $carousel.on('changed.owl.carousel', function () {
-      moveBackdrop(true)
+      moveBackdrop($dots.find('.owl-dot.active'), true)
     })
 
-    // On resize
-    $(window).on('resize', function () {
-      moveBackdrop(true)
-    })
-
-    // On dot click (immediate feedback)
+    // ✅ On dot click → move instantly to clicked one (no delay)
     $dots.on('click', '.owl-dot', function () {
-      setTimeout(() => moveBackdrop(true), 150)
+      moveBackdrop($(this), true)
+    })
+
+    // ✅ Recalculate on resize
+    $(window).on('resize', function () {
+      moveBackdrop($dots.find('.owl-dot.active'), true)
     })
   }
 

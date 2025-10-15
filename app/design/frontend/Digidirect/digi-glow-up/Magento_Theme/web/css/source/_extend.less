@@ -376,9 +376,21 @@ a.action.towishlist {
     transition: transform .5s ease !important;
 }
 
+.owl--animated-backdrop {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: currentColor; /* or your accent color */
+    transition: transform 0.3s ease, width 0.3s ease;
+    will-change: transform, width;
+}
+
+
 //Test CSS
+
 .slick-dots {
   position: relative;
+  margin-top: -45px;
 }
 
 .slick-dots button {
@@ -596,10 +608,6 @@ a.action.towishlist {
     font-size: 13px;
     text-transform: uppercase;
     padding: 8px 17.3px 7px 19.7px;
-}
-
-.cms-home .block.newsletter {
-    margin-bottom: 40px;
 }
 
 //PLP
