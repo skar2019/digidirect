@@ -386,8 +386,6 @@ a.action.towishlist {
 }
 
 
-//Test CSS
-
 .slick-dots {
   position: relative;
   margin-top: -45px;
@@ -413,6 +411,51 @@ a.action.towishlist {
     border-radius: 50%;
     transition: transform 1s cubic-bezier(0.25, 1.2, 0.5, 1), width .4s ease;
     z-index: 0;
+}
+
+//Test CSS
+
+.owl-dots {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.owl-dot {
+  position: relative;
+  z-index: 2;
+}
+
+.owl-dot span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  transition: background 0.3s ease;
+}
+
+.owl-dot.active span {
+  background: #fff; /* makes active dot “punch through” the backdrop */
+}
+
+/* Backdrop highlight behind the active dot */
+.owl--animated-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background: #000; /* or your brand color */
+  border-radius: 50%;
+  z-index: 1;
+  width: 12px;
+  height: 12px;
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, width, height;
 }
 
 //
