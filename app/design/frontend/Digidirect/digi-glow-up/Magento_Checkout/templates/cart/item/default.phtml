@@ -109,56 +109,28 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
             </div>
             <div class="price-wrapper-mobile">
                 <?php if ($canApplyMsrp): ?>
-                    <span class="cart msrp subtotal">--</span>
+                    <td class="col msrp" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                        <span class="pricing msrp">
+                            <span class="msrp notice"><?= $block->escapeHtml(__('See price before order confirmation.')) ?></span>
+                            <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                            <a href="#" class="action help map"
+                               id="<?= ($block->escapeHtmlAttr($helpLinkId)) ?>"
+                               data-mage-init='{"addToCart":{
+                                                    "origin": "info",
+                                                    "helpLinkId": "#<?= $block->escapeJs($block->escapeHtml($helpLinkId)) ?>",
+                                                    "productName": "<?= $block->escapeJs($block->escapeHtml($product->getName())) ?>",
+                                                    "showAddToCart": false
+                                                    }
+                                                }'
+                            >
+                                <span><?= $block->escapeHtml(__("What's this?")) ?></span>
+                            </a>
+                        </span>
+                    </td>
                 <?php else: ?>
-                    <?php
-                    try {
-                        $product = $_item->getProduct();
-                        $layout = $block->getLayout();
-
-                        if ($layout) {
-                            /** @var \Magento\Framework\Pricing\Render $priceRender */
-                            $priceRender = $layout->createBlock(\Magento\Framework\Pricing\Render::class);
-                            if ($priceRender) {
-                                $priceRender->setData('price_render_handle', 'sales_quote_item_price')
-                                    ->setData('use_link', false)
-                                    ->setData('display_minimal_price', true)
-                                    ->setData('zone', \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST)
-                                    ->setProduct($product);
-
-                                echo '<div class="price-container">';
-
-                                // Regular price (if different from final)
-                                $regularPriceHtml = $priceRender->render(
-                                    \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE,
-                                    $product,
-                                    ['include_container' => true, 'display_label' => false]
-                                );
-
-                                // Final (discounted) price
-                                $finalPriceHtml = $priceRender->render(
-                                    \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
-                                    $product,
-                                    ['include_container' => true, 'display_label' => false]
-                                );
-
-                                // Check if slashed price should appear
-                                if (trim(strip_tags($regularPriceHtml)) !== trim(strip_tags($finalPriceHtml))) {
-                                    echo '<div class="old-price-wrapper" style="display:flex;">' . $regularPriceHtml . '</div>';
-                                }
-
-                                echo $finalPriceHtml;
-                                echo '</div>';
-                            } else {
-                                echo $block->getRowTotalHtml($_item);
-                            }
-                        } else {
-                            echo $block->getRowTotalHtml($_item);
-                        }
-                    } catch (\Throwable $e) {
-                        echo $block->getRowTotalHtml($_item);
-                    }
-                    ?>
+                    <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                        <?= $block->getUnitPriceHtml($_item) ?>
+                    </td>
                 <?php endif; ?>
                 <span class="item-actions">
                     <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
