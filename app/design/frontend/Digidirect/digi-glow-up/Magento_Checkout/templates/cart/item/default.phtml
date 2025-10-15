@@ -155,47 +155,46 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
             <?php
-                /** @var \Magento\Quote\Model\Quote\Item $_item */
-                $product = $_item->getProduct();
-
-                /** @var \Magento\Catalog\Api\ProductRepositoryInterface $productRepository */
-                $productRepository = $block->getLayout()
-                    ->getBlock('product.repository')
-                    ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Catalog\Api\ProductRepositoryInterface::class); // fallback if not defined
-
                 try {
-                    $fullProduct = $productRepository->getById($product->getId());
-                } catch (\Exception $e) {
-                    $fullProduct = $product;
-                }
+                    /** @var \Magento\Quote\Model\Quote\Item $_item */
+                    $product = $_item->getProduct();
 
-                $wiserPrice   = (float) $fullProduct->getData('wiser_price');
-                $finalPrice   = (float) $fullProduct->getFinalPrice();
-                $regularPrice = (float) $fullProduct->getPrice();
+                    // Get product prices
+                    $regularPrice = (float) $product->getPrice();
+                    $finalPrice   = (float) $product->getFinalPrice();
 
-                if ($wiserPrice && $wiserPrice < $finalPrice) {
-                    $displayPrice = $wiserPrice;
-                    $originalPrice = $regularPrice;
-                } elseif ($finalPrice < $regularPrice) {
-                    $displayPrice = $finalPrice;
-                    $originalPrice = $regularPrice;
-                } else {
-                    $displayPrice = $regularPrice;
-                    $originalPrice = null;
-                }
-            ?>
+                    // Try to get custom wiser_price attribute safely
+                    $wiserPrice = $product->hasData('wiser_price') ? (float)$product->getData('wiser_price') : 0;
 
-            <span class="cart-price-wrapper">
-                <?php if ($originalPrice && $originalPrice > $displayPrice): ?>
-                    <span class="old-price">
-                        <span class="price"><?= $block->escapeHtml($block->formatPrice($originalPrice)) ?></span>
+                    // Determine which price to show
+                    if ($wiserPrice && $wiserPrice < $finalPrice) {
+                        $displayPrice = $wiserPrice;
+                        $originalPrice = $regularPrice;
+                    } elseif ($finalPrice < $regularPrice) {
+                        $displayPrice = $finalPrice;
+                        $originalPrice = $regularPrice;
+                    } else {
+                        $displayPrice = $regularPrice;
+                        $originalPrice = null;
+                    }
+
+                    ?>
+                    <span class="cart-price-wrapper">
+                        <?php if ($originalPrice && $originalPrice > $displayPrice): ?>
+                            <span class="old-price">
+                                <span class="price"><?= $block->escapeHtml($block->formatPrice($originalPrice)) ?></span>
+                            </span>
+                        <?php endif; ?>
+
+                        <span class="special-price">
+                            <span class="price"><?= $block->escapeHtml($block->formatPrice($displayPrice)) ?></span>
+                        </span>
                     </span>
-                <?php endif; ?>
-
-                <span class="special-price">
-                    <span class="price"><?= $block->escapeHtml($block->formatPrice($displayPrice)) ?></span>
-                </span>
-            </span>
+                    <?php
+                } catch (\Throwable $e) {
+                    echo '<!-- price error: ' . $e->getMessage() . ' -->';
+                }
+                ?>
         <?php endif; ?>
         <span class="item-actions">
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
