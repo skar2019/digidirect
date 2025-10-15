@@ -155,16 +155,24 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
             <?php
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $productRepository = $objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
-                $fullProduct = $productRepository->getById($product->getId());
+                /** @var \Magento\Quote\Model\Quote\Item $_item */
+                $product = $_item->getProduct();
 
-                // Prices
-                $wiserPrice = (float)$fullProduct->getData('wiser_price');
-                $finalPrice = (float)$product->getFinalPrice();
-                $regularPrice = (float)$product->getPrice();
+                /** @var \Magento\Catalog\Api\ProductRepositoryInterface $productRepository */
+                $productRepository = $block->getLayout()
+                    ->getBlock('product.repository')
+                    ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Catalog\Api\ProductRepositoryInterface::class); // fallback if not defined
 
-                // Decide which to show
+                try {
+                    $fullProduct = $productRepository->getById($product->getId());
+                } catch (\Exception $e) {
+                    $fullProduct = $product;
+                }
+
+                $wiserPrice   = (float) $fullProduct->getData('wiser_price');
+                $finalPrice   = (float) $fullProduct->getFinalPrice();
+                $regularPrice = (float) $fullProduct->getPrice();
+
                 if ($wiserPrice && $wiserPrice < $finalPrice) {
                     $displayPrice = $wiserPrice;
                     $originalPrice = $regularPrice;
