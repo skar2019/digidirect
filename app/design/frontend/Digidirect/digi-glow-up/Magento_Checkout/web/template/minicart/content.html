@@ -15,20 +15,6 @@
         </span>
         <span class="text" translate="'Item added to your Cart'"></span>
     </strong>
-    <div
-        class="actions"
-        if="getCartParam('summary_count')"
-        style="float: right; color: #0066cc; font-size: 14px"
-    >
-        <div class="secondary">
-            <a
-                class="action viewcart"
-                data-bind="attr: {href: shoppingCartUrl}"
-            >
-                <span translate="'View Cart'"></span>
-            </a>
-        </div>
-    </div>
 </div>
 
 <div class="block-content">
@@ -51,6 +37,12 @@
         <each args="getRegion('extraInfo')" render=""></each>
 
         <div class="actions" if="getCartParam('possible_onepage_checkout')">
+            
+            <div class="secondary">
+                <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
+                    <span translate="'View Cart'"></span>
+                </a>
+            </div>
             <div class="primary">
                 <button
                     id="top-cart-btn-checkout"
