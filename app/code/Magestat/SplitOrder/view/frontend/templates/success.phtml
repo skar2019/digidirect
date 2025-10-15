@@ -6,6 +6,12 @@
 $orderArray = $block->getOrderArray();
 
 // @codingStandardsIgnoreFile
+
+$customerEmail = '';
+if ($block->getOrderId()) {
+    $order = $block->getOrderByIncrementId($block->getOrderId());
+    $customerEmail = $order->getCustomerEmail();
+}
 ?>
 
 <script>
@@ -46,8 +52,14 @@ $orderArray = $block->getOrderArray();
 <div class="checkout-success">
     <div class="thank-you-wrapper">
         <h1 class="thank-you-title"><?= /* @escapeNotVerified */__('Hooray!') ?></h1>
-        <p class="thank-you-message"><?= /* @escapeNotVerified */__('Your payment has been successfully processed, and your order.') ?></p>
-        <p class="thank-you-message"><?= /* @escapeNotVerified */__('is now being prepared for shipment.') ?></p>
+        <?php if ($customerEmail) : ?>
+            <p class="thank-you-message"><?= /* @escapeNotVerified */__('A confirmation email has been sent to '.$customerEmail.' with the details of your order.') ?></p>
+        <?php else: ?>
+            <p class="thank-you-message"><?= /* @escapeNotVerified */__('A confirmation email has been sent with the details of your order.') ?></p>
+        <?php endif; ?>
+
+<!--        <p class="thank-you-message">--><?php //= /* @escapeNotVerified */__('Your payment has been successfully processed, and your order.') ?><!--</p>-->
+<!--        <p class="thank-you-message">--><?php //= /* @escapeNotVerified */__('is now being prepared for shipment.') ?><!--</p>-->
 
         <h1 class="order-status-title"><?= /* @escapeNotVerified */__('Order Status') ?></h1>
 
@@ -641,12 +653,12 @@ $orderArray = $block->getOrderArray();
         pageWrapper.parentNode.insertBefore(partyCanvas, pageWrapper.nextSibling);
     }
 
-
     let animationFrameId;
     const canvas = document.getElementById("party-canvas");
     const ctx = canvas.getContext("2d");
     const particles = [];
 
+    //CONFETTI COLORS
     const gradientPairs = [
         ["#00A1FF", "#422FD4"],
         ["#FF003C", "#FF455E"],
@@ -665,8 +677,10 @@ $orderArray = $block->getOrderArray();
 
     function createParticle() {
         const gradient = gradientPairs[Math.floor(Math.random() * gradientPairs.length)];
-        const width = Math.random() * 30 + 5;
-        const height = Math.random() * 45 + 20;
+        // CONFETTI SIZE RANGE
+        const width = Math.random() * 25 + 3;
+        const height = Math.random() * 30 + 10;
+
 
         particles.push({
             x: Math.random() * canvas.width,
@@ -721,9 +735,19 @@ $orderArray = $block->getOrderArray();
         ctx.restore();
     }
 
-    for (let i = 0; i < 200; i++) {
+    const totalDuration = 6000; //DURATION OF CONFETTI
+    const interval = 10;
+    let particleCount = 0;
+
+    const emitter = setInterval(() => {
         createParticle();
-    }
+        particleCount++;
+
+        //STOP AFTER DURATION
+        if (particleCount * interval >= totalDuration) {
+            clearInterval(emitter);
+        }
+    }, interval);
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -733,7 +757,9 @@ $orderArray = $block->getOrderArray();
         });
 
         const allStopped = particles.every(p => p.stopped);
-        if (!allStopped) {
+        const isEmitting = particleCount * interval < totalDuration;
+
+        if (!allStopped || isEmitting) {
             animationFrameId = requestAnimationFrame(animate);
         } else {
             console.log("All confetti landed 🎉");

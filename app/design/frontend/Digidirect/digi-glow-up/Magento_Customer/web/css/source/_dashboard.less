@@ -327,4 +327,33 @@ select {
         border-bottom: none !important;
     }
 
+    input[type="checkbox"] {
+        -webkit-appearance: none;
+        width: 18px !important;
+        height: 17px;
+        border: 1px solid #000000 !important;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        transition: background-color 0.2s, border-color 0.2s;
+        border-radius: 6px !important;
+    }
+    input[type="checkbox"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 6px;
+        width: 5px;
+        height: 10px;
+        border: solid black;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    input[type="checkbox"]:checked {
+         background-color: #ffffff !important;
+         //border-color: #fe4c25;
+    }
+
 }
