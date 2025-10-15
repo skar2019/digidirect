@@ -168,11 +168,8 @@
             }
 
             .item-actions {
-                position: absolute;
-                top: -31px;
-                right: -31px;
-                font-size: 14px;
-
+                bottom: -80px;
+                left: 20px;
                 .action-delete {
                     width: 30px;
                     height: 30px;
@@ -183,8 +180,9 @@
                     align-items: center;
                     justify-content: center;
                     color: #262628;
-                    background-color: #ffffff;
+                    background-color: unset;
                     margin: 0;
+                    border: 0;
                     &:hover {
                         text-decoration: none;
                         &::before {
@@ -192,13 +190,11 @@
                         }
                     }
                     &:before {
-                        font-size: 30px;
+                        font-size: 14px;
                         font-weight: 400;
-                        color: #262628;
-                        content: "\e616";
-                        font-family: "Icomoon";
-                        opacity: 0.8;
-                        line-height: 30px;
+                        color: #EB5757;
+                        content: "Remove";
+                        font-family: "Inter";
                     }
                 }
             }

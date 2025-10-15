@@ -415,7 +415,7 @@ a.action.viewcart span {
 .minicart-close:focus {
     color: unset;
     background: #fff !important;
-    border: 1px #d9d9d9 solid !important;
+    border: 0 !important;
 }
 
 .block-minicart .block-content > .actions {
@@ -460,7 +460,13 @@ a.action.viewcart span {
 
 .product-item-right {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.minicart-wrapper .product .actions > .secondary {
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .minicart-wrapper .product .actions > .primary {
@@ -476,4 +482,8 @@ a.action.viewcart span {
 
 .minicart-wrapper .product .actions {
     margin: 0;
+}
+
+.minicart-items .action.delete:before {
+    display: none;
 }

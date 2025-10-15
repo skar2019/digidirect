@@ -335,6 +335,24 @@ a.action.towishlist {
     display: none;
 }
 
+.owl-carousel .owl-dots .owl-dot {
+    background-color: #171a20 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background-color .4s !important;
+    position: relative;
+    z-index: 1;
+    padding: 0 !important;
+    opacity: 20%;
+    height: 14px;
+    width: 14px;
+    border-radius: 10px;
+}
+
+.owl-carousel .owl-dots .owl-dot span {
+    display: none !important;
+}
+
 .owl-next.unclickable {
     pointer-events: none;
     opacity: 0.5;
@@ -443,7 +461,7 @@ a.action.towishlist {
 /* Backdrop highlight behind the active dot */
 .owl--animated-backdrop {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   transform: translateY(-50%);
   background: #000; /* or your brand color */
