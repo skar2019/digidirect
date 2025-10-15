@@ -114,43 +114,9 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     <?php echo $block->getRowTotalHtml($_item); ?>
                 <?php endif; ?>
                 <span class="item-actions">
-                    <?php
-                        // get product and prices
-                        $product = $_item->getProduct();
-
-                        $finalPrice   = (float) $product->getFinalPrice();
-                        $wiserPrice   = (float) $product->getData('wiser_price');
-                        $regularPrice = (float) $product->getPrice();
-
-                        // ignore invalid wiser_price (treat missing/0 as not present)
-                        if ($wiserPrice <= 0) {
-                            $wiserPrice = PHP_FLOAT_MAX; // so it won't be chosen as the min
-                        }
-
-                        // display price = the lower of finalPrice and wiserPrice
-                        $displayPrice = min($finalPrice, $wiserPrice);
-
-                        // original (slashed) price must always be the product's regular price
-                        $originalPriceForSlash = null;
-                        if ($regularPrice > $displayPrice) {
-                            $originalPriceForSlash = $regularPrice;
-                        }
-                    ?>
-
-                    <span class="cart-price">
-                        <?php if ($originalPriceForSlash !== null): ?>
-                            <span class="old-price">
-                                <?php /* @escapeNotVerified */ echo $block->formatPrice($originalPriceForSlash); ?>
-                            </span>
-                            <span class="special-price">
-                                <?php /* @escapeNotVerified */ echo $block->formatPrice($displayPrice); ?>
-                            </span>
-                        <?php else: ?>
-                            <span class="regular-price">
-                                <?php /* @escapeNotVerified */ echo $block->formatPrice($displayPrice); ?>
-                            </span>
-                        <?php endif; ?>
-                    </span>
+                    <?php /* @escapeNotVerified */ echo 'wiserPrice, ' . $product->getWiserPrice(); ?><br>
+                    <?php /* @escapeNotVerified */ echo 'finalPrice, ' . $product->getFinalPrice(); ?><br>
+                    <?php /* @escapeNotVerified */ echo 'price, ' . $product->getPrice(); ?>
                 </span>
             </div>
 
