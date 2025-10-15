@@ -79,12 +79,20 @@ header.modal-header {
     padding-top: 35px;
 }
 
-.minicart-items .action.delete:before {
+.minicart-wrapper .product .actions > .primary {
+    display: none;
+}
+
+/*.minicart-items .action.delete:before {
     font-weight: 600;
     font-family: "Font Awesome 5 Free";
     content: "\f00d" !important;
     font-size: 15px !important;
     color: #8f8f8f;
+}*/
+
+.minicart-items .product-item-name {
+    width: 415px;
 }
 
 .minicart-items .product-item-name a {
@@ -92,6 +100,7 @@ header.modal-header {
     font-size: 16px;
     font-family: Inter;
     font-weight: 700;
+    text-align: left;
 }
 
 .minicart-items .product-item-details {
@@ -121,6 +130,24 @@ header.modal-header {
     border: none !important;
 }
 
+.block-minicart .action.viewcart {
+    background: #2c2c2c;
+    border: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 100px;
+    padding: 8px 15px;
+    margin-left: auto;
+    display: block;
+    line-height: 22px;
+    width: 202.42px;
+}
+
+.block-minicart .action.viewcart span {
+    color: #fff !important;
+}
+
 button#top-cart-btn-checkout {
     background: #fe4c25;
     border: none;
@@ -129,11 +156,10 @@ button#top-cart-btn-checkout {
     font-weight: 700;
     border-radius: 100px;
     padding: 8px 15px;
-    margin-right: -5px;
     margin-left: auto;
     display: block;
-    margin-bottom: 15px;
-    width: auto;
+    margin-bottom: 0;
+    width: 202.42px;
 }
 
 span.item-qty-text {
@@ -365,7 +391,7 @@ a.action.viewcart span {
     padding: 0;
     border-radius: 9999px;
     margin: 10px;
-    border: 1px #d9d9d9 solid;
+    border: 0;
     width: 28px;
     height: 28px;
     position: absolute;
@@ -390,6 +416,13 @@ a.action.viewcart span {
     color: unset;
     background: #fff !important;
     border: 1px #d9d9d9 solid !important;
+}
+
+.block-minicart .block-content > .actions {
+    display: flex;    
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
 }
 
 .block-minicart .block-content > .actions > .primary {
@@ -427,7 +460,20 @@ a.action.viewcart span {
 
 .product-item-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* aligns both pricing and actions to right */
-  gap: 4px;
+  gap: 10px;
+}
+
+.minicart-wrapper .product .actions > .primary {
+    display: none;
+}
+
+.minicart-items .action.delete > span {
+    margin: 0;
+    position: relative;
+    color: #EB5757 !important;
+    font-size: 14px;
+}
+
+.minicart-wrapper .product .actions {
+    margin: 0;
 }

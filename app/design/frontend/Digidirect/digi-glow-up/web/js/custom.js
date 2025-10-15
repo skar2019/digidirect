@@ -1089,72 +1089,65 @@ $(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
 
 
 /* ========================
- 🎯 Owl Dots Animated Backdrop (Tesla Style)
+ 🎯 Owl Dots Tesla-Style Backdrop (Rounded Highlight)
 ======================== */
 $(document).ready(function () {
   function initOwlBackdrop($carousel) {
     const $dots = $carousel.find('.owl-dots')
     if (!$dots.length) return
 
-    // Ensure .owl-dots is positioned correctly
     $dots.css('position', 'relative')
 
-    // Create or get the backdrop
+    // Ensure backdrop exists
     let $backdrop = $dots.find('.owl--animated-backdrop')
     if (!$backdrop.length) {
       $backdrop = $('<div class="owl--animated-backdrop"></div>')
       $dots.append($backdrop)
     }
 
-    // Function to move backdrop under active dot
-    function moveBackdrop(animate = true) {
-      const $activeDot = $dots.find('.owl-dot.active')
-      if (!$activeDot.length) return
+    function moveBackdrop($dot, animate = true) {
+      if (!$dot?.length) return
 
-      const activeLeft = $activeDot.position().left
-      const activeWidth = $activeDot.outerWidth()
+      const dotOffset = $dot.position()?.left || 0
+      const dotWidth = $dot.outerWidth() || 0
+      const dotHeight = $dot.outerHeight() || 0
 
-      // Temporarily disable transition for initial placement
       if (!animate) $backdrop.css('transition', 'none')
 
+      // Center the backdrop behind the dot
       $backdrop.css({
-        transform: `translateX(${activeLeft}px)`,
-        width: `${activeWidth}px`,
+        transform: `translateX(${dotOffset}px)`,
+        width: `${dotWidth}px`,
+        height: `${dotHeight}px`,
       })
 
-      if (!animate) {
-        setTimeout(() => $backdrop.css('transition', ''), 50)
-      }
+      if (!animate) setTimeout(() => $backdrop.css('transition', ''), 50)
     }
 
-    // Initial placement once dots render
-    setTimeout(() => moveBackdrop(false), 100)
+    // Initial placement
+    setTimeout(() => moveBackdrop($dots.find('.owl-dot.active'), false), 100)
 
-    // On dot click — move immediately
+    // On dot click → instant move
     $dots.on('click', '.owl-dot', function () {
-      const $dot = $(this)
-      const left = $dot.position().left
-      const width = $dot.outerWidth()
-      $backdrop.css({
-        transform: `translateX(${left}px)`,
-        width: `${width}px`,
-      })
+      moveBackdrop($(this), true)
     })
 
-    // On carousel change — sync backdrop
+    // On carousel slide change
     $carousel.on('changed.owl.carousel', function () {
-      // Re-inject backdrop if Owl re-rendered the dots
+      // Re-inject backdrop if Owl rebuilt the dots
       if (!$dots.find('.owl--animated-backdrop').length) {
         $dots.append($backdrop)
       }
-      moveBackdrop(true)
+      moveBackdrop($dots.find('.owl-dot.active'), true)
     })
 
-    // On resize — recalc
-    $(window).on('resize', () => moveBackdrop(true))
+    // On resize
+    $(window).on('resize', function () {
+      moveBackdrop($dots.find('.owl-dot.active'), true)
+    })
   }
 
-  // Initialize for all carousels once Owl is ready
+  // Wait for Owl to initialize
   const checkOwl = setInterval(() => {
     const $carousels = $('.owl-carousel.owl-loaded')
     if ($carousels.length && $carousels.find('.owl-dots').length) {
