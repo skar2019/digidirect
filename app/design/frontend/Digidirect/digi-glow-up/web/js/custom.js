@@ -860,5 +860,305 @@ $(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
 })
 
 
+/* ========================
+   🌀 TCL Banner – Two-Finger Swipe Only (No CSS / No Click)
+      ======================== 
+*/
+ $(function () {
+    // Settings
+    const SWIPE_THRESHOLD = 50    // px
+    const LOCK_MS = 300          // prevent repeated triggers
+    const WHEEL_MIN = 10         // wheel threshold to consider as horizontal swipe
+
+    function initBanner($carousel) {
+      if (!$carousel || !$carousel.length) return
+
+      const slidesContainer = $carousel[0].querySelector('.tcl-banner__slides-container')
+      const slides = Array.from($carousel[0].querySelectorAll('.tcl-banner__slide'))
+      const dots = Array.from($carousel[0].querySelectorAll('.tds-tab'))
+
+      if (!slidesContainer || !slides.length) return
+
+      // find initial active index from dots (aria-selected) or first slide shown
+      let activeIndex = 0
+      const selectedDotIndex = dots.findIndex(d => d.getAttribute('aria-selected') === 'true')
+      if (selectedDotIndex >= 0) activeIndex = selectedDotIndex
+
+      let twoFinger = false
+      let touchStartX = 0
+      let locked = false
+
+      function setActive(index) {
+        index = ((index % slides.length) + slides.length) % slides.length
+        slides.forEach((slide, i) => slide.classList.toggle('tcl-banner__slide--active', i === index))
+        dots.forEach((dot, i) => dot.setAttribute('aria-selected', i === index ? 'true' : 'false'))
+        activeIndex = index
+      }
+
+      // initialize visible slide
+      setActive(activeIndex)
+
+      // Helper to lock briefly after a swipe to avoid multiple triggers
+      function lockTemporary() {
+        locked = true
+        setTimeout(() => {
+          locked = false
+        }, LOCK_MS)
+      }
+
+      // --- Touch handlers (two-finger) ---
+      function onTouchStart(e) {
+        const touches = e.touches || (e.originalEvent && e.originalEvent.touches)
+        if (!touches) return
+        if (touches.length === 2) {
+          twoFinger = true
+          touchStartX = (touches[0].clientX + touches[1].clientX) / 2
+        } else {
+          twoFinger = false
+        }
+      }
+
+      function onTouchMove(e) {
+        if (!twoFinger || locked) return
+        const touches = e.touches || (e.originalEvent && e.originalEvent.touches)
+        if (!touches || touches.length !== 2) return
+
+        const touchEndX = (touches[0].clientX + touches[1].clientX) / 2
+        const deltaX = touchEndX - touchStartX
+
+        // horizontal swipe detection only
+        if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+          // prevent vertical scroll when we trigger a slide change
+          if (e.cancelable) e.preventDefault()
+
+          if (deltaX < 0) {
+            // left -> next
+            setActive((activeIndex + 1) % slides.length)
+          } else {
+            // right -> prev
+            setActive((activeIndex - 1 + slides.length) % slides.length)
+          }
+          twoFinger = false
+          lockTemporary()
+        }
+      }
+
+      function onTouchEnd() {
+        twoFinger = false
+      }
+
+      // Add non-passive listeners so we can call preventDefault()
+      slidesContainer.addEventListener('touchstart', onTouchStart, { passive: true })
+      slidesContainer.addEventListener('touchmove', onTouchMove, { passive: false })
+      slidesContainer.addEventListener('touchend', onTouchEnd, { passive: true })
+      slidesContainer.addEventListener('touchcancel', onTouchEnd, { passive: true })
+
+      // --- Wheel/trackpad support for horizontal two-finger swipes ---
+      // Use the carousel element so the listener is scoped
+      function onWheel(e) {
+        // Prefer deltaX if horizontal; ignore small moves
+        const ev = e || window.event
+        const absX = Math.abs(ev.deltaX || 0)
+        const absY = Math.abs(ev.deltaY || 0)
+
+        // require horizontal-dominant and over threshold
+        if (absX > absY && absX > WHEEL_MIN && !locked) {
+          // prevent page horizontal scroll
+          if (e.cancelable) e.preventDefault()
+
+          if ((ev.deltaX || 0) > 0) {
+            // scrolled left -> go next
+            setActive((activeIndex + 1) % slides.length)
+          } else {
+            // scrolled right -> prev
+            setActive((activeIndex - 1 + slides.length) % slides.length)
+          }
+          lockTemporary()
+        }
+      }
+
+      // add wheel listener directly (not through jQuery) and non-passive so preventDefault works
+      slidesContainer.addEventListener('wheel', onWheel, { passive: false })
+
+      // Optional: clicking the dots should update activeIndex (keep behavior consistent)
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', function (ev) {
+          ev.preventDefault && ev.preventDefault()
+          setActive(i)
+          lockTemporary()
+        })
+      })
+    }
+
+    // Initialize all tcl-banner__carousel instances when DOM ready.
+    // If carousels may be rendered later, observe the DOM too.
+    function initAll() {
+      const $carousels = $('.tcl-banner__carousel')
+      $carousels.each(function () {
+        initBanner($(this))
+      })
+    }
+
+    initAll()
+
+    // If pagebuilder or other scripts may insert banners after load, watch for additions
+    if (window.MutationObserver) {
+      const mo = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+          if (m.addedNodes && m.addedNodes.length) {
+            // cheap detection: any added node that contains the banner class
+            const found = Array.from(m.addedNodes).some((n) => {
+              return (n.nodeType === 1 && (n.matches('.tcl-banner__carousel') || n.querySelector && n.querySelector('.tcl-banner__carousel')))
+            })
+            if (found) {
+              initAll()
+              break
+            }
+          }
+        }
+      })
+      mo.observe(document.body, { childList: true, subtree: true })
+    }
+  })
+
+/* ========================
+   🎯 Slick Dots Animated Backdrop 
+======================== */
+  $(document).ready(function () {
+    function initBackdrop($slider) {
+      const $dots = $slider.find('.slick-dots')
+      if (!$dots.length) return
+
+      // ensure container positioning
+      $dots.css('position', 'relative')
+
+      // inject backdrop once
+      let $backdrop = $dots.find('.slick--animated-backdrop')
+      if (!$backdrop.length) {
+        $backdrop = $('<div class="slick--animated-backdrop"></div>')
+        $dots.append($backdrop)
+      }
+
+      function moveBackdrop(animate = true) {
+        const $activeLi = $dots.find('li.slick-active')
+        if (!$activeLi.length) return
+
+        const liOffset = $activeLi.position()?.left || 0
+        const liWidth = $activeLi.outerWidth() || 0
+
+        // temporarily disable transition for instant placement
+        if (!animate) $backdrop.css('transition', 'none')
+
+        $backdrop.css({
+          transform: `translateX(${liOffset}px)`,
+          width: liWidth + 'px',
+        })
+
+        // restore transition after first placement
+        if (!animate) {
+          setTimeout(() => {
+            $backdrop.css('transition', '')
+          }, 50)
+        }
+      }
+
+      // ✅ Place backdrop instantly on first render
+      setTimeout(() => moveBackdrop(false), 50)
+
+      // then re-enable smooth motion for future changes
+      $slider.on('afterChange', () => moveBackdrop(true))
+      $(window).on('resize', () => moveBackdrop(true))
+
+      // dot click updates backdrop visually even before slide change
+      $dots.on('click', 'button', function () {
+        setTimeout(() => moveBackdrop(true), 150)
+      })
+    }
+
+    // Wait for Slick to initialize and dots to appear
+    const checkSlick = setInterval(function () {
+      const $sliders = $('.pagebuilder-slider.slick-initialized')
+      if ($sliders.length && $sliders.find('.slick-dots').length) {
+        clearInterval(checkSlick)
+        $sliders.each(function () {
+          initBackdrop($(this))
+        })
+      }
+    }, 200)
+  })
+
+
+/* ========================
+ 🎯 Owl Dots Animated Backdrop 
+======================== */
+$(document).ready(function () {
+  function initOwlBackdrop($carousel) {
+    const $dots = $carousel.find('.owl-dots')
+    if (!$dots.length) return
+
+    // Ensure relative container
+    $dots.css('position', 'relative')
+
+    // Inject backdrop if missing
+    let $backdrop = $dots.find('.owl--animated-backdrop')
+    if (!$backdrop.length) {
+      $backdrop = $('<div class="owl--animated-backdrop"></div>')
+      $dots.append($backdrop)
+    }
+
+    function moveBackdrop(animate = true) {
+      const $activeDot = $dots.find('.owl-dot.active')
+      if (!$activeDot.length) return
+
+      const dotOffset = $activeDot.position()?.left || 0
+      const dotWidth = $activeDot.outerWidth() || 0
+
+      // disable animation for instant setup
+      if (!animate) $backdrop.css('transition', 'none')
+
+      $backdrop.css({
+        transform: `translateX(${dotOffset}px)`,
+        width: `${dotWidth}px`
+      })
+
+      if (!animate) {
+        setTimeout(() => {
+          $backdrop.css('transition', '')
+        }, 50)
+      }
+    }
+
+    // Initial placement
+    setTimeout(() => moveBackdrop(false), 100)
+
+    // On slide change (sync backdrop)
+    $carousel.on('changed.owl.carousel', function () {
+      moveBackdrop(true)
+    })
+
+    // On resize
+    $(window).on('resize', function () {
+      moveBackdrop(true)
+    })
+
+    // On dot click (immediate feedback)
+    $dots.on('click', '.owl-dot', function () {
+      setTimeout(() => moveBackdrop(true), 150)
+    })
+  }
+
+  // Wait for Owl to initialize
+  const checkOwl = setInterval(function () {
+    const $carousels = $('.owl-carousel.owl-loaded')
+    if ($carousels.length && $carousels.find('.owl-dots').length) {
+      clearInterval(checkOwl)
+      $carousels.each(function () {
+        initOwlBackdrop($(this))
+      })
+    }
+  }, 200)
+})
+
+
   })
 })
