@@ -1332,7 +1332,8 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['SKU','Product Title','Brand Name','Model Number','UPC','Description','Category 1','Category 2',
-            'Category 3','Category 4','Product Overview','Specs','Whats in the box','Package Weight','Length Width Height','Warranty','Image URLs'];
+            'Category 3','Category 4','Product Overview','Specs','Whats in the box','Package Weight','Length Width Height',
+            'Warranty','Image URLs','Cost Price','Final Price'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -1350,8 +1351,8 @@ class ProductEntHelper extends AbstractHelper
             {
                 if(!empty($product->getDescription()))
                 {
-                    $description = strip_tags($product->getDescription());
-                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+                    $description = $product->getDescription();
+                    //$description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
                 }
 
                 $overview = $product->getShortDescription();
@@ -1472,6 +1473,12 @@ class ProductEntHelper extends AbstractHelper
                     $imageUrl = "";
                 }
 
+                $costPrice = 0;
+                $costPrice = $product->getCustomAttribute('avg_cost');
+                $costPrice = number_format($costPrice, 2, '.', '');
+
+                $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+
                 //echo $stockonhand."<br/>";
                 $data[] = $product->getSku();
                 $data[] = $title;
@@ -1490,6 +1497,8 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $dimensions;
                 $data[] = $warranty;
                 $data[] = $imageUrl;
+                $data[] = $costPrice;
+                $data[] = $finalPrice;
 
                 $stream->writeCsv($data);
             }
