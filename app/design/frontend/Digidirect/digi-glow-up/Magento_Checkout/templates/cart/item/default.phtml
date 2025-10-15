@@ -111,16 +111,46 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                 <?php if ($canApplyMsrp): ?>
                     <span class="cart msrp subtotal">--</span>
                 <?php else: ?>
-                    <?php
-                        $product = $_item->getProduct();
-                        echo '<pre>';
-                        echo 'Regular Price: ' . $product->getPrice() . "\n";
-                        echo 'Final Price: ' . $product->getFinalPrice() . "\n";
-                        echo '</pre>';
-                    ?>
+                    <?php echo $block->getRowTotalHtml($_item); ?>
                 <?php endif; ?>
                 <span class="item-actions">
-                    <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
+                    <?php
+                        // get product and prices
+                        $product = $_item->getProduct();
+
+                        $finalPrice   = (float) $product->getFinalPrice();
+                        $wiserPrice   = (float) $product->getData('wiser_price');
+                        $regularPrice = (float) $product->getPrice();
+
+                        // ignore invalid wiser_price (treat missing/0 as not present)
+                        if ($wiserPrice <= 0) {
+                            $wiserPrice = PHP_FLOAT_MAX; // so it won't be chosen as the min
+                        }
+
+                        // display price = the lower of finalPrice and wiserPrice
+                        $displayPrice = min($finalPrice, $wiserPrice);
+
+                        // original (slashed) price must always be the product's regular price
+                        $originalPriceForSlash = null;
+                        if ($regularPrice > $displayPrice) {
+                            $originalPriceForSlash = $regularPrice;
+                        }
+                    ?>
+
+                    <span class="cart-price">
+                        <?php if ($originalPriceForSlash !== null): ?>
+                            <span class="old-price">
+                                <?php /* @escapeNotVerified */ echo $block->formatPrice($originalPriceForSlash); ?>
+                            </span>
+                            <span class="special-price">
+                                <?php /* @escapeNotVerified */ echo $block->formatPrice($displayPrice); ?>
+                            </span>
+                        <?php else: ?>
+                            <span class="regular-price">
+                                <?php /* @escapeNotVerified */ echo $block->formatPrice($displayPrice); ?>
+                            </span>
+                        <?php endif; ?>
+                    </span>
                 </span>
             </div>
 
