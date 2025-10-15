@@ -114,9 +114,7 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     <?php echo $block->getRowTotalHtml($_item); ?>
                 <?php endif; ?>
                 <span class="item-actions">
-                    <?php /* @escapeNotVerified */ echo 'wiserPrice, ' . $product->getWiserPrice(); ?><br>
-                    <?php /* @escapeNotVerified */ echo 'finalPrice, ' . $product->getFinalPrice(); ?><br>
-                    <?php /* @escapeNotVerified */ echo 'price, ' . $product->getPrice(); ?>
+                    <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
                 </span>
             </div>
 
@@ -156,7 +154,9 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         <?php if ($canApplyMsrp): ?>
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
-            <?php echo $block->getRowTotalHtml($_item); ?>
+            <?php /* @escapeNotVerified */ echo 'wiserPrice, ' . $product->getWiserPrice(); ?><br>
+            <?php /* @escapeNotVerified */ echo 'finalPrice, ' . $product->getFinalPrice(); ?><br>
+            <?php /* @escapeNotVerified */ echo 'price, ' . $product->getPrice(); ?>
         <?php endif; ?>
         <span class="item-actions">
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
