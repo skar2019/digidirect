@@ -47,7 +47,7 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
                 </div>
             <?php endif; ?>
             <div class="actions">
-                   <?php if ($_preOrderattributeValue): ?>
+                   <?php if ($_preOrderattributeValue == "Yes"): ?>
                         <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn pre-order-btn"
                             id="product-addtocart-button"
