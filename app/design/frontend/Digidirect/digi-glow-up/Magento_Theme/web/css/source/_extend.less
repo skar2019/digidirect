@@ -11,7 +11,6 @@ body {
     padding: 0;
     margin: 0 auto 15px;
     max-width: 1327px;
-    margin-left: 0 !important;
 
     strong {
         color: #7c7c80 !important;
@@ -370,14 +369,51 @@ a.action.towishlist {
 
 .owl-carousel .owl-video-play-icon:hover {
     transform: scale(1.05, 1.05) !important;
-    -ms-transform: scale(1.05, 1.05) !important;
+    -ms-transform: scale(1.05,1.05) !important;
 }
 
 .owl-carousel .owl-video-play-icon {
-    transition: transform 0.5s ease !important;
+    transition: transform .5s ease !important;
 }
 
+.owl--animated-backdrop {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: currentColor; /* or your accent color */
+    transition: transform 0.3s ease, width 0.3s ease;
+    will-change: transform, width;
+}
+
+
 //Test CSS
+
+.slick-dots {
+  position: relative;
+  margin-top: -45px;
+}
+
+.slick-dots button {
+    background-color: #171a20 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background-color .4s !important;
+    position: relative;
+    z-index: 1;
+    padding: 0 !important;
+    opacity: 20%;
+}
+
+.slick--animated-backdrop {
+    position: absolute;
+    top: 18px;
+    left: 5px;
+    height: 14px;
+    background: #333;
+    border-radius: 50%;
+    transition: transform 1s cubic-bezier(0.25, 1.2, 0.5, 1), width .4s ease;
+    z-index: 0;
+}
 
 //
 
@@ -572,10 +608,6 @@ a.action.towishlist {
     font-size: 13px;
     text-transform: uppercase;
     padding: 8px 17.3px 7px 19.7px;
-}
-
-.cms-home .block.newsletter {
-    margin-bottom: 40px;
 }
 
 //PLP

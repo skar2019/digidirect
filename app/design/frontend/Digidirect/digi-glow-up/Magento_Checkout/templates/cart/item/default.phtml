@@ -125,17 +125,8 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 
         </div>
     </td>
-
-    <td class="col stock-status">
-        <span class="stock"><?= __('In Stock') ?></span>
-        <span class="ship"><?= __('Ready to ship') ?></span>
-    </td>
     
     <td class="col qty">
-        <div class="stock-status-mobile">
-            <span class="stock"><?= __('In Stock') ?></span>
-            <span class="ship"><?= __('Ready to ship') ?></span>
-        </div>
         <div class="field qty">
             <label class="label" for="cart-<?php /* @escapeNotVerified */ echo $_item->getId() ?>-qty">
                 <span><?php /* @escapeNotVerified */ echo __('Qty') ?></span>

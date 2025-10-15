@@ -328,7 +328,7 @@
     .product-info-main {
         width: 100% !important;
         border: 1px solid #e6e6e6;
-        border-radius: 25px;
+        border-radius: 20px;
         padding: 17px 7px;
 
         .widget-product.zip-widget__wrapper {
@@ -365,8 +365,8 @@
                 .tooltip-content {
                     display: none;
                     position: absolute;
-                    bottom: 120%; // above the icon
-                    left: 50%;
+                    bottom: 108%;
+                    left: 74%;
                     transform: translateX(-50%);
                     background: #000;
                     color: #fff;
@@ -653,6 +653,7 @@
             justify-content: space-between;
             gap: 4px;
             margin-bottom: 8px;
+            align-items: center;
 
             #product_addtocart_form {
                 width: 100%;
@@ -660,7 +661,7 @@
                 display: flex;
 
                 .action.tocart {
-                    height: 29px;
+                    height: 25px;
                     padding: 3px 20px;
                 }
             }
@@ -685,15 +686,15 @@
                     margin-top: 2px;
                     margin-bottom: -2px;
                     width: 100%;
+                    border-radius: 30px;
                 }
             }
-
         }
 
         .row-second {
             #zip-product-widget {
                 padding: 0;
-                min-height: 29px;
+                min-height: 25px;
             }
             .zip-container {
                 display: flex;
@@ -704,7 +705,7 @@
 
                 .zip-logo {
                     margin: 0;
-                    height: 25px;
+                    height: 21px;
                 }
                 .zip-learn-more {
                     position: absolute;
@@ -726,7 +727,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                height: 29px;
+                height: 25px;
                 padding: 3px 20px;
 
                 .icon-info {
@@ -752,7 +753,7 @@
             box-shadow: none;
             justify-content: center;
             align-items: center;
-            max-height: 29px;
+            max-height: 25px;
             margin-top: 10px;
             font-weight: 600;
             color: #242426;
@@ -788,7 +789,7 @@
             border-radius: 30px;
             min-width: 0 !important;
             box-shadow: none;
-            max-height: 29px;
+            max-height: 25px;
         }
     }
 
@@ -807,7 +808,7 @@
             }
             button.action {
                 padding: 6px 20px !important;
-                height: 29px;
+                height: 25px;
                 text-align: center;
                 display: flex;
                 align-items: center;
@@ -1070,6 +1071,12 @@
         margin: 40px auto;
         max-width: @product-container-max-width;
         padding: 0 25px;
+        #description,
+        #faq,
+        #whatinthebox {
+            padding-left: 15px;
+        }
+
         .data.item {
             margin-bottom: 30px;
 
@@ -1357,4 +1364,26 @@
 }
 .fotorama__arr--next {
     right: 85px;
+}
+.modals-wrapper .modal-popup.itoris-pm-modal {
+    .modal-inner-wrap {
+        max-height: 80vh !important;
+    }
+    .action-close {
+        height: 30px;
+        width: 30px;
+        right: 10px;
+        top: 10px;
+        padding: 0;
+        &:focus {
+            right: 9px;
+            top: 6px;
+            border-radius: 50%;
+            border: 1px solid #d9d9d9 !important;
+            background: #ffffff !important;
+        }
+        &::before {
+            font-size: 29px !important;
+        }
+    }
 }
