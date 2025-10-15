@@ -111,20 +111,7 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                 <?php if ($canApplyMsrp): ?>
                     <span class="cart msrp subtotal">--</span>
                 <?php else: ?>
-                    <?php
-                        $product = $_item->getProduct();
-                        $priceRender = $block->getLayout()->createBlock(\Magento\Framework\Pricing\Render::class);
-                        if ($priceRender) {
-                            echo $priceRender->setData('price_render_handle', 'catalog_product_prices')
-                                ->setData('use_link', false)
-                                ->setData('display_minimal_price', true)
-                                ->setData('product', $product)
-                                ->setData('zone', \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST)
-                                ->toHtml();
-                        } else {
-                            echo $block->getRowTotalHtml($_item);
-                        }
-                    ?>
+                    <?php echo $block->getRowTotalHtml($_item); ?>
                 <?php endif; ?>
                 <span class="item-actions">
                     <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
@@ -167,7 +154,47 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         <?php if ($canApplyMsrp): ?>
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
-            <?php echo $block->getRowTotalHtml($_item); ?>
+            <?php
+                try {
+                    /** @var \Magento\Quote\Model\Quote\Item $_item */
+                    $product = $_item->getProduct();
+
+                    // Get product prices
+                    $regularPrice = (float) $product->getPrice();
+                    $finalPrice   = (float) $product->getFinalPrice();
+
+                    // Try to get custom wiser_price attribute safely
+                    $wiserPrice = $product->hasData('wiser_price') ? (float)$product->getData('wiser_price') : 0;
+
+                    // Determine which price to show
+                    if ($wiserPrice && $wiserPrice < $finalPrice) {
+                        $displayPrice = $wiserPrice;
+                        $originalPrice = $regularPrice;
+                    } elseif ($finalPrice < $regularPrice) {
+                        $displayPrice = $finalPrice;
+                        $originalPrice = $regularPrice;
+                    } else {
+                        $displayPrice = $regularPrice;
+                        $originalPrice = null;
+                    }
+
+                    ?>
+                    <span class="cart-price-wrapper">
+                        <?php if ($originalPrice && $originalPrice > $displayPrice): ?>
+                            <span class="old-price">
+                                <span class="price"><?= $block->escapeHtml($block->formatPrice($originalPrice)) ?></span>
+                            </span>
+                        <?php endif; ?>
+
+                        <span class="special-price">
+                            <span class="price"><?= $block->escapeHtml($block->formatPrice($displayPrice)) ?></span>
+                        </span>
+                    </span>
+                    <?php
+                } catch (\Throwable $e) {
+                    echo '<!-- price error: ' . $e->getMessage() . ' -->';
+                }
+                ?>
         <?php endif; ?>
         <span class="item-actions">
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
