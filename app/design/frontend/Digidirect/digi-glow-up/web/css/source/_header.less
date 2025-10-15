@@ -9,6 +9,7 @@
 
 .panel.header {
     display: flex;
+    padding-right: unset !important;
 }
 
 header.page-header {
@@ -183,6 +184,12 @@ svg.aa-SubmitIcon {
 .minicart-wrapper .action.login,
 .minicart-wrapper .action.logout{
     position: relative;
+}
+
+.minicart-wrapper .action.logout{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .minicart-wrapper .action.showcart .counter.qty {

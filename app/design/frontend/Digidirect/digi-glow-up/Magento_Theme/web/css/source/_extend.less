@@ -11,6 +11,7 @@ body {
     padding: 0;
     margin: 0 auto 15px;
     max-width: 1327px;
+    margin-left: 0 !important;
 
     strong {
         color: #7c7c80 !important;
@@ -275,7 +276,10 @@ a.action.towishlist {
 
 //Slick Carousel
 
-.slick-prev:before, .slick-next:before, .slick-prev:after, .slick-next:after {
+.slick-prev:before,
+.slick-next:before,
+.slick-prev:after,
+.slick-next:after {
     display: none;
 }
 
@@ -366,11 +370,11 @@ a.action.towishlist {
 
 .owl-carousel .owl-video-play-icon:hover {
     transform: scale(1.05, 1.05) !important;
-    -ms-transform: scale(1.05,1.05) !important;
+    -ms-transform: scale(1.05, 1.05) !important;
 }
 
 .owl-carousel .owl-video-play-icon {
-    transition: transform .5s ease !important;
+    transition: transform 0.5s ease !important;
 }
 
 //Test CSS
@@ -437,7 +441,8 @@ a.action.towishlist {
     height: 191px;
 }
 
-#glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
+#glow-up-brands .owl-item img,
+#glow-up-brands .owl-item svg {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -579,7 +584,8 @@ a.action.towishlist {
     max-width: 1327px;
 }
 
-.catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
+.catalog-category-view .breadcrumbs,
+.catalogsearch-result-index .breadcrumbs {
     padding-top: 10px;
 }
 
@@ -728,4 +734,16 @@ body.blur-active .global-blur-overlay {
     position: relative !important;
     left: 0 !important;
     top: 6px !important;
+}
+
+.fieldset .field:not(.choice) > .control input[type="text"],
+.fieldset .field:not(.choice) > .control input[type="email"],
+.fieldset .field:not(.choice) > .control input[type="password"],
+select,
+.fieldset .field:not(.choice) > .control input.qty {
+    border-radius: 10px !important;
+}
+
+.actions-toolbar > .primary .action, .actions-toolbar > .secondary .action {
+    border-radius: 100px;
 }

@@ -1,6 +1,6 @@
 .product-help-box {
     border: 1px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 12px;
     text-align: center;
     background: #fff;
@@ -24,11 +24,14 @@
         margin-top: 10px;
         font-size: 10px;
         line-height: 12px;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
 
         a {
             color: #0171e3;
             text-decoration: none;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
 
             &:hover {
@@ -191,6 +194,27 @@
             }
         }
     }
+    .itoris-pm-field {
+        textarea {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 15px;
+        }
+        textarea::placeholder {
+            color: #626262;
+            font-style: normal;
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Inter";
+            font-weight: 400;
+            text-transform: capitalize;
+        }
+    }
 
     .itoris-custom-grid {
         display: flex;
@@ -244,6 +268,48 @@
 }
 
 .action.tocart.btn_cart {
+    .tooltip-wrapper {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .addtocart-tooltip {
+        visibility: hidden;
+        opacity: 0;
+        width: 366px;
+        background-color: #f2f2f7;
+        color: #242426;
+        text-align: center;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.3s ease;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 400;
+    }
+
+    .tooltip-wrapper:hover .addtocart-tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .addtocart-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #f2f2f7 transparent transparent transparent;
+    }
     &.pre-order-btn {
         background: #00c3ff !important;
 
@@ -253,49 +319,6 @@
             .icon-info {
                 margin-left: 5px;
             }
-        }
-
-        .tooltip-wrapper {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            margin-left: 5px;
-        }
-
-        .addtocart-tooltip {
-            visibility: hidden;
-            opacity: 0;
-            width: 250px;
-            background-color: #f2f2f7;
-            color: #242426;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 99;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: opacity 0.3s ease;
-            font-size: 12px;
-            line-height: 20px;
-            font-weight: 400;
-        }
-
-        .tooltip-wrapper:hover .addtocart-tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .addtocart-tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #f2f2f7 transparent transparent transparent;
         }
     }
 }
@@ -319,21 +342,21 @@
             text-align: center;
         }
     }
+}
 
-    .fotorama__fullscreen-icon {
-        border-radius: 50%;
-        height: 30px;
-        right: 0;
-        top: 0;
-        width: 30px;
-        background-image: none;
-        &::after {
-            font-size: 30px !important;
-            line-height: 30px !important;
-            margin-top: -1px;
-            content: "\e616";
-            color: #262628;
-            font-family: "icomoon";
+.fotorama__fullscreen-icon {
+    border-radius: 50%;
+    &:after {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px !important;
+    }
+    &:focus,
+    &:hover {
+        outline: none;
+        &:after {
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px !important;
         }
     }
+}
+.fotorama__wrap--slide .fotorama__stage__frame {
+    cursor: pointer;
 }

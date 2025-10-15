@@ -109,7 +109,7 @@
             &.-account::before   { background-image: url('@{baseDir}images/myaccount/account.svg'); }
             &.-profile::before   { background-image: url('@{baseDir}images/myaccount/profile.svg'); }
             &.-address::before   { background-image: url('@{baseDir}images/myaccount/address.svg'); }
-            &.-orders::before    { background-image: url('@{baseDir}images/myaccount/orders.svg'); }
+            //&.-orders::before    { background-image: url('@{baseDir}images/myaccount/orders.svg'); }
             &.-reviews::before   { background-image: url('@{baseDir}images/myaccount/reviews.svg'); }
             &.-account-wishlist::before { background-image: url('@{baseDir}images/myaccount/wishlist.svg'); }
             &.-account-gift::before     { background-image: url('@{baseDir}images/myaccount/giftcard.svg'); }
@@ -150,6 +150,8 @@
 
 }
 
-.account .block-collapsible-nav .nav.item:hover, .account .block-collapsible-nav .nav.item.current {
+.account .block-collapsible-nav .nav.item:hover,
+.account .block-collapsible-nav .nav.item.current,
+.account .block-collapsible-nav .item a:hover {
     background-color: unset !important;
 }
