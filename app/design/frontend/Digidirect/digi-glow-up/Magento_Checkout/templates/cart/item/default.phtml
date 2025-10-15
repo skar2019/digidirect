@@ -112,18 +112,30 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     <span class="cart msrp subtotal">--</span>
                 <?php else: ?>
                     <?php
+                    try {
                         $product = $_item->getProduct();
-                        $priceRender = $block->getLayout()->createBlock(\Magento\Framework\Pricing\Render::class);
-                        if ($priceRender) {
-                            echo $priceRender->setData('price_render_handle', 'catalog_product_prices')
-                                ->setData('use_link', false)
-                                ->setData('display_minimal_price', true)
-                                ->setData('product', $product)
-                                ->setData('zone', \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST)
-                                ->toHtml();
+                        $layout = $block->getLayout();
+
+                        if ($layout) {
+                            /** @var \Magento\Framework\Pricing\Render $priceRender */
+                            $priceRender = $layout->createBlock(\Magento\Framework\Pricing\Render::class);
+                            if ($priceRender) {
+                                echo $priceRender
+                                    ->setData('price_render_handle', 'sales_quote_item_price') // ✅ valid handle
+                                    ->setData('use_link', false)
+                                    ->setData('display_minimal_price', true)
+                                    ->setData('product', $product)
+                                    ->setData('zone', \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST)
+                                    ->toHtml();
+                            } else {
+                                echo $block->getRowTotalHtml($_item);
+                            }
                         } else {
                             echo $block->getRowTotalHtml($_item);
                         }
+                    } catch (\Throwable $e) {
+                        echo $block->getRowTotalHtml($_item);
+                    }
                     ?>
                 <?php endif; ?>
                 <span class="item-actions">
