@@ -442,6 +442,13 @@ define([
 
                 $('#collect_type_delivery').prop('checked', true).trigger('change');
 
+                if ($('#collect_type_collect').length === 0) {
+                    $('<style>')
+                        .prop('type', 'text/css')
+                        .html('.collect-type-delivery-label::before { display: none !important; }')
+                        .appendTo('head');
+                }
+
                 if (!isCustomerLoggedIn) {
                     checkoutToggle.toggleUpCustomerInfoSection();
 
