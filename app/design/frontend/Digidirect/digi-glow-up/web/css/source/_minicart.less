@@ -462,6 +462,7 @@ a.action.viewcart span {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: -20px;
 }
 
 .minicart-wrapper .product .actions > .secondary {
@@ -486,4 +487,13 @@ a.action.viewcart span {
 
 .minicart-items .action.delete:before {
     display: none;
+}
+
+.modal-footer .action-accept:active, .modal-footer .action-accept:focus, .modal-footer .action-accept:hover {
+    background: #fe4c25;
+    color: #fff;
+}
+
+button.action-secondary.action-dismiss {
+    background: #2c2c2c;
 }
