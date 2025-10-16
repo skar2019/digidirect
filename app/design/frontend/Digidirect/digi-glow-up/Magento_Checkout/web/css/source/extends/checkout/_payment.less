@@ -15,17 +15,54 @@
         .field[name*=telephone]{
             width: 50%;
             float: left;
-            padding-right: 5px;
+            //padding-right: 5px;
         }
 
         .input-text, .select {
             width: 100% !important;
+        }
+
+        .choice.field {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            width: 100%;
+
+            .checkbox {
+                margin-top: -4px;
+            }
+
+            .label {
+                line-height: 40px;
+            }
+        }
+
+        .field-tooltip {
+            display: none !important;
+        }
+
+        .control {
+            padding: 0 !important;
+        }
+
+        .field:has(input[name="firstname"]),
+        .field:has(select[name="country_id"]),
+        .field:has(input[name="city"]){
+            margin-right: 29px !important;
+            width: 48% !important;
+        }
+
+        .field:has(input[name="lastname"]),
+        .field:has(select[name="region_id"]),
+        .field:has(input[name="postcode"]){
+            width: 48% !important;
         }
     }
 }
 
 .payment-method-billing-address .checkout-billing-address {
     margin-left: 40px !important;
+    margin-right: 60px !important;
 }
 
 .checkout-payment-method .billing-address-form {
@@ -78,6 +115,52 @@
         text-decoration: none !important;
     }
 }
+.checkout-billing-address .field-select-billing {
+    max-width: unset !important;
+
+    .fieldset {
+        margin-right: 25px !important;
+        margin-left: 25px !important;
+    }
+
+    .control {
+        //padding-left: 20px;
+        padding: 0 !important;
+
+        select {
+            padding: 10px 15px !important;
+           // width: 700px !important;
+        }
+    }
+}
+
+.checkout-billing-address .field-select-billing .control,
+.checkout-billing-address .billing-address-form .control:has(select) {
+    position: relative;
+    display: inline-block;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        display: block;
+
+    }
+
+    .select {
+        appearance: none !important;
+        min-width: 50px;
+        padding-right: 40px !important;
+    }
+}
+
 
 #co-payment-form {
     .step-title {
@@ -193,7 +276,7 @@
     }
 
     #co-transparent-form-braintree {
-        margin: 15px 45px 0 40px !important;
+        margin: 15px 60px 0 60px !important;
     }
 
     #co-transparent-form-braintree .fieldset.ccard .field .label {
@@ -208,8 +291,10 @@
     .billing-address-details {
         border: 1px solid #D9D9D9;
         border-radius: 10px;
-        margin: 10px 63px 10px 0;
-        padding: 15px 0 0 20px !important;
+        //: 10px 63px 10px 0;
+        margin: 25px 25px !important;
+        padding: 15px 0 15px 28px !important;
+        line-height: 25px !important;
     }
 
     .zip-checkout-description {
@@ -325,7 +410,12 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap;
-    margin-left: 35px;
+    margin-left: 64px;
+}
+
+.afterpay.payment-method .actions-toolbar-wraper{
+    padding: 15px 30px !important;
+    margin-right: 80px !important;
 }
 
 #method-latitude .latitude-icon {
@@ -504,6 +594,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
         .actions-toolbar {
             button.primary {
                 margin-left: 10px;
+                margin-top: 0 !important;
             }
         }
     }
@@ -556,7 +647,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
         display: block !important;
     }
 
-    input[type="checkbox"] {
+    /*input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
         width: 18px !important;
@@ -584,7 +675,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
         border: solid black;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
-    }
+    }*/
 
 
     .billing-address-same-as-shipping-block.field {
@@ -673,12 +764,19 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
         }
 
     }
+
+    input {
+        font-size: 14px !important;
+        font-family: "Inter";
+    }
 }
+
 .checkout-index-index .payment-method-braintree .hosted-control {
     padding-left: 20px !important;
     font-size: 14px !important;
     color: #7F7F7F !important;
     height: 40px;
+    border-radius: 10px;
 }
 
 #co-payment-form {
@@ -688,7 +786,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 }
 
 #co-payment-form .payment-method select{
-    width: 500px !important;
+    //width: 500px !important;
 }
 
 .field.choice:has(#braintree_enable_vault) {
@@ -706,4 +804,8 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 .payment-option-item:has(.block-discount-heading) {
     padding-top: 5px;
 }
+
+/*.opc-wrapper .billing-address-form .control {
+    padding: 0 !important;
+}*/
 /**** Payment Information End ****/
