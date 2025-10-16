@@ -160,6 +160,30 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
+    
+    /* ========================
+        💫 Add blur when #pa-welcome-back is active
+     ======================== */
+     if (window.MutationObserver) {
+       const welcomeBackObserver = new MutationObserver(() => {
+         const isActive = $('#pa-welcome-back').hasClass('active')
+         $('body').toggleClass('blur-active', isActive)
+         positionBlurOverlay()
+       })
+
+       const paElement = document.getElementById('pa-welcome-back')
+       if (paElement) {
+         welcomeBackObserver.observe(paElement, { attributes: true, attributeFilter: ['class'] })
+       }
+     }
+     
+     /* ========================
+        ❌ Close Welcome Back & Remove Blur
+     ======================== */
+    $('#pa-welcome-back').removeClass('active')
+    $('body').removeClass('blur-active')
+    positionBlurOverlay()
+
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
