@@ -1173,14 +1173,17 @@ $(function () {
             $node.hasClass('modal-popup') &&
             $node.hasClass('confirm') &&
             $node.find('.modal-content:contains("remove this item")').length
-          ) {
+          ) {// ✳️ Change question text
+            $node.find('.modal-content div').text(
+              'Are you sure you would like to remove this item?'
+            )
             // Update button labels
             $node
               .find('.action-secondary.action-dismiss span')
-              .text('No, keep it')
+              .text('No, Keep It')
             $node
               .find('.action-primary.action-accept span')
-              .text('Yes, remove it')
+              .text('Yes, Remove It')
 
             // Optional: focus No button
             $node.find('.action-secondary.action-dismiss').focus()
