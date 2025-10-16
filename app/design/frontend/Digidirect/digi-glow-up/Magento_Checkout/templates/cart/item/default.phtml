@@ -155,6 +155,9 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
             <?php echo $product->getPrice();?>
+            <span class="old-price">
+                <?php echo '$' . number_format($product->getPrice(), 2); ?>
+            </span>
             <?php echo $block->getRowTotalHtml($_item); ?>
         <?php endif; ?>
         <span class="item-actions">
