@@ -1474,7 +1474,12 @@ class ProductEntHelper extends AbstractHelper
                 }
 
                 $costPrice = 0;
-                $costPrice = $product->getCustomAttribute('avg_cost');
+                $costPriceAttr = $product->getCustomAttribute('avg_cost');
+                if(!is_null($costPriceAttr))
+                {
+                    $costPrice = $costPriceAttr->getValue();
+                }
+
                 $costPrice = number_format($costPrice, 2, '.', '');
 
                 $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
