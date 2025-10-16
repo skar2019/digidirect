@@ -175,6 +175,31 @@ $(window).on('scroll resize', () => {
     })
     
     /* ========================
+        🚚 Move #pa-welcome-back After .page-wrapper
+     ======================== */
+     function moveWelcomeBackWidget() {
+       const $widget = $('#pa-welcome-back')
+       const $pageWrapper = $('.page-wrapper')
+
+       if ($widget.length && $pageWrapper.length) {
+         // move only if not already right after
+         if (!$pageWrapper.next('#pa-welcome-back').length) {
+           $widget.insertAfter($pageWrapper)
+           console.log('✅ #pa-welcome-back moved after .page-wrapper')
+         }
+       }
+     }
+
+     // Run immediately
+     moveWelcomeBackWidget()
+
+     // In case widget loads later (e.g. via AJAX)
+     if (window.MutationObserver) {
+       const moveObserver = new MutationObserver(() => moveWelcomeBackWidget())
+       moveObserver.observe(document.body, { childList: true, subtree: true })
+     }
+
+     /* ========================
         💫 Blur Entire Page Except #pa-welcome-back
      ======================== */
      function togglePageBlur() {
@@ -190,27 +215,22 @@ $(window).on('scroll resize', () => {
      // Run once on load
      togglePageBlur()
 
-     // Observe #pa-welcome-back for class changes
+     // Observe for active class changes
      if (window.MutationObserver) {
        const observer = new MutationObserver(togglePageBlur)
        const paEl = document.getElementById('pa-welcome-back')
        if (paEl) observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
      }
 
-     // 💅 Add blur styles
+     /* ========================
+        💅 Blur Styles
+     ======================== */
      const blurPageStyle = `
        body.blur-active > *:not(#pa-welcome-back) {
          filter: blur(12px);
          -webkit-filter: blur(12px);
          transition: filter 0.3s ease;
-         pointer-events: none; /* prevent interaction while blurred */
-       }
-
-       /* Make sure the widget stays clear and clickable */
-       #pa-welcome-back {
-         position: relative;
-         z-index: 9999;
-         filter: none !important;
+         pointer-events: none; /* prevent clicks while blurred */
        }
      `
      $('head').append(`<style>${blurPageStyle}</style>`)
