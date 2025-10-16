@@ -143,14 +143,14 @@ $(window).on('scroll resize', () => {
     $('head').append(`<style>${blurStyle}</style>`)
 
     $(document)
-      .on('mouseenter', '.has-dropdown', function () {
+      .on('mouseenter', '.has-dropdown, .ruby-menu-mega-blog', function () {
         $('body').addClass('blur-active')
         positionBlurOverlay()
-      })
-      .on('mouseleave', '.has-dropdown', function () {
+    })
+      .on('mouseleave', '.has-dropdown, .ruby-menu-mega-blog', function () {
         $('body').removeClass('blur-active')
         positionBlurOverlay()
-      })
+    })
 
     if (window.MutationObserver) {
       const aaObserver = new MutationObserver(() => {
@@ -160,6 +160,23 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
+    
+    /* ========================
+        🌐 Reposition #pa-welcome-back
+     ======================== */
+     const $paWelcomeBack = $('#pa-welcome-back')
+     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+       $('.page-wrapper').before($paWelcomeBack)
+     }
+
+     /* ========================
+        ❌ Close Welcome Back & Remove Blur
+     ======================== */
+     $(document).on('click', '#welcome-back-close', function () {
+       $('#pa-welcome-back').removeClass('active')
+       $('body').removeClass('welcome-blur-active')
+       positionBlurOverlay() // keep your old blur overlay working
+     })
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
