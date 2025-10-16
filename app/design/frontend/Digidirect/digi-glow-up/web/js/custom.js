@@ -143,14 +143,14 @@ $(window).on('scroll resize', () => {
     $('head').append(`<style>${blurStyle}</style>`)
 
     $(document)
-      .on('mouseenter', '.has-dropdown, .ruby-menu-mega-blog', function () {
+      .on('mouseenter', '.hasdropdown', function () {
         $('body').addClass('blur-active')
         positionBlurOverlay()
-    })
-      .on('mouseleave', '.has-dropdown, .ruby-menu-mega-blog', function () {
+      })
+      .on('mouseleave', '.hasdropdown', function () {
         $('body').removeClass('blur-active')
         positionBlurOverlay()
-    })
+      })
 
     if (window.MutationObserver) {
       const aaObserver = new MutationObserver(() => {
@@ -836,7 +836,7 @@ aaStickObserver.observe(document.body, { childList: true, subtree: true })
    🧩 Close aa-Panel on Blog Mega Menu Hover
 ======================== */
 $(document)
-  .on('mouseenter', '.ruby-menu-mega-blog.has-dropdown', function () {
+  .on('mouseenter', '.ruby-menu-mega-blog.hasdropdown', function () {
     // Hide aa-Panel and reset input state
     const $panel = $('.aa-Panel')
     const $input = $('#autocomplete-0-input')
@@ -852,7 +852,7 @@ $(document)
     // Make sure blur overlay updates correctly
     $('body').removeClass('blur-active')
   })
-  .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
+  .on('mouseleave', '.ruby-menu-mega-blog.hasdropdown', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
   
