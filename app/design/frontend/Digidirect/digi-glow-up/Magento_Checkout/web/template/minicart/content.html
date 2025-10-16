@@ -70,13 +70,28 @@
     </if>
 
     <ifnot args="getCartParam('summary_count')">
-        <span class='empty-cart'>
-            <img data-bind="attr: { src: require.toUrl('images/checkout/empty-cart.png') }" alt="Logo">
-        </span>
-        <strong
-            class="subtitle empty"
-            translate="'Ready to fill this cart with awesome finds?'"
-        ></strong>
+        <div>
+            <span class='empty-cart'>
+                <img data-bind="attr: { src: require.toUrl('images/checkout/empty-cart.png') }" alt="Logo">
+            </span>
+            <strong
+                class="subtitle empty"
+                translate="'Ready to fill this cart with awesome finds?'"
+            ></strong>
+        </div>
+        <!-- 🟢 Continue Shopping Button -->
+        <div class="secondary continue-shopping">
+            <button
+                type="button"
+                class="action continue"
+                data-bind="
+                  click: function() {
+                    closeMinicart();
+                  }
+                "
+                translate="'Continue Shopping'"
+            ></button>
+        </div>
         <if args="getCartParam('cart_empty_message')">
             <p
                 class="minicart empty text"
@@ -90,19 +105,6 @@
                     >
                         <span translate="'View and Edit Cart'"></span>
                     </a>
-                </div>
-                <!-- 🟢 Continue Shopping Button -->
-                <div class="secondary continue-shopping">
-                    <button
-                        type="button"
-                        class="action continue"
-                        data-bind="
-                          click: function() {
-                            closeMinicart();
-                          }
-                        "
-                        translate="'Continue Shopping'"
-                    ></button>
                 </div>
             </div>
         </if>
