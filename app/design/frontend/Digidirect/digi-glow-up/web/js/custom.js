@@ -173,7 +173,47 @@ $(window).on('scroll resize', () => {
 
         console.log('✅ Welcome Back closed & blur removed')
     })
+    
+    /* ========================
+        💫 Blur Entire Page Except #pa-welcome-back
+     ======================== */
+     function togglePageBlur() {
+       const isActive = $('#pa-welcome-back').hasClass('active')
 
+       if (isActive) {
+         $('body').addClass('blur-active')
+       } else {
+         $('body').removeClass('blur-active')
+       }
+     }
+
+     // Run once on load
+     togglePageBlur()
+
+     // Observe #pa-welcome-back for class changes
+     if (window.MutationObserver) {
+       const observer = new MutationObserver(togglePageBlur)
+       const paEl = document.getElementById('pa-welcome-back')
+       if (paEl) observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+     }
+
+     // 💅 Add blur styles
+     const blurPageStyle = `
+       body.blur-active > *:not(#pa-welcome-back) {
+         filter: blur(12px);
+         -webkit-filter: blur(12px);
+         transition: filter 0.3s ease;
+         pointer-events: none; /* prevent interaction while blurred */
+       }
+
+       /* Make sure the widget stays clear and clickable */
+       #pa-welcome-back {
+         position: relative;
+         z-index: 9999;
+         filter: none !important;
+       }
+     `
+     $('head').append(`<style>${blurPageStyle}</style>`)
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
