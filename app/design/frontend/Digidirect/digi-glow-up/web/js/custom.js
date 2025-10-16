@@ -1159,6 +1159,29 @@ $(document).ready(function () {
   }, 200)
 })
 
+//Minicart Remove Confirmation Change Text
+
+// Run after DOM ready
+  $(function () {
+    // Listen for Magento confirm modals being inserted dynamically
+    $(document).on('DOMNodeInserted', function (e) {
+      const $modal = $(e.target).closest('.modal-popup.confirm._show')
+
+      // Only target the minicart's "remove item" confirmation popup
+      if (
+        $modal.length &&
+        $modal.find('.modal-content:contains("Are you sure you would like to remove this item?")').length
+      ) {
+        // Change button texts
+        $modal.find('.action-secondary.action-dismiss span').text('No, Keep It')
+        $modal.find('.action-primary.action-accept span').text('Yes, Remove It')
+
+        // Optional: focus "No" for safety
+        $modal.find('.action-secondary.action-dismiss').focus()
+      }
+    })
+  })
+
 
   })
 })
