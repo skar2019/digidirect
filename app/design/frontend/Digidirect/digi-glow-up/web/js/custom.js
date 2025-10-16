@@ -160,6 +160,80 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
+    
+    //Close Welcome Back Widget
+    $(document).on('click', '#welcome-back-close', function (e) {
+        e.preventDefault()
+
+        // Remove active state from the widget
+        $('#pa-welcome-back').removeClass('active')
+
+        // Remove blur state from the body
+        $('body').removeClass('blur-active')
+
+        console.log('✅ Welcome Back closed & blur removed')
+    })
+    
+    /* ========================
+        🚚 Move #pa-welcome-back After .page-wrapper
+     ======================== */
+     function moveWelcomeBackWidget() {
+       const $widget = $('#pa-welcome-back')
+       const $pageWrapper = $('.page-wrapper')
+
+       if ($widget.length && $pageWrapper.length) {
+         // move only if not already right after
+         if (!$pageWrapper.next('#pa-welcome-back').length) {
+           $widget.insertAfter($pageWrapper)
+           console.log('✅ #pa-welcome-back moved after .page-wrapper')
+         }
+       }
+     }
+
+     // Run immediately
+     moveWelcomeBackWidget()
+
+     // In case widget loads later (e.g. via AJAX)
+     if (window.MutationObserver) {
+       const moveObserver = new MutationObserver(() => moveWelcomeBackWidget())
+       moveObserver.observe(document.body, { childList: true, subtree: true })
+     }
+
+     /* ========================
+        💫 Blur Entire Page Except #pa-welcome-back
+     ======================== */
+     function togglePageBlur() {
+       const isActive = $('#pa-welcome-back').hasClass('active')
+
+       if (isActive) {
+         $('body').addClass('blur-active')
+       } else {
+         $('body').removeClass('blur-active')
+       }
+     }
+
+     // Run once on load
+     togglePageBlur()
+
+     // Observe for active class changes
+     if (window.MutationObserver) {
+       const observer = new MutationObserver(togglePageBlur)
+       const paEl = document.getElementById('pa-welcome-back')
+       if (paEl) observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+     }
+
+     /* ========================
+        💅 Blur Styles
+     ======================== */
+     const blurPageStyle = `
+       body.blur-active > *:not(#pa-welcome-back) {
+         filter: blur(12px);
+         -webkit-filter: blur(12px);
+         transition: filter 0.3s ease;
+         pointer-events: none; /* prevent clicks while blurred */
+       }
+     `
+     $('head').append(`<style>${blurPageStyle}</style>`)
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
@@ -1158,6 +1232,64 @@ $(document).ready(function () {
     }
   }, 200)
 })
+
+//Minicart Remove Confirmation Change Text
+
+$(function () {
+    // Watch for dynamically created confirm popups
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        $(mutation.addedNodes).each(function () {
+          const $node = $(this)
+
+          // Check if a confirm modal has appeared
+          if (
+            $node.hasClass('modal-popup') &&
+            $node.hasClass('confirm') &&
+            $node.find('.modal-content:contains("remove this item")').length
+          ) {// ✳️ Change question text
+            $node.find('.modal-content div').text(
+              'Are you sure you would like to remove this item?'
+            )
+            // Update button labels
+            $node
+              .find('.action-secondary.action-dismiss span')
+              .text('No, Keep It')
+            $node
+              .find('.action-primary.action-accept span')
+              .text('Yes, Remove It')
+
+            // Optional: focus No button
+            $node.find('.action-secondary.action-dismiss').focus()
+          }
+        })
+      })
+    })
+
+    // Observe the whole body for new modal popups
+    observer.observe(document.body, { childList: true, subtree: true })
+  })
+  
+  //Change Proceed To Checkout Text
+  
+  // Wait for minicart or cart page to load fully
+  const checkoutBtnInterval = setInterval(function () {
+    // 🛒 Mini cart button
+    const $miniBtn = $('.action.primary.checkout, .checkout.methods .action.checkout');
+    // 🛍️ Cart page button
+    const $cartBtn = $('.cart-summary .checkout-methods-items .action.primary.checkout');
+
+    if ($miniBtn.length || $cartBtn.length) {
+      $miniBtn.text('Proceed to Checkout');
+      $cartBtn.text('Proceed to Checkout');
+
+      // Optionally also update the title attribute (for accessibility)
+      $miniBtn.attr('title', 'Proceed to Checkout');
+      $cartBtn.attr('title', 'Proceed to Checkout');
+
+      clearInterval(checkoutBtnInterval);
+    }
+  }, 300);
 
 
   })
