@@ -530,6 +530,7 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-mobile', true);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-mobile', true);
+    productTile('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
 
     if (customerId && sessionId) {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
@@ -1544,6 +1545,18 @@ require(['jquery'], function ($) {
             <div class="item-video" data-merge="1">
                 <a class="owl-video" href="https://www.youtube.com/watch?v=yIoChkfxDTQ" data-thumb="https://img.youtube.com/vi/yIoChkfxDTQ/hqdefault.jpg"></a>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="pa-widget" style="padding: 30px 0; display: none;">
+    <div class="shop-by-widget-container">
+        <div class="pa-digidirect-product-widget welcome-back-widget">
+            <div class="product-widget-header">
+                <div style="text-align: center; color: #242426; font-size: 32px; font-weight: 500;">Welcome Back!</div>
+                <div style="text-align: center; color: #242426; font-size: 64px; font-weight: 600;">Continue Shopping</div>
+            </div>
+            <div id="welcome-back-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
         </div>
     </div>
 </div>
