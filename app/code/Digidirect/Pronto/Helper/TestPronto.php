@@ -602,7 +602,7 @@ class TestPronto extends AbstractHelper
 
             }
 
-            if($orderId = '002536857')
+            if($orderId == '002536857')
             {
                 $territory = '3WHS';
             }
@@ -1143,8 +1143,11 @@ class TestPronto extends AbstractHelper
                 $shipcompany = 'Click and Collect';
             }
 
-            if($delivery == "Next Day Delivery")
+            if($delivery == "Next Day Delivery" || $delivery == "Express - (Next Day Delivery)")
             {
+
+                $data['sales-order']['header']['carrier-code'] = "GOPEOPLE";
+
                 if($payment_type == 'LP' || $payment_type == 'BT')
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
@@ -1697,6 +1700,9 @@ class TestPronto extends AbstractHelper
                 {
                     $shippingDesc = "Australia Post – eParcel";
                 }
+
+                echo $shippingDesc . "<br/>";
+
                 //shipping details clint Mar 3 23
                 if($disregardshipping)
                 {
