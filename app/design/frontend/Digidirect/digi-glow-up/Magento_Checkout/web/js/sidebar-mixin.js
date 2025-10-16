@@ -4,8 +4,9 @@ define([
 ], function ($, confirm) {
     'use strict'
 
-    return function (Component) {
-        return Component.extend({
+    return function (originalWidget) {
+        // Create a new widget that extends the original one
+        $.widget('mage.sidebar', originalWidget, {
             _removeItem: function (id) {
                 var self = this
 
@@ -23,7 +24,7 @@ define([
                             text: $.mage.__('Yes, remove it'),
                             class: 'action-primary action-accept',
                             click: function () {
-                                self._super(id) // call original remove logic
+                                self._super(id) // call original remove
                                 this.closeModal(true)
                             }
                         }
@@ -31,5 +32,7 @@ define([
                 })
             }
         })
+
+        return $.mage.sidebar
     }
 })
