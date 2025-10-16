@@ -1195,6 +1195,27 @@ $(function () {
     // Observe the whole body for new modal popups
     observer.observe(document.body, { childList: true, subtree: true })
   })
+  
+  //Change Proceed To Checkout Text
+  
+  // Wait for minicart or cart page to load fully
+  const checkoutBtnInterval = setInterval(function () {
+    // 🛒 Mini cart button
+    const $miniBtn = $('.action.primary.checkout, .checkout.methods .action.checkout');
+    // 🛍️ Cart page button
+    const $cartBtn = $('.cart-summary .checkout-methods-items .action.primary.checkout');
+
+    if ($miniBtn.length || $cartBtn.length) {
+      $miniBtn.text('Proceed to Checkout');
+      $cartBtn.text('Proceed to Checkout');
+
+      // Optionally also update the title attribute (for accessibility)
+      $miniBtn.attr('title', 'Proceed to Checkout');
+      $cartBtn.attr('title', 'Proceed to Checkout');
+
+      clearInterval(checkoutBtnInterval);
+    }
+  }, 300);
 
 
   })
