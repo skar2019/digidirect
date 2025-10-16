@@ -180,42 +180,132 @@ $(window).on('scroll resize', () => {
      /* ========================
         ❌ Close Welcome Back & Remove Blur
      ======================== */
-     $(document).on('click', '#welcome-back-close', function () {
-       $('#pa-welcome-back').removeClass('active')
-       $('body').removeClass('blur-active')
-       positionBlurOverlay()
-     })
+     function handleWelcomeBackClose() {
+        const $widget = $('#pa-welcome-back')
+
+        // ✅ Only run the function if widget is active
+        if ($widget.length && $widget.hasClass('active')) {
+          const $closeBtn = $('#welcome-back-close')
+
+          if ($closeBtn.length) {
+            $closeBtn.on('click', function () {
+              // Hide the widget smoothly
+              $widget.removeClass('active').fadeOut(300)
+
+              // Optionally persist that it was closed (optional)
+              sessionStorage.setItem('welcomeBackClosed', 'true')
+            })
+          }
+        }
+      }
+
+      // Keep your original function behavior
+      handleWelcomeBackClose()
+
+      // If the widget is injected later via API or AJAX
+      const observer = new MutationObserver(() => handleWelcomeBackClose())
+      observer.observe(document.body, { childList: true, subtree: true })
      
-     /* ========================
-        💫 Blur Header When #pa-welcome-back Is Active
+    /* ========================
+        💫 Robust: Blur Header When #pa-welcome-back Is Active
      ======================== */
-     if (window.MutationObserver) {
-       const headerBlurObserver = new MutationObserver(() => {
+     (function () {
+       const headerSelectors = [
+         'header.page-header',
+         '.page-header',
+         'header',
+         '#header',
+         '.header.content',
+       ]
+
+       // find the first matching header element
+       function findHeader() {
+         for (let sel of headerSelectors) {
+           const $h = $(sel)
+           if ($h.length) return $h
+         }
+         return $() // empty jQuery
+       }
+
+       // apply or remove header blur
+       function updateHeaderBlur() {
          const isActive = $('#pa-welcome-back').hasClass('active')
-         const $header = $('header.page-header, .page-header') // adjust selector if needed
+         const $header = findHeader()
+         if (!$header.length) return
          $header.toggleClass('header-blur', isActive)
-       })
+       }
 
-       const paElement = document.getElementById('pa-welcome-back')
-       if (paElement) {
-         headerBlurObserver.observe(paElement, {
-           attributes: true,
-           attributeFilter: ['class'],
+       // initial call (in case widget already active)
+       updateHeaderBlur()
+
+       // ensure CSS only appended once
+       if (!$('#_pa_header_blur_style').length) {
+         const headerBlurStyle = `
+           .header-blur {
+             /* blur the header contents */
+             filter: blur(8px);
+             -webkit-filter: blur(8px);
+             transition: filter 0.25s ease;
+             /* preserve layout while blurred */
+             will-change: filter;
+             pointer-events: auto; /* keeps header interactive if needed */
+           }
+           /* if you want only visuals blurred but keep crisp text for accessibility,
+              consider .header-blur * { filter: none } on specific children (advanced) */
+         `
+         $('head').append(`<style id="_pa_header_blur_style">${headerBlurStyle}</style>`)
+       }
+
+       // 1) Observe attribute changes on the widget itself (fast)
+       function observeWidgetAttributes() {
+         const paEl = document.getElementById('pa-welcome-back')
+         if (!paEl) return false
+
+         const mo = new MutationObserver((mutations) => {
+           for (const m of mutations) {
+             if (m.type === 'attributes' && m.attributeName === 'class') {
+               updateHeaderBlur()
+               break
+             }
+           }
          })
+         mo.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+         return true
        }
-     }
 
-     /* ========================
-        💅 Add Header Blur Style
-     ======================== */
-     const headerBlurStyle = `
-       .header-blur {
-         backdrop-filter: blur(12px);
-         -webkit-backdrop-filter: blur(12px);
-         transition: backdrop-filter 0.3s ease;
+       // 2) Fallback: observe body for node additions (widget or header injected later)
+       function observeDomForWidget() {
+         const bodyObserver = new MutationObserver((mutations, obs) => {
+           // If widget appears, attach attribute observer and update immediately
+           if (document.getElementById('pa-welcome-back')) {
+             updateHeaderBlur()
+             observeWidgetAttributes() // attach attribute observer
+             // we can stop this observer once widget exists
+             obs.disconnect()
+             return
+           }
+           // If header appears later (rare), update header blur anyway
+           const header = findHeader()
+           if (header.length) updateHeaderBlur()
+         })
+         bodyObserver.observe(document.body, { childList: true, subtree: true })
        }
-     `
-     $('head').append(`<style>${headerBlurStyle}</style>`)
+
+       // try the fast attach first, otherwise start the DOM observer
+       if (!observeWidgetAttributes()) observeDomForWidget()
+
+       // extra safety: also observe body attribute changes (in case some other script toggles classes on body that affect things)
+       const bodyAttrObserver = new MutationObserver(() => updateHeaderBlur())
+       bodyAttrObserver.observe(document.body, { attributes: true, subtree: false })
+
+       // also expose a small interval-based fallback for extremely aggressive race conditions
+       const intervalId = setInterval(() => {
+         // run a few times then stop
+         updateHeaderBlur()
+       }, 300)
+       setTimeout(() => clearInterval(intervalId), 2000)
+     })()
+
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
