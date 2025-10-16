@@ -191,6 +191,7 @@
                 border: none;
                 height: 37px;
                 min-width: 157px;
+                border-radius: 25px;
             }
         }
     }
@@ -246,7 +247,7 @@
         background-color: #ffffff;
         border-radius: 32px;
         margin-bottom: 20px;
-        padding: 40px;
+        padding: 20px 40px;
         .digi-tag {
             font-size: 44px;
             line-height: 49px;
@@ -268,6 +269,7 @@
 }
 
 .action.tocart.btn_cart {
+    line-height: 14px;
     .tooltip-wrapper {
         position: relative;
         display: inline-block;
@@ -311,7 +313,9 @@
         border-color: #f2f2f7 transparent transparent transparent;
     }
     &.pre-order-btn {
-        background: #00c3ff !important;
+        background: @color-blue !important;
+        line-height: 14px;
+        box-shadow: none;
 
         .addcart_words {
             position: relative;
@@ -320,6 +324,13 @@
                 margin-left: 5px;
             }
         }
+    }
+    &.special-order-btn {
+        background-color: @color-yellow !important;
+        border-color: @color-yellow !important;
+        color: #242426 !important;
+        line-height: 14px;
+        box-shadow: none;
     }
 }
 
@@ -345,6 +356,8 @@
 }
 
 .fotorama__fullscreen-icon {
+    right: 20px !important;
+    top: 10px !important;
     border-radius: 50%;
     &:after {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px !important;
@@ -359,4 +372,16 @@
 }
 .fotorama__wrap--slide .fotorama__stage__frame {
     cursor: pointer;
+}
+.fotorama__arr--prev {
+    left: 20px !important;
+}
+.fotorama__fullscreen {
+    .fotorama__zoom-in,
+    .fotorama__zoom-out {
+        left: 20px !important;
+    }
+}
+.fotorama__arr--next {
+    right: 10px !important;
 }

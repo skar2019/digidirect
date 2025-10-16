@@ -9,14 +9,15 @@
 /** @var $block \Magento\Catalog\Block\Product\View */
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$_attributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
+$_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
 $_specialOrderValue = $block->getProduct()->getSpecialOrder();
 $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
+
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
-    <div class="box-tocart">
+    <div class="box-tocart">    
         <div class="fieldset qty-fieldset">
             <?php if ($block->shouldRenderQuantity()): ?>
                 <div class="field qty">
@@ -46,7 +47,7 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
                 </div>
             <?php endif; ?>
             <div class="actions">
-                   <?php if ($_attributeValue == "Yes"): ?>
+                   <?php if ($_preOrderattributeValue == "Yes"): ?>
                         <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn pre-order-btn"
                             id="product-addtocart-button"

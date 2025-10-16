@@ -154,47 +154,10 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         <?php if ($canApplyMsrp): ?>
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
-            <?php
-                try {
-                    /** @var \Magento\Quote\Model\Quote\Item $_item */
-                    $product = $_item->getProduct();
-
-                    // Get product prices
-                    $regularPrice = (float) $product->getPrice();
-                    $finalPrice   = (float) $product->getFinalPrice();
-
-                    // Try to get custom wiser_price attribute safely
-                    $wiserPrice = $product->hasData('wiser_price') ? (float)$product->getData('wiser_price') : 0;
-
-                    // Determine which price to show
-                    if ($wiserPrice && $wiserPrice < $finalPrice) {
-                        $displayPrice = $wiserPrice;
-                        $originalPrice = $regularPrice;
-                    } elseif ($finalPrice < $regularPrice) {
-                        $displayPrice = $finalPrice;
-                        $originalPrice = $regularPrice;
-                    } else {
-                        $displayPrice = $regularPrice;
-                        $originalPrice = null;
-                    }
-
-                    ?>
-                    <span class="cart-price-wrapper">
-                        <?php if ($originalPrice && $originalPrice > $displayPrice): ?>
-                            <span class="old-price">
-                                <span class="price"><?= $block->escapeHtml($block->formatPrice($originalPrice)) ?></span>
-                            </span>
-                        <?php endif; ?>
-
-                        <span class="special-price">
-                            <span class="price"><?= $block->escapeHtml($block->formatPrice($displayPrice)) ?></span>
-                        </span>
-                    </span>
-                    <?php
-                } catch (\Throwable $e) {
-                    echo '<!-- price error: ' . $e->getMessage() . ' -->';
-                }
-                ?>
+            <span class="old-price">
+                <?php echo '$' . number_format($product->getPrice(), 2); ?>
+            </span>
+            <?php echo $block->getRowTotalHtml($_item); ?>
         <?php endif; ?>
         <span class="item-actions">
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>

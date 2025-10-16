@@ -339,7 +339,7 @@ a.action.towishlist {
     background-color: #171a20 !important;
     border: none !important;
     cursor: pointer !important;
-    transition: background-color .4s !important;
+    transition: background-color 0.4s !important;
     position: relative;
     z-index: 1;
     padding: 0 !important;
@@ -387,11 +387,11 @@ a.action.towishlist {
 
 .owl-carousel .owl-video-play-icon:hover {
     transform: scale(1.05, 1.05) !important;
-    -ms-transform: scale(1.05,1.05) !important;
+    -ms-transform: scale(1.05, 1.05) !important;
 }
 
 .owl-carousel .owl-video-play-icon {
-    transition: transform .5s ease !important;
+    transition: transform 0.5s ease !important;
 }
 
 .owl--animated-backdrop {
@@ -403,17 +403,16 @@ a.action.towishlist {
     will-change: transform, width;
 }
 
-
 .slick-dots {
-  position: relative;
-  margin-top: -45px;
+    position: relative;
+    margin-top: -45px;
 }
 
 .slick-dots button {
     background-color: #171a20 !important;
     border: none !important;
     cursor: pointer !important;
-    transition: background-color .4s !important;
+    transition: background-color 0.4s !important;
     position: relative;
     z-index: 1;
     padding: 0 !important;
@@ -427,53 +426,52 @@ a.action.towishlist {
     height: 14px;
     background: #333;
     border-radius: 50%;
-    transition: transform 1s cubic-bezier(0.25, 1.2, 0.5, 1), width .4s ease;
+    transition: transform 1s cubic-bezier(0.25, 1.2, 0.5, 1), width 0.4s ease;
     z-index: 0;
 }
 
 //Test CSS
 
 .owl-dots {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .owl-dot {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
 .owl-dot span {
-  display: block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #d0d0d0;
-  transition: background 0.3s ease;
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    transition: background 0.3s ease;
 }
 
 .owl-dot.active span {
-  background: #fff; /* makes active dot “punch through” the backdrop */
+    background: #fff; /* makes active dot “punch through” the backdrop */
 }
 
 /* Backdrop highlight behind the active dot */
 .owl--animated-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateY(-50%);
-  background: #000; /* or your brand color */
-  border-radius: 50%;
-  z-index: 1;
-  width: 12px;
-  height: 12px;
-  transition:
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, width, height;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-50%);
+    background: #000; /* or your brand color */
+    border-radius: 50%;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, width, height;
 }
 
 //
@@ -625,6 +623,10 @@ a.action.towishlist {
     background: #f2f2f7;
     padding: 30px;
     border-radius: 25px;
+    align-items: center;
+    .subscribe-notice {
+        text-align: right;
+    }
 
     .newsletter-left {
         width: 100%;
@@ -711,7 +713,8 @@ a.action.towishlist {
     margin: 10px 0 40px;
 }
 
-.catalog-category-view .block.newsletter, .catalogsearch-result-index .block.newsletter {
+.catalog-category-view .block.newsletter,
+.catalogsearch-result-index .block.newsletter {
     margin-bottom: 40px;
 }
 
@@ -841,6 +844,36 @@ input[type="checkbox"] {
     border-radius: 5px !important;
 }
 
-.actions-toolbar > .primary .action, .actions-toolbar > .secondary .action {
+.actions-toolbar > .primary .action,
+.actions-toolbar > .secondary .action {
     border-radius: 100px;
+}
+
+//Accounts Page Order
+
+.toolbar .pages .item {
+    padding: 8px 20px !important;
+    outline: 1px solid #e6e6e6;
+    outline-offset: -1px;
+    border-radius: 999px;
+    margin-right: 10px;
+}
+
+.pages .action {
+    margin: 0 !important;
+    border: 0;
+}
+
+.toolbar .pages .item a span {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+li.item.current {
+    background: #fe4c25;
+    outline: none;
+}
+
+li.item.current .page span {
+    color: #fff;
 }
