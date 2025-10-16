@@ -40,6 +40,7 @@
 
 // Main Product Container
 .product-main-container {
+    width: 100%;
     max-width: @product-container-max-width;
     margin: 0 auto;
     .flex-row();
@@ -747,9 +748,14 @@
             font-weight: 600;
             color: #242426;
             padding: 4px 0;
+            width: 100%;
+            border: none;
             font-size: 10px;
             gap: 5px;
             text-transform: uppercase;
+            .icon-bank {
+                height: 15px;
+            }
 
             img {
                 max-width: 116px;
@@ -1339,6 +1345,15 @@
         max-width: 100% !important;
         flex: 1 1 100% !important;
         min-width: none !important;
+    }
+
+    .breadcrumbs-wrapper {
+        width: 100%;
+    }
+    .modals-wrapper .modal-popup div.modal-inner-wrap {
+        max-width: 90vw !important;
+        left: 0 !important;
+        margin: 0 auto !important;
     }
 }
 
