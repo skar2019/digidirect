@@ -180,10 +180,42 @@ $(window).on('scroll resize', () => {
      /* ========================
         ❌ Close Welcome Back & Remove Blur
      ======================== */
-    $('#pa-welcome-back').removeClass('active')
-    $('body').removeClass('blur-active')
-    positionBlurOverlay()
+     $(document).on('click', '#welcome-back-close', function () {
+       $('#pa-welcome-back').removeClass('active')
+       $('body').removeClass('blur-active')
+       positionBlurOverlay()
+     })
+     
+     /* ========================
+        💫 Blur Header When #pa-welcome-back Is Active
+     ======================== */
+     if (window.MutationObserver) {
+       const headerBlurObserver = new MutationObserver(() => {
+         const isActive = $('#pa-welcome-back').hasClass('active')
+         const $header = $('header.page-header, .page-header') // adjust selector if needed
+         $header.toggleClass('header-blur', isActive)
+       })
 
+       const paElement = document.getElementById('pa-welcome-back')
+       if (paElement) {
+         headerBlurObserver.observe(paElement, {
+           attributes: true,
+           attributeFilter: ['class'],
+         })
+       }
+     }
+
+     /* ========================
+        💅 Add Header Blur Style
+     ======================== */
+     const headerBlurStyle = `
+       .header-blur {
+         backdrop-filter: blur(12px);
+         -webkit-backdrop-filter: blur(12px);
+         transition: backdrop-filter 0.3s ease;
+       }
+     `
+     $('head').append(`<style>${headerBlurStyle}</style>`)
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart

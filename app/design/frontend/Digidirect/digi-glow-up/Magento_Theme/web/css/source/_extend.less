@@ -550,6 +550,30 @@ a.action.towishlist {
     margin-right: -275px;
 }
 
+.pa-welcome-back.active {
+    display: block;
+}
+
+.pa-welcome-back {
+    padding: 30px 20px 20px;
+    display: none;
+    position: absolute;
+    top: 20%;
+    background: #F2F2F7;
+    border-radius: 32px;
+    z-index: 99;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#welcome-back-widget-desktop {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.welcome-back-widget .product-item-info.product-item:nth-child(1n+5) {
+    display: none;
+}
+
 //Featured Videos
 
 .glow-up-featured-videos {
