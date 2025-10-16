@@ -175,28 +175,11 @@ $(window).on('scroll resize', () => {
     })
     
     /* ========================
-        🚚 Move #pa-welcome-back After .page-wrapper
+        🌐 Reposition #pa-welcome-back
      ======================== */
-     function moveWelcomeBackWidget() {
-       const $widget = $('#pa-welcome-back')
-       const $pageWrapper = $('.page-wrapper')
-
-       if ($widget.length && $pageWrapper.length) {
-         // move only if not already right after
-         if (!$pageWrapper.next('#pa-welcome-back').length) {
-           $widget.insertAfter($pageWrapper)
-           console.log('✅ #pa-welcome-back moved after .page-wrapper')
-         }
-       }
-     }
-
-     // Run immediately
-     moveWelcomeBackWidget()
-
-     // In case widget loads later (e.g. via AJAX)
-     if (window.MutationObserver) {
-       const moveObserver = new MutationObserver(() => moveWelcomeBackWidget())
-       moveObserver.observe(document.body, { childList: true, subtree: true })
+     const $paWelcomeBack = $('#pa-welcome-back')
+     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+       $('.page-wrapper').before($paWelcomeBack)
      }
 
      /* ========================
@@ -204,36 +187,37 @@ $(window).on('scroll resize', () => {
      ======================== */
      function togglePageBlur() {
        const isActive = $('#pa-welcome-back').hasClass('active')
+       $('body').toggleClass('welcome-blur-active', isActive)
+     }
 
-       if (isActive) {
-         $('body').addClass('blur-active')
-       } else {
-         $('body').removeClass('blur-active')
+     // Observe class changes on #pa-welcome-back
+     if (window.MutationObserver) {
+       const paEl = document.getElementById('pa-welcome-back')
+       if (paEl) {
+         const observer = new MutationObserver(togglePageBlur)
+         observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
        }
      }
 
-     // Run once on load
-     togglePageBlur()
-
-     // Observe for active class changes
-     if (window.MutationObserver) {
-       const observer = new MutationObserver(togglePageBlur)
-       const paEl = document.getElementById('pa-welcome-back')
-       if (paEl) observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-     }
-
-     /* ========================
-        💅 Blur Styles
-     ======================== */
+     // Add styles for blur effect (excluding #pa-welcome-back)
      const blurPageStyle = `
-       body.blur-active > *:not(#pa-welcome-back) {
+       body.welcome-blur-active > *:not(#pa-welcome-back) {
          filter: blur(12px);
          -webkit-filter: blur(12px);
          transition: filter 0.3s ease;
-         pointer-events: none; /* prevent clicks while blurred */
+         pointer-events: none;
        }
      `
      $('head').append(`<style>${blurPageStyle}</style>`)
+
+     /* ========================
+        ❌ Close Welcome Back & Remove Blur
+     ======================== */
+     $(document).on('click', '#welcome-back-close', function () {
+       $('#pa-welcome-back').removeClass('active')
+       $('body').removeClass('welcome-blur-active')
+       positionBlurOverlay() // keep your old blur overlay working
+     })
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
