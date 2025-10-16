@@ -1161,25 +1161,36 @@ $(document).ready(function () {
 
 //Minicart Remove Confirmation Change Text
 
-// Run after DOM ready
-  $(function () {
-    // Listen for Magento confirm modals being inserted dynamically
-    $(document).on('DOMNodeInserted', function (e) {
-      const $modal = $(e.target).closest('.modal-popup.confirm._show')
+$(function () {
+    // Watch for dynamically created confirm popups
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        $(mutation.addedNodes).each(function () {
+          const $node = $(this)
 
-      // Only target the minicart's "remove item" confirmation popup
-      if (
-        $modal.length &&
-        $modal.find('.modal-content:contains("Are you sure you would like to remove this item?")').length
-      ) {
-        // Change button texts
-        $modal.find('.action-secondary.action-dismiss span').text('No, Keep It')
-        $modal.find('.action-primary.action-accept span').text('Yes, Remove It')
+          // Check if a confirm modal has appeared
+          if (
+            $node.hasClass('modal-popup') &&
+            $node.hasClass('confirm') &&
+            $node.find('.modal-content:contains("remove this item")').length
+          ) {
+            // Update button labels
+            $node
+              .find('.action-secondary.action-dismiss span')
+              .text('No, keep it')
+            $node
+              .find('.action-primary.action-accept span')
+              .text('Yes, remove it')
 
-        // Optional: focus "No" for safety
-        $modal.find('.action-secondary.action-dismiss').focus()
-      }
+            // Optional: focus No button
+            $node.find('.action-secondary.action-dismiss').focus()
+          }
+        })
+      })
     })
+
+    // Observe the whole body for new modal popups
+    observer.observe(document.body, { childList: true, subtree: true })
   })
 
 
