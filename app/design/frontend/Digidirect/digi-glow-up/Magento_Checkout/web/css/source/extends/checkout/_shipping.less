@@ -118,3 +118,30 @@
     border: 2px solid #fff !important;
     background-color: #ccc !important;
 }
+
+.form-shipping-address .control:has(select) {
+    position: relative;
+    display: inline-block;
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        display: block;
+
+    }
+
+    .select {
+        appearance: none !important;
+        min-width: 50px;
+        padding-right: 40px !important;
+    }
+}
+
