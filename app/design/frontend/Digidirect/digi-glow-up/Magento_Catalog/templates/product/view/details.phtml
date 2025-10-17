@@ -48,3 +48,36 @@
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    require(['jquery', 'domReady!'], function($) {
+        // Prevent all hash changes from scrolling
+        if (window.location.hash) {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 1);
+        }
+
+        // Prevent scrolling on tab clicks
+        $('[data-toggle="trigger"]').on('click', function(e) {
+            e.preventDefault();
+
+            var currentScroll = $(window).scrollTop();
+
+            // Let the tab switch happen
+            setTimeout(function() {
+                $(window).scrollTop(currentScroll);
+            }, 1);
+
+            return false;
+        });
+
+        // Also prevent the collapsible widget from scrolling
+        $('[data-role="collapsible"]').on('beforeOpen afterOpen', function() {
+            var scrollPos = $(window).scrollTop();
+            setTimeout(function() {
+                $(window).scrollTop(scrollPos);
+            }, 1);
+        });
+    });
+</script>
