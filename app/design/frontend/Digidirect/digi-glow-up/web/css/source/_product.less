@@ -713,7 +713,6 @@
                     color: @color-white;
 
                     &:before {
-                        display: none;
                         content: "\e900";
                         font-family: "icomoon";
                         color: #ffffff;
@@ -1065,10 +1064,12 @@
     @media (max-width: @mobile-breakpoint) {
         margin-top: 30px;
         padding: 0 15px;
+        scroll-margin-top: 10px; /* Offset from top */
     }
 
     // Product Details Tabs
     .product-details-tabs {
+        scroll-margin-top: 100px; /* Offset from top */
         margin: 40px auto;
         max-width: @product-container-max-width;
         padding: 0 25px;
