@@ -441,6 +441,7 @@ define([
                 checkoutToggle.toggleDownAllSections();
 
                 $('#collect_type_delivery').prop('checked', true).trigger('change');
+               // $('.collect-block').css('display', 'none !important');
 
                 if ($('#collect_type_collect').length === 0) {
                     $('<style>')
