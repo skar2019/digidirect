@@ -27,7 +27,8 @@
                        tabindex="-1"
                        data-toggle="trigger"
                        href="#<?= $block->escapeUrl($alias) ?>"
-                       id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title">
+                       id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title"
+                       onclick="event.preventDefault();">
                         <?= /* @noEscape */ $label ?>
                     </a>
                 </div>
