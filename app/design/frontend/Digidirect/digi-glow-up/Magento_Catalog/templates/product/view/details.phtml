@@ -23,14 +23,14 @@
                 ?>
                 <div class="data item title <?= !$hideTabContent ? 'active' : ''?>"
                      data-role="collapsible" id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>">
-                    <a class="data switch"
-                       tabindex="-1"
-                       data-toggle="trigger"
-                       href="#<?= $block->escapeUrl($alias) ?>"
-                       id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title"
-                       onclick="event.preventDefault();">
+                    <button class="data switch"
+                            type="button"
+                            tabindex="-1"
+                            data-toggle="trigger"
+                            data-href="#<?= $block->escapeUrl($alias) ?>"
+                            id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title">
                         <?= /* @noEscape */ $label ?>
-                    </a>
+                    </button>
                 </div>
                 <div class="data item content"
                      aria-labelledby="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title"
