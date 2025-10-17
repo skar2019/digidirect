@@ -20,7 +20,7 @@
     }
 
     .step-content {
-        margin: 0 !important;
+        margin: 15px 0 0 !important;
     }
 
     li {
@@ -28,6 +28,7 @@
 
         &.with-border {
             border-bottom: 1px solid #D9D9D9;
+            padding-bottom: 15px !important;
         }
     }
 
@@ -38,8 +39,13 @@
         margin: 0 !important;
     }
 
-    .field {
-        padding: 7px 0px;
+    div.field {
+        padding: 15px 0 0 !important;
+        margin: 0 !important;
+    }
+
+    #customer-info div.field {
+        padding: 0 !important;
     }
 
     #checkout-step-shipping,
@@ -53,13 +59,13 @@
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
         .field {
-            margin: 0 !important;
+            //margin: 0 !important;
         }
     }
 
     .control {
         width: 100% !important;
-        padding: 0px 2px;
+        //padding: 0px 2px;
     }
 
     .collect-type radio,
@@ -90,7 +96,7 @@
         color: #242426 !important;
         font-size: 18px !important;
         border-bottom: 0 !important;
-        padding-bottom: 15px !important;
+        padding-bottom: 0 !important;
         font-weight: 700 !important;
     }
 
@@ -99,7 +105,7 @@
         width: 50%;
     }
     .field.pdr10 {
-        padding-right: 10px;
+        //padding-right: 10px;
     }
 
     .field.-half + .field.-half {
@@ -139,7 +145,8 @@
             align-items: center;
             gap: 0.8em;
             border: 1px solid #d9d9d9;
-            padding: 0.7em 2em;
+            //padding: 0.7em 2em;
+            padding: 15px;
             border-radius: 0.5em;
             width: 49%;
         }
@@ -153,10 +160,10 @@
 
         .collect-type {
             input[type="radio"]:checked + label:before {
-                height: 1em;
+                /*height: 1em;
                 width: 1em;
                 border: 0.65em solid #ffffff;
-                background-color: #4189e0;
+                background-color: #4189e0;*/
             }
 
             input[type="radio"]:checked + label {
@@ -358,7 +365,7 @@
 
 #checkoutSteps {
     .action-extension-toolbar {
-        margin: 15px;
+        margin-top: 15px;
         display: flex;
         justify-content: right;
     }
@@ -415,7 +422,7 @@
     align-items: center;
     gap: 0.8em;
     border: 1px solid #D9D9D9;
-    padding: 0.7em 2em;
+    padding: 0.7em 1.072em;
     border-radius: 0.72em;
     width: 100%;
 }
@@ -432,8 +439,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
 }
+.shipping-address-change {
+    padding-bottom: 0 !important;
+}
+
 /**** Change link sections end ***/
 
 @media (max-width: 768px) {
@@ -475,3 +486,14 @@ body.checkout-onepage-success, body.checkout-index-index {
 /*.opc-wrapper input[type=checkbox] {
     border-radius: 5px !important;
 }*/
+
+
+@media (min-width: 769px) {
+    .opc-wrapper .fieldset > .field:not(.choice) > .control {
+        float: unset !important;
+    }
+
+    .opc-wrapper .fieldset > .field {
+        margin: 0 !important;
+    }
+}

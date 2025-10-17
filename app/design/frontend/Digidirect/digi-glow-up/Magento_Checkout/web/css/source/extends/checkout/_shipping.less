@@ -82,17 +82,11 @@
 
 .opc-wrapper .shipping-address-item.selected-item {
     border: 1px solid #ff5501 !important;
-    border-radius: 10px !important;
+    border-radius: 20px !important;
 }
 
 .opc-wrapper .shipping-address-item.selected-item:after {
     display: none !important;
-}
-
-.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label {
-    cursor: pointer !important;
-    font-weight: 600 !important;
-    font-size: 14px !important;
 }
 
 .opc-wrapper .action.action-show-popup {
@@ -112,11 +106,29 @@
     }
 }
 
+.opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label {
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
 .checkout-shipping-address .collect-type input[type=radio]:checked+label:before {
     height: 18px !important;
     width: 18px !important;
     border: 2px solid #fff !important;
-    background-color: #ccc !important;
+    background-color: #242426 !important;
+}
+
+.opc-wrapper .checkout-shipping-address label:before {
+    height: 18px !important;
+    width: 18px !important;
+}
+
+.checkout-shipping-address .collect-type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 .form-shipping-address .control {
@@ -124,20 +136,20 @@
 }
 .form-shipping-address{
     .field:has(input[name="firstname"]),
-
+    .field:has(select[name="country_id"]),
     .field:has(input[name="city"]){
-        margin-right: 29px !important;
-        width: 48% !important;
+        padding-right: 15px !important;
+        width: 50.8% !important;
     }
 
     .field:has(input[name="lastname"]),
     .field:has(select[name="region_id"]),
     .field:has(input[name="postcode"]){
-        width: 48% !important;
+        width: 49% !important;
     }
 
     .field:has(select[name="country_id"]) {
-        width: 47% !important;
+        //width: 47% !important;
     }
 }
 .form-shipping-address .control:has(select) {
@@ -164,5 +176,9 @@
         min-width: 50px;
         padding-right: 40px !important;
     }
+}
+
+#checkout-step-shipping .additional-addresses-glowup {
+    margin: 0 !important;
 }
 
