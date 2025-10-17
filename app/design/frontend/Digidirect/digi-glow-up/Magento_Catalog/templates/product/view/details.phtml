@@ -18,6 +18,7 @@
                        tabindex="-1"
                        data-toggle="trigger"
                        href="#<?= $block->escapeUrl($alias) ?>"
+                       data-tab-target="<?= $block->escapeHtmlAttr($alias) ?>"
                        id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title">
                         <?= /* @noEscape */ $label ?>
                     </a>
@@ -41,12 +42,22 @@
         require(['jquery'], function($) {
             $('.product.data.items [data-toggle="trigger"]').on('click', function(e) {
                 e.preventDefault();
-                var scrollPos = $(window).scrollTop();
+                e.stopImmediatePropagation();
 
-                // Small delay to let tabs widget do its thing
-                setTimeout(function() {
-                    $(window).scrollTop(scrollPos);
-                }, 5);
+                // Manually trigger the collapsible/tab behavior
+                var $title = $(this).closest('[data-role="collapsible"]');
+                $title.trigger('dimensionsChanged');
+
+                // Toggle active state
+                $('.product.data.items .data.item.title').removeClass('active');
+                $title.addClass('active');
+
+                // Show/hide content
+                var target = $(this).attr('data-tab-target');
+                $('.product.data.items .data.item.content').hide();
+                $('#' + target).show();
+
+                return false;
             });
         });
     </script>
