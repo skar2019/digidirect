@@ -48,3 +48,15 @@
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    require(['jquery'], function($) {
+        // Store scroll position before click
+        $(document).on('click', '[data-toggle="trigger"]', function(e) {
+            var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+            setTimeout(function() {
+                window.scrollTo(0, scrollPos);
+            }, 0);
+        });
+    });
+</script>
