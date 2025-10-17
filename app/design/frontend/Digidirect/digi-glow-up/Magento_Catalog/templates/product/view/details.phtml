@@ -1,12 +1,3 @@
-<?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-/** @var \Magento\Catalog\Block\Product\View\Details $block */
-/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
-?>
 <?php if ($detailedInfoGroup = $block->getGroupSortedChildNames('detailed_info', 'getChildHtml')):?>
     <div class="product info detailed">
         <?php $layout = $block->getLayout(); ?>
@@ -26,8 +17,7 @@
                     <a class="data switch"
                        tabindex="-1"
                        data-toggle="trigger"
-                       href="javascript:void(0);"
-                       data-target="#<?= $block->escapeUrl($alias) ?>"
+                       href="#<?= $block->escapeUrl($alias) ?>"
                        id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title">
                         <?= /* @noEscape */ $label ?>
                     </a>
@@ -47,37 +37,17 @@
             <?php endforeach;?>
         </div>
     </div>
+    <script>
+        require(['jquery'], function($) {
+            $('.product.data.items [data-toggle="trigger"]').on('click', function(e) {
+                e.preventDefault();
+                var scrollPos = $(window).scrollTop();
+
+                // Small delay to let tabs widget do its thing
+                setTimeout(function() {
+                    $(window).scrollTop(scrollPos);
+                }, 5);
+            });
+        });
+    </script>
 <?php endif; ?>
-
-<script>
-    require(['jquery', 'domReady!'], function($) {
-        // Prevent all hash changes from scrolling
-        if (window.location.hash) {
-            setTimeout(function() {
-                window.scrollTo(0, 0);
-            }, 1);
-        }
-
-        // Prevent scrolling on tab clicks
-        $('[data-toggle="trigger"]').on('click', function(e) {
-            e.preventDefault();
-
-            var currentScroll = $(window).scrollTop();
-
-            // Let the tab switch happen
-            setTimeout(function() {
-                $(window).scrollTop(currentScroll);
-            }, 1);
-
-            return false;
-        });
-
-        // Also prevent the collapsible widget from scrolling
-        $('[data-role="collapsible"]').on('beforeOpen afterOpen', function() {
-            var scrollPos = $(window).scrollTop();
-            setTimeout(function() {
-                $(window).scrollTop(scrollPos);
-            }, 1);
-        });
-    });
-</script>
