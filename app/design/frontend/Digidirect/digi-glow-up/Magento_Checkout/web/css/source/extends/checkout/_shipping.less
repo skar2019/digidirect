@@ -119,6 +119,27 @@
     background-color: #ccc !important;
 }
 
+.form-shipping-address .control {
+    padding: 0 !important;
+}
+.form-shipping-address{
+    .field:has(input[name="firstname"]),
+
+    .field:has(input[name="city"]){
+        margin-right: 29px !important;
+        width: 48% !important;
+    }
+
+    .field:has(input[name="lastname"]),
+    .field:has(select[name="region_id"]),
+    .field:has(input[name="postcode"]){
+        width: 48% !important;
+    }
+
+    .field:has(select[name="country_id"]) {
+        width: 47% !important;
+    }
+}
 .form-shipping-address .control:has(select) {
     position: relative;
     display: inline-block;
