@@ -53,7 +53,8 @@
                 height: 100%;
             }
 
-            @supports (display: -webkit-flex) or (display: -moz-flex) or (display: flex) {
+            @supports (display: -webkit-flex) or (display: -moz-flex) or
+                (display: flex) {
                 &.-content-scroll._show .modal-inner-wrap {
                     height: auto;
                 }
@@ -97,7 +98,7 @@
                 box-sizing: border-box;
                 vertical-align: middle;
 
-                span{
+                span {
                     color: #000 !important;
                 }
             }
@@ -129,7 +130,11 @@
 //  Tablet +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+.media-width(@extremum, @break)
+    when
+    (@extremum = "min")
+    and
+    (@break = @screen__m) {
     & when (@modal-extend__is-enabled = true) {
         .modal-custom,
         .modal-popup,
@@ -203,7 +208,11 @@
 //  Desktop +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+.media-width(@extremum, @break)
+    when
+    (@extremum = "min")
+    and
+    (@break = @screen__l) {
     & when (@modal-extend__is-enabled = true) {
         .modal-custom,
         .modal-popup,
@@ -214,7 +223,7 @@
 
                 &:hover,
                 &:active,
-                &:focus{
+                &:focus {
                     background: transparent !important;
                 }
             }
@@ -341,4 +350,3 @@
 @modal-popup-slide-inner-scroll__show__overflow-y__m-custom-only: auto;
 @modal-popup-slide-inner-scroll-modal-inner-wrap__height__m-custom-only: auto;
 @modal-popup-slide-inner-scroll-modal-inner-wrap__min-height__m-custom-only: false;
-

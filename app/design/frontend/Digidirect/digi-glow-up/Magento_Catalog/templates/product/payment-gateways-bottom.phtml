@@ -53,9 +53,11 @@ $seller = $_product->getData('marketplacer_seller');
         </div>
     <?php } ?>
     <div class="last-row">
-        <span class="bank-transfer">
-            <span class="icon-bank"></span><span><?= __('Bank Transfer') ?></span>
-        </span>
+
+        <button type="submit"
+            class="bank-transfer-btn bank-transfer add-to-cart-trigger">
+                    <span class="icon-bank"></span><span><?= __('Bank Transfer') ?></span>
+        </button>
     </div>
 </div>
 
@@ -64,6 +66,8 @@ $seller = $_product->getData('marketplacer_seller');
             'jquery'
         ],
         function ($) {
-            
+            $('button.add-to-cart-trigger').on('click', function () {
+                $("#product_addtocart_form").submit();
+            });
     });
 </script>

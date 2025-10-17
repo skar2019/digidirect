@@ -106,11 +106,6 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                         <span><?php /* @escapeNotVerified */ echo __("This product is available for delivery only."); ?></span>
                     </div>
                 <?php endif; ?>
-                        
-                <div class="qantas-pts-wrapper push-left">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                    <span data-sample="<?= $qty ?> ">Earn <?= $points ?> Qantas Points</span>
-                </div>
             </div>
             <div class="price-wrapper-mobile">
                 <?php if ($canApplyMsrp): ?>
@@ -159,6 +154,9 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         <?php if ($canApplyMsrp): ?>
             <span class="cart msrp subtotal">--</span>
         <?php else: ?>
+            <span class="old-price">
+                <?php echo '$' . number_format($product->getPrice(), 2); ?>
+            </span>
             <?php echo $block->getRowTotalHtml($_item); ?>
         <?php endif; ?>
         <span class="item-actions">

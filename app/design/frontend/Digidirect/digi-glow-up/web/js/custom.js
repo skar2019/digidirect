@@ -143,11 +143,11 @@ $(window).on('scroll resize', () => {
     $('head').append(`<style>${blurStyle}</style>`)
 
     $(document)
-      .on('mouseenter', '.has-dropdown', function () {
+      .on('mouseenter', '.hasdropdown', function () {
         $('body').addClass('blur-active')
         positionBlurOverlay()
       })
-      .on('mouseleave', '.has-dropdown', function () {
+      .on('mouseleave', '.hasdropdown', function () {
         $('body').removeClass('blur-active')
         positionBlurOverlay()
       })
@@ -160,6 +160,23 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
+    
+    /* ========================
+        🌐 Reposition #pa-welcome-back
+     ======================== */
+     const $paWelcomeBack = $('#pa-welcome-back')
+     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+       $('.page-wrapper').before($paWelcomeBack)
+     }
+
+     /* ========================
+        ❌ Close Welcome Back & Remove Blur
+     ======================== */
+     $(document).on('click', '#welcome-back-close', function () {
+       $('#pa-welcome-back').removeClass('active')
+       $('body').removeClass('welcome-blur-active')
+       positionBlurOverlay() // keep your old blur overlay working
+     })
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
@@ -819,7 +836,7 @@ aaStickObserver.observe(document.body, { childList: true, subtree: true })
    🧩 Close aa-Panel on Blog Mega Menu Hover
 ======================== */
 $(document)
-  .on('mouseenter', '.ruby-menu-mega-blog.has-dropdown', function () {
+  .on('mouseenter', '.ruby-menu-mega-blog.hasdropdown', function () {
     // Hide aa-Panel and reset input state
     const $panel = $('.aa-Panel')
     const $input = $('#autocomplete-0-input')
@@ -835,7 +852,7 @@ $(document)
     // Make sure blur overlay updates correctly
     $('body').removeClass('blur-active')
   })
-  .on('mouseleave', '.ruby-menu-mega-blog.has-dropdown', function () {
+  .on('mouseleave', '.ruby-menu-mega-blog.hasdropdown', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
   
@@ -1089,69 +1106,66 @@ $(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
 
 
 /* ========================
- 🎯 Owl Dots Animated Backdrop (Persistent + Instant)
+ 🎯 Owl Dots Tesla-Style Backdrop (Rounded Highlight)
 ======================== */
 $(document).ready(function () {
   function initOwlBackdrop($carousel) {
     const $dots = $carousel.find('.owl-dots')
     if (!$dots.length) return
 
-    // Ensure relative container
     $dots.css('position', 'relative')
 
-    // Inject backdrop helper
-    function ensureBackdrop() {
-      let $backdrop = $dots.find('.owl--animated-backdrop')
-      if (!$backdrop.length) {
-        $backdrop = $('<div class="owl--animated-backdrop"></div>')
-        $dots.append($backdrop)
-      }
-      return $backdrop
+    // Ensure backdrop exists
+    let $backdrop = $dots.find('.owl--animated-backdrop')
+    if (!$backdrop.length) {
+      $backdrop = $('<div class="owl--animated-backdrop"></div>')
+      $dots.append($backdrop)
     }
-
-    let $backdrop = ensureBackdrop()
 
     function moveBackdrop($dot, animate = true) {
       if (!$dot?.length) return
-      $backdrop = ensureBackdrop()
 
       const dotOffset = $dot.position()?.left || 0
       const dotWidth = $dot.outerWidth() || 0
+      const dotHeight = $dot.outerHeight() || 0
 
       if (!animate) $backdrop.css('transition', 'none')
 
+      // Center the backdrop behind the dot
       $backdrop.css({
         transform: `translateX(${dotOffset}px)`,
         width: `${dotWidth}px`,
+        height: `${dotHeight}px`,
       })
 
-      if (!animate) {
-        setTimeout(() => $backdrop.css('transition', ''), 50)
-      }
+      if (!animate) setTimeout(() => $backdrop.css('transition', ''), 50)
     }
 
     // Initial placement
     setTimeout(() => moveBackdrop($dots.find('.owl-dot.active'), false), 100)
 
-    // ✅ On slide change → recheck + move
-    $carousel.on('changed.owl.carousel', function () {
-      const $active = $carousel.find('.owl-dot.active')
-      moveBackdrop($active, true)
-    })
-
-    // ✅ On dot click → immediate feedback
+    // On dot click → instant move
     $dots.on('click', '.owl-dot', function () {
       moveBackdrop($(this), true)
     })
 
-    // ✅ On resize → recalc
+    // On carousel slide change
+    $carousel.on('changed.owl.carousel', function () {
+      // Re-inject backdrop if Owl rebuilt the dots
+      if (!$dots.find('.owl--animated-backdrop').length) {
+        $dots.append($backdrop)
+      }
+      moveBackdrop($dots.find('.owl-dot.active'), true)
+    })
+
+    // On resize
     $(window).on('resize', function () {
       moveBackdrop($dots.find('.owl-dot.active'), true)
     })
   }
 
   // Wait for Owl to initialize
-  const checkOwl = setInterval(function () {
+  const checkOwl = setInterval(() => {
     const $carousels = $('.owl-carousel.owl-loaded')
     if ($carousels.length && $carousels.find('.owl-dots').length) {
       clearInterval(checkOwl)
@@ -1161,6 +1175,65 @@ $(document).ready(function () {
     }
   }, 200)
 })
+
+//Minicart Remove Confirmation Change Text
+
+$(function () {
+    // Watch for dynamically created confirm popups
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        $(mutation.addedNodes).each(function () {
+          const $node = $(this)
+
+          // Check if a confirm modal has appeared
+          if (
+            $node.hasClass('modal-popup') &&
+            $node.hasClass('confirm') &&
+            $node.find('.modal-content:contains("remove this item")').length
+          ) {// ✳️ Change question text
+            $node.find('.modal-content div').text(
+              'Are you sure you would like to remove this item?'
+            )
+            // Update button labels
+            $node
+              .find('.action-secondary.action-dismiss span')
+              .text('No, Keep It')
+            $node
+              .find('.action-primary.action-accept span')
+              .text('Yes, Remove It')
+
+            // Optional: focus No button
+            $node.find('.action-secondary.action-dismiss').focus()
+          }
+        })
+      })
+    })
+
+    // Observe the whole body for new modal popups
+    observer.observe(document.body, { childList: true, subtree: true })
+  })
+  
+  //Change Proceed To Checkout Text
+  
+  // Wait for minicart or cart page to load fully
+  const checkoutBtnInterval = setInterval(function () {
+    // 🛒 Mini cart button
+    const $miniBtn = $('.action.primary.checkout, .checkout.methods .action.checkout');
+    // 🛍️ Cart page button
+    const $cartBtn = $('.cart-summary .checkout-methods-items .action.primary.checkout');
+
+    if ($miniBtn.length || $cartBtn.length) {
+      $miniBtn.text('Proceed to Checkout');
+      $cartBtn.text('Proceed to Checkout');
+
+      // Optionally also update the title attribute (for accessibility)
+      $miniBtn.attr('title', 'Proceed to Checkout');
+      $cartBtn.attr('title', 'Proceed to Checkout');
+
+      clearInterval(checkoutBtnInterval);
+    }
+  }, 300);
+
 
   })
 })

@@ -4,32 +4,20 @@
  * See COPYING.txt for license details.
  */
 -->
-<div class="block-title" style="margin-bottom: 15px">
-    <strong style="font-size: 20px; font-weight: 400">
-        <span
-            class="qty empty"
-            text="getCartParam('summary_count')"
-            data-bind="css: { empty: !!getCartParam('summary_count') == false },
-                       attr: { title: $t('Items in Cart') }"
-        >
-        </span>
-        <span class="text" translate="'Item added to your Cart'"></span>
-    </strong>
-    <div
-        class="actions"
-        if="getCartParam('summary_count')"
-        style="float: right; color: #0066cc; font-size: 14px"
-    >
-        <div class="secondary">
-            <a
-                class="action viewcart"
-                data-bind="attr: {href: shoppingCartUrl}"
+<if args="getCartParam('summary_count')">
+    <div class="block-title" style="margin-bottom: 15px">
+        <strong style="font-size: 20px; font-weight: 400">
+            <span
+                class="qty empty"
+                text="getCartParam('summary_count')"
+                data-bind="css: { empty: !!getCartParam('summary_count') == false },
+                           attr: { title: $t('Items in Cart') }"
             >
-                <span translate="'View Cart'"></span>
-            </a>
-        </div>
+            </span>
+            <span class="text" translate="'Item added to your Cart'"></span>
+        </strong>
     </div>
-</div>
+</if>
 
 <div class="block-content">
     <if args="getCartParam('summary_count')">
@@ -51,6 +39,12 @@
         <each args="getRegion('extraInfo')" render=""></each>
 
         <div class="actions" if="getCartParam('possible_onepage_checkout')">
+            
+            <div class="secondary">
+                <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
+                    <span translate="'View Cart'"></span>
+                </a>
+            </div>
             <div class="primary">
                 <button
                     id="top-cart-btn-checkout"
@@ -76,10 +70,28 @@
     </if>
 
     <ifnot args="getCartParam('summary_count')">
-        <strong
-            class="subtitle empty"
-            translate="'You have no items in your shopping cart.'"
-        ></strong>
+        <div style="display: flex;">
+            <span class='empty-cart'>
+                <img style="height: 207px;" data-bind="attr: { src: require.toUrl('images/checkout/empty-cart.png') }">
+            </span>
+            <strong
+                class="subtitle empty"
+                translate="'Ready to fill this cart with awesome finds?'"
+            ></strong>
+        </div>
+        <!-- 🟢 Continue Shopping Button -->
+        <div class="secondary continue-shopping">
+            <button
+                type="button"
+                class="action continue"
+                data-bind="
+                  click: function() {
+                    closeMinicart();
+                  }
+                "
+                translate="'Continue Shopping'"
+            ></button>
+        </div>
         <if args="getCartParam('cart_empty_message')">
             <p
                 class="minicart empty text"

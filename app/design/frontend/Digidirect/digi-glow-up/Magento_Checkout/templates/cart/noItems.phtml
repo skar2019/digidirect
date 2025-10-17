@@ -12,11 +12,11 @@
     </div>
     <?= $block->getChildHtml('checkout_cart_empty_widget') ?>
     <div class="cart-empty-wrapper">
-        <p class="text"><?= /* @escapeNotVerified */ __('No products added yet.') ?></p>
+        <p class="text"><?= /* @escapeNotVerified */ __('Ready to fill this cart with awesome finds?') ?></p>
         <span class='empty-cart-icon'>
             <img src="<?php echo $block->getViewFileUrl('images/checkout/empty-cart.png') ?>" alt="<?= /* @escapeNotVerified */ __('No products added yet.') ?>" />
         </span>
-        <div class="action"><?php /* @escapeNotVerified */ echo __('<a href="%1" class="button action primary">Continue Shopping</a>',
+        <div class="action"><?php /* @escapeNotVerified */ echo __('<a href="%1" class="button action primary">Let\'s go Shopping</a>',
                 $block->escapeUrl($block->getContinueShoppingUrl())) ?></div>
     </div>
 
