@@ -211,6 +211,39 @@ $(window).on('scroll resize', () => {
 
     // Run once at load (in case it's already active)
     toggleWelcomeBackBlur()
+    
+    //Lock body when blur is active
+    let scrollPosition = 0
+
+    function handleBodyBlurScrollLock() {
+      const isActive = $('body').hasClass('blur-active')
+
+      if (isActive) {
+        scrollPosition = window.scrollY
+        $('body').css({
+          position: 'fixed',
+          top: `-${scrollPosition}px`,
+          width: '100%',
+        })
+      } else {
+        $('body').css({
+          position: '',
+          top: '',
+          width: '',
+        })
+        window.scrollTo(0, scrollPosition)
+      }
+    }
+
+    // Observe .blur-active class changes
+    if (window.MutationObserver) {
+      const observer = new MutationObserver(handleBodyBlurScrollLock)
+      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+    }
+
+    // Run once at load (in case .blur-active already present)
+    handleBodyBlurScrollLock()
+
      
 
     /* ========================
