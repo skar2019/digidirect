@@ -190,6 +190,27 @@ $(window).on('scroll resize', () => {
 //       }
 //     `
 //     $('head').append(`<style>${blurPageStyle}</style>`)
+
+    /* ========================
+       ✨ Sync #pa-welcome-back with Body Blur
+    ======================== */
+    function toggleWelcomeBackBlur() {
+      const isActive = $('#pa-welcome-back').hasClass('active')
+      $('body').toggleClass('blur-active', isActive)
+      if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+    }
+
+    // Observe #pa-welcome-back for .active changes
+    if (window.MutationObserver) {
+      const paEl = document.getElementById('pa-welcome-back')
+      if (paEl) {
+        const observer = new MutationObserver(toggleWelcomeBackBlur)
+        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+      }
+    }
+
+    // Run once at load (in case it's already active)
+    toggleWelcomeBackBlur()
      
 
     /* ========================
@@ -205,7 +226,7 @@ $(window).on('scroll resize', () => {
      ======================== */
      $(document).on('click', '#welcome-back-close', function () {
        $('#pa-welcome-back').removeClass('active')
-       $('body').removeClass('welcome-blur-active')
+       $('body').removeClass('blur-active')
        positionBlurOverlay() // keep your old blur overlay working
      })
 
