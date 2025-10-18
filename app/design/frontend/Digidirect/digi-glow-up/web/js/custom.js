@@ -243,6 +243,8 @@ $(window).on('scroll resize', () => {
       <style>
         body.scroll-locked {
           overflow-y: scroll; /* ✅ keep scrollbar visible */
+          position: fixed;
+          width: 100%;
         }
       </style>
     `)
