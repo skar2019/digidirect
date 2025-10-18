@@ -213,38 +213,48 @@ $(window).on('scroll resize', () => {
     toggleWelcomeBackBlur()
     
     //Lock body when blur is active
-    let scrollPosition = 0
-
-    function handleBodyBlurScrollLock() {
-      const isActive = $('body').hasClass('blur-active')
-
-      if (isActive) {
-        scrollPosition = window.scrollY
-        $('body').css({
-          position: 'fixed',
-          top: `-${scrollPosition}px`,
-          width: '100%',
-        })
-      } else {
-        $('body').css({
-          position: '',
-          top: '',
-          width: '',
-        })
-        window.scrollTo(0, scrollPosition)
-      }
+    // Prevent all scroll-related events
+    function disableBodyScroll() {
+      $('body').addClass('scroll-locked')
+      window.addEventListener('wheel', preventScroll, { passive: false })
+      window.addEventListener('touchmove', preventScroll, { passive: false })
+      window.addEventListener('keydown', preventKeyScroll, { passive: false })
     }
 
-    // Observe .blur-active class changes
-    if (window.MutationObserver) {
-      const observer = new MutationObserver(handleBodyBlurScrollLock)
-      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+    function enableBodyScroll() {
+      $('body').removeClass('scroll-locked')
+      window.removeEventListener('wheel', preventScroll, { passive: false })
+      window.removeEventListener('touchmove', preventScroll, { passive: false })
+      window.removeEventListener('keydown', preventKeyScroll, { passive: false })
     }
 
-    // Run once at load (in case .blur-active already present)
-    handleBodyBlurScrollLock()
+    function preventScroll(e) {
+      e.preventDefault()
+    }
 
-     
+    function preventKeyScroll(e) {
+      // prevent arrow keys, space, PgUp, PgDn, etc.
+      const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40]
+      if (keys.includes(e.keyCode)) e.preventDefault()
+    }
+
+    // Optional CSS (keeps scrollbar visible)
+    $('head').append(`
+      <style>
+        body.scroll-locked {
+          overflow-y: scroll; /* ✅ keep scrollbar visible */
+        }
+      </style>
+    `)
+
+    // Example usage with your blur:
+    function toggleWelcomeBackBlur() {
+      const isActive = $('#pa-welcome-back').hasClass('active')
+      $('body').toggleClass('blur-active', isActive)
+      if (isActive) disableBodyScroll()
+      else enableBodyScroll()
+      if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+    }
 
     /* ========================
         🌐 Reposition #pa-welcome-back
