@@ -162,35 +162,35 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
-
-    /* ========================
-        💫 Blur Entire Page Except #pa-welcome-back
-     ======================== */
-     function togglePageBlur() {
-       const isActive = $('#pa-welcome-back').hasClass('active')
-       $('body').toggleClass('welcome-blur-active', isActive)
-     }
-
-     // Observe class changes on #pa-welcome-back
-     if (window.MutationObserver) {
-       const paEl = document.getElementById('pa-welcome-back')
-       if (paEl) {
-         const observer = new MutationObserver(togglePageBlur)
-         observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-       }
-     }
-
-     // Add styles for blur effect (excluding #pa-welcome-back)
-     const blurPageStyle = `
-       body.welcome-blur-active > *:not(#pa-welcome-back) {
-         filter: blur(12px);
-         -webkit-filter: blur(12px);
-         transition: filter 0.3s ease;
-         pointer-events: none;
-       }
-     `
-     $('head').append(`<style>${blurPageStyle}</style>`)
-
+    
+//    /* ========================
+//        💫 Blur Entire Page Except #pa-welcome-back
+//     ======================== */
+//     function togglePageBlur() {
+//       const isActive = $('#pa-welcome-back').hasClass('active')
+//       $('body').toggleClass('welcome-blur-active', isActive)
+//     }
+//
+//     // Observe class changes on #pa-welcome-back
+//     if (window.MutationObserver) {
+//       const paEl = document.getElementById('pa-welcome-back')
+//       if (paEl) {
+//         const observer = new MutationObserver(togglePageBlur)
+//         observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+//       }
+//     }
+//
+//     // Add styles for blur effect (excluding #pa-welcome-back)
+//     const blurPageStyle = `
+//       body.welcome-blur-active > *:not(#pa-welcome-back) {
+//         filter: blur(12px);
+//         -webkit-filter: blur(12px);
+//         transition: filter 0.3s ease;
+//         pointer-events: none;
+//       }
+//     `
+//     $('head').append(`<style>${blurPageStyle}</style>`)
+     
 
     /* ========================
         🌐 Reposition #pa-welcome-back
