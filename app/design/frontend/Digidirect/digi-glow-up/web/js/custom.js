@@ -179,9 +179,14 @@ $(window).on('scroll resize', () => {
     }
     
     function toggleWelcomeBackBlur() {
-      const isActive = $('#pa-welcome-back').hasClass('active')
-      $('body').toggleClass('blur-active', isActive)
-      if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+        const isActive = $('#pa-welcome-back').hasClass('active')
+
+        // Toggle both classes based on active state
+        $('body')
+          .toggleClass('blur-active', isActive)
+          .toggleClass('pa-welcome-active', isActive) // 👈 your additional class
+
+        if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
     }
 
     // Observe #pa-welcome-back for .active changes
