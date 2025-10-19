@@ -1,7 +1,7 @@
 /**** Payment Information Start ****/
 @color-orange: #FE4C25;
 #checkout-step-payment {
-    padding-top: 20px !important;
+    //padding-top: 20px !important;
 
     .billing-address-form {
         .field[name*=firstname],
@@ -177,8 +177,8 @@
     .payment-group {
         background-color: #ffffff;
         border-radius: 12px;
-        margin-bottom: 32px;
-        padding-top: 40px;
+        margin-bottom: 0;
+        padding-top: 0;
 
         .step-title {
             margin-bottom: unset !important;
@@ -187,9 +187,10 @@
 
     .payment-method {
         border: 1px solid #D9D9D9;
-        border-radius: 8px;
-        padding: 5px;
-        margin-bottom: 16px;
+        border-radius: 10px;
+        margin: 15px 0 0;
+        //padding-top: 15px;
+        margin-bottom: 0 !important;
         display: flex;
         align-items: center;
         transition: border-color 0.3s, background-color 0.3s;
@@ -211,18 +212,19 @@
 
         &-title {
             border-top: none !important;
+            padding: 0 !important;
 
             &.field.choice {
                 display: flex;
                 align-items: center;
                 flex: 1;
                 flex-direction: row;
-                gap: 10px;
+               // gap: 10px;
                 width: 100%;
             }
 
             .radio {
-               margin-left: 20px;
+               margin-left: 15px;
             }
             input[type="radio"]:checked::after {
                 top: 1px !important;
@@ -239,6 +241,10 @@
                 margin-right: auto;
                 width: 100%;
                 justify-content: space-between;
+            }
+
+            > .label {
+                margin-right: 15px;
             }
         }
 
@@ -324,8 +330,10 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     }
 }
 
-.checkout-payment-method .payment-option-title {
+.checkout-payment-method .payment-option-title.field {
     border-top: none !important;
+    padding: 0 !important;
+    padding-bottom: 15px !important;
 }
 
 .checkout-payment-method .payment-option-title .action-toggle {
@@ -783,6 +791,10 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     .payment-method-billing-address {
         font-size: 14px;
     }
+
+    .opc-payment {
+        margin: 15px 0 0;
+    }
 }
 
 #co-payment-form .payment-method select{
@@ -794,7 +806,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 }
 
 .payment-option._collapsible.opc-payment-additional {
-    border-bottom: 2px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
 }
 
 .checkout-payment-method .payment-option-content {

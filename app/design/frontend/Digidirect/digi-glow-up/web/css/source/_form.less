@@ -114,3 +114,23 @@ a.button {
 div.mage-error {
     padding-left: 15px !important;
 }
+
+.page.messages {
+    .message.info,
+    .message.error,
+    .message.warning,
+    .message.notice,
+    .message.success {
+        > *:first-child {
+            width: max-content;
+            margin: 0 auto;
+            padding-left: 43px;
+            position: relative;
+
+            &::before {
+                left: 8px;
+                top: 7px;
+            }
+        }
+    }
+}
