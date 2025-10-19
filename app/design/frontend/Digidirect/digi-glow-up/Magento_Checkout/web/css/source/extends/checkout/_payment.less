@@ -48,25 +48,27 @@
         .field:has(input[name="firstname"]),
         .field:has(select[name="country_id"]),
         .field:has(input[name="city"]){
-            margin-right: 29px !important;
+            margin: 0 15px !important;
             width: 48% !important;
         }
 
         .field:has(input[name="lastname"]),
         .field:has(select[name="region_id"]),
         .field:has(input[name="postcode"]){
+            margin: 0 !important;
             width: 48% !important;
         }
     }
 }
 
 .payment-method-billing-address .checkout-billing-address {
-    margin-left: 40px !important;
-    margin-right: 60px !important;
+  //  margin-left: 40px !important;
+  //  margin-right: 60px !important;
 }
 
 .checkout-payment-method .billing-address-form {
     max-width: unset !important;
+    margin: 0 36px;
 }
 
 .checkout-billing-address .fieldset>.field {
@@ -189,6 +191,7 @@
         border: 1px solid #D9D9D9;
         border-radius: 10px;
         margin: 15px 0 0;
+        padding: 0 15px;
         //padding-top: 15px;
         margin-bottom: 0 !important;
         display: flex;
@@ -197,17 +200,19 @@
         cursor: pointer;
 
         &:hover {
-            border-color: #007bff;
-            background-color: #f9fbff;
+           // border-color: #007bff;
+           // background-color: #f9fbff;
+            //border-color: rgba(247, 247, 247, 0.50);
+            background-color: rgba(247, 247, 247, 0.50) !important;;
         }
 
         &._active {
-            border-color: #007bff;
-            background-color: #f0f8ff;
+            border-color: #D9D9D9;
+            background-color: rgba(247, 247, 247, 0.50) !important;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 10px;
+           // gap: 10px;
         }
 
         &-title {
@@ -224,7 +229,7 @@
             }
 
             .radio {
-               margin-left: 15px;
+               //margin-left: 15px;
             }
             input[type="radio"]:checked::after {
                 top: 1px !important;
@@ -244,7 +249,7 @@
             }
 
             > .label {
-                margin-right: 15px;
+                //margin-right: 15px;
             }
         }
 
@@ -254,7 +259,7 @@
             }
 
             .messages {
-                margin-top: 12px;
+                //margin-top: 12px;
             }
         }
 
@@ -282,7 +287,7 @@
     }
 
     #co-transparent-form-braintree {
-        margin: 15px 60px 0 60px !important;
+        margin: 15px 35px 0  35px !important
     }
 
     #co-transparent-form-braintree .fieldset.ccard .field .label {
@@ -291,16 +296,23 @@
     }
 
     #co-transparent-form-braintree .checkout-payment-method .payment-method-content .fieldset:not(:last-child) {
-        margin: 0 40px 20px 0;
+       // margin: 0 40px 20px 0;
+        margin: 0;
     }
 
     .billing-address-details {
         border: 1px solid #D9D9D9;
         border-radius: 10px;
         //: 10px 63px 10px 0;
-        margin: 25px 25px !important;
-        padding: 15px 0 15px 28px !important;
+        margin: 15px 35px !important;
+        padding: 15px !important;
         line-height: 25px !important;
+        background-color: #ffffff;
+
+        button.action.action-edit-address {
+            margin-top: 10px !important;
+            //padding: 5px 0 !important;
+        }
     }
 
     .zip-checkout-description {
@@ -320,13 +332,24 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     margin-left: 40px !important;
 }
 
+#co-payment-form .checkout-payment-method .payment-method._active {
+   // border-color: #D9D9D9 !important;
+   // background-color: rgba(247, 247, 247, 0.50) !important;
+   // gap: 0 !important;
+}
+#co-payment-form .checkout-payment-method .opc-payment .payment-method:hover {
+ //   border-color: #fe4c25 !important;
+  //  background-color: rgba(247, 247, 247, 0.50) !important;
+}
+
 .checkout-payment-method .payment-method._active .payment-method-content {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding: 0 !important;
 
     .checkout-agreements-block {
-        padding-bottom: 10px;
+       // padding-bottom: 10px;
     }
 }
 
@@ -418,12 +441,30 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap;
-    margin-left: 64px;
+    //margin-left: 64px;
+    margin: 0 35px !important;
+    padding: 15px 15px !important;
+    border-radius: 10px;
+
+    .actions-toolbar button.primary {
+        margin-top: 0 !important;
+    }
 }
 
-.afterpay.payment-method .actions-toolbar-wraper{
-    padding: 15px 30px !important;
-    margin-right: 80px !important;
+.checkout-index-index #co-payment-form .payment-method-content .afterpay.payment-method .actions-toolbar-wraper {
+ /*   padding: 15px 15px !important;
+  //  margin-right: 80px !important;
+  //  margin-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap;
+   // margin-left: 64px;
+    margin: 0 35px !important;
+    border-radius: 10px;
+
+    .actions-toolbar button.primary {
+        margin-top: 0 !important;
+    }*/
 }
 
 #method-latitude .latitude-icon {
@@ -431,17 +472,22 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 }
 
 #method-latitude #main-container {
-    margin-right: 15px;
+    //margin-right: 15px;
+}
+
+#latipay-form div.field {
+    padding: 0 !important;
 }
 
 .checkout-index-index{
     .bank-details-heading {
         margin-left: 40px;
-        margin-top: 20px;
+        //margin-top: 20px;
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.2px;
         color: #000000;
+        text-decoration: underline;
     }
 }
 
@@ -456,10 +502,33 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     background-image: url('@{baseDir}images/checkout/latitude.png');
 }
 
-.payment-method:has(#method-latitude) .payment-method-content {
-    margin-left: 60px !important;
-    padding: unset !important;
-    width: unset !important;
+//.payment-method:has(#method-latitude) .payment-method-content {
+.payment-method.latitude-glowup {
+    //padding: unset !important;
+    //width: unset !important;
+
+    #main-container {
+        margin: 0 30px !important;
+    }
+
+    .primary button.action.primary.checkout {
+        /*background-color: #fe4c25;
+        color: #ffffff;
+        border-radius: 100px;
+        height: 40px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 11px 30px !important;
+        width: unset !important;
+        max-width: unset !important;
+        line-height: unset !important;*/
+        margin-left: 35px;
+    }
+
+    #footer-container {
+        margin-left: 35px;
+    }
 
     .payment-method-billing-address .checkout-billing-address {
         margin-left: unset !important;
@@ -490,6 +559,18 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 
 .checkout-index-index .payment-method-content .payment-method-billing-address  label::after { //CHECK THIS
     //display: none !important;
+}
+
+.checkout-index-index .form-latipay .latipay-options-item {
+    margin-bottom: 0 !important;
+}
+input[name="payment[latipay_method]"]:after{
+    top: 1px !important;
+    left: 1px !important;
+}
+
+.checkout-index-index .form-latipay .latipay-options-item:has(#latipay-method-wechat) {
+    padding-top: 0 !important;
 }
 
 .checkout-index-index .form-latipay .latipay-options-item:has(#latipay-method-wechat) label::after {
@@ -619,7 +700,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     }
 
     button.action.checkout {
-        width: 231px;
+        //width: 231px;
         span {
             font-size: 14px;
             letter-spacing: 0.2px;
@@ -694,7 +775,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
         letter-spacing: 0.4px;
 
         label {
-            margin-top: 5px;
+            //margin-top: 5px;
         }
     }
 }
@@ -726,18 +807,18 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     overflow: visible !important;
     position: relative !important;
     width: auto !important;
-    padding-top: 10px !important;
+    //padding-top: 10px !important;
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.3px;
 }
 
 .credit-card-info-glowup {
-    margin-top: 24px;
+   // margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    margin-right: 20px;
+    gap: 15px;
+    //margin-right: 20px;
 
     .field {
         flex: 1 1 30%;
@@ -790,6 +871,7 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 #co-payment-form {
     .payment-method-billing-address {
         font-size: 14px;
+        //margin: 0 15px !important;
     }
 
     .opc-payment {

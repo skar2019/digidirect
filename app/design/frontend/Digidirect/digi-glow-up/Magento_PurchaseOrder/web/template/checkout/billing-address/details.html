@@ -15,7 +15,7 @@
  * from Adobe.
  */
 -->
-<div if="isAddressDetailsVisible() && currentBillingAddress()" class="billing-address-details">
+<div if="isAddressDetailsVisible() && currentBillingAddress()" class="billing-address-details mmmm">
     <text args="currentBillingAddress().prefix"></text> <text args="currentBillingAddress().firstname"></text>
     <text args="currentBillingAddress().middlename"></text>
     <text args="currentBillingAddress().lastname"></text> <text args="currentBillingAddress().suffix"></text><br>
@@ -31,12 +31,10 @@
     <if args="currentBillingAddress().vatId">
         <translate args="'VAT'"></translate>: <text args="currentBillingAddress().vatId"></text><br>
     </if>
-
     <each args="data: currentBillingAddress().customAttributes, as: 'element'">
         <text args="$parent.getCustomAttributeLabel(element)"></text>
-        <br>
+<!--        <br>-->
     </each>
-
     <button visible="!isAddressSameAsShipping()"
             type="button"
             class="action action-edit-address"

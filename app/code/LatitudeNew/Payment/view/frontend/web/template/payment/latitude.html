@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 -->
-<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div class="payment-method latitude-glowup" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div id="method-latitude" class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -46,13 +46,6 @@
                 attr: {title: $t('Place Order')},
                 enable: (getCode() == isChecked()),
                 css: {disabled: !isPlaceOrderActionAllowed()}
-                "
-                style="
-                width: 100% !important;
-                max-width: 400px !important;
-                font-size: 18px !important;
-                line-height: 1 !important;
-                padding: 14px 17px !important;
                 "
                 disabled>
                 <span data-bind="i18n: 'Choose a plan'"></span>

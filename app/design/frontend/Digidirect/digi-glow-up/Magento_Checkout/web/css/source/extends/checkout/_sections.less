@@ -74,6 +74,7 @@
         width: auto !important;
     }
 
+    //input:not([type="checkbox"]),
     input,
     select {
         width: 100%;
@@ -236,7 +237,7 @@
         appearance: none;
         -webkit-appearance: none;
         width: 18px !important;
-        height: 17px;
+        height: 18px;
         border: 1px solid #d9d9d9;
         background-color: white;
         cursor: pointer;
@@ -244,6 +245,9 @@
         display: inline-block;
         vertical-align: middle;
         transition: background-color 0.2s, border-color 0.2s;
+        margin-right: 15px;
+        margin-top: 0 !important;
+        margin-bottom: 5px;
     }
 
     input[type="checkbox"]:checked {
@@ -253,7 +257,7 @@
     input[type="checkbox"]:checked::after {
         content: "";
         position: absolute;
-        top: 3px;
+        top: 4px;
         left: 8px;
         width: 5px;
         height: 10px;
