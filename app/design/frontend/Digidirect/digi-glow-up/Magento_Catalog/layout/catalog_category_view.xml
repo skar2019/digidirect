@@ -2,14 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-<!--        <referenceContainer name="content">-->
-<!--            &lt;!&ndash; Wrap your facet area &ndash;&gt;-->
-<!--            <container name="algolia.facet.wrapper" htmlTag="div" htmlId="algolia-facet-wrapper" before="algolia.instantsearch.container">-->
-<!--                <block class="Magento\Framework\View\Element\Template"-->
-<!--                       name="algolia.custom.facets"-->
-<!--                       template="Magento_Catalog::algolia-facets.phtml"/>-->
-<!--            </container>-->
-<!--        </referenceContainer>-->
         <referenceBlock name="category.description" remove="true"/>
+        <referenceContainer name="page.bottom">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="plp.recommended.for.you"
+                   template="Magento_Theme::product-listing/recommended-for-you.phtml"
+                   after="-" />
+        </referenceContainer>
     </body>
 </page>
