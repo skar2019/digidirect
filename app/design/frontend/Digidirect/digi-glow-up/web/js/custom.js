@@ -162,34 +162,6 @@ $(window).on('scroll resize', () => {
       })
       aaObserver.observe(document.body, { childList: true, subtree: true })
     }
-    
-//    /* ========================
-//        💫 Blur Entire Page Except #pa-welcome-back
-//     ======================== */
-//     function togglePageBlur() {
-//       const isActive = $('#pa-welcome-back').hasClass('active')
-//       $('body').toggleClass('welcome-blur-active', isActive)
-//     }
-//
-//     // Observe class changes on #pa-welcome-back
-//     if (window.MutationObserver) {
-//       const paEl = document.getElementById('pa-welcome-back')
-//       if (paEl) {
-//         const observer = new MutationObserver(togglePageBlur)
-//         observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-//       }
-//     }
-//
-//     // Add styles for blur effect (excluding #pa-welcome-back)
-//     const blurPageStyle = `
-//       body.welcome-blur-active > *:not(#pa-welcome-back) {
-//         filter: blur(12px);
-//         -webkit-filter: blur(12px);
-//         transition: filter 0.3s ease;
-//         pointer-events: none;
-//       }
-//     `
-//     $('head').append(`<style>${blurPageStyle}</style>`)
 
     /* ========================
        ✨ Sync #pa-welcome-back with Body Blur
@@ -211,52 +183,6 @@ $(window).on('scroll resize', () => {
 
     // Run once at load (in case it's already active)
     toggleWelcomeBackBlur()
-    
-    //Lock body when blur is active
-    // Prevent all scroll-related events
-    function disableBodyScroll() {
-      $('body').addClass('scroll-locked')
-      window.addEventListener('wheel', preventScroll, { passive: false })
-      window.addEventListener('touchmove', preventScroll, { passive: false })
-      window.addEventListener('keydown', preventKeyScroll, { passive: false })
-    }
-
-    function enableBodyScroll() {
-      $('body').removeClass('scroll-locked')
-      window.removeEventListener('wheel', preventScroll, { passive: false })
-      window.removeEventListener('touchmove', preventScroll, { passive: false })
-      window.removeEventListener('keydown', preventKeyScroll, { passive: false })
-    }
-
-    function preventScroll(e) {
-      e.preventDefault()
-    }
-
-    function preventKeyScroll(e) {
-      // prevent arrow keys, space, PgUp, PgDn, etc.
-      const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40]
-      if (keys.includes(e.keyCode)) e.preventDefault()
-    }
-
-    // Optional CSS (keeps scrollbar visible)
-    $('head').append(`
-      <style>
-        body.scroll-locked {
-          overflow-y: scroll; /* ✅ keep scrollbar visible */
-          position: fixed;
-          width: 100%;
-        }
-      </style>
-    `)
-
-    // Example usage with your blur:
-    function toggleWelcomeBackBlur() {
-      const isActive = $('#pa-welcome-back').hasClass('active')
-      $('body').toggleClass('blur-active', isActive)
-      if (isActive) disableBodyScroll()
-      else enableBodyScroll()
-      if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
-    }
 
     /* ========================
         🌐 Reposition #pa-welcome-back

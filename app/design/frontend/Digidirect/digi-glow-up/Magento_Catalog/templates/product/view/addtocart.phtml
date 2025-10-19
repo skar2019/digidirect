@@ -17,7 +17,7 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
-    <div class="box-tocart">    
+    <div class="box-tocart">
         <div class="fieldset qty-fieldset">
             <?php if ($block->shouldRenderQuantity()): ?>
                 <div class="field qty">
