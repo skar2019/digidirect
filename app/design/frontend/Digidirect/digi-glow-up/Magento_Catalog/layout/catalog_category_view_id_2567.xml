@@ -8,6 +8,6 @@
                    template="Magento_Theme::product-listing/category-2567.phtml"
                    after="breadcrumbs" />
         </referenceContainer>
-        <remove name="plp.recommended.for.you/>
+        <remove name="plp.recommended.for.you" />
     </body>
 </page>
