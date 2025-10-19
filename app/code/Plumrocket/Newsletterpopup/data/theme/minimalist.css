@@ -12,6 +12,7 @@
     display: block;
     left: 0;
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 5000;
     height: 100%;
@@ -76,7 +77,6 @@
     width: 570px;
     margin: 10% auto 5% auto;
     position: relative;
-    z-index: 9000;
 }
 
 .newspopup-up-form.newspopup-theme .hld-pop {
