@@ -1676,16 +1676,5 @@ require(['jquery'], function ($) {
             });
             $(window).on('resize', masonryLayout);
         });
-        const $container = $('#welcome-back-widget-desktop')
-        const $target = $('#pa-welcome-back')
-
-        if ($container.length && $target.length) {
-          const count = $container.find('.product-item-info').length
-          if (count > 5) {
-            setTimeout(() => {
-              $target.addClass('active')
-            }, 3000)
-          }
-        }
     });
 </script>

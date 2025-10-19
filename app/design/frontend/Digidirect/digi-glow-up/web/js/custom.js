@@ -166,6 +166,18 @@ $(window).on('scroll resize', () => {
     /* ========================
        ✨ Sync #pa-welcome-back with Body Blur
     ======================== */
+    const $container = $('#welcome-back-widget-desktop')
+    const $target = $('#pa-welcome-back')
+
+    if ($container.length && $target.length) {
+      const count = $container.find('.product-item-info').length
+      if (count > 5) {
+        setTimeout(() => {
+          $target.addClass('active')
+        }, 3000)
+      }
+    }
+    
     function toggleWelcomeBackBlur() {
       const isActive = $('#pa-welcome-back').hasClass('active')
       $('body').toggleClass('blur-active', isActive)
