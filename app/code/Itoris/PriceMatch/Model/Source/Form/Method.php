@@ -25,6 +25,8 @@
 
 namespace Itoris\PriceMatch\Model\Source\Form;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+
 class Method implements \Magento\Framework\Option\ArrayInterface
 {
     protected $request;
@@ -35,12 +37,14 @@ class Method implements \Magento\Framework\Option\ArrayInterface
     (
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Itoris\PriceMatch\Model\ResourceModel\PriceMatch\CollectionFactory $collectionFactory,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+        ProductRepositoryInterface $productRepository
     )
     {
         $this->collectionFactory = $collectionFactory;
         $this->priceCurrency = $priceCurrency;
         $this->request = $request;
+        $this->productRepository = $productRepository;
     }
 
     public function toOptionArray()
@@ -52,8 +56,21 @@ class Method implements \Magento\Framework\Option\ArrayInterface
             \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
             $item['store_id']
         );
+        
+        $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+        $product->setCustomerGroupId(0); // General group
+
+        $finalPrice = $product->getFinalPrice();
+        $wiserPrice = $product->getData('wiser_price');
+
+        if (!empty($wiserPrice)) {
+            if($wiserPrice < $finalPrice) {
+                $finalPrice = $wiserPrice;
+            }
+        }
+        
         $diffPrice =$this->priceCurrency->format(
-            $item['final_price']-$item['match_price'],
+            $finalPrice-$item['match_price'],
             false,
             \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
             $item['store_id']
