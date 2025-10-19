@@ -76,7 +76,7 @@
 
 .checkout-payment-method .billing-address-form {
     max-width: unset !important;
-    margin: 0 35px;
+    //margin: 0 35px;
 }
 
 .checkout-billing-address .fieldset>.field {
@@ -113,7 +113,7 @@
 
 .checkout-billing-address .actions-toolbar .primary {
     display: flex !important;
-    gap: 20px;
+    //gap: 20px;
     padding-bottom: 15px;
 }
 
@@ -172,6 +172,9 @@
     }
 }
 
+.checkout-billing-address fieldset.fieldset {
+    margin: 0 35px !important;
+}
 
 #co-payment-form {
     .step-title {
@@ -683,6 +686,7 @@ input[name="payment[latipay_method]"]:after{
         max-width: none !important;
         align-items: center;
         justify-content: space-between;
+        padding-top: 15px;
 
         .payment-option-inner {
             margin: 0 !important;
@@ -901,17 +905,29 @@ input[name="payment[latipay_method]"]:after{
 }
 
 .checkout-payment-method .payment-option-content {
-    padding: 0 0 20px 0 !important;
+    padding: 0 !important;
 }
 
 .payment-option-item:has(.block-discount-heading) {
-    padding-top: 5px;
+    margin-top: 15px;
 }
 
 .checkout-payment-method .payment-method-content .fieldset:not(:last-child) {
     margin: 0 !important;
 }
 
+#checkoutSteps .actions-toolbar .primary button.action-cancel {
+    background-color: #000000 !important;
+}
+
+.opc-wrapper .opc-payment-additional div.payment-title.field,
+.opc-wrapper .opc-payment-additional .form-discount div.field {
+    padding: 0 !important;
+}
+
+input:not([disabled]):focus {
+    box-shadow: none !important;
+}
 
 /*.opc-wrapper .billing-address-form .control {
     padding: 0 !important;
