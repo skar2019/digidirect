@@ -55,6 +55,7 @@
 .newspopup-up-form.newspopup-theme {
     width: 535px;
     margin: 10% auto 5% auto;
+    z-index: 9000;
 }
 
 .newspopup-up-form.newspopup-theme .hld-pop {
