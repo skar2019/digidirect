@@ -722,10 +722,17 @@ input[name="payment[latipay_method]"]:after{
         }
 
     }
+    .form-giftcard-account .payment-option-inner.fieldset.apply {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        justify-content: start;
+        align-items: center;
+    }
 
     .form-giftcard-account,  .cards-list{
         display: flex;
-        margin: 0 0 20px;
+        margin: 0 0 15px;
         justify-content: space-between;
         max-width: none !important;afterpay
 
@@ -909,7 +916,7 @@ input[name="payment[latipay_method]"]:after{
     padding: 0 !important;
 }
 
-.payment-option-item:has(.block-discount-heading) {
+.payment-option-item:has(#giftcard-form-vii) {
     margin-top: 15px !important;
 }
 
