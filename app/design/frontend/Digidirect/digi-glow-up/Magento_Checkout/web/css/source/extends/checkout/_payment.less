@@ -58,6 +58,14 @@
             margin: 0 !important;
             width: 49% !important;
         }
+
+        div.field {
+            padding: 0 !important;
+        }
+       /* .field:has(input[name="custom_attributes[unit_number]"]),
+        .field:has(input[name="country_id"]){
+            padding: 0 !important;
+        }*/
     }
 }
 
@@ -72,7 +80,7 @@
 }
 
 .checkout-billing-address .fieldset>.field {
-    margin: 0 0 20px !important;
+    margin: 0 !important;
 }
 
 .checkout-billing-address .fieldset>.field:not(.choice)>.label {
@@ -106,7 +114,7 @@
 .checkout-billing-address .actions-toolbar .primary {
     display: flex !important;
     gap: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 }
 
 .checkout-billing-address .billing-address-details button {
@@ -256,7 +264,7 @@
 
         &-content {
             .actions-toolbar {
-                margin-top: 24px;
+                margin-top: 15px;
             }
 
             .messages {
@@ -288,7 +296,7 @@
     }
 
     #co-transparent-form-braintree {
-        margin: 15px 35px 0  35px !important
+        margin: 15px 35px !important;
     }
 
     #co-transparent-form-braintree .fieldset.ccard .field .label {
@@ -828,14 +836,14 @@ input[name="payment[latipay_method]"]:after{
 
         label {
             font-size: 14px;
-            margin-bottom: 6px;
+            //margin-bottom: 6px;
             font-weight: 400;
 
             &::after {
                 content: '*';
                 color: #e02b27;
                 font-size: 1.2rem;
-                margin: 0 0 0 5px;
+                //margin: 0 0 0 5px;
             }
         }
 
@@ -899,6 +907,11 @@ input[name="payment[latipay_method]"]:after{
 .payment-option-item:has(.block-discount-heading) {
     padding-top: 5px;
 }
+
+.checkout-payment-method .payment-method-content .fieldset:not(:last-child) {
+    margin: 0 !important;
+}
+
 
 /*.opc-wrapper .billing-address-form .control {
     padding: 0 !important;
