@@ -48,15 +48,15 @@
         .field:has(input[name="firstname"]),
         .field:has(select[name="country_id"]),
         .field:has(input[name="city"]){
-            margin: 0 15px !important;
-            width: 48% !important;
+            margin: 0 15px 0 0 !important;
+            width: 49% !important;
         }
 
         .field:has(input[name="lastname"]),
         .field:has(select[name="region_id"]),
         .field:has(input[name="postcode"]){
             margin: 0 !important;
-            width: 48% !important;
+            width: 49% !important;
         }
     }
 }
@@ -68,11 +68,11 @@
 
 .checkout-payment-method .billing-address-form {
     max-width: unset !important;
-    margin: 0 36px;
+    margin: 0 35px;
 }
 
 .checkout-billing-address .fieldset>.field {
-    margin: 0 5px 20px !important;
+    margin: 0 0 20px !important;
 }
 
 .checkout-billing-address .fieldset>.field:not(.choice)>.label {
@@ -88,7 +88,7 @@
     content: '*';
     color: #e02b27;
     font-size: 1.2rem;
-    margin: 0 0 0 5px;
+    //margin: 0 0 0 5px;
 }
 
 .checkout-billing-address .fieldset > .field:not(.choice) > .control {
@@ -160,6 +160,7 @@
         appearance: none !important;
         min-width: 50px;
         padding-right: 40px !important;
+       // position: relative;
     }
 }
 
