@@ -18,7 +18,7 @@ body.blur-active .page-wrapper {
     pointer-events: none;
 }
 
-body.pa-welcome-active .ruby-menu-menu-blog {
+body.pa-welcome-active .ruby-menu-mega-blog {
     pointer-events: none;
 }
 
@@ -88,6 +88,11 @@ a:hover {
 #maincontent {
     max-width: 100%;
     padding: 0;
+}
+
+.page-wrapper > .page-bottom {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .homepage-row.pa-widget {
@@ -721,13 +726,25 @@ a.action.towishlist {
     max-width: 1327px;
 }
 
-.catalog-category-view .breadcrumbs,
+/*.catalog-category-view .breadcrumbs,
 .catalogsearch-result-index .breadcrumbs {
     padding-top: 15px;
-}
+}*/
 
 .list-view a.action.towishlist {
     left: 200px;
+}
+
+.plp-banner {
+    position: relative;
+}
+
+.plp-banner-label {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 .field.choice input[type="checkbox"]:checked + label::before {
@@ -786,7 +803,7 @@ body.blur-active .global-blur-overlay {
 }
 
 #newspopup_up_bg_13 {
-    position: absolute !important;
+    position: fixed !important;
     left: 0 !important;
     width: 100% !important;
     background: rgba(255, 255, 255, 0.35) !important;

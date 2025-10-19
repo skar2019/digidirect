@@ -174,7 +174,7 @@ $(window).on('scroll resize', () => {
       if (count > 5) {
         setTimeout(() => {
           $target.addClass('active')
-        }, 3000)
+        }, 1000)
       }
     }
     
@@ -876,7 +876,7 @@ aaStickObserver.observe(document.body, { childList: true, subtree: true })
    🧩 Close aa-Panel on Blog Mega Menu Hover
 ======================== */
 $(document)
-  .on('mouseenter', '.ruby-menu-mega-blog.hasdropdown', function () {
+  .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
     // Hide aa-Panel and reset input state
     const $panel = $('.aa-Panel')
     const $input = $('#autocomplete-0-input')
@@ -892,7 +892,7 @@ $(document)
     // Make sure blur overlay updates correctly
     $('body').removeClass('blur-active')
   })
-  .on('mouseleave', '.ruby-menu-mega-blog.hasdropdown', function () {
+  .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
   
