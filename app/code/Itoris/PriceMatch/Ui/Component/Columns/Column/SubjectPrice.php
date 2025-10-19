@@ -59,10 +59,21 @@ class SubjectPrice extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
-                $product = $this->productRepository->get($item['product_sku']);
+                //$product = $this->productRepository->get($item['product_sku']);
+                $product = $this->productRepository->getById($item['product_id'], false, $item['store_id']);
+                $product->setCustomerGroupId(0); // General group
+                
                 $finalPrice = $product->getFinalPrice();
-                $this->logger->info('prepareDataSource wiser_price, ' . $this->getCustomAttributeValue($item['product_sku'], 'wiser_price'));
-                $this->logger->info('prepareDataSource final_price, ' . $finalPrice);
+                $wiserPrice = $product->getData('wiser_price');
+                
+                $this->logger->info('SKU: ' . $item['product_sku'] . ', wiser_price: ' . $wiserPrice . ', final_price: ' . $finalPrice);
+                
+                if (!empty($wiserPrice)) {
+                    if($wiserPrice < $finalPrice) {
+                        $finalPrice = $wiserPrice;
+                    }
+                }
+                
                 $fPrice = $this->priceCurrency->format(
                     $finalPrice,
                     false,
