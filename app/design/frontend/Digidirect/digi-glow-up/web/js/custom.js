@@ -100,87 +100,77 @@ $(window).on('scroll resize', () => {
     /* ========================
        🧊 Global Blur Overlay
     ======================== */
-    const $blurOverlay = $('<div class="global-blur-overlay"></div>')
-    if (!$('.global-blur-overlay').length) $('body').append($blurOverlay)
+    // Create overlay if it doesn't exist
+    let $blurOverlay = $('.global-blur-overlay')
+    if (!$blurOverlay.length) {
+      $blurOverlay = $('<div class="global-blur-overlay"></div>')
+      $('body').append($blurOverlay)
+    }
 
     function positionBlurOverlay() {
+      const $header = $('.page-header')
       const $overlay = $('.global-blur-overlay')
-      const $main = $('#maincontent')
-      if (!$main.length) return
 
-      const mainOffset = $main.offset().top
-      const documentHeight = Math.max(
-        $(document).height(),
-        $('body').prop('scrollHeight')
-      )
-      const height = documentHeight - mainOffset
+      if (!$overlay.length) return
+
+      const headerHeight = $header.outerHeight() || 0
+      const windowHeight = $(window).height()
 
       if ($('body').hasClass('blur-active')) {
         $overlay.css({
-          position: 'absolute',
-          top: mainOffset + 'px',
+          position: 'fixed',
+          top: headerHeight + 'px',
           left: 0,
           width: '100%',
-          height: height + 'px',
+          height: windowHeight - headerHeight + 'px',
+          display: 'block',
+          zIndex: 9999,
         })
       } else {
-        $overlay.css({ height: '0' })
+        $overlay.css({ display: 'none', height: '0' })
       }
     }
 
-    positionBlurOverlay()
-    $(window).on('resize scroll', positionBlurOverlay)
-
-    if (window.MutationObserver) {
-      const blurObserver = new MutationObserver(() => positionBlurOverlay())
-      blurObserver.observe(document.body, { childList: true, subtree: true })
-    }
-
+    // CSS for blur overlay
     const blurStyle = `
       .global-blur-overlay {
-        width: 100%;
-        left: 0;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         opacity: 0;
-        transition: opacity 0.3s ease, height 0.3s ease;
+        transition: opacity 0.3s ease;
         pointer-events: none;
-        z-index: 9;
       }
       body.blur-active .global-blur-overlay {
         opacity: 1;
       }
     `
-    $('head').append(`<style>${blurStyle}</style>`)
+    $('head').append('<style>' + blurStyle + '</style>')
 
-    $(document).on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
-        const $panel = $('.aa-Panel')
-        const $input = $('#autocomplete-0-input')
-
-        // Hide aa-Panel
-        if ($panel.length) {
-          $panel.css({ visibility: 'hidden', opacity: 0 })
-          setTimeout(() => $panel.remove(), 100)
-        }
-        if ($input.length) $input.trigger('blur')
-
-        // ✅ Apply blur
+    // Trigger when hovering on blog mega menu
+    $(document)
+      .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
         $('body').addClass('blur-active')
         positionBlurOverlay()
-    })
-
-    $(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
-      $('body').removeClass('blur-active')
-      positionBlurOverlay()
-    })
-
-    if (window.MutationObserver) {
-      const aaObserver = new MutationObserver(() => {
-        if ($('.aa-Panel').length) $('body').addClass('blur-active')
-        else $('body').removeClass('blur-active')
+      })
+      .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+        $('body').removeClass('blur-active')
         positionBlurOverlay()
       })
-      aaObserver.observe(document.body, { childList: true, subtree: true })
+
+    // Recalculate on scroll/resize/load
+    $(window).on('resize scroll load', positionBlurOverlay)
+
+    // Handle Algolia panel visibility or dynamic changes
+    if (window.MutationObserver) {
+      const observer = new MutationObserver(() => {
+        if ($('.aa-Panel').length || $('#pa-welcome-back').is(':visible')) {
+          $('body').addClass('blur-active')
+        } else {
+          $('body').removeClass('blur-active')
+        }
+        positionBlurOverlay()
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
     }
 
     /* ========================
