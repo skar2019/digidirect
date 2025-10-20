@@ -10,13 +10,12 @@ define([
   $(function () {
     
     /* ========================
-   ✅ Page wrapper pointer events default
+   ✅ Remove pointer events from nav
 ======================== */
-    const $wrapper = $('.page-wrapper')
-    $wrapper.css('pointer-events', 'none')
-
-    $(window).on('load', function () {
-      $wrapper.css('pointer-events', 'auto')
+    (window).on('load', function () {
+        setTimeout(function () {
+          jQuery('.ruby-wrapper').removeAttr('style')
+        }, 2000)
     })
     
       /* ========================
