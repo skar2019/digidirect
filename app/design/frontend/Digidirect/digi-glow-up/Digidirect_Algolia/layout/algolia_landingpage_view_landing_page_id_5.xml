@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="page.wrapper">
-            <block class="Magento\Framework\View\Element\Template" name="algolia.deals.custom.block" template="Magento_Theme::algolia/landing-page-deals.phtml" before="-"/>
+            <block class="Magento\Framework\View\Element\Template" name="algolia.deals.custom.block" template="Magento_Theme::algolia/landing-page-deals.phtml" before="main.content"/>
         </referenceContainer>
     </body>
 </page>
