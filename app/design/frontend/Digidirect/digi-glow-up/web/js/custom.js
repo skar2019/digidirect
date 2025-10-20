@@ -12,7 +12,7 @@ define([
     /* ========================
    ✅ Remove pointer events from nav
 ======================== */
-    (window).on('load', function () {
+    $(window).on('load', function () {
         setTimeout(function () {
           $('.ruby-wrapper').removeAttr('style')
         }, 2000)
