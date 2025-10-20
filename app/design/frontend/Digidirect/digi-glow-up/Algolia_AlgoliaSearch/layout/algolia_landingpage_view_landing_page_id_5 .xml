@@ -4,7 +4,7 @@
 
   <body>
     <!-- Use page.main since Algolia replaces content -->
-    <referenceContainer name="page.main">
+    <referenceContainer name="page.wrapper">
       <block class="Magento\Framework\View\Element\Template"
              name="algolia.deals.custom.block"
              template="Magento_Theme::algolia/landing-page-deals.phtml"
