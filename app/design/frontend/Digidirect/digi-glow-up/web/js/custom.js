@@ -15,6 +15,7 @@ define([
     $(window).on('load', function () {
         setTimeout(function () {
           $('.ruby-wrapper').removeAttr('style')
+          $('<style>.ruby-menu-demo-header::after { content: none !important; }</style>').appendTo('head')
         }, 2000)
     })
     
@@ -153,25 +154,25 @@ $(window).on('scroll resize', () => {
     $('head').append(`<style>${blurStyle}</style>`)
 
     $(document).on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
-  const $panel = $('.aa-Panel')
-  const $input = $('#autocomplete-0-input')
+        const $panel = $('.aa-Panel')
+        const $input = $('#autocomplete-0-input')
 
-  // Hide aa-Panel
-  if ($panel.length) {
-    $panel.css({ visibility: 'hidden', opacity: 0 })
-    setTimeout(() => $panel.remove(), 100)
-  }
-  if ($input.length) $input.trigger('blur')
+        // Hide aa-Panel
+        if ($panel.length) {
+          $panel.css({ visibility: 'hidden', opacity: 0 })
+          setTimeout(() => $panel.remove(), 100)
+        }
+        if ($input.length) $input.trigger('blur')
 
-  // ✅ Apply blur
-  $('body').addClass('blur-active')
-  positionBlurOverlay()
-})
+        // ✅ Apply blur
+        $('body').addClass('blur-active')
+        positionBlurOverlay()
+      })
 
-$(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
-  $('body').removeClass('blur-active')
-  positionBlurOverlay()
-})
+    $(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+      $('body').removeClass('blur-active')
+      positionBlurOverlay()
+    })
 
 
     if (window.MutationObserver) {

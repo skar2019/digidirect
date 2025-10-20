@@ -4,7 +4,7 @@
     <event name="algolia_after_create_configuration">
         <observer name="change_algolia_placeholder" instance="Digidirect\Algolia\Observer\ChangePlaceholder" />
     </event>
-    <event name="controller_action_layout_load_before">
+    <event name="layout_load_before">
         <observer name="digidirect_add_algolia_landingpage_handle" instance="Digidirect\Algolia\Observer\AddLandingPageHandle" />
     </event>
 </config>
