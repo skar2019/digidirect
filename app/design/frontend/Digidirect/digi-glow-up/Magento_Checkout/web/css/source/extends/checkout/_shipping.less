@@ -134,7 +134,7 @@
 .form-shipping-address .control {
     padding: 0 !important;
 }
-.form-shipping-address{
+#checkout-step-shipping .form-shipping-address{
     .field:has(input[name="firstname"]),
     .field:has(select[name="country_id"]),
     .field:has(input[name="city"]){
@@ -148,9 +148,6 @@
         width: 49% !important;
     }
 
-    .field:has(select[name="country_id"]) {
-        //width: 47% !important;
-    }
 }
 .form-shipping-address .control:has(select) {
     position: relative;
@@ -182,3 +179,42 @@
     margin: 0 !important;
 }
 
+.checkout-index-index {
+    .modal-popup .modal-title {
+        padding-left: 0 !important;
+        padding-bottom: 15px !important;
+    }
+
+    .modal-popup._inner-scroll .modal-content {
+        padding: 0 15px !important;
+    }
+
+    .modal-popup .form-shipping-address {
+        max-width: 100% !important;
+    }
+
+    .modal-popup .fieldset > .field {
+        margin: 0 0 15px !important;
+    }
+
+    .modal-popup .fieldset > .field:not(.choice) > .label {
+        padding: 0 5px 0 0 !important;
+        width: 100% !important;
+    }
+
+    .modals-wrapper footer.modal-footer {
+        justify-content: center !important;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .modal-popup .modal-footer {
+        padding: 0 0 15px 0 !important;
+        flex-direction: row-reverse;
+    }
+
+    .modal-popup .fieldset .field:not(.choice) > .control input[type="text"]:focus {
+        border-color: #d9d9d9;
+    }
+
+}
