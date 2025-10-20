@@ -5,35 +5,45 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\RequestInterface;
 use Psr\Log\LoggerInterface;
+use Algolia\AlgoliaSearch\Model\LandingPageFactory;
 
 class AddLandingPageHandle implements ObserverInterface
 {
     protected $request;
     protected $logger;
+    protected $landingPageFactory;
 
     public function __construct(
         RequestInterface $request,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        LandingPageFactory $landingPageFactory
     ) {
         $this->request = $request;
         $this->logger = $logger;
+        $this->landingPageFactory = $landingPageFactory;
     }
 
     public function execute(Observer $observer)
     {
         $fullAction = $this->request->getFullActionName();
-        $this->logger->info('Algolia Observer fired: ' . $fullAction);
+        if ($fullAction !== 'algolia_landingpage_view') {
+            return;
+        }
 
-        if (strpos($fullAction, 'algolia_landingpage') !== false) {
-            $layout = $observer->getData('layout');
-            $path = trim($this->request->getPathInfo(), '/');
-            $path = preg_replace('/(\.html$|\/$)/', '', $path);
-            $slugHandle = preg_replace('/[^a-z0-9_]+/i', '_', strtolower($path));
+        $layout = $observer->getData('layout');
+        $landingPageId = (int) $this->request->getParam('landing_page_id');
 
-            $handle = 'algolia_landingpage_view_' . $slugHandle;
-            $this->logger->info('Adding handle: ' . $handle);
+        if ($landingPageId) {
+            try {
+                $landingPage = $this->landingPageFactory->create()->load($landingPageId);
+                $slug = $landingPage->getUrlKey() ?: 'landing_page_' . $landingPageId;
+                $handle = 'algolia_landingpage_view_' . preg_replace('/[^a-z0-9_]+/i', '_', strtolower($slug));
 
-            $layout->getUpdate()->addHandle($handle);
+                $this->logger->info('Adding handle: ' . $handle);
+                $layout->getUpdate()->addHandle($handle);
+            } catch (\Exception $e) {
+                $this->logger->error('Failed to add Algolia handle: ' . $e->getMessage());
+            }
         }
     }
 }
