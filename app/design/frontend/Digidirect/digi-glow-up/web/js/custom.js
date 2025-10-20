@@ -99,129 +99,155 @@ $(window).on('scroll resize', () => {
 
     /* ========================
        🧊 Global Blur Overlay
-======================== */
-const $blurOverlay = $('<div class="global-blur-overlay"></div>')
-if (!$('.global-blur-overlay').length) $('body').append($blurOverlay)
+    ======================== */
+    const $blurOverlay = $('<div class="global-blur-overlay"></div>')
+    if (!$('.global-blur-overlay').length) $('body').append($blurOverlay)
 
-function positionBlurOverlay() {
-  const $overlay = $('.global-blur-overlay')
-  const $main = $('#maincontent')
-  if (!$main.length) return
+    function positionBlurOverlay() {
+      const $overlay = $('.global-blur-overlay')
+      const $main = $('#maincontent')
+      if (!$main.length) return
 
-  const mainOffset = $main.offset().top
-  const mainHeight = $main.outerHeight(true)
+      const mainOffset = $main.offset().top
+      const documentHeight = Math.max(
+        $(document).height(),
+        $('body').prop('scrollHeight')
+      )
+      const height = documentHeight - mainOffset
 
-  if ($('body').hasClass('blur-active')) {
-    $overlay.css({
-      position: 'absolute',
-      top: mainOffset + 'px',
-      left: 0,
-      width: '100%',
-      height: mainHeight + 'px',
-      display: 'block',
-      zIndex: 9,
-    })
-  } else {
-    $overlay.css({ height: '0', display: 'none' })
-  }
-}
+      if ($('body').hasClass('blur-active')) {
+        $overlay.css({
+          position: 'absolute',
+          top: mainOffset + 'px',
+          left: 0,
+          width: '100%',
+          height: height + 'px',
+        })
+      } else {
+        $overlay.css({ height: '0' })
+      }
+    }
 
-positionBlurOverlay()
-$(window).on('resize scroll', positionBlurOverlay)
-
-if (window.MutationObserver) {
-  const blurObserver = new MutationObserver(() => positionBlurOverlay())
-  blurObserver.observe(document.body, { childList: true, subtree: true })
-}
-
-const blurStyle = `
-  .global-blur-overlay {
-    width: 100%;
-    left: 0;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    opacity: 0;
-    transition: opacity 0.3s ease, height 0.3s ease;
-    pointer-events: none;
-    position: absolute;
-    z-index: 9;
-  }
-  body.blur-active .global-blur-overlay {
-    opacity: 1;
-  }
-`
-$('head').append(`<style>${blurStyle}</style>`)
-
-/* ========================
-   🧠 Blur on Blog Menu Hover
-======================== */
-$(document)
-  // Mouse enters ruby-menu-mega-blog but skip ones with .just-link
-  .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
-    $('body').addClass('blur-active')
     positionBlurOverlay()
-  })
-  // Mouse leaves that same element
-  .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
-    $('body').removeClass('blur-active')
-    positionBlurOverlay()
-  })
+    $(window).on('resize scroll', positionBlurOverlay)
 
-/* ========================
-   ✨ Sync #pa-welcome-back with Body Blur
-======================== */
-const $container = $('#welcome-back-widget-desktop')
-const $target = $('#pa-welcome-back')
+    if (window.MutationObserver) {
+      const blurObserver = new MutationObserver(() => positionBlurOverlay())
+      blurObserver.observe(document.body, { childList: true, subtree: true })
+    }
 
-if ($container.length && $target.length) {
-  const count = $container.find('.product-item-info').length
-  if (count > 5) {
-    setTimeout(() => {
-      $target.addClass('active')
-      toggleWelcomeBackBlur()
-    }, 1000)
+    const blurStyle = `
+      .global-blur-overlay {
+        width: 100%;
+        left: 0;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        opacity: 0;
+        transition: opacity 0.3s ease, height 0.3s ease;
+        pointer-events: none;
+        z-index: 9;
+      }
+      body.blur-active .global-blur-overlay {
+        opacity: 1;
+      }
+    `
+    $('head').append(`<style>${blurStyle}</style>`)
+
+    $(document).on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
+  const $panel = $('.aa-Panel')
+  const $input = $('#autocomplete-0-input')
+
+  // Hide aa-Panel
+  if ($panel.length) {
+    $panel.css({ visibility: 'hidden', opacity: 0 })
+    setTimeout(() => $panel.remove(), 100)
   }
-}
+  if ($input.length) $input.trigger('blur')
 
-function toggleWelcomeBackBlur() {
-  const isActive = $('#pa-welcome-back').hasClass('active')
-
-  // Toggle both classes based on active state
-  $('body')
-    .toggleClass('blur-active', isActive)
-    .toggleClass('pa-welcome-active', isActive)
-
-  if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
-}
-
-// Observe #pa-welcome-back for .active changes
-if (window.MutationObserver) {
-  const paEl = document.getElementById('pa-welcome-back')
-  if (paEl) {
-    const observer = new MutationObserver(toggleWelcomeBackBlur)
-    observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-  }
-}
-
-// Run once at load (in case it's already active)
-toggleWelcomeBackBlur()
-
-/* ========================
-    🌐 Reposition #pa-welcome-back
-======================== */
-const $paWelcomeBack = $('#pa-welcome-back')
-if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-  $('.page-wrapper').before($paWelcomeBack)
-}
-
-/* ========================
-    ❌ Close Welcome Back & Remove Blur
-======================== */
-$(document).on('click', '#welcome-back-close, #maincontent', function () {
-  $('#pa-welcome-back').removeClass('active')
-  $('body').removeClass('blur-active pa-welcome-active')
+  // ✅ Apply blur
+  $('body').addClass('blur-active')
   positionBlurOverlay()
 })
+
+$(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+  $('body').removeClass('blur-active')
+  positionBlurOverlay()
+})
+
+
+    if (window.MutationObserver) {
+      const aaObserver = new MutationObserver(() => {
+        if ($('.aa-Panel').length) $('body').addClass('blur-active')
+        else $('body').removeClass('blur-active')
+        positionBlurOverlay()
+      })
+      aaObserver.observe(document.body, { childList: true, subtree: true })
+    }
+
+    /* ========================
+       ✨ Sync #pa-welcome-back with Body Blur
+    ======================== */
+    const $container = $('#welcome-back-widget-desktop')
+    const $target = $('#pa-welcome-back')
+
+    if ($container.length && $target.length) {
+      const count = $container.find('.product-item-info').length
+      if (count > 5) {
+        setTimeout(() => {
+          $target.addClass('active')
+        }, 1000)
+      }
+    }
+    
+    function toggleWelcomeBackBlur() {
+    const isActive = $('#pa-welcome-back').hasClass('active')
+    const bodyHasBlur = $('body').hasClass('blur-active')
+
+    if (isActive) {
+      // Add both classes if active
+      $('body').addClass('blur-active pa-welcome-active')
+    } else {
+      // Remove only pa-welcome-active
+      $('body').removeClass('pa-welcome-active')
+
+      // Only remove blur if no other feature is using it
+      if (!bodyHasBlur || $('body').hasClass('pa-welcome-active')) {
+        $('body').removeClass('blur-active')
+      }
+    }
+
+    if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+  }
+
+
+    // Observe #pa-welcome-back for .active changes
+    if (window.MutationObserver) {
+      const paEl = document.getElementById('pa-welcome-back')
+      if (paEl) {
+        const observer = new MutationObserver(toggleWelcomeBackBlur)
+        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+      }
+    }
+
+    // Run once at load (in case it's already active)
+    toggleWelcomeBackBlur()
+
+    /* ========================
+        🌐 Reposition #pa-welcome-back
+     ======================== */
+     const $paWelcomeBack = $('#pa-welcome-back')
+     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+       $('.page-wrapper').before($paWelcomeBack)
+     }
+
+     /* ========================
+        ❌ Close Welcome Back & Remove Blur
+     ======================== */
+     $(document).on('click', '#welcome-back-close, #maincontent', function () {
+       $('#pa-welcome-back').removeClass('active')
+       $('body').removeClass('blur-active')
+       positionBlurOverlay() // keep your old blur overlay working
+     })
 
     /* ========================
        🛒 AJAX Add to Cart + Minicart
