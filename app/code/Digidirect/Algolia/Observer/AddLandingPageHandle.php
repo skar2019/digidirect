@@ -11,10 +11,14 @@ class AddLandingPageHandle implements ObserverInterface
      * @var RequestInterface
      */
     protected $request;
+    protected $logger;
 
-    public function __construct(RequestInterface $request)
-    {
+    public function __construct(
+        RequestInterface $request,
+        \Psr\Log\LoggerInterface $logger,
+    ){
         $this->request = $request;
+        $this->logger = $logger;
     }
 
     /**
@@ -32,7 +36,7 @@ class AddLandingPageHandle implements ObserverInterface
             // Remove .html or trailing slashes, make handle safe
             $path = preg_replace('/(\.html$|\/$)/', '', $path);
             $slugHandle = preg_replace('/[^a-z0-9_]+/i', '_', strtolower($path));
-
+            $this->logger->info('handle, ' . 'algolia_landingpage_view_' . $slugHandle);
             // Example handle: algolia_landingpage_view_deals
             $layout->getUpdate()->addHandle('algolia_landingpage_view_' . $slugHandle);
         }
