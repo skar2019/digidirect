@@ -8,7 +8,18 @@ define([
   'use strict'
 
   $(function () {
+    
     /* ========================
+   ✅ Page wrapper pointer events default
+======================== */
+    const $wrapper = $('.page-wrapper')
+    $wrapper.css('pointer-events', 'none')
+
+    $(window).on('load', function () {
+      $wrapper.css('pointer-events', 'auto')
+    })
+    
+      /* ========================
    ✅ Sticky Header (Self-correcting)
 ======================== */
 const $header = $('.header.content')
@@ -115,6 +126,7 @@ $(window).on('scroll resize', () => {
       } else {
         $overlay.css({ height: '0' })
       }
+      console.log('positionBlurOverlay');
     }
 
     positionBlurOverlay()
@@ -145,11 +157,13 @@ $(window).on('scroll resize', () => {
     $(document)
     // Mouse enters ruby-menu-mega-blog but skip ones with .just-link
     .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
+        console.log('mouseenter');
       $('body').addClass('blur-active')
       positionBlurOverlay()
     })
     // Mouse leaves that same element
     .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+        console.log('mouseenter');
       $('body').removeClass('blur-active')
       positionBlurOverlay()
     })

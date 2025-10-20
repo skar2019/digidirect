@@ -272,11 +272,8 @@ ul.slick-dots {
     overflow: hidden;
 }
 
-.media-width(@extremum, @break)
-    when
-    (@extremum = "max")
-    and
-    (@break = @screen__m) {
+.media-width(@extremum, @break) when (@extremum = "max") and (@break = @screen__m) {
+    
     .header.content {
         padding: 15px 12px 55px !important;
     }
