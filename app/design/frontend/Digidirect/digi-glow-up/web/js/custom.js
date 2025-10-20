@@ -10,12 +10,13 @@ define([
   $(function () {
     
     /* ========================
-   ✅ Body pointer events
+   ✅ Page wrapper pointer events default
 ======================== */
-    $('body').css('pointer-events', 'none') // disable early
+    const $wrapper = $('.page-wrapper')
+    $wrapper.css('pointer-events', 'none')
 
     $(window).on('load', function () {
-      $('body').css('pointer-events', 'auto') // re-enable after load
+      $wrapper.css('pointer-events', 'auto')
     })
     
       /* ========================
@@ -152,14 +153,23 @@ $(window).on('scroll resize', () => {
     `
     $('head').append(`<style>${blurStyle}</style>`)
 
-    $(document)
-    // Mouse enters ruby-menu-mega-blog but skip ones with .just-link
-    .on('mouseenter', '.menu-dropdown', function () {
-      $('body').addClass('blur-active')
-      positionBlurOverlay()
+    $(document).on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
+        const $panel = $('.aa-Panel')
+        const $input = $('#autocomplete-0-input')
+
+        // Hide aa-Panel
+        if ($panel.length) {
+          $panel.css({ visibility: 'hidden', opacity: 0 })
+          setTimeout(() => $panel.remove(), 100)
+        }
+        if ($input.length) $input.trigger('blur')
+
+        // ✅ Apply blur
+        $('body').addClass('blur-active')
+        positionBlurOverlay()
     })
-    // Mouse leaves that same element
-    .on('mouseleave', '.menu-dropdown', function () {
+
+    $(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
       $('body').removeClass('blur-active')
       positionBlurOverlay()
     })
@@ -880,32 +890,6 @@ $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
 // Observe DOM since Algolia dynamically replaces the panel
 const aaStickObserver = new MutationObserver(alignAaPanel)
 aaStickObserver.observe(document.body, { childList: true, subtree: true })
-
-
-/* ========================
-   🧩 Close aa-Panel on Blog Mega Menu Hover
-======================== */
-$(document)
-  .on('mouseenter', '.menu-dropdown', function () {
-    // Hide aa-Panel and reset input state
-    const $panel = $('.aa-Panel')
-    const $input = $('#autocomplete-0-input')
-
-    if ($panel.length) {
-      $panel.css({ visibility: 'hidden', opacity: 0 })
-      setTimeout(() => $panel.remove(), 100) // optional: fully remove if Algolia re-renders later
-    }
-
-    // Also blur the input to fully deactivate Algolia autocomplete
-    if ($input.length) $input.trigger('blur')
-
-    // Make sure blur overlay updates correctly
-    $('body').removeClass('blur-active')
-  })
-  .on('mouseleave', '.menu-dropdown', function () {
-    // Nothing special — let aa-Panel reappear if user focuses input again
-  })
-  
 
 /* ========================
    🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
