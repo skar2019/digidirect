@@ -10,15 +10,18 @@ define([
                 var addToCartButtonTextAdded = this.options.addToCartButtonTextAdded || $t('Added'),
                     self = this,
                     addToCartButton = $(form).find(this.options.addToCartButtonSelector),
-                    originalButtonText = addToCartButton.find('span').text(); // Store original text
+                    buttonTextSpan = addToCartButton.find('span.addcart_words'),
+                    originalButtonHtml = buttonTextSpan.html(); // Store the entire HTML content
 
-                addToCartButton.find('span').text(addToCartButtonTextAdded);
+                // Temporarily change to "Added"
+                buttonTextSpan.html(addToCartButtonTextAdded);
                 addToCartButton.prop('title', addToCartButtonTextAdded);
 
                 setTimeout(function () {
                     addToCartButton.removeClass(self.options.addToCartButtonDisabledClass);
-                    addToCartButton.find('span').text(originalButtonText); // Use original text
-                    addToCartButton.prop('title', originalButtonText);
+                    // Restore the original HTML (preserves "Pre-Order", "Special Order", or "Add to Cart" with tooltip)
+                    buttonTextSpan.html(originalButtonHtml);
+                    addToCartButton.prop('title', buttonTextSpan.text().trim());
                 }, 1000);
             }
         });
