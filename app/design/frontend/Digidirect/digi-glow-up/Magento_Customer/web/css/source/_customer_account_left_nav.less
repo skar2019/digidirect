@@ -7,7 +7,7 @@
         width: 30% !important;
     }
     .page-wrapper {
-        background-color: #F2F2F7;
+       // background-color: #F2F2F7;
     }
     .page-main {
         //max-width: 1344px !important;
@@ -23,17 +23,23 @@
     .block-collapsible-nav {
         .content {
             background: none !important;
+            padding: 0 !important;
         }
+
         .nav.items {
             display: grid;
             grid-template-columns: 48px 1fr;
             align-items: center;
         }
 
+        .nav.item:not(:first-child) {
+            padding-top: 12px !important;
+        }
+
         .nav.item {
             display: flex;
             align-items: center;
-            padding: 12px 20px 12px 0;
+            padding: 0 20px 12px 0;
             font-size: 20px;
             font-weight: 600;
             color: #242426;
@@ -73,7 +79,7 @@
                 display: block;
                 margin: 10px 0;
                 width: 100%;
-                padding: 0 ;
+                padding: 0;
                 content: '';
                 position: absolute;
                 left: 0;
@@ -82,12 +88,18 @@
             }
         }
 
+        .nav.item:not(.-icon) {
+            grid-column: 2;
+        }
+
         .nav.item.-icon {
             grid-column: 1;
             justify-content: center;
             padding: 0;
             pointer-events: none;
             position: relative;
+            margin-top: -140px;
+            margin-right: -20px;
 
             &::before {
                 content: '';
@@ -98,23 +110,47 @@
                 background-size: contain;
                 background-position: center;
             }
+
             &.-address {
-                margin-top: -50px !important;
+                margin-top: -70px !important;
             }
 
             &.-digiclub {
-                margin-top: -60px !important;
+                margin-top: -70px !important;
             }
 
-            &.-account::before   { background-image: url('@{baseDir}images/myaccount/account.svg'); }
-            &.-profile::before   { background-image: url('@{baseDir}images/myaccount/profile.svg'); }
-            &.-address::before   { background-image: url('@{baseDir}images/myaccount/address.svg'); }
+            &.-account::before {
+                background-image: url('@{baseDir}images/myaccount/account.svg');
+            }
+
+            &.-profile::before {
+                background-image: url('@{baseDir}images/myaccount/profile.svg');
+            }
+
+            &.-address::before {
+                background-image: url('@{baseDir}images/myaccount/address.svg');
+            }
+
             //&.-orders::before    { background-image: url('@{baseDir}images/myaccount/orders.svg'); }
-            &.-reviews::before   { background-image: url('@{baseDir}images/myaccount/reviews.svg'); }
-            &.-account-wishlist::before { background-image: url('@{baseDir}images/myaccount/wishlist.svg'); }
-            &.-account-gift::before     { background-image: url('@{baseDir}images/myaccount/giftcard.svg'); }
-            &.-newsletter::before       { background-image: url('@{baseDir}images/myaccount/newsletter.svg'); }
-            &.-digiclub::before         { background-image: url('@{baseDir}images/myaccount/digiclub.svg'); }
+            &.-reviews::before {
+                background-image: url('@{baseDir}images/myaccount/reviews.svg');
+            }
+
+            &.-account-wishlist::before {
+                background-image: url('@{baseDir}images/myaccount/wishlist.svg');
+            }
+
+            &.-account-gift::before {
+                background-image: url('@{baseDir}images/myaccount/giftcard.svg');
+            }
+
+            &.-newsletter::before {
+                background-image: url('@{baseDir}images/myaccount/newsletter.svg');
+            }
+
+            &.-digiclub::before {
+                background-image: url('@{baseDir}images/myaccount/digiclub.svg');
+            }
 
             &.-account-wishlist + .nav.item::before {
                 content: url('@{baseDir}images/myaccount/orders.svg');
@@ -135,19 +171,8 @@
                 transform: translate(-30px, -20px);
                 position: absolute;
             }
-
-        }
-
-        .nav.item:not(.-icon) {
-            grid-column: 2;
-        }
-
-        .nav.item.-icon {
-            margin-top: -120px;
-            margin-right: -20px;
         }
     }
-
 }
 
 .account .block-collapsible-nav .nav.item:hover,

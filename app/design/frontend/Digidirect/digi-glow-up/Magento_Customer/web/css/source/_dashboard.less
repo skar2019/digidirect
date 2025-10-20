@@ -106,13 +106,26 @@ select {
 
     .account {
         .page-main {
-            padding-top: 10px;
+            //padding-top: 10px !important;
+            padding: 15px !important;
         }
 
         #maincontent {
-            padding-left: 10px;
-            padding-right: 10px;
+           // padding-left: 10px;
+           // padding-right: 10px;
         }
+
+        /*.block.block-dashboard-orders {
+            margin-bottom: 15px !important;
+        }
+
+        .column.main .block:not(.widget) .block-content .box {
+            margin-bottom: 15px !important;
+        }
+
+        .column.main .block:not(.widget) .box-title {
+            //margin: 0 !important;
+        }*/
 
         .sidebar-main,
         .panel.wrapper,
@@ -127,6 +140,10 @@ select {
         .page-header {
             border-bottom: none;
             margin-bottom: 0;
+        }
+
+        h1.page-title {
+            margin-bottom: 15px !important;
         }
 
         .page-title-wrapper span.base {
@@ -244,12 +261,7 @@ select {
     }
 
     .table-wrapper {
-        /*border-radius: 10px;
-        border-top : 1px solid #e5e5ea;
-        border-left : 1px solid #e5e5ea;
-        border-bottom : 1px solid #e5e5ea;*/
-        //overflow-x: auto;
-        margin-top: 20px;
+        margin-top: 0 !important;
     }
 
     table {
@@ -258,12 +270,7 @@ select {
         font-size: 14px;
         color: @color-black-1;
         text-align: center;
-        //border-radius: 10px;
-        //overflow: hidden;
         border: 1px solid #e5e5ea !important;
-       /* border-top : 1px solid #e5e5ea;
-        border-left : 1px solid #e5e5ea;
-        border-bottom : 1px solid #e5e5ea;*/
     }
 
     thead {
@@ -368,7 +375,7 @@ select {
         display: inline-block;
         vertical-align: middle;
         transition: background-color 0.2s, border-color 0.2s;
-        top: -3px;
+        top: -2px;
         //border-radius: 6px !important;
     }
     input[type="checkbox"]:checked::after {
@@ -411,6 +418,13 @@ select {
     .limiter select {
         appearance: none !important;
         min-width: 50px;
+    }
+
+    .fieldset .field:not(.choice) > .control input[type="text"]:focus,
+    .fieldset .field:not(.choice) > .control input[type="email"]:focus,
+    .fieldset .field:not(.choice) > .control input[type="password"]:focus,
+    .fieldset .field:not(.choice) > .control textarea:focus {
+        border-color: #D9D9D9 !important;
     }
 
 }
