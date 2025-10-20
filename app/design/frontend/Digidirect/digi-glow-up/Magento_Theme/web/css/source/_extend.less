@@ -14,7 +14,7 @@ body.blur-active {
     overflow-y: scroll; /* keeps scrollbar visible */
 }
 
-body.blur-active .page-wrapper {
+body.blur-active .page-header {
     pointer-events: none;
 }
 
@@ -855,6 +855,31 @@ body.blur-active .global-blur-overlay {
 
 .digiservices-section .digiservices-grid {
     margin-bottom: -30px;
+}
+
+@media screen and (max-width: 1440px) {
+    .pa-welcome-back.active {
+        padding: 20px;
+        width: 60%;
+    }
+
+    .pa-welcome-back .product-widget-header .welcome-back {
+        font-size: 20px !important;
+    }
+
+    .pa-welcome-back .product-widget-header .continue-shopping {
+        font-size: 40px !important;
+    }
+
+    .pa-welcome-back .pa-digidirect-product-widget .product-image-container {
+        height: auto;
+        padding: 15px;
+    }
+
+    .pa-welcome-back .pa-digidirect-product-widget .product.details.product-item-details {
+        padding-top: 0;
+        gap: 5px;
+    }
 }
 
 @media screen and (max-width: 768px) {
