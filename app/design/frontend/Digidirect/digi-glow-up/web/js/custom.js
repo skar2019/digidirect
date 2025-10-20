@@ -14,7 +14,7 @@ define([
 ======================== */
     (window).on('load', function () {
         setTimeout(function () {
-          jQuery('.ruby-wrapper').removeAttr('style')
+          $('.ruby-wrapper').removeAttr('style')
         }, 2000)
     })
     
