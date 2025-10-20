@@ -212,7 +212,7 @@ $(window).on('scroll resize', () => {
      /* ========================
         ❌ Close Welcome Back & Remove Blur
      ======================== */
-     $(document).on('click', '#welcome-back-close', function () {
+     $(document).on('click', '#welcome-back-close, #maincontent', function () {
        $('#pa-welcome-back').removeClass('active')
        $('body').removeClass('blur-active')
        positionBlurOverlay() // keep your old blur overlay working
