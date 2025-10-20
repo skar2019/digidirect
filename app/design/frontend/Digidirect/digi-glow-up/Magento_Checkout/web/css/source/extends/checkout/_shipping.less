@@ -1,57 +1,6 @@
-.modals-wrapper .modal-popup .modal-inner-wrap {
-    max-height: 90vh !important;
-    margin: 0 !important;
-    left: 25% !important;
-    overflow-y: auto !important;
-    max-width: 740px !important;
-    top: 5%;
-}
-
-.modals-wrapper footer.modal-footer {
-    display: flex !important;
-    justify-content: space-evenly;
-}
-
-.modal-popup.-content-scroll._inner-scroll._show {
-    overflow: hidden;
-}
-
-.modal-popup .modal-inner-wrap {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.modal-popup .modal-title {
-    padding-left: 35px;
-}
-
-.modal-popup .modal-content {
-    overflow-y: auto;
-    flex: 1 1 auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.modal-popup .modal-content::-webkit-scrollbar {
-    display: none;
-}
-
-.modal-popup .action.primary {
-    background-color: @color-orange;
-    border-radius: 100px;
-}
-
-.modal-popup .action.secondary {
-    border-radius: 100px;
-}
 
 .field.choice:has(#shipping-save-in-address-book) {
     display: none;
-}
-
-.modal-popup .fieldset > .field:not(.choice) > .label {
-    text-align: left !important;
 }
 
 .locator-item.locator-details .-cannington-note {
@@ -104,6 +53,10 @@
         position: absolute;
         bottom: 0;
     }
+}
+
+.opc-wrapper #checkout-step-shipping .field.addresses {
+    border-bottom: 1px solid #d9d9d9 !important;
 }
 
 .opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label {
@@ -180,13 +133,63 @@
 }
 
 .checkout-index-index {
+    .modals-wrapper .modal-popup .modal-inner-wrap {
+        margin: 0 !important;
+        left: 25% !important;
+        max-width: 740px !important;
+        top: 5%;
+    }
+
+    .modals-wrapper footer.modal-footer {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding: 0 0 15px 0 !important;
+        flex-direction: row-reverse;
+    }
+
+    .modal-popup.-content-scroll._inner-scroll._show {
+        overflow: hidden;
+    }
+
+    .modal-popup .modal-inner-wrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .modal-popup .modal-content {
+        overflow-y: scroll;
+        flex: 1 1 auto;
+        -ms-overflow-style: none;
+        scrollbar-width: thin;
+        max-height: 90vh !important;
+        padding: 0 15px !important;
+    }
+
+    .modal-popup .modal-content::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modal-popup .action.primary {
+        background-color: @color-orange;
+        border-radius: 100px;
+    }
+
+    .modal-popup .action.secondary {
+        border-radius: 100px;
+    }
+
+    .modal-popup .fieldset > .field:not(.choice) > .label {
+        text-align: left !important;
+        padding: 0 5px 0 0 !important;
+        width: 100% !important;
+    }
+
     .modal-popup .modal-title {
         padding-left: 0 !important;
         padding-bottom: 15px !important;
-    }
-
-    .modal-popup._inner-scroll .modal-content {
-        padding: 0 15px !important;
     }
 
     .modal-popup .form-shipping-address {
@@ -197,24 +200,9 @@
         margin: 0 0 15px !important;
     }
 
-    .modal-popup .fieldset > .field:not(.choice) > .label {
-        padding: 0 5px 0 0 !important;
-        width: 100% !important;
-    }
-
-    .modals-wrapper footer.modal-footer {
-        justify-content: center !important;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .modal-popup .modal-footer {
-        padding: 0 0 15px 0 !important;
-        flex-direction: row-reverse;
-    }
-
     .modal-popup .fieldset .field:not(.choice) > .control input[type="text"]:focus {
         border-color: #d9d9d9;
+        background-color: #FFFFFF !important;
     }
 
     .modal-popup .action-close {
