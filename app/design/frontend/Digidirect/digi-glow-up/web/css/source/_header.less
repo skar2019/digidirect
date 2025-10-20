@@ -272,11 +272,8 @@ ul.slick-dots {
     overflow: hidden;
 }
 
-.media-width(@extremum, @break)
-    when
-    (@extremum = "max")
-    and
-    (@break = @screen__m) {
+.media-width(@extremum, @break) when (@extremum = "max") and (@break = @screen__m) {
+    
     .header.content {
         padding: 15px 12px 55px !important;
     }
@@ -623,13 +620,15 @@ ul.slick-dots {
         flex-direction: column;
         font-size: 10px;
         font-weight: 500;
+
+        .hello {
+            margin: 0;
+        }
+
+        .logout {
+            color: #000000 !important;
+        }
     }
 
-    .hello {
-        margin: 0;
-    }
 
-    .logout {
-        color: #aeaeb2;
-    }
 }

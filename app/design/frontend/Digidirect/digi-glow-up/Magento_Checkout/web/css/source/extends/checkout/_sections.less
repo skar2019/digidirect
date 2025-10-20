@@ -330,7 +330,7 @@
 
 /* Credit card info section */
 .credit-card-info {
-    margin-top: 20px;
+    //margin-top: 20px;
 
     .section-title {
         font-weight: bold;
@@ -507,4 +507,10 @@ body.checkout-onepage-success, body.checkout-index-index {
     .opc-wrapper .fieldset > .field {
         margin: 0 !important;
     }
+}
+
+
+.opc-wrapper .fieldset .field:not(.choice) > .control input[type="text"]:focus,
+.fieldset .field:not(.choice) > .control input[type="email"]:focus {
+    border-color: #d9d9d9 !important;
 }

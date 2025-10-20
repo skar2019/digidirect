@@ -1,57 +1,6 @@
-.modals-wrapper .modal-popup .modal-inner-wrap {
-    max-height: 90vh !important;
-    margin: 0 !important;
-    left: 25% !important;
-    overflow-y: auto !important;
-    max-width: 740px !important;
-    top: 5%;
-}
-
-.modals-wrapper footer.modal-footer {
-    display: flex !important;
-    justify-content: space-evenly;
-}
-
-.modal-popup.-content-scroll._inner-scroll._show {
-    overflow: hidden;
-}
-
-.modal-popup .modal-inner-wrap {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.modal-popup .modal-title {
-    padding-left: 35px;
-}
-
-.modal-popup .modal-content {
-    overflow-y: auto;
-    flex: 1 1 auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.modal-popup .modal-content::-webkit-scrollbar {
-    display: none;
-}
-
-.modal-popup .action.primary {
-    background-color: @color-orange;
-    border-radius: 100px;
-}
-
-.modal-popup .action.secondary {
-    border-radius: 100px;
-}
 
 .field.choice:has(#shipping-save-in-address-book) {
     display: none;
-}
-
-.modal-popup .fieldset > .field:not(.choice) > .label {
-    text-align: left !important;
 }
 
 .locator-item.locator-details .-cannington-note {
@@ -106,6 +55,10 @@
     }
 }
 
+.opc-wrapper #checkout-step-shipping .field.addresses {
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+
 .opc-wrapper .checkout-shipping-address .collect-type input[type="radio"] + label {
     cursor: pointer !important;
     font-weight: 600 !important;
@@ -134,7 +87,7 @@
 .form-shipping-address .control {
     padding: 0 !important;
 }
-.form-shipping-address{
+#checkout-step-shipping .form-shipping-address{
     .field:has(input[name="firstname"]),
     .field:has(select[name="country_id"]),
     .field:has(input[name="city"]){
@@ -148,9 +101,6 @@
         width: 49% !important;
     }
 
-    .field:has(select[name="country_id"]) {
-        //width: 47% !important;
-    }
 }
 .form-shipping-address .control:has(select) {
     position: relative;
@@ -182,3 +132,87 @@
     margin: 0 !important;
 }
 
+.checkout-index-index {
+    .modals-wrapper .modal-popup .modal-inner-wrap {
+        margin: 0 !important;
+        left: 25% !important;
+        max-width: 740px !important;
+        top: 5%;
+    }
+
+    .modals-wrapper footer.modal-footer {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding: 0 0 15px 0 !important;
+        flex-direction: row-reverse;
+    }
+
+    .modal-popup.-content-scroll._inner-scroll._show {
+        overflow: hidden;
+    }
+
+    .modal-popup .modal-inner-wrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .modal-popup .modal-content {
+        overflow-y: scroll;
+        flex: 1 1 auto;
+        -ms-overflow-style: none;
+        scrollbar-width: thin;
+        max-height: 90vh !important;
+        padding: 0 15px !important;
+    }
+
+    .modal-popup .modal-content::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modal-popup .action.primary {
+        background-color: @color-orange;
+        border-radius: 100px;
+    }
+
+    .modal-popup .action.secondary {
+        border-radius: 100px;
+    }
+
+    .modal-popup .fieldset > .field:not(.choice) > .label {
+        text-align: left !important;
+        padding: 0 5px 0 0 !important;
+        width: 100% !important;
+    }
+
+    .modal-popup .modal-title {
+        padding-left: 0 !important;
+        padding-bottom: 15px !important;
+    }
+
+    .modal-popup .form-shipping-address {
+        max-width: 100% !important;
+    }
+
+    .modal-popup .fieldset > .field {
+        margin: 0 0 15px !important;
+    }
+
+    .modal-popup .fieldset .field:not(.choice) > .control input[type="text"]:focus {
+        border-color: #d9d9d9;
+        background-color: #FFFFFF !important;
+    }
+
+    .modal-popup .action-close {
+        height: 30px !important;
+        width: 30px !important;
+        right: 18px !important;
+        top: 18px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        border: 1px solid #d9d9d9 !important;
+        background: #ffffff !important;
+    }
+}
