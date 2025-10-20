@@ -10,13 +10,12 @@ define([
   $(function () {
     
     /* ========================
-   ✅ Page wrapper pointer events default
+   ✅ Body pointer events
 ======================== */
-    const $wrapper = $('.page-wrapper')
-    $wrapper.css('pointer-events', 'none')
+    $('body').css('pointer-events', 'none') // disable early
 
     $(window).on('load', function () {
-      $wrapper.css('pointer-events', 'auto')
+      $('body').css('pointer-events', 'auto') // re-enable after load
     })
     
       /* ========================
@@ -126,7 +125,6 @@ $(window).on('scroll resize', () => {
       } else {
         $overlay.css({ height: '0' })
       }
-      console.log('positionBlurOverlay');
     }
 
     positionBlurOverlay()
@@ -156,14 +154,12 @@ $(window).on('scroll resize', () => {
 
     $(document)
     // Mouse enters ruby-menu-mega-blog but skip ones with .just-link
-    .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
-        console.log('mouseenter');
+    .on('mouseenter', '.menu-dropdown', function () {
       $('body').addClass('blur-active')
       positionBlurOverlay()
     })
     // Mouse leaves that same element
-    .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
-        console.log('mouseenter');
+    .on('mouseleave', '.menu-dropdown', function () {
       $('body').removeClass('blur-active')
       positionBlurOverlay()
     })
@@ -890,7 +886,7 @@ aaStickObserver.observe(document.body, { childList: true, subtree: true })
    🧩 Close aa-Panel on Blog Mega Menu Hover
 ======================== */
 $(document)
-  .on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
+  .on('mouseenter', '.menu-dropdown', function () {
     // Hide aa-Panel and reset input state
     const $panel = $('.aa-Panel')
     const $input = $('#autocomplete-0-input')
@@ -906,7 +902,7 @@ $(document)
     // Make sure blur overlay updates correctly
     $('body').removeClass('blur-active')
   })
-  .on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+  .on('mouseleave', '.menu-dropdown', function () {
     // Nothing special — let aa-Panel reappear if user focuses input again
   })
   
