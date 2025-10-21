@@ -44,12 +44,13 @@ class ListBrands extends Template
             if (!isset($brands[$firstLetter])) $brands[$firstLetter] = [];
 
             $cleanLabel = trim($label);
+            $cleanLabel = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $cleanLabel);
             $slug = strtolower(preg_replace('/[^a-z0-9]+/', '-', $cleanLabel));
             $slug = trim($slug, '-');
 
             $brands[$firstLetter][] = [
                 'label' => $label,
-                'url'   => $this->getUrl('brands/' . $slug)
+                'url' => $this->getUrl('brands/' . $slug)
             ];
         }
 

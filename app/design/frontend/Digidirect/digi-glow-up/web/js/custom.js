@@ -202,8 +202,10 @@ $(window).on('scroll resize', () => {
     function toggleOverlay() {
         if ($('#pa-welcome-back').hasClass('active')) {
           $('.page-wrapper').addClass('has-overlay');
+          $('body').addClass('overlay-active');
         } else {
           $('.page-wrapper').removeClass('has-overlay');
+          $('body').removeClass('overlay-active');
         }
       }
 
