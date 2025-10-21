@@ -71,31 +71,33 @@
     }
 }
 
+.my-orders-search-advanced {
+    .field-order-status,
+    .field-created-by {
+        position: relative;
+        display: inline-block;
+    }
 
-.my-orders-search-advanced .field-order-status,
-.my-orders-search-advanced .field-created-by {
-    position: relative;
-    display: inline-block;
-}
+    .field-order-status:after,
+    .field-created-by:after {
+        content: "";
+        position: absolute;
+        top: 70%;
+        right: 8px;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        display: block;
 
-.field-order-status:after,
-.field-created-by:after {
-    content: "";
-    position: absolute;
-    top: 70%;
-    right: 8px;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
-    background-size: contain;
-    pointer-events: none;
-    display: block;
+    }
 
-}
-
-#order-status,
-#created-by {
-    appearance: none !important;
-    min-width: 50px;
+    #order-status,
+    #created-by {
+        appearance: none !important;
+        min-width: 50px;
+        padding-right: 40px !important;
+    }
 }
