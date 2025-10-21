@@ -45,7 +45,7 @@ class ListBrands extends Template
 
             $brands[$firstLetter][] = [
                 'label' => $label,
-                'url' => $this->getUrl('brands/view', ['brand' => strtolower(preg_replace('/[^a-z0-9]+/', '-', $label))])
+                'url' => $this->getUrl('brands/' . strtolower(preg_replace('/[^a-z0-9]+/', '-', $label)))
             ];
         }
 
