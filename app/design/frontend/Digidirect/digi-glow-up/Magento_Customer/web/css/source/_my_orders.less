@@ -32,16 +32,28 @@
     form#my-orders-search-advanced-form {
         .field-dates .control {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: space-between;
             align-items: center;
         }
 
         .field-order-totals .range{
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: space-between;
             align-items: center;
+            margin-left: -10px;
+
+
+
+            .field-order-total .control {
+                display: flex;
+                gap: 5px;
+                justify-content: space-between;
+                align-items: center;
+
+            }
+
         }
         .field-date .control button.ui-datepicker-trigger {
             margin: 0 !important;
@@ -123,12 +135,12 @@
     .order-links {
         li.item.current {
             background: unset !important;
+            color: #fe4c25 !important;
         }
     }
 
     .order-references {
         border-bottom: none !important;
-        color: #fe4c25;
     }
 
     .order-actions-toolbar {
