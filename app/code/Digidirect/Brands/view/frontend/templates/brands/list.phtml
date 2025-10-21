@@ -1,4 +1,10 @@
 <?php /** @var $block \Digidirect\Brands\Block\ListBrands */ ?>
+<div style="background: #F2F2F7">
+    <div style="color: #242426; font-size: 32px; font-weight: 600;">Shop by Brand</div>
+    <div style="width: 100%; justify-content: center; display: flex; color: #545456; font-size: 16px; font-weight: 500;">
+        At digiDirect, we’re proud to serve as an officially authorized reseller for many of our trusted brand partners. When you purchase through an authorized channel, you receive an unmatched level of transparency, reliability, and support. Our partners provide continuous training to our team, ensuring that every customer benefits from expert product advice. We believe our responsibility extends well beyond checkout—our service and support continue long after your purchase is complete, so you can shop with real confidence. Choosing digiDirect means choosing a seamless, informed shopping experience rooted in integrity and quality.
+    </div>
+</div>
 <div class="brands-list">
     <?php $brands = $block->getBrands(); ?>
     <?php foreach ($brands as $letter => $items): ?>
@@ -12,11 +18,3 @@
         </div>
     <?php endforeach; ?>
 </div>
-
-<style>
-.brands-list { columns: 3; column-gap: 2rem; }
-.brand-group { break-inside: avoid; margin-bottom: 1.5rem; }
-.brand-group h2 { font-size: 1.5rem; margin-bottom: .5rem; }
-.brand-group ul { list-style: none; padding: 0; margin: 0; }
-.brand-group li { margin: .3rem 0; }
-</style>
