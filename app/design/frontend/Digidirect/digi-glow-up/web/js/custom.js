@@ -199,38 +199,65 @@ $(window).on('scroll resize', () => {
       }
     }
     
-    function toggleWelcomeBackBlur() {
-    const isActive = $('#pa-welcome-back').hasClass('active')
-    const bodyHasBlur = $('body').hasClass('blur-active')
-
-    if (isActive) {
-      // Add both classes if active
-      $('body').addClass('blur-active pa-welcome-active')
-    } else {
-      // Remove only pa-welcome-active
-      $('body').removeClass('pa-welcome-active')
-
-      // Only remove blur if no other feature is using it
-      if (!bodyHasBlur || $('body').hasClass('pa-welcome-active')) {
-        $('body').removeClass('blur-active')
+    function toggleOverlay() {
+        if ($('#pa-welcome-back').hasClass('active')) {
+          $('.page-wrapper').addClass('has-overlay');
+          $('body').addClass('overlay-active');
+        } else {
+          $('.page-wrapper').removeClass('has-overlay');
+          $('body').removeClass('overlay-active');
+        }
       }
-    }
 
-    if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
-  }
+      // Run once on page load
+      toggleOverlay();
+
+      // Optional: If the 'active' class might change dynamically later
+      // you can run this on a timer or bind to your app’s logic
+      // Here's an example using a MutationObserver with jQuery syntax:
+
+      const target = document.querySelector('#pa-welcome-back');
+      if (target) {
+        new MutationObserver(toggleOverlay).observe(target, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      }
+    
+    function toggleWelcomeBackBlur() {
+        const $target = $('#pa-welcome-back')
+        const isActive = $target.hasClass('active')
+
+        if (isActive) {
+          $('body').addClass('blur-active pa-welcome-active')
+        } else {
+          $('body').removeClass('pa-welcome-active')
+
+          // Only remove blur if no other blur source is active
+          if (
+            !$('.aa-Panel').length &&
+            !$('.ruby-menu-mega-blog:hover').length &&
+            !$('#pa-welcome-back.active').length
+          ) {
+            $('body').removeClass('blur-active')
+          }
+        }
+
+        if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+      }
 
 
     // Observe #pa-welcome-back for .active changes
-    if (window.MutationObserver) {
-      const paEl = document.getElementById('pa-welcome-back')
-      if (paEl) {
-        const observer = new MutationObserver(toggleWelcomeBackBlur)
-        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-      }
-    }
+//    if (window.MutationObserver) {
+//      const paEl = document.getElementById('pa-welcome-back')
+//      if (paEl) {
+//        const observer = new MutationObserver(toggleWelcomeBackBlur)
+//        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+//      }
+//    }
 
     // Run once at load (in case it's already active)
-    toggleWelcomeBackBlur()
+    //toggleWelcomeBackBlur()
 
     /* ========================
         🌐 Reposition #pa-welcome-back

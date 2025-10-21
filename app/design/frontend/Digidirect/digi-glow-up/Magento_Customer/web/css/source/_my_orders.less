@@ -29,9 +29,43 @@
         overflow: visible;
     }
 
+    form#my-orders-search-advanced-form {
+        .field-dates .control {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .field-order-totals .range{
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: -10px;
+
+
+
+            .field-order-total .control {
+                display: flex;
+                gap: 5px;
+                justify-content: space-between;
+                align-items: center;
+
+            }
+
+        }
+        .field-date .control button.ui-datepicker-trigger {
+            margin: 0 !important;
+        }
+
+    }
+
     .fieldset > .field:not(.choice) > .label {
         text-align: left !important;
     }
+
+
 
 }
 
@@ -48,5 +82,68 @@
         .order-details-items .order-title > strong {
             font-weight: 700 !important;
         }
+    }
+}
+
+.my-orders-search-advanced {
+    .field-order-status,
+    .field-created-by {
+        position: relative;
+        display: inline-block;
+    }
+
+    .field-order-status:after,
+    .field-created-by:after {
+        content: "";
+        position: absolute;
+        top: 70%;
+        right: 8px;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        display: block;
+
+    }
+
+    #order-status,
+    #created-by {
+        appearance: none !important;
+        min-width: 50px;
+        padding-right: 40px !important;
+    }
+}
+
+
+.sales-order-print {
+    #maincontent {
+        max-width: 1327px;
+    }
+
+    .page-title-wrapper {
+        margin-top: 20px;
+    }
+
+    .column.main {
+        width: 100% !important;
+    }
+}
+
+.sales-order-view {
+    .order-links {
+        li.item.current {
+            background: unset !important;
+            color: #fe4c25 !important;
+        }
+    }
+
+    .order-references {
+        border-bottom: none !important;
+    }
+
+    .order-actions-toolbar {
+        justify-content: flex-end !important;
     }
 }

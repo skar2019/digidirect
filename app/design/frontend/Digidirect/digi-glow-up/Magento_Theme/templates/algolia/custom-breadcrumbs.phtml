@@ -1,0 +1,27 @@
+<?php
+/** @var \Magento\Theme\Block\Html\Breadcrumbs $block */
+$landingPage = $block->getData('landingPage');
+
+// Try to get the current Algolia landing page name dynamically
+$pageTitle = '';
+if (!$pageTitle && $landingPage && isset($landingPage['title'])) {
+    $pageTitle = $landingPage['title'];
+}
+
+// As fallback, try to get it from layout title block
+if (!$pageTitle) {
+    $pageTitle = $block->getLayout()->getBlock('page.main.title')?->getPageTitle() ?? __('Landing Page');
+}
+
+$block->addCrumb('home', [
+    'label' => __('Home'),
+    'title' => __('Go to Home Page'),
+    'link'  => $block->getUrl('')
+]);
+
+$block->addCrumb('algolia-landing', [
+    'label' => __($pageTitle),
+    'title' => __($pageTitle),
+]);
+
+echo $block->toHtml();

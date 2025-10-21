@@ -1,0 +1,28 @@
+<?php /** @var $block \Digidirect\Brands\Block\ViewBrand */ ?>
+<h1><?= $block->escapeHtml($block->getBrandName()) ?></h1>
+
+<div class="brand-products">
+    <?php $products = $block->getProducts(); ?>
+    <?php if ($products->getSize()): ?>
+        <ul class="products-grid">
+            <?php foreach ($products as $product): ?>
+                <li>
+                    <a href="<?= $product->getProductUrl() ?>">
+                        <img src="<?= $block->getUrl('pub/media/catalog/product') . $product->getSmallImage() ?>" alt="<?= $block->escapeHtml($product->getName()) ?>" />
+                        <h3><?= $block->escapeHtml($product->getName()) ?></h3>
+                        <span class="price"><?= $block->escapeHtml($product->getFinalPrice()) ?></span>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p><?= __('No products found for this brand.') ?></p>
+    <?php endif; ?>
+</div>
+
+<style>
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; list-style: none; padding: 0; }
+.products-grid img { width: 100%; height: auto; border-radius: 8px; }
+.products-grid h3 { font-size: 1rem; margin: .5rem 0; }
+.price { color: #333; font-weight: 600; }
+</style>

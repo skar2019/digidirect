@@ -134,7 +134,8 @@ svg.aa-SubmitIcon {
     font-size: 10px;
 }
 
-.minicart-wrapper a:not(:last-of-type) {
+//.minicart-wrapper a:not(:last-of-type) {
+.minicart-wrapper > a {
     margin-right: 26px;
 }
 
@@ -182,14 +183,15 @@ svg.aa-SubmitIcon {
 
 .minicart-wrapper .action.showcart,
 .minicart-wrapper .action.login,
-.minicart-wrapper .action.logout {
+.minicart-wrapper .action.login-logout {
     position: relative;
 }
 
-.minicart-wrapper .action.logout {
+.minicart-wrapper .action.login-logout {
     display: flex;
     align-items: center;
     flex-direction: column;
+    top: 3px;
 }
 
 .minicart-wrapper .action.showcart .counter.qty {
@@ -292,8 +294,8 @@ ul.slick-dots {
     }
 
     .hellobar.wrapper {
-        padding: 5px;
-        height: 31px;
+       // padding: 0;
+       // height: 31px;
     }
 
     .hellobar-slider {
@@ -622,10 +624,9 @@ ul.slick-dots {
         font-size: 10px;
         font-weight: 500;
 
-        .hello {
-            margin: 0;
+        .username {
+            margin: 3px 0 0 0;
         }
-
         .logout {
             color: #000000 !important;
         }

@@ -311,7 +311,7 @@ span.zip-container {
 
 .block-minicart {
     position: fixed !important;
-    top: 55% !important;
+    top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
     width: 100% !important;
@@ -422,7 +422,7 @@ a.action.viewcart span {
     display: flex;    
     justify-content: flex-end;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }
 
 .block-minicart .block-content > .actions > .primary {
@@ -432,10 +432,11 @@ a.action.viewcart span {
 .modal-popup.confirm._show .modal-inner-wrap {
     max-height: 200px !important;
     width: 100% !important;
-    left: 0 !important;
-    top: 10%;
+    left: 50%;
+    top: 50%;
     max-width: 450px !important;
-    margin: 210px auto !important;
+    margin: 0 !important;
+    transform: translate(-50%, -50%);
 }
 
 .modal-popup.confirm._show .action-close {
@@ -444,6 +445,8 @@ a.action.viewcart span {
 
 .modal-popup.confirm._show .modal-footer {
     gap: 10px;
+    display: flex;
+    padding: 30px 15px;
 }
 
 .modal-popup.confirm._show .modal-footer button {

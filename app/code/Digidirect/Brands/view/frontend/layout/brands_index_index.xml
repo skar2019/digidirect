@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="brands.list.header" template="Digidirect_Brands::brands/header.phtml" before="main.content"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Digidirect\Brands\Block\ListBrands" name="brands.list" template="Digidirect_Brands::brands/list.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
