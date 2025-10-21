@@ -125,11 +125,13 @@
                     text-align: right;
                 }
                 .action {
-                    color: #1d4ed8;
                     font-weight: 500;
                     font-size: 14px;
-                    margin-left: 16px;
                     text-decoration: none;
+                    width: max-content;
+                    padding: 0;
+                    position: relative;
+                    margin: 0 0 0 16px;
                     &:hover {
                         text-decoration: none;
                     }
@@ -172,6 +174,7 @@
             .item-actions {
                 position: relative;
                 top: 50px;
+                display: flex;
                 .action-delete {
                     width: 30px;
                     height: 30px;

@@ -12,9 +12,10 @@ define([
     /* ========================
    ✅ Remove pointer events from nav
 ======================== */
-    (window).on('load', function () {
+    $(window).on('load', function () {
         setTimeout(function () {
-          jQuery('.ruby-wrapper').removeAttr('style')
+          $('.ruby-wrapper').removeAttr('style')
+          $('<style>.ruby-menu-demo-header::after { content: none !important; }</style>').appendTo('head')
         }, 2000)
     })
     
@@ -153,25 +154,25 @@ $(window).on('scroll resize', () => {
     $('head').append(`<style>${blurStyle}</style>`)
 
     $(document).on('mouseenter', '.ruby-menu-mega-blog:not(.just-link)', function () {
-  const $panel = $('.aa-Panel')
-  const $input = $('#autocomplete-0-input')
+        const $panel = $('.aa-Panel')
+        const $input = $('#autocomplete-0-input')
 
-  // Hide aa-Panel
-  if ($panel.length) {
-    $panel.css({ visibility: 'hidden', opacity: 0 })
-    setTimeout(() => $panel.remove(), 100)
-  }
-  if ($input.length) $input.trigger('blur')
+        // Hide aa-Panel
+        if ($panel.length) {
+          $panel.css({ visibility: 'hidden', opacity: 0 })
+          setTimeout(() => $panel.remove(), 100)
+        }
+        if ($input.length) $input.trigger('blur')
 
-  // ✅ Apply blur
-  $('body').addClass('blur-active')
-  positionBlurOverlay()
-})
+        // ✅ Apply blur
+        $('body').addClass('blur-active')
+        positionBlurOverlay()
+      })
 
-$(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
-  $('body').removeClass('blur-active')
-  positionBlurOverlay()
-})
+    $(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function () {
+      $('body').removeClass('blur-active')
+      positionBlurOverlay()
+    })
 
 
     if (window.MutationObserver) {
@@ -199,24 +200,26 @@ $(document).on('mouseleave', '.ruby-menu-mega-blog:not(.just-link)', function ()
     }
     
     function toggleWelcomeBackBlur() {
-    const isActive = $('#pa-welcome-back').hasClass('active')
-    const bodyHasBlur = $('body').hasClass('blur-active')
+        const $target = $('#pa-welcome-back')
+        const isActive = $target.hasClass('active')
 
-    if (isActive) {
-      // Add both classes if active
-      $('body').addClass('blur-active pa-welcome-active')
-    } else {
-      // Remove only pa-welcome-active
-      $('body').removeClass('pa-welcome-active')
+        if (isActive) {
+          $('body').addClass('blur-active pa-welcome-active')
+        } else {
+          $('body').removeClass('pa-welcome-active')
 
-      // Only remove blur if no other feature is using it
-      if (!bodyHasBlur || $('body').hasClass('pa-welcome-active')) {
-        $('body').removeClass('blur-active')
+          // Only remove blur if no other blur source is active
+          if (
+            !$('.aa-Panel').length &&
+            !$('.ruby-menu-mega-blog:hover').length &&
+            !$('#pa-welcome-back.active').length
+          ) {
+            $('body').removeClass('blur-active')
+          }
+        }
+
+        if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
       }
-    }
-
-    if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
-  }
 
 
     // Observe #pa-welcome-back for .active changes

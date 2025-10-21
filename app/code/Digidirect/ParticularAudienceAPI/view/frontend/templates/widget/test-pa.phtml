@@ -263,7 +263,7 @@ require(['jquery'], function ($) {
 
             var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
 
-            var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;">Learn how.</a></div>';
+            var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
 
             productItem = productItemDiv +
                         '<div class="wish-list-wrapper" data-role="add-to-links">' +
@@ -1224,7 +1224,7 @@ require(['jquery'], function ($) {
             $isDigiClub = true;
         }
     }
-    $zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;">Learn how.</a></div>';
+    $zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
 ?>
 
 <div class="homepage-row">
@@ -1269,7 +1269,7 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">
     <div class="glow-up-brands">
-        <a class="view-all-link" href="#"><span>View All</span><img src="<?= $block->getViewFileUrl('images/view-all-arrow.svg') ?>" alt="View All"/></a>
+        <a class="view-all-link" href="/brands"><span>View All</span><img src="<?= $block->getViewFileUrl('images/view-all-arrow.svg') ?>" alt="View All"/></a>
         <div style="margin-bottom: 10px;"><span style="color: #FE4C25; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Featured</span> <span style="color: #F05A24; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word"> </span><span style="color: black; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Brands.</span> <span style="color: #8E8E93; font-size: 32px; font-weight: 400; line-height: 43.44px; word-wrap: break-word">Gear up with industry leaders.</span></div>
         <div id="glow-up-brands" class="owl-carousel brands">
             <a href="<?= $block->getBaseUrl(); ?>brands/fujifilm" class="brand"><img src="<?= $block->getViewFileUrl('images/megamenu/brands/fujifilm.png') ?>" alt="Fujifilm"/></a>
