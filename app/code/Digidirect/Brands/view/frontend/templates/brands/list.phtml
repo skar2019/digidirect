@@ -1,0 +1,23 @@
+<?php /** @var $block \Digidirect\Brands\Block\ListBrands */ ?>
+<div class="brands-list">
+    <h1><?= __('All Brands') ?></h1>
+    <?php $brands = $block->getBrands(); ?>
+    <?php foreach ($brands as $letter => $items): ?>
+        <div class="brand-group">
+            <h2><?= $letter ?></h2>
+            <ul>
+                <?php foreach ($items as $brand): ?>
+                    <li><a href="<?= $brand['url'] ?>"><?= $brand['label'] ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+.brands-list { columns: 3; column-gap: 2rem; }
+.brand-group { break-inside: avoid; margin-bottom: 1.5rem; }
+.brand-group h2 { font-size: 1.5rem; margin-bottom: .5rem; }
+.brand-group ul { list-style: none; padding: 0; margin: 0; }
+.brand-group li { margin: .3rem 0; }
+</style>
