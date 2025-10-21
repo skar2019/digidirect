@@ -200,24 +200,26 @@ $(window).on('scroll resize', () => {
     }
     
     function toggleWelcomeBackBlur() {
-    const isActive = $('#pa-welcome-back').hasClass('active')
-    const bodyHasBlur = $('body').hasClass('blur-active')
+        const $target = $('#pa-welcome-back')
+        const isActive = $target.hasClass('active')
 
-    if (isActive) {
-      // Add both classes if active
-      $('body').addClass('blur-active pa-welcome-active')
-    } else {
-      // Remove only pa-welcome-active
-      $('body').removeClass('pa-welcome-active')
+        if (isActive) {
+          $('body').addClass('blur-active pa-welcome-active')
+        } else {
+          $('body').removeClass('pa-welcome-active')
 
-      // Only remove blur if no other feature is using it
-      if (!bodyHasBlur || $('body').hasClass('pa-welcome-active')) {
-        $('body').removeClass('blur-active')
+          // Only remove blur if no other blur source is active
+          if (
+            !$('.aa-Panel').length &&
+            !$('.ruby-menu-mega-blog:hover').length &&
+            !$('#pa-welcome-back.active').length
+          ) {
+            $('body').removeClass('blur-active')
+          }
+        }
+
+        if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
       }
-    }
-
-    if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
-  }
 
 
     // Observe #pa-welcome-back for .active changes
