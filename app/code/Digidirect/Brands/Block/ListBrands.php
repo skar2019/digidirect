@@ -43,10 +43,9 @@ class ListBrands extends Template
             $firstLetter = strtoupper($label[0]);
             if (!isset($brands[$firstLetter])) $brands[$firstLetter] = [];
 
-            $cleanLabel = trim($label);
-            $cleanLabel = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $cleanLabel);
-            $slug = strtolower(preg_replace('/[^a-z0-9]+/', '-', $cleanLabel));
-            $slug = trim($slug, '-');
+            // generate slug: lowercase + spaces to hyphens
+            $slug = strtolower($label);
+            $slug = preg_replace('/\s+/', '-', $slug); // replace spaces with hyphen
 
             $brands[$firstLetter][] = [
                 'label' => $label,
