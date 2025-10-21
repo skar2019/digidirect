@@ -438,6 +438,10 @@ a.action.towishlist {
     opacity: 20%;
 }
 
+.slick-dots li.slick-active button {
+    outline: 1px solid #ccc;
+}
+
 .slick--animated-backdrop {
     position: absolute;
     top: 18px;
@@ -447,6 +451,7 @@ a.action.towishlist {
     border-radius: 50%;
     transition: transform 1s cubic-bezier(0.25, 1.2, 0.5, 1), width 0.4s ease;
     z-index: 0;
+    outline: 1px solid #ccc;
 }
 
 //Test CSS
@@ -1026,9 +1031,19 @@ button.action.primary.action-dismiss {
 
 .modal-popup.confirm._show .modal-inner-wrap .modal-content {
     padding: 0 15px;
+    font-size: 17px;
+    text-align: center;
 }
 
 .modal-popup.confirm._show .modal-title {
     padding-left: 0;
     padding-top: 10px;
+    display: none;
+}
+
+//Brands Page
+
+.brands-index-index .page-main {
+    max-width: 1327px !important;
+    margin: 50px auto;
 }
