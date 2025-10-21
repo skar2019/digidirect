@@ -14,6 +14,13 @@ body.blur-active {
     overflow-y: scroll; /* keeps scrollbar visible */
 }
 
+body.overlay-active {
+    position: fixed;
+    top: var(--scroll-y);
+    width: 100%;
+    overflow-y: scroll;
+}
+
 body.blur-active .page-header {
     pointer-events: none;
 }
@@ -79,13 +86,13 @@ body.pa-welcome-active .ruby-menu-mega-blog {
 
 .page-wrapper.has-overlay::before {
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10001;
 }
 
 a {
@@ -597,7 +604,7 @@ a.action.towishlist {
     top: 27%;
     background: #f2f2f7;
     border-radius: 32px;
-    z-index: 9999;
+    z-index: 10002;
     left: 50%;
     transform: translateX(-50%);
     width: 77%;
