@@ -200,9 +200,12 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
                 }
+                
+                let price = Number(product.prices[0].price).toFixed(2);
+                let discountPrice = Number(product.prices[0].discountPrice).toFixed(2);
 
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+                let priceToDisplay = "$" + price.toLocaleString('en-AU');
+                let discountPriceToDisplay = "$" + discountPrice.toLocaleString('en-AU');
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
@@ -227,7 +230,8 @@ require(['jquery'], function ($) {
                                 '</div>' +
                             '</div>';
             } else {
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                let price = Number(product.prices[0].price).toFixed(2);
+                let priceToDisplay = "$" + price.toLocaleString('en-AU');
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper" style="visibility: hidden;"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
@@ -433,8 +437,11 @@ require(['jquery'], function ($) {
                     }
                 }
 
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
+                let price = Number(product.prices[0].price).toFixed(2);
+                let discountPrice = Number(product.prices[0].discountPrice).toFixed(2);
+
+                let priceToDisplay = "$" + price.toLocaleString('en-AU');
+                let discountPriceToDisplay = "$" + discountPrice.toLocaleString('en-AU');
                 let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
@@ -461,7 +468,8 @@ require(['jquery'], function ($) {
                                 '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
                             '</div>';
             } else {
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                let price = Number(product.prices[0].price).toFixed(2);
+                let priceToDisplay = "$" + price.toLocaleString('en-AU');
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
