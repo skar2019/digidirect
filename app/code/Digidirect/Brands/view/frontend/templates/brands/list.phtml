@@ -1,20 +1,59 @@
 <?php /** @var $block \Digidirect\Brands\Block\ListBrands */ ?>
-<div style="background: #F2F2F7">
-    <div style="color: #242426; font-size: 32px; font-weight: 600;">Shop by Brand</div>
-    <div style="width: 100%; justify-content: center; display: flex; color: #545456; font-size: 16px; font-weight: 500;">
-        At digiDirect, we’re proud to serve as an officially authorized reseller for many of our trusted brand partners. When you purchase through an authorized channel, you receive an unmatched level of transparency, reliability, and support. Our partners provide continuous training to our team, ensuring that every customer benefits from expert product advice. We believe our responsibility extends well beyond checkout—our service and support continue long after your purchase is complete, so you can shop with real confidence. Choosing digiDirect means choosing a seamless, informed shopping experience rooted in integrity and quality.
-    </div>
-</div>
-<div class="brands-list">
-    <?php $brands = $block->getBrands(); ?>
+<?php $brands = $block->getBrands(); ?>
+
+<div class="brand-list">
     <?php foreach ($brands as $letter => $items): ?>
-        <div class="brand-group">
-            <h2><?= $letter ?></h2>
+        <div class="brand-group" data-letter="<?= $letter ?>">
+            <h3><?= $letter ?></h3>
             <ul>
                 <?php foreach ($items as $brand): ?>
-                    <li><a href="<?= $brand['url'] ?>"><?= $brand['label'] ?></a></li>
+                    <li class="brand-item" data-name="<?= strtolower($brand['label']) ?>">
+                        <a href="<?= $brand['url'] ?>"><?= $brand['label'] ?></a>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endforeach; ?>
 </div>
+
+<style>
+.brand-list { display: grid; gap: 24px; }
+.brand-group h3 { border-bottom: 1px solid #eee; padding-bottom: 4px; }
+.brand-item { list-style: none; margin: 4px 0; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const letters = document.querySelectorAll('.brand-alphabet .letter')
+  const searchInput = document.getElementById('brand-search')
+  const groups = document.querySelectorAll('.brand-group')
+
+  // 🔤 A–Z filter
+  letters.forEach(letter => {
+    letter.addEventListener('click', () => {
+      letters.forEach(l => l.classList.remove('active'))
+      letter.classList.add('active')
+      const selected = letter.dataset.letter
+      groups.forEach(group => {
+        const groupLetter = group.dataset.letter
+        group.style.display = (selected === 'all' || selected === groupLetter) ? '' : 'none'
+      })
+    })
+  })
+
+  // 🔍 Live search
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase()
+    groups.forEach(group => {
+      let match = false
+      group.querySelectorAll('.brand-item').forEach(item => {
+        const name = item.dataset.name
+        const visible = name.includes(query)
+        item.style.display = visible ? '' : 'none'
+        if (visible) match = true
+      })
+      group.style.display = match ? '' : 'none'
+    })
+  })
+})
+</script>

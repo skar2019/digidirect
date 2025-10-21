@@ -1,0 +1,32 @@
+<div style="background: #F2F2F7">
+    <div style="max-width: 1327px; margin: 0 auto;">
+        <div style="color: #242426; font-size: 32px; font-weight: 600;">Shop by Brand</div>
+        <div style="width: 100%; justify-content: center; display: flex; color: #545456; font-size: 16px; font-weight: 500;">
+            At digiDirect, we’re proud to serve as an officially authorized reseller for many of our trusted brand partners. When you purchase through an authorized channel, you receive an unmatched level of transparency, reliability, and support. Our partners provide continuous training to our team, ensuring that every customer benefits from expert product advice. We believe our responsibility extends well beyond checkout—our service and support continue long after your purchase is complete, so you can shop with real confidence. Choosing digiDirect means choosing a seamless, informed shopping experience rooted in integrity and quality.
+        </div>
+    </div>
+</div>
+<div class="brand-filter">
+    <div class="brand-alphabet">
+        <span class="letter active" data-letter="all">All</span>
+        <?php foreach (range('A', 'Z') as $char): ?>
+            <span class="letter" data-letter="<?= $char ?>"><?= $char ?></span>
+        <?php endforeach; ?>
+    </div>
+    <input type="text" id="brand-search" placeholder="Search brands..." class="brand-search-input"/>
+</div>
+
+<style>
+.brand-filter { text-align: center; margin-bottom: 20px; }
+.brand-search-input {
+  padding: 10px 14px; width: 280px; border: 1px solid #ccc;
+  border-radius: 6px; margin-bottom: 16px;
+}
+.brand-alphabet { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.brand-alphabet .letter {
+  padding: 6px 10px; border-radius: 6px; cursor: pointer;
+  transition: all 0.2s; user-select: none;
+}
+.brand-alphabet .letter.active { background: #222; color: #fff; }
+.brand-alphabet .letter:hover { background: #444; color: #fff; }
+</style>
