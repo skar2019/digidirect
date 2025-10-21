@@ -28,19 +28,25 @@ $isLoggedIn = $viewModel->isLoggedIn();
 </a>
 
 <!-- 🔹 Login -->
+<div class="action login-logout">
 <?php if (!$isLoggedIn) :?>
-    <a class="action login" href="<?= $block->getUrl('customer/account/login') ?>">
+    <a href="<?= $block->getUrl('customer/account/login') ?>">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
         <span>Login</span>
     </a>
 <?php else :?>
-    <a class="action logout" href="<?= $block->getUrl('customer/account/logout') ?>" class="account-box">
-        <div class="account-icon">
-            <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Log out" />
-        </div>
-        <div class="account-text">
-            <p class="hello"><span class="username"><?= $viewModel->getFirstName();?></span></p>
+    <div class="account-icon">
+        <a href="<?= $block->getUrl('customer/account') ?>">
+            <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
+        </a>
+    </div>
+    <div class="account-text">
+        <a href="<?= $block->getUrl('customer/account') ?>">
+            <span class="username"><?= $viewModel->getFirstName();?></span
+        </a>
+        <a href="<?= $block->getUrl('customer/account/logout') ?>">
             <span class="logout">Logout</span>
-        </div>
-    </a>
+        </a>
+    </div>
 <?php endif; ?>
+</div>
