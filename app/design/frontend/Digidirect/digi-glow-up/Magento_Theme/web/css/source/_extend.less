@@ -77,6 +77,17 @@ body.pa-welcome-active .ruby-menu-mega-blog {
     width: 100%;
 }
 
+.page-wrapper.has-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
 a {
     text-decoration: none;
 }
@@ -586,7 +597,7 @@ a.action.towishlist {
     top: 27%;
     background: #f2f2f7;
     border-radius: 32px;
-    z-index: 99;
+    z-index: 9999;
     left: 50%;
     transform: translateX(-50%);
     width: 77%;
