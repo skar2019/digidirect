@@ -355,69 +355,124 @@ $(window).on('scroll resize', () => {
     })
 
     /* ========================
-   ✅ Owl Carousel — Single-Finger Swipe Only (≤768px)
-        Disables Two-Finger Gestures on Mobile/Tablets
-     ======================== */
-     const $carousels = $('.owl-carousel')
+   🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
+   ✅ Works together with Owl's 1-Finger native swipe
+======================== */
+const $carousels = $('.owl-carousel.custom')
 
-     $carousels.each(function () {
-       const $carousel = $(this)
+$carousels.each(function () {
+  const $carousel = $(this)
+  let startX = 0
+  let isTwoFinger = false
+  let hasSwiped = false
+  let isAtEdge = false
+  const threshold = 50            // ⬅️ swipe distance before triggering
+  const lockDuration = 250
+  const transitionSpeed = 600     // ⬅️ animation speed for next/prev
+  const edgeElastic = 40          // ⬅️ "bounce" effect amount at edges
 
-       let isTwoFinger = false
-       let startX = 0
-       let startY = 0
-       let isSwiping = false
+  // 🧩 Attach event listeners in capture mode (run before Owl)
+  const node = $carousel[0]
 
-       function isMobileViewport() {
-         return window.innerWidth <= 768
-       }
+  node.addEventListener('touchstart', function (e) {
+    const touches = e.touches
+    if (touches.length === 2) {
+      isTwoFinger = true
+      startX = (touches[0].clientX + touches[1].clientX) / 2
+      hasSwiped = false
+      isAtEdge = false
+      // Prevent Owl from reacting to this gesture
+      e.stopImmediatePropagation()
+    } else {
+      isTwoFinger = false
+    }
+  }, { capture: true })
 
-       // Detect and block multi-touch gestures (only ≤768px)
-       $carousel.on('touchstart', function (e) {
-         if (!isMobileViewport()) return
+  node.addEventListener('touchmove', function (e) {
+    if (!isTwoFinger || hasSwiped) return
+    const touches = e.touches
+    if (touches.length !== 2) return
 
-         const touches = e.originalEvent.touches
+    const currentX = (touches[0].clientX + touches[1].clientX) / 2
+    const deltaX = currentX - startX
 
-         if (touches.length > 1) {
-           // 🧱 Block two-finger gestures (pinch, zoom, or swipe)
-           isTwoFinger = true
-           e.preventDefault()
-           e.stopPropagation()
-           return
-         }
+    const carouselData = $carousel.data('owl.carousel')
+    if (!carouselData) return
 
-         isTwoFinger = false
-         startX = touches[0].clientX
-         startY = touches[0].clientY
-         isSwiping = false
-       })
+    const atFirst = carouselData.current() === 0
+    const atLast = carouselData.current() === carouselData.maximum()
 
-       $carousel.on('touchmove', function (e) {
-         if (!isMobileViewport()) return
+    // 🪄 Elastic edge effect
+    if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
+      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
+      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+      isAtEdge = true
+      return
+    }
 
-         const touches = e.originalEvent.touches
-         if (isTwoFinger || touches.length > 1) {
-           e.preventDefault()
-           e.stopPropagation()
-           return
-         }
+    // 🔄 Swipe trigger
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0) {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      }
 
-         const deltaX = touches[0].clientX - startX
-         const deltaY = touches[0].clientY - startY
+      hasSwiped = true
+      e.preventDefault()
+      e.stopImmediatePropagation()
 
-         // Detect horizontal swipe (prevent vertical scroll conflicts)
-         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-           e.preventDefault()
-           isSwiping = true
-         }
-       })
+      setTimeout(() => {
+        hasSwiped = false
+        isTwoFinger = false
+      }, lockDuration)
+    }
+  }, { capture: true })
 
-       $carousel.on('touchend touchcancel', function () {
-         if (!isMobileViewport()) return
-         isTwoFinger = false
-         isSwiping = false
-       })
-     })
+  node.addEventListener('touchend', function () {
+    if (isAtEdge) {
+      $carousel.css({
+        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+        transform: 'translateX(0)',
+      })
+      setTimeout(() => $carousel.css('transition', ''), 300)
+      isAtEdge = false
+    }
+    isTwoFinger = false
+  }, { capture: true })
+
+  node.addEventListener('touchcancel', function () {
+    isTwoFinger = false
+    if (isAtEdge) {
+      $carousel.css({
+        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+        transform: 'translateX(0)',
+      })
+      setTimeout(() => $carousel.css('transition', ''), 300)
+      isAtEdge = false
+    }
+  }, { capture: true })
+
+  // 🖱️ Smooth horizontal scroll wheel navigation
+  $carousel.on('wheel', function (e) {
+    const event = e.originalEvent
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      e.preventDefault()
+      if (hasSwiped) return
+      hasSwiped = true
+
+      if (event.deltaX > 0) {
+        $carousel.trigger('next.owl.carousel', [transitionSpeed])
+      } else {
+        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+      }
+
+      setTimeout(() => {
+        hasSwiped = false
+      }, lockDuration)
+    }
+  })
+})
 
 
     /* ========================
@@ -1270,7 +1325,7 @@ $(function () {
     }
   }, 300);
 
-    //Modal close isssue
+//Modal close isssue
     $(document).on('modalclosed', function () {
         // Instantly close any confirmation modal
         $('.modal-popup.confirm').each(function () {
@@ -1292,5 +1347,6 @@ $(function () {
         $('.modals-overlay').removeClass('_show _active').hide()
         $('body').removeClass('_has-modal')
       })
+
   })
 })
