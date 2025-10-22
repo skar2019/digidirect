@@ -1325,28 +1325,41 @@ $(function () {
     }
   }, 300);
 
-//Modal close isssue
-    $(document).on('modalclosed', function () {
-        // Instantly close any confirmation modal
-        $('.modal-popup.confirm').each(function () {
-          const $modal = $(this)
+    //Modal close isssue
+    // 🧩 Intercept and kill Magento's fade animations globally
+  $.widget('mage.modal', $.mage.modal, {
+    _fade: function (isIn, callback) {
+      // Instantly toggle visibility — no animation delay
+      if (isIn) {
+        this.element.show()
+      } else {
+        this.element.hide()
+      }
 
-          // Instantly hide modal and remove Magento modal classes
-          $modal.stop(true, true).hide().removeClass('_show _hidden')
+      if (typeof callback === 'function') callback.call(this)
+    },
+  })
 
-          // Remove overlay and unlock page
-          $('.modals-overlay').removeClass('_show _active').hide()
-          $('body').removeClass('_has-modal')
-        })
+  // 🧹 Ensure any existing confirm modals also close instantly
+  $(document)
+    .on('modalclosed', function () {
+      $('.modal-popup.confirm').each(function () {
+        const $modal = $(this)
+        $modal.stop(true, true).hide().removeClass('_show _hidden')
       })
-
-      // Also handle "Yes, Remove It" and "No, Keep It" buttons to ensure instant close
-      $(document).on('click', '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]', function () {
+      $('.modals-overlay').removeClass('_show _active').hide()
+      $('body').removeClass('_has-modal')
+    })
+    .on(
+      'click',
+      '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]',
+      function () {
         const $modal = $(this).closest('.modal-popup.confirm')
         $modal.stop(true, true).hide().removeClass('_show _hidden')
         $('.modals-overlay').removeClass('_show _active').hide()
         $('body').removeClass('_has-modal')
-      })
+      }
+    )
 
   })
 })
