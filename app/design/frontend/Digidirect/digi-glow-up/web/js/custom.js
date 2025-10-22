@@ -356,8 +356,9 @@ $(window).on('scroll resize', () => {
 
     /* ========================
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
+   ✅ Works together with Owl's 1-Finger native swipe
 ======================== */
-const $carousels = $('.owl-carousel')
+const $carousels = $('.owl-carousel.custom')
 
 $carousels.each(function () {
   const $carousel = $(this)
@@ -365,37 +366,43 @@ $carousels.each(function () {
   let isTwoFinger = false
   let hasSwiped = false
   let isAtEdge = false
-  const threshold = 50            // ⬅️ lower sensitivity (was 120)
+  const threshold = 50            // ⬅️ swipe distance before triggering
   const lockDuration = 250
-  const transitionSpeed = 600     // ⬅️ smoother animation
-  const edgeElastic = 40          // ⬅️ how far to "indent" when hitting edge
+  const transitionSpeed = 600     // ⬅️ animation speed for next/prev
+  const edgeElastic = 40          // ⬅️ "bounce" effect amount at edges
 
-  $carousel.on('touchstart', function (e) {
-    const touches = e.originalEvent.touches
+  // 🧩 Attach event listeners in capture mode (run before Owl)
+  const node = $carousel[0]
+
+  node.addEventListener('touchstart', function (e) {
+    const touches = e.touches
     if (touches.length === 2) {
       isTwoFinger = true
       startX = (touches[0].clientX + touches[1].clientX) / 2
       hasSwiped = false
       isAtEdge = false
+      // Prevent Owl from reacting to this gesture
+      e.stopImmediatePropagation()
     } else {
       isTwoFinger = false
     }
-  })
+  }, { capture: true })
 
-  $carousel.on('touchmove', function (e) {
+  node.addEventListener('touchmove', function (e) {
     if (!isTwoFinger || hasSwiped) return
-    const touches = e.originalEvent.touches
+    const touches = e.touches
     if (touches.length !== 2) return
 
     const currentX = (touches[0].clientX + touches[1].clientX) / 2
     const deltaX = currentX - startX
 
-    // detect if at the edge (no more items)
     const carouselData = $carousel.data('owl.carousel')
+    if (!carouselData) return
+
     const atFirst = carouselData.current() === 0
     const atLast = carouselData.current() === carouselData.maximum()
 
-    // Elastic push visual
+    // 🪄 Elastic edge effect
     if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
       const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
       $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
@@ -403,39 +410,50 @@ $carousels.each(function () {
       return
     }
 
+    // 🔄 Swipe trigger
     if (Math.abs(deltaX) > threshold) {
       if (deltaX > 0) {
         $carousel.trigger('prev.owl.carousel', [transitionSpeed])
       } else {
         $carousel.trigger('next.owl.carousel', [transitionSpeed])
       }
+
       hasSwiped = true
       e.preventDefault()
+      e.stopImmediatePropagation()
 
       setTimeout(() => {
         hasSwiped = false
         isTwoFinger = false
       }, lockDuration)
     }
-  })
+  }, { capture: true })
 
-  $carousel.on('touchend touchcancel', function () {
-    isTwoFinger = false
-
-    // Reset elastic bounce
+  node.addEventListener('touchend', function () {
     if (isAtEdge) {
       $carousel.css({
         transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
         transform: 'translateX(0)',
       })
-      setTimeout(() => {
-        $carousel.css('transition', '')
-      }, 300)
+      setTimeout(() => $carousel.css('transition', ''), 300)
       isAtEdge = false
     }
-  })
+    isTwoFinger = false
+  }, { capture: true })
 
-  // Smooth horizontal wheel scrolling
+  node.addEventListener('touchcancel', function () {
+    isTwoFinger = false
+    if (isAtEdge) {
+      $carousel.css({
+        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+        transform: 'translateX(0)',
+      })
+      setTimeout(() => $carousel.css('transition', ''), 300)
+      isAtEdge = false
+    }
+  }, { capture: true })
+
+  // 🖱️ Smooth horizontal scroll wheel navigation
   $carousel.on('wheel', function (e) {
     const event = e.originalEvent
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -455,6 +473,7 @@ $carousels.each(function () {
     }
   })
 })
+
 
     /* ========================
        🔍 Update Autocomplete Header
@@ -1306,6 +1325,43 @@ $(function () {
     }
   }, 300);
 
+    //Modal close isssue
+    // 🧩 Intercept and kill Magento's fade animations globally
+  $.widget('mage.modal', $.mage.modal, {
+    _fade: function (isIn, callback) {
+      // Instantly toggle visibility — no animation delay
+      if (isIn) {
+        this.element.show()
+      } else {
+        this.element.hide()
+      }
+      console.log("callback");
+      if (typeof callback === 'function') callback.call(this)
+    },
+  })
+
+  // 🧹 Ensure any existing confirm modals also close instantly
+  $(document)
+    .on('modalclosed', function () {
+      console.log("modalclosed");
+      $('.modal-popup.confirm').each(function () {
+        const $modal = $(this)
+        $modal.stop(true, true).hide().removeClass('_show _hidden')
+      })
+      $('.modals-overlay').removeClass('_show _active').hide()
+      $('body').removeClass('_has-modal')
+    })
+    .on(
+      'click',
+      '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]',
+      function () {
+        console.log("modal on click");
+        const $modal = $(this).closest('.modal-popup.confirm')
+        $modal.stop(true, true).hide().removeClass('_show _hidden')
+        $('.modals-overlay').removeClass('_show _active').hide()
+        $('body').removeClass('_has-modal')
+      }
+    )
 
   })
 })

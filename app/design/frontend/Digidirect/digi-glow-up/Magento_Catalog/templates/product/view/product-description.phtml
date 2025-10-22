@@ -3,7 +3,7 @@
 ?>
 <div class="short-desc-container">
     <div class="short-desc">
-        <?php 
+        <?php
             if (!is_null($getDescription)) {
                 echo html_entity_decode($getDescription);
             }
@@ -13,10 +13,17 @@
 </div>
 <script>
     function scrollToProductOverview() {
-        if(document.getElementById("tab-label-productoverview")){
-            document.getElementById("tab-label-productoverview").scrollIntoView();
-        } else {
-            document.getElementById("tab-label-description").scrollIntoView();
+        const element = document.getElementById("tab-label-productoverview") ||
+            document.getElementById("tab-label-description");
+
+        if(element) {
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - 100;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     }
 </script>
