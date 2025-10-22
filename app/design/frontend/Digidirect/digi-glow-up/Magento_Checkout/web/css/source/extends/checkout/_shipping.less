@@ -8,9 +8,26 @@
     max-width: 400px !important;
 }
 
-.locator-item.selected-store {
+/*.locator-item.selected-store {
     background-color: #ffe8c4;
     border: 2px solid #f90;
+}*/
+
+/*.locator-item input[type=radio]:checked:after + label{
+
+}*/
+.locator-item input[type="radio"]:checked::after {
+    background: #000000 !important;
+}
+
+.locator-item:has(input[type="radio"]:checked) {
+    background-color: #fe4c25;
+    border-color: #fe4c25;
+    color: #ffffff;
+
+    .item.-cannington-note b {
+        color: #FFFFFF !important;
+    }
 }
 
 .wrap-block .link.-collect.action.primary {
@@ -66,15 +83,15 @@
 }
 
 .checkout-shipping-address .collect-type input[type=radio]:checked+label:before {
-    height: 18px !important;
-    width: 18px !important;
+    height: 21px !important;
+    width: 21px !important;
     border: 2px solid #fff !important;
     background-color: #242426 !important;
 }
 
 .opc-wrapper .checkout-shipping-address label:before {
-    height: 18px !important;
-    width: 18px !important;
+    height: 21px !important;
+    width: 21px !important;
 }
 
 .checkout-shipping-address .collect-type {
