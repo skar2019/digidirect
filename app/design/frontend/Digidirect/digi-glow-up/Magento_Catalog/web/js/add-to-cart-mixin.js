@@ -27,7 +27,7 @@ define([
                     self = this,
                     addToCartButton = $(form).find(this.options.addToCartButtonSelector),
                     buttonTextSpan = addToCartButton.find('span.addcart_words'),
-                    originalButtonHtml = addToCartButton.data('original-text'); // Get stored original text
+                    originalButtonHtml = addToCartButton.data('original-text');
 
                 // Temporarily change to "Added"
                 buttonTextSpan.html(addToCartButtonTextAdded);
@@ -35,7 +35,8 @@ define([
 
                 setTimeout(function () {
                     addToCartButton.removeClass(self.options.addToCartButtonDisabledClass);
-                    // Restore the original HTML (preserves "Pre-Order", "Special Order", or "Add to Cart" with tooltip)
+                    addToCartButton.prop('disabled', false); // Re-enable the button
+                    // Restore the original HTML
                     buttonTextSpan.html(originalButtonHtml);
                     addToCartButton.prop('title', buttonTextSpan.text().trim());
                 }, 1000);
