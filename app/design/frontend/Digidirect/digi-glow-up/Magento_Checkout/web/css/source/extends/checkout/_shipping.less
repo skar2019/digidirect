@@ -30,6 +30,18 @@
     }
 }
 
+.shipping-methods {
+    .row:has(input[type="radio"]:checked) {
+        background-color: #fe4c25;
+        border-color: #fe4c25;
+        color: #ffffff;
+    }
+
+    input[type="radio"]:checked::after {
+        background: #000000 !important;
+    }
+}
+
 .wrap-block .link.-collect.action.primary {
     background-color: #f2f2f2;
 }
