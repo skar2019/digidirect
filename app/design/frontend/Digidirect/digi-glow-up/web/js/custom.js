@@ -1335,7 +1335,7 @@ $(function () {
       } else {
         this.element.hide()
       }
-
+      console.log("callback");
       if (typeof callback === 'function') callback.call(this)
     },
   })
@@ -1343,6 +1343,7 @@ $(function () {
   // 🧹 Ensure any existing confirm modals also close instantly
   $(document)
     .on('modalclosed', function () {
+      console.log("modalclosed");
       $('.modal-popup.confirm').each(function () {
         const $modal = $(this)
         $modal.stop(true, true).hide().removeClass('_show _hidden')
@@ -1354,6 +1355,7 @@ $(function () {
       'click',
       '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]',
       function () {
+        console.log("modal on click");
         const $modal = $(this).closest('.modal-popup.confirm')
         $modal.stop(true, true).hide().removeClass('_show _hidden')
         $('.modals-overlay').removeClass('_show _active').hide()
