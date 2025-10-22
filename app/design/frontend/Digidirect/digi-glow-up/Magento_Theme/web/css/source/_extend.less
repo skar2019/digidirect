@@ -880,6 +880,37 @@ body.blur-active .global-blur-overlay {
     margin-bottom: -30px;
 }
 
+/* ==========================================
+   🧩 Disable All Magento Modal Animations
+========================================== */
+.modal-popup,
+.modal-slide,
+.modal-inner-wrap {
+  transition: none !important;
+  animation: none !important;
+}
+
+.modal-popup._show,
+.modal-slide._show,
+.modal-popup._show .modal-inner-wrap {
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Prevent fade-out on close */
+.modal-popup._show._hidden,
+.modal-slide._show._hidden,
+.modal-popup._hidden,
+.modal-slide._hidden {
+  transition: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+
 @media screen and (max-width: 1512px) {
     
     .pa-digidirect-product-widget .product-widget-header {
@@ -923,6 +954,18 @@ body.blur-active .global-blur-overlay {
     
     //Home
     
+    //*Welcom back widget
+    
+    .pa-welcome-back.active {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    #welcome-back-widget-desktop {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 15px;
+    }
+    
     //*Categories
     
     .glow-up-categories {
@@ -931,6 +974,7 @@ body.blur-active .global-blur-overlay {
 
     .categories-grid {
         grid-template-columns: repeat(3, 1fr) !important;
+        row-gap: 20px;
     }
     
     //End Home
