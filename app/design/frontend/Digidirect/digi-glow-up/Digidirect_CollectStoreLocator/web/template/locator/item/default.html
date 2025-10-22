@@ -1,5 +1,5 @@
 <!-- ko if: (available)-->
-<div class="locator-item locator-details item"
+<div onclick="this.querySelector('input').click()" class="locator-item locator-details item"
      data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
     <!-- ko if: (available)-->
     <!-- ko foreach: $parent.getRegion('itemEnd') -->

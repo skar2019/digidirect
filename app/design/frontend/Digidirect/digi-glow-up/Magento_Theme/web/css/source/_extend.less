@@ -880,6 +880,40 @@ body.blur-active .global-blur-overlay {
     margin-bottom: -30px;
 }
 
+/* ==========================================
+   🧩 Disable All Magento Modal Animations
+========================================== */
+.modal-popup,
+.modal-slide,
+.modal-inner-wrap {
+  transition: none !important;
+  animation: none !important;
+}
+
+.modal-popup._show,
+.modal-slide._show,
+.modal-popup._show .modal-inner-wrap {
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Prevent fade-out on close */
+.modal-popup._show._hidden,
+.modal-slide._show._hidden,
+.modal-popup._hidden,
+.modal-slide._hidden {
+  transition: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+#welcome-back-widget-mobile {
+    display: none;
+}
+
+
 @media screen and (max-width: 1512px) {
     
     .pa-digidirect-product-widget .product-widget-header {
@@ -912,6 +946,7 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 768px) {
+    
     .block.newsletter {
         flex-direction: column;
         gap: 10px;
@@ -919,6 +954,41 @@ body.blur-active .global-blur-overlay {
             margin-top: 0;
         }
     }
+    
+    //Home
+    
+    //*Welcom back widget
+    
+    .pa-welcome-back.active {
+        width: 100%;
+        border-radius: 0;
+        bottom: 0;
+        top: unset;
+        left: unset;
+        transform: unset;
+    }
+    
+    #welcome-back-widget-desktop {
+        display: none;
+    }
+    
+    #welcome-back-widget-mobile {
+        display: block;
+    }
+    
+    //*Categories
+    
+    .glow-up-categories {
+        padding: 30px 15px !important;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        row-gap: 20px;
+    }
+    
+    //End Home
+    
 }
 
 @media screen and (min-width: 768px) {
