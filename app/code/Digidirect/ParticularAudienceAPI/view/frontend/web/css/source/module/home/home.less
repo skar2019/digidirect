@@ -329,14 +329,7 @@ and open the template in the editor.
     visibility: visible !important;
 }
 
-.media-width(@extremum, @break)
-    when
-    (@extremum = "max")
-    and
-    (@break = @screen__m) {
-    .pa-digidirect-product-widget-container {
-        display: none;
-    }
+.media-width(@extremum, @break) when (@extremum = "max") and (@break = @screen__m) {
 
     .pa-digidirect-product-widget-container.mobile-widget {
         display: grid !important;
