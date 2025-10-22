@@ -6,12 +6,28 @@ define([
 
     return function (targetWidget) {
         $.widget('mage.catalogAddToCart', targetWidget, {
+            disableAddToCartButton: function (form) {
+                var addToCartButton = $(form).find(this.options.addToCartButtonSelector),
+                    buttonTextSpan = addToCartButton.find('span.addcart_words');
+
+                addToCartButton.addClass(this.options.addToCartButtonDisabledClass);
+                addToCartButton.attr('title', this.options.addToCartButtonTextWhileAdding);
+                addToCartButton.prop('disabled', true);
+
+                // Store original text before changing
+                if (!addToCartButton.data('original-text')) {
+                    addToCartButton.data('original-text', buttonTextSpan.html());
+                }
+
+                buttonTextSpan.html(this.options.addToCartButtonTextWhileAdding);
+            },
+
             enableAddToCartButton: function (form) {
                 var addToCartButtonTextAdded = this.options.addToCartButtonTextAdded || $t('Added'),
                     self = this,
                     addToCartButton = $(form).find(this.options.addToCartButtonSelector),
                     buttonTextSpan = addToCartButton.find('span.addcart_words'),
-                    originalButtonHtml = buttonTextSpan.html(); // Store the entire HTML content
+                    originalButtonHtml = addToCartButton.data('original-text'); // Get stored original text
 
                 // Temporarily change to "Added"
                 buttonTextSpan.html(addToCartButtonTextAdded);
