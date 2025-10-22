@@ -562,9 +562,34 @@
 @media screen and (max-width: 768px) {
     .checkout-index-index,
     .checkout-onepage-success {
+        .opc-wrapper {
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 0 !important;
+        }
+
         .page-header .header-content {
             padding: 0 20px;
         }
+        .help-bar-white {
+            .contact-options {
+                .need-help-txt {
+                    font-size: 10px;
+                }
+
+                .help-phone,
+                .help-chat {
+                    font-size: 10px;
+                }
+            }
+
+            .cart-id {
+                font-size: 10px;
+            }
+        }
+
         .help-bar-white {
             .help-bar-content {
                 flex-wrap: wrap;
@@ -578,6 +603,11 @@
             }
         }
 
+        .account-signin-banner {
+            .signin-text {
+                font-size: 14px;
+            }
+        }
         .column.main {
             margin: 0 20px !important;
         }
@@ -621,6 +651,10 @@
     }
     .checkout-index-index .afterpay .choice::after {
         max-width: 90px;
+    }
+
+    .mobile-hide-txt {
+        display: none;
     }
 }
 
