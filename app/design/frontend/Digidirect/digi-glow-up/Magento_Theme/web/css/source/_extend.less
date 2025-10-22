@@ -14,6 +14,13 @@ body.blur-active {
     overflow-y: scroll; /* keeps scrollbar visible */
 }
 
+body.overlay-active {
+    position: fixed;
+    top: var(--scroll-y);
+    width: 100%;
+    overflow-y: scroll;
+}
+
 body.blur-active .page-header {
     pointer-events: none;
 }
@@ -75,6 +82,17 @@ body.pa-welcome-active .ruby-menu-mega-blog {
 .page-wrapper > .page-bottom {
     max-width: 100% !important;
     width: 100%;
+}
+
+.page-wrapper.has-overlay::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10001;
 }
 
 a {
@@ -438,7 +456,7 @@ a.action.towishlist {
     opacity: 20%;
 }
 
-.slick-dots li.slick-active button {
+.slick-dots li button {
     outline: 1px solid #ccc;
 }
 
@@ -583,12 +601,12 @@ a.action.towishlist {
     padding: 30px 20px 20px;
     display: none;
     position: absolute;
-    top: 27%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: #f2f2f7;
     border-radius: 32px;
-    z-index: 99;
-    left: 50%;
-    transform: translateX(-50%);
+    z-index: 10002;
     width: 77%;
     max-width: 1112px;
 }
@@ -1045,5 +1063,84 @@ button.action.primary.action-dismiss {
 
 .brands-index-index .page-main {
     max-width: 1327px !important;
-    margin: 50px auto;
+    margin: 20px auto;
+}
+
+.brands-index-index .page-title {
+    margin: 17px 0 25px;
+}
+
+.brands-index-index .columns .column.main {
+    width: 100%;
+}
+
+.brand-group h2 {
+    border-bottom: 1px solid #E5E5EA;
+    font-size: 24px;
+    font-family: Inter;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+.brand-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.brands-list .brand-group a {
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 500;
+    color: #676767;
+}
+
+.brand-filter-container {
+    background: #FE4C25;
+}
+
+.brand-filter {
+    text-align: center;
+    display: flex;
+    max-width: 1327px;
+    margin: 0 auto;
+    padding: 9px 0;
+    width: 100%;
+}
+
+#brand-search {
+    width: 294px;
+    border-radius: 22px;
+    font-size: 15px;
+    padding: 4px 5px 6px 17px;
+}
+
+.brand-list h3 {
+    border-bottom: 1px solid #E5E5EA;
+    padding-bottom: 10px;
+}
+
+.brand-alphabet {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+    margin-left: -10px;
+}
+
+.brand-alphabet .letter {
+    font-size: 18px;
+    padding: 3px 5px;
+    font-weight: 500;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+.brand-alphabet .letter.active {
+    background: #fff;
+    color: #FE4C25;
+    border-radius: 50%;
 }

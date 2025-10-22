@@ -1,0 +1,19 @@
+<div style="background: #F2F2F7">
+    <div style="max-width: 1327px; margin: 0 auto; padding: 20px 0 30px;">
+        <div style="color: #242426; font-size: 32px; font-weight: 600; margin-bottom: 15px;">Shop by Brand</div>
+        <div style="width: 100%; justify-content: center; display: flex; color: #545456; font-size: 16px; font-weight: 500;">
+            At digiDirect, we’re proud to serve as an officially authorized reseller for many of our trusted brand partners. When you purchase through an authorized channel, you receive an unmatched level of transparency, reliability, and support. Our partners provide continuous training to our team, ensuring that every customer benefits from expert product advice. We believe our responsibility extends well beyond checkout—our service and support continue long after your purchase is complete, so you can shop with real confidence. Choosing digiDirect means choosing a seamless, informed shopping experience rooted in integrity and quality.
+        </div>
+    </div>
+</div>
+<div class="brand-filter-container">
+    <div class="brand-filter">
+        <div class="brand-alphabet">
+            <span class="letter active" data-letter="all">All</span>
+            <?php foreach (range('A', 'Z') as $char): ?>
+                <span class="letter" data-letter="<?= $char ?>"><?= $char ?></span>
+            <?php endforeach; ?>
+        </div>
+        <input type="text" id="brand-search" placeholder="Search brands..." class="brand-search-input"/>
+    </div>
+</div>

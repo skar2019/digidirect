@@ -43,9 +43,13 @@ class ListBrands extends Template
             $firstLetter = strtoupper($label[0]);
             if (!isset($brands[$firstLetter])) $brands[$firstLetter] = [];
 
+            // generate slug: lowercase + spaces to hyphens
+            $slug = strtolower($label);
+            $slug = preg_replace('/\s+/', '-', $slug); // replace spaces with hyphen
+
             $brands[$firstLetter][] = [
                 'label' => $label,
-                'url' => $this->getUrl('brands/' . strtolower(preg_replace('/[^a-z0-9]+/', '-', $label)))
+                'url' => $this->getUrl('brands/' . $slug)
             ];
         }
 

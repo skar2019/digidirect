@@ -199,6 +199,31 @@ $(window).on('scroll resize', () => {
       }
     }
     
+    function toggleOverlay() {
+        if ($('#pa-welcome-back').hasClass('active')) {
+          $('.page-wrapper').addClass('has-overlay');
+          $('body').addClass('overlay-active');
+        } else {
+          $('.page-wrapper').removeClass('has-overlay');
+          $('body').removeClass('overlay-active');
+        }
+      }
+
+      // Run once on page load
+      toggleOverlay();
+
+      // Optional: If the 'active' class might change dynamically later
+      // you can run this on a timer or bind to your app’s logic
+      // Here's an example using a MutationObserver with jQuery syntax:
+
+      const target = document.querySelector('#pa-welcome-back');
+      if (target) {
+        new MutationObserver(toggleOverlay).observe(target, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      }
+    
     function toggleWelcomeBackBlur() {
         const $target = $('#pa-welcome-back')
         const isActive = $target.hasClass('active')
@@ -223,16 +248,16 @@ $(window).on('scroll resize', () => {
 
 
     // Observe #pa-welcome-back for .active changes
-    if (window.MutationObserver) {
-      const paEl = document.getElementById('pa-welcome-back')
-      if (paEl) {
-        const observer = new MutationObserver(toggleWelcomeBackBlur)
-        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
-      }
-    }
+//    if (window.MutationObserver) {
+//      const paEl = document.getElementById('pa-welcome-back')
+//      if (paEl) {
+//        const observer = new MutationObserver(toggleWelcomeBackBlur)
+//        observer.observe(paEl, { attributes: true, attributeFilter: ['class'] })
+//      }
+//    }
 
     // Run once at load (in case it's already active)
-    toggleWelcomeBackBlur()
+    //toggleWelcomeBackBlur()
 
     /* ========================
         🌐 Reposition #pa-welcome-back

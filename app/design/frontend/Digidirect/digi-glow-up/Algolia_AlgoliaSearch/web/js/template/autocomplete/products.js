@@ -64,7 +64,7 @@ define([], function () {
                            data-objectId="${item.objectID}"
                            data-position="${item.position}"
                            data-index="${item.__autocomplete_indexName}"
-                           data-queryId="${item.__autocomplete_queryID}">${badge}<div class="thumb"><img src="${item.thumbnail_url || ''}"/></div>
+                           data-queryId="${item.__autocomplete_queryID}">${badge}<div class="thumb"><img src="${item.image_url || ''}"/></div>
                 <div class="info">
                     <div class="algoliasearch-autocomplete-name">
                         ${this.safeHighlight(components, item, "name")}
