@@ -1,7 +1,8 @@
 <?php
 /** @var \Magento\Framework\View\Element\Template $block */
 $viewModel = $block->getViewModel();
-$isLoggedIn = $viewModel->isLoggedIn();
+$quoteHelper = $helper = $this->helper('Digidirect\Digi\Helper\Quote');
+$isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 ?>
 
 <nav data-action="navigation" class="footer-nav" id="footer_nav">
@@ -120,7 +121,7 @@ $isLoggedIn = $viewModel->isLoggedIn();
         <span class="nav-label">Search</span>
     </button>
 
-    <button onclick="window.location.href='/#digiservices'" class="footer-nav-item">
+    <button class="footer-nav-item" data-modal-trigger="digiSevicesModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
             <path d="M3.35156 6.7832L10.9061 10.9469L18.4093 6.80765" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M10.9141 18.3318V10.9414" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
@@ -151,7 +152,7 @@ $isLoggedIn = $viewModel->isLoggedIn();
         <span class="nav-label">Cart</span>
     </button>
 
-    <button class="footer-nav-item" <?php if ($isLoggedIn) echo 'id="open-account-popup"'; else echo 'onclick="window.location.href=\'' . $block->getUrl('customer/account') . '\'"'; ?>>
+    <button class="footer-nav-item" <?php if ($isCustomerLoggedIn) echo 'id="open-account-popup"'; else echo 'onclick="window.location.href=\'' . $block->getUrl('customer/account') . '\'"'; ?>>
         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
             <g clip-path="url(#clip0_7798_148425)">
                 <mask id="mask0_7798_148425" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -206,4 +207,150 @@ $isLoggedIn = $viewModel->isLoggedIn();
         </div>
 
     </ul>
+</div>
+
+
+<!-- Services Modal -->
+<div class="mobile-modal" id="digiSevicesModal" data-modal="digiSevicesModal">
+    <div class="mobile-modal-overlay" data-modal-close="digiSevicesModal"></div>
+    <div class="mobile-modal-container">
+        <div class="mobile-modal-header">
+            <h2 class="mobile-modal-title">Services</h2>
+            <button type="button"
+                    class="mobile-modal-close"
+                    data-modal-close="digiSevicesModal"
+                    aria-label="Close">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="mobile-modal-body">
+            <div class="service-card">
+                <?php
+                $digiClubmediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/digiClub_footer_services.png';
+                ?>
+                <img src="<?php echo $digiClubmediaUrl; ?>" alt="Happy people taking a selfie" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Club®</span></h2>
+                    <p class="service-description">
+                        Introducing digiClub, the brand new loyalty program from digiDirect that opens the door to an array of fantastic rewards.
+                    </p>
+                    <button class="cta-button">Join</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digiPrintbmediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/2_footer_services.png';
+                ?>
+                <img src="<?php echo $digiPrintbmediaUrl; ?>" alt="Color printing samples" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Print</span></h2>
+                    <p class="service-description">
+                        digiDirect offers an easy to use online printing service which you can access through the digiPrint app or in-store kiosk.
+                    </p>
+                    <button class="cta-button">Print now</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi3mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/3_footer_services.png';
+                ?>
+                <img src="<?php echo $digi3mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Seconds</span></h2>
+                    <p class="service-description">
+                        Created to offer an excellent selection of secondhand products at incredible value for money, digiSeconds is the best destination for all your photo, video, and digital imaging needs.
+                    </p>
+                    <button class="cta-button">Explore now</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi4bmediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/4_footer_services.png';
+                ?>
+                <img src="<?php echo $digi4bmediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Rent</span></h2>
+                    <p class="service-description">
+                        At digiDirect we believe that everyone should have the opportunity to follow their passion, find hidden talents and realise their full potential.
+                    </p>
+                    <button class="cta-button">Rent now</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi5mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/5_footer_services.png';
+                ?>
+                <img src="<?php echo $digi5mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Deals</span></h2>
+                    <p class="service-description">
+                        Endless aisle of products & categories. Discover everything you need in one place. Shop with ease, anytime, anywhere.
+                    </p>
+                    <button class="cta-button">Shop now</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi6mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/6_footer_services.png';
+                ?>
+                <img src="<?php echo $digi6mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">Price</span> <span class="suffix">Match</span></h2>
+                    <p class="service-description">
+                        digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers.
+                    </p>
+                    <button class="cta-button">Learn more</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi7mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/7_footer_services.png';
+                ?>
+                <img src="<?php echo $digi7mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">Trade </span><span class="suffix">Up Program</span></h2>
+                    <p class="service-description">
+                        Are you looking to upgrade your tech equipment and take your creative skills to the next level? Look no further than digiDirect's
+                        Trade-In Program! </p>
+                    <button class="cta-button">Learn more</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi8mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/8_footer_services.png';
+                ?>
+                <img src="<?php echo $digi8mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Direct Business</span></h2>
+                    <p class="service-description">
+                        Specially designed to meet each customer's needs as our team goes beyond a one-size-fits-all
+                        approach.</p>
+                    <button class="cta-button">Learn more</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <?php
+                $digi9mediaUrl = $block->getUrl('media') . 'wysiwyg/glowup-digiservices/9_footer_services.png';
+                ?>
+                <img src="<?php echo $digi9mediaUrl; ?>" alt="Professional camera lenses" class="service-image">
+                <div class="service-content">
+                    <h2 class="service-title"><span class="digi">digi</span><span class="suffix">Protect</span></h2>
+                    <p class="service-description">
+                        When you've spent hours researching products and significantly invested in a new camera or other equipment, you often plan for it to last a
+                        long time.
+                    </p>
+                    <button class="cta-button">Learn more</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

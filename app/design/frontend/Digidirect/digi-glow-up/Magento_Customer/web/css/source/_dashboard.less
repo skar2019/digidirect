@@ -32,14 +32,111 @@ select {
     height: 42px !important;
     border-radius: 5px !important;
 }
+
+.mobile-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* services */
+.services-container-mobile {
+    width: 100%;
+    min-height: 100vh;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.service-card {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.service-card:last-child {
+    border-bottom: none;
+}
+
+.service-image {
+    width: 120px;
+    height: 160px;
+    min-width: 120px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.service-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.service-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.service-title .digi {
+    color: #FF5733;
+}
+
+.service-title .suffix {
+    color: #333;
+}
+
+.service-description {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.cta-button {
+    display: block;
+    width: 100%;
+    padding: 10px 24px;
+    background-color: #FF5733;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cta-button:hover {
+    background-color: #E64A2E;
+}
 @media (min-width: 768px) {
     .account-popup-header-in-pages {
+        display: none;
+    }
+
+    .mobile-modal {
         display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .account-popup {
+    .account-popup, .mobile-modal {
         position: fixed;
         top: 0;
         left: 0;
@@ -61,7 +158,7 @@ select {
         to { opacity: 1; }
     }
 
-    .account-popup.active {
+    .account-popup.active, .mobile-modal.active {
         display: flex;
     }
 
@@ -84,7 +181,8 @@ select {
         padding-top: 8px;
     }
 
-    .account-popup-header .close-popup, .account-popup-header-in-pages .close-popup {
+    .account-popup-header .close-popup, .account-popup-header-in-pages .close-popup,
+    .mobile-modal .mobile-modal-close {
         background: none;
         border: none;
         font-size: 40px;
@@ -220,6 +318,64 @@ select {
             display: block !important;
         }
 
+    }
+
+    .mobile-modal.active {
+        align-items: center;
+    }
+
+    .mobile-modal-container {
+        border-radius: 12px;
+        max-width: 500px;
+        max-height: 80vh;
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    .mobile-modal.active .mobile-modal-container {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .mobile-modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-modal-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .mobile-modal-close {
+        background: none;
+        border: none;
+        font-size: 32px;
+        line-height: 1;
+        color: #666;
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s ease;
+    }
+
+    .mobile-modal-close:hover {
+        color: #333;
     }
 
 }
