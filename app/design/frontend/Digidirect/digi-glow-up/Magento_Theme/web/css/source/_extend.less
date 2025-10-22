@@ -896,7 +896,6 @@ body.blur-active .global-blur-overlay {
   transition: none !important;
   animation: none !important;
   opacity: 1 !important;
-  transform: none !important;
 }
 
 /* Prevent fade-out on close */
@@ -908,6 +907,10 @@ body.blur-active .global-blur-overlay {
   animation: none !important;
   opacity: 0 !important;
   transform: none !important;
+}
+
+#welcome-back-widget-mobile {
+    display: none;
 }
 
 
@@ -959,11 +962,20 @@ body.blur-active .global-blur-overlay {
     .pa-welcome-back.active {
         width: 100%;
         border-radius: 0;
+        margin-top: 40vh;
     }
 
     #welcome-back-widget-desktop {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 15px;
+    }
+    
+    #welcome-back-widget-desktop {
+        display: none;
+    }
+    
+    #welcome-back-widget-mobile {
+        display: block;
     }
     
     //*Categories

@@ -1271,11 +1271,26 @@ $(function () {
   }, 300);
 
     //Modal close isssue
-    
-    $(document).on('modalclosed', function (event, modal) {
-        // Instantly hide modals without fade
-        const $modal = $(modal.modal)
+    $(document).on('modalclosed', function () {
+        // Instantly close any confirmation modal
+        $('.modal-popup.confirm').each(function () {
+          const $modal = $(this)
+
+          // Instantly hide modal and remove Magento modal classes
+          $modal.stop(true, true).hide().removeClass('_show _hidden')
+
+          // Remove overlay and unlock page
+          $('.modals-overlay').removeClass('_show _active').hide()
+          $('body').removeClass('_has-modal')
+        })
+      })
+
+      // Also handle "Yes, Remove It" and "No, Keep It" buttons to ensure instant close
+      $(document).on('click', '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]', function () {
+        const $modal = $(this).closest('.modal-popup.confirm')
         $modal.stop(true, true).hide().removeClass('_show _hidden')
+        $('.modals-overlay').removeClass('_show _active').hide()
+        $('body').removeClass('_has-modal')
       })
   })
 })
