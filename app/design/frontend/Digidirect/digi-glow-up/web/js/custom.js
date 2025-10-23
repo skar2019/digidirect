@@ -832,8 +832,10 @@ function replaceCarouselArrows() {
     const $carousel = $(this)
     const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
     const $next = $carousel.find('.owl-next span[aria-label="Next"]')
-    if ($prev.length) $prev.replaceWith(prevSVG)
-    if ($next.length) $next.replaceWith(nextSVG)
+
+    // Replace only if not already replaced with an SVG
+    if ($prev.length && !$prev.find('svg').length) $prev.replaceWith(prevSVG)
+    if ($next.length && !$next.find('svg').length) $next.replaceWith(nextSVG)
   })
 
   /* 🧊 Slick Slider (Magento PageBuilder) */
@@ -847,6 +849,7 @@ function replaceCarouselArrows() {
     if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
   })
 }
+
 
 /* Run once on DOM ready and again after sliders initialize */
 $(document).ready(function () {
@@ -1359,23 +1362,117 @@ $(function () {
     }
     
     //Force $10 popup to close
-    $(document).on('click', '#newspopup_up_bg_13 .cross', function (e) {
-        e.preventDefault()
+    const POPUP_ID = 13;
+    const POPUP_SELECTOR = '#newspopup_up_bg_' + POPUP_ID;
+    const COOKIE_NAME = 'prnewsletterpopup_disable_popup_' + POPUP_ID;
 
-        // Use a small delay to ensure Plumrocket’s event finishes first
-        setTimeout(function () {
-          const popup = $('#newspopup_up_bg_13')
+    // Helper: set cookie fallback if window.setNsCookie not available
+    function setDisableCookie() {
+      try {
+        if (typeof window.setNsCookie === 'function') {
+          // set long expiry (10 years)
+          window.setNsCookie(COOKIE_NAME, 'yes', { expires: 10 * 365 * 24 * 3600, path: '/' });
+        } else {
+          // fallback
+          const d = new Date();
+          d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
+          document.cookie = COOKIE_NAME + "=yes;expires=" + d.toUTCString() + ";path=/";
+        }
+      } catch (err) {
+        console.warn('setDisableCookie error', err);
+      }
+    }
 
-          popup.stop(true, true).css({
-            opacity: 0,
-            display: 'none',
-            visibility: 'hidden'
-          }).removeClass('newspopup_up_bg newspopup-blur newspopup_ov_hidden')
+    // 1) Close on click — strong hide + remove after tiny delay
+    $(document).on('click', POPUP_SELECTOR + ' .cross', function (e) {
+      e.preventDefault();
 
-          $('body').removeClass('newspopup_ov_hidden')
-          $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur')
-        }, 50)
-      })
+      // immediate defensive hide
+      const $popup = $(POPUP_SELECTOR);
+      $popup.stop(true, true).css({
+        transition: 'none',
+        opacity: 0,
+        display: 'none',
+        visibility: 'hidden'
+      }).remove();
+
+      // remove blur/overlay classes if present
+      $('body').removeClass('newspopup_ov_hidden');
+      $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
+
+      // set cookie so plugin won't load it again
+      setDisableCookie();
+
+      // small timeout to catch any plugin callbacks that attempt to re-show
+      setTimeout(function () {
+        // final remove
+        $(POPUP_SELECTOR).remove();
+      }, 50);
+    });
+
+    // 2) Block prnewsletterPopup.show for this popup id (monkey patch when plugin available)
+    // Keep trying until prnewsletterPopup exists (or up to N attempts)
+    (function patchPrNewsletterShow(maxAttempts = 20, delay = 300) {
+      let attempts = 0;
+      const interval = setInterval(function () {
+        attempts++;
+        if (window.prnewsletterPopup && typeof window.prnewsletterPopup.show === 'function') {
+          // wrap original
+          const origShow = window.prnewsletterPopup.show.bind(window.prnewsletterPopup);
+          window.prnewsletterPopup.show = function () {
+            const args = Array.from(arguments);
+            const idArg = (args.length && typeof args[0] === 'number') ? args[0] : 0;
+            // If id isn't provided and plugin uses firstId internal, attempt to block POPUP_ID only
+            if (idArg === POPUP_ID) {
+              console.info('Blocked prnewsletterPopup.show(' + POPUP_ID + ')');
+              return false;
+            }
+            // fallback - call original for all others
+            return origShow.apply(this, arguments);
+          };
+          clearInterval(interval);
+        } else if (attempts >= maxAttempts) {
+          clearInterval(interval);
+        }
+      }, delay);
+    })();
+
+    // 3) MutationObserver: remove the popup immediately if inserted later
+    if (window.MutationObserver) {
+      const observer = new MutationObserver(function (mutations) {
+        for (const m of mutations) {
+          if (m.addedNodes && m.addedNodes.length) {
+            for (const n of m.addedNodes) {
+              // check element itself
+              if (n.nodeType === 1) {
+                if ($(n).is(POPUP_SELECTOR) || $(n).find(POPUP_SELECTOR).length) {
+                  // remove it
+                  $(POPUP_SELECTOR).stop(true, true).remove();
+                  $('body').removeClass('newspopup_ov_hidden');
+                  $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
+                  setDisableCookie();
+                }
+              }
+            }
+          }
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // 4) Immediate CSS fallback (highest priority)
+    // This prevents CSS/inline style show from actually making it visible.
+    const css = `
+      ${POPUP_SELECTOR} { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      ${POPUP_SELECTOR} * { pointer-events: none !important; }
+    `;
+    $('<style type="text/css">' + css + '</style>').appendTo('head');
+
+    // 5) Remove any existing instance on load (just-in-case)
+    $(function () {
+      $(POPUP_SELECTOR).remove();
+    });
 
     //Modal remove animation
     $(document).on('modalcreated', function (event, modal) {
