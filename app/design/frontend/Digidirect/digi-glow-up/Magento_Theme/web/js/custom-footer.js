@@ -42,7 +42,7 @@ require(['jquery'], function($) {
 
 
         $('#open-account-popup').on('click', function(){
-            $('#mobile-account-popup').addClass('active');
+            $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
 
