@@ -1354,21 +1354,70 @@ $(function () {
   }, 300);
   
   //Show PA Welcom Back Widget if Owl Carousel has been initialized.
-  $(document).ready(function () {
-    const $carousel = $('#welcome-back-widget-desktop .owl-carousel')
+    const $container = $('#welcome-back-widget-desktop')
     const $target = $('#pa-welcome-back')
 
-    // Hide target initially (in case it's visible)
+    // ensure target is hidden initially
     $target.hide()
 
-    // Wait for Owl Carousel initialization
-    $carousel.on('initialized.owl.carousel', function () {
-      console.log('Owl Carousel initialized! Showing #pa-welcome-back')
-      $target.show() // or use .fadeIn(300) if you want a smooth reveal
-    })
+    // helper to handle show and cleanup
+    function showTarget() {
+      if ($target.is(':visible')) return
+      console.log('Showing #pa-welcome-back (carousel ready)')
+      $target.show() // or $target.fadeIn(250)
+    }
 
-  })
+    // main logic for when we have the carousel element
+    function handleCarousel($carousel) {
+      if (!$carousel || $carousel.length === 0) return
 
+      // If Owl has already been initialized
+      if ($carousel.hasClass('owl-loaded') || $carousel.data('owl.carousel')) {
+        console.log('Carousel already initialized -> showing target')
+        showTarget()
+        return
+      }
+
+      // Listen for the initialization event
+      $carousel.one('initialized.owl.carousel', function () {
+        console.log('initialized.owl.carousel event received')
+        showTarget()
+      })
+
+      // Fallback: watch for class changes (.owl-loaded added)
+      const el = $carousel[0]
+      const mo = new MutationObserver((mutations, observer) => {
+        if ($carousel.hasClass('owl-loaded')) {
+          console.log('MutationObserver detected .owl-loaded')
+          showTarget()
+          observer.disconnect()
+        }
+      })
+      mo.observe(el, { attributes: true, attributeFilter: ['class'] })
+    }
+
+    // If carousel element already in DOM, handle it now
+    const $existingCarousel = $container.find('.owl-carousel')
+    if ($existingCarousel.length) {
+      handleCarousel($existingCarousel)
+    } else {
+      // Wait for carousel to be inserted into #welcome-back-widget-desktop
+      const parent = $container[0]
+      if (!parent) {
+        console.warn('#welcome-back-widget-desktop not found in DOM')
+        return
+      }
+
+      const insertionObserver = new MutationObserver((mutations, observer) => {
+        const $found = $container.find('.owl-carousel')
+        if ($found.length) {
+          console.log('Found .owl-carousel after DOM mutation')
+          handleCarousel($found)
+          observer.disconnect()
+        }
+      })
+      insertionObserver.observe(parent, { childList: true, subtree: true })
+    }
 
   })
 })

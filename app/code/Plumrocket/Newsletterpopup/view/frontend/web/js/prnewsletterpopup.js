@@ -456,35 +456,21 @@ define([
             });
 
             var popupClose = function () {
-                console.log($('#newspopup_up_bg_13').length, $('#newspopup_up_bg_13').is(':visible'));
+                $('#newspopup_up_bg_13').remove();
+                for (var i=0; i<_dublicateClasses.length; i++) {
+                    var cl = _dublicateClasses[i]+'-'+_this.currentPopupId;
+                    $('.'+cl).removeClass(cl);
+                }
+                _this.currentPopupId = 0;
 
-                var $popup = $('#newspopup_up_bg_13')
+                $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
 
-                if ($popup.length) {
-                  // Stop animations and hide instantly
-                  $popup.stop(true, true).hide()
-                  console.log('Popup hidden:', $popup)
-                } else {
-                  console.warn('Popup not found')
+                $('body').removeClass('newspopup_ov_hidden');
+                // Don't hide success message for widget template. Let it for button "Ok"
+                if (! $popup.hasClass('pr-mode-form')) {
+                    $popup.hide();
                 }
 
-                // Remove duplicate classes
-                for (var i = 0; i < _dublicateClasses.length; i++) {
-                  var cl = _dublicateClasses[i] + '-' + _this.currentPopupId
-                  $('.' + cl).removeClass(cl)
-                }
-
-                // Reset popup tracking
-                _this.currentPopupId = 0
-
-                // Remove blur and overflow restrictions
-                $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur')
-                $('body').removeClass('newspopup_ov_hidden')
-
-                // Hide again if not success message
-                if (!$popup.hasClass('pr-mode-form')) {
-                  $popup.hide()
-                }
                 setCookieForDisable();
             }
 
