@@ -826,6 +826,9 @@ body.blur-active .global-blur-overlay {
 }
 
 #newspopup_up_bg_13 {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: 10001 !important;
     display: flex !important;
     justify-content: center !important;
@@ -900,17 +903,6 @@ body.blur-active .global-blur-overlay {
   transition: none !important;
   animation: none !important;
   opacity: 1 !important;
-}
-
-/* Prevent fade-out on close */
-.modal-popup._show._hidden,
-.modal-slide._show._hidden,
-.modal-popup._hidden,
-.modal-slide._hidden {
-  transition: none !important;
-  animation: none !important;
-  opacity: 0 !important;
-  transform: none !important;
 }
 
 #welcome-back-widget-mobile {
