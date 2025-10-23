@@ -802,31 +802,34 @@ const nextSVG = `
 </svg>`
 
 function replaceCarouselArrows() {
-  // 🦉 Owl Carousel
+  /* 🦉 Owl Carousel */
   $('.owl-carousel').each(function () {
     const $carousel = $(this)
-    const $prev = $carousel.find('.owl-prev')
-    const $next = $carousel.find('.owl-next')
-
-    if ($prev.length && !$prev.find('svg').length) $prev.html(prevSVG)
-    if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
+    const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
+    const $next = $carousel.find('.owl-next span[aria-label="Next"]')
+    if ($prev.length) $prev.replaceWith(prevSVG)
+    if ($next.length) $next.replaceWith(nextSVG)
   })
 
-  // 🧊 Slick Slider (Magento PageBuilder)
+  /* 🧊 Slick Slider (Magento PageBuilder) */
   $('.pagebuilder-slider.slick-initialized').each(function () {
     const $slider = $(this)
     const $prev = $slider.find('.slick-prev')
     const $next = $slider.find('.slick-next')
 
+    // Replace content if not already an SVG
     if ($prev.length && !$prev.find('svg').length) $prev.html(prevSVG)
     if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
   })
 }
 
 /* Run once on DOM ready and again after sliders initialize */
-$(document).ready(() => replaceCarouselArrows())
+$(document).ready(function () {
+  replaceCarouselArrows()
+})
 
-$(document).on('initialized.owl.carousel init reInit afterChange', '.owl-carousel, .pagebuilder-slider', () => {
+// Optional: If some sliders initialize dynamically later (Magento does this)
+$(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
   replaceCarouselArrows()
 })
 
@@ -1329,13 +1332,6 @@ $(function () {
     if ($items.length > 4) {
       $items.slice(4).remove() // Remove extra items
     }
-    
-    //Force hide $10 pop up
-    $(document).on('click', '#newspopup_up_bg_13 .cross', function (e) {
-        e.preventDefault()
-        const popup = $('#newspopup_up_bg_13')
-        popup.stop(true, true).css('opacity', 1).hide() // instant hide
-      })
 
     //Modal remove animation
     $(document).on('modalcreated', function (event, modal) {
