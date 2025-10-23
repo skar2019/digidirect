@@ -477,6 +477,14 @@
         }
     }
 
+    #checkoutSteps li.active .step-title {
+        font-size: 16px !important;
+    }
+
+    #checkoutSteps li .step-title {
+        font-size: 13px !important;
+    }
+
 }
 
 @media (max-width: 380px) {
@@ -513,4 +521,10 @@ body.checkout-onepage-success, body.checkout-index-index {
 .opc-wrapper .fieldset .field:not(.choice) > .control input[type="text"]:focus,
 .fieldset .field:not(.choice) > .control input[type="email"]:focus {
     border-color: #d9d9d9 !important;
+}
+
+@media (max-width: 769px) {
+    .opc-wrapper .fieldset > .field {
+        margin: 0 !important;
+    }
 }

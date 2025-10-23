@@ -826,6 +826,9 @@ body.blur-active .global-blur-overlay {
 }
 
 #newspopup_up_bg_13 {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: 10001 !important;
     display: flex !important;
     justify-content: center !important;
@@ -884,39 +887,25 @@ body.blur-active .global-blur-overlay {
     margin-bottom: -30px;
 }
 
-/* ==========================================
-   🧩 Disable All Magento Modal Animations
-========================================== */
-.modal-popup,
-.modal-slide,
-.modal-inner-wrap {
-  transition: none !important;
-  animation: none !important;
-}
-
-.modal-popup._show,
-.modal-slide._show,
-.modal-popup._show .modal-inner-wrap {
-  transition: none !important;
-  animation: none !important;
-  opacity: 1 !important;
-}
-
-/* Prevent fade-out on close */
-.modal-popup._show._hidden,
-.modal-slide._show._hidden,
-.modal-popup._hidden,
-.modal-slide._hidden {
-  transition: none !important;
-  animation: none !important;
-  opacity: 0 !important;
-  transform: none !important;
-}
-
 #welcome-back-widget-mobile {
     display: none;
 }
 
+.widget-main-label {
+    color: #FE4C25;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 43.44px;
+    word-wrap: break-word;
+}
+
+.widget-secondary-label {
+    color: #8E8E93;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 43.44px;
+    word-wrap: break-word;
+}
 
 @media screen and (max-width: 1512px) {
     
@@ -947,6 +936,10 @@ body.blur-active .global-blur-overlay {
         gap: 5px;
     }
     
+    #welcome-back-widget-mobile .owl-item:nth-child(n+6) {
+        display: none;
+    }
+    
 }
 
 @media screen and (max-width: 768px) {
@@ -961,7 +954,32 @@ body.blur-active .global-blur-overlay {
     
     //Home
     
-    //*Welcom back widget
+    .homepage-row.full-width {
+        padding: 0 !important;
+    }
+    .homepage-row {
+        padding: 15px !important;
+    }
+    
+    .widget-label {
+        display: grid;
+    }
+    
+    .widget-main-label {
+        font-size: 17px !important;
+        line-height: normal !important;
+    }
+    
+    .widget-secondary-label {
+        font-size: 14px !important;
+        line-height: normal !important;
+    }
+    
+    .glow-up-featured-videos-label > * {
+        font-size: 17px !important;
+    }
+    
+    //*Welcome back widget
     
     .pa-welcome-back.active {
         width: 100%;
@@ -984,18 +1002,24 @@ body.blur-active .global-blur-overlay {
     
     .pagebuilder-slide-wrapper {
         min-height: unset !important;
-        height: 41vh !important;
+        height: 26vh !important;
     }
     
     //*Categories
     
     .glow-up-categories {
-        padding: 30px 15px !important;
+        //padding: 30px 15px !important;
     }
 
     .categories-grid {
         grid-template-columns: repeat(3, 1fr) !important;
         row-gap: 20px;
+    }
+    
+    //Owl Carousel
+    
+    .owl-carousel.owl-loaded {
+        overflow: hidden;
     }
     
     //End Home
@@ -1128,7 +1152,7 @@ button.action.primary.action-dismiss {
     border: 0;
 }
 
-.modal-popup.confirm._show .modal-inner-wrap .modal-content {
+.modal-popup.confirm .modal-inner-wrap .modal-content {
     padding: 0 15px;
     font-size: 17px;
     text-align: center;

@@ -146,7 +146,7 @@ class AddDigiServicesBlock implements DataPatchInterface
 HTML;
 
         $blockData = [
-            'title' => 'digiServices',
+            'title' => 'Digi Services Glow Up',
             'identifier' => 'digi-services-glow-up',
             'content' => $content,
             'is_active' => 1,
