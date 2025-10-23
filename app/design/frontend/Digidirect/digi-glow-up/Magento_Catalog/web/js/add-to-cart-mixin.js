@@ -11,7 +11,7 @@ define([
                     buttonTextSpan = addToCartButton.find('span.addcart_words');
 
                 addToCartButton.addClass(this.options.addToCartButtonDisabledClass);
-                addToCartButton.attr('title', this.options.addToCartButtonTextWhileAdding);
+                addToCartButton.attr('title', 'Adding..');
                 addToCartButton.prop('disabled', true);
 
                 // Store original text before changing
@@ -19,7 +19,7 @@ define([
                     addToCartButton.data('original-text', buttonTextSpan.html());
                 }
 
-                buttonTextSpan.html(this.options.addToCartButtonTextWhileAdding);
+                buttonTextSpan.html('Adding..');
             },
 
             enableAddToCartButton: function (form) {
