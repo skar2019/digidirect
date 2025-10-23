@@ -684,11 +684,4 @@ define([
 
         document.cookie = updatedCookie;
     }
-    
-    //Force hide $10 pop up
-    $(document).on('click', '#newspopup_up_bg_13 .cross', function (e) {
-        e.preventDefault()
-        const popup = $('#newspopup_up_bg_13')
-        popup.stop(true, true).css('opacity', 1).hide() // instant hide
-    })
 });

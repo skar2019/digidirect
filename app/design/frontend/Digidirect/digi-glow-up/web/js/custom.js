@@ -260,12 +260,37 @@ $(window).on('scroll resize', () => {
     //toggleWelcomeBackBlur()
 
     /* ========================
-        🌐 Reposition #pa-welcome-back
+        🌐 Reposition #pa-welcome-back (after Owl Carousel init)
      ======================== */
      const $paWelcomeBack = $('#pa-welcome-back')
-     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-       $('.page-wrapper').before($paWelcomeBack)
+     const $owl = $('#welcome-back-widget-mobile')
+
+     // Wait until Owl Carousel is initialized
+     function waitForOwlInit(callback) {
+       const maxAttempts = 20
+       let attempts = 0
+
+       const interval = setInterval(() => {
+         attempts++
+
+         // Owl adds 'owl-loaded' class after init
+         if ($owl.hasClass('owl-loaded')) {
+           clearInterval(interval)
+           callback()
+         } else if (attempts >= maxAttempts) {
+           clearInterval(interval)
+           console.warn('Owl Carousel not initialized after waiting.')
+         }
+       }, 200) // check every 200ms
      }
+
+     waitForOwlInit(() => {
+       if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+         $('.page-wrapper').before($paWelcomeBack)
+         console.log('✅ Repositioned #pa-welcome-back after Owl init')
+       }
+     })
+
 
      /* ========================
         ❌ Close Welcome Back & Remove Blur
@@ -1332,6 +1357,25 @@ $(function () {
     if ($items.length > 4) {
       $items.slice(4).remove() // Remove extra items
     }
+    
+    //Force $10 popup to close
+    $(document).on('click', '#newspopup_up_bg_13 .cross', function (e) {
+        e.preventDefault()
+
+        // Use a small delay to ensure Plumrocket’s event finishes first
+        setTimeout(function () {
+          const popup = $('#newspopup_up_bg_13')
+
+          popup.stop(true, true).css({
+            opacity: 0,
+            display: 'none',
+            visibility: 'hidden'
+          }).removeClass('newspopup_up_bg newspopup-blur newspopup_ov_hidden')
+
+          $('body').removeClass('newspopup_ov_hidden')
+          $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur')
+        }, 50)
+      })
 
     //Modal remove animation
     $(document).on('modalcreated', function (event, modal) {
