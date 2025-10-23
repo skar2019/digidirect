@@ -1332,11 +1332,6 @@ $(function () {
     if ($items.length > 4) {
       $items.slice(4).remove() // Remove extra items
     }
-    
-    //Force remove $10 pop up
-    $(document).on('click', '#newspopup_up_bg_13 .newspopup-up-form.newspopup-theme .cross', function () {
-        $('#newspopup_up_bg_13').remove()
-      })
 
     //Modal remove animation
     $(document).on('modalcreated', function (event, modal) {
