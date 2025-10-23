@@ -1324,6 +1324,14 @@ $(function () {
       clearInterval(checkoutBtnInterval);
     }
   }, 300);
+  
+  //Limit PA Welcome Back Owl Carousel Item To 4
+    const $carousel = $('#welcome-back-widget-mobile')
+    const $items = $carousel.find('.owl-item')
+
+    if ($items.length > 4) {
+      $items.slice(4).remove() // Remove extra items
+    }
 
     //Modal close isssue
   })
