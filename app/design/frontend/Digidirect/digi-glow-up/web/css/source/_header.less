@@ -290,39 +290,6 @@ ul.slick-dots {
         height: 50px !important;
     }
 
-    .hellobar.wrapper {
-       // padding: 0;
-       // height: 31px;
-    }
-
-    .hellobar-slider {
-        display: block !important;
-    }
-
-    .hellobar-slider .hellobar-slides {
-        font-size: 12px;
-    }
-
-    .hellobar-slider .hellobar-slide.active {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .hellobar-slider .hellobar-dots {
-        padding: 0;
-        margin-right: 0;
-        margin-left: auto;
-        justify-content: center;
-        align-items: center;
-        gap: 2px !important;
-    }
-
-    .hellobar-slider .hellobar-dots .hellobar-dot {
-        width: 4px !important;
-        height: 4px !important;
-    }
-
     .logo img {
         width: 116px !important;
     }
@@ -335,12 +302,24 @@ ul.slick-dots {
     .minicart-wrapper a span {
         display: none;
     }
+
+    .minicart-wrapper .action.showcart .counter.qty {
+        top: 2px;
+        right: -1px;
+        width: 11px;
+        height: 11px;
+    }
     .minicart-wrapper a span.counter-number {
         display: block !important;
+        font-size: 7px;
     }
 
     .minicart-wrapper img {
         width: 21px;
+    }
+
+    .minicart-wrapper .account-icon img {
+        width: 23px !important;
     }
 
     .minicart-wrapper > a {
@@ -349,6 +328,15 @@ ul.slick-dots {
 
     .minicart-wrapper .account-icon {
         top: 0 !important;
+    }
+
+    .minicart-wrapper .wishlist-count {
+        width: 11px;
+        height: 11px;
+        font-size: 7px;
+        font-weight: 400;
+        top: 2px;
+        right: -3px;
     }
 
     input#autocomplete-0-input {
@@ -622,10 +610,12 @@ ul.slick-dots {
     .account-icon {
         display: flex;
         align-items: center;
-        width: 30px;
-        height: 30px;
         position: relative;
         top: 9px;
+
+        img {
+            width: 28px;
+        }
     }
 
     .account-text {
