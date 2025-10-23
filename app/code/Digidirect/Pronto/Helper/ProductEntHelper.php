@@ -1473,9 +1473,23 @@ class ProductEntHelper extends AbstractHelper
                     $imageUrl = "";
                 }
 
-                $costPrice = 0;
-                $costPrice = $product->getCustomAttribute('avg_cost');
-                $costPrice = number_format($costPrice, 2, '.', '');
+                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                $avgcost = 0;
+                $costavg = $product->getCustomAttribute('avg_cost');
+                if(is_null($costavg))
+                {
+                    $avgcost = $regular_price / 1.1;
+                }
+                else
+                {
+                    $avgcost = $costavg->getValue();
+                    if($avgcost == 0)
+                    {
+                        $avgcost = $regular_price / 1.1;
+                    }
+                }
+
+                $avgcost = number_format($avgcost, 2, '.', '');
 
                 $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 
@@ -1497,7 +1511,7 @@ class ProductEntHelper extends AbstractHelper
                 $data[] = $dimensions;
                 $data[] = $warranty;
                 $data[] = $imageUrl;
-                $data[] = $costPrice;
+                $data[] = $avgcost;
                 $data[] = $finalPrice;
 
                 $stream->writeCsv($data);
