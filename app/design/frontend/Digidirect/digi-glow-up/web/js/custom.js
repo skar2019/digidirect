@@ -358,7 +358,7 @@ $(window).on('scroll resize', () => {
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
    ✅ Works together with Owl's 1-Finger native swipe
 ======================== */
-const $carousels = $('.owl-carousel.custom')
+const $carousels = $('.owl-carousel')
 
 $carousels.each(function () {
   const $carousel = $(this)
