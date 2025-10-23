@@ -195,7 +195,7 @@ $(window).on('scroll resize', () => {
       if (count > 5) {
         setTimeout(() => {
           $target.addClass('active')
-        }, 1000)
+        }, 3000)
       }
     }
     
