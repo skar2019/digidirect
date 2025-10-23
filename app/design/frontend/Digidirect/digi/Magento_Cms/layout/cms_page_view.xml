@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceContainer name="page.main.title">
+            <block class="Magento\Cms\Block\Page" name="cms_page_title" template="Magento_Cms::page/title.phtml" />
+        </referenceContainer> 
         <referenceContainer name="content">
             <block class="Magento\Cms\Block\Page" name="cms_page"/>
-        </referenceContainer>
+        </referenceContainer> 
+        <move element="breadcrumbs" destination="content" before="-" />
     </body>
-    <move element="breadcrumbs" destination="content" before="-"/>
 </page>
