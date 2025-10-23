@@ -231,6 +231,15 @@ require(['jquery'], function ($) {
             } else {
                 digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
             }
+                
+            let price = Number(product.prices[0].price);
+            let discountPrice = Number(product.prices[0].discountPrice);
+
+            let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            let discountValue = price - discountPrice;
+            let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
@@ -241,15 +250,6 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
                 }
-                
-                let price = Number(product.prices[0].price);
-                let discountPrice = Number(product.prices[0].discountPrice);
-
-                let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-                let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-
-                let discountValue = price - discountPrice;
-                let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
