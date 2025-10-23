@@ -1353,62 +1353,22 @@ $(function () {
     }
   }, 300);
   
-  //Limit PA Welcome Back Owl Carousel Item To 4
-    const $carousel = $('#welcome-back-widget-mobile')
-    const $items = $carousel.find('.owl-item')
+  //Show PA Welcom Back Widget if Owl Carousel has been initialized.
+  $(document).ready(function () {
+    const $carousel = $('#welcome-back-widget-desktop .owl-carousel')
+    const $target = $('#pa-welcome-back')
 
-    if ($items.length > 4) {
-      $items.slice(4).remove() // Remove extra items
-    }
-    
-    //Force $10 popup to close
-    const POPUP_ID = 13;
-    const POPUP_SELECTOR = '#newspopup_up_bg_' + POPUP_ID;
-    const COOKIE_NAME = 'prnewsletterpopup_disable_popup_' + POPUP_ID;
+    // Hide target initially (in case it's visible)
+    $target.hide()
 
-    // Helper: set cookie fallback if window.setNsCookie not available
-    function setDisableCookie() {
-      try {
-        if (typeof window.setNsCookie === 'function') {
-          // set long expiry (10 years)
-          window.setNsCookie(COOKIE_NAME, 'yes', { expires: 10 * 365 * 24 * 3600, path: '/' });
-        } else {
-          // fallback
-          const d = new Date();
-          d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
-          document.cookie = COOKIE_NAME + "=yes;expires=" + d.toUTCString() + ";path=/";
-        }
-      } catch (err) {
-        console.warn('setDisableCookie error', err);
-      }
-    }
+    // Wait for Owl Carousel initialization
+    $carousel.on('initialized.owl.carousel', function () {
+      console.log('Owl Carousel initialized! Showing #pa-welcome-back')
+      $target.show() // or use .fadeIn(300) if you want a smooth reveal
+    })
 
-    // 1) Close on click — strong hide + remove after tiny delay
-    $(document).on('click', POPUP_SELECTOR + ' .cross', function (e) {
-      e.preventDefault();
+  })
 
-      // immediate defensive hide
-      const $popup = $(POPUP_SELECTOR);
-      $popup.stop(true, true).css({
-        transition: 'none',
-        opacity: 0,
-        display: 'none',
-        visibility: 'hidden'
-      }).remove();
-
-      // remove blur/overlay classes if present
-      $('body').removeClass('newspopup_ov_hidden');
-      $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
-
-      // set cookie so plugin won't load it again
-      setDisableCookie();
-
-      // small timeout to catch any plugin callbacks that attempt to re-show
-      setTimeout(function () {
-        // final remove
-        $(POPUP_SELECTOR).remove();
-      }, 50);
-    });
 
   })
 })
