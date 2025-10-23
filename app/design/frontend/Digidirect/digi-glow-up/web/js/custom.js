@@ -286,7 +286,7 @@ $(window).on('scroll resize', () => {
 
      waitForOwlInit(() => {
        if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-         //$('.page-wrapper').before($paWelcomeBack)
+         $('.page-wrapper').before($paWelcomeBack)
          console.log('✅ Repositioned #pa-welcome-back after Owl init')
        }
      })
