@@ -286,7 +286,7 @@ $(window).on('scroll resize', () => {
 
      waitForOwlInit(() => {
        if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-         $('.page-wrapper').before($paWelcomeBack)
+         //$('.page-wrapper').before($paWelcomeBack)
          console.log('✅ Repositioned #pa-welcome-back after Owl init')
        }
      })
@@ -1410,85 +1410,5 @@ $(function () {
       }, 50);
     });
 
-    // 2) Block prnewsletterPopup.show for this popup id (monkey patch when plugin available)
-    // Keep trying until prnewsletterPopup exists (or up to N attempts)
-    (function patchPrNewsletterShow(maxAttempts = 20, delay = 300) {
-      let attempts = 0;
-      const interval = setInterval(function () {
-        attempts++;
-        if (window.prnewsletterPopup && typeof window.prnewsletterPopup.show === 'function') {
-          // wrap original
-          const origShow = window.prnewsletterPopup.show.bind(window.prnewsletterPopup);
-          window.prnewsletterPopup.show = function () {
-            const args = Array.from(arguments);
-            const idArg = (args.length && typeof args[0] === 'number') ? args[0] : 0;
-            // If id isn't provided and plugin uses firstId internal, attempt to block POPUP_ID only
-            if (idArg === POPUP_ID) {
-              console.info('Blocked prnewsletterPopup.show(' + POPUP_ID + ')');
-              return false;
-            }
-            // fallback - call original for all others
-            return origShow.apply(this, arguments);
-          };
-          clearInterval(interval);
-        } else if (attempts >= maxAttempts) {
-          clearInterval(interval);
-        }
-      }, delay);
-    })();
-
-    // 3) MutationObserver: remove the popup immediately if inserted later
-    if (window.MutationObserver) {
-      const observer = new MutationObserver(function (mutations) {
-        for (const m of mutations) {
-          if (m.addedNodes && m.addedNodes.length) {
-            for (const n of m.addedNodes) {
-              // check element itself
-              if (n.nodeType === 1) {
-                if ($(n).is(POPUP_SELECTOR) || $(n).find(POPUP_SELECTOR).length) {
-                  // remove it
-                  $(POPUP_SELECTOR).stop(true, true).remove();
-                  $('body').removeClass('newspopup_ov_hidden');
-                  $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
-                  setDisableCookie();
-                }
-              }
-            }
-          }
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
-    }
-
-    // 4) Immediate CSS fallback (highest priority)
-    // This prevents CSS/inline style show from actually making it visible.
-    const css = `
-      ${POPUP_SELECTOR} { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
-      ${POPUP_SELECTOR} * { pointer-events: none !important; }
-    `;
-    $('<style type="text/css">' + css + '</style>').appendTo('head');
-
-    // 5) Remove any existing instance on load (just-in-case)
-    $(function () {
-      $(POPUP_SELECTOR).remove();
-    });
-
-    //Modal remove animation
-    $(document).on('modalcreated', function (event, modal) {
-        if (modal.options) {
-          // Disable fade animations
-          modal.options.fade = false
-          modal.options.transition = '' // just in case
-        }
-      })
-
-      // Ensure modalclose/remove happens instantly
-      $(document).on('modalclosed', function () {
-        $('.modal-popup').stop(true, true).hide().removeClass('_show _hidden')
-        $('.modals-overlay').stop(true, true).hide().removeClass('_show _active')
-        $('body').removeClass('_has-modal')
-      })
-  
   })
 })
