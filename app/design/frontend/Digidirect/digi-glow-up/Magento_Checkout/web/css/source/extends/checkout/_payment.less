@@ -696,6 +696,24 @@ input[name="payment[latipay_method]"]:after{
     .checkout-payment-method .step-title {
         padding-left: 0 !important;
     }
+
+    #co-payment-form .payment-method-title.field.choice label::after {
+        max-width: 50% !important;
+    }
+
+    #co-payment-form .payment-group {
+        margin: 0 15px !important;
+        max-width: 93% !important;
+    }
+
+    .checkout-index-index .payment-method:has(#latipay) .latipay-main-label::after {
+        position: relative;
+        top: 9px;
+    }
+
+    .checkout-index-index .afterpay .choice::after {
+        height: 40px !important;
+    }
 }
 
 

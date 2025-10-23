@@ -32,6 +32,10 @@
     input[type="radio"]:checked::after {
         background: #000000 !important;
     }
+
+    input[type="radio"]:disabled {
+        opacity: 1 !important;
+    }
 }
 
 .wrap-block .link.-collect.action.primary {
@@ -242,5 +246,23 @@
         .shipping-address-item {
             height: 250px !important;
         }
+    }
+
+    .checkout-shipping-method {
+        .methods-shipping li {
+            margin: 0 !important;
+        }
+
+        .row.standard {
+            margin-top: 10px;
+        }
+
+        .row.express {
+            margin-bottom: 10px;
+        }
+    }
+
+    #opc-shipping_method .methods-shipping ul.table-checkout-shipping-method {
+        gap: 5px !important;
     }
 }
