@@ -195,7 +195,7 @@ $(window).on('scroll resize', () => {
       if (count > 5) {
         setTimeout(() => {
           $target.addClass('active')
-        }, 3000)
+        }, 1000)
       }
     }
     
@@ -1332,7 +1332,27 @@ $(function () {
     if ($items.length > 4) {
       $items.slice(4).remove() // Remove extra items
     }
+    
+    //Force remove $10 pop up
+    $(document).on('click', '#newspopup_up_bg_13 .newspopup-up-form.newspopup-theme .cross', function () {
+        $('#newspopup_up_bg_13').remove()
+      })
 
-    //Modal close isssue
+    //Modal remove animation
+    $(document).on('modalcreated', function (event, modal) {
+        if (modal.options) {
+          // Disable fade animations
+          modal.options.fade = false
+          modal.options.transition = '' // just in case
+        }
+      })
+
+      // Ensure modalclose/remove happens instantly
+      $(document).on('modalclosed', function () {
+        $('.modal-popup').stop(true, true).hide().removeClass('_show _hidden')
+        $('.modals-overlay').stop(true, true).hide().removeClass('_show _active')
+        $('body').removeClass('_has-modal')
+      })
+  
   })
 })
