@@ -466,10 +466,10 @@ define([
 
                 $('body').removeClass('newspopup_ov_hidden');
                 // Don't hide success message for widget template. Let it for button "Ok"
-                if (! $popup.hasClass('pr-mode-form')) {
+                //if (! $popup.hasClass('pr-mode-form')) {
                     $popup.hide();
-                }
-
+                //}
+                console.log("popUpClose!");
                 setCookieForDisable();
             }
 

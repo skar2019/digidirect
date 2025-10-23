@@ -536,7 +536,6 @@ require(['jquery'], function ($) {
     productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
     productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTile('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
-    productTile('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-mobile', false);
 
     if (customerId && sessionId) {
         $("#pa-blue-right-side-widget .product-item-info.product-item:not(.slot)").each(function() {
@@ -1003,6 +1002,42 @@ require(['jquery'], function ($) {
                 },
                 1550: {
                     items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
+        
+        $(".owl-carousel.welcome").owlCarousel({
+            loop: false,
+            nav: true,
+            margin: 15,
+            touchDrag: true,
+            mouseDrag: true,
+            smartSpeed: 800,
+            slideBy: 1,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 4
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 4
                 }
             },
             dots: false,
@@ -1562,8 +1597,7 @@ require(['jquery'], function ($) {
                 <div class="welcome-back" style="text-align: center; color: #242426; font-size: 32px; font-weight: 500;">Welcome Back!</div>
                 <div class="continue-shopping" style="text-align: center; color: #242426; font-size: 64px; font-weight: 600;">Continue Shopping</div>
             </div>
-            <div id="welcome-back-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container"></div>
-            <div id="welcome-back-widget-mobile" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
+            <div id="welcome-back-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel welcome"></div>
         </div>
     </div>
 </div>
