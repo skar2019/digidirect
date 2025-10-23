@@ -57,11 +57,13 @@ body.modal-open {
 }
 
 .service-card {
-    padding: 20px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 0 15px 0 0;
+    margin: 15px;
     display: flex;
     align-items: center;
     gap: 15px;
+    background-color: #fff;
+    border-radius: 15px;
 }
 
 .service-card:last-child {
@@ -69,8 +71,8 @@ body.modal-open {
 }
 
 .service-image {
-    width: 120px;
-    height: 160px;
+    width: 140px;
+    height: 200px;
     min-width: 120px;
     object-fit: cover;
     border-top-left-radius: 10px;
@@ -104,6 +106,7 @@ body.modal-open {
     margin-bottom: 12px;
     text-align: center;
     font-size: 13px;
+    padding: 0px 12px;
 }
 
 .cta-button {
@@ -185,7 +188,7 @@ body.modal-open {
     .mobile-modal .mobile-modal-close {
         background: none;
         border: none;
-        font-size: 40px;
+        font-size: 20px;
         color: #000;
         font-weight: 100;
     }
@@ -330,6 +333,7 @@ body.modal-open {
         max-height: 80vh;
         transform: scale(0.9);
         opacity: 0;
+        background: #FAFAFC;
     }
 
     .mobile-modal.active .mobile-modal-container {
@@ -339,16 +343,14 @@ body.modal-open {
 
     .mobile-modal-header {
         padding: 20px;
-        border-bottom: 1px solid #e0e0e0;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-shrink: 0;
         position: sticky;
         top: 0;
-        background: #fff;
+        background: #FAFAFC;
         z-index: 10;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .mobile-modal-title {
