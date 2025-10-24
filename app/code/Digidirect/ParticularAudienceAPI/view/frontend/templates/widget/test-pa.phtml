@@ -200,7 +200,7 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
                 }
-                
+
                 let price = Number(product.prices[0].price);
                 let discountPrice = Number(product.prices[0].discountPrice);
 
@@ -1008,7 +1008,7 @@ require(['jquery'], function ($) {
             autoplay: false,
             autoplayTimeout: 3000
         });
-        
+
         $(".owl-carousel.welcome").owlCarousel({
             loop: false,
             nav: true,
@@ -1165,7 +1165,7 @@ require(['jquery'], function ($) {
             stagePadding: 0,
             video: true,
             lazyLoad: true,
-            freeDrag: true, 
+            freeDrag: true,
             touchDrag: false,
             mouseDrag: false,
             slideBy: 1,
@@ -1302,6 +1302,9 @@ require(['jquery'], function ($) {
 <div class="homepage-row" style="padding: 30px 0 40px;">
     <div class="glow-up-promotions">
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('promotions-glow-up')->toHtml(); ?>
+    </div>
+    <div class="glow-up-promotions-mobile">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('promotions-glow-up-mobile')->toHtml(); ?>
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">
