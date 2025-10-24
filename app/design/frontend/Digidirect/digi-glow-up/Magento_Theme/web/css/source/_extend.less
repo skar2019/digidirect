@@ -943,7 +943,7 @@ body.blur-active .global-blur-overlay {
     z-index: 10000;
 }
 
-.owl-nav button.owl-next {
+#welcome-back-widget-desktop .owl-nav button.owl-next {
     position: fixed;
     border-radius: 50%;
     backdrop-filter: blur(10px);
@@ -1124,7 +1124,15 @@ body.blur-active .global-blur-overlay {
         object-fit: contain;
         max-height: 35px;
     }
+    
+    //Featured Videos
+    .owl-carousel.featured-videos .item-video {
+        height: 231px !important;
+    }
 
+    .owl-carousel.featured-videos .owl-video-tn {
+        margin-top: -10px !important;
+    }
 }
 
 @media screen and (min-width: 768px) {
