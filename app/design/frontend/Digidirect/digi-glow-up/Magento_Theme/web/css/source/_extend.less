@@ -420,6 +420,14 @@ a.action.towishlist {
 .owl-carousel {
     will-change: transform;
     transition: transform 0.3s ease-out;
+    white-space: nowrap;
+}
+
+.owl-carousel .owl-item {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
 }
 
 .owl-carousel .owl-video-play-icon:hover {
@@ -531,6 +539,7 @@ a.action.towishlist {
     position: relative;
     text-decoration: none;
     color: #242426;
+    white-space: normal;
 }
 
 .pa-digidirect-product-widget .s19-rental-price-target {

@@ -235,13 +235,13 @@ define([
                 case 'on_page_scroll':
                     var actScroll = true;
                     $(window).on('scroll', function () {
-                        if (!actScroll) {
+                        /*if (!actScroll) {
                             return;
                         }
                         if ($(window).scrollTop() / ($(document).height() - $(window).height()) >= settings.page_scroll / 100 ) {
                             _this.show(settings.id);
                             actScroll = false;
-                        }
+                        }*/
                     });
                     break;
                 case 'on_mouseover':
