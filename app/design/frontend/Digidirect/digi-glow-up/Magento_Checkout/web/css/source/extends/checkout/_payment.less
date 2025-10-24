@@ -724,6 +724,24 @@ input[name="payment[latipay_method]"]:after{
         width: 120px !important;
         height: 50px !important;
     }
+
+    #checkout-step-payment .billing-address-form {
+        .field:has(input[name="firstname"]),
+        .field:has(select[name="country_id"]),
+        .field:has(input[name="city"]){
+            width: 100% !important;
+        }
+
+        .field:has(input[name="lastname"]),
+        .field:has(select[name="region_id"]),
+        .field:has(input[name="postcode"]){
+            width: 100% !important;
+        }
+    }
+
+    #checkout-step-payment .checkout-payment-method .checkout-billing-address .billing-address-form .action-cancel {
+        margin-right: 10px !important;
+    }
 }
 
 
