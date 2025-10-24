@@ -169,7 +169,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
                 </clipPath>
             </defs>
         </svg>
-        <span class="nav-label">Account</span>
+        <span class="nav-label"><?php if ($isCustomerLoggedIn) echo 'Account'; else echo 'Login'; ?></span>
     </button>
 </nav>
 
@@ -195,7 +195,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
                     <li class="nav item"><a href="<?= $block->getUrl('wishlist/')?>">Wishlist</a></li>
                     <li class="nav item -icon -account-wishlist"><!-- li--></li>
                     <li class="nav item"><a href="<?= $block->getUrl('sales/order/history/')?>">My Orders</a></li>
-                    <li class="nav item"><a href="http://digistaging.dev.local/giftcard/customer/">Gift Card</a></li>
+                    <li class="nav item"><a href="<?= $block->getUrl('giftcard/customer/')?>">Gift Card</a></li>
                     <li class="nav item -icon -account-gift"><!-- li--></li>
                     <li class="nav item"><a href="<?= $block->getUrl('newsletter/manage')?>">Newsletter Subscription</a></li>
                     <li class="nav item -icon -newsletter"><!-- li--></li>
