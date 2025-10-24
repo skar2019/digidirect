@@ -456,7 +456,9 @@ define([
             });
 
             var popupClose = function () {
+                $('body').removeClass('newspopup_ov_hidden newspopup_ov_hidden-13')
                 $('#newspopup_up_bg_13').remove();
+                $('.page-wrapper').removeClass('newspopup-blur newspopup-blur-13')
                 for (var i=0; i<_dublicateClasses.length; i++) {
                     var cl = _dublicateClasses[i]+'-'+_this.currentPopupId;
                     $('.'+cl).removeClass(cl);
