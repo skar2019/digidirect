@@ -1048,13 +1048,13 @@ body.blur-active .global-blur-overlay {
     }
 
     #refine-toggle {
-        margin: 0;
+        margin: 0 !important;
         border-radius: 999px;
-        background: #FE4C25;
+        background: #fe4c25;
         color: #fff;
-        border: 0;
+        border: 0 !important;
         padding: 8px 16px;
-        line-height: 21px;
+        line-height: 21px !important;
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
@@ -1063,6 +1063,10 @@ body.blur-active .global-blur-overlay {
 
     .sort-by-label.pull-left {
         display: none;
+    }
+    
+    .ais-Hits-list {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
