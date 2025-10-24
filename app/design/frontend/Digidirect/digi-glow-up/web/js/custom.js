@@ -9,16 +9,6 @@ define([
 
   $(function () {
     
-    /* ========================
-   ✅ Remove pointer events from nav
-======================== */
-    $(window).on('load', function () {
-        setTimeout(function () {
-          $('.ruby-wrapper').removeAttr('style')
-          $('<style>.ruby-menu-demo-header::after { content: none !important; }</style>').appendTo('head')
-        }, 2000)
-    })
-    
       /* ========================
    ✅ Sticky Header (Self-correcting)
 ======================== */
@@ -185,66 +175,73 @@ $(window).on('scroll resize', () => {
     }
 
     /* ========================
-       ✨ Sync #pa-welcome-back with Body Blur
+✨ Sync #pa-welcome-back with Body Blur
+    Show only once every 6 hours
     ======================== */
     const $container = $('#welcome-back-widget-desktop')
     const $target = $('#pa-welcome-back')
 
-    if ($container.length && $target.length) {
+    // 6 hours in milliseconds
+    const SIX_HOURS = 6 * 60 * 60 * 1000
+    const now = Date.now()
+    const lastShown = localStorage.getItem('welcomeBackLastShown')
+
+    // Check if widget should be shown
+    const canShow = !lastShown || now - parseInt(lastShown, 10) > SIX_HOURS
+
+    if ($container.length && $target.length && canShow) {
       const count = $container.find('.product-item-info').length
       if (count > 5) {
         setTimeout(() => {
           $target.addClass('active')
+          localStorage.setItem('welcomeBackLastShown', Date.now()) // record time
         }, 1000)
       }
     }
-    
+
     function toggleOverlay() {
-        if ($('#pa-welcome-back').hasClass('active')) {
-          $('.page-wrapper').addClass('has-overlay');
-          $('body').addClass('overlay-active');
-        } else {
-          $('.page-wrapper').removeClass('has-overlay');
-          $('body').removeClass('overlay-active');
-        }
+      if ($('#pa-welcome-back').hasClass('active')) {
+        $('.page-wrapper').addClass('has-overlay')
+        $('body').addClass('overlay-active')
+      } else {
+        $('.page-wrapper').removeClass('has-overlay')
+        $('body').removeClass('overlay-active')
       }
+    }
 
-      // Run once on page load
-      toggleOverlay();
+    // Run once on page load
+    toggleOverlay()
 
-      // Optional: If the 'active' class might change dynamically later
-      // you can run this on a timer or bind to your app’s logic
-      // Here's an example using a MutationObserver with jQuery syntax:
+    // Observe dynamic class changes
+    const target = document.querySelector('#pa-welcome-back')
+    if (target) {
+      new MutationObserver(toggleOverlay).observe(target, {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+    }
 
-      const target = document.querySelector('#pa-welcome-back');
-      if (target) {
-        new MutationObserver(toggleOverlay).observe(target, {
-          attributes: true,
-          attributeFilter: ['class']
-        });
-      }
-    
     function toggleWelcomeBackBlur() {
-        const $target = $('#pa-welcome-back')
-        const isActive = $target.hasClass('active')
+      const $target = $('#pa-welcome-back')
+      const isActive = $target.hasClass('active')
 
-        if (isActive) {
-          $('body').addClass('blur-active pa-welcome-active')
-        } else {
-          $('body').removeClass('pa-welcome-active')
+      if (isActive) {
+        $('body').addClass('blur-active pa-welcome-active')
+      } else {
+        $('body').removeClass('pa-welcome-active')
 
-          // Only remove blur if no other blur source is active
-          if (
-            !$('.aa-Panel').length &&
-            !$('.ruby-menu-mega-blog:hover').length &&
-            !$('#pa-welcome-back.active').length
-          ) {
-            $('body').removeClass('blur-active')
-          }
+        // Only remove blur if no other blur source is active
+        if (
+          !$('.aa-Panel').length &&
+          !$('.ruby-menu-mega-blog:hover').length &&
+          !$('#pa-welcome-back.active').length
+        ) {
+          $('body').removeClass('blur-active')
         }
-
-        if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
       }
+
+      if (typeof positionBlurOverlay === 'function') positionBlurOverlay()
+    }
 
 
     // Observe #pa-welcome-back for .active changes
@@ -709,7 +706,7 @@ if ($mobileMenuClose.length) {
 ======================== */
 (function () {
   function moveAllNavsToBody() {
-    $('.owl-carousel').each(function (index) {
+    $('.owl-carousel').not('.welcome').each(function (index) {
       const $carousel = $(this)
       const $nav = $carousel.find('.owl-nav')
       if (!$nav.length || $nav.data('moved')) return

@@ -918,6 +918,50 @@ body.blur-active .global-blur-overlay {
     word-wrap: break-word;
 }
 
+#welcome-back-widget-desktop .owl-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+#welcome-back-widget-desktop .owl-nav button.owl-prev {
+    position: fixed;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#welcome-back-widget-desktop .owl-nav button.owl-next {
+    position: fixed;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#welcome-back-widget-desktop .owl-carousel .owl-prev:before, 
+#welcome-back-widget-desktop .owl-carousel .owl-next:before {
+    display: none;
+}
+
 @media screen and (max-width: 1512px) {
 
     .pa-digidirect-product-widget .product-widget-header {
@@ -1048,13 +1092,13 @@ body.blur-active .global-blur-overlay {
     }
 
     #refine-toggle {
-        margin: 0;
+        margin: 0 !important;
         border-radius: 999px;
-        background: #FE4C25;
+        background: #fe4c25;
         color: #fff;
-        border: 0;
+        border: 0 !important;
         padding: 8px 16px;
-        line-height: 21px;
+        line-height: 21px !important;
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
@@ -1064,7 +1108,31 @@ body.blur-active .global-blur-overlay {
     .sort-by-label.pull-left {
         display: none;
     }
+    
+    .ais-Hits-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    //Brands
+    #glow-up-brands .owl-item {
+        border-radius: 8.1px !important;
+        height: 77px !important;
+    }
+    
+    #glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
+        max-width: 50px;
+        object-fit: contain;
+        max-height: 35px;
+    }
+    
+    //Featured Videos
+    .owl-carousel.featured-videos .item-video {
+        height: 231px !important;
+    }
 
+    .owl-carousel.featured-videos .owl-video-tn {
+        margin-top: -10px !important;
+    }
 }
 
 @media screen and (min-width: 768px) {

@@ -712,7 +712,35 @@ input[name="payment[latipay_method]"]:after{
     }
 
     .checkout-index-index .afterpay .choice::after {
-        height: 40px !important;
+        width: 68px !important;
+        height: 50px !important;
+    }
+
+    .checkout-index-index #method-latitude label:after {
+        width: 130px !important;
+    }
+
+    .checkout-index-index .payment-method:has(#banktransfer) .label:after {
+        width: 120px !important;
+        height: 50px !important;
+    }
+
+    #checkout-step-payment .billing-address-form {
+        .field:has(input[name="firstname"]),
+        .field:has(select[name="country_id"]),
+        .field:has(input[name="city"]){
+            width: 100% !important;
+        }
+
+        .field:has(input[name="lastname"]),
+        .field:has(select[name="region_id"]),
+        .field:has(input[name="postcode"]){
+            width: 100% !important;
+        }
+    }
+
+    #checkoutSteps .checkout-payment-method .billing-address-form .action-cancel {
+        margin-right: 10px !important;
     }
 }
 
