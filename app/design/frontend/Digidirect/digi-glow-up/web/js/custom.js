@@ -260,37 +260,12 @@ $(window).on('scroll resize', () => {
     //toggleWelcomeBackBlur()
 
     /* ========================
-        🌐 Reposition #pa-welcome-back (after Owl Carousel init)
+        🌐 Reposition #pa-welcome-back
      ======================== */
      const $paWelcomeBack = $('#pa-welcome-back')
-     const $owl = $('#welcome-back-widget-mobile')
-
-     // Wait until Owl Carousel is initialized
-     function waitForOwlInit(callback) {
-       const maxAttempts = 20
-       let attempts = 0
-
-       const interval = setInterval(() => {
-         attempts++
-
-         // Owl adds 'owl-loaded' class after init
-         if ($owl.hasClass('owl-loaded')) {
-           clearInterval(interval)
-           callback()
-         } else if (attempts >= maxAttempts) {
-           clearInterval(interval)
-           console.warn('Owl Carousel not initialized after waiting.')
-         }
-       }, 200) // check every 200ms
+     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
+       $('.page-wrapper').before($paWelcomeBack)
      }
-
-     waitForOwlInit(() => {
-       if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-         $('.page-wrapper').before($paWelcomeBack)
-         console.log('✅ Repositioned #pa-welcome-back after Owl init')
-       }
-     })
-
 
      /* ========================
         ❌ Close Welcome Back & Remove Blur
@@ -832,10 +807,8 @@ function replaceCarouselArrows() {
     const $carousel = $(this)
     const $prev = $carousel.find('.owl-prev span[aria-label="Previous"]')
     const $next = $carousel.find('.owl-next span[aria-label="Next"]')
-
-    // Replace only if not already replaced with an SVG
-    if ($prev.length && !$prev.find('svg').length) $prev.replaceWith(prevSVG)
-    if ($next.length && !$next.find('svg').length) $next.replaceWith(nextSVG)
+    if ($prev.length) $prev.replaceWith(prevSVG)
+    if ($next.length) $next.replaceWith(nextSVG)
   })
 
   /* 🧊 Slick Slider (Magento PageBuilder) */
@@ -849,7 +822,6 @@ function replaceCarouselArrows() {
     if ($next.length && !$next.find('svg').length) $next.html(nextSVG)
   })
 }
-
 
 /* Run once on DOM ready and again after sliders initialize */
 $(document).ready(function () {
@@ -1352,63 +1324,44 @@ $(function () {
       clearInterval(checkoutBtnInterval);
     }
   }, 300);
-  
-  //Limit PA Welcome Back Owl Carousel Item To 4
-    const $carousel = $('#welcome-back-widget-mobile')
-    const $items = $carousel.find('.owl-item')
 
-    if ($items.length > 4) {
-      $items.slice(4).remove() // Remove extra items
-    }
-    
-    //Force $10 popup to close
-    const POPUP_ID = 13;
-    const POPUP_SELECTOR = '#newspopup_up_bg_' + POPUP_ID;
-    const COOKIE_NAME = 'prnewsletterpopup_disable_popup_' + POPUP_ID;
-
-    // Helper: set cookie fallback if window.setNsCookie not available
-    function setDisableCookie() {
-      try {
-        if (typeof window.setNsCookie === 'function') {
-          // set long expiry (10 years)
-          window.setNsCookie(COOKIE_NAME, 'yes', { expires: 10 * 365 * 24 * 3600, path: '/' });
-        } else {
-          // fallback
-          const d = new Date();
-          d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
-          document.cookie = COOKIE_NAME + "=yes;expires=" + d.toUTCString() + ";path=/";
-        }
-      } catch (err) {
-        console.warn('setDisableCookie error', err);
+    //Modal close isssue
+    // 🧩 Intercept and kill Magento's fade animations globally
+  $.widget('mage.modal', $.mage.modal, {
+    _fade: function (isIn, callback) {
+      // Instantly toggle visibility — no animation delay
+      if (isIn) {
+        this.element.show()
+      } else {
+        this.element.hide()
       }
-    }
+      console.log("callback");
+      if (typeof callback === 'function') callback.call(this)
+    },
+  })
 
-    // 1) Close on click — strong hide + remove after tiny delay
-    $(document).on('click', POPUP_SELECTOR + ' .cross', function (e) {
-      e.preventDefault();
-
-      // immediate defensive hide
-      const $popup = $(POPUP_SELECTOR);
-      $popup.stop(true, true).css({
-        transition: 'none',
-        opacity: 0,
-        display: 'none',
-        visibility: 'hidden'
-      }).remove();
-
-      // remove blur/overlay classes if present
-      $('body').removeClass('newspopup_ov_hidden');
-      $('.page-wrapper,#wrapper,#wrap,.wrapper').removeClass('newspopup-blur');
-
-      // set cookie so plugin won't load it again
-      setDisableCookie();
-
-      // small timeout to catch any plugin callbacks that attempt to re-show
-      setTimeout(function () {
-        // final remove
-        $(POPUP_SELECTOR).remove();
-      }, 50);
-    });
+  // 🧹 Ensure any existing confirm modals also close instantly
+  $(document)
+    .on('modalclosed', function () {
+      console.log("modalclosed");
+      $('.modal-popup.confirm').each(function () {
+        const $modal = $(this)
+        $modal.stop(true, true).hide().removeClass('_show _hidden')
+      })
+      $('.modals-overlay').removeClass('_show _active').hide()
+      $('body').removeClass('_has-modal')
+    })
+    .on(
+      'click',
+      '.modal-popup.confirm [data-role="action"], .modal-popup.confirm [data-role="closeBtn"]',
+      function () {
+        console.log("modal on click");
+        const $modal = $(this).closest('.modal-popup.confirm')
+        $modal.stop(true, true).hide().removeClass('_show _hidden')
+        $('.modals-overlay').removeClass('_show _active').hide()
+        $('body').removeClass('_has-modal')
+      }
+    )
 
   })
 })
