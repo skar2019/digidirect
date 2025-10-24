@@ -918,6 +918,50 @@ body.blur-active .global-blur-overlay {
     word-wrap: break-word;
 }
 
+#welcome-back-widget-desktop .owl-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+#welcome-back-widget-desktop .owl-nav button.owl-prev {
+    position: fixed;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.owl-nav button.owl-next {
+    position: fixed;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#welcome-back-widget-desktop .owl-carousel .owl-prev:before, 
+#welcome-back-widget-desktop .owl-carousel .owl-next:before {
+    display: none;
+}
+
 @media screen and (max-width: 1512px) {
 
     .pa-digidirect-product-widget .product-widget-header {
@@ -1067,6 +1111,18 @@ body.blur-active .global-blur-overlay {
     
     .ais-Hits-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    //Brands
+    #glow-up-brands .owl-item {
+        border-radius: 8.1px !important;
+        height: 77px !important;
+    }
+    
+    #glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
+        max-width: 50px;
+        object-fit: contain;
+        max-height: 35px;
     }
 
 }
