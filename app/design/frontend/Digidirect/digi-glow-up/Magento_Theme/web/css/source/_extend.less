@@ -1077,10 +1077,10 @@ body.blur-active .global-blur-overlay {
     
     //PLP
     
-    .breadcrumbs {
+    .catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
         max-width: unset;
         width: 100%;
-        margin: 15px;
+        padding-left: 15px;
     }
 
     .catalog-category-view .page-title-wrapper, .catalogsearch-result-index .page-title-wrapper {
@@ -1111,6 +1111,36 @@ body.blur-active .global-blur-overlay {
     
     .ais-Hits-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    #algolia_instant_selector .col-md-9 {
+        width: 100% !important;
+    }
+
+    li.ais-Hits-item {
+        overflow: hidden;
+    }
+
+    #instant-search-pagination-container,
+    .ais-Pagination {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .ais-Pagination-list {
+        display: flex;
+        flex-wrap: wrap;          
+        justify-content: center;  
+        gap: 8px;                 
+        padding: 0;
+        margin: 0 auto;
+        list-style: none;
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .ais-Pagination-item {
+        flex: 0 0 auto;           
     }
     
     //Brands
