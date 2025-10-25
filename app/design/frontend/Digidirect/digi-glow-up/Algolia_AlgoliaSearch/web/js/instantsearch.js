@@ -1404,7 +1404,52 @@ define([
                 }
 
                 // run after InstantSearch render
-                search.on('render', attachClamp)
+                search.on('render', attachClamp);
+                
+                const $infos = $('.algolia-infos')
+                const $refineToggle = $('#refine-toggle')
+                const $customRefinement = $('#algolia-custom-refinement')
+
+                const $hitsPerPage = $('.hits-per-page-container')
+                const $pagination = $('#instant-search-pagination-container')
+                const $viewToggle = $('.ais-ViewToggle')
+
+                function moveElements() {
+                    const isMobile = $(window).width() <= 768
+
+                    // ==============================
+                    // Move algolia-infos
+                    // ==============================
+                    if (isMobile) {
+                        // Move after refine-toggle (mobile)
+                        if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
+                          $infos.insertAfter($refineToggle)
+                        }
+                    } else {
+                        // Move back before algolia-custom-refinement (desktop)
+                        if ($infos.next()[0] !== $customRefinement[0]) {
+                          $infos.insertBefore($customRefinement)
+                        }
+                    }
+
+                    // ==============================
+                    // Move hits-per-page-container
+                    // ==============================
+                    if (isMobile) {
+                        // Move before pagination (mobile)
+                        if ($hitsPerPage.next()[0] !== $pagination[0]) {
+                          $hitsPerPage.insertBefore($pagination)
+                        }
+                    } else {
+                        // Move back before .ais-ViewToggle (desktop)
+                        if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
+                          $hitsPerPage.insertBefore($viewToggle)
+                        }
+                    }
+                }
+
+                // Run once on load
+                moveElements()
 
             })
 
