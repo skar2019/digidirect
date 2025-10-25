@@ -75,10 +75,10 @@ a:visited, .alink:visited, a, .alink {
             height: 40px !important;
         }
 
-        .customer-address-form .name-container, .customer-address-form .address-raw, .customer-address-form .country-raw {
+        /*.customer-address-form .name-container, .customer-address-form .address-raw, .customer-address-form .country-raw {
             display: flex !important;
             flex-direction: column !important;
-        }
+        }*/
 
         .fieldset .field.password {
             align-items: flex-start !important;
@@ -117,6 +117,23 @@ a:visited, .alink:visited, a, .alink {
     .account .block-content .box-content, .account .block-content .box-actions {
         margin-left: 20px;
     }
+
+    .customer-address-form .name-container{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .customer-address-form .field .control {
+        margin-top: 0 !important;
+    }
+
+    .customer-address-form .address-raw {
+        width: 48% !important;
+    }
+    .customer-address-form .country-raw {
+        width: 90% !important;
+    }
+
 }
 
 .message.info {
