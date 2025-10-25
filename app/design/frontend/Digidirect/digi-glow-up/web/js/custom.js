@@ -1362,55 +1362,108 @@ $(function () {
     
     //Reposition on mobile view
     
+    (function ($) {
+    // debounce helper
+    function debounce(fn, wait) {
+      let t
+      return function () {
+        clearTimeout(t)
+        t = setTimeout(() => fn.apply(this, arguments), wait)
+      }
+    }
+
     $(function () {
-        const $infos = $('.algolia-infos')
-        const $refineToggle = $('#refine-toggle')
-        const $customRefinement = $('#algolia-custom-refinement')
+      const $infos = $('.algolia-infos')
+      const $refineToggle = $('#refine-toggle')
+      const $customRefinement = $('#algolia-custom-refinement')
 
-        const $hitsPerPage = $('.hits-per-page-container')
-        const $pagination = $('#instant-search-pagination-container')
-        const $viewToggle = $('.ais-ViewToggle')
+      const $hitsPerPage = $('.hits-per-page-container')
+      const $pagination = $('#instant-search-pagination-container')
+      const $viewToggle = $('.ais-ViewToggle')
 
-        function moveElements() {
-          const isMobile = $(window).width() <= 768
+      // If required elements are missing, stop early (and log)
+      if (!$infos.length && !$hitsPerPage.length) {
+        console.warn('Move script: nothing to move (no .algolia-infos and no .hits-per-page-container)')
+        return
+      }
 
-          // ==============================
-          // Move algolia-infos
-          // ==============================
+      // Create stable placeholders to restore original positions
+      const infosPlaceholderId = 'placeholder-algolia-infos'
+      const hitsPlaceholderId = 'placeholder-hits-per-page'
+
+      if ($infos.length && !document.getElementById(infosPlaceholderId)) {
+        $infos.before(`<span id="${infosPlaceholderId}" class="move-placeholder" style="display:none"></span>`)
+      }
+      if ($hitsPerPage.length && !document.getElementById(hitsPlaceholderId)) {
+        $hitsPerPage.before(`<span id="${hitsPlaceholderId}" class="move-placeholder" style="display:none"></span>`)
+      }
+
+      const $infosPlaceholder = $(`#${infosPlaceholderId}`)
+      const $hitsPlaceholder = $(`#${hitsPlaceholderId}`)
+
+      function moveElements() {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
+
+        // ---- algolia-infos
+        if ($infos.length) {
           if (isMobile) {
-            // Move after refine-toggle (mobile)
-            if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
-              $infos.insertAfter($refineToggle)
+            // move after refine-toggle (mobile). Fallback: append to parent if refine missing
+            if ($refineToggle.length) {
+              if ($infos.prev()[0] !== $refineToggle[0]) $infos.insertAfter($refineToggle)
+            } else {
+              // fallback: append to column left container or to placeholder parent
+              if ($infosPlaceholder.length) $infos.insertAfter($infosPlaceholder)
             }
           } else {
-            // Move back before algolia-custom-refinement (desktop)
-            if ($infos.next()[0] !== $customRefinement[0]) {
-              $infos.insertBefore($customRefinement)
-            }
-          }
-
-          // ==============================
-          // Move hits-per-page-container
-          // ==============================
-          if (isMobile) {
-            // Move before pagination (mobile)
-            if ($hitsPerPage.next()[0] !== $pagination[0]) {
-              $hitsPerPage.insertBefore($pagination)
-            }
-          } else {
-            // Move back before .ais-ViewToggle (desktop)
-            if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
-              $hitsPerPage.insertBefore($viewToggle)
+            // move back to original spot (before algolia-custom-refinement) using placeholder
+            if ($customRefinement.length) {
+              if ($infos.next()[0] !== $customRefinement[0]) $infos.insertBefore($customRefinement)
+            } else if ($infosPlaceholder.length) {
+              // restore to placeholder position
+              if ($infosPlaceholder.next()[0] !== $infos[0]) $infos.insertAfter($infosPlaceholder)
             }
           }
         }
 
-        // Run once on load
-        moveElements()
+        // ---- hits-per-page-container
+        if ($hitsPerPage.length) {
+          if (isMobile) {
+            // move before pagination (mobile). fallback: after placeholder
+            if ($pagination.length) {
+              if ($hitsPerPage.next()[0] !== $pagination[0]) $hitsPerPage.insertBefore($pagination)
+            } else if ($hitsPlaceholder.length) {
+              if ($hitsPlaceholder.next()[0] !== $hitsPerPage[0]) $hitsPerPage.insertAfter($hitsPlaceholder)
+            }
+          } else {
+            // move back before .ais-ViewToggle (desktop), fallback to placeholder
+            if ($viewToggle.length) {
+              if ($hitsPerPage.next()[0] !== $viewToggle[0]) $hitsPerPage.insertBefore($viewToggle)
+            } else if ($hitsPlaceholder.length) {
+              if ($hitsPlaceholder.next()[0] !== $hitsPerPage[0]) $hitsPerPage.insertAfter($hitsPlaceholder)
+            }
+          }
+        }
+      }
 
-        // Re-run on resize
-        $(window).on('resize', moveElements)
-    })    
+      // run once
+      moveElements()
+
+      // debounce and re-run on resize & orientationchange
+      const runner = debounce(moveElements, 120)
+      $(window).on('resize orientationchange', runner)
+
+      // Optional: if algolia renders later, observe parent for added nodes and run the mover
+      const parentToObserve = document.querySelector('#algolia-right-container') || document.body
+      if (parentToObserve) {
+        new MutationObserver(debounce(() => {
+          // re-query elements in case they were created dynamically
+          // (this keeps references fresh if elements were replaced)
+          // Note: keep selectors same names; they are reselected on every moveElements call indirectly
+          moveElements()
+        }, 200)).observe(parentToObserve, { childList: true, subtree: true })
+      }
+    })
+  })
 
   })
 })
