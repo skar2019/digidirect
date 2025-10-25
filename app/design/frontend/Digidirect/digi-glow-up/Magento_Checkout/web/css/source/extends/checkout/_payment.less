@@ -376,6 +376,8 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     background-position: center;
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/credit-card.png');
+    position: relative;
+    left: 4px;
 }
 
 
@@ -386,12 +388,14 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 
 .checkout-index-index .afterpay .choice::after {
     content: "";
-    width: 200px;
+    width: 188px;
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-image: url('@{baseDir}images/checkout/afterpay.png');
+    position: relative;
+    left: 7px;
 }
 
 .checkout-index-index .afterpay .checkout-billing-address .label::after, .checkout-index-index .afterpay .checkout-billing-address .choice::after {
@@ -444,6 +448,8 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     background-size: contain;
     vertical-align: middle;
     background-image: url('@{baseDir}images/checkout/latitude.png');
+    position: relative;
+    left: 10px;
 }
 
 .payment-method.latitude-glowup {
@@ -476,12 +482,15 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 
 .checkout-index-index .payment-method:has(#latipay) .latipay-main-label::after {
     content: "";
-    width: 300px;
-    height: 40px;
+    width: 275px;
+    height: 50px;
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/latipay.png');
     background-repeat: no-repeat;
     display: inline-block;
+    position: relative;
+    top: 10px;
+    left: 16px;
 }
 
 .checkout-index-index .form-latipay .latipay-options-item {
@@ -542,14 +551,16 @@ input[name="payment[latipay_method]"]:after{
 .checkout-index-index  .zipmoney .choice .label::after {
     content: "";
     display: inline-block;
-    width: 90px;
-    height: 40px;
-    margin-right: 15px;
+    width: 80px;
+    height: 50px;
+    //margin-right: 15px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/zip.png');
-
+    position: relative;
+    top: -2px;
+    left: 2px;
 }
 .checkout-index-index .zipmoney .zip-checkout-icon {
     display: none !important;
@@ -562,15 +573,16 @@ input[name="payment[latipay_method]"]:after{
 .checkout-index-index .payment-method:has(#banktransfer) .label::after {
     content: "";
     display: inline-block;
-    width: 150px;
-    height: 40px;
-    margin-right: 10px;
+    width: 175px;
+    height: 50px;
+    //margin-right: 10px;
     vertical-align: middle;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/bank-transfer.png');
-
+    position: relative;
+    left: 10px;
 }
 
 .checkout-index-index .payment-method:has(#banktransfer) .checkout-billing-address .label::after {
@@ -708,7 +720,9 @@ input[name="payment[latipay_method]"]:after{
 
     .checkout-index-index .payment-method:has(#latipay) .latipay-main-label::after {
         position: relative;
-        top: 9px;
+        top: 13px;
+        left: 16px;
+        width: 200px !important;
     }
 
     .checkout-index-index .afterpay .choice::after {
@@ -721,7 +735,16 @@ input[name="payment[latipay_method]"]:after{
 
     .checkout-index-index .payment-method:has(#banktransfer) .label:after {
         width: 120px !important;
-        height: 50px !important;
+       // height: 50px !important;
+    }
+
+    .checkout-index-index .zipmoney .choice .label::after {
+        left: 5px !important;
+    }
+
+    .checkout-index-index .payment-method-braintree .label::after {
+        width: 170px !important;
+        left: 7px !important;
     }
 
     #checkout-step-payment .billing-address-form {
@@ -734,6 +757,10 @@ input[name="payment[latipay_method]"]:after{
         .field:has(input[name="postcode"])
         {
             width: 100% !important;
+        }
+
+        .fieldset>.field>.label {
+            margin: 0 !important;
         }
     }
 
@@ -770,11 +797,11 @@ input[name="payment[latipay_method]"]:after{
         margin-bottom: 10px !important;
     }
 
-    .checkout-billing-address .billing-address-form {
+    /*.checkout-billing-address .billing-address-form {
         .fieldset>.field>.label {
             margin: 0 !important;
         }
-    }
+    }*/
 
     #co-payment-form .payment-method-content .actions-toolbar {
         margin-top: 0 !important;
