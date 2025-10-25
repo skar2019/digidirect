@@ -1414,22 +1414,21 @@ define([
                 const $pagination = $('#instant-search-pagination-container')
                 const $viewToggle = $('.ais-ViewToggle')
 
-                const $facets = $('#instant-search-facets-container')
-                const $leftContainer = $('#algolia-left-container')
-
                 function moveElements() {
+                  const $facets = $('#instant-search-facets-container')
+                  const $leftContainer = $('#algolia-left-container')
                   const isMobile = $(window).width() <= 768
+
+                  if (!$facets.length || !$leftContainer.length) return // wait if not ready
 
                   // ==============================
                   // Move algolia-infos
                   // ==============================
                   if (isMobile) {
-                    // Move after refine-toggle (mobile)
                     if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
                       $infos.insertAfter($refineToggle)
                     }
                   } else {
-                    // Move back before algolia-custom-refinement (desktop)
                     if ($infos.next()[0] !== $customRefinement[0]) {
                       $infos.insertBefore($customRefinement)
                     }
@@ -1439,12 +1438,10 @@ define([
                   // Move hits-per-page-container
                   // ==============================
                   if (isMobile) {
-                    // Move before pagination (mobile)
                     if ($hitsPerPage.next()[0] !== $pagination[0]) {
                       $hitsPerPage.insertBefore($pagination)
                     }
                   } else {
-                    // Move back before .ais-ViewToggle (desktop)
                     if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
                       $hitsPerPage.insertBefore($viewToggle)
                     }
@@ -1454,23 +1451,32 @@ define([
                   // Move instant-search-facets-container
                   // ==============================
                   if (isMobile) {
-                    // Move after algolia-left-container (mobile)
                     if ($facets.prev()[0] !== $leftContainer[0]) {
                       $facets.insertAfter($leftContainer)
                     }
                   } else {
-                    // Move inside algolia-left-container (desktop)
                     if ($facets.parent()[0] !== $leftContainer[0]) {
                       $facets.appendTo($leftContainer)
                     }
                   }
                 }
 
-                // Run on load
-                $(window).on('load', moveElements)
+                // 🔹 Run when DOM is ready
+                $(document).ready(function () {
+                  // Run immediately once
+                  moveElements()
 
-                // Run on resize
-                $(window).on('resize', moveElements)
+                  // Retry a few times in case Algolia renders late
+                  let retries = 0
+                  const interval = setInterval(function () {
+                    moveElements()
+                    retries++
+                    if (retries > 10) clearInterval(interval) // stop after ~2s
+                  }, 200)
+
+                  // Run again when resized
+                  $(window).on('resize', moveElements)
+                })
 
 
             })
