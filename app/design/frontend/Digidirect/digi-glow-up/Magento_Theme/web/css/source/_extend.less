@@ -1014,9 +1014,16 @@ body.blur-active .global-blur-overlay {
     .block.newsletter {
         flex-direction: column;
         gap: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        width: auto;
         .newsletter-left {
             margin-top: 0;
         }
+    }
+    
+    .plp-row.pa-widget {
+        padding: 30px 15px;
     }
 
     //Home
@@ -1103,6 +1110,28 @@ body.blur-active .global-blur-overlay {
         width: 100% !important;
         display: flex
     }
+    
+    .algolia-infos {
+        margin-right: 0;
+        margin-left: auto;
+        gap: 10px;
+    }
+    
+    #instant-search-facets-container {
+        padding: 10px 15px;
+    }
+    
+    .is-widget-container-price_AUD_default .ais-Panel-body {
+        padding: 0 0 10px;
+    }
+    
+    select {
+        color: #000;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #fff;
+    }
 
     #refine-toggle {
         margin: 0 !important;
@@ -1116,6 +1145,9 @@ body.blur-active .global-blur-overlay {
         align-items: center;
         justify-content: center;
         gap: 8px;
+        margin: 6px 0 !important;
+        font-weight: 400;
+        width: 100px;
     }
     
     #refine-toggle svg {
@@ -1125,6 +1157,17 @@ body.blur-active .global-blur-overlay {
 
     .sort-by-label.pull-left {
         display: none;
+    }
+    
+    .hits-per-page-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hits-per-page-container .sort-by-label.pull-left {
+        display: block;
+        margin: 0;
     }
     
     .ais-Hits-list {
