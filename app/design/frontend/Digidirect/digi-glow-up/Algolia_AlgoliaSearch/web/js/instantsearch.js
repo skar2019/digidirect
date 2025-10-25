@@ -1409,7 +1409,6 @@ define([
                 const $infos = $('.algolia-infos')
                 const $refineToggle = $('#refine-toggle')
                 const $customRefinement = $('#algolia-custom-refinement')
-
                 const $hitsPerPage = $('.hits-per-page-container')
                 const $pagination = $('#instant-search-pagination-container')
                 const $viewToggle = $('.ais-ViewToggle')
@@ -1419,7 +1418,10 @@ define([
                   const $leftContainer = $('#algolia-left-container')
                   const isMobile = $(window).width() <= 768
 
-                  if (!$facets.length || !$leftContainer.length) return // wait if not ready
+                  // 🔒 Safety checks
+                  if (!$facets.length || !$leftContainer.length) return
+                  if (!$infos.length || !$refineToggle.length || !$customRefinement.length) return
+                  if (!$hitsPerPage.length || !$pagination.length || !$viewToggle.length) return
 
                   // ==============================
                   // Move algolia-infos
@@ -1461,23 +1463,19 @@ define([
                   }
                 }
 
-                // 🔹 Run when DOM is ready
-                $(document).ready(function () {
-                  // Run immediately once
+                // Run once when ready
+                moveElements()
+
+                // Recheck a few times (Algolia may inject late)
+                let retries = 0
+                const interval = setInterval(() => {
                   moveElements()
+                  retries++
+                  if (retries > 15) clearInterval(interval) // stop after ~3s
+                }, 200)
 
-                  // Retry a few times in case Algolia renders late
-                  let retries = 0
-                  const interval = setInterval(function () {
-                    moveElements()
-                    retries++
-                    if (retries > 10) clearInterval(interval) // stop after ~2s
-                  }, 200)
-
-                  // Run again when resized
-                  $(window).on('resize', moveElements)
-                })
-
+                // Run again when resized
+                $(window).on('resize', moveElements)
 
             })
 
