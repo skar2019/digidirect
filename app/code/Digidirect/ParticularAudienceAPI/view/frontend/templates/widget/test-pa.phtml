@@ -1177,6 +1177,25 @@ require(['jquery'], function ($) {
             },
             autoplay: false
         });
+
+        $(".owl-carousel.promotions-mobile").owlCarousel({
+            merge: true,
+            loop: false,
+            nav: true,
+            dots: true,
+            margin: 0,
+            stagePadding: 0,
+            video: true,
+            lazyLoad: true,
+            freeDrag: true,
+            touchDrag: false,
+            mouseDrag: false,
+            slideBy: 1,
+            responsive: {
+                0: { items: 1 }
+            },
+            autoplay: false
+        });
     });
 
    $('.owl-carousel.custom').on('changed.owl.carousel initialized.owl.carousel', function (event) {
