@@ -2,7 +2,7 @@ a:visited, .alink:visited, a, .alink {
     color: @color-black-1;
 }
 
-.account:not(.page-footer) {
+.account {
     a:visited, .alink:visited, a, .alink {
         color: @color-link-blue;
         text-decoration: none;
@@ -10,11 +10,112 @@ a:visited, .alink:visited, a, .alink {
     a:hover {
         text-decoration: underline !important;
     }
+    footer {
+        a:visited, .alink:visited, a, .alink {
+            color: @color-black-1 !important;
+        }
+    }
+
+    .actions-toolbar .primary {
+        a:visited, .alink:visited, a, .alink {
+            color: #ffffff;
+        }
+    }
+}
+
+.account .multiselect{
+    height: 40px !important;
 }
 
 @media (max-width: 768px) {
-    .account:not(.page-footer) a {
+    .account a {
         text-decoration: underline !important;
+    }
+    .account {
+        footer,  .mobile-menu {
+            a:visited, .alink:visited, a, .alink {
+                text-decoration: none !important;
+                color: #FE4C25;
+            }
+        }
+
+        .mobile-menu-links .secondary a {
+            color: #9b9b9b;
+        }
+
+        .actions-toolbar .primary {
+            a:visited, .alink:visited, a, .alink {
+                color: #ffffff;
+                text-decoration: none !important;
+            }
+        }
+
+        .account-menu a {
+            text-decoration: none !important;
+        }
+    }
+
+    .account table {
+        text-align: left !important;
+        line-height: 16px;
+        padding: 0 10px;
+    }
+
+    .account .select-page-limit {
+        right: 1px !important;
+    }
+
+    .account .form-wishlist-items .actions-toolbar .primary {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .account {
+        select {
+            height: 40px !important;
+        }
+
+        .customer-address-form .name-container, .customer-address-form .address-raw, .customer-address-form .country-raw {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .fieldset .field.password {
+            align-items: flex-start !important;
+        }
+
+        .multiselect {
+            width: 100% !important;
+            height: 40px;
+        }
+
+        .my-orders-search-advanced .field-created-by {
+            width: 100% !important;
+        }
+    }
+
+    .account .fieldset .field:not(.choice) > .control input[type="text"] {
+        width: 100% !important;
+    }
+
+    .sales-order-history form#my-orders-search-advanced-form .field-order-totals .range .field-order-total .control {
+        flex-direction: column;
+    }
+
+    .account .field-order-total .control .sub-label {
+        width: 100% !important;
+    }
+
+    .sales-order-history form#my-orders-search-advanced-form .actions-toolbar {
+        display: flex !important;
+    }
+
+    #product-name-sku {
+        width: 80% !important;
+    }
+
+    .account .block-content .box-content, .account .block-content .box-actions {
+        margin-left: 20px;
     }
 }
 
