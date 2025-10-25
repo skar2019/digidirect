@@ -1103,6 +1103,20 @@ body.blur-active .global-blur-overlay {
         width: 100% !important;
         display: flex
     }
+    
+    .algolia-infos {
+        margin-right: 0;
+        margin-left: auto;
+        gap: 10px;
+    }
+    
+    .ais-SortBy-select {
+        color: #000;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #fff;
+    }
 
     #refine-toggle {
         margin: 0 !important;
@@ -1116,6 +1130,9 @@ body.blur-active .global-blur-overlay {
         align-items: center;
         justify-content: center;
         gap: 8px;
+        margin: 6px 0 !important;
+        font-weight: 400;
+        width: 100px;
     }
     
     #refine-toggle svg {
@@ -1125,6 +1142,17 @@ body.blur-active .global-blur-overlay {
 
     .sort-by-label.pull-left {
         display: none;
+    }
+    
+    .hits-per-page-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hits-per-page-container .sort-by-label.pull-left {
+        display: block;
+        margin: 0;
     }
     
     .ais-Hits-list {
