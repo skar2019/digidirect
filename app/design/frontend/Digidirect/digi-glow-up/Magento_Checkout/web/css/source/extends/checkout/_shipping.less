@@ -240,11 +240,16 @@
         border: 1px solid #d9d9d9 !important;
         background: #ffffff !important;
     }
+
+    .ship-here-separator {
+        display: none;
+    }
 }
+
 @media only screen and (max-width: 768px) {
     .checkout-shipping-address {
         .shipping-address-item {
-            height: 220px !important;
+            height: 250px !important;
         }
     }
 
@@ -264,6 +269,7 @@
 
     #opc-shipping_method .methods-shipping ul.table-checkout-shipping-method {
         gap: 5px !important;
+        margin: 15px 0;
     }
 
     .checkout-index-index .modals-wrapper .modal-popup .modal-inner-wrap {
@@ -279,5 +285,18 @@
 
     .opc-wrapper .shipping-address-item {
         border-bottom: none !important;
+
+        .ship-here-separator {
+            display: flex;
+            margin-top: 20px;
+        }
+    }
+
+    .opc-wrapper #checkout-step-shipping .field.addresses {
+        border-bottom: none !important;
+    }
+
+    .checkout-shipping-address .action-select-shipping-item {
+        position: relative !important;
     }
 }

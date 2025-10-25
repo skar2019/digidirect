@@ -367,8 +367,13 @@
     opacity: unset;
 }
 
-#checkoutSteps li.active .step-title {
-    font-size: 24px;
+#checkoutSteps li.active > .step-title {
+    //font-size: 24px !important;
+    font-size: 18px !important;
+}
+
+#checkoutSteps li.active.with-border .step-title {
+    font-size: 18px !important;
 }
 
 #checkoutSteps {

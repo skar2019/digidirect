@@ -1111,6 +1111,7 @@ body.blur-active .global-blur-overlay {
     
     .ais-Hits-list {
         grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
     
     #algolia_instant_selector .col-md-9 {
@@ -1119,6 +1120,9 @@ body.blur-active .global-blur-overlay {
 
     li.ais-Hits-item {
         overflow: hidden;
+        border-radius: 20px;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        margin: 0;
     }
 
     #instant-search-pagination-container,
@@ -1141,6 +1145,44 @@ body.blur-active .global-blur-overlay {
 
     .ais-Pagination-item {
         flex: 0 0 auto;           
+    }
+    
+    .result-thumbnail {
+        height: 195px;
+    }
+
+    .ais-Hits-item img {
+        height: 150px !important;
+        margin-top: 25px !important;
+    }
+
+    .result-title.text-ellipsis {
+        font-size: 12px;
+        line-height: normal;
+        font-weight: 500;
+        height: 32px;
+    }
+
+    .ais-Hits-item .s19-rental-price-target {
+        top: 69px;
+    }
+
+    .ais-Hits-item .s19-rental-price-target > div > div:first-child {
+        margin-bottom: 4px !important;
+    }
+
+    .result-wrapper .price {
+        margin-top: 30px;
+    }
+
+    .ais-Hits-item .discount-price-wrapper {
+        font-size: 10px;
+        font-weight: 500;
+        width: 95px;
+    }
+
+    .ais-Hits-item .action.tocart.primary img {
+        display: none;
     }
     
     //Brands

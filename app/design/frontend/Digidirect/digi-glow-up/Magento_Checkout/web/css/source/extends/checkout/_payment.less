@@ -712,8 +712,7 @@ input[name="payment[latipay_method]"]:after{
     }
 
     .checkout-index-index .afterpay .choice::after {
-        width: 68px !important;
-        height: 50px !important;
+        width: 120px !important;
     }
 
     .checkout-index-index #method-latitude label:after {
@@ -728,19 +727,61 @@ input[name="payment[latipay_method]"]:after{
     #checkout-step-payment .billing-address-form {
         .field:has(input[name="firstname"]),
         .field:has(select[name="country_id"]),
-        .field:has(input[name="city"]){
-            width: 100% !important;
-        }
-
+        .field:has(input[name="city"]),
+        .field:has(input[name="telephone"]),
         .field:has(input[name="lastname"]),
         .field:has(select[name="region_id"]),
-        .field:has(input[name="postcode"]){
+        .field:has(input[name="postcode"])
+        {
             width: 100% !important;
         }
     }
 
     #checkoutSteps .checkout-payment-method .billing-address-form .action-cancel {
         margin-right: 10px !important;
+    }
+
+    .checkout-index-index .zipmoney .choice .label:after {
+        width: 55px !important;
+    }
+
+    .checkout-payment-method .payment-option-title .action-toggle {
+        font-size: 14px !important;
+    }
+
+    #co-payment-form .form-discount .payment-option-inner {
+        margin: 0 15px 0 0 !important;
+    }
+
+    #co-payment-form .form-discount .actions-toolbar button.primary {
+        margin-left: 0 !important;
+    }
+
+    #co-payment-form .actions-toolbar button.primary {
+        margin-top: 0 !important;
+    }
+
+    .payment-option-item .form-giftcard-account .actions-toolbar>.primary {
+        margin-bottom: 0 !important;
+        padding-top: 15px;
+    }
+
+    .checkout-billing-address .field-select-billing {
+        margin-bottom: 10px !important;
+    }
+
+    .checkout-billing-address .billing-address-form {
+        .fieldset>.field>.label {
+            margin: 0 !important;
+        }
+    }
+
+    #co-payment-form .payment-method-content .actions-toolbar {
+        margin-top: 0 !important;
+    }
+
+    .checkout-billing-address .actions-toolbar .primary {
+        gap: 15px;
     }
 }
 
