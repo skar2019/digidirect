@@ -998,6 +998,11 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 768px) {
+    
+    input,
+    textarea {
+        font-size: 16px !important; /* prevents iOS zoom */
+    }
 
     .block.newsletter {
         flex-direction: column;
@@ -1183,6 +1188,10 @@ body.blur-active .global-blur-overlay {
 
     .ais-Hits-item .action.tocart.primary img {
         display: none;
+    }
+    
+    .ais-Hits-list .pa-product.product-item-info .result-wrapper .price {
+        margin-top: -4px;
     }
     
     //Brands
