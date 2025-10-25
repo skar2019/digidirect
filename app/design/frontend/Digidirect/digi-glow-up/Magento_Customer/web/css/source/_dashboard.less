@@ -2,6 +2,22 @@ a:visited, .alink:visited, a, .alink {
     color: @color-black-1;
 }
 
+.account:not(.page-footer) {
+    a:visited, .alink:visited, a, .alink {
+        color: @color-link-blue;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .account:not(.page-footer) a {
+        text-decoration: underline !important;
+    }
+}
+
 .message.info {
     background-color: #FFE0DD !important;
     border-radius: 100px;
@@ -28,9 +44,8 @@ a:visited, .alink:visited, a, .alink {
     color: #1D1D1F;
 }
 
-select {
-    height: 42px !important;
-    border-radius: 5px !important;
+.select {
+    height: 40px !important;
 }
 
 .mobile-modal-body {
@@ -675,7 +690,7 @@ body.modal-open {
     }
 
     table td.actions a {
-        color: @color-black-1;
+        //color: @color-black-1;
         text-decoration: none;
         margin-right: 12px;
         font-weight: 600;
@@ -750,6 +765,7 @@ body.modal-open {
     .select-page-limit {
         position: relative;
         display: inline-block;
+        right: 10px;
     }
 
     .select-page-limit:after {
@@ -770,6 +786,12 @@ body.modal-open {
     .limiter select {
         appearance: none !important;
         min-width: 50px;
+        margin: 0 10px 0 0 !important;
+        padding: 5px 12px;
+        border-radius: 999px !important;
+        border: 1px solid #E5E5EA;
+        height: 40px !important;
+        width: 100% !important;
     }
 
     .fieldset .field:not(.choice) > .control input[type="text"]:focus,

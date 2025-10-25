@@ -94,6 +94,10 @@
         }
     }
 
+    select {
+        padding: 10px 15px !important;
+    }
+
     .step-title {
         color: #242426 !important;
         font-size: 18px !important;
@@ -531,5 +535,21 @@ body.checkout-onepage-success, body.checkout-index-index {
 @media (max-width: 769px) {
     .opc-wrapper .fieldset > .field {
         margin: 0 !important;
+    }
+}
+
+.checkout-index-index:not(.page-footer) , .checkout-onepage-success:not(.page-footer)   {
+    a:visited, .alink:visited, a, .alink {
+        color: @color-link-blue;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-index-index:not(.page-footer) , .checkout-onepage-success:not(.page-footer)  a {
+        text-decoration: underline !important;
     }
 }
