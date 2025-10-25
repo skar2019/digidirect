@@ -927,6 +927,7 @@ body.blur-active .global-blur-overlay {
     display: flex;
     justify-content: space-between;
     pointer-events: none;
+    margin: 0;
 }
 
 #welcome-back-widget-desktop .owl-nav button.owl-prev {
@@ -941,6 +942,7 @@ body.blur-active .global-blur-overlay {
     justify-content: center;
     cursor: pointer;
     z-index: 10000;
+    top: 0 !important;
 }
 
 #welcome-back-widget-desktop .owl-nav button.owl-next {
@@ -955,10 +957,11 @@ body.blur-active .global-blur-overlay {
     justify-content: center;
     cursor: pointer;
     z-index: 10000;
+    top: 0 !important;
 }
 
-#welcome-back-widget-desktop .owl-carousel .owl-prev:before, 
-#welcome-back-widget-desktop .owl-carousel .owl-next:before {
+#welcome-back-widget-desktop .owl-prev:before, 
+#welcome-back-widget-desktop .owl-next:before {
     display: none;
 }
 
@@ -1109,6 +1112,11 @@ body.blur-active .global-blur-overlay {
         justify-content: center;
         gap: 8px;
     }
+    
+    #refine-toggle svg {
+        float: left;
+        width: 18px;
+    }
 
     .sort-by-label.pull-left {
         display: none;
@@ -1190,7 +1198,7 @@ body.blur-active .global-blur-overlay {
         display: none;
     }
     
-    .ais-Hits-list .pa-product.product-item-info .result-wrapper .price {
+    .pa-product.product-item-info .result-wrapper .price {
         margin-top: -4px;
     }
     
