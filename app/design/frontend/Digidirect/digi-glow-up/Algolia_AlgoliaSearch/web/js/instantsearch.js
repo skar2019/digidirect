@@ -1414,42 +1414,64 @@ define([
                 const $pagination = $('#instant-search-pagination-container')
                 const $viewToggle = $('.ais-ViewToggle')
 
+                const $facets = $('#instant-search-facets-container')
+                const $leftContainer = $('#algolia-left-container')
+
                 function moveElements() {
-                    const isMobile = $(window).width() <= 768
+                  const isMobile = $(window).width() <= 768
 
-                    // ==============================
-                    // Move algolia-infos
-                    // ==============================
-                    if (isMobile) {
-                        // Move after refine-toggle (mobile)
-                        if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
-                          $infos.insertAfter($refineToggle)
-                        }
-                    } else {
-                        // Move back before algolia-custom-refinement (desktop)
-                        if ($infos.next()[0] !== $customRefinement[0]) {
-                          $infos.insertBefore($customRefinement)
-                        }
+                  // ==============================
+                  // Move algolia-infos
+                  // ==============================
+                  if (isMobile) {
+                    // Move after refine-toggle (mobile)
+                    if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
+                      $infos.insertAfter($refineToggle)
                     }
+                  } else {
+                    // Move back before algolia-custom-refinement (desktop)
+                    if ($infos.next()[0] !== $customRefinement[0]) {
+                      $infos.insertBefore($customRefinement)
+                    }
+                  }
 
-                    // ==============================
-                    // Move hits-per-page-container
-                    // ==============================
-                    if (isMobile) {
-                        // Move before pagination (mobile)
-                        if ($hitsPerPage.next()[0] !== $pagination[0]) {
-                          $hitsPerPage.insertBefore($pagination)
-                        }
-                    } else {
-                        // Move back before .ais-ViewToggle (desktop)
-                        if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
-                          $hitsPerPage.insertBefore($viewToggle)
-                        }
+                  // ==============================
+                  // Move hits-per-page-container
+                  // ==============================
+                  if (isMobile) {
+                    // Move before pagination (mobile)
+                    if ($hitsPerPage.next()[0] !== $pagination[0]) {
+                      $hitsPerPage.insertBefore($pagination)
                     }
+                  } else {
+                    // Move back before .ais-ViewToggle (desktop)
+                    if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
+                      $hitsPerPage.insertBefore($viewToggle)
+                    }
+                  }
+
+                  // ==============================
+                  // Move instant-search-facets-container
+                  // ==============================
+                  if (isMobile) {
+                    // Move after algolia-left-container (mobile)
+                    if ($facets.prev()[0] !== $leftContainer[0]) {
+                      $facets.insertAfter($leftContainer)
+                    }
+                  } else {
+                    // Move inside algolia-left-container (desktop)
+                    if ($facets.parent()[0] !== $leftContainer[0]) {
+                      $facets.appendTo($leftContainer)
+                    }
+                  }
                 }
 
-                // Run once on load
-                moveElements()
+                // Run on load
+                $(window).on('load', moveElements)
+
+                // Run on resize
+                $(window).on('resize', moveElements)
+
 
             })
 
@@ -1474,10 +1496,10 @@ define([
         addMobileRefinementsToggle() {
             $('#refine-toggle').on('click', function () {
                 $('#instant-search-facets-container').toggleClass('hidden-sm').toggleClass('hidden-xs');
-                if ($(this).html().trim()[0] === '+')
+                /*if ($(this).html().trim()[0] === '+')
                     $(this).html('- ' + algoliaConfig.translations.refine);
                 else
-                    $(this).html('+ ' + algoliaConfig.translations.refine);
+                    $(this).html('+ ' + algoliaConfig.translations.refine);*/
             });
         },
 
