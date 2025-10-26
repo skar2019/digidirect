@@ -24,6 +24,10 @@ a:visited, .alink:visited, a, .alink {
 }
 
 @media (max-width: 768px) {
+    header.page-header {
+        background: unset !important;
+    }
+
     .account a {
         text-decoration: underline !important;
     }
@@ -125,13 +129,26 @@ a:visited, .alink:visited, a, .alink {
 
     .customer-address-form .address-raw {
         //width: 48% !important;
+        flex-direction: column !important;
+
+        .field {
+            width: 100% !important;
+        }
+    }
+
+    .customer-address-form .field.-region {
+        margin-left: 0 !important;
     }
     .customer-address-form .country-raw {
         //width: 90% !important;
+        flex-direction: column !important;
+    }
+    .customer-address-form .field.telephone {
+        width: 100% !important;
     }
 
     .customer-address-form .field.-half {
-        width: auto;
+        //width: auto;
     }
 }
 
@@ -503,12 +520,12 @@ body.modal-open {
     }
 
     .account-popup-header-in-pages {
-        padding: 50px 20px 0 20px !important;
+        padding: 50px 30px 0 15px !important;
     }
 
     .account-popup-header .signout, .account-popup-header-in-pages .signout {
         color: #7C7C80;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 590;
         letter-spacing: 0.2px;
         padding-top: 8px;
@@ -590,7 +607,7 @@ body.modal-open {
         }
 
         .multiselect, select#country {
-            width: 90%;
+            width: 100%;
         }
 
         button {
