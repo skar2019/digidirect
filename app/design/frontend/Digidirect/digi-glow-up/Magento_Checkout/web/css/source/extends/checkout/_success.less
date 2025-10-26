@@ -2,9 +2,26 @@
     display: none !important;
 }
 
-.checkout-onepage-success .page-wrapper {
-   // background: url('@{baseDir}images/checkout/lak-confetti.gif') center center / cover repeat fixed;
+/*.checkout-onepage-success .page-wrapper {
+    position: relative;
+    color: white;
 }
+
+.checkout-onepage-success .page-wrapper:before {
+    background: url('@{baseDir}images/checkout/lak-confetti.gif') center center / cover repeat fixed;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 2;
+    opacity: 1;
+}
+
+.checkout-onepage-success .page-wrapper * {
+    position: relative;
+    z-index: 3;
+}*/
 
 .thank-you-wrapper {
     padding: 40px 20px;
@@ -16,6 +33,7 @@
     .action.primary {
         background-color: #000000;
         border: none !important;
+        color: #FFFFFF !important;
         &:hover {
             background-color: #000000;
         }
@@ -67,6 +85,6 @@
 }
 
 .thank-you-wrapper .title.-addition .order-number {
-    color: #242426 !important;
+    //color: #242426 !important;
 }
 
