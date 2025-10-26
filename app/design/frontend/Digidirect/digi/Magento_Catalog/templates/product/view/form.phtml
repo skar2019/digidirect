@@ -29,19 +29,19 @@ $sku = $_product->getSku();
 $awaiting = $_product->getAwaitingProduct();
 $overrideAwaiting = $_product->getOverrideAwaiting();
 
-if($brand == 'canon' || $brand == 'sony' )
-{
-    $awaiting = 0;
-    if($sku == '141845' || $sku == '132373')
-    {
-        $awaiting = 1;
-    }
-    //with this attribute, we will no longer put sku here in the form.phtml to exclude awaiting
-    if($overrideAwaiting == 1)
-    {
-        $awaiting = 1;
-    }
+//if($brand == 'canon' || $brand == 'sony' )
+//{
+//    $awaiting = 0;
+//    if($sku == '141845' || $sku == '132373')
+//    {
+//        $awaiting = 1;
+//    }
+//}
 
+//with this attribute, we will no longer put sku here in the form.phtml to exclude awaiting
+if($overrideAwaiting == 1)
+{
+    $awaiting = 1;
 }
 //if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
 //    $qff_bonus_points = $_product->getQffBonusPoints();
