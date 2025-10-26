@@ -275,8 +275,7 @@ require(['jquery'], function ($) {
                             '</div>';
                 algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
                                         '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
-                                    '</div>' +
-                                    '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>';
+                                    '</div>';
             } else {
                 let price = Number(product.prices[0].price);
                 let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
@@ -320,6 +319,7 @@ require(['jquery'], function ($) {
                                         '<img itemprop="image" src="' + product.images[0] + '" alt="' + product.name + '">' +
                                     '</div>' +
                                     '<div class="result-sub-content">' +
+                                        '<div style="color: #4D4E4E;font-size: 10px;font-weight: 400;word-wrap: break-word;text-align: left;">Sponsored</div>' +
                                         '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
                                         '<div class="ratings">' +
                                             '<div class="result-sub-content"></div>' +

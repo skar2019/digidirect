@@ -1359,6 +1359,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-
+    
   })
 })

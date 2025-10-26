@@ -2,6 +2,143 @@ a:visited, .alink:visited, a, .alink {
     color: @color-black-1;
 }
 
+.account {
+    a:visited, .alink:visited, a, .alink {
+        color: @color-link-blue;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline !important;
+    }
+    footer {
+        a:visited, .alink:visited, a, .alink {
+            color: @color-black-1 !important;
+        }
+    }
+
+    .actions-toolbar .primary {
+        a:visited, .alink:visited, a, .alink {
+            color: #ffffff;
+        }
+    }
+}
+
+.account .multiselect{
+    height: 40px !important;
+}
+
+@media (max-width: 768px) {
+    .account a {
+        text-decoration: underline !important;
+    }
+    .account {
+        footer,  .mobile-menu {
+            a:visited, .alink:visited, a, .alink {
+                text-decoration: none !important;
+                color: #FE4C25;
+            }
+        }
+
+        .mobile-menu-links .secondary a {
+            color: #9b9b9b;
+        }
+
+        .actions-toolbar .primary {
+            a:visited, .alink:visited, a, .alink {
+                color: #ffffff;
+                text-decoration: none !important;
+            }
+        }
+
+        .account-menu a {
+            text-decoration: none !important;
+        }
+    }
+
+    .account table {
+        text-align: left !important;
+        line-height: 16px;
+        padding: 0 10px;
+    }
+
+    .account .select-page-limit {
+        right: 1px !important;
+    }
+
+    .account .form-wishlist-items .actions-toolbar .primary {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .account {
+        select {
+            height: 40px !important;
+        }
+
+        /*.customer-address-form .name-container, .customer-address-form .address-raw, .customer-address-form .country-raw {
+            display: flex !important;
+            flex-direction: column !important;
+        }*/
+
+        .fieldset .field.password {
+            align-items: flex-start !important;
+        }
+
+        .multiselect {
+            width: 100% !important;
+            height: 40px;
+        }
+
+        .my-orders-search-advanced .field-created-by {
+            width: 100% !important;
+        }
+    }
+
+    .account .fieldset .field:not(.choice) > .control input[type="text"] {
+        width: 100% !important;
+    }
+
+    .sales-order-history form#my-orders-search-advanced-form .field-order-totals .range .field-order-total .control {
+        flex-direction: column;
+    }
+
+    .account .field-order-total .control .sub-label {
+        width: 100% !important;
+    }
+
+    .sales-order-history form#my-orders-search-advanced-form .actions-toolbar {
+        display: flex !important;
+    }
+
+    #product-name-sku {
+        width: 80% !important;
+    }
+
+    .account .block-content .box-content, .account .block-content .box-actions {
+        margin-left: 20px;
+    }
+
+    .customer-address-form .name-container{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .customer-address-form .field .control {
+        margin-top: 0 !important;
+    }
+
+    .customer-address-form .address-raw {
+        //width: 48% !important;
+    }
+    .customer-address-form .country-raw {
+        //width: 90% !important;
+    }
+
+    .customer-address-form .field.-half {
+        width: auto;
+    }
+}
+
 .message.info {
     background-color: #FFE0DD !important;
     border-radius: 100px;
@@ -28,9 +165,8 @@ a:visited, .alink:visited, a, .alink {
     color: #1D1D1F;
 }
 
-select {
-    height: 42px !important;
-    border-radius: 5px !important;
+.select {
+    height: 40px !important;
 }
 
 .mobile-modal-body {
@@ -675,7 +811,7 @@ body.modal-open {
     }
 
     table td.actions a {
-        color: @color-black-1;
+        //color: @color-black-1;
         text-decoration: none;
         margin-right: 12px;
         font-weight: 600;
@@ -750,6 +886,7 @@ body.modal-open {
     .select-page-limit {
         position: relative;
         display: inline-block;
+        right: 10px;
     }
 
     .select-page-limit:after {
@@ -770,6 +907,12 @@ body.modal-open {
     .limiter select {
         appearance: none !important;
         min-width: 50px;
+        margin: 0 10px 0 0 !important;
+        padding: 5px 12px;
+        border-radius: 999px !important;
+        border: 1px solid #E5E5EA;
+        height: 40px !important;
+        width: 100% !important;
     }
 
     .fieldset .field:not(.choice) > .control input[type="text"]:focus,

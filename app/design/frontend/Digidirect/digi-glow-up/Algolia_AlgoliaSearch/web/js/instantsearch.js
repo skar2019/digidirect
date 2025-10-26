@@ -1404,7 +1404,78 @@ define([
                 }
 
                 // run after InstantSearch render
-                search.on('render', attachClamp)
+                search.on('render', attachClamp);
+                
+                const $infos = $('.algolia-infos')
+                const $refineToggle = $('#refine-toggle')
+                const $customRefinement = $('#algolia-custom-refinement')
+                const $hitsPerPage = $('.hits-per-page-container')
+                const $pagination = $('#instant-search-pagination-container')
+                const $viewToggle = $('.ais-ViewToggle')
+
+                function moveElements() {
+                  const $facets = $('#instant-search-facets-container')
+                  const $leftContainer = $('#algolia-left-container')
+                  const isMobile = $(window).width() <= 768
+
+                  // 🔒 Safety checks
+                  if (!$facets.length || !$leftContainer.length) return
+                  if (!$infos.length || !$refineToggle.length || !$customRefinement.length) return
+                  if (!$hitsPerPage.length || !$pagination.length || !$viewToggle.length) return
+
+                  // ==============================
+                  // Move algolia-infos
+                  // ==============================
+                  if (isMobile) {
+                    if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
+                      $infos.insertAfter($refineToggle)
+                    }
+                  } else {
+                    if ($infos.next()[0] !== $customRefinement[0]) {
+                      $infos.insertBefore($customRefinement)
+                    }
+                  }
+
+                  // ==============================
+                  // Move hits-per-page-container
+                  // ==============================
+                  if (isMobile) {
+                    if ($hitsPerPage.next()[0] !== $pagination[0]) {
+                      $hitsPerPage.insertBefore($pagination)
+                    }
+                  } else {
+                    if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
+                      $hitsPerPage.insertBefore($viewToggle)
+                    }
+                  }
+
+                  // ==============================
+                  // Move instant-search-facets-container
+                  // ==============================
+                  if (isMobile) {
+                    if ($facets.prev()[0] !== $leftContainer[0]) {
+                      $facets.insertAfter($leftContainer)
+                    }
+                  } else {
+                    if ($facets.parent()[0] !== $leftContainer[0]) {
+                      $facets.appendTo($leftContainer)
+                    }
+                  }
+                }
+
+                // Run once when ready
+                moveElements()
+
+                // Recheck a few times (Algolia may inject late)
+                let retries = 0
+                const interval = setInterval(() => {
+                  moveElements()
+                  retries++
+                  if (retries > 15) clearInterval(interval) // stop after ~3s
+                }, 200)
+
+                // Run again when resized
+                $(window).on('resize', moveElements)
 
             })
 
@@ -1429,10 +1500,10 @@ define([
         addMobileRefinementsToggle() {
             $('#refine-toggle').on('click', function () {
                 $('#instant-search-facets-container').toggleClass('hidden-sm').toggleClass('hidden-xs');
-                if ($(this).html().trim()[0] === '+')
+                /*if ($(this).html().trim()[0] === '+')
                     $(this).html('- ' + algoliaConfig.translations.refine);
                 else
-                    $(this).html('+ ' + algoliaConfig.translations.refine);
+                    $(this).html('+ ' + algoliaConfig.translations.refine);*/
             });
         },
 

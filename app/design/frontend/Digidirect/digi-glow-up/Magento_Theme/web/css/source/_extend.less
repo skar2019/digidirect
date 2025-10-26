@@ -927,6 +927,7 @@ body.blur-active .global-blur-overlay {
     display: flex;
     justify-content: space-between;
     pointer-events: none;
+    margin: 0;
 }
 
 #welcome-back-widget-desktop .owl-nav button.owl-prev {
@@ -941,6 +942,7 @@ body.blur-active .global-blur-overlay {
     justify-content: center;
     cursor: pointer;
     z-index: 10000;
+    top: 0 !important;
 }
 
 #welcome-back-widget-desktop .owl-nav button.owl-next {
@@ -955,11 +957,16 @@ body.blur-active .global-blur-overlay {
     justify-content: center;
     cursor: pointer;
     z-index: 10000;
+    top: 0 !important;
 }
 
-#welcome-back-widget-desktop .owl-carousel .owl-prev:before, 
-#welcome-back-widget-desktop .owl-carousel .owl-next:before {
+#welcome-back-widget-desktop .owl-prev:before, 
+#welcome-back-widget-desktop .owl-next:before {
     display: none;
+}
+
+.pa-product.product-item-info .result-wrapper .price {
+    margin-top: -4px;
 }
 
 @media screen and (max-width: 1512px) {
@@ -998,13 +1005,25 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 768px) {
+    
+    input,
+    textarea {
+        font-size: 16px !important; /* prevents iOS zoom */
+    }
 
     .block.newsletter {
         flex-direction: column;
         gap: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        width: auto;
         .newsletter-left {
             margin-top: 0;
         }
+    }
+    
+    .plp-row.pa-widget {
+        padding: 30px 15px;
     }
 
     //Home
@@ -1088,7 +1107,30 @@ body.blur-active .global-blur-overlay {
     }
 
     #algolia_instant_selector .col-md-3 {
-        width: 150px !important;
+        width: 100% !important;
+        display: flex
+    }
+    
+    .algolia-infos {
+        margin-right: 0;
+        margin-left: auto;
+        gap: 10px;
+    }
+    
+    #instant-search-facets-container {
+        padding: 10px 15px;
+    }
+    
+    .is-widget-container-price_AUD_default .ais-Panel-body {
+        padding: 0 0 10px;
+    }
+    
+    select {
+        color: #000;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #fff;
     }
 
     #refine-toggle {
@@ -1103,10 +1145,29 @@ body.blur-active .global-blur-overlay {
         align-items: center;
         justify-content: center;
         gap: 8px;
+        margin: 6px 0 !important;
+        font-weight: 400;
+        width: 100px;
+    }
+    
+    #refine-toggle svg {
+        float: left;
+        width: 18px;
     }
 
     .sort-by-label.pull-left {
         display: none;
+    }
+    
+    .hits-per-page-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hits-per-page-container .sort-by-label.pull-left {
+        display: block;
+        margin: 0;
     }
     
     .ais-Hits-list {
