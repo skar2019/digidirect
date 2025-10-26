@@ -288,7 +288,14 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     {{/hasNoCustomFinalPrice}}
                             </div>
                             <div class="product-info-bottom">
-
+                                {{#hasCustomFinalPrice}}
+                                    <div class="discount-price-wrapper">
+                                        <span class="discount-price">{{discount}}</span> Off
+                                    </div>
+                                {{/hasCustomFinalPrice}}
+                                {{#hasNoCustomFinalPrice}}
+                                    <div class="discount-price-wrapper-no-price"></div>
+                                {{/hasNoCustomFinalPrice}}
                                 {{#isAddToCartEnabled}}
                                     {{#isNotDigiPrint}}
                                         <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
