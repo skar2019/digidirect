@@ -1,0 +1,132 @@
+<?php
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+$_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
+$_specialOrderValue = false;//$block->getProduct()->getSpecialOrder();
+$_orderLimit = 1;//$block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
+$final_price = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+$final_price = number_format($final_price, 2, ".", ",");
+?>
+
+<div class="sticky-addtocart" data-sticky-cart>
+    <div class="sticky-addtocart-content">
+        <div class="product-image">
+            <img src="<?= $block->escapeUrl($block->getImage($product, 'product_page_image_small')->getImageUrl()) ?>"
+                 alt="<?= $block->escapeHtmlAttr($product->getName()) ?>" />
+        </div>
+
+        <div class="product-price">
+            <?= $final_price ?>
+        </div>
+        <?php if ($product->isSaleable()): ?>
+            <?php if ($_preOrderattributeValue == "Yes"): ?>
+                <button type="button"
+                        class="action primary tocart pre-order-btn"
+                        data-sticky-addtocart-button>
+                    <span><?= $block->escapeHtml(__('Pre Order')) ?></span>
+                </button>
+            <?php elseif ($_specialOrderValue): ?>
+                <button type="button"
+                        class="action primary tocart special-order-btn"
+                        data-sticky-addtocart-button>
+                    <span><?= $block->escapeHtml(__('Special Order')) ?></span>
+                </button>
+            <?php else : ?>
+                <button type="button"
+                        class="action primary tocart"
+                        data-sticky-addtocart-button>
+                    <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                </button>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
+<script>
+    (function() {
+        'use strict';
+
+        function initStickyCart() {
+            console.log('Trying to init sticky cart...');
+
+            // Use querySelector to find by class instead of getElementById
+            var stickyBar = document.querySelector('.sticky-addtocart[data-sticky-cart]');
+            var mainAddToCart = document.getElementById('product-addtocart-button');
+            var mobileFooterNav = document.querySelector('.mobile-footer-nav');
+            var threshold = 300;
+
+            if (!stickyBar) {
+                console.error('Sticky bar still not found, retrying...');
+                // Retry after a short delay
+                setTimeout(initStickyCart, 100);
+                return;
+            }
+
+            console.log('Sticky bar found!', stickyBar);
+            console.log('Main button:', mainAddToCart);
+            console.log('Mobile footer nav:', mobileFooterNav);
+
+            // Show/hide on scroll
+            window.addEventListener('scroll', function() {
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > threshold) {
+                    console.log('Adding visible class at scroll:', scrollTop);
+                    stickyBar.classList.add('visible');
+
+                    // Hide mobile footer nav when sticky cart appears
+                    if (mobileFooterNav) {
+                        mobileFooterNav.style.display = 'none';
+                    }
+                } else {
+                    stickyBar.classList.remove('visible');
+
+                    // Show mobile footer nav when sticky cart disappears
+                    if (mobileFooterNav) {
+                        mobileFooterNav.style.display = '';
+                    }
+                }
+            });
+
+            // Click handler for sticky button
+            var stickyButton = stickyBar.querySelector('[data-sticky-addtocart-button]');
+            if (stickyButton) {
+                stickyButton.addEventListener('click', function(e) {
+                    console.log('Sticky button clicked');
+                    if (mainAddToCart) {
+                        mainAddToCart.click();
+                    } else {
+                        // Try to find the form and submit it
+                        var form = document.getElementById('product_addtocart_form');
+                        if (form) {
+                            var submitButton = form.querySelector('button[type="submit"]');
+                            if (submitButton) {
+                                submitButton.click();
+                            }
+                        }
+                    }
+                });
+            }
+
+            console.log('Sticky cart initialized successfully!');
+        }
+
+        // Try multiple initialization methods
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initStickyCart);
+        } else {
+            // DOM already loaded, init now
+            initStickyCart();
+        }
+
+        // Also try on window load as backup
+        window.addEventListener('load', function() {
+            console.log('Window loaded, ensuring sticky cart is ready...');
+            var stickyBar = document.querySelector('.sticky-addtocart[data-sticky-cart]');
+            if (stickyBar && !stickyBar.hasAttribute('data-initialized')) {
+                stickyBar.setAttribute('data-initialized', 'true');
+                initStickyCart();
+            }
+        });
+    })();
+</script>
