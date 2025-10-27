@@ -1360,5 +1360,36 @@ $(function () {
       }
     )
     
+    //Body fixed if Minicart is active
+    
+    const $minicart = $('.block-minicart')
+
+    // Watch for attribute changes on aria-hidden (Magento toggles this)
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.attributeName === 'aria-hidden') {
+          const isHidden = $minicart.attr('aria-hidden') === 'true'
+
+          if (!isHidden) {
+            // 🟢 Minicart is open
+            $('body').css('position', 'fixed')
+          } else {
+            // 🔴 Minicart is closed
+            $('body').css('position', '')
+          }
+        }
+      })
+    })
+
+    // Start observing changes on aria-hidden
+    if ($minicart.length) {
+      observer.observe($minicart[0], { attributes: true })
+    }
+
+    // Also handle close button click just in case
+    $(document).on('click', '.minicart-close', function () {
+      $('body').css('position', '')
+    })
+    
   })
 })
