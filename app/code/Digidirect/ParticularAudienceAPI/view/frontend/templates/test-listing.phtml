@@ -229,7 +229,7 @@ require(['jquery'], function ($) {
                     digiDealsLogo = '';
                 }
             } else {
-                digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
+                digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span>digi</span>Seconds</div>';
             }
                 
             let price = Number(product.prices[0].price);
@@ -248,7 +248,7 @@ require(['jquery'], function ($) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span>digi</span>Seconds</div>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
@@ -326,7 +326,7 @@ require(['jquery'], function ($) {
                                         '</div>' +
                                         '<div class="result-description text-ellipsis"></div>' +
                                         '<div class="s19-rental-price-target">' +
-                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later, </p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
                                         '</div>' + 
                                         '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
@@ -479,7 +479,7 @@ require(['jquery'], function ($) {
                     digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
                 }
             } else {
-                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
             }
 
             let price = Number(product.prices[0].price);
@@ -499,12 +499,12 @@ require(['jquery'], function ($) {
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span>digi</span>Deals</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
                 } else {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +

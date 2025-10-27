@@ -2,7 +2,7 @@ a:visited, .alink:visited, a, .alink {
     color: @color-black-1;
 }
 
-.account {
+.account .columns {
     a:visited, .alink:visited, a, .alink {
         color: @color-link-blue;
         text-decoration: none;
@@ -10,39 +10,33 @@ a:visited, .alink:visited, a, .alink {
     a:hover {
         text-decoration: underline !important;
     }
-    footer {
-        a:visited, .alink:visited, a, .alink {
-            color: @color-black-1 !important;
+
+    .toolbar {
+        a:visited, .alink:visited, a, .alink, a:hover {
+            color: inherit !important;
+            text-decoration: none !important;
         }
     }
+
 
     .actions-toolbar .primary {
-        a:visited, .alink:visited, a, .alink {
-            color: #ffffff;
+        a:visited, .alink:visited, a, .alink, a:hover{
+            color: white !important;
+            text-decoration: none !important;
         }
     }
-}
-
-.account .multiselect{
-    height: 40px !important;
 }
 
 @media (max-width: 768px) {
-    .account a {
+    header.page-header {
+        background: unset !important;
+    }
+
+    .account .columns a {
         text-decoration: underline !important;
     }
-    .account {
-        footer,  .mobile-menu {
-            a:visited, .alink:visited, a, .alink {
-                text-decoration: none !important;
-                color: #FE4C25;
-            }
-        }
 
-        .mobile-menu-links .secondary a {
-            color: #9b9b9b;
-        }
-
+    .account .columns {
         .actions-toolbar .primary {
             a:visited, .alink:visited, a, .alink {
                 color: #ffffff;
@@ -129,13 +123,26 @@ a:visited, .alink:visited, a, .alink {
 
     .customer-address-form .address-raw {
         //width: 48% !important;
+        flex-direction: column !important;
+
+        .field {
+            width: 100% !important;
+        }
+    }
+
+    .customer-address-form .field.-region {
+        margin-left: 0 !important;
     }
     .customer-address-form .country-raw {
         //width: 90% !important;
+        flex-direction: column !important;
+    }
+    .customer-address-form .field.telephone {
+        width: 100% !important;
     }
 
     .customer-address-form .field.-half {
-        width: auto;
+        //width: auto;
     }
 }
 
@@ -165,7 +172,11 @@ a:visited, .alink:visited, a, .alink {
     color: #1D1D1F;
 }
 
-.select {
+select {
+    height: 40px !important;
+}
+
+.account .multiselect{
     height: 40px !important;
 }
 
@@ -503,12 +514,12 @@ body.modal-open {
     }
 
     .account-popup-header-in-pages {
-        padding: 50px 20px 0 20px !important;
+        padding: 50px 30px 0 15px !important;
     }
 
     .account-popup-header .signout, .account-popup-header-in-pages .signout {
         color: #7C7C80;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 590;
         letter-spacing: 0.2px;
         padding-top: 8px;
@@ -590,7 +601,7 @@ body.modal-open {
         }
 
         .multiselect, select#country {
-            width: 90%;
+            width: 100%;
         }
 
         button {
@@ -834,7 +845,7 @@ body.modal-open {
     }
 
     .table-wrapper .action {
-        margin-right: 0 !important;
+        margin-right: 5px !important;
     }
 
     /*th:first-child {
@@ -886,7 +897,11 @@ body.modal-open {
     .select-page-limit {
         position: relative;
         display: inline-block;
-        right: 10px;
+        //right: 10px;
+    }
+
+    textarea {
+        border-radius: 10px !important;
     }
 
     .select-page-limit:after {

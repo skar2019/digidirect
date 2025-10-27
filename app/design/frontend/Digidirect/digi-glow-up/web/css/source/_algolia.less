@@ -92,6 +92,15 @@
         padding: 12px;
     }
     
+    .result-container {
+        display: flex;
+        width: 100%;
+    }
+    
+    .list-view-col .product-info-bottom .discount-price-wrapper {
+        display: none;
+    }
+    
     .ais-Hits-item img {
         height: 175px !important;
         width: auto !important;
@@ -274,12 +283,14 @@
         font-size: 12px;
         color: #4D4E4E;
         height: 15px;
+        position: relative;
     }
 
     .ais-Hits-item span.price {
         font-size: 12px;
         color: #4D4E4E;
         text-decoration: line-through;
+        text-align: left;
     }
 
     .ais-Hits-item .discount-price-wrapper {
@@ -446,7 +457,7 @@
         background: #FE4C25;
         border-radius: 24px;
         font-size: 11px;
-        padding: 3px 13px;
+        padding: 3px 8px 3px 8px;
     }
     
     .ais-Hits-item .action.tocart.primary img {
@@ -809,11 +820,7 @@
     
     .list-view-col .price-wrapper {
         display: flex;
-        justify-content: center;
-    }
-
-    .list-view-col .product-info-bottom {
-        grid-template-columns: unset;
+        justify-content: left;
     }
 
     .list-view-col .discount-price-wrapper {
@@ -831,18 +838,28 @@
     .list-view-col .price-container {
         margin-top: 5px;
     }
+    
+    .list-view-col .result-wrapper .price {
+        margin-top: 0;
+    }
 
     .ais-Hits-item .list-view-col .action.tocart.primary img {
         padding: 0;
+        display: inline;
+        padding-right: 5px;
     }
 
     .ais-Hits-item .list-view-col .action.tocart.primary {
         width: auto;
-        margin-top: 5px !important;
+        margin-top: 5px;
     }
 
     .list-view-col .price-wrapper:has(.price:not(:empty)) {
         gap: 10px;
+    }
+    
+    .list-view-col .discount-price-wrapper-no-price {
+        display: none;
     }
     
     .ais-ViewToggle-button.is-active {
@@ -1013,6 +1030,60 @@
     
     .ais-Hits-item .price-label {
         display: none;
+    }
+    
+}
+
+@media only screen and (max-width: 768px) {
+    
+    .is-widget-container-price_AUD_default .ais-Panel-body {
+        padding: 0 10px 10px !important;
+    }
+
+    .ais-HierarchicalMenu-item {
+        margin-bottom: 10px;
+    }
+
+    .ais-RefinementList-item {
+        margin-bottom: 7px;
+    }
+
+    .ais-CurrentRefinements-list:not(:empty) {
+        display: block;
+    }
+    
+    .result-container {
+        display: block;
+        width: unset;
+    }
+    
+    .list-view-col .product-info-bottom .discount-price-wrapper {
+        display: flex;
+        padding: 0 !important;
+        margin: 0;
+        border-radius: 0;
+        font-size: 11px;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
+    
+    .list-view-col .result-sub-content > .discount-price-wrapper {
+        display: none;
+    }
+    
+    .list-view-col .product-info-bottom {
+        gap: 6px;
+        grid-template-columns: repeat(2,1fr);
+    }
+    
+    .list-view-col .price-wrapper:has(.price:not(:empty)) {
+        gap: 10px;
+        justify-content: left;
+    }
+    
+    .ais-Hits-item .list-view-col .action.tocart.primary {                                                       
+        margin-top: 0;
+        padding-right: 13px;
     }
     
 }

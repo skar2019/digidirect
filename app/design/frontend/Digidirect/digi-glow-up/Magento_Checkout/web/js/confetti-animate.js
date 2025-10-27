@@ -1,5 +1,4 @@
 require(['jquery'], function ($) {
-    window.onload = function() {
         const pageWrapper = document.querySelector('.page-wrapper');
         if (pageWrapper) {
             const partyCanvas = document.createElement('canvas');
@@ -110,5 +109,4 @@ require(['jquery'], function ($) {
             }
             animate();
         }
-    };
 });
