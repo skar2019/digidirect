@@ -2,7 +2,7 @@ a:visited, .alink:visited, a, .alink {
     color: @color-black-1;
 }
 
-.account {
+.account .columns {
     a:visited, .alink:visited, a, .alink {
         color: @color-link-blue;
         text-decoration: none;
@@ -10,15 +10,21 @@ a:visited, .alink:visited, a, .alink {
     a:hover {
         text-decoration: underline !important;
     }
-    footer {
+   /* footer {
         a:visited, .alink:visited, a, .alink {
-            color: @color-black-1 !important;
+            color: inherit !important;
         }
     }
 
+    .page-header {
+        a:visited, .alink:visited, a, .alink {
+            color: inherit !important;
+        }
+    }*/
+
     .actions-toolbar .primary {
         a:visited, .alink:visited, a, .alink {
-            color: #ffffff;
+            color: inherit !important;
         }
     }
 }
@@ -28,21 +34,11 @@ a:visited, .alink:visited, a, .alink {
         background: unset !important;
     }
 
-    .account a {
+    .account .columns a {
         text-decoration: underline !important;
     }
-    .account {
-        footer,  .mobile-menu {
-            a:visited, .alink:visited, a, .alink {
-                text-decoration: none !important;
-                color: #FE4C25;
-            }
-        }
 
-        .mobile-menu-links .secondary a {
-            color: #9b9b9b;
-        }
-
+    .account .columns {
         .actions-toolbar .primary {
             a:visited, .alink:visited, a, .alink {
                 color: #ffffff;
