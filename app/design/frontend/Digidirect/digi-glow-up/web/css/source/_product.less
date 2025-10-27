@@ -1364,6 +1364,51 @@
         left: 0 !important;
         margin: 0 auto !important;
     }
+
+    .product-middle-column .product-sku-section {
+        display: none;
+    }
+
+    .product-top-mobile {
+        display: flex;
+
+        .product-sku-section.mobile-only
+        {
+            display: inline-flex;
+
+            .sku {
+                display: inline-flex;
+                gap: 10px;
+                width: 90%;
+                color: #6e6e73;
+
+                strong {
+                    font-weight: normal;
+                }
+            }
+        }
+
+        .product-info-marketplacer.mobile-only{
+            display: inline-flex;
+            width: 70%;
+            color: #6e6e73;
+            margin-left: auto;
+            justify-content: flex-end;
+
+            .digiOrange {
+                color: #fe4c25;
+                font-weight: 700;
+            }
+
+            .digiDark {
+                color: #242426;
+                font-weight: 700;
+            }
+        }
+    }
+
+
+
 }
 
 .fotorama__arr,
