@@ -39,26 +39,44 @@ $orderedItems = $order->getAllItems();
 </script>
 
 <script>
-    
+
 require(['jquery'], function ($) {
-    
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    
+
     var customerId = getCookie('pa_customer_id');
     var sessionId = getCookie('pa_session_id');
-    
+
     var currentUrl = window.location.href;
-    
+
     var configCustomerId;
     var configSessionId;
-    
+
     configCustomerId = customerId;
     configSessionId = sessionId;
 
 });
+
+</script>
+
+<script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+            var lastOrderId = "<?php echo $block->getOrderId(); ?>";
+            if (lastOrderId) {
+                localStorage.setItem("last_success_order", lastOrderId);
+            } else {
+                var storedOrder = localStorage.getItem("last_success_order");
+                if (storedOrder) {
+                    // Prevent redirect and show stored success page
+                    $('.checkout-success').show();
+                }
+            }
+        });
+    });
 
 </script>
