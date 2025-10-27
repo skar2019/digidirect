@@ -538,7 +538,7 @@ body.checkout-onepage-success, body.checkout-index-index {
     }
 }
 
-.checkout-index-index:not(.checkout-footer), .checkout-onepage-success:not(.checkout-footer)   {
+.checkout-index-index .columns, .checkout-onepage-success .columns {
     a:visited, .alink:visited, a, .alink {
         color: @color-link-blue;
         text-decoration: none;
@@ -546,24 +546,10 @@ body.checkout-onepage-success, body.checkout-index-index {
     a:hover {
         text-decoration: underline !important;
     }
-
-    .checkout-footer {
-        a:visited, .alink:visited, a, .alink {
-            color: @color-black-1;
-            text-decoration: none;
-        }
-    }
 }
 
 @media (max-width: 768px) {
-    .checkout-index-index:not(.checkout-footer) a, .checkout-onepage-success:not(.checkout-footer)  a {
+    .checkout-index-index .columns, .checkout-onepage-success .columns {
         text-decoration: underline !important;
-    }
-
-    .checkout-index-index .checkout-footer, .checkout-onepage-success .checkout-footer{
-        a {
-            text-decoration: none !important;
-            color: #ccc;
-        }
     }
 }
