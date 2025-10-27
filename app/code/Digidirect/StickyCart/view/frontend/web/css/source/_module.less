@@ -1,0 +1,123 @@
+// Variables
+@sticky-cart-bg: #fff;
+@sticky-cart-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+@sticky-cart-z-index: 1000;
+@sticky-cart-padding: 5px 25px;
+@sticky-cart-transition: transform 0.3s ease;
+
+@product-image-size: 80px;
+@product-image-radius: 8px;
+
+@price-font-size: 20px;
+@price-font-weight: 600;
+@price-margin-left: 15px;
+
+@button-bg: #FE4C25;
+@button-bg-hover: #FE4C25;
+@button-color: #fff;
+@button-padding: 12px 30px;
+@button-radius: 25px;
+@button-font-size: 16px;
+
+@container-max-width: 1280px;
+
+// Breakpoints
+@screen-mobile: 768px;
+
+// Sticky Add to Cart Bar - Mobile Only
+.sticky-addtocart {
+    display: none; // Hidden by default on desktop
+
+    // Show only on mobile (screens smaller than 768px)
+    @media (max-width: @screen-mobile) {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: @sticky-cart-bg;
+        box-shadow: @sticky-cart-shadow;
+        z-index: @sticky-cart-z-index;
+        transform: translateY(100%);
+        transition: @sticky-cart-transition;
+        padding: @sticky-cart-padding;
+        opacity: 0;
+        visibility: hidden;
+
+        &.visible {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        gap: 10px;
+    }
+
+    .product-image {
+        flex-shrink: 0;
+
+        img {
+            width: @product-image-size;
+            height: @product-image-size;
+            object-fit: cover;
+            border-radius: @product-image-radius;
+        }
+    }
+
+    .product-price {
+        font-size: @price-font-size;
+        font-weight: @price-font-weight;
+        flex: 1;
+        margin-left: @price-margin-left;
+
+        // Adjust font size for smaller mobile screens
+        @media only screen and (max-width: 480px) {
+            font-size: 18px;
+            margin-left: 10px;
+        }
+    }
+
+    button.tocart {
+        background: @button-bg;
+        color: @button-color;
+        border: none;
+        padding: @button-padding;
+        border-radius: @button-radius;
+        font-size: @button-font-size;
+        cursor: pointer;
+        transition: background 0.3s;
+        white-space: nowrap;
+        flex-shrink: 0;
+
+        &:hover {
+            background: @button-bg-hover;
+        }
+
+        // Adjust button size for smaller mobile screens
+        @media only screen and (max-width: 480px) {
+            padding: 10px 20px;
+            font-size: 12px;
+            width: 180px;
+        }
+    }
+
+    .special-order-btn {
+        background-color: #ffc321 !important;
+        border-color: #ffc321 !important;
+        color: #242426 !important;
+        line-height: 14px;
+        box-shadow: none;
+    }
+
+    .pre-order-btn {
+        background: #0171e3 !important;
+        line-height: 14px;
+        box-shadow: none;
+    }
+}

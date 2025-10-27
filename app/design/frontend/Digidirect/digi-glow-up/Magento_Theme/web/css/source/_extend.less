@@ -969,6 +969,10 @@ body.blur-active .global-blur-overlay {
     display: none;
 }
 
+.minicart-close .for-mobile {
+    display: none;
+}
+
 @media screen and (max-width: 1512px) {
 
     .pa-digidirect-product-widget .product-widget-header {
@@ -1145,7 +1149,7 @@ body.blur-active .global-blur-overlay {
         align-items: center;
         justify-content: center;
         gap: 8px;
-        margin: 6px 0 !important;
+        margin: 6px 0 9px !important;
         font-weight: 400;
         width: 100px;
     }
@@ -1267,6 +1271,32 @@ body.blur-active .global-blur-overlay {
         margin-top: 18px;
     }
 
+    .list-view .pa-product .result-content {
+        padding: 12px;
+    }
+
+    .list-view .pa-product .result-sub-content {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .list-view .ais-Hits-item .pa-product .s19-rental-price-target {
+        display: flex;
+    }
+
+    .list-view .ais-Hits-item .pa-product .s19-rental-price-target p {
+        display: contents;
+    }
+
+    .list-view .pa-product .price-wrapper:has(.price:not(:empty)) {
+        flex-direction: row-reverse;
+        padding-top: 12px;
+    }
+
+    .list-view .pa-product.product-item-info .result-wrapper .price {
+        margin-top: 0;
+    }
+
     //Brands
     #glow-up-brands .owl-item {
         border-radius: 8.1px !important;
@@ -1341,6 +1371,26 @@ body.blur-active .global-blur-overlay {
 
     .minicart-wrapper .block-minicart .empty-cart img {
         width: unset;
+    }
+
+    .minicart-wrapper.active .block-minicart {
+        max-height: unset;
+        height: 100vh;
+        border-radius: 0;
+        margin-top: 0;
+        background: #fafafc;
+    }
+
+    .block-minicart .block-content {
+        background: #fff;
+        border-radius: 32px;
+        background: #fafafc;
+        flex-direction: column;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
 
 }

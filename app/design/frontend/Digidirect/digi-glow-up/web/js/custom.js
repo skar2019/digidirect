@@ -1360,5 +1360,33 @@ $(function () {
       }
     )
     
+    //Body fixed if Minicart is active
+    
+    const $minicart = $('[data-block="minicart"]')
+
+    const observer = new MutationObserver(function () {
+      if ($minicart.hasClass('active')) {
+        // 🟢 Minicart is open → disable scroll
+        $('html, body').css({
+          overflow: 'hidden',
+          height: '100%',
+        })
+      } else {
+        // 🔴 Minicart closed → restore scroll
+        $('html, body').css({
+          overflow: '',
+          height: '',
+        })
+      }
+    })
+
+    if ($minicart.length) {
+      observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
+    }
+
+    $(document).on('click', '.minicart-close', function () {
+      $('html, body').css({ overflow: '', height: '' })
+    })
+    
   })
 })

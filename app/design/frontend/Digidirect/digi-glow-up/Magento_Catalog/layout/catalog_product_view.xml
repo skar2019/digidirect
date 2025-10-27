@@ -22,6 +22,29 @@
             <!-- Main 3-Column Product Layout -->
             <container name="product.main.container" htmlTag="div" htmlClass="product-main-container" after="product.breadcrumbs.wrapper">
 
+                <container name="product.top.row.mobile" htmlTag="div" htmlClass="product-top-mobile">
+                    <container name="product.sku.section.mobile" htmlTag="div" htmlClass="product-sku-section mobile-only">
+
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.sku.mobile"
+                               template="Magento_Catalog::product/view/attribute.phtml" after="-">
+                            <arguments>
+                                <argument name="at_call" xsi:type="string">getSku</argument>
+                                <argument name="at_code" xsi:type="string">sku</argument>
+                                <argument name="css_class" xsi:type="string">sku</argument>
+                                <argument name="title" xsi:type="string" translate="true">SKU</argument>
+                                <argument name="at_label" xsi:type="string">default</argument>
+                            </arguments>
+                        </block>
+
+                    </container>
+
+                    <container name="product.info.marketplacer.mobile" htmlTag="div" htmlClass="product-info-marketplacer mobile-only">
+                        <block class="Magento\Catalog\Block\Product\View"
+                               name="product.info.marketplacer.seller.mobile"
+                               template="Marketplacer_Seller::product/view/seller-info.phtml"/>
+
+                    </container>
+                </container>
                 <!-- LEFT COLUMN -->
                 <container name="product.left.column" htmlTag="div" htmlClass="product-left-column product-media-column">
                     <container name="product.additional.actions" htmlTag="div" htmlClass="product-additional-actions">
@@ -65,7 +88,7 @@
                     <block class="Magento\Framework\View\Element\Template"
                     name="custom.pdp.accordion"
                     template="Magento_Catalog::product/view/product-details-accordian.phtml" after="-">
-                                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/> 
+                                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>
                     </block>
 
                 </container>
@@ -88,7 +111,7 @@
                    name="custom.help.block"
                    template="Magento_Catalog::product/help.phtml"
                    after="product.info.main"/>
-                    
+
 
                 </container>
             </container>

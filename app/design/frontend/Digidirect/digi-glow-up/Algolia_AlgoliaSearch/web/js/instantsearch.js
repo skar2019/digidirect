@@ -1537,6 +1537,27 @@ window.addEventListener('load', () => {
   const body = document.body
   const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button')
 
+  // Helper: update .pa-product classes based on view mode
+  const updateProductClasses = () => {
+    const products = document.querySelectorAll('.pa-product')
+    if (!products.length) return // nothing yet — skip
+    if (body.classList.contains('list-view')) {
+      products.forEach(p => p.classList.add('list-view-col'))
+    } else {
+      products.forEach(p => p.classList.remove('list-view-col'))
+    }
+  }
+
+  // Wait until .pa-product elements exist
+  const waitForProducts = () => {
+    const products = document.querySelectorAll('.pa-product')
+    if (products.length) {
+      updateProductClasses()
+    } else {
+      setTimeout(waitForProducts, 200) // check again every 200ms
+    }
+  }
+
   // 1. Load saved view from localStorage
   const savedView = localStorage.getItem('viewMode')
   if (savedView === 'list') {
@@ -1546,6 +1567,9 @@ window.addEventListener('load', () => {
     body.classList.remove('list-view')
     document.querySelector('[data-view="grid"]').classList.add('is-active')
   }
+
+  // Run once elements exist
+  waitForProducts()
 
   // 2. Handle button clicks
   toggleButtons.forEach(button => {
@@ -1563,7 +1587,9 @@ window.addEventListener('load', () => {
 
       // 3. Save view choice
       localStorage.setItem('viewMode', view)
+
+      // 4. Update .pa-product layout
+      updateProductClasses()
     })
   })
 })
-
