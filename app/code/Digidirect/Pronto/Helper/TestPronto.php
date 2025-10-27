@@ -602,9 +602,16 @@ class TestPronto extends AbstractHelper
 
             }
 
+            $carriercode = "";
+
             if($orderId == '002536857')
             {
-                $territory = '3WHS';
+                $territory = 'COLL';
+            }
+
+            if($orderId == '002549538')
+            {
+                $carriercode = 'GO';
             }
 
             $accountname = $this->getAccountName($order);
@@ -1075,6 +1082,8 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            $data['sales-order']['header']['carrier-code'] = $carriercode;
+
 
             $city = $address->getCity();
             $region = $address->getRegion();
@@ -1134,7 +1143,7 @@ class TestPronto extends AbstractHelper
                 $shipcompany = 'Click and Collect';
                 if($shipcity = 'Strathfield South')
                 {
-                    $data['sales-order']['header']['carrier-code'] = "COLLECT";
+                    $data['sales-order']['header']['carrier-code'] = "COLL";
                 }
 
             }
@@ -1145,8 +1154,10 @@ class TestPronto extends AbstractHelper
 
             if($delivery == "Next Day Delivery" || $delivery == "Express - (Next Day Delivery)")
             {
-
-                $data['sales-order']['header']['carrier-code'] = "GOPEOPLE";
+                if($wrehs == "3WHS")
+                {
+                    $data['sales-order']['header']['carrier-code'] = "GO";
+                }
 
                 if($payment_type == 'LP' || $payment_type == 'BT')
                 {
