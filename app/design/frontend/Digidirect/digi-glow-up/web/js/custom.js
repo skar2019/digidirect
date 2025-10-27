@@ -1362,7 +1362,7 @@ $(function () {
     
     //Body fixed if Minicart is active
     
-    /*const $minicart = $('[data-block="minicart"]')
+    const $minicart = $('[data-block="minicart"]')
 
     const observer = new MutationObserver(function () {
       if ($minicart.hasClass('active')) {
@@ -1386,7 +1386,7 @@ $(function () {
 
     $(document).on('click', '.minicart-close', function () {
       $('html, body').css({ overflow: '', height: '' })
-    })*/
+    })
     
   })
 })
