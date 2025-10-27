@@ -606,7 +606,7 @@ class TestPronto extends AbstractHelper
 
             if($orderId == '002536857')
             {
-                $territory = 'COLL';
+                $carriercode = 'COLL';
             }
 
             if($orderId == '002549538')
