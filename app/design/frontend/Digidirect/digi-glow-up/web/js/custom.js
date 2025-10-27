@@ -1364,14 +1364,19 @@ $(function () {
     
     const $minicart = $('[data-block="minicart"]')
 
-    // Watch for changes to the minicart class (Magento toggles 'active')
     const observer = new MutationObserver(function () {
       if ($minicart.hasClass('active')) {
-        // 🟢 Minicart is open
-        $('body').css('position', 'fixed')
+        // 🟢 Minicart is open → disable scroll
+        $('html, body').css({
+          overflow: 'hidden',
+          height: '100%',
+        })
       } else {
-        // 🔴 Minicart is closed
-        $('body').css('position', '')
+        // 🔴 Minicart closed → restore scroll
+        $('html, body').css({
+          overflow: '',
+          height: '',
+        })
       }
     })
 
@@ -1379,9 +1384,8 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
-    // Also catch manual close button clicks (for safety)
     $(document).on('click', '.minicart-close', function () {
-      $('body').css('position', '')
+      $('html, body').css({ overflow: '', height: '' })
     })
     
   })
