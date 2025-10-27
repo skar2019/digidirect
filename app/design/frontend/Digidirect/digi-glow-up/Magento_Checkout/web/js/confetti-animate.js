@@ -1,99 +1,112 @@
 require(['jquery'], function ($) {
-    function initConfetti() {
         const pageWrapper = document.querySelector('.page-wrapper');
-        if (!pageWrapper) return;
+        if (pageWrapper) {
+            const partyCanvas = document.createElement('canvas');
+            partyCanvas.id = 'party-canvas';
+            partyCanvas.style.position = 'absolute';
+            partyCanvas.style.top = '0';
+            partyCanvas.style.left = '0';
+            partyCanvas.style.width = '100%';
+            partyCanvas.style.height = '100%';
+            partyCanvas.style.pointerEvents = 'none';
+            partyCanvas.style.zIndex = '9999';
+            pageWrapper.parentNode.insertBefore(partyCanvas, pageWrapper.nextSibling);
 
-        const canvas = document.createElement('canvas');
-        canvas.id = 'party-canvas';
-        Object.assign(canvas.style, {
-            position: 'absolute',
-            inset: '0',
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
-            zIndex: '9999'
-        });
-        pageWrapper.appendChild(canvas);
+            let animationFrameId;
+            const canvas = document.getElementById("party-canvas");
+            const ctx = canvas.getContext("2d");
+            const particles = [];
+            const gradientPairs = [
+                ["#00A1FF", "#422FD4"],
+                ["#FF003C", "#FF455E"],
+                ["#C20094", "#9C00C2"],
+                ["#D1D100", "#93D100"],
+                ["#FFA600", "#FFD100"]
+            ];
 
-        const ctx = canvas.getContext("2d");
-        const particles = [];
-        const gradientPairs = [
-            ["#00A1FF", "#422FD4"],
-            ["#FF003C", "#FF455E"],
-            ["#C20094", "#9C00C2"],
-            ["#D1D100", "#93D100"],
-            ["#FFA600", "#FFD100"]
-        ];
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
-
-        function createParticle() {
-            const g = gradientPairs[Math.floor(Math.random() * gradientPairs.length)];
-            const size = Math.random() * 20 + 10;
-
-            particles.push({
-                x: canvas.width / 2,    // start at top center
-                y: -100,                   // top of the page
-                w: size,
-                h: size * 1.2,
-                // horizontal velocity spreads outward
-                vx: (Math.random() - 0.5) * 40,
-                // vertical velocity mostly downward but slightly randomized
-                vy: Math.random() * 8 + 4,
-                rot: Math.random() * Math.PI,
-                g: g
-            });
-        }
-
-        const duration = 3500;
-        const startTime = performance.now();
-
-        function animate(now) {
-            const elapsed = now - startTime;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (elapsed < duration) {
-                for (let i = 0; i < 6; i++) createParticle();
+            function createParticle() {
+                const gradient = gradientPairs[Math.floor(Math.random() * gradientPairs.length)];
+                const width = Math.random() * 25 + 3;
+                const height = Math.random() * 30 + 10;
+                const originX = canvas.width / 2;
+                const originY = -100;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 10 + 7;
+                particles.push({
+                    x: originX,
+                    y: originY,
+                    width: width,
+                    height: height,
+                    speedX: Math.cos(angle) * speed,
+                    speedY: Math.sin(angle) * speed,
+                    rotation: (Math.random() - 0.5) * 2,
+                    gradient: gradient,
+                    gravity: 0.25,
+                    stopped: false,
+                    life: 0
+                });
             }
 
-            particles.forEach((p) => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.25;
-                p.vx *= 0.99;
-                p.rot += 0.03;
+            function updateParticle(particle) {
+                if (particle.stopped) return;
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                particle.rotation += 0.03;
+                particle.speedX *= 0.99;
+                particle.speedY *= 0.985;
+                particle.speedY += particle.gravity;
+                if (
+                    particle.y > canvas.height + 50 ||
+                    particle.x < -50 ||
+                    particle.x > canvas.width + 50
+                ) {
+                    particle.stopped = true;
+                }
+            }
 
+            function drawParticle(particle) {
                 ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rot);
-                const grd = ctx.createLinearGradient(0, 0, p.w, p.h);
-                grd.addColorStop(0, p.g[0]);
-                grd.addColorStop(1, p.g[1]);
-                ctx.fillStyle = grd;
-                ctx.fillRect(0, 0, p.w, p.h);
+                ctx.translate(particle.x, particle.y);
+                ctx.rotate(particle.rotation);
+                const gradient = ctx.createLinearGradient(0, 0, particle.width, particle.height);
+                gradient.addColorStop(0, particle.gradient[0]);
+                gradient.addColorStop(1, particle.gradient[1]);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, particle.width, particle.height);
                 ctx.restore();
-            });
-
-            if (elapsed < duration + 1500) {
-                requestAnimationFrame(animate);
-            } else {
-                canvas.remove();
             }
-        }
 
-        requestAnimationFrame(animate);
-    }
+            const totalDuration = 3500;
+            const interval = 10;
+            let particleCount = 0;
+            const emitter = setInterval(() => {
+                for (let i = 0; i < 5; i++) createParticle();
+                particleCount++;
+                if (particleCount * interval >= totalDuration) clearInterval(emitter);
+            }, interval);
 
-    // Run confetti once success message exists
-    const observeInterval = setInterval(() => {
-        if (document.querySelector('.checkout-success')) {
-            clearInterval(observeInterval);
-            initConfetti();
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p) => {
+                    updateParticle(p);
+                    drawParticle(p);
+                });
+                const allStopped = particles.every(p => p.stopped);
+                const isEmitting = particleCount * interval < totalDuration;
+                if (!allStopped || isEmitting) {
+                    animationFrameId = requestAnimationFrame(animate);
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                    canvas.style.display = 'none';
+                }
+            }
+            animate();
         }
-    }, 100);
 });
