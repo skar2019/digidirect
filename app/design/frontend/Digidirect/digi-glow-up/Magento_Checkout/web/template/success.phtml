@@ -62,21 +62,3 @@ require(['jquery'], function ($) {
 });
 
 </script>
-
-<script>
-    require(['jquery'], function ($) {
-        $(document).ready(function () {
-            var lastOrderId = "<?php echo $block->getOrderId(); ?>";
-            if (lastOrderId) {
-                localStorage.setItem("last_success_order", lastOrderId);
-            } else {
-                var storedOrder = localStorage.getItem("last_success_order");
-                if (storedOrder) {
-                    // Prevent redirect and show stored success page
-                    $('.checkout-success').show();
-                }
-            }
-        });
-    });
-
-</script>
