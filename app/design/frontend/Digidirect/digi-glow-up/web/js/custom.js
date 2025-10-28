@@ -370,7 +370,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (fixed)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (guaranteed open)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -387,20 +387,31 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
-             // Invalidate and reload cart data
-             customerData.invalidate(['cart'])
-             const cartData = customerData.get('cart')
+             // ✅ Reload the minicart safely after data refresh
+             require(['Magento_Customer/js/customer-data'], function (customerData) {
+               const cartData = customerData.get('cart')
+               let prevCount = cartData()?.summary_count || 0
 
-             // 🚀 Wait until cart actually updates before opening minicart
-             const subscription = cartData.subscribe(function (updatedCart) {
-               if (updatedCart.summary_count > 0) {
-                 setTimeout(() => openMinicart(), 500)
-                 subscription.dispose() // Clean up the subscription after opening
-               }
+               // 1️⃣ Invalidate and reload
+               customerData.invalidate(['cart'])
+               customerData.reload(['cart'], true)
+
+               // 2️⃣ Observe until item count increases
+               const interval = setInterval(() => {
+                 const newCount = cartData()?.summary_count || 0
+                 if (newCount > prevCount) {
+                   clearInterval(interval)
+                   setTimeout(() => openMinicart(), 500)
+                 }
+               }, 200)
+
+               // 3️⃣ Safety fallback: open after 2 seconds even if no data change detected
+               setTimeout(() => {
+                 clearInterval(interval)
+                 openMinicart()
+               }, 2000)
              })
 
-             // Reload cart data
-             customerData.reload(['cart'], true)
              $('body').trigger('processStop')
            },
            error: function (err) {
