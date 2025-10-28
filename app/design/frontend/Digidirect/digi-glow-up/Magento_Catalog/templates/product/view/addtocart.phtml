@@ -10,8 +10,8 @@
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
-$_specialOrderValue = false;//$block->getProduct()->getSpecialOrder();
-$_orderLimit = 1;//$block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
+$_specialOrderValue = $block->getProduct()->getSpecialOrder();
+$_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
 
 ?>
 <?php $_product = $block->getProduct(); ?>
@@ -123,13 +123,6 @@ $_orderLimit = 1;//$block->getProduct()->getResource()->getAttribute('order_limi
     {
         "#product_addtocart_form": {
             "Magento_Catalog/js/validate-product": {}
-        }
-    }
-</script>
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "Magento_Catalog/js/catalog-add-to-cart": {}
         }
     }
 </script>
