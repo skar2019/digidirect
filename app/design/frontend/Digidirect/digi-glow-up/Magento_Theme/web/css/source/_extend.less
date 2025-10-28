@@ -1402,6 +1402,54 @@ body.blur-active .global-blur-overlay {
     .message > *::before {
         display: none !important;
     }
+    
+    //Algolia Search
+    
+    .aa-Panel.is-ready {
+        margin-top: -22px;
+    }
+    
+    .aa-Source[data-autocomplete-source-id="querySuggestionsPlugin"] {
+        display: none !important;
+    }
+    
+    .aa-Source[data-autocomplete-source-id="products"] {
+        padding: 15px !important;
+    }
+    
+    #autocomplete-0-products-list {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .aa-Panel .algoliasearch-autocomplete-hit .thumb img {
+        max-height: 75px;
+        width: 80px !important;
+    }
+    
+    .algoliasearch-autocomplete-name {
+        font-size: 12px !important;
+        height: 35px;
+    }
+    
+    .aa-Panel .algoliasearch-autocomplete-price {
+        display: grid;
+    }
+    
+    span.before_price {
+        font-size: 9px;
+        font-weight: 100;
+    }
+    
+    span.after_special {
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .algoliasearch-autocomplete-hit .discount {
+        font-size: 9px;
+        font-weight: 500;
+    }
+
 
 }
 

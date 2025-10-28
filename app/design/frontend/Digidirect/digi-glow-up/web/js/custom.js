@@ -376,7 +376,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (no flicker)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (flicker-free)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -384,6 +384,10 @@ $(window).on('scroll resize', () => {
          const $form = $(this)
          const formData = new FormData($form[0])
          const actionUrl = $form.attr('action')
+
+         // 🚫 Prevent Magento's built-in "showcart" click during this flow
+         const $showCart = $('[data-block="minicart"] .action.showcart')
+         $showCart.off('click._defaultShowcart') // namespace just for clarity
 
          $.ajax({
            url: actionUrl,
@@ -397,22 +401,27 @@ $(window).on('scroll resize', () => {
                const cartData = customerData.get('cart')
                const prevCount = cartData()?.summary_count || 0
 
-               // 🚫 Don’t open immediately — wait for Magento cart to refresh
+               // Invalidate and reload
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
 
-               // 🕒 Wait for cart count to actually change
+               // Wait for cart count increase
                const interval = setInterval(() => {
                  const newCount = cartData()?.summary_count || 0
                  if (newCount > prevCount) {
                    clearInterval(interval)
-                   setTimeout(() => openMinicart(), 500) // ✅ Open only once
+                   setTimeout(() => {
+                     // Reattach click handler after we're done
+                     restoreDefaultMinicartBehavior()
+                     openMinicart()
+                   }, 400)
                  }
                }, 200)
 
-               // 🧩 Fallback: if no update detected within 2.5s, still open it
+               // Fallback: open even if count doesn’t change
                setTimeout(() => {
                  clearInterval(interval)
+                 restoreDefaultMinicartBehavior()
                  openMinicart()
                }, 2500)
              })
@@ -422,9 +431,24 @@ $(window).on('scroll resize', () => {
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
+             restoreDefaultMinicartBehavior()
            },
          })
        })
+     }
+
+     /* ========================
+        🔧 Restore Default Minicart
+     ======================== */
+     function restoreDefaultMinicartBehavior() {
+       const $showCart = $('[data-block="minicart"] .action.showcart')
+       // Rebind Magento’s default click event to allow manual opens later
+       if (!$showCart.data('mageInitRestored')) {
+         $showCart.data('mageInitRestored', true)
+         require(['mage/dropdown'], function () {
+           $showCart.dropdownDialog()
+         })
+       }
      }
 
      /* ========================
@@ -1506,80 +1530,32 @@ $(function () {
       }
     )
     
-    //Body fixed if Minicart is active
-    
-    /*const $minicart = $('[data-block="minicart"]')
+    //Test Fix Algolia Search Autocomplete In Mobile
+    $(document).on('touchstart click', function (e) {
+        const $target = $(e.target)
+        const $panel = $('.aa-Panel')
+        const $input = $('.aa-Input')
 
-    function isMobile() {
-      return window.innerWidth <= 768
-    }
+        // Ignore clicks inside search box or panel
+        if ($target.closest('.aa-Panel').length || $target.closest('.aa-Input').length) return
 
-    let scrollY = 0
-
-    const observer = new MutationObserver(function () {
-      const minicartActive = $minicart.hasClass('active')
-
-      const html = document.documentElement
-      const body = document.body
-
-      if (minicartActive && isMobile()) {
-        // 🟢 Minicart open → lock scroll
-        scrollY = window.scrollY
-        body.dataset.scrollY = scrollY
-
-        // Apply !important styles to both <html> and <body>
-        ;[html, body].forEach((el) => {
-          el.style.setProperty('position', 'fixed', 'important')
-          el.style.setProperty('top', `-${scrollY}px`, 'important')
-          el.style.setProperty('width', '100%', 'important')
-          el.style.setProperty('overflow-y', 'hidden', 'important')
-        })
-      } else {
-        // 🔴 Minicart closed → unlock scroll
-        setTimeout(() => {
-          const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-          // Remove inline styles
-          ;[html, body].forEach((el) => {
-            el.style.removeProperty('position')
-            el.style.removeProperty('top')
-            el.style.removeProperty('width')
-            el.style.removeProperty('overflow-y')
-          })
-          delete body.dataset.scrollY
-
-          // Restore scroll position smoothly
-          window.requestAnimationFrame(() => {
-            window.scrollTo(0, savedScrollY)
-          })
-        }, 300)
-      }
+        // Hide panel if open
+        if ($panel.is(':visible')) {
+          // Use Algolia API if available
+          if (window.__aa && typeof window.__aa.setIsOpen === 'function') {
+            window.__aa.setIsOpen(false)
+          } else {
+            $panel.hide()
+            $input.blur()
+          }
+        }
     })
 
-    if ($minicart.length) {
-      observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
-    }
-
-    // 🧩 Manual close fallback
-    $(document).on('click', '.minicart-close', function () {
-      setTimeout(() => {
-        const html = document.documentElement
-        const body = document.body
-        const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-        ;[html, body].forEach((el) => {
-          el.style.removeProperty('position')
-          el.style.removeProperty('top')
-          el.style.removeProperty('width')
-          el.style.removeProperty('overflow-y')
-        })
-        delete body.dataset.scrollY
-
-        window.requestAnimationFrame(() => {
-          window.scrollTo(0, savedScrollY)
-        })
-      }, 300)
-    })*/
+    // Optional: close panel on scroll (common mobile UX)
+    $(window).on('scroll', function () {
+      const $panel = $('.aa-Panel')
+      if ($panel.is(':visible')) $panel.hide()
+    })
     
   })
 })
