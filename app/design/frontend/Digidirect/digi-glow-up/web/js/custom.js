@@ -320,51 +320,48 @@ $(window).on('scroll resize', () => {
      ======================== */
      const $minicart = $('[data-block="minicart"]')
      let scrollY = 0
+     let isLocked = false
 
      function isMobile() {
        return window.innerWidth <= 768
      }
 
      function lockScroll() {
-       if (!isMobile()) return
-
+       if (!isMobile() || isLocked) return
        scrollY = window.scrollY
        document.body.dataset.scrollY = scrollY
+       isLocked = true
 
-       const html = document.documentElement
-       const body = document.body
-
-       html.style.setProperty('position', 'fixed', 'important')
-       html.style.setProperty('top', `-${scrollY}px`, 'important')
-       html.style.setProperty('width', '100%', 'important')
-       html.style.setProperty('overflow-y', 'hidden', 'important')
-
-       body.style.setProperty('position', 'fixed', 'important')
-       body.style.setProperty('top', `-${scrollY}px`, 'important')
-       body.style.setProperty('width', '100%', 'important')
-       body.style.setProperty('overflow-y', 'hidden', 'important')
+       ;[document.documentElement, document.body].forEach((el) => {
+         el.style.position = 'fixed'
+         el.style.top = `-${scrollY}px`
+         el.style.left = '0'
+         el.style.right = '0'
+         el.style.width = '100%'
+         el.style.overflow = 'hidden'
+       })
      }
 
      function unlockScroll() {
-       const html = document.documentElement
-       const body = document.body
-       const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
+       if (!isLocked) return
+       const savedScrollY = parseInt(document.body.dataset.scrollY || '0', 10)
+       isLocked = false
 
-       html.style.removeProperty('position')
-       html.style.removeProperty('top')
-       html.style.removeProperty('width')
-       html.style.removeProperty('overflow-y')
-
-       body.style.removeProperty('position')
-       body.style.removeProperty('top')
-       body.style.removeProperty('width')
-       body.style.removeProperty('overflow-y')
-
-       delete body.dataset.scrollY
-
-       window.requestAnimationFrame(() => {
-         window.scrollTo(0, savedScrollY)
+       ;[document.documentElement, document.body].forEach((el) => {
+         el.style.position = ''
+         el.style.top = ''
+         el.style.left = ''
+         el.style.right = ''
+         el.style.width = ''
+         el.style.overflow = ''
        })
+
+       delete document.body.dataset.scrollY
+
+       // Wait for browser reflow before restoring scroll
+       setTimeout(() => {
+         window.scrollTo(0, savedScrollY)
+       }, 50)
      }
 
      /* ========================
@@ -387,7 +384,7 @@ $(window).on('scroll resize', () => {
        } else {
          if ($headerMenu.length) $headerMenu.css('z-index', '')
          if ($miniOverlay.length) $miniOverlay.css('display', 'none')
-         setTimeout(unlockScroll, 300)
+         setTimeout(unlockScroll, 300) // allow minicart close animation to finish
        }
      }
 
