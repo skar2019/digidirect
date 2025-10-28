@@ -274,137 +274,178 @@ $(window).on('scroll resize', () => {
      })
 
     /* ========================
-      🛒 AJAX Add to Cart + Minicart (List + PDP)
-   ======================== */
-  let minicartShouldOpen = false
+        🛒 AJAX Add to Cart + Minicart (for list & PDP)
+     ======================== */
+     $(document).on(
+       'submit',
+       'form[data-role="tocart-form"], #product_addtocart_form',
+       function (e) {
+         e.preventDefault()
+         const $form = $(this)
+         const formData = new FormData($form[0])
+         const actionUrl = $form.attr('action')
 
-  $(document).on('submit', 'form[data-role="tocart-form"], #product_addtocart_form', function (e) {
-    e.preventDefault()
-    const $form = $(this)
-    const formData = new FormData($form[0])
-    const actionUrl = $form.attr('action')
+         $.ajax({
+           url: actionUrl,
+           type: 'POST',
+           data: formData,
+           processData: false,
+           contentType: false,
+           showLoader: true,
+           success: function () {
+             customerData.invalidate(['cart'])
+             customerData.reload(['cart'], true)
+             $('body').trigger('processStop')
 
-    $.ajax({
-      url: actionUrl,
-      type: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
-      showLoader: true,
-      success: function () {
-        minicartShouldOpen = true
-        customerData.invalidate(['cart'])
-        customerData.reload(['cart'], true)
-        $('body').trigger('processStop')
-      },
-      error: function (err) {
-        console.error('Add to cart failed', err)
-        $('body').trigger('processStop')
-      },
-    })
-  })
+             // Open minicart slightly later to avoid scroll-lock race
+             setTimeout(() => openMinicart(), 700)
+           },
+           error: function (err) {
+             console.error('Add to cart failed', err)
+             $('body').trigger('processStop')
+           },
+         })
+       }
+     )
 
-  /* ========================
-      👁️ Handle Minicart Visibility
-   ======================== */
-  const $minicart = $('[data-block="minicart"]')
-  const $overlay = $('.minicart-overlay')
+     /* ========================
+        🔒 Scroll Lock on Mobile
+     ======================== */
+     const $minicart = $('[data-block="minicart"]')
+     let scrollY = 0
+     let isLocked = false
 
-  function openMinicart() {
-    const $showCart = $minicart.find('.action.showcart')
-    if ($showCart.length) {
-      $showCart.trigger('click')
-    } else {
-      $minicart.trigger('click')
-    }
-    setTimeout(updateMinicartOverlay, 300)
-  }
+     function isMobile() {
+       return window.innerWidth <= 768
+     }
 
-  function updateMinicartOverlay() {
-    const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
-    const visible = $dropdown.is(':visible') && $dropdown.css('display') !== 'none'
+     function lockScroll() {
+       if (!isMobile() || isLocked) return
+       scrollY = window.scrollY
+       document.body.dataset.scrollY = scrollY
+       isLocked = true
 
-    if (visible) {
-      if ($overlay.length) $overlay.show()
-      lockScroll() // ✅ Lock scroll for both mobile & desktop
-    } else {
-      if ($overlay.length) $overlay.hide()
-      unlockScroll()
-    }
-  }
+       // Wait a bit for minicart animation
+       setTimeout(() => {
+         ;[document.documentElement, document.body].forEach((el) => {
+           el.style.position = 'fixed'
+           el.style.top = `-${scrollY}px`
+           el.style.left = '0'
+           el.style.right = '0'
+           el.style.width = '100%'
+           el.style.overflow = 'hidden'
+         })
+       }, 150)
+     }
 
-  /* ========================
-      🔒 Global Scroll Lock (All devices)
-   ======================== */
-  let scrollY = 0
-  let isLocked = false
+     function unlockScroll() {
+       if (!isLocked) return
+       const savedScrollY = parseInt(document.body.dataset.scrollY || '0', 10)
+       isLocked = false
 
-  function lockScroll() {
-    if (isLocked) return
-    isLocked = true
-    scrollY = window.scrollY
-    document.body.dataset.scrollY = scrollY
+       ;[document.documentElement, document.body].forEach((el) => {
+         el.style.position = ''
+         el.style.top = ''
+         el.style.left = ''
+         el.style.right = ''
+         el.style.width = ''
+         el.style.overflow = ''
+       })
 
-    // Apply fixed layout to freeze scroll on entire page
-    setTimeout(() => {
-      [document.documentElement, document.body].forEach((el) => {
-        el.style.position = 'fixed'
-        el.style.top = `-${scrollY}px`
-        el.style.left = '0'
-        el.style.right = '0'
-        el.style.width = '100%'
-        el.style.overflow = 'hidden'
-      })
-    }, 200)
-  }
+       delete document.body.dataset.scrollY
 
-  function unlockScroll() {
-    if (!isLocked) return
-    const y = parseInt(document.body.dataset.scrollY || '0', 10)
-    isLocked = false
+       // Restore scroll position after unlock
+       setTimeout(() => window.scrollTo(0, savedScrollY), 100)
+     }
 
-    [document.documentElement, document.body].forEach((el) => {
-      el.style.position = ''
-      el.style.top = ''
-      el.style.left = ''
-      el.style.right = ''
-      el.style.width = ''
-      el.style.overflow = ''
-    })
-    delete document.body.dataset.scrollY
+     /* ========================
+        👁️ Minicart Overlay Handler
+     ======================== */
+     function updateMinicartOverlay() {
+       const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+       const $headerMenu = $('.ruby-menu-demo-header')
+       const $miniOverlay = $('.minicart-overlay')
 
-    // Smooth restore
-    setTimeout(() => window.scrollTo(0, y), 100)
-  }
+       const isVisible =
+         $minicartDropdown.length &&
+         $minicartDropdown.is(':visible') &&
+         $minicartDropdown.css('display') !== 'none'
 
-  /* ========================
-      🧠 Watch Cart Data (Only open when changed)
-   ======================== */
-  let prevCount = 0
-  const cartData = customerData.get('cart')
+       if (isVisible) {
+         if ($headerMenu.length) $headerMenu.css('z-index', 0)
+         if ($miniOverlay.length) $miniOverlay.css('display', 'block')
+         lockScroll()
+       } else {
+         if ($headerMenu.length) $headerMenu.css('z-index', '')
+         if ($miniOverlay.length) $miniOverlay.css('display', 'none')
+         setTimeout(unlockScroll, 300)
+       }
+     }
 
-  cartData.subscribe(function (updatedCart) {
-    const newCount = updatedCart.summary_count || 0
-    const added = newCount > prevCount
-    prevCount = newCount
+     /* ========================
+        🧩 Open Minicart Function
+     ======================== */
+     function openMinicart() {
+       const $showCart = $minicart.find('.action.showcart')
+       if ($showCart.length) {
+         $showCart.trigger('click')
+       } else {
+         $minicart.trigger('click')
+       }
+       setTimeout(updateMinicartOverlay, 300)
+     }
 
-    if (minicartShouldOpen && added) {
-      minicartShouldOpen = false
-      console.log('🛒 Product added — opening minicart')
-      setTimeout(() => {
-        openMinicart()
-        setTimeout(updateMinicartOverlay, 600)
-      }, 400)
-    }
-  })
+     /* ========================
+        🧠 Mutation Observer
+     ======================== */
+     if (window.MutationObserver) {
+       const miniObserver = new MutationObserver(() => updateMinicartOverlay())
+       miniObserver.observe(document.body, {
+         childList: true,
+         subtree: true,
+         attributes: true,
+         attributeFilter: ['style', 'class'],
+       })
+     }
 
-  /* ========================
-      ❌ Manual Close
-   ======================== */
-  $(document).on('click', '.minicart-close', () => {
-    unlockScroll()
-    if ($overlay.length) $overlay.hide()
-  })
+     /* ========================
+        🕒 Interval Fallback + Cleanup
+     ======================== */
+     const miniInterval = setInterval(updateMinicartOverlay, 400)
+     $(window).on('unload beforeunload', () => clearInterval(miniInterval))
+
+     /* ========================
+        ❌ Manual Close Fallback
+     ======================== */
+     $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
+
+     /* ========================
+        💡 PDP Compatibility Fix (no auto-open on page load)
+     ======================== */
+     require(['Magento_Customer/js/customer-data'], function (customerData) {
+       let prevCount = 0
+       let firstLoad = true
+       const cartData = customerData.get('cart')
+
+       cartData.subscribe(function (updatedCart) {
+         const newCount = updatedCart.summary_count || 0
+
+         // 🚫 Skip first load to prevent opening minicart on page load
+         if (firstLoad) {
+           prevCount = newCount
+           firstLoad = false
+           return
+         }
+
+         // ✅ Trigger only when item count increases
+         if (newCount > prevCount) {
+           console.log('🛒 Product added — auto-opening minicart')
+           setTimeout(() => openMinicart(), 500)
+         }
+
+         prevCount = newCount
+       })
+     })
 
     /* ========================
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
@@ -1414,81 +1455,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-    
-    //Body fixed if Minicart is active
-    
-    /*const $minicart = $('[data-block="minicart"]')
-
-    function isMobile() {
-      return window.innerWidth <= 768
-    }
-
-    let scrollY = 0
-
-    const observer = new MutationObserver(function () {
-      const minicartActive = $minicart.hasClass('active')
-
-      const html = document.documentElement
-      const body = document.body
-
-      if (minicartActive && isMobile()) {
-        // 🟢 Minicart open → lock scroll
-        scrollY = window.scrollY
-        body.dataset.scrollY = scrollY
-
-        // Apply !important styles to both <html> and <body>
-        ;[html, body].forEach((el) => {
-          el.style.setProperty('position', 'fixed', 'important')
-          el.style.setProperty('top', `-${scrollY}px`, 'important')
-          el.style.setProperty('width', '100%', 'important')
-          el.style.setProperty('overflow-y', 'hidden', 'important')
-        })
-      } else {
-        // 🔴 Minicart closed → unlock scroll
-        setTimeout(() => {
-          const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-          // Remove inline styles
-          ;[html, body].forEach((el) => {
-            el.style.removeProperty('position')
-            el.style.removeProperty('top')
-            el.style.removeProperty('width')
-            el.style.removeProperty('overflow-y')
-          })
-          delete body.dataset.scrollY
-
-          // Restore scroll position smoothly
-          window.requestAnimationFrame(() => {
-            window.scrollTo(0, savedScrollY)
-          })
-        }, 300)
-      }
-    })
-
-    if ($minicart.length) {
-      observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
-    }
-
-    // 🧩 Manual close fallback
-    $(document).on('click', '.minicart-close', function () {
-      setTimeout(() => {
-        const html = document.documentElement
-        const body = document.body
-        const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-        ;[html, body].forEach((el) => {
-          el.style.removeProperty('position')
-          el.style.removeProperty('top')
-          el.style.removeProperty('width')
-          el.style.removeProperty('overflow-y')
-        })
-        delete body.dataset.scrollY
-
-        window.requestAnimationFrame(() => {
-          window.scrollTo(0, savedScrollY)
-        })
-      }, 300)
-    })*/
     
   })
 })
