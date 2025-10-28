@@ -1368,24 +1368,36 @@ $(function () {
       return window.innerWidth <= 768
     }
 
+    let scrollY = 0
+
     const observer = new MutationObserver(function () {
       const minicartActive = $minicart.hasClass('active')
 
       if (minicartActive && isMobile()) {
-        // 🟢 Minicart open on mobile → disable background scroll
-        const scrollY = window.scrollY
+        // 🟢 Lock scroll (save position)
+        scrollY = window.scrollY
         $('body')
           .css({
             position: 'fixed',
             top: `-${scrollY}px`,
             width: '100%',
+            overflowY: 'hidden', // extra safety for mobile
           })
-          .attr('data-scrollY', scrollY)
       } else {
-        // 🔴 Minicart closed or desktop → restore scroll
-        const scrollY = $('body').attr('data-scrollY')
-        $('body').css({ position: '', top: '', width: '' }).removeAttr('data-scrollY')
-        if (scrollY) window.scrollTo(0, parseInt(scrollY, 10))
+        // 🔴 Unlock scroll
+        setTimeout(() => {
+          $('body').css({
+            position: '',
+            top: '',
+            width: '',
+            overflowY: '',
+          })
+
+          // Small delay helps Safari properly restore scroll
+          window.requestAnimationFrame(() => {
+            window.scrollTo(0, scrollY)
+          })
+        }, 300) // match or slightly exceed minicart closing animation time
       }
     })
 
@@ -1393,11 +1405,19 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
-    // Manually reset on close button click (extra safety)
+    // Safety fallback on close button click
     $(document).on('click', '.minicart-close', function () {
-      const scrollY = $('body').attr('data-scrollY')
-      $('body').css({ position: '', top: '', width: '' }).removeAttr('data-scrollY')
-      if (scrollY) window.scrollTo(0, parseInt(scrollY, 10))
+      setTimeout(() => {
+        $('body').css({
+          position: '',
+          top: '',
+          width: '',
+          overflowY: '',
+        })
+        window.requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY)
+        })
+      }, 300)
     })
     
   })
