@@ -1373,36 +1373,40 @@ $(function () {
     const observer = new MutationObserver(function () {
       const minicartActive = $minicart.hasClass('active')
 
+      const html = document.documentElement
+      const body = document.body
+
       if (minicartActive && isMobile()) {
         // 🟢 Minicart open → lock scroll
         scrollY = window.scrollY
-
-        const body = document.body
         body.dataset.scrollY = scrollY
 
-        // apply !important styles dynamically
-        body.style.setProperty('position', 'fixed', 'important')
-        body.style.setProperty('top', `-${scrollY}px`, 'important')
-        body.style.setProperty('width', '100%', 'important')
-        body.style.setProperty('overflow-y', 'hidden', 'important')
+        // Apply !important styles to both <html> and <body>
+        ;[html, body].forEach((el) => {
+          el.style.setProperty('position', 'fixed', 'important')
+          el.style.setProperty('top', `-${scrollY}px`, 'important')
+          el.style.setProperty('width', '100%', 'important')
+          el.style.setProperty('overflow-y', 'hidden', 'important')
+        })
       } else {
         // 🔴 Minicart closed → unlock scroll
         setTimeout(() => {
-          const body = document.body
           const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
 
-          // remove applied inline styles
-          body.style.removeProperty('position')
-          body.style.removeProperty('top')
-          body.style.removeProperty('width')
-          body.style.removeProperty('overflow-y')
+          // Remove inline styles
+          ;[html, body].forEach((el) => {
+            el.style.removeProperty('position')
+            el.style.removeProperty('top')
+            el.style.removeProperty('width')
+            el.style.removeProperty('overflow-y')
+          })
           delete body.dataset.scrollY
 
-          // restore scroll position
+          // Restore scroll position smoothly
           window.requestAnimationFrame(() => {
             window.scrollTo(0, savedScrollY)
           })
-        }, 300) // wait for close animation
+        }, 300)
       }
     })
 
@@ -1410,16 +1414,21 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
-    // 🧩 Safety: manual close fallback
+    // 🧩 Manual close fallback
     $(document).on('click', '.minicart-close', function () {
       setTimeout(() => {
+        const html = document.documentElement
         const body = document.body
         const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-        body.style.removeProperty('position')
-        body.style.removeProperty('top')
-        body.style.removeProperty('width')
-        body.style.removeProperty('overflow-y')
+
+        ;[html, body].forEach((el) => {
+          el.style.removeProperty('position')
+          el.style.removeProperty('top')
+          el.style.removeProperty('width')
+          el.style.removeProperty('overflow-y')
+        })
         delete body.dataset.scrollY
+
         window.requestAnimationFrame(() => {
           window.scrollTo(0, savedScrollY)
         })
