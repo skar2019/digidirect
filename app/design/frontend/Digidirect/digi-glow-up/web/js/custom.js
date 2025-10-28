@@ -376,7 +376,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (flicker-free)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (stable)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -384,10 +384,6 @@ $(window).on('scroll resize', () => {
          const $form = $(this)
          const formData = new FormData($form[0])
          const actionUrl = $form.attr('action')
-
-         // 🚫 Prevent Magento's built-in "showcart" click during this flow
-         const $showCart = $('[data-block="minicart"] .action.showcart')
-         $showCart.off('click._defaultShowcart') // namespace just for clarity
 
          $.ajax({
            url: actionUrl,
@@ -401,29 +397,29 @@ $(window).on('scroll resize', () => {
                const cartData = customerData.get('cart')
                const prevCount = cartData()?.summary_count || 0
 
-               // Invalidate and reload
+               // 1️⃣ Invalidate and reload cart
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
 
-               // Wait for cart count increase
-               const interval = setInterval(() => {
+               // 2️⃣ Wait for cart to actually update
+               let opened = false
+               const checkInterval = setInterval(() => {
                  const newCount = cartData()?.summary_count || 0
-                 if (newCount > prevCount) {
-                   clearInterval(interval)
-                   setTimeout(() => {
-                     // Reattach click handler after we're done
-                     restoreDefaultMinicartBehavior()
-                     openMinicart()
-                   }, 400)
+                 if (newCount > prevCount && !opened) {
+                   opened = true
+                   clearInterval(checkInterval)
+                   showStableMinicart()
                  }
-               }, 200)
+               }, 150)
 
-               // Fallback: open even if count doesn’t change
+               // 3️⃣ Fallback — open after 2s even if count doesn’t update
                setTimeout(() => {
-                 clearInterval(interval)
-                 restoreDefaultMinicartBehavior()
-                 openMinicart()
-               }, 2500)
+                 if (!opened) {
+                   opened = true
+                   clearInterval(checkInterval)
+                   showStableMinicart()
+                 }
+               }, 2000)
              })
 
              $('body').trigger('processStop')
@@ -431,24 +427,31 @@ $(window).on('scroll resize', () => {
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
-             restoreDefaultMinicartBehavior()
            },
          })
        })
      }
 
      /* ========================
-        🔧 Restore Default Minicart
+        🧩 Stable Open Helper
      ======================== */
-     function restoreDefaultMinicartBehavior() {
-       const $showCart = $('[data-block="minicart"] .action.showcart')
-       // Rebind Magento’s default click event to allow manual opens later
-       if (!$showCart.data('mageInitRestored')) {
-         $showCart.data('mageInitRestored', true)
-         require(['mage/dropdown'], function () {
-           $showCart.dropdownDialog()
-         })
-       }
+     function showStableMinicart() {
+       // Wait briefly for Magento to finish re-rendering DOM
+       setTimeout(() => {
+         const $minicart = $('[data-block="minicart"]')
+         const $showCart = $minicart.find('.action.showcart')
+
+         if ($showCart.length) $showCart.trigger('click')
+         else $minicart.trigger('click')
+
+         // 🧠 Ensure overlay + scroll lock update after open
+         setTimeout(updateMinicartOverlay, 400)
+
+         // 📱 Auto scroll to top on mobile so it’s visible
+         if (window.innerWidth <= 768) {
+           setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+         }
+       }, 400)
      }
 
      /* ========================
@@ -1529,33 +1532,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-    
-    //Test Fix Algolia Search Autocomplete In Mobile
-    $(document).on('touchstart click', function (e) {
-        const $target = $(e.target)
-        const $panel = $('.aa-Panel')
-        const $input = $('.aa-Input')
-
-        // Ignore clicks inside search box or panel
-        if ($target.closest('.aa-Panel').length || $target.closest('.aa-Input').length) return
-
-        // Hide panel if open
-        if ($panel.is(':visible')) {
-          // Use Algolia API if available
-          if (window.__aa && typeof window.__aa.setIsOpen === 'function') {
-            window.__aa.setIsOpen(false)
-          } else {
-            $panel.hide()
-            $input.blur()
-          }
-        }
-    })
-
-    // Optional: close panel on scroll (common mobile UX)
-    $(window).on('scroll', function () {
-      const $panel = $('.aa-Panel')
-      if ($panel.is(':visible')) $panel.hide()
-    })
     
   })
 })
