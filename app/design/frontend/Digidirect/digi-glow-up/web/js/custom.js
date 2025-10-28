@@ -370,7 +370,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (fixed)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -387,10 +387,21 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
+             // Invalidate and reload cart data
              customerData.invalidate(['cart'])
+             const cartData = customerData.get('cart')
+
+             // 🚀 Wait until cart actually updates before opening minicart
+             const subscription = cartData.subscribe(function (updatedCart) {
+               if (updatedCart.summary_count > 0) {
+                 setTimeout(() => openMinicart(), 500)
+                 subscription.dispose() // Clean up the subscription after opening
+               }
+             })
+
+             // Reload cart data
              customerData.reload(['cart'], true)
              $('body').trigger('processStop')
-             setTimeout(() => openMinicart(), 700) // ✅ Auto open on PLP
            },
            error: function (err) {
              console.error('Add to cart failed', err)
