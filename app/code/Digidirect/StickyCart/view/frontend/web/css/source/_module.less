@@ -2,10 +2,10 @@
 @sticky-cart-bg: #fff;
 @sticky-cart-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 @sticky-cart-z-index: 1000;
-@sticky-cart-padding: 5px 25px;
+@sticky-cart-padding: 5px 15px;
 @sticky-cart-transition: transform 0.3s ease;
 
-@product-image-size: 80px;
+@product-image-size: 60px;
 @product-image-radius: 8px;
 
 @price-font-size: 20px;
@@ -43,6 +43,7 @@
         padding: @sticky-cart-padding;
         opacity: 0;
         visibility: hidden;
+        margin: 0 5px;
 
         &.visible {
             transform: translateY(0);
