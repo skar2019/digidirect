@@ -274,7 +274,7 @@ $(window).on('scroll resize', () => {
      })
 
     /* ========================
-        🛒 AJAX Add to Cart + Minicart
+        🛒 AJAX Add to Cart + Minicart (for list pages)
      ======================== */
      $(document).on(
        'submit',
@@ -292,20 +292,13 @@ $(window).on('scroll resize', () => {
            processData: false,
            contentType: false,
            showLoader: true,
-           success: function (response) {
+           success: function () {
              customerData.invalidate(['cart'])
              customerData.reload(['cart'], true)
              $('body').trigger('processStop')
 
-             setTimeout(function () {
-               const $showCart = $('[data-block="minicart"]').find('.action.showcart')
-               if ($showCart.length) {
-                 $showCart.trigger('click')
-               } else {
-                 $('[data-block="minicart"]').trigger('click')
-               }
-               updateMinicartOverlay()
-             }, 500)
+             // Open minicart slightly later to avoid scroll-lock race
+             setTimeout(() => openMinicart(), 700)
            },
            error: function (err) {
              console.error('Add to cart failed', err)
@@ -332,7 +325,7 @@ $(window).on('scroll resize', () => {
        document.body.dataset.scrollY = scrollY
        isLocked = true
 
-       // Delay to allow minicart DOM to position correctly
+       // Delay slightly to ensure minicart overlay is visible before locking
        setTimeout(() => {
          ;[document.documentElement, document.body].forEach((el) => {
            el.style.position = 'fixed'
@@ -342,7 +335,7 @@ $(window).on('scroll resize', () => {
            el.style.width = '100%'
            el.style.overflow = 'hidden'
          })
-       }, 150) // wait for minicart animation start
+       }, 250)
      }
 
      function unlockScroll() {
@@ -361,10 +354,8 @@ $(window).on('scroll resize', () => {
 
        delete document.body.dataset.scrollY
 
-       // Restore scroll smoothly after unlock
-       setTimeout(() => {
-         window.scrollTo(0, savedScrollY)
-       }, 50)
+       // Restore scroll after a small delay
+       setTimeout(() => window.scrollTo(0, savedScrollY), 100)
      }
 
      /* ========================
@@ -387,8 +378,21 @@ $(window).on('scroll resize', () => {
        } else {
          if ($headerMenu.length) $headerMenu.css('z-index', '')
          if ($miniOverlay.length) $miniOverlay.css('display', 'none')
-         setTimeout(unlockScroll, 300) // after close animation
+         setTimeout(unlockScroll, 300)
        }
+     }
+
+     /* ========================
+        🧩 Open Minicart Function
+     ======================== */
+     function openMinicart() {
+       const $showCart = $minicart.find('.action.showcart')
+       if ($showCart.length) {
+         $showCart.trigger('click')
+       } else {
+         $minicart.trigger('click')
+       }
+       setTimeout(updateMinicartOverlay, 300)
      }
 
      /* ========================
@@ -407,16 +411,30 @@ $(window).on('scroll resize', () => {
      /* ========================
         🕒 Interval Fallback + Cleanup
      ======================== */
-     const miniInterval = setInterval(updateMinicartOverlay, 300)
-     $(window).on('unload beforeunload', function () {
-       clearInterval(miniInterval)
-     })
+     const miniInterval = setInterval(updateMinicartOverlay, 400)
+     $(window).on('unload beforeunload', () => clearInterval(miniInterval))
 
      /* ========================
         ❌ Manual Close Fallback
      ======================== */
-     $(document).on('click', '.minicart-close', function () {
-       setTimeout(unlockScroll, 300)
+     $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
+
+     /* ========================
+        💡 PDP Compatibility Fix
+     ======================== */
+     require(['Magento_Customer/js/customer-data'], function (customerData) {
+       let prevCount = 0
+       const cartData = customerData.get('cart')
+
+       // Watch for cart item count changes (works globally)
+       cartData.subscribe(function (updatedCart) {
+         const newCount = updatedCart.summary_count || 0
+         if (newCount > prevCount) {
+           console.log('🛒 Product added — auto-opening minicart')
+           setTimeout(() => openMinicart(), 500)
+         }
+         prevCount = newCount
+       })
      })
 
     /* ========================
