@@ -14,16 +14,22 @@
 <script>
     function scrollToProductOverview() {
         const element = document.getElementById("tab-label-productoverview") ||
-            document.getElementById("tab-label-description");
+            document.getElementById("tab-label-description-title");
 
         if(element) {
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - 100;
+            // Click the tab to open it
+            element.click();
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
+            // Small delay to allow tab content to render before scrolling
+            setTimeout(() => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - 100;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
         }
     }
 </script>

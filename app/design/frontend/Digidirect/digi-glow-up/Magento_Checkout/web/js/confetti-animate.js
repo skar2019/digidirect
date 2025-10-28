@@ -60,7 +60,7 @@ require(['jquery'], function ($) {
                 particle.y += particle.speedY;
                 particle.rotation += 0.03;
                 particle.speedX *= 0.99;
-                particle.speedY *= 0.985;
+                particle.speedY *= 0.975;
                 particle.speedY += particle.gravity;
                 if (
                     particle.y > canvas.height + 50 ||
@@ -83,7 +83,7 @@ require(['jquery'], function ($) {
                 ctx.restore();
             }
 
-            const totalDuration = 3500;
+            const totalDuration = 2500;
             const interval = 10;
             let particleCount = 0;
             const emitter = setInterval(() => {
