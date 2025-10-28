@@ -1364,19 +1364,28 @@ $(function () {
     
     const $minicart = $('[data-block="minicart"]')
 
+    function isMobile() {
+      return window.innerWidth <= 768
+    }
+
     const observer = new MutationObserver(function () {
-      if ($minicart.hasClass('active')) {
-        // 🟢 Minicart is open → disable scroll
-        $('html, body').css({
-          overflow: 'hidden',
-          height: '100%',
-        })
+      const minicartActive = $minicart.hasClass('active')
+
+      if (minicartActive && isMobile()) {
+        // 🟢 Minicart open on mobile → disable background scroll
+        const scrollY = window.scrollY
+        $('body')
+          .css({
+            position: 'fixed',
+            top: `-${scrollY}px`,
+            width: '100%',
+          })
+          .attr('data-scrollY', scrollY)
       } else {
-        // 🔴 Minicart closed → restore scroll
-        $('html, body').css({
-          overflow: '',
-          height: '',
-        })
+        // 🔴 Minicart closed or desktop → restore scroll
+        const scrollY = $('body').attr('data-scrollY')
+        $('body').css({ position: '', top: '', width: '' }).removeAttr('data-scrollY')
+        if (scrollY) window.scrollTo(0, parseInt(scrollY, 10))
       }
     })
 
@@ -1384,8 +1393,11 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
+    // Manually reset on close button click (extra safety)
     $(document).on('click', '.minicart-close', function () {
-      $('html, body').css({ overflow: '', height: '' })
+      const scrollY = $('body').attr('data-scrollY')
+      $('body').css({ position: '', top: '', width: '' }).removeAttr('data-scrollY')
+      if (scrollY) window.scrollTo(0, parseInt(scrollY, 10))
     })
     
   })
