@@ -1397,62 +1397,62 @@ body.blur-active .global-blur-overlay {
         align-items: center;
         justify-content: center;
     }
-    
+
     //Message
-    
+
     .message.message div {
         max-width: 100%;
         padding: 0 !important;
         line-height: 20px;
     }
-    
+
     .message > *::before {
         display: none !important;
     }
-    
+
     //Algolia Search
-    
+
     .aa-Panel.is-ready {
         margin-top: -22px;
         height: 100vh;
     }
-    
+
     .aa-Source[data-autocomplete-source-id="querySuggestionsPlugin"] {
         display: none !important;
     }
-    
+
     .aa-Source[data-autocomplete-source-id="products"] {
         padding: 15px !important;
     }
-    
+
     #autocomplete-0-products-list {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .aa-Panel .algoliasearch-autocomplete-hit .thumb img {
         max-height: 75px;
         width: 80px !important;
     }
-    
+
     .algoliasearch-autocomplete-name {
         font-size: 12px !important;
         height: 35px;
     }
-    
+
     .aa-Panel .algoliasearch-autocomplete-price {
         display: grid;
     }
-    
+
     span.before_price {
         font-size: 9px;
         font-weight: 100;
     }
-    
+
     span.after_special {
         font-size: 12px;
         font-weight: 500;
     }
-    
+
     .algoliasearch-autocomplete-hit .discount {
         font-size: 9px;
         font-weight: 500;
@@ -1701,3 +1701,126 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: #000 !important;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+.ui-datepicker-trigger-glowup {
+    background-image: none;
+    background: 0 0;
+    -moz-box-sizing: content-box;
+    border: 0;
+    box-shadow: none;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+    font-weight: 400;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative !important;
+    cursor: pointer;
+
+    &:hover, &:active, &:focus{
+        background: unset !important;
+        border: unset !important;
+        color: unset !important;
+        box-shadow: unset !important;
+    }
+
+    &:before {
+        color: #fe4c25 !important;
+        right: 10px !important;
+        position: relative !important;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 40px;
+        line-height: 40px;
+        content: '\e612';
+        font-family: "icomoon";
+        vertical-align: middle;
+        display: inline-block;
+        font-weight: normal;
+        overflow: hidden;
+        speak: none;
+        text-align: center;
+    }
+
+    & > span {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+}
+
+#ui-datepicker-div {
+    display: none !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover {
+    background-color: #fe4c25 !important;
+    border-color: #fe4c25 !important;
+    color: #fff !important;
+}
+
+.flatpickr-day.today {
+    background-color: rgba(57,57,57,0.3) !important;
+    border-color: rgba(57,57,57,0.3) !important;
+}
+
+.flatpickr-day:hover {
+    background-color: rgba(254, 76, 37, 0.2) !important;
+    border-color: #fe4c25 !important;
+}
+
+
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg {
+    //fill: #fe4c25;
+}
+
+
+.flatpickr-months .flatpickr-month {
+    //color: #fe4c25;
+    height: 42px !important;
+}
+
+.flatpickr-day.inRange {
+    background-color: rgba(254, 76, 37, 0.2);
+    border-color: #fe4c25;
+}
+
+.flatpickr-calendar {
+    border-radius: 10px !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+
+.flatpickr-monthDropdown-months,
+.numInput.cur-year {
+    font-family: 'Inter' !important;
+    font-size: 14px !important;
+}
+
+.numInputWrapper span {
+    opacity: 1 !important;
+}
+
+select:not([disabled]):focus {
+    box-shadow: unset !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background: unset !important;
+}
+
+.flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover {
+    color: rgba(57, 57, 57, 0.3) !important;
+}
+

@@ -15,6 +15,9 @@
         $isDigiClub = 0;
         $isChecked = "";
     }
+
+$dobValue = $customerSession->getCustomer()->getData("dob");
+$dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
 ?>
 
 <!--<div style="font-size: 33px;font-weight: 700;padding: 30px 30px 10px 30px;">digi<span style="color: #ff3c00;">Club</span></div>-->
@@ -90,9 +93,9 @@
                         <span class="digiclub-dob-text-o" style="">(Enter to receive a $20 birthday coupon)</span>
                     </label>
                     <div class="control">
-                        <input type="date" id="digiclub-dob"
+                        <input type="text" id="digiclub-dob"
                             name="digiclub-dob"
-                            value="<?= $customerSession->getCustomer()->getData("dob") ?>"
+                            value="<?= $dobFormatted ?>"
                             title="Date of Birth"
                             class="input-text digiclub-field"
                             style="padding: 22px 12px !important;" <?php echo $customerSession->getCustomer()->getData("dob") ? 'disabled' : ''; ?>/>
