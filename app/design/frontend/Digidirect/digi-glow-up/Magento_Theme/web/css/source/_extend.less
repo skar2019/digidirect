@@ -1390,7 +1390,17 @@ body.blur-active .global-blur-overlay {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
+    }
+    
+    //Message
+    
+    .message.message div {
+        max-width: 100%;
+        padding: 0 !important;
+    }
+    
+    .message > *::before {
+        display: none !important;
     }
 
 }

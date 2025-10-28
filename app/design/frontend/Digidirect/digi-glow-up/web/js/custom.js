@@ -1364,19 +1364,45 @@ $(function () {
     
     const $minicart = $('[data-block="minicart"]')
 
+    function isMobile() {
+      return window.innerWidth <= 768
+    }
+
+    let scrollY = 0
+
     const observer = new MutationObserver(function () {
-      if ($minicart.hasClass('active')) {
-        // 🟢 Minicart is open → disable scroll
-        $('html, body').css({
-          overflow: 'hidden',
-          height: '100%',
-        })
+      const minicartActive = $minicart.hasClass('active')
+
+      if (minicartActive && isMobile()) {
+        // 🟢 Minicart open → lock scroll
+        scrollY = window.scrollY
+
+        const body = document.body
+        body.dataset.scrollY = scrollY
+
+        // apply !important styles dynamically
+        body.style.setProperty('position', 'fixed', 'important')
+        body.style.setProperty('top', `-${scrollY}px`, 'important')
+        body.style.setProperty('width', '100%', 'important')
+        body.style.setProperty('overflow-y', 'hidden', 'important')
       } else {
-        // 🔴 Minicart closed → restore scroll
-        $('html, body').css({
-          overflow: '',
-          height: '',
-        })
+        // 🔴 Minicart closed → unlock scroll
+        setTimeout(() => {
+          const body = document.body
+          const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
+
+          // remove applied inline styles
+          body.style.removeProperty('position')
+          body.style.removeProperty('top')
+          body.style.removeProperty('width')
+          body.style.removeProperty('overflow-y')
+          delete body.dataset.scrollY
+
+          // restore scroll position
+          window.requestAnimationFrame(() => {
+            window.scrollTo(0, savedScrollY)
+          })
+        }, 300) // wait for close animation
       }
     })
 
@@ -1384,8 +1410,20 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
+    // 🧩 Safety: manual close fallback
     $(document).on('click', '.minicart-close', function () {
-      $('html, body').css({ overflow: '', height: '' })
+      setTimeout(() => {
+        const body = document.body
+        const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
+        body.style.removeProperty('position')
+        body.style.removeProperty('top')
+        body.style.removeProperty('width')
+        body.style.removeProperty('overflow-y')
+        delete body.dataset.scrollY
+        window.requestAnimationFrame(() => {
+          window.scrollTo(0, savedScrollY)
+        })
+      }, 300)
     })
     
   })
