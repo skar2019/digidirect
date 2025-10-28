@@ -1374,30 +1374,35 @@ $(function () {
       const minicartActive = $minicart.hasClass('active')
 
       if (minicartActive && isMobile()) {
-        // 🟢 Lock scroll (save position)
+        // 🟢 Minicart open → lock scroll
         scrollY = window.scrollY
-        $('body')
-          .css({
-            position: 'fixed',
-            top: `-${scrollY}px`,
-            width: '100%',
-            overflowY: 'hidden', // extra safety for mobile
-          })
-      } else {
-        // 🔴 Unlock scroll
-        setTimeout(() => {
-          $('body').css({
-            position: '',
-            top: '',
-            width: '',
-            overflowY: '',
-          })
 
-          // Small delay helps Safari properly restore scroll
+        const body = document.body
+        body.dataset.scrollY = scrollY
+
+        // apply !important styles dynamically
+        body.style.setProperty('position', 'fixed', 'important')
+        body.style.setProperty('top', `-${scrollY}px`, 'important')
+        body.style.setProperty('width', '100%', 'important')
+        body.style.setProperty('overflow-y', 'hidden', 'important')
+      } else {
+        // 🔴 Minicart closed → unlock scroll
+        setTimeout(() => {
+          const body = document.body
+          const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
+
+          // remove applied inline styles
+          body.style.removeProperty('position')
+          body.style.removeProperty('top')
+          body.style.removeProperty('width')
+          body.style.removeProperty('overflow-y')
+          delete body.dataset.scrollY
+
+          // restore scroll position
           window.requestAnimationFrame(() => {
-            window.scrollTo(0, scrollY)
+            window.scrollTo(0, savedScrollY)
           })
-        }, 300) // match or slightly exceed minicart closing animation time
+        }, 300) // wait for close animation
       }
     })
 
@@ -1405,17 +1410,18 @@ $(function () {
       observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
     }
 
-    // Safety fallback on close button click
+    // 🧩 Safety: manual close fallback
     $(document).on('click', '.minicart-close', function () {
       setTimeout(() => {
-        $('body').css({
-          position: '',
-          top: '',
-          width: '',
-          overflowY: '',
-        })
+        const body = document.body
+        const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
+        body.style.removeProperty('position')
+        body.style.removeProperty('top')
+        body.style.removeProperty('width')
+        body.style.removeProperty('overflow-y')
+        delete body.dataset.scrollY
         window.requestAnimationFrame(() => {
-          window.scrollTo(0, scrollY)
+          window.scrollTo(0, savedScrollY)
         })
       }, 300)
     })
