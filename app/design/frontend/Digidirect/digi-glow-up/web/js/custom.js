@@ -164,15 +164,28 @@ $(window).on('scroll resize', () => {
       positionBlurOverlay()
     })
 
+    
+    //Blur Active AA Panel Only When Not Mobile
+    let aaObserver
 
-    if (window.MutationObserver) {
-      const aaObserver = new MutationObserver(() => {
-        if ($('.aa-Panel').length) $('body').addClass('blur-active')
-        else $('body').removeClass('blur-active')
-        positionBlurOverlay()
-      })
-      aaObserver.observe(document.body, { childList: true, subtree: true })
+    function initDesktopBlurObserver() {
+      if (window.innerWidth > 768 && window.MutationObserver && !aaObserver) {
+        aaObserver = new MutationObserver(() => {
+          if ($('.aa-Panel').length) $('body').addClass('blur-active')
+          else $('body').removeClass('blur-active')
+          positionBlurOverlay()
+        })
+        aaObserver.observe(document.body, { childList: true, subtree: true })
+      } else if (window.innerWidth <= 768 && aaObserver) {
+        aaObserver.disconnect()
+        aaObserver = null
+        $('body').removeClass('blur-active')
+      }
     }
+
+    $(window).on('resize', initDesktopBlurObserver)
+    initDesktopBlurObserver()
+
 
     /* ========================
 ✨ Sync #pa-welcome-back with Body Blur
@@ -376,7 +389,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (stable)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (stable, no flicker)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -396,30 +409,31 @@ $(window).on('scroll resize', () => {
              require(['Magento_Customer/js/customer-data'], function (customerData) {
                const cartData = customerData.get('cart')
                const prevCount = cartData()?.summary_count || 0
+               let opened = false
 
-               // 1️⃣ Invalidate and reload cart
+               // 1️⃣ Invalidate + reload cart
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
 
-               // 2️⃣ Wait for cart to actually update
-               let opened = false
+               // 2️⃣ Watch for cart update
                const checkInterval = setInterval(() => {
                  const newCount = cartData()?.summary_count || 0
+
                  if (newCount > prevCount && !opened) {
                    opened = true
                    clearInterval(checkInterval)
-                   showStableMinicart()
+                   setTimeout(() => showStableMinicart(), 350)
                  }
-               }, 150)
+               }, 200)
 
-               // 3️⃣ Fallback — open after 2s even if count doesn’t update
+               // 3️⃣ Fallback — open after 2.5s if no change detected
                setTimeout(() => {
                  if (!opened) {
                    opened = true
                    clearInterval(checkInterval)
                    showStableMinicart()
                  }
-               }, 2000)
+               }, 2500)
              })
 
              $('body').trigger('processStop')
@@ -436,22 +450,32 @@ $(window).on('scroll resize', () => {
         🧩 Stable Open Helper
      ======================== */
      function showStableMinicart() {
-       // Wait briefly for Magento to finish re-rendering DOM
        setTimeout(() => {
          const $minicart = $('[data-block="minicart"]')
+         const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
          const $showCart = $minicart.find('.action.showcart')
 
-         if ($showCart.length) $showCart.trigger('click')
-         else $minicart.trigger('click')
+         // 🧹 Close any flickering instance before opening
+         if ($dropdown.is(':visible')) {
+           $dropdown.hide()
+           $minicart.removeClass('active')
+         }
 
-         // 🧠 Ensure overlay + scroll lock update after open
+         // ✅ Open cleanly
+         if ($showCart.length) {
+           $showCart.trigger('click')
+         } else {
+           $minicart.trigger('click')
+         }
+
+         // ♻️ Ensure overlay + scroll lock updates
          setTimeout(updateMinicartOverlay, 400)
 
-         // 📱 Auto scroll to top on mobile so it’s visible
+         // 📱 Always scroll to top on mobile so minicart is visible
          if (window.innerWidth <= 768) {
            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
          }
-       }, 400)
+       }, 300)
      }
 
      /* ========================
