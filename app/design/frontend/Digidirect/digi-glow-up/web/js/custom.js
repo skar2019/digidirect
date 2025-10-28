@@ -274,7 +274,7 @@ $(window).on('scroll resize', () => {
      })
 
     /* ========================
-        🛒 AJAX Add to Cart + Minicart (for list pages)
+        🛒 AJAX Add to Cart + Minicart (for list & PDP)
      ======================== */
      $(document).on(
        'submit',
@@ -325,7 +325,7 @@ $(window).on('scroll resize', () => {
        document.body.dataset.scrollY = scrollY
        isLocked = true
 
-       // Delay slightly to ensure minicart overlay is visible before locking
+       // Wait a bit for minicart animation
        setTimeout(() => {
          ;[document.documentElement, document.body].forEach((el) => {
            el.style.position = 'fixed'
@@ -335,7 +335,7 @@ $(window).on('scroll resize', () => {
            el.style.width = '100%'
            el.style.overflow = 'hidden'
          })
-       }, 250)
+       }, 150)
      }
 
      function unlockScroll() {
@@ -354,7 +354,7 @@ $(window).on('scroll resize', () => {
 
        delete document.body.dataset.scrollY
 
-       // Restore scroll after a small delay
+       // Restore scroll position after unlock
        setTimeout(() => window.scrollTo(0, savedScrollY), 100)
      }
 
@@ -420,19 +420,29 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        💡 PDP Compatibility Fix
+        💡 PDP Compatibility Fix (no auto-open on page load)
      ======================== */
      require(['Magento_Customer/js/customer-data'], function (customerData) {
        let prevCount = 0
+       let firstLoad = true
        const cartData = customerData.get('cart')
 
-       // Watch for cart item count changes (works globally)
        cartData.subscribe(function (updatedCart) {
          const newCount = updatedCart.summary_count || 0
+
+         // 🚫 Skip first load to prevent opening minicart on page load
+         if (firstLoad) {
+           prevCount = newCount
+           firstLoad = false
+           return
+         }
+
+         // ✅ Trigger only when item count increases
          if (newCount > prevCount) {
            console.log('🛒 Product added — auto-opening minicart')
            setTimeout(() => openMinicart(), 500)
          }
+
          prevCount = newCount
        })
      })
