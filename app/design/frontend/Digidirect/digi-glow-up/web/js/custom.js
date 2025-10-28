@@ -389,11 +389,12 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (stable, no flicker)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (flicker-free, reliable)
      ======================== */
      function setupPLPAutoMinicart() {
-       $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
+       $(document).off('submit.plpMinicart').on('submit.plpMinicart', 'form[data-role="tocart-form"]', function (e) {
          e.preventDefault()
+
          const $form = $(this)
          const formData = new FormData($form[0])
          const actionUrl = $form.attr('action')
@@ -411,29 +412,30 @@ $(window).on('scroll resize', () => {
                const prevCount = cartData()?.summary_count || 0
                let opened = false
 
-               // 1️⃣ Invalidate + reload cart
+               // Force Magento to reload cart data
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
 
-               // 2️⃣ Watch for cart update
-               const checkInterval = setInterval(() => {
+               // Watch for cart update (the native refresh is async)
+               const watcher = setInterval(() => {
                  const newCount = cartData()?.summary_count || 0
 
+                 // Only open if cart count increased and no open yet
                  if (newCount > prevCount && !opened) {
                    opened = true
-                   clearInterval(checkInterval)
-                   setTimeout(() => showStableMinicart(), 350)
+                   clearInterval(watcher)
+                   openMinicartOnce()
                  }
-               }, 200)
+               }, 250)
 
-               // 3️⃣ Fallback — open after 2.5s if no change detected
+               // Fallback if Magento doesn't update count
                setTimeout(() => {
                  if (!opened) {
                    opened = true
-                   clearInterval(checkInterval)
-                   showStableMinicart()
+                   clearInterval(watcher)
+                   openMinicartOnce()
                  }
-               }, 2500)
+               }, 3000)
              })
 
              $('body').trigger('processStop')
@@ -447,35 +449,35 @@ $(window).on('scroll resize', () => {
      }
 
      /* ========================
-        🧩 Stable Open Helper
+        🧩 Helper: open minicart cleanly
      ======================== */
-     function showStableMinicart() {
+     function openMinicartOnce() {
+       const $minicart = $('[data-block="minicart"]')
+       const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+       const $showCart = $minicart.find('.action.showcart')
+
+       // If Magento opened a quick flash minicart, close it first
+       if ($dropdown.is(':visible')) {
+         $dropdown.stop(true, true).hide()
+         $minicart.removeClass('active')
+       }
+
+       // Wait a moment to ensure Magento’s own event queue is done
        setTimeout(() => {
-         const $minicart = $('[data-block="minicart"]')
-         const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
-         const $showCart = $minicart.find('.action.showcart')
-
-         // 🧹 Close any flickering instance before opening
-         if ($dropdown.is(':visible')) {
-           $dropdown.hide()
-           $minicart.removeClass('active')
-         }
-
-         // ✅ Open cleanly
          if ($showCart.length) {
            $showCart.trigger('click')
          } else {
            $minicart.trigger('click')
          }
 
-         // ♻️ Ensure overlay + scroll lock updates
+         // Ensure overlay/scroll lock is synced
          setTimeout(updateMinicartOverlay, 400)
 
-         // 📱 Always scroll to top on mobile so minicart is visible
+         // Scroll to top if mobile (minicart usually sticks to top)
          if (window.innerWidth <= 768) {
-           setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+           setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300)
          }
-       }, 300)
+       }, 500)
      }
 
      /* ========================
