@@ -274,42 +274,40 @@ $(window).on('scroll resize', () => {
      })
 
     /* ========================
-        🛒 AJAX Add to Cart + Minicart (for list & PDP)
+        🛒 AJAX Add to Cart + Minicart (PLP + PDP)
      ======================== */
-     $(document).on(
-       'submit',
-       'form[data-role="tocart-form"], #product_addtocart_form',
-       function (e) {
-         e.preventDefault()
-         const $form = $(this)
-         const formData = new FormData($form[0])
-         const actionUrl = $form.attr('action')
+     $(document).on('submit', 'form[data-role="tocart-form"], #product_addtocart_form', function (e) {
+       e.preventDefault()
+       const $form = $(this)
+       const formData = new FormData($form[0])
+       const actionUrl = $form.attr('action')
 
-         $.ajax({
-           url: actionUrl,
-           type: 'POST',
-           data: formData,
-           processData: false,
-           contentType: false,
-           showLoader: true,
-           success: function () {
+       $.ajax({
+         url: actionUrl,
+         type: 'POST',
+         data: formData,
+         processData: false,
+         contentType: false,
+         showLoader: true,
+         success: function () {
+           require(['Magento_Customer/js/customer-data'], function (customerData) {
              customerData.invalidate(['cart'])
-             customerData.reload(['cart'], true)
-             $('body').trigger('processStop')
-
-             // Open minicart slightly later to avoid scroll-lock race
-             setTimeout(() => openMinicart(), 700)
-           },
-           error: function (err) {
-             console.error('Add to cart failed', err)
-             $('body').trigger('processStop')
-           },
-         })
-       }
-     )
+             customerData.reload(['cart'], true).done(() => {
+               // ✅ Wait until cart data fully reloads, then open minicart
+               $('body').trigger('processStop')
+               setTimeout(() => openMinicart(true), 600)
+             })
+           })
+         },
+         error: function (err) {
+           console.error('Add to cart failed', err)
+           $('body').trigger('processStop')
+         },
+       })
+     })
 
      /* ========================
-        🔒 Scroll Lock on Mobile
+        🔒 Scroll Lock (Mobile Only)
      ======================== */
      const $minicart = $('[data-block="minicart"]')
      let scrollY = 0
@@ -325,17 +323,14 @@ $(window).on('scroll resize', () => {
        document.body.dataset.scrollY = scrollY
        isLocked = true
 
-       // Wait a bit for minicart animation
-       setTimeout(() => {
+       requestAnimationFrame(() => {
          ;[document.documentElement, document.body].forEach((el) => {
            el.style.position = 'fixed'
            el.style.top = `-${scrollY}px`
-           el.style.left = '0'
-           el.style.right = '0'
            el.style.width = '100%'
            el.style.overflow = 'hidden'
          })
-       }, 150)
+       })
      }
 
      function unlockScroll() {
@@ -346,103 +341,90 @@ $(window).on('scroll resize', () => {
        ;[document.documentElement, document.body].forEach((el) => {
          el.style.position = ''
          el.style.top = ''
-         el.style.left = ''
-         el.style.right = ''
          el.style.width = ''
          el.style.overflow = ''
        })
 
        delete document.body.dataset.scrollY
-
-       // Restore scroll position after unlock
-       setTimeout(() => window.scrollTo(0, savedScrollY), 100)
+       requestAnimationFrame(() => window.scrollTo(0, savedScrollY))
      }
 
      /* ========================
-        👁️ Minicart Overlay Handler
+        👁️ Minicart Overlay Handler (Improved)
      ======================== */
      function updateMinicartOverlay() {
-       const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+       const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
        const $headerMenu = $('.ruby-menu-demo-header')
-       const $miniOverlay = $('.minicart-overlay')
+       const $overlay = $('.minicart-overlay')
 
-       const isVisible =
-         $minicartDropdown.length &&
-         $minicartDropdown.is(':visible') &&
-         $minicartDropdown.css('display') !== 'none'
+       setTimeout(() => {
+         const isVisible =
+           $dropdown.length &&
+           $dropdown.is(':visible') &&
+           $dropdown.css('display') !== 'none'
 
-       if (isVisible) {
-         if ($headerMenu.length) $headerMenu.css('z-index', 0)
-         if ($miniOverlay.length) $miniOverlay.css('display', 'block')
-         lockScroll()
-       } else {
-         if ($headerMenu.length) $headerMenu.css('z-index', '')
-         if ($miniOverlay.length) $miniOverlay.css('display', 'none')
-         setTimeout(unlockScroll, 300)
-       }
+         if (isVisible) {
+           $headerMenu.css('z-index', 0)
+           $overlay.show()
+           lockScroll()
+         } else {
+           $headerMenu.css('z-index', '')
+           $overlay.hide()
+           unlockScroll()
+         }
+       }, 300)
      }
 
      /* ========================
         🧩 Open Minicart Function
      ======================== */
-     function openMinicart() {
+     function openMinicart(force = false) {
        const $showCart = $minicart.find('.action.showcart')
-       if ($showCart.length) {
-         $showCart.trigger('click')
-       } else {
-         $minicart.trigger('click')
+
+       if (force) {
+         // 🧠 Force dropdown to open even if Magento resets it
+         $minicart.addClass('active')
+         $showCart.attr('aria-expanded', 'true')
        }
-       setTimeout(updateMinicartOverlay, 300)
+
+       $showCart.trigger('click')
+
+       // Re-check after render
+       setTimeout(() => updateMinicartOverlay(), 700)
      }
 
      /* ========================
         🧠 Mutation Observer
      ======================== */
      if (window.MutationObserver) {
-       const miniObserver = new MutationObserver(() => updateMinicartOverlay())
-       miniObserver.observe(document.body, {
+       const observer = new MutationObserver(() => updateMinicartOverlay())
+       observer.observe(document.body, {
          childList: true,
          subtree: true,
          attributes: true,
-         attributeFilter: ['style', 'class'],
+         attributeFilter: ['class', 'style'],
        })
      }
 
      /* ========================
-        🕒 Interval Fallback + Cleanup
+        ❌ Manual Close
      ======================== */
-     const miniInterval = setInterval(updateMinicartOverlay, 400)
-     $(window).on('unload beforeunload', () => clearInterval(miniInterval))
+     $(document).on('click', '.minicart-close', () => {
+       setTimeout(unlockScroll, 300)
+     })
 
      /* ========================
-        ❌ Manual Close Fallback
-     ======================== */
-     $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
-
-     /* ========================
-        💡 PDP Compatibility Fix (no auto-open on page load)
+        💡 PDP Compatibility
      ======================== */
      require(['Magento_Customer/js/customer-data'], function (customerData) {
        let prevCount = 0
-       let firstLoad = true
        const cartData = customerData.get('cart')
 
        cartData.subscribe(function (updatedCart) {
          const newCount = updatedCart.summary_count || 0
-
-         // 🚫 Skip first load to prevent opening minicart on page load
-         if (firstLoad) {
-           prevCount = newCount
-           firstLoad = false
-           return
-         }
-
-         // ✅ Trigger only when item count increases
          if (newCount > prevCount) {
-           console.log('🛒 Product added — auto-opening minicart')
-           setTimeout(() => openMinicart(), 500)
+           setTimeout(() => openMinicart(true), 600)
          }
-
          prevCount = newCount
        })
      })
