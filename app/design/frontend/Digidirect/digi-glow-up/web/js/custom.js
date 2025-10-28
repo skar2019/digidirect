@@ -286,13 +286,18 @@ $(window).on('scroll resize', () => {
        positionBlurOverlay() // keep your old blur overlay working
      })
      
-    //AJAX Minicart
     /* ========================
+        🛒 AJAX Minicart - FULL BLOCK (fixed & coordinated)
+     ======================== */
+
+     /* ========================
         🛒 Shared Helpers
      ======================== */
      const $minicart = $('[data-block="minicart"]')
      let scrollY = 0
      let isLocked = false
+     let shouldAutoOpen = false // <-- new: set when our AJAX wants an auto-open
+     let lastKnownCartCount = 0
 
      function isMobile() {
        return window.innerWidth <= 768
@@ -344,6 +349,15 @@ $(window).on('scroll resize', () => {
          $minicartDropdown.is(':visible') &&
          $minicartDropdown.css('display') !== 'none'
 
+       // If we are in the "waiting to open" flow, hide any intermediate flash
+       if (shouldAutoOpen && isVisible) {
+         // hide flashing dropdown while waiting for final reopen
+         $minicartDropdown.stop(true, true).hide()
+         $minicart.removeClass('active')
+         // also avoid setting overlay/lock from this transient state
+         return
+       }
+
        if (isVisible) {
          if ($headerMenu.length) $headerMenu.css('z-index', 0)
          if ($miniOverlay.length) $miniOverlay.css('display', 'block')
@@ -356,20 +370,20 @@ $(window).on('scroll resize', () => {
      }
 
      function openMinicart() {
-        const $showCart = $minicart.find('.action.showcart')
-        if ($showCart.length) {
-          $showCart.trigger('click')
-        } else {
-          $minicart.trigger('click')
-        }
+       const $showCart = $minicart.find('.action.showcart')
+       if ($showCart.length) {
+         $showCart.trigger('click')
+       } else {
+         $minicart.trigger('click')
+       }
 
-        // ✅ Scroll to top when minicart opens (mobile only)
-        if (window.innerWidth <= 768) {
-          setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
-        }
+       // Scroll to top when minicart opens (mobile only)
+       if (isMobile()) {
+         setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+       }
 
-        setTimeout(updateMinicartOverlay, 300)
-      }
+       setTimeout(updateMinicartOverlay, 300)
+     }
 
      /* ========================
         💡 Shared Observers / Cleanup
@@ -389,7 +403,9 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (flicker-free, reliable)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (coordinated)
+        - Sets shouldAutoOpen and relies on cart observable to open once
+        - Hides any transient flash while waiting
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).off('submit.plpMinicart').on('submit.plpMinicart', 'form[data-role="tocart-form"]', function (e) {
@@ -407,35 +423,24 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
+             // Signal that *we* want the next cart update to auto-open the minicart
+             shouldAutoOpen = true
+
+             // Immediately hide any visible dropdown to prevent native flash
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+
              require(['Magento_Customer/js/customer-data'], function (customerData) {
                const cartData = customerData.get('cart')
-               const prevCount = cartData()?.summary_count || 0
-               let opened = false
+               // Capture latest known count if not set
+               lastKnownCartCount = cartData()?.summary_count || lastKnownCartCount || 0
 
-               // Force Magento to reload cart data
+               // Ask Magento to reload cart data (this will trigger cart observable)
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
-
-               // Watch for cart update (the native refresh is async)
-               const watcher = setInterval(() => {
-                 const newCount = cartData()?.summary_count || 0
-
-                 // Only open if cart count increased and no open yet
-                 if (newCount > prevCount && !opened) {
-                   opened = true
-                   clearInterval(watcher)
-                   openMinicartOnce()
-                 }
-               }, 250)
-
-               // Fallback if Magento doesn't update count
-               setTimeout(() => {
-                 if (!opened) {
-                   opened = true
-                   clearInterval(watcher)
-                   openMinicartOnce()
-                 }
-               }, 3000)
              })
 
              $('body').trigger('processStop')
@@ -443,48 +448,54 @@ $(window).on('scroll resize', () => {
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
+             shouldAutoOpen = false
            },
          })
        })
      }
 
      /* ========================
-        🧩 Helper: open minicart cleanly
+        🩹 Unified cart observer (PLP & PDP)
+        - listens to customerData cart observable
+        - opens minicart ONCE when shouldAutoOpen is true and count increased
      ======================== */
-     function openMinicartOnce() {
-       const $minicart = $('[data-block="minicart"]')
-       const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
-       const $showCart = $minicart.find('.action.showcart')
+     require(['Magento_Customer/js/customer-data'], function (customerData) {
+       const cartData = customerData.get('cart')
+       // set initial baseline
+       lastKnownCartCount = cartData()?.summary_count || 0
 
-       // If Magento opened a quick flash minicart, close it first
-       if ($dropdown.is(':visible')) {
-         $dropdown.stop(true, true).hide()
-         $minicart.removeClass('active')
-       }
+       cartData.subscribe(function (updatedCart) {
+         const newCount = updatedCart.summary_count || 0
 
-       // Wait a moment to ensure Magento’s own event queue is done
-       setTimeout(() => {
-         if ($showCart.length) {
-           $showCart.trigger('click')
-         } else {
-           $minicart.trigger('click')
+         // If we requested an auto-open and cart count increased, do one stable open
+         if (shouldAutoOpen && newCount > lastKnownCartCount) {
+           shouldAutoOpen = false
+           lastKnownCartCount = newCount
+
+           // open stable (give Magento time to re-render DOM)
+           setTimeout(() => {
+             // Make sure DOM is updated; hide any leftover transient UI then open cleanly
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+             openMinicart()
+           }, 300)
+           return
          }
 
-         // Ensure overlay/scroll lock is synced
-         setTimeout(updateMinicartOverlay, 400)
-
-         // Scroll to top if mobile (minicart usually sticks to top)
-         if (window.innerWidth <= 768) {
-           setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300)
-         }
-       }, 500)
-     }
+         // Always keep baseline updated
+         lastKnownCartCount = newCount
+       })
+     })
 
      /* ========================
-        📄 PDP: Ajax Add-to-Cart + Auto Minicart
+        📄 PDP: Ajax Add-to-Cart + Auto Minicart (uses same coordinated flow)
+        - marks shouldAutoOpen and relies on same cart observer
      ======================== */
      function setupPDPAutoMinicart() {
-       $(document).on('submit', '#product_addtocart_form', function (e) {
+       $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
          e.preventDefault()
          const $form = $(this)
          const formData = new FormData($form[0])
@@ -498,14 +509,27 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
-             customerData.invalidate(['cart'])
-             customerData.reload(['cart'], true)
+             // mark that we want to auto-open upon next cart update
+             shouldAutoOpen = true
+
+             // Hide any transient dropdown flash
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+
+             require(['Magento_Customer/js/customer-data'], function (customerData) {
+               customerData.invalidate(['cart'])
+               customerData.reload(['cart'], true)
+             })
+
              $('body').trigger('processStop')
-             setTimeout(() => openMinicart(), 700) // ✅ Auto open on PDP
            },
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
+             shouldAutoOpen = false
            },
          })
        })
@@ -513,6 +537,7 @@ $(window).on('scroll resize', () => {
 
      /* ========================
         🧠 PDP Compatibility Fix (Prevent open on first load)
+        - keep existing behavior for other cart updates
      ======================== */
      require(['Magento_Customer/js/customer-data'], function (customerData) {
        let prevCount = 0
@@ -528,8 +553,9 @@ $(window).on('scroll resize', () => {
            return
          }
 
-         if (newCount > prevCount) {
-           console.log('🛒 Product added — auto-opening minicart')
+         // If cart changed from other context (not our shouldAutoOpen), open for PDP flows that rely on this
+         if (!shouldAutoOpen && newCount > prevCount) {
+           // This preserves your PDP behavior that opens on cart add originating from other sources
            setTimeout(() => openMinicart(), 500)
          }
 
@@ -543,10 +569,10 @@ $(window).on('scroll resize', () => {
      $(document).ready(function () {
        if ($('body.catalog-category-view').length) {
          setupPLPAutoMinicart()
-         console.log('📦 PLP auto-minicart active')
+         console.log('📦 PLP auto-minicart active (coordinated)')
        } else if ($('body.catalog-product-view').length) {
          setupPDPAutoMinicart()
-         console.log('🎯 PDP auto-minicart active')
+         console.log('🎯 PDP auto-minicart active (coordinated)')
        }
      })
 
