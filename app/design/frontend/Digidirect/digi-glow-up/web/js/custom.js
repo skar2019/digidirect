@@ -166,19 +166,19 @@ $(window).on('scroll resize', () => {
 
     
     //Blur Active AA Panel Only When Not Mobile
-    let aaObserver
+    let aaPanelObserver
 
     function initDesktopBlurObserver() {
-      if (window.innerWidth > 768 && window.MutationObserver && !aaObserver) {
-        aaObserver = new MutationObserver(() => {
+      if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
+        aaPanelObserver = new MutationObserver(() => {
           if ($('.aa-Panel').length) $('body').addClass('blur-active')
           else $('body').removeClass('blur-active')
           positionBlurOverlay()
         })
-        aaObserver.observe(document.body, { childList: true, subtree: true })
-      } else if (window.innerWidth <= 768 && aaObserver) {
-        aaObserver.disconnect()
-        aaObserver = null
+        aaPanelObserver.observe(document.body, { childList: true, subtree: true })
+      } else if (window.innerWidth <= 768 && aaPanelObserver) {
+        aaPanelObserver.disconnect()
+        aaPanelObserver = null
         $('body').removeClass('blur-active')
       }
     }
