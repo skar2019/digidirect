@@ -343,14 +343,20 @@ $(window).on('scroll resize', () => {
      }
 
      function openMinicart() {
-       const $showCart = $minicart.find('.action.showcart')
-       if ($showCart.length) {
-         $showCart.trigger('click')
-       } else {
-         $minicart.trigger('click')
-       }
-       setTimeout(updateMinicartOverlay, 300)
-     }
+        const $showCart = $minicart.find('.action.showcart')
+        if ($showCart.length) {
+          $showCart.trigger('click')
+        } else {
+          $minicart.trigger('click')
+        }
+
+        // ✅ Scroll to top when minicart opens (mobile only)
+        if (window.innerWidth <= 768) {
+          setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+        }
+
+        setTimeout(updateMinicartOverlay, 300)
+      }
 
      /* ========================
         💡 Shared Observers / Cleanup
@@ -370,7 +376,7 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (guaranteed open)
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (no flicker)
      ======================== */
      function setupPLPAutoMinicart() {
        $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
@@ -387,29 +393,28 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
-             // ✅ Reload the minicart safely after data refresh
              require(['Magento_Customer/js/customer-data'], function (customerData) {
                const cartData = customerData.get('cart')
-               let prevCount = cartData()?.summary_count || 0
+               const prevCount = cartData()?.summary_count || 0
 
-               // 1️⃣ Invalidate and reload
+               // 🚫 Don’t open immediately — wait for Magento cart to refresh
                customerData.invalidate(['cart'])
                customerData.reload(['cart'], true)
 
-               // 2️⃣ Observe until item count increases
+               // 🕒 Wait for cart count to actually change
                const interval = setInterval(() => {
                  const newCount = cartData()?.summary_count || 0
                  if (newCount > prevCount) {
                    clearInterval(interval)
-                   setTimeout(() => openMinicart(), 500)
+                   setTimeout(() => openMinicart(), 500) // ✅ Open only once
                  }
                }, 200)
 
-               // 3️⃣ Safety fallback: open after 2 seconds even if no data change detected
+               // 🧩 Fallback: if no update detected within 2.5s, still open it
                setTimeout(() => {
                  clearInterval(interval)
                  openMinicart()
-               }, 2000)
+               }, 2500)
              })
 
              $('body').trigger('processStop')
