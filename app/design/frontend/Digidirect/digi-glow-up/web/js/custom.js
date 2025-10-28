@@ -332,14 +332,17 @@ $(window).on('scroll resize', () => {
        document.body.dataset.scrollY = scrollY
        isLocked = true
 
-       ;[document.documentElement, document.body].forEach((el) => {
-         el.style.position = 'fixed'
-         el.style.top = `-${scrollY}px`
-         el.style.left = '0'
-         el.style.right = '0'
-         el.style.width = '100%'
-         el.style.overflow = 'hidden'
-       })
+       // Delay to allow minicart DOM to position correctly
+       setTimeout(() => {
+         ;[document.documentElement, document.body].forEach((el) => {
+           el.style.position = 'fixed'
+           el.style.top = `-${scrollY}px`
+           el.style.left = '0'
+           el.style.right = '0'
+           el.style.width = '100%'
+           el.style.overflow = 'hidden'
+         })
+       }, 150) // wait for minicart animation start
      }
 
      function unlockScroll() {
@@ -358,7 +361,7 @@ $(window).on('scroll resize', () => {
 
        delete document.body.dataset.scrollY
 
-       // Wait for browser reflow before restoring scroll
+       // Restore scroll smoothly after unlock
        setTimeout(() => {
          window.scrollTo(0, savedScrollY)
        }, 50)
@@ -384,7 +387,7 @@ $(window).on('scroll resize', () => {
        } else {
          if ($headerMenu.length) $headerMenu.css('z-index', '')
          if ($miniOverlay.length) $miniOverlay.css('display', 'none')
-         setTimeout(unlockScroll, 300) // allow minicart close animation to finish
+         setTimeout(unlockScroll, 300) // after close animation
        }
      }
 
