@@ -87,10 +87,8 @@
 
                     </container>
 
-                    <block class="Magento\Framework\View\Element\Template"
-                    name="custom.pdp.accordion"
-                    template="Magento_Catalog::product/view/product-details-accordian.phtml" after="-">
-                                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>
+                    <block class="Magento\Framework\View\Element\Template" name="custom.pdp.accordion" template="Magento_Catalog::product/view/product-details-accordian.phtml" after="-">
+                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>
                     </block>
 
                 </container>
@@ -115,7 +113,7 @@
                    after="product.info.main"/>
 
                     <block class="Magento\Framework\View\Element\Template"
-                           name="custom.pdp.accordion"
+                           name="custom.pdp.accordion.mobile"
                            template="Magento_Catalog::product/view/product-details-accordian-mobile.phtml" after="-">
                         <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description-mobile" after="-"/>
                     </block>
