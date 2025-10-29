@@ -165,37 +165,47 @@ $(window).on('scroll resize', () => {
     })
 
     
-    //Blur Active AA Panel Only When Not Mobile
+    // Blur Active AA Panel Only When Not Mobile
     let aaPanelObserver
 
     function initDesktopBlurObserver() {
-        if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
+      const $body = $('body')
+
+      if (window.innerWidth > 768 && window.MutationObserver) {
+        // 🧹 Reset mobile inline styles
+        $body.css({ position: '', top: '', width: '', overflowY: '' })
+
+        if (!aaPanelObserver) {
           aaPanelObserver = new MutationObserver(() => {
             if ($('.aa-Panel').length) {
-              $('body').addClass('blur-active')
+              $body.addClass('blur-active')
             } else {
-              $('body').removeClass('blur-active')
+              $body.removeClass('blur-active')
             }
             positionBlurOverlay()
           })
 
           aaPanelObserver.observe(document.body, { childList: true, subtree: true })
-        } 
-        else if (window.innerWidth <= 768 && aaPanelObserver) {
+        }
+      } 
+      else if (window.innerWidth <= 768) {
+        // 👇 Always handle mobile, regardless of observer existence
+        if (aaPanelObserver) {
           aaPanelObserver.disconnect()
           aaPanelObserver = null
-          $('body').removeClass('blur-active')
-
-          // ✅ Add inline CSS properties to body
-          $('body').css({
-            position: 'fixed',
-            top: 'var(--scroll-y)',
-            width: '100%',
-            overflowY: 'scroll',
-          })
         }
-      }
 
+        $body.removeClass('blur-active')
+
+        // ✅ Apply inline styles to lock layout
+        $body.css({
+          position: 'fixed',
+          width: '100%',
+        })
+      }
+    }
+
+    // Initialize and re-check on resize
     $(window).on('resize', initDesktopBlurObserver)
     initDesktopBlurObserver()
 
