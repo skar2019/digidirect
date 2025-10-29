@@ -474,10 +474,17 @@ define([
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
                             //console.log("hasMatch", hasMatch);
                             
-                            let categoriesWithoutPath = item.categories_without_path;
-                            let firstCategory = categoriesWithoutPath.split(',')[0].trim().replace(/&amp;/g, "&");
-                            
-                            item.firstCategory = firstCategory;
+                            function decodeHtmlEntities(str) {
+                                const txt = document.createElement('textarea')
+                                txt.innerHTML = str
+                                return txt.value
+                            }
+
+                            let categoriesWithoutPath = item.categories_without_path || ''
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim()
+                            firstCategory = decodeHtmlEntities(firstCategory) // ✅ decode &lt;mark&gt; → <mark>
+
+                            item.firstCategory = firstCategory
 
                             if (!hasMatch) {
                                 item.isDigiSeconds = false;
@@ -1595,50 +1602,61 @@ window.addEventListener('load', () => {
   
   //Reposition Instant Search Bar
   const SEARCH_BAR_ID = '#instant-search-bar'
-  const LEFT_CONTAINER_ID = '#algolia-left-container'
-  const MAX_WAIT_MS = 8000 // stop trying after 8s
-  const RECHECK_DELAY = 200 // ms
-  const DESKTOP_ONLY = false // set to true if you want >768px only
+    const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+    const MAX_WAIT_MS = 8000 // stop checking after 8s
+    const RECHECK_DELAY = 200 // check every 200ms
+    const DESKTOP_ONLY = false // change to true if you want >768px only
 
-  const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
-
-  function moveSearchBar() {
-    const searchBar = document.querySelector(SEARCH_BAR_ID)
-    const leftContainer = document.querySelector(LEFT_CONTAINER_ID)
-
-    if (searchBar && leftContainer && leftContainer !== searchBar.parentElement) {
-      leftContainer.appendChild(searchBar)
-      console.log('✅ instant-search-bar moved inside algolia-left-container')
-      return true
+    function isDesktop() {
+      return window.matchMedia('(min-width: 769px)').matches
     }
-    return false
-  }
 
-  function start() {
-    if (DESKTOP_ONLY && !isDesktop()) return
+    function moveAndInsert() {
+      const $searchBar = $(SEARCH_BAR_ID)
+      const $facetsContainer = $(FACETS_CONTAINER_ID)
 
-    const startTime = Date.now()
+      if ($searchBar.length && $facetsContainer.length) {
+        // ✅ Move search bar inside facets container if not already there
+        if ($searchBar.parent()[0] !== $facetsContainer[0]) {
+          $facetsContainer.append($searchBar)
+          console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+        }
 
-    // Poll for element availability
-    const poll = setInterval(() => {
-      if (moveSearchBar()) {
-        clearInterval(poll)
-        observer.disconnect()
-      } else if (Date.now() - startTime > MAX_WAIT_MS) {
-        clearInterval(poll)
-        observer.disconnect()
-        console.warn('⏱️ Timeout: could not find elements to move.')
+        // ✅ Insert span as first child if not already present
+        if ($searchBar.find('.search-within-label').length === 0) {
+          $searchBar.prepend('<span class="search-within-label">Search Within Results</span>')
+          console.log('✅ Added "Search Within Results" label')
+        }
+
+        return true
       }
-    }, RECHECK_DELAY)
+      return false
+    }
 
-    // Watch DOM changes (Algolia may re-render)
-    const observer = new MutationObserver(() => {
-      moveSearchBar()
-    })
+    function start() {
+      if (DESKTOP_ONLY && !isDesktop()) return
 
-    observer.observe(document.body, { childList: true, subtree: true })
-  }
+      const startTime = Date.now()
 
-  start()
+      // Poll until both elements exist
+      const poll = setInterval(function () {
+        if (moveAndInsert()) {
+          clearInterval(poll)
+          observer.disconnect()
+        } else if (Date.now() - startTime > MAX_WAIT_MS) {
+          clearInterval(poll)
+          observer.disconnect()
+          console.warn('⏱️ Timeout: Could not find elements to move.')
+        }
+      }, RECHECK_DELAY)
+
+      // Observe DOM changes (Algolia may re-render)
+      const observer = new MutationObserver(function () {
+        moveAndInsert()
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
+    }
+
+    start()
   
 })
