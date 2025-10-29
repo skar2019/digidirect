@@ -243,7 +243,7 @@ $(window).on('scroll resize', () => {
     }
 
     function toggleOverlay() {
-      if ($('#pa-welcome-back, .minicart-wrapper').hasClass('active')) {
+      if ($('#pa-welcome-back').hasClass('active')) {
         $('.page-wrapper').addClass('has-overlay')
         $('body').addClass('overlay-active')
       } else {
@@ -418,7 +418,7 @@ $(window).on('scroll resize', () => {
      /* ========================
         💡 Shared Observers / Cleanup
      ======================== */
-     /*if (window.MutationObserver) {
+     if (window.MutationObserver) {
        const miniObserver = new MutationObserver(() => updateMinicartOverlay())
        miniObserver.observe(document.body, {
          childList: true,
@@ -426,7 +426,7 @@ $(window).on('scroll resize', () => {
          attributes: true,
          attributeFilter: ['style', 'class'],
        })
-     }*/
+     }
 
      const miniInterval = setInterval(updateMinicartOverlay, 400)
      $(window).on('unload beforeunload', () => clearInterval(miniInterval))
