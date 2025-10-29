@@ -43,8 +43,8 @@ define([
             target = $('#checkoutSteps li#opc-shipping_method');
 
             //additional fixes for shipping method section
-            $('#s_method_standard_standard').prop('checked', false);
-            $('#s_method_express_express').prop('checked', false);
+            //$('#s_method_standard_standard').prop('checked', false);
+            //$('#s_method_express_express').prop('checked', false);
             $('input[type="radio"][name^="ko_unique_"]').removeAttr('disabled');
 
             //toggle down payment section (additional fix) as shipping method section is active now
