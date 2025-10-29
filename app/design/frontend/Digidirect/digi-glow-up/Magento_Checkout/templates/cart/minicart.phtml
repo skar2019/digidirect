@@ -4,9 +4,6 @@
 ?>
 <div data-block="minicart" class="minicart-wrapper">
     <?php echo $block->getChildHtml('minicart_private'); ?>
-    <!-- 🔹 Overlay -->
-    <div class="minicart-overlay" style="display:none;"></div>
-
     <!-- 🔹 Dropdown Minicart -->
     <div class="block block-minicart"
          data-role="dropdownDialog"
@@ -63,7 +60,7 @@
     <!-- ✅ Fixed Custom Script -->
     <script>
     require(['jquery', 'mage/dropdown'], function ($) {
-        $(function () {
+        /*$(function () {
             const $minicart = $('.block-minicart');
             const $overlay = $('.minicart-overlay');
 
@@ -87,7 +84,7 @@
             $(document).on('click', '.minicart-close', function () {
                 $minicart.dropdownDialog('close');
             });
-        });
+        });*/
     });
     </script>
 </div>
