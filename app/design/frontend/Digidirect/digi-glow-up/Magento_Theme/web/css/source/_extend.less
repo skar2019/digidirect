@@ -981,7 +981,7 @@ body.blur-active .global-blur-overlay {
 
 .ais-SearchBox-reset {
     padding: 0 !important;
-    height: 29px;
+    height: 29px !important;
 }
 
 @media screen and (max-width: 1512px) {
@@ -1470,6 +1470,12 @@ body.blur-active .global-blur-overlay {
     
     .ais-SearchBox-reset {
         height: 22px !important;
+    }
+    
+    .ais-SearchBox-input {
+        font-size: 16px !important;     /* prevent zoom */
+        transform: scale(0.875);        /* visually ~14px */
+        transform-origin: left center;  /* align nicely */
     }
 
 }
