@@ -170,9 +170,11 @@ $(window).on('scroll resize', () => {
 
     function initDesktopBlurObserver() {
       const $body = $('body')
+      const isMobile = window.innerWidth <= 768
+      const hasAaPanel = $('.aa-Panel').length > 0
 
-      if (window.innerWidth > 768 && window.MutationObserver) {
-        // 🧹 Reset mobile inline styles
+      if (!isMobile && window.MutationObserver) {
+        // 🧹 Reset any mobile inline styles
         $body.css({ position: '', top: '', width: '', overflowY: '' })
 
         if (!aaPanelObserver) {
@@ -188,8 +190,8 @@ $(window).on('scroll resize', () => {
           aaPanelObserver.observe(document.body, { childList: true, subtree: true })
         }
       } 
-      else if (window.innerWidth <= 768) {
-        // 👇 Always handle mobile, regardless of observer existence
+      else if (isMobile) {
+        // 👇 Always disconnect observer on mobile
         if (aaPanelObserver) {
           aaPanelObserver.disconnect()
           aaPanelObserver = null
@@ -197,11 +199,16 @@ $(window).on('scroll resize', () => {
 
         $body.removeClass('blur-active')
 
-        // ✅ Apply inline styles to lock layout
-        $body.css({
-          position: 'fixed',
-          width: '100%',
-        })
+        // ✅ Apply lock CSS only if aa-Panel exists or is visible
+        if (hasAaPanel) {
+          $body.css({
+            position: 'fixed',
+            width: '100%',
+          })
+        } else {
+          // 🧹 Ensure clean body when aa-Panel not active
+          $body.css({ position: '', width: '' })
+        }
       }
     }
 
