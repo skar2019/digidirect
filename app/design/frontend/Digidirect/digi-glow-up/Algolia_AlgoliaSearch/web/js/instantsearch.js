@@ -1594,8 +1594,23 @@ window.addEventListener('load', () => {
   })
   
   //Reposition Instant Search Bar
-  if ($('#instant-search-bar').length && $('#algolia-left-container').length) {
-    $('#instant-search-bar').appendTo('#algolia-left-container');
+  const moveSearchBar = () => {
+    const $searchBar = $('#instant-search-bar');
+    const $leftContainer = $('#algolia-left-container');
+    if ($searchBar.length && $leftContainer.length) {
+      $leftContainer.append($searchBar);
+      return true;
+    }
+    return false;
+  };
+
+  // Try immediately
+  if (!moveSearchBar()) {
+    // Observe changes until available
+    const observer = new MutationObserver(() => {
+      if (moveSearchBar()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
   
 })

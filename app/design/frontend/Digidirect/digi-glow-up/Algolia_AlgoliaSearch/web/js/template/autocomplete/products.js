@@ -167,7 +167,7 @@ define([], function () {
             if (wiserDiscount > 0) {
               return html`<div class="algoliasearch-autocomplete-price">
                 <span class="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
-                <span class="after_special custom_final_price">${formatter.format(wiserPrice)}</span>
+                <span class="after_special custom_final_price this-is-wiser">${formatter.format(wiserPrice)}</span>
                 <div class="discount">SAVE ${formatter.format(wiserDiscount)}</div>
               </div>`;
             }
@@ -176,7 +176,7 @@ define([], function () {
             if (priceDiscount > 0) {
               return html`<div class="algoliasearch-autocomplete-price">
                 <span class="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
-                <span class="after_special custom_final_price">${formatter.format(defaultPrice)}</span>
+                <span class="after_special custom_final_price this-is-promotion">${formatter.format(defaultPrice)}</span>
                 <div class="discount">SAVE ${formatter.format(priceDiscount)}</div>
               </div>`;
             }
