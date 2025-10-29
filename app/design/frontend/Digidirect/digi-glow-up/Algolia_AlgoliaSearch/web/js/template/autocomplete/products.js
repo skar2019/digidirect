@@ -119,8 +119,8 @@ define([], function () {
             return html`<span class="tier_price"> As low as <span class="tier_value">${item['price'][algoliaConfig.currencyCode][priceGroup + '_tier_formated']}</span></span>`;
         },
 
-        getPricingHtml: function(item, html) {
-            if (!item || !item.price || !item.price.AUD) return "";
+        getPricingHtml: function (item, html) {
+            if (!item || !item.price || !item.price.AUD) return '';
 
             const priceGroup = algoliaConfig.priceGroup || 'default';
             const currencyCode = algoliaConfig.currencyCode || 'AUD';
@@ -129,7 +129,7 @@ define([], function () {
             const formatter = new Intl.NumberFormat('en-AU', {
               style: 'currency',
               currency: 'AUD',
-              minimumFractionDigits: 2
+              minimumFractionDigits: 2,
             });
 
             const parsePrice = (val) => {
@@ -140,45 +140,57 @@ define([], function () {
             };
 
             const defaultPrice = Number(priceAUD.default) || 0;
-            const originalPrice = parsePrice(priceAUD.default_original_formated); // 0 if not available
+            const originalPrice = Number(parsePrice(priceAUD.default_original_formatted || priceAUD.default_original_formated)) || 0;
             const basePrice = originalPrice > 0 ? originalPrice : defaultPrice;
 
-            const wiserPrice = (item.wiser_price === undefined || item.wiser_price === null || item.wiser_price === '')
-              ? null
-              : (isNaN(Number(item.wiser_price)) ? null : Number(item.wiser_price));
+            const wiserPrice =
+              item.wiser_price === undefined ||
+              item.wiser_price === null ||
+              item.wiser_price === '' ||
+              isNaN(Number(item.wiser_price))
+                ? null
+                : Number(item.wiser_price);
 
             // discounts
-            const priceDiscount = originalPrice > defaultPrice ? (originalPrice - defaultPrice) : 0;
-            const wiserDiscount = (wiserPrice !== null && basePrice > wiserPrice) ? (basePrice - wiserPrice) : 0;
+            const priceDiscount = originalPrice > defaultPrice ? originalPrice - defaultPrice : 0;
+            const wiserDiscount = wiserPrice !== null && basePrice > wiserPrice ? basePrice - wiserPrice : 0;
 
-            // PROMOTION (original > default)
-            if (priceDiscount > 0) {
-              return html`<div className="algoliasearch-autocomplete-price">
-                <span className="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
-                <span className="after_special custom_final_price">${formatter.format(defaultPrice)}</span>
-                <div className="discount">SAVE ${formatter.format(priceDiscount)}</div>
-              </div>`;
-            }
+            // effective price (used when no discount)
+            const effectivePrice =
+              wiserDiscount > 0
+                ? wiserPrice
+                : priceDiscount > 0
+                ? defaultPrice
+                : basePrice || defaultPrice;
 
-            // WISER DISCOUNT (basePrice > wiserPrice)
+            // 🧾 WISER DISCOUNT (priority)
             if (wiserDiscount > 0) {
-              return html`<div className="algoliasearch-autocomplete-price">
-                <span className="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
-                <span className="after_special custom_final_price">${formatter.format(wiserPrice)}</span>
-                <div className="discount">SAVE ${formatter.format(wiserDiscount)}</div>
+              return html`<div class="algoliasearch-autocomplete-price">
+                <span class="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
+                <span class="after_special custom_final_price">${formatter.format(wiserPrice)}</span>
+                <div class="discount">SAVE ${formatter.format(wiserDiscount)}</div>
               </div>`;
             }
 
-            // FALLBACK: no discount
-            const formatted = (item.price[currencyCode] && item.price[currencyCode][priceGroup + '_formated'])
-              || formatter.format(defaultPrice);
+            // 💰 PROMOTION DISCOUNT
+            if (priceDiscount > 0) {
+              return html`<div class="algoliasearch-autocomplete-price">
+                <span class="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
+                <span class="after_special custom_final_price">${formatter.format(defaultPrice)}</span>
+                <div class="discount">SAVE ${formatter.format(priceDiscount)}</div>
+              </div>`;
+            }
 
-            return html`<div className="algoliasearch-autocomplete-price">
-              <span className="after_special ${ (item.price[currencyCode] && item.price[currencyCode][priceGroup + '_original_formated']) != null ? 'promotion' : '' }">
-                ${formatted}
-              </span>
+            // 🧾 NO DISCOUNT — show only final price
+            const formatted =
+              (item.price[currencyCode] && item.price[currencyCode][`${priceGroup}_formated`]) ||
+              formatter.format(effectivePrice);
+
+            return html`<div class="algoliasearch-autocomplete-price">
+              <span class="after_special custom_final_price">${formatted}</span>
             </div>`;
-        },
+        }
+,
 
         getFooterSearchCategoryLinks: (html, resultDetails) => {
             if (resultDetails.allCategories == undefined || resultDetails.allCategories.length === 0) return "";

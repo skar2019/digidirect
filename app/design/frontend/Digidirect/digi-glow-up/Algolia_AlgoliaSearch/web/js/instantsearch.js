@@ -1592,4 +1592,10 @@ window.addEventListener('load', () => {
       updateProductClasses()
     })
   })
+  
+  //Reposition Instant Search Bar
+  if ($('#instant-search-bar').length && $('#algolia-left-container').length) {
+    $('#instant-search-bar').appendTo('#algolia-left-container');
+  }
+  
 })
