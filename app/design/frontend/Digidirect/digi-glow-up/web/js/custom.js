@@ -194,7 +194,7 @@ $(window).on('scroll resize', () => {
             overflowY: 'scroll',
           })
         }
-    }
+      }
 
     $(window).on('resize', initDesktopBlurObserver)
     initDesktopBlurObserver()
