@@ -1692,10 +1692,12 @@ $(function () {
     observer.observe(document.body, { childList: true, subtree: true })
   })
   
-  //Show Upsell PA Pop Up Widget
+  // Show Upsell PA Pop Up Widget (with 1s delay)
   $('#product-addtocart-button').on('click', function () {
-      $('#pa-upsell').addClass('active');
-  });
+    setTimeout(function () {
+      $('#pa-upsell').addClass('active')
+    }, 2000) // 1000ms = 1 second delay
+  })
   
   //Select all pa upsell products
   $(document).on('click', '#upsell-select-all', function () {
@@ -1707,64 +1709,51 @@ $(function () {
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
     e.preventDefault()
 
-    const $checked = $('.pa-checkbox-input.pa-bundle-product:checked')
+    const $checked = $('.pa-bundle-product:checked')
 
     if ($checked.length === 0) {
-      alert('Please select at least one product to add to cart.')
+      alert('Please select at least one product.')
       return
     }
 
-    // Optional: show Magento loader
-    $('body').trigger('processStart')
-
-    let requests = []
+    const requests = []
 
     $checked.each(function () {
-      const productId = $(this).val()
-      const $form = $(`form[data-role="tocart-form"][action*="/${productId}/"]`)
+      const sku = $(this).data('product-sku')
+      const $form = $(`form[data-product-sku="${sku}"]`)
 
       if ($form.length) {
-        const formData = new FormData($form[0])
-        const actionUrl = $form.attr('action')
-
+        console.log("$form.attr('action')", $form.attr('action'));
         const req = $.ajax({
-          url: actionUrl,
+          url: $form.attr('action'),
           type: 'POST',
-          data: formData,
-          processData: false,
-          contentType: false,
+          data: $form.serialize(),
+          showLoader: true,
         })
+          .done(function () {
+            console.log(`✅ Added SKU ${sku} to cart`)
+          })
+          .fail(function (xhr) {
+            console.error(`❌ Failed to add SKU ${sku}:`, xhr)
+          })
 
         requests.push(req)
+      } else {
+        console.warn(`⚠️ No form found for SKU ${sku}`)
       }
     })
 
-    // Wait until all requests complete
-    $.when.apply($, requests)
-      .done(function () {
-        require(['Magento_Customer/js/customer-data'], function (customerData) {
-          customerData.invalidate(['cart'])
-          customerData.reload(['cart'], true)
-        })
-
-        // Optional: trigger your minicart auto-open
-        if (typeof openMinicart === 'function') {
-          openMinicart()
-        }
-
-        $('body').trigger('processStop')
-        console.log('✅ All selected upsell products added to cart')
-      })
-      .fail(function (err) {
-        console.error('❌ Error adding upsell products', err)
-        $('body').trigger('processStop')
-      })
+    // Wait for all AJAX requests to complete before refreshing cart data
+    $.when.apply($, requests).done(function () {
+      console.log('🛒 All products added. Reloading minicart...')
+      customerData.reload(['cart'], true)
+    })
   })
   
-  //Close PA Upsell Widget
-  $('#upsell-close').on('click', function () {
-    $('#pa-upsell').hide()
-  })
+    // Close PA Upsell Widget
+    $('#upsell-close').on('click', function () {
+      $('#pa-upsell').removeClass('active')
+    })
     
   })
 })
