@@ -1661,6 +1661,11 @@ $(function () {
     }, 2000) // 1000ms = 1 second delay
   })
   
+  //PA Upsell Widget Checked Default
+  $(window).on('load', function () {
+    $('.pa-bundle-product').prop('checked', true).trigger('change')
+  })
+  
   //Select all pa upsell products
   $(document).on('click', '#upsell-select-all', function () {
       $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
@@ -1690,12 +1695,8 @@ $(function () {
           data: $form.serialize(),
           showLoader: true,
         })
-          .done(function () {
-            console.log(`✅ Added SKU ${sku} to cart`)
-          })
-          .fail(function (xhr) {
-            console.error(`❌ Failed to add SKU ${sku}:`, xhr)
-          })
+          .done(() => console.log(`✅ Added SKU ${sku} to cart`))
+          .fail((xhr) => console.error(`❌ Failed to add SKU ${sku}:`, xhr))
 
         requests.push(req)
       } else {
@@ -1703,25 +1704,31 @@ $(function () {
       }
     })
 
-    // ✅ Wait for all to complete, then properly refresh customerData cart
+    // Wait for all AJAX adds to finish
     $.when.apply($, requests).done(function () {
-      console.log('🛒 All products added. Reloading minicart and count...')
+      console.log('🛒 All products added. Refreshing minicart data...')
 
-      // Invalidate the cache first (important!)
-      customerData.invalidate(['cart'])
-
-      // Reload the cart data so the UI and count update immediately
-      customerData.reload(['cart'], true)
-
-      // Optional: Open the minicart automatically after adding
+      // Small delay lets Magento finish updating quote totals
       setTimeout(function () {
-        $('[data-block="minicart"] .action.showcart').trigger('click')
+        customerData.invalidate(['cart'])
+        customerData.reload(['cart'], true)
+
+        // Open minicart after reload completes
+        const cartData = customerData.get('cart')
+        const interval = setInterval(function () {
+          const count = cartData()?.summary_count
+          if (count !== undefined) {
+            console.log(`🧮 Updated cart count: ${count}`)
+            clearInterval(interval)
+            $('[data-block="minicart"] .action.showcart').trigger('click')
+          }
+        }, 300)
       }, 800)
     })
   })
   
     // Close PA Upsell Widget
-    $('#upsell-close').on('click', function () {
+    $('#upsell-close, #upsell-add-to-cart-all').on('click', function () {
       $('#pa-upsell').removeClass('active')
     })
     
