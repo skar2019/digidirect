@@ -1638,5 +1638,46 @@ $(function () {
       }
     )
     
+    //AA Panel close on outside touch
+    
+    $(function () {
+    // Watch for when Algolia autocomplete opens or closes
+    const observer = new MutationObserver(() => {
+      const $panel = $('.aa-Panel')
+      if ($panel.length) {
+        enableOutsideTouchClose($panel)
+      } else {
+        disableOutsideTouchClose()
+      }
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+  })
+
+  function enableOutsideTouchClose($panel) {
+    // Avoid re-binding
+    $(document).off('pointerdown.aaPanelClose').on('pointerdown.aaPanelClose', function (e) {
+      const $target = $(e.target)
+      const isInsidePanel = $target.closest('.aa-Panel').length > 0
+      const isInsideSearch = $target.closest('.aa-InputWrapper').length > 0
+
+      // If user touches outside both the search bar and panel
+      if (!isInsidePanel && !isInsideSearch) {
+        try {
+          // Trigger Algolia’s built-in close
+          $('.aa-DetachedSearchButton').trigger('click')
+        } catch (err) {
+          console.warn('Could not close Algolia panel:', err)
+        }
+
+        disableOutsideTouchClose()
+      }
+    })
+  }
+
+  function disableOutsideTouchClose() {
+    $(document).off('pointerdown.aaPanelClose')
+  }
+    
   })
 })
