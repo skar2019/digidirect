@@ -527,7 +527,6 @@ $(window).on('scroll resize', () => {
      function setupPDPAutoMinicart() {
        $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
            
-         $('#pa-upsell').addClass('active'); //Upsell PA Pop Up
          e.preventDefault()
          const $form = $(this)
          const formData = new FormData($form[0])
@@ -543,6 +542,8 @@ $(window).on('scroll resize', () => {
            success: function () {
              // mark that we want to auto-open upon next cart update
              shouldAutoOpen = true
+             
+             $('#pa-upsell').addClass('active') //PA Upsell Pop Up Widget
 
              // Hide any transient dropdown flash
              const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
@@ -1643,11 +1644,39 @@ $(function () {
     //AA Panel close on outside touch
     
     $(function () {
-    // Watch for when Algolia autocomplete opens or closes
-    const observer = new MutationObserver(() => {
+    if (!window.MutationObserver) return
+
+    let observer
+    let outsideTouchBound = false
+
+    function enableOutsideTouchClose() {
+      if (outsideTouchBound) return
+      outsideTouchBound = true
+
+      $(document).on('pointerdown.aaPanelClose', function (e) {
+        const $target = $(e.target)
+        const isInsidePanel = $target.closest('.aa-Panel').length > 0
+        const isInsideSearch = $target.closest('.aa-InputWrapper').length > 0
+
+        if (!isInsidePanel && !isInsideSearch) {
+          // Close Algolia panel if button exists
+          const $btn = $('.aa-DetachedSearchButton')
+          if ($btn.length) $btn.trigger('click')
+          disableOutsideTouchClose()
+        }
+      })
+    }
+
+    function disableOutsideTouchClose() {
+      outsideTouchBound = false
+      $(document).off('pointerdown.aaPanelClose')
+    }
+
+    // Observe Algolia autocomplete panel
+    observer = new MutationObserver(() => {
       const $panel = $('.aa-Panel')
       if ($panel.length) {
-        enableOutsideTouchClose($panel)
+        enableOutsideTouchClose()
       } else {
         disableOutsideTouchClose()
       }
@@ -1655,31 +1684,12 @@ $(function () {
 
     observer.observe(document.body, { childList: true, subtree: true })
   })
-
-  function enableOutsideTouchClose($panel) {
-    // Avoid re-binding
-    $(document).off('pointerdown.aaPanelClose').on('pointerdown.aaPanelClose', function (e) {
-      const $target = $(e.target)
-      const isInsidePanel = $target.closest('.aa-Panel').length > 0
-      const isInsideSearch = $target.closest('.aa-InputWrapper').length > 0
-
-      // If user touches outside both the search bar and panel
-      if (!isInsidePanel && !isInsideSearch) {
-        try {
-          // Trigger Algolia’s built-in close
-          $('.aa-DetachedSearchButton').trigger('click')
-        } catch (err) {
-          console.warn('Could not close Algolia panel:', err)
-        }
-
-        disableOutsideTouchClose()
-      }
-    })
-  }
-
-  function disableOutsideTouchClose() {
-    $(document).off('pointerdown.aaPanelClose')
-  }
+  
+  //Show Upsell PA Pop Up Widget
+  
+  //$('#product-addtocart-button').on('click', function () {
+  //    $('#pa-upsell').addClass('active');
+  //});
     
   })
 })
