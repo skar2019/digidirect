@@ -8,9 +8,13 @@ $orderArray = $block->getOrderArray();
 // @codingStandardsIgnoreFile
 
 $customerEmail = '';
+$methodCode = '';
+$bankDetailsSeparated = [];
 if ($block->getOrderId()) {
     $order = $block->getOrderByIncrementId($block->getOrderId());
     $customerEmail = $order->getCustomerEmail();
+    $bankDetailsSeparated = $block->getBankDetails($block->getOrderId());
+    $methodCode = $order->getPayment()->getMethod();
 }
 ?>
 
@@ -635,11 +639,44 @@ if ($block->getOrderId()) {
         </div>
 
     </div>
+
+    <?php if ($methodCode === 'banktransfer') : ?>
+        <div class="bank-details-box">
+            <h3 class="bank-title">Our Bank Details</h3>
+
+            <div class="bank-details-grid">
+                <div class="bank-item">
+                    <label>Bank</label>
+                    <span><?= $bankDetailsSeparated['Bank Name'] ?? '' ?></span>
+                </div>
+
+                <div class="bank-item">
+                    <label>BSB</label>
+                    <span><?= $bankDetailsSeparated['BSB'] ?? '' ?></span>
+                </div>
+
+                <?php if ($block->getOrderId()) : ?>
+                    <div class="bank-item reference">
+                        <label class="ref-label">
+                            Reference
+                            <span class="info-icon" title="Use your Order Number as reference">ⓘ</span>
+                        </label>
+                        <span><?= $block->getOrderId(); ?></span>
+                    </div>
+                <?php endif; ?>
+
+                <div class="bank-item">
+                    <label>Account Name</label>
+                    <span><?= $bankDetailsSeparated['Account Name'] ?? '' ?></span>
+                </div>
+
+                <div class="bank-item">
+                    <label>Account Number</label>
+                    <span><?= $bankDetailsSeparated['Account Number'] ?? '' ?></span>
+                </div>
+            </div>
+        </div>
+
+    <?php endif; ?>
 </div>
-<script>
-    //document.addEventListener("DOMContentLoaded", function() {
-
-</script>
-
-<script src="path/to/confetti-animate.js"></script>
 
