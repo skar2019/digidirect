@@ -164,7 +164,7 @@ define([], function () {
                 : basePrice || defaultPrice;
 
             // 🧾 WISER DISCOUNT (priority)
-            if (wiserDiscount > 0) {
+            if (wiserDiscount > 0 && wiserPrice != 0) {
               return html`<div class="algoliasearch-autocomplete-price">
                 <span class="before_price promotional">${formatter.format(originalPrice || defaultPrice)}</span>
                 <span class="after_special custom_final_price this-is-wiser">${formatter.format(wiserPrice)}</span>
