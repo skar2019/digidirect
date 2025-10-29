@@ -462,7 +462,7 @@ require(['jquery'], function ($) {
             let addToWishList;
             
             if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
-                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><span></span></label></div>`;
+                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
             } else {
                 addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
             }

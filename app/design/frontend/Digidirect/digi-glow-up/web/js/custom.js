@@ -526,6 +526,8 @@ $(window).on('scroll resize', () => {
      ======================== */
      function setupPDPAutoMinicart() {
        $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
+           
+         $('#pa-upsell').addClass('active'); //Upsell PA Pop Up
          e.preventDefault()
          const $form = $(this)
          const formData = new FormData($form[0])
