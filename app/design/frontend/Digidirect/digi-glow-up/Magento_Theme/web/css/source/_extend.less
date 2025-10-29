@@ -2,7 +2,7 @@
     Created on : 08 2, 25, 10:30:59 AM
     Author     : rondel
 */
-
+@import "_digi_print_common.less";
 body {
     font-family: @font-family__base;
 }
@@ -85,14 +85,14 @@ body.pa-welcome-active .ruby-menu-mega-blog {
 }
 
 .page-wrapper.has-overlay::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 10001;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10001;
 }
 
 a {
@@ -876,7 +876,7 @@ body.blur-active .global-blur-overlay {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    padding: 0 !important
+    padding: 0 !important;
 }
 
 .newspopup-messages-holder {
@@ -884,7 +884,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .newspopup-up-form.newspopup-theme {
-    margin: 0 !important;;
+    margin: 0 !important;
 }
 
 .view-all-link {
@@ -931,7 +931,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .widget-main-label {
-    color: #FE4C25;
+    color: #fe4c25;
     font-size: 32px;
     font-weight: 500;
     line-height: 43.44px;
@@ -939,7 +939,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .widget-secondary-label {
-    color: #8E8E93;
+    color: #8e8e93;
     font-size: 32px;
     font-weight: 500;
     line-height: 43.44px;
@@ -1074,7 +1074,7 @@ body.blur-active .global-blur-overlay {
 
 .pa-checkbox-label input:checked:after {
     content: "\f00c";
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     transform: unset;
     color: #fff;
     font-size: 21px;
@@ -1083,14 +1083,14 @@ body.blur-active .global-blur-overlay {
 
 #upsell-select-all {
     font-size: 14px;
-    color: #0171E3;
+    color: #0171e3;
     float: right;
     cursor: pointer;
 }
 
 #upsell-add-to-cart-all {
     border-radius: 100px;
-    background: #FE4C25;
+    background: #fe4c25;
     border: 0;
     font-size: 14px;
     padding: 8px 10px;
@@ -1101,7 +1101,6 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 1512px) {
-
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 20px;
     }
@@ -1129,12 +1128,14 @@ body.blur-active .global-blur-overlay {
         padding: 15px;
     }
 
-    .pa-welcome-back .pa-digidirect-product-widget .product.details.product-item-details {
+    .pa-welcome-back
+        .pa-digidirect-product-widget
+        .product.details.product-item-details {
         padding-top: 0;
         gap: 5px;
     }
 
-    #welcome-back-widget-mobile .owl-item:nth-child(n+6) {
+    #welcome-back-widget-mobile .owl-item:nth-child(n + 6) {
         display: none;
     }
 
@@ -1151,19 +1152,19 @@ body.blur-active .global-blur-overlay {
         padding: 15px;
     }
 
-    .pa-upsell .pa-digidirect-product-widget .product.details.product-item-details {
+    .pa-upsell
+        .pa-digidirect-product-widget
+        .product.details.product-item-details {
         padding-top: 0;
         gap: 5px;
     }
 
-    #upsell-widget-mobile .owl-item:nth-child(n+6) {
+    #upsell-widget-mobile .owl-item:nth-child(n + 6) {
         display: none;
     }
-
 }
 
 @media screen and (max-width: 768px) {
-
     input,
     textarea {
         font-size: 16px !important; /* prevents iOS zoom */
@@ -1272,19 +1273,21 @@ body.blur-active .global-blur-overlay {
 
     //PLP
 
-    .catalog-category-view .breadcrumbs, .catalogsearch-result-index .breadcrumbs {
+    .catalog-category-view .breadcrumbs,
+    .catalogsearch-result-index .breadcrumbs {
         max-width: unset;
         width: 100%;
         padding-left: 15px;
     }
 
-    .catalog-category-view .page-title-wrapper, .catalogsearch-result-index .page-title-wrapper {
+    .catalog-category-view .page-title-wrapper,
+    .catalogsearch-result-index .page-title-wrapper {
         margin: 15px 15px 0;
     }
 
     #algolia_instant_selector .col-md-3 {
         width: 100% !important;
-        display: flex
+        display: flex;
     }
 
     .algolia-infos {
@@ -1358,7 +1361,7 @@ body.blur-active .global-blur-overlay {
     li.ais-Hits-item {
         overflow: hidden;
         border-radius: 20px;
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
         margin: 0;
     }
 
@@ -1475,7 +1478,8 @@ body.blur-active .global-blur-overlay {
         height: 77px !important;
     }
 
-    #glow-up-brands .owl-item img, #glow-up-brands .owl-item svg {
+    #glow-up-brands .owl-item img,
+    #glow-up-brands .owl-item svg {
         max-width: 50px;
         object-fit: contain;
         max-height: 35px;
@@ -1502,7 +1506,9 @@ body.blur-active .global-blur-overlay {
         font-weight: 100;
     }
 
-    .catalog-category-view .pa-digidirect-product-widget strong.product-item-name {
+    .catalog-category-view
+        .pa-digidirect-product-widget
+        strong.product-item-name {
         height: 32px;
     }
 
@@ -1520,11 +1526,14 @@ body.blur-active .global-blur-overlay {
         top: 48px;
     }
 
-    .catalog-category-view .pa-digidirect-product-widget .product-item .price-box {
+    .catalog-category-view
+        .pa-digidirect-product-widget
+        .product-item
+        .price-box {
         margin-top: 30px;
     }
 
-    .pa-digidirect-product-widget  .product-info-bottom {
+    .pa-digidirect-product-widget .product-info-bottom {
         margin-top: -5px;
     }
 
@@ -1623,16 +1632,15 @@ body.blur-active .global-blur-overlay {
         font-size: 9px;
         font-weight: 500;
     }
-    
+
     .ais-SearchBox-reset {
         height: 22px !important;
     }
-    
+
     .ais-SearchBox-input {
         font-size: 16px !important;
         transform-origin: left center;
     }
-
 }
 
 @media screen and (min-width: 768px) {
@@ -1705,7 +1713,6 @@ li.item.current .page span {
     color: #fff;
 }
 
-
 /*.loader {
     top: 50%;
     left: 50%;
@@ -1748,11 +1755,10 @@ li.item.current .page span {
     100%{transform: rotate(1turn)}
 }*/
 
-.loading-mask .loader>img{
+.loading-mask .loader > img {
     width: 200px;
     //height: 100px;
 }
-
 
 //Cart Page
 
@@ -1789,7 +1795,7 @@ button.action.primary.action-dismiss {
 }
 
 .brand-group h2 {
-    border-bottom: 1px solid #E5E5EA;
+    border-bottom: 1px solid #e5e5ea;
     font-size: 24px;
     font-family: Inter;
     font-weight: 600;
@@ -1812,7 +1818,7 @@ button.action.primary.action-dismiss {
 }
 
 .brand-filter-container {
-    background: #FE4C25;
+    background: #fe4c25;
 }
 
 .brand-filter {
@@ -1832,7 +1838,7 @@ button.action.primary.action-dismiss {
 }
 
 .brand-list h3 {
-    border-bottom: 1px solid #E5E5EA;
+    border-bottom: 1px solid #e5e5ea;
     padding-bottom: 10px;
 }
 
@@ -1855,10 +1861,9 @@ button.action.primary.action-dismiss {
 
 .brand-alphabet .letter.active {
     background: #fff;
-    color: #FE4C25;
+    color: #fe4c25;
     border-radius: 50%;
 }
-
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -1893,7 +1898,9 @@ select:-webkit-autofill:focus {
     position: relative !important;
     cursor: pointer;
 
-    &:hover, &:active, &:focus{
+    &:hover,
+    &:active,
+    &:focus {
         background: unset !important;
         border: unset !important;
         color: unset !important;
@@ -1908,7 +1915,7 @@ select:-webkit-autofill:focus {
         -moz-osx-font-smoothing: grayscale;
         font-size: 40px;
         line-height: 40px;
-        content: '\e612';
+        content: "\e612";
         font-family: "icomoon";
         vertical-align: middle;
         display: inline-block;
@@ -1928,7 +1935,6 @@ select:-webkit-autofill:focus {
         position: absolute;
         width: 1px;
     }
-
 }
 
 #ui-datepicker-div {
@@ -1945,8 +1951,8 @@ select:-webkit-autofill:focus {
 }
 
 .flatpickr-day.today {
-    background-color: rgba(57,57,57,0.3) !important;
-    border-color: rgba(57,57,57,0.3) !important;
+    background-color: rgba(57, 57, 57, 0.3) !important;
+    border-color: rgba(57, 57, 57, 0.3) !important;
 }
 
 .flatpickr-day:hover {
@@ -1954,12 +1960,10 @@ select:-webkit-autofill:focus {
     border-color: #fe4c25 !important;
 }
 
-
 .flatpickr-months .flatpickr-prev-month svg,
 .flatpickr-months .flatpickr-next-month svg {
     //fill: #fe4c25;
 }
-
 
 .flatpickr-months .flatpickr-month {
     //color: #fe4c25;
@@ -1973,12 +1977,12 @@ select:-webkit-autofill:focus {
 
 .flatpickr-calendar {
     border-radius: 10px !important;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
 }
 
 .flatpickr-monthDropdown-months,
 .numInput.cur-year {
-    font-family: 'Inter' !important;
+    font-family: "Inter" !important;
     font-size: 14px !important;
 }
 
@@ -1994,7 +1998,7 @@ select:not([disabled]):focus {
     background: unset !important;
 }
 
-.flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover {
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
     color: rgba(57, 57, 57, 0.3) !important;
 }
-
