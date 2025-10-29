@@ -459,7 +459,15 @@ require(['jquery'], function ($) {
             }
             //console.log(product.name, sellerName);
             
-            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
+            let addToWishList;
+            
+            if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
+                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
+            } else {
+                addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
+            }
+            
+            //02ed2d33-ee8e-ec11-aae9-02dca44cceec
             
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
@@ -1032,6 +1040,7 @@ require(['jquery'], function ($) {
     productTile('cecb45e7-043e-ec11-aae9-02dca44cceec', '#people-who-viewed-this-item-also-viewed-mobile', true);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
+    productTile('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#upsell-widget-desktop', false);
     
     if (customerId && sessionId) {
         $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
@@ -2010,6 +2019,42 @@ require(['jquery'], function ($) {
                 },
                 1550: {
                     items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
+        
+        $(".owl-carousel.upsell").owlCarousel({
+            loop: false,
+            nav: true,
+            margin: 15,
+            touchDrag: true,
+            mouseDrag: true,
+            smartSpeed: 800,
+            slideBy: 1,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 4
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 4
                 }
             },
             dots: false,

@@ -32,7 +32,7 @@ define([], function () {
 <path d="M9.50405 11.6057C11.1027 11.6057 12.3987 10.3098 12.3987 8.71108C12.3987 7.1124 11.1027 5.81641 9.50405 5.81641C7.90536 5.81641 6.60938 7.1124 6.60938 8.71108C6.60938 10.3098 7.90536 11.6057 9.50405 11.6057Z" stroke="#676767" stroke-width="1.5"/>
 <path d="M1.72522 7.02129C3.55295 -1.01328 15.4564 -1.004 17.2748 7.03057C18.3418 11.7437 15.41 15.7331 12.84 18.201C10.9752 20.0009 8.02485 20.0009 6.15073 18.201C3.59006 15.7331 0.658278 11.7344 1.72522 7.02129Z" stroke="#676767" stroke-width="1.5"/>
 </svg>
-		<a class="aa-ItemLink algolia-suggestions algoliasearch-autocomplete-hit" href="/store-locator">
+		<a class="aa-ItemLink algolia-suggestions algoliasearch-autocomplete-hit" href="/store-locator-list">
 			Find a Store
 		</a>
 	</li>
