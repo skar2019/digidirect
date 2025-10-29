@@ -1592,4 +1592,53 @@ window.addEventListener('load', () => {
       updateProductClasses()
     })
   })
+  
+  //Reposition Instant Search Bar
+  const SEARCH_BAR_ID = '#instant-search-bar'
+  const LEFT_CONTAINER_ID = '#algolia-left-container'
+  const MAX_WAIT_MS = 8000 // stop trying after 8s
+  const RECHECK_DELAY = 200 // ms
+  const DESKTOP_ONLY = false // set to true if you want >768px only
+
+  const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+
+  function moveSearchBar() {
+    const searchBar = document.querySelector(SEARCH_BAR_ID)
+    const leftContainer = document.querySelector(LEFT_CONTAINER_ID)
+
+    if (searchBar && leftContainer && leftContainer !== searchBar.parentElement) {
+      leftContainer.appendChild(searchBar)
+      console.log('✅ instant-search-bar moved inside algolia-left-container')
+      return true
+    }
+    return false
+  }
+
+  function start() {
+    if (DESKTOP_ONLY && !isDesktop()) return
+
+    const startTime = Date.now()
+
+    // Poll for element availability
+    const poll = setInterval(() => {
+      if (moveSearchBar()) {
+        clearInterval(poll)
+        observer.disconnect()
+      } else if (Date.now() - startTime > MAX_WAIT_MS) {
+        clearInterval(poll)
+        observer.disconnect()
+        console.warn('⏱️ Timeout: could not find elements to move.')
+      }
+    }, RECHECK_DELAY)
+
+    // Watch DOM changes (Algolia may re-render)
+    const observer = new MutationObserver(() => {
+      moveSearchBar()
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+  }
+
+  start()
+  
 })
