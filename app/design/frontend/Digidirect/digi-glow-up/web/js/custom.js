@@ -165,24 +165,54 @@ $(window).on('scroll resize', () => {
     })
 
     
-    //Blur Active AA Panel Only When Not Mobile
+    // Blur Active AA Panel Only When Not Mobile
     let aaPanelObserver
 
     function initDesktopBlurObserver() {
-      if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
-        aaPanelObserver = new MutationObserver(() => {
-          if ($('.aa-Panel').length) $('body').addClass('blur-active')
-          else $('body').removeClass('blur-active')
-          positionBlurOverlay()
-        })
-        aaPanelObserver.observe(document.body, { childList: true, subtree: true })
-      } else if (window.innerWidth <= 768 && aaPanelObserver) {
-        aaPanelObserver.disconnect()
-        aaPanelObserver = null
-        $('body').removeClass('blur-active')
+      const $body = $('body')
+      const isMobile = window.innerWidth <= 768
+      const hasAaPanel = $('.aa-Panel').length > 0
+
+      if (!isMobile && window.MutationObserver) {
+        // 🧹 Reset any mobile inline styles
+        $body.css({ position: '', top: '', width: '', overflowY: '' })
+
+        if (!aaPanelObserver) {
+          aaPanelObserver = new MutationObserver(() => {
+            if ($('.aa-Panel').length) {
+              $body.addClass('blur-active')
+            } else {
+              $body.removeClass('blur-active')
+            }
+            positionBlurOverlay()
+          })
+
+          aaPanelObserver.observe(document.body, { childList: true, subtree: true })
+        }
+      } 
+      else if (isMobile) {
+        // 👇 Always disconnect observer on mobile
+        if (aaPanelObserver) {
+          aaPanelObserver.disconnect()
+          aaPanelObserver = null
+        }
+
+        $body.removeClass('blur-active')
+
+        // ✅ Apply lock CSS only if aa-Panel exists or is visible
+        if (hasAaPanel) {
+          $body.css({
+            position: 'fixed',
+            width: '100%',
+          })
+        } else {
+          // 🧹 Ensure clean body when aa-Panel not active
+          $body.css({ position: '', width: '' })
+        }
       }
     }
 
+    // Initialize and re-check on resize
     $(window).on('resize', initDesktopBlurObserver)
     initDesktopBlurObserver()
 
@@ -496,6 +526,7 @@ $(window).on('scroll resize', () => {
      ======================== */
      function setupPDPAutoMinicart() {
        $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
+           
          e.preventDefault()
          const $form = $(this)
          const formData = new FormData($form[0])
@@ -511,6 +542,8 @@ $(window).on('scroll resize', () => {
            success: function () {
              // mark that we want to auto-open upon next cart update
              shouldAutoOpen = true
+             
+             $('#pa-upsell').addClass('active') //PA Upsell Pop Up Widget
 
              // Hide any transient dropdown flash
              const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
@@ -1127,48 +1160,71 @@ $(document).on('changed.owl.carousel', function (event) {
 
 
 /* ========================
-   🩹 Keep aa-Panel perfectly aligned under Sticky Header
-======================== */
-function alignAaPanel() {
-  const $panel = $('.aa-Panel')
-  const $input = $('#autocomplete-0-input')
-  const $header = $('.header.content')
+    🩹 Keep aa-Panel perfectly aligned under Sticky Header (Web only)
+ ======================== */
+ function alignAaPanel() {
+   if (window.innerWidth <= 768) return // 👈 Skip entirely on mobile
 
-  if (!$panel.length || !$input.length || !$header.length) return
+   const $panel = $('.aa-Panel')
+   const $input = $('#autocomplete-0-input')
+   const $header = $('.header.content')
 
-  const inputOffset = $input.offset()
-  const headerHeight = $header.outerHeight() || 0
-  const scrollTop = $(window).scrollTop()
-  const inputTop = inputOffset.top - scrollTop
-  const newTop = $header.hasClass('is-sticky')
-    ? headerHeight + 1
-    : inputTop + $input.outerHeight() + 1
+   if (!$panel.length || !$input.length || !$header.length) return
 
-  const newLeft = inputOffset.left
-  const newWidth = $input.outerWidth()
+   const inputOffset = $input.offset()
+   const headerHeight = $header.outerHeight() || 0
+   const scrollTop = $(window).scrollTop()
+   const inputTop = inputOffset.top - scrollTop
 
-  if ($header.hasClass('is-sticky')) {
-    $panel.css({
-      position: 'fixed',
-      top: `${newTop}px`,
-      left: `${newLeft}px`,
-      right: 'unset',
-      zIndex: 10000,
-      marginTop: 0,
-    })
-  } else {
-    // When not sticky, revert to Algolia’s normal flow
-    $panel.attr('style', '')
-  }
-}
+   const newTop = $header.hasClass('is-sticky')
+     ? headerHeight + 1
+     : inputTop + $input.outerHeight() + 1
 
-// Reactive updates
-$(window).on('scroll resize', alignAaPanel)
-$(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+   const newLeft = inputOffset.left
+   const newWidth = $input.outerWidth()
 
-// Observe DOM since Algolia dynamically replaces the panel
-const aaStickObserver = new MutationObserver(alignAaPanel)
-aaStickObserver.observe(document.body, { childList: true, subtree: true })
+   if ($header.hasClass('is-sticky')) {
+     $panel.css({
+       position: 'fixed',
+       top: `${newTop}px`,
+       left: `${newLeft}px`,
+       right: 'unset',
+       zIndex: 10000,
+       marginTop: 0,
+       width: `${newWidth}px`,
+     })
+   } else {
+     // When not sticky, revert to Algolia’s normal flow
+     $panel.attr('style', '')
+   }
+ }
+
+ /* ========================
+    🧠 Reactive Updates (Desktop only)
+ ======================== */
+ function initAaPanelAlignment() {
+   if (window.innerWidth > 768) {
+     $(window).on('scroll resize', alignAaPanel)
+     $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+
+     // Observe DOM since Algolia dynamically replaces the panel
+     const aaStickObserver = new MutationObserver(alignAaPanel)
+     aaStickObserver.observe(document.body, { childList: true, subtree: true })
+
+     // Save observer so we can disconnect on mobile if needed
+     window.aaStickObserver = aaStickObserver
+   } else if (window.aaStickObserver) {
+     // 👋 Clean up when switching to mobile
+     window.aaStickObserver.disconnect()
+     $(window).off('scroll resize', alignAaPanel)
+     $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
+   }
+ }
+
+ // Initialize and re-check on resize
+ initAaPanelAlignment()
+ $(window).on('resize', initAaPanelAlignment)
+
 
 /* ========================
    🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
@@ -1584,6 +1640,97 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
+    
+    //AA Panel close on outside touch
+    
+    $(document).on('click touchstart', '.page-header, .mobile-footer-nav', function () {
+        if (window.innerWidth <= 768) {
+          const $panel = $('.aa-Panel')
+          if ($panel.length) {
+            $panel.remove()
+            $('body').removeClass('blur-active') // if you use blur overlay
+            console.log('📱 Closed Algolia panel on actual mobile.')
+          }
+        }
+    })
+
+  // Show Upsell PA Pop Up Widget (with 2s delay)
+  $('#product-addtocart-button').on('click', function () {
+    setTimeout(function () {
+      $('#pa-upsell').addClass('active')
+    }, 2000) // 1000ms = 1 second delay
+  })
+  
+  //PA Upsell Widget Checked Default
+  $(window).on('load', function () {
+    $('.pa-bundle-product').prop('checked', true).trigger('change')
+  })
+  
+  //Select all pa upsell products
+  $(document).on('click', '#upsell-select-all', function () {
+      $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
+  })
+  
+  //Upsell add to cart all checked
+  $(document).on('click', '#upsell-add-to-cart-all', function (e) {
+    e.preventDefault()
+
+    const $checked = $('.pa-bundle-product:checked')
+
+    if ($checked.length === 0) {
+      alert('Please select at least one product.')
+      return
+    }
+
+    const requests = []
+
+    $checked.each(function () {
+      const sku = $(this).data('product-sku')
+      const $form = $(`form[data-product-sku="${sku}"]`)
+
+      if ($form.length) {
+        const req = $.ajax({
+          url: $form.attr('action'),
+          type: 'POST',
+          data: $form.serialize(),
+          showLoader: true,
+        })
+          .done(() => console.log(`✅ Added SKU ${sku} to cart`))
+          .fail((xhr) => console.error(`❌ Failed to add SKU ${sku}:`, xhr))
+
+        requests.push(req)
+      } else {
+        console.warn(`⚠️ No form found for SKU ${sku}`)
+      }
+    })
+
+    // Wait for all AJAX adds to finish
+    $.when.apply($, requests).done(function () {
+      console.log('🛒 All products added. Refreshing minicart data...')
+
+      // Small delay lets Magento finish updating quote totals
+      setTimeout(function () {
+        customerData.invalidate(['cart'])
+        customerData.reload(['cart'], true)
+
+        // Open minicart after reload completes
+        const cartData = customerData.get('cart')
+        const interval = setInterval(function () {
+          const count = cartData()?.summary_count
+          if (count !== undefined) {
+            console.log(`🧮 Updated cart count: ${count}`)
+            clearInterval(interval)
+            $('[data-block="minicart"] .action.showcart').trigger('click')
+          }
+        }, 300)
+      }, 800)
+    })
+  })
+  
+    // Close PA Upsell Widget
+    $('#upsell-close, #upsell-add-to-cart-all').on('click', function () {
+      $('#pa-upsell').removeClass('active')
+    })
     
   })
 })

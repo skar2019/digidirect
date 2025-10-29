@@ -474,10 +474,17 @@ define([
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
                             //console.log("hasMatch", hasMatch);
                             
-                            let categoriesWithoutPath = item.categories_without_path;
-                            let firstCategory = categoriesWithoutPath.split(',')[0].trim().replace(/&amp;/g, "&");
-                            
-                            item.firstCategory = firstCategory;
+                            function decodeHtmlEntities(str) {
+                                const txt = document.createElement('textarea')
+                                txt.innerHTML = str
+                                return txt.value
+                            }
+
+                            let categoriesWithoutPath = item.categories_without_path || ''
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim()
+                            firstCategory = decodeHtmlEntities(firstCategory) // ✅ decode &lt;mark&gt; → <mark>
+
+                            item.firstCategory = firstCategory
 
                             if (!hasMatch) {
                                 item.isDigiSeconds = false;
@@ -1595,20 +1602,33 @@ window.addEventListener('load', () => {
   
   //Reposition Instant Search Bar
   const SEARCH_BAR_ID = '#instant-search-bar'
-  const LEFT_CONTAINER_ID = '#algolia-left-container'
-  const MAX_WAIT_MS = 8000 // stop trying after 8s
-  const RECHECK_DELAY = 200 // ms
-  const DESKTOP_ONLY = false // set to true if you want >768px only
+  const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+  const MAX_WAIT_MS = 8000 // stop checking after 8s
+  const RECHECK_DELAY = 200 // interval between checks (ms)
+  const DESKTOP_ONLY = false // change to true if you want only for >768px
 
   const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
 
-  function moveSearchBar() {
+  function moveAndInsert() {
     const searchBar = document.querySelector(SEARCH_BAR_ID)
-    const leftContainer = document.querySelector(LEFT_CONTAINER_ID)
+    const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
 
-    if (searchBar && leftContainer && leftContainer !== searchBar.parentElement) {
-      leftContainer.appendChild(searchBar)
-      console.log('✅ instant-search-bar moved inside algolia-left-container')
+    if (searchBar && facetsContainer) {
+      // ✅ Move inside facets container if not already there
+      if (searchBar.parentElement !== facetsContainer) {
+        facetsContainer.appendChild(searchBar)
+        console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+      }
+
+      // ✅ Add span as first child if not already added
+      if (!searchBar.querySelector('.search-within-label')) {
+        const label = document.createElement('span')
+        label.className = 'search-within-label'
+        label.textContent = 'Search Within Results'
+        searchBar.insertBefore(label, searchBar.firstChild)
+        console.log('✅ Added "Search Within Results" label')
+      }
+
       return true
     }
     return false
@@ -1619,23 +1639,22 @@ window.addEventListener('load', () => {
 
     const startTime = Date.now()
 
-    // Poll for element availability
+    // Poll until elements exist
     const poll = setInterval(() => {
-      if (moveSearchBar()) {
+      if (moveAndInsert()) {
         clearInterval(poll)
         observer.disconnect()
       } else if (Date.now() - startTime > MAX_WAIT_MS) {
         clearInterval(poll)
         observer.disconnect()
-        console.warn('⏱️ Timeout: could not find elements to move.')
+        console.warn('⏱️ Timeout: Could not find elements to move.')
       }
     }, RECHECK_DELAY)
 
-    // Watch DOM changes (Algolia may re-render)
+    // Observe DOM (Algolia re-renders)
     const observer = new MutationObserver(() => {
-      moveSearchBar()
+      moveAndInsert()
     })
-
     observer.observe(document.body, { childList: true, subtree: true })
   }
 
