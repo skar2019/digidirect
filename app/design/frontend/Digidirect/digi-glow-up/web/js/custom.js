@@ -1644,24 +1644,22 @@ $(function () {
     //AA Panel close on outside touch
     
     $(function () {
-    if (!window.MutationObserver) return
+    if (window.innerWidth > 768 || !window.MutationObserver) return
 
-    let observer
     let outsideTouchBound = false
 
     function enableOutsideTouchClose() {
       if (outsideTouchBound) return
       outsideTouchBound = true
 
-      $(document).on('pointerdown.aaPanelClose', function (e) {
+      $(document).on('touchstart.aaPanelClose pointerdown.aaPanelClose', function (e) {
         const $target = $(e.target)
-        const isInsidePanel = $target.closest('.aa-Panel').length > 0
+        const isInsidePanel = $target.closest('.aa-Panel, .aa-DetachedContainer').length > 0
         const isInsideSearch = $target.closest('.aa-InputWrapper').length > 0
 
+        // User tapped outside the autocomplete panel and search bar
         if (!isInsidePanel && !isInsideSearch) {
-          // Close Algolia panel if button exists
-          const $btn = $('.aa-DetachedSearchButton')
-          if ($btn.length) $btn.trigger('click')
+          closeAlgoliaPanel()
           disableOutsideTouchClose()
         }
       })
@@ -1669,17 +1667,26 @@ $(function () {
 
     function disableOutsideTouchClose() {
       outsideTouchBound = false
-      $(document).off('pointerdown.aaPanelClose')
+      $(document).off('touchstart.aaPanelClose pointerdown.aaPanelClose')
     }
 
-    // Observe Algolia autocomplete panel
-    observer = new MutationObserver(() => {
-      const $panel = $('.aa-Panel')
-      if ($panel.length) {
-        enableOutsideTouchClose()
+    function closeAlgoliaPanel() {
+      const $cancelBtn = $('.aa-DetachedCancelButton, .aa-CancelButton')
+      const $panelBtn = $('.aa-DetachedSearchButton')
+
+      if ($cancelBtn.length) {
+        $cancelBtn.trigger('click') // mobile fullscreen mode
+      } else if ($panelBtn.length) {
+        $panelBtn.trigger('click') // desktop mode (just in case)
       } else {
-        disableOutsideTouchClose()
+        $('.aa-Input').blur() // fallback: force blur to close autocomplete
       }
+    }
+
+    const observer = new MutationObserver(() => {
+      const hasPanel = $('.aa-Panel, .aa-DetachedContainer').length > 0
+      if (hasPanel) enableOutsideTouchClose()
+      else disableOutsideTouchClose()
     })
 
     observer.observe(document.body, { childList: true, subtree: true })
@@ -1752,6 +1759,11 @@ $(function () {
         console.error('❌ Error adding upsell products', err)
         $('body').trigger('processStop')
       })
+  })
+  
+  //Close PA Upsell Widget
+  $('#upsell-close').on('click', function () {
+    $('#pa-upsell').hide()
   })
     
   })
