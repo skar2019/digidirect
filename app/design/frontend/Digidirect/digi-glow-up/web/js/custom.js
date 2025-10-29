@@ -1686,10 +1686,73 @@ $(function () {
   })
   
   //Show Upsell PA Pop Up Widget
+  $('#product-addtocart-button').on('click', function () {
+      $('#pa-upsell').addClass('active');
+  });
   
-  //$('#product-addtocart-button').on('click', function () {
-  //    $('#pa-upsell').addClass('active');
-  //});
+  //Select all pa upsell products
+  $(document).on('click', '#upsell-select-all', function () {
+      $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
+  })
+  
+  
+  //Upsell add to cart all checked
+  $(document).on('click', '#upsell-add-to-cart-all', function (e) {
+    e.preventDefault()
+
+    const $checked = $('.pa-checkbox-input.pa-bundle-product:checked')
+
+    if ($checked.length === 0) {
+      alert('Please select at least one product to add to cart.')
+      return
+    }
+
+    // Optional: show Magento loader
+    $('body').trigger('processStart')
+
+    let requests = []
+
+    $checked.each(function () {
+      const productId = $(this).val()
+      const $form = $(`form[data-role="tocart-form"][action*="/${productId}/"]`)
+
+      if ($form.length) {
+        const formData = new FormData($form[0])
+        const actionUrl = $form.attr('action')
+
+        const req = $.ajax({
+          url: actionUrl,
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+        })
+
+        requests.push(req)
+      }
+    })
+
+    // Wait until all requests complete
+    $.when.apply($, requests)
+      .done(function () {
+        require(['Magento_Customer/js/customer-data'], function (customerData) {
+          customerData.invalidate(['cart'])
+          customerData.reload(['cart'], true)
+        })
+
+        // Optional: trigger your minicart auto-open
+        if (typeof openMinicart === 'function') {
+          openMinicart()
+        }
+
+        $('body').trigger('processStop')
+        console.log('✅ All selected upsell products added to cart')
+      })
+      .fail(function (err) {
+        console.error('❌ Error adding upsell products', err)
+        $('body').trigger('processStop')
+      })
+  })
     
   })
 })
