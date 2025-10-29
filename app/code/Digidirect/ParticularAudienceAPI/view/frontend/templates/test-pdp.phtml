@@ -2016,6 +2016,42 @@ require(['jquery'], function ($) {
             autoplay: false,
             autoplayTimeout: 3000
         });
+        
+        $(".owl-carousel.upsell").owlCarousel({
+            loop: false,
+            nav: true,
+            margin: 15,
+            touchDrag: true,
+            mouseDrag: true,
+            smartSpeed: 800,
+            slideBy: 1,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 4
+                },
+                1310: {
+                    items: 4
+                },
+                1366: {
+                    items: 4
+                },
+                1550: {
+                    items: 4
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
     
         //Owl Nav Slot Observer
         $(".owl-carousel.custom .owl-prev, .owl-carousel.custom .owl-next").click(function() {
