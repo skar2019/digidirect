@@ -1643,56 +1643,18 @@ $(function () {
     
     //AA Panel close on outside touch
     
-    $(function () {
-    if (window.innerWidth > 768 || !window.MutationObserver) return
-
-    let outsideTouchBound = false
-
-    function enableOutsideTouchClose() {
-      if (outsideTouchBound) return
-      outsideTouchBound = true
-
-      $(document).on('touchstart.aaPanelClose pointerdown.aaPanelClose', function (e) {
-        const $target = $(e.target)
-        const isInsidePanel = $target.closest('.aa-Panel, .aa-DetachedContainer').length > 0
-        const isInsideSearch = $target.closest('.aa-InputWrapper').length > 0
-
-        // User tapped outside the autocomplete panel and search bar
-        if (!isInsidePanel && !isInsideSearch) {
-          closeAlgoliaPanel()
-          disableOutsideTouchClose()
+    $(document).on('click touchstart', '.page-header, .mobile-footer-nav', function () {
+        if (window.innerWidth <= 768) {
+          const $panel = $('.aa-Panel')
+          if ($panel.length) {
+            $panel.remove()
+            $('body').removeClass('blur-active') // if you use blur overlay
+            console.log('📱 Closed Algolia panel on actual mobile.')
+          }
         }
-      })
-    }
-
-    function disableOutsideTouchClose() {
-      outsideTouchBound = false
-      $(document).off('touchstart.aaPanelClose pointerdown.aaPanelClose')
-    }
-
-    function closeAlgoliaPanel() {
-      const $cancelBtn = $('.aa-DetachedCancelButton, .aa-CancelButton')
-      const $panelBtn = $('.aa-DetachedSearchButton')
-
-      if ($cancelBtn.length) {
-        $cancelBtn.trigger('click') // mobile fullscreen mode
-      } else if ($panelBtn.length) {
-        $panelBtn.trigger('click') // desktop mode (just in case)
-      } else {
-        $('.aa-Input').blur() // fallback: force blur to close autocomplete
-      }
-    }
-
-    const observer = new MutationObserver(() => {
-      const hasPanel = $('.aa-Panel, .aa-DetachedContainer').length > 0
-      if (hasPanel) enableOutsideTouchClose()
-      else disableOutsideTouchClose()
     })
 
-    observer.observe(document.body, { childList: true, subtree: true })
-  })
-  
-  // Show Upsell PA Pop Up Widget (with 1s delay)
+  // Show Upsell PA Pop Up Widget (with 2s delay)
   $('#product-addtocart-button').on('click', function () {
     setTimeout(function () {
       $('#pa-upsell').addClass('active')
@@ -1703,7 +1665,6 @@ $(function () {
   $(document).on('click', '#upsell-select-all', function () {
       $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
   })
-  
   
   //Upsell add to cart all checked
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
@@ -1723,7 +1684,6 @@ $(function () {
       const $form = $(`form[data-product-sku="${sku}"]`)
 
       if ($form.length) {
-        console.log("$form.attr('action')", $form.attr('action'));
         const req = $.ajax({
           url: $form.attr('action'),
           type: 'POST',
@@ -1743,10 +1703,20 @@ $(function () {
       }
     })
 
-    // Wait for all AJAX requests to complete before refreshing cart data
+    // ✅ Wait for all to complete, then properly refresh customerData cart
     $.when.apply($, requests).done(function () {
-      console.log('🛒 All products added. Reloading minicart...')
+      console.log('🛒 All products added. Reloading minicart and count...')
+
+      // Invalidate the cache first (important!)
+      customerData.invalidate(['cart'])
+
+      // Reload the cart data so the UI and count update immediately
       customerData.reload(['cart'], true)
+
+      // Optional: Open the minicart automatically after adding
+      setTimeout(function () {
+        $('[data-block="minicart"] .action.showcart').trigger('click')
+      }, 800)
     })
   })
   
