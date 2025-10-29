@@ -169,18 +169,31 @@ $(window).on('scroll resize', () => {
     let aaPanelObserver
 
     function initDesktopBlurObserver() {
-      if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
-        aaPanelObserver = new MutationObserver(() => {
-          if ($('.aa-Panel').length) $('body').addClass('blur-active')
-          else $('body').removeClass('blur-active')
-          positionBlurOverlay()
-        })
-        aaPanelObserver.observe(document.body, { childList: true, subtree: true })
-      } else if (window.innerWidth <= 768 && aaPanelObserver) {
-        aaPanelObserver.disconnect()
-        aaPanelObserver = null
-        $('body').removeClass('blur-active')
-      }
+        if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
+          aaPanelObserver = new MutationObserver(() => {
+            if ($('.aa-Panel').length) {
+              $('body').addClass('blur-active')
+            } else {
+              $('body').removeClass('blur-active')
+            }
+            positionBlurOverlay()
+          })
+
+          aaPanelObserver.observe(document.body, { childList: true, subtree: true })
+        } 
+        else if (window.innerWidth <= 768 && aaPanelObserver) {
+          aaPanelObserver.disconnect()
+          aaPanelObserver = null
+          $('body').removeClass('blur-active')
+
+          // ✅ Add inline CSS properties to body
+          $('body').css({
+            position: 'fixed',
+            top: 'var(--scroll-y)',
+            width: '100%',
+            overflowY: 'scroll',
+          })
+        }
     }
 
     $(window).on('resize', initDesktopBlurObserver)
