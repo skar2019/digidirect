@@ -48,6 +48,8 @@ define([], function () {
 
                 if (priceDiscount > 0 || wiserDiscount > 0) {
                     badge = html`<div class="ribbon-digideals"><span>digi</span>Deals</div>`;
+                } else {
+                    badge = html`<div class="ribbon-digideals always-hidden"><span>digi</span>Deals</div>`;
                 }
             }
             

@@ -164,15 +164,28 @@ $(window).on('scroll resize', () => {
       positionBlurOverlay()
     })
 
+    
+    //Blur Active AA Panel Only When Not Mobile
+    let aaPanelObserver
 
-    if (window.MutationObserver) {
-      const aaObserver = new MutationObserver(() => {
-        if ($('.aa-Panel').length) $('body').addClass('blur-active')
-        else $('body').removeClass('blur-active')
-        positionBlurOverlay()
-      })
-      aaObserver.observe(document.body, { childList: true, subtree: true })
+    function initDesktopBlurObserver() {
+      if (window.innerWidth > 768 && window.MutationObserver && !aaPanelObserver) {
+        aaPanelObserver = new MutationObserver(() => {
+          if ($('.aa-Panel').length) $('body').addClass('blur-active')
+          else $('body').removeClass('blur-active')
+          positionBlurOverlay()
+        })
+        aaPanelObserver.observe(document.body, { childList: true, subtree: true })
+      } else if (window.innerWidth <= 768 && aaPanelObserver) {
+        aaPanelObserver.disconnect()
+        aaPanelObserver = null
+        $('body').removeClass('blur-active')
+      }
     }
+
+    $(window).on('resize', initDesktopBlurObserver)
+    initDesktopBlurObserver()
+
 
     /* ========================
 ✨ Sync #pa-welcome-back with Body Blur
@@ -273,13 +286,18 @@ $(window).on('scroll resize', () => {
        positionBlurOverlay() // keep your old blur overlay working
      })
      
-    //AJAX Minicart
     /* ========================
+        🛒 AJAX Minicart - FULL BLOCK (fixed & coordinated)
+     ======================== */
+
+     /* ========================
         🛒 Shared Helpers
      ======================== */
      const $minicart = $('[data-block="minicart"]')
      let scrollY = 0
      let isLocked = false
+     let shouldAutoOpen = false // <-- new: set when our AJAX wants an auto-open
+     let lastKnownCartCount = 0
 
      function isMobile() {
        return window.innerWidth <= 768
@@ -331,6 +349,15 @@ $(window).on('scroll resize', () => {
          $minicartDropdown.is(':visible') &&
          $minicartDropdown.css('display') !== 'none'
 
+       // If we are in the "waiting to open" flow, hide any intermediate flash
+       if (shouldAutoOpen && isVisible) {
+         // hide flashing dropdown while waiting for final reopen
+         $minicartDropdown.stop(true, true).hide()
+         $minicart.removeClass('active')
+         // also avoid setting overlay/lock from this transient state
+         return
+       }
+
        if (isVisible) {
          if ($headerMenu.length) $headerMenu.css('z-index', 0)
          if ($miniOverlay.length) $miniOverlay.css('display', 'block')
@@ -349,6 +376,12 @@ $(window).on('scroll resize', () => {
        } else {
          $minicart.trigger('click')
        }
+
+       // Scroll to top when minicart opens (mobile only)
+       if (isMobile()) {
+         setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+       }
+
        setTimeout(updateMinicartOverlay, 300)
      }
 
@@ -370,11 +403,14 @@ $(window).on('scroll resize', () => {
      $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
      /* ========================
-        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart
+        🛍️ PLP: Ajax Add-to-Cart + Auto Minicart (coordinated)
+        - Sets shouldAutoOpen and relies on cart observable to open once
+        - Hides any transient flash while waiting
      ======================== */
      function setupPLPAutoMinicart() {
-       $(document).on('submit', 'form[data-role="tocart-form"]', function (e) {
+       $(document).off('submit.plpMinicart').on('submit.plpMinicart', 'form[data-role="tocart-form"]', function (e) {
          e.preventDefault()
+
          const $form = $(this)
          const formData = new FormData($form[0])
          const actionUrl = $form.attr('action')
@@ -387,24 +423,79 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
-             customerData.invalidate(['cart'])
-             customerData.reload(['cart'], true)
+             // Signal that *we* want the next cart update to auto-open the minicart
+             shouldAutoOpen = true
+
+             // Immediately hide any visible dropdown to prevent native flash
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+
+             require(['Magento_Customer/js/customer-data'], function (customerData) {
+               const cartData = customerData.get('cart')
+               // Capture latest known count if not set
+               lastKnownCartCount = cartData()?.summary_count || lastKnownCartCount || 0
+
+               // Ask Magento to reload cart data (this will trigger cart observable)
+               customerData.invalidate(['cart'])
+               customerData.reload(['cart'], true)
+             })
+
              $('body').trigger('processStop')
-             setTimeout(() => openMinicart(), 700) // ✅ Auto open on PLP
            },
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
+             shouldAutoOpen = false
            },
          })
        })
      }
 
      /* ========================
-        📄 PDP: Ajax Add-to-Cart + Auto Minicart
+        🩹 Unified cart observer (PLP & PDP)
+        - listens to customerData cart observable
+        - opens minicart ONCE when shouldAutoOpen is true and count increased
+     ======================== */
+     require(['Magento_Customer/js/customer-data'], function (customerData) {
+       const cartData = customerData.get('cart')
+       // set initial baseline
+       lastKnownCartCount = cartData()?.summary_count || 0
+
+       cartData.subscribe(function (updatedCart) {
+         const newCount = updatedCart.summary_count || 0
+
+         // If we requested an auto-open and cart count increased, do one stable open
+         if (shouldAutoOpen && newCount > lastKnownCartCount) {
+           shouldAutoOpen = false
+           lastKnownCartCount = newCount
+
+           // open stable (give Magento time to re-render DOM)
+           setTimeout(() => {
+             // Make sure DOM is updated; hide any leftover transient UI then open cleanly
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+             openMinicart()
+           }, 300)
+           return
+         }
+
+         // Always keep baseline updated
+         lastKnownCartCount = newCount
+       })
+     })
+
+     /* ========================
+        📄 PDP: Ajax Add-to-Cart + Auto Minicart (uses same coordinated flow)
+        - marks shouldAutoOpen and relies on same cart observer
      ======================== */
      function setupPDPAutoMinicart() {
-       $(document).on('submit', '#product_addtocart_form', function (e) {
+       $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
          e.preventDefault()
          const $form = $(this)
          const formData = new FormData($form[0])
@@ -418,14 +509,27 @@ $(window).on('scroll resize', () => {
            contentType: false,
            showLoader: true,
            success: function () {
-             customerData.invalidate(['cart'])
-             customerData.reload(['cart'], true)
+             // mark that we want to auto-open upon next cart update
+             shouldAutoOpen = true
+
+             // Hide any transient dropdown flash
+             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if ($dropdown.length && $dropdown.is(':visible')) {
+               $dropdown.stop(true, true).hide()
+               $minicart.removeClass('active')
+             }
+
+             require(['Magento_Customer/js/customer-data'], function (customerData) {
+               customerData.invalidate(['cart'])
+               customerData.reload(['cart'], true)
+             })
+
              $('body').trigger('processStop')
-             setTimeout(() => openMinicart(), 700) // ✅ Auto open on PDP
            },
            error: function (err) {
              console.error('Add to cart failed', err)
              $('body').trigger('processStop')
+             shouldAutoOpen = false
            },
          })
        })
@@ -433,6 +537,7 @@ $(window).on('scroll resize', () => {
 
      /* ========================
         🧠 PDP Compatibility Fix (Prevent open on first load)
+        - keep existing behavior for other cart updates
      ======================== */
      require(['Magento_Customer/js/customer-data'], function (customerData) {
        let prevCount = 0
@@ -448,8 +553,9 @@ $(window).on('scroll resize', () => {
            return
          }
 
-         if (newCount > prevCount) {
-           console.log('🛒 Product added — auto-opening minicart')
+         // If cart changed from other context (not our shouldAutoOpen), open for PDP flows that rely on this
+         if (!shouldAutoOpen && newCount > prevCount) {
+           // This preserves your PDP behavior that opens on cart add originating from other sources
            setTimeout(() => openMinicart(), 500)
          }
 
@@ -463,10 +569,10 @@ $(window).on('scroll resize', () => {
      $(document).ready(function () {
        if ($('body.catalog-category-view').length) {
          setupPLPAutoMinicart()
-         console.log('📦 PLP auto-minicart active')
+         console.log('📦 PLP auto-minicart active (coordinated)')
        } else if ($('body.catalog-product-view').length) {
          setupPDPAutoMinicart()
-         console.log('🎯 PDP auto-minicart active')
+         console.log('🎯 PDP auto-minicart active (coordinated)')
        }
      })
 
@@ -1478,81 +1584,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-    
-    //Body fixed if Minicart is active
-    
-    /*const $minicart = $('[data-block="minicart"]')
-
-    function isMobile() {
-      return window.innerWidth <= 768
-    }
-
-    let scrollY = 0
-
-    const observer = new MutationObserver(function () {
-      const minicartActive = $minicart.hasClass('active')
-
-      const html = document.documentElement
-      const body = document.body
-
-      if (minicartActive && isMobile()) {
-        // 🟢 Minicart open → lock scroll
-        scrollY = window.scrollY
-        body.dataset.scrollY = scrollY
-
-        // Apply !important styles to both <html> and <body>
-        ;[html, body].forEach((el) => {
-          el.style.setProperty('position', 'fixed', 'important')
-          el.style.setProperty('top', `-${scrollY}px`, 'important')
-          el.style.setProperty('width', '100%', 'important')
-          el.style.setProperty('overflow-y', 'hidden', 'important')
-        })
-      } else {
-        // 🔴 Minicart closed → unlock scroll
-        setTimeout(() => {
-          const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-          // Remove inline styles
-          ;[html, body].forEach((el) => {
-            el.style.removeProperty('position')
-            el.style.removeProperty('top')
-            el.style.removeProperty('width')
-            el.style.removeProperty('overflow-y')
-          })
-          delete body.dataset.scrollY
-
-          // Restore scroll position smoothly
-          window.requestAnimationFrame(() => {
-            window.scrollTo(0, savedScrollY)
-          })
-        }, 300)
-      }
-    })
-
-    if ($minicart.length) {
-      observer.observe($minicart[0], { attributes: true, attributeFilter: ['class'] })
-    }
-
-    // 🧩 Manual close fallback
-    $(document).on('click', '.minicart-close', function () {
-      setTimeout(() => {
-        const html = document.documentElement
-        const body = document.body
-        const savedScrollY = parseInt(body.dataset.scrollY || '0', 10)
-
-        ;[html, body].forEach((el) => {
-          el.style.removeProperty('position')
-          el.style.removeProperty('top')
-          el.style.removeProperty('width')
-          el.style.removeProperty('overflow-y')
-        })
-        delete body.dataset.scrollY
-
-        window.requestAnimationFrame(() => {
-          window.scrollTo(0, savedScrollY)
-        })
-      }, 300)
-    })*/
     
   })
 })
