@@ -106,6 +106,7 @@ define([
         showChangeEmailLink : function () {
             $("#customer-info-change-extension").removeClass('hide').show();
             $('input[name="username"]').prop('disabled', true).css('color', '#AEAEB2');
+            $('input[name="username"]').prop('disabled', true).css('opacity', '0.4');
 
             $("#checkoutSteps li#customer-info")
                 .addClass('with-border')
@@ -118,6 +119,7 @@ define([
         hideChangeEmailLink : function () {
             $("#customer-info-change-extension").hide();
             $('input[name="username"]').prop('disabled', false).css('color', '#1d1d1f');
+            $('input[name="username"]').prop('disabled', true).css('opacity', '1');
         },
 
         /**
