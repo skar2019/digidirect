@@ -62,5 +62,72 @@
     </script>
 
     <script>
+        require(['jquery'], function ($) {
+            $(function () {
+              const $overlay = $('.minicart-overlay')
+
+              function disablePageInteraction($minicartWrapper) {
+                $('body').addClass('overlay-active').css({
+                  overflow: 'hidden',
+                  'pointer-events': 'none',
+                })
+                $minicartWrapper.css('pointer-events', 'auto') // Allow clicks only inside minicart
+              }
+
+              function enablePageInteraction() {
+                $('body').removeClass('overlay-active').css({
+                  overflow: '',
+                  'pointer-events': '',
+                })
+              }
+
+              // Detect dynamically added minicart wrapper (.ui-dialog containing .block-minicart)
+              /*const observer = new MutationObserver(() => {
+                const $dialog = $('.ui-dialog.mage-dropdown-dialog').has('.block-minicart')
+                if (!$dialog.length) return
+
+                // Avoid re-binding
+                if ($dialog.data('watching')) return
+                $dialog.data('watching', true)
+
+                // Observe visibility changes (display:none <-> display:block)
+                const dialogObserver = new MutationObserver(() => {
+                  const isVisible = $dialog.is(':visible')
+
+                  if (isVisible) {
+                    $overlay.stop(true, true).fadeIn(200)
+                    disablePageInteraction($dialog)
+                  } else {
+                    $overlay.stop(true, true).fadeOut(200)
+                    enablePageInteraction()
+                  }
+                })
+
+                dialogObserver.observe($dialog[0], {
+                  attributes: true,
+                  attributeFilter: ['style'],
+                })
+              })
+
+              // Watch for new dropdowns being added
+              observer.observe(document.body, { childList: true, subtree: true })*/
+
+              // Close only via the close button
+              $(document).on('click', '.minicart-close', function (e) {
+                e.stopPropagation()
+                const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
+                if ($dialog.length) {
+                  $dialog.hide()
+                  $overlay.fadeOut(200)
+                  enablePageInteraction()
+                }
+              })
+
+              // Prevent overlay click from closing minicart
+              $overlay.on('click', function (e) {
+                e.stopPropagation()
+              })
+            })
+    })
 </script>
 </div>
