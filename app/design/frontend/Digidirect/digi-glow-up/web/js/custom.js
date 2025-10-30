@@ -411,9 +411,10 @@ const miniInterval = setInterval(updateMinicartOverlay, 400)
 $(window).on('unload beforeunload', () => clearInterval(miniInterval))
 $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
+let firstPageLoad = true // globallet initialCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+
 function setupPersistentAutoMinicart() {
-  let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  let firstChange = true // ignore first mutation
+  let lastCartCount = initialCartCount
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -422,13 +423,8 @@ function setupPersistentAutoMinicart() {
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
 
-      if (firstChange) {
-        lastCartCount = currentCount
-        firstChange = false
-        return
-      }
-
-      if (currentCount > lastCartCount) {
+      // Only open minicart if count increases above initial count
+      if (currentCount > lastCartCount && currentCount > initialCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
       }
@@ -441,20 +437,17 @@ function setupPersistentAutoMinicart() {
 
   // Observe body for new counter nodes
   const bodyObserver = new MutationObserver(() => {
-    const $counters = $('.counter-number[data-bind*="summary_count"]')
-    $counters.each(function () {
+    $('.counter-number[data-bind*="summary_count"]').each(function () {
       attachObserver($(this))
     })
   })
 
   bodyObserver.observe(document.body, { childList: true, subtree: true })
 
-  // Attach to any existing counters after small delay
-  setTimeout(() => {
-    $('.counter-number[data-bind*="summary_count"]').each(function () {
-      attachObserver($(this))
-    })
-  }, 50)
+  // Attach to any existing counters
+  $('.counter-number[data-bind*="summary_count"]').each(function () {
+    attachObserver($(this))
+  })
 }
 
 $(document).ready(() => setupPersistentAutoMinicart())
