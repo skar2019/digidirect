@@ -521,52 +521,73 @@ $(window).on('scroll resize', () => {
      })
 
      /* ========================
-        📄 PDP: Ajax Add-to-Cart + Auto Minicart (uses same coordinated flow)
-        - marks shouldAutoOpen and relies on same cart observer
+        📄 PDP: Ajax Add-to-Cart + Auto Minicart (Fixed & Reliable)
+        - Always triggers minicart open after successful add-to-cart
      ======================== */
-     function setupPDPAutoMinicart() {
-       $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
-           
-         e.preventDefault()
-         const $form = $(this)
-         const formData = new FormData($form[0])
-         const actionUrl = $form.attr('action')
+function setupPDPAutoMinicart() {
+  $(document).off('submit.pdpMinicart').on('submit.pdpMinicart', '#product_addtocart_form', function (e) {
+    e.preventDefault()
+    const $form = $(this)
+    const formData = new FormData($form[0])
+    const actionUrl = $form.attr('action')
 
-         $.ajax({
-           url: actionUrl,
-           type: 'POST',
-           data: formData,
-           processData: false,
-           contentType: false,
-           showLoader: true,
-           success: function () {
-             // mark that we want to auto-open upon next cart update
-             shouldAutoOpen = true
-             
-             $('#pa-upsell').addClass('active') //PA Upsell Pop Up Widget
+    $.ajax({
+      url: actionUrl,
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      showLoader: true,
+      success: function () {
+        // Mark that minicart should auto open
+        shouldAutoOpen = true
 
-             // Hide any transient dropdown flash
-             const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
-             if ($dropdown.length && $dropdown.is(':visible')) {
-               $dropdown.stop(true, true).hide()
-               $minicart.removeClass('active')
-             }
+        // Show PA Upsell Pop Up Widget
+        $('#pa-upsell').addClass('active')
 
-             require(['Magento_Customer/js/customer-data'], function (customerData) {
-               customerData.invalidate(['cart'])
-               customerData.reload(['cart'], true)
-             })
+        // Hide any transient dropdown flicker
+        const $dropdown = $('.block-minicart[data-role="dropdownDialog"]')
+        if ($dropdown.length && $dropdown.is(':visible')) {
+          $dropdown.stop(true, true).hide()
+          $dropdown.removeClass('active')
+        }
 
-             $('body').trigger('processStop')
-           },
-           error: function (err) {
-             console.error('Add to cart failed', err)
-             $('body').trigger('processStop')
-             shouldAutoOpen = false
-           },
-         })
-       })
-     }
+        // Reload cart data and ensure minicart opens when done
+        require(['Magento_Customer/js/customer-data'], function (customerData) {
+          customerData.invalidate(['cart'])
+          customerData.reload(['cart'], true).done(function () {
+            const $minicart = $('.block-minicart')
+
+            // Small delay to allow cart UI sync
+            setTimeout(() => {
+              // Trigger Magento's built-in minicart open behavior
+              $('.action.showcart').trigger('click')
+
+              // Add active/open states manually as fallback
+              $minicart.addClass('active')
+              $('body').addClass('minicart-open')
+            }, 400)
+
+            // Safety fallback: ensure minicart opens even if delayed
+            setTimeout(() => {
+              if (!$('.block-minicart').hasClass('active')) {
+                $('.action.showcart').trigger('click')
+              }
+            }, 1500)
+          })
+        })
+
+        $('body').trigger('processStop')
+      },
+      error: function (err) {
+        console.error('Add to cart failed', err)
+        $('body').trigger('processStop')
+        shouldAutoOpen = false
+      },
+    })
+  })
+}
+
 
      /* ========================
         🧠 PDP Compatibility Fix (Prevent open on first load)
@@ -1676,56 +1697,67 @@ $(function () {
     e.preventDefault()
 
     const $checked = $('.pa-bundle-product:checked')
+
     if ($checked.length === 0) {
       alert('Please select at least one product.')
       return
     }
 
-    const totalAdd = $checked.length
-    const cartData = customerData.get('cart')()
-    const startCount = cartData?.summary_count || 0
-    const expectedCount = startCount + totalAdd
+    const items = $checked.toArray()
+    const startCount = customerData.get('cart')()?.summary_count || 0
 
-    console.log(`🛒 Adding ${totalAdd} products, expecting total: ${expectedCount}`)
-
-    // --- Visual UX: show expected count immediately
-    $('.counter-number').text(expectedCount)
-
-    // --- Send all AJAX requests
-    const requests = []
-    $checked.each(function () {
-      const sku = $(this).data('product-sku')
-      const $form = $(`form[data-product-sku="${sku}"]`)
-      if ($form.length) {
-        requests.push(
-          $.ajax({
-            url: $form.attr('action'),
-            type: 'POST',
-            data: $form.serialize(),
-          })
-        )
+    function addNext(index) {
+      if (index >= items.length) {
+        console.log('🛒 All products processed. Refreshing cart...')
+        finalizeCartUpdate()
+        return
       }
-    })
 
-    $.when.apply($, requests).done(function () {
-      console.log('✅ All products added. Syncing with real cart...')
+      const $checkbox = $(items[index])
+      const sku = $checkbox.data('product-sku')
+      const $form = $(`form[data-product-sku="${sku}"]`)
 
-      // Give backend a second to catch up
-      setTimeout(() => {
-        customerData.invalidate(['cart'])
-        customerData.reload(['cart'], true)
+      if (!$form.length) {
+        console.warn(`⚠️ No form found for SKU ${sku}`)
+        addNext(index + 1)
+        return
+      }
 
-        // Open minicart once reload completes
-        const interval = setInterval(() => {
-          const updated = customerData.get('cart')()?.summary_count
-          if (updated && updated >= expectedCount) {
-            clearInterval(interval)
-            $('[data-block="minicart"] .action.showcart').trigger('click')
-          }
-        }, 400)
-        setTimeout(() => clearInterval(interval), 8000)
-      }, 800)
-    })
+      $.ajax({
+        url: $form.attr('action'),
+        type: 'POST',
+        data: $form.serialize(),
+        showLoader: index === 0, // show loader only on first add
+      })
+        .done(() => {
+          console.log(`✅ Added SKU ${sku} to cart`)
+          addNext(index + 1)
+        })
+        .fail((xhr) => {
+          console.error(`❌ Failed to add SKU ${sku}:`, xhr)
+          addNext(index + 1)
+        })
+    }
+
+    function finalizeCartUpdate() {
+      // Invalidate and reload
+      customerData.invalidate(['cart'])
+      customerData.reload(['cart'], true)
+
+      const interval = setInterval(() => {
+        const updatedCount = customerData.get('cart')()?.summary_count || 0
+        if (updatedCount > startCount) {
+          clearInterval(interval)
+          console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`)
+          $('[data-block="minicart"] .action.showcart').trigger('click')
+        }
+      }, 400)
+
+      setTimeout(() => clearInterval(interval), 10000)
+    }
+
+    // Start adding products sequentially
+    addNext(0)
   })
   
     // Close PA Upsell Widget
