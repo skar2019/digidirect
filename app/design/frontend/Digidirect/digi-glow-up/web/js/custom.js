@@ -402,7 +402,6 @@ $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
 function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  console.log("lastCartCount", lastCartCount);
   let firstLoad = true
 
   const attachObserver = ($counter) => {
@@ -423,7 +422,7 @@ function setupPersistentAutoMinicart() {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
       }
-      console.log("currentCount", currentCount);
+
       lastCartCount = currentCount
     })
 
@@ -482,7 +481,7 @@ function setupAutoMinicartByCounter() {
   }, 300)
 }
 
-$(document).ready(() => setupAutoMinicartByCounter())
+//$(document).ready(() => setupAutoMinicartByCounter())
 
 
     /* ========================
