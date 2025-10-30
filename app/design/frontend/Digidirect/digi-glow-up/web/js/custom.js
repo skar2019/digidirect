@@ -166,55 +166,44 @@ $(window).on('scroll resize', () => {
 
     
     // Blur Active AA Panel Only When Not Mobile
-    let aaPanelObserver
+    let aaPanelObserver;
 
-    function initDesktopBlurObserver() {
-      const $body = $('body')
-      const isMobile = window.innerWidth <= 768
-      const hasAaPanel = $('.aa-Panel').length > 0
+    function initBlurObserver() {
+      const $body = $('body');
 
-      if (!isMobile && window.MutationObserver) {
-        // 🧹 Reset any mobile inline styles
-        $body.css({ position: '', top: '', width: '', overflowY: '' })
+      // 🧹 Reset any inline styles
+      $body.css({ position: '', top: '', width: '', overflowY: '' });
 
-        if (!aaPanelObserver) {
-          aaPanelObserver = new MutationObserver(() => {
-            if ($('.aa-Panel').length) {
-              $body.addClass('blur-active')
-            } else {
-              $body.removeClass('blur-active')
-            }
-            positionBlurOverlay()
-          })
+      const hasAaPanel = $('.aa-Panel').length > 0;
 
-          aaPanelObserver.observe(document.body, { childList: true, subtree: true })
-        }
-      } 
-      else if (isMobile) {
-        // 👇 Always disconnect observer on mobile
-        if (aaPanelObserver) {
-          aaPanelObserver.disconnect()
-          aaPanelObserver = null
-        }
+      // --- Set up MutationObserver if not already ---
+      if (window.MutationObserver && !aaPanelObserver) {
+        aaPanelObserver = new MutationObserver(() => {
+          if ($('.aa-Panel').length) {
+            $body.addClass('blur-active');
+          } else {
+            $body.removeClass('blur-active');
+          }
+          positionBlurOverlay();
+        });
 
-        $body.removeClass('blur-active')
+        aaPanelObserver.observe(document.body, { childList: true, subtree: true });
+      }
 
-        // ✅ Apply lock CSS only if aa-Panel exists or is visible
-        if (hasAaPanel) {
-          $body.css({
-            position: 'fixed',
-            width: '100%',
-          })
-        } else {
-          // 🧹 Ensure clean body when aa-Panel not active
-          $body.css({ position: '', width: '' })
-        }
+      // --- Apply lock CSS if aa-Panel exists ---
+      if (hasAaPanel) {
+        $body.css({
+          position: 'fixed',
+          width: '100%',
+        });
+      } else {
+        $body.css({ position: '', width: '' });
       }
     }
 
     // Initialize and re-check on resize
-    $(window).on('resize', initDesktopBlurObserver)
-    initDesktopBlurObserver()
+    $(window).on('resize', initBlurObserver);
+    initBlurObserver();
 
 
     /* ========================
@@ -316,6 +305,30 @@ $(window).on('scroll resize', () => {
        positionBlurOverlay() // keep your old blur overlay working
      })
      
+// Prevent minicart from auto-opening on page load
+function hideMinicartOnFirstLoad() {
+  const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+  const $minicart = $('[data-block="minicart"]')
+  const $miniOverlay = $('.minicart-overlay')
+
+  // Only act if the dropdown is visible
+  if ($minicartDropdown.is(':visible')) {
+    $minicartDropdown.hide()        // hide the dropdown
+    $minicart.removeClass('active') // remove active state
+  }
+
+  // Hide overlay if it exists
+  if ($miniOverlay.length) $miniOverlay.hide()
+
+  // Reset scroll lock
+  document.body.style.overflow = ''
+  document.documentElement.style.overflow = ''
+  document.body.style.position = ''
+  document.documentElement.style.position = ''
+}
+
+$(document).ready(() => hideMinicartOnFirstLoad())     
+     
     /* ========================
    🛒 AJAX Minicart - CLEAN (counter-based)
 ======================== */
@@ -411,10 +424,9 @@ const miniInterval = setInterval(updateMinicartOverlay, 400)
 $(window).on('unload beforeunload', () => clearInterval(miniInterval))
 $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
-let firstPageLoad = true // globallet initialCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-
 function setupPersistentAutoMinicart() {
-  let lastCartCount = initialCartCount
+  let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+  let firstLoad = true
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -423,8 +435,14 @@ function setupPersistentAutoMinicart() {
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
 
-      // Only open minicart if count increases above initial count
-      if (currentCount > lastCartCount && currentCount > initialCartCount) {
+      // Skip auto-open on first load
+      if (firstLoad) {
+        lastCartCount = currentCount
+        firstLoad = false
+        return
+      }
+
+      if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
       }
@@ -437,7 +455,8 @@ function setupPersistentAutoMinicart() {
 
   // Observe body for new counter nodes
   const bodyObserver = new MutationObserver(() => {
-    $('.counter-number[data-bind*="summary_count"]').each(function () {
+    const $counters = $('.counter-number[data-bind*="summary_count"]')
+    $counters.each(function () {
       attachObserver($(this))
     })
   })
@@ -1520,19 +1539,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-    
-    //AA Panel close on outside touch
-    
-    $(document).on('click touchstart', '.page-header, .mobile-footer-nav', function () {
-        if (window.innerWidth <= 768) {
-          const $panel = $('.aa-Panel')
-          if ($panel.length) {
-            $panel.remove()
-            $('body').removeClass('blur-active') // if you use blur overlay
-            console.log('📱 Closed Algolia panel on actual mobile.')
-          }
-        }
-    })
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
   $('#product-addtocart-button').on('click', function () {
