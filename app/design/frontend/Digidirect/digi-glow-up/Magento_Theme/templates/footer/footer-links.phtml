@@ -197,16 +197,16 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 
 
 <!-- Services Modal -->
-<div class="mobile-modal" id="digiSevicesModal" data-modal="digiSevicesModal">
+<div class="service-mobile-modal" id="digiSevicesModal" data-modal="digiSevicesModal">
     <div class="mobile-modal-overlay" data-modal-close="digiSevicesModal"></div>
     <div class="mobile-modal-container">
         <div class="mobile-modal-header">
             <h2 class="mobile-modal-title">Services</h2>
             <button type="button"
-                    class="mobile-modal-close"
+                    class="mobile-services-close"
                     data-modal-close="digiSevicesModal"
                     aria-label="Close">
-                <span>&times;</span>
+                <img src="<?= $block->getViewFileUrl('images/mobile-menu-close.png') ?>"/>
             </button>
         </div>
         <div class="mobile-modal-body">
@@ -340,3 +340,24 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
         </div>
     </div>
 </div>
+
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            // Specific handling for menu button
+            $('.footer-mobile-menu-icon').on('click', function(e) {
+                $('.mobile-modal-close, .minicart-close').trigger('click');
+            });
+
+            // Specific handling for cart button
+            $('.showcart').on('click', function(e) {
+                $('.mobile-menu-close, .mobile-modal-close').trigger('click');
+            });
+
+            // For all other buttons, close all modals
+            $('.mobile-footer-nav .footer-nav-item:not(.footer-mobile-menu-icon):not(.showcart)').on('click', function() {
+                $('.mobile-menu-close, .mobile-modal-close, .minicart-close').trigger('click');
+            });
+        });
+    });
+</script>
