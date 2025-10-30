@@ -481,7 +481,7 @@ function setupAutoMinicartByCounter() {
   }, 300)
 }
 
-$(document).ready(() => setupAutoMinicartByCounter())
+//$(document).ready(() => setupAutoMinicartByCounter())
 
 
     /* ========================
