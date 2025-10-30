@@ -418,10 +418,10 @@ function setupPersistentAutoMinicart() {
         return
       }
 
-      if (currentCount > lastCartCount) {
+      /*if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
-      }
+      }*/
 
       lastCartCount = currentCount
     })
@@ -445,7 +445,7 @@ function setupPersistentAutoMinicart() {
   })
 }
 
-//$(document).ready(() => setupPersistentAutoMinicart())
+$(document).ready(() => setupPersistentAutoMinicart()) //if disabled, minicart auto pop up not working! Double click to appear mincart still happening even disabled.
 
 
 /* ========================
@@ -481,7 +481,7 @@ function setupAutoMinicartByCounter() {
   }, 300)
 }
 
-//$(document).ready(() => setupAutoMinicartByCounter())
+//$(document).ready(() => setupAutoMinicartByCounter()) // Double click to appear mincart still happening even disabled
 
 
     /* ========================
