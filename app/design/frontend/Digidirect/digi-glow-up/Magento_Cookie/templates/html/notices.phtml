@@ -28,6 +28,9 @@ if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
                 <button id="btn-cookie-allow" class="action allow primary">
                     <span><?= $block->escapeHtml(__('Allow Cookies')) ?></span>
                 </button>
+                <button id="btn-cookie-reject" class="action reject secondary">
+                    <span><?= $block->escapeHtml(__('Reject All')) ?></span>
+                </button>
             </div>
         </div>
     </div>
@@ -37,6 +40,7 @@ if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
             "#notice-cookie-block": {
                 "cookieNotices": {
                     "cookieAllowButtonSelector": "#btn-cookie-allow",
+                    "cookieRejectButtonSelector": "#btn-cookie-reject",
                     "cookieName": "<?= /* @noEscape */ \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>",
                     "cookieValue": <?= /* @noEscape */ $cookieHelper->getAcceptedSaveCookiesWebsiteIds() ?>,
                     "cookieLifetime": <?= /* @noEscape */ $cookieHelper->getCookieRestrictionLifetime() ?>,
@@ -44,5 +48,42 @@ if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
                 }
             }
         }
+    </script>
+    <script>
+        require([
+            'jquery',
+            'mage/cookies'
+        ], function ($) {
+            'use strict';
+
+            $(document).ready(function() {
+                $('#btn-cookie-reject').on('click', function() {
+                    // Set cookie to deny consent
+                    $.mage.cookies.set(
+                        '<?= /* @noEscape */ \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',
+                        '0',
+                        {
+                            expires: new Date(new Date().getTime() + <?= /* @noEscape */ $cookieHelper->getCookieRestrictionLifetime() ?> * 1000),
+                            path: '/'
+                        }
+                    );
+
+                    // Clear tracking cookies
+                    var trackingCookies = ['_ga', '_gid', '_gat', '__utma', '__utmb', '__utmc', '__utmt', '__utmz', '_fbp', '_fbc'];
+                    trackingCookies.forEach(function(cookieName) {
+                        $.mage.cookies.clear(cookieName, {path: '/'});
+                        $.mage.cookies.clear(cookieName, {path: '/', domain: '.' + window.location.hostname});
+                    });
+
+                    // Disable Google Analytics
+                    if (window.ga) {
+                        window['ga-disable-UA-XXXXX-Y'] = true;
+                    }
+
+                    // Hide the notice
+                    $('#notice-cookie-block').hide();
+                });
+            });
+        });
     </script>
 <?php endif; ?>
