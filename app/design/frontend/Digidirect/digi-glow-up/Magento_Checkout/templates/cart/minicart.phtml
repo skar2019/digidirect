@@ -62,52 +62,54 @@
 
     <!-- ✅ Fixed Custom Script -->
     <script>
-        require(['jquery', 'mage/dropdown'], function ($) {
-          $(function () {
-            const $minicart = $('.block-minicart')
-            const $overlay = $('.minicart-overlay')
+      require(['jquery', 'mage/dropdown'], function ($) {
+      $(function () {
+        const $overlay = $('.minicart-overlay')
+        const $minicart = $('.block-minicart')
 
-            // --- Function to disable body scroll and pointer events ---
-            function disablePageInteraction() {
-              $('body').addClass('overlay-active').css({
-                overflow: 'hidden',
-                'pointer-events': 'none',
-              })
-              $minicart.css('pointer-events', 'auto') // re-enable only inside minicart
-            }
-
-            // --- Function to re-enable everything ---
-            function enablePageInteraction() {
-              $('body').removeClass('overlay-active').css({
-                overflow: '',
-                'pointer-events': '',
-              })
-            }
-
-            // --- When minicart opens ---
-            $minicart.on('dropdownDialogOpen', function () {
-              $overlay.stop(true, true).fadeIn(200)
-              $minicart.stop(true, true).fadeIn(200)
-              disablePageInteraction()
-            })
-
-            // --- When minicart closes ---
-            $minicart.on('dropdownDialogClose', function () {
-              $overlay.stop(true, true).fadeOut(200)
-              $minicart.stop(true, true).fadeOut(200)
-              enablePageInteraction()
-            })
-
-            // --- Clicking overlay closes minicart ---
-            $overlay.on('click', function () {
-              $minicart.dropdownDialog('close')
-            })
-
-            // --- Close button inside minicart ---
-            $(document).on('click', '.minicart-close', function () {
-              $minicart.dropdownDialog('close')
-            })
+        // --- Disable page interaction when minicart is open ---
+        function disablePageInteraction() {
+          $('body').addClass('overlay-active').css({
+            overflow: 'hidden',
+            'pointer-events': 'none',
           })
+          $minicart.css('pointer-events', 'auto') // allow interaction inside minicart only
+        }
+
+        // --- Re-enable page interaction when minicart closes ---
+        function enablePageInteraction() {
+          $('body').removeClass('overlay-active').css({
+            overflow: '',
+            'pointer-events': '',
+          })
+        }
+
+        // --- Prevent closing when clicking outside ---
+        // Override dropdownDialog options after initialization
+        $minicart.on('contentUpdated', function () {
+          const widget = $minicart.data('mageDropdownDialog')
+          if (widget) {
+            widget.options.closeOnClickOutside = false
+          }
         })
+
+        // --- When minicart opens ---
+        $(document).on('dropdownDialogOpen', '.block-minicart', function () {
+          $overlay.stop(true, true).fadeIn(200)
+          disablePageInteraction()
+        })
+
+        // --- When minicart closes ---
+        $(document).on('dropdownDialogClose', '.block-minicart', function () {
+          $overlay.stop(true, true).fadeOut(200)
+          enablePageInteraction()
+        })
+
+        // --- Close only via the close button ---
+        $(document).on('click', '.minicart-close', function () {
+          $minicart.dropdownDialog('close')
+        })
+      })
+      })
     </script>
 </div>
