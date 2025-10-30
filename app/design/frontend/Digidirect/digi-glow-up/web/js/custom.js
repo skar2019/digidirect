@@ -408,6 +408,10 @@ function setupPersistentAutoMinicart() {
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
     $counter.data('observer-attached', true)
+    
+    if (lastCartCount == 0) {
+        return
+    }
 
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
