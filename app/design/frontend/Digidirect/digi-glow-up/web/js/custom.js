@@ -1676,53 +1676,54 @@ $(function () {
     e.preventDefault()
 
     const $checked = $('.pa-bundle-product:checked')
-
     if ($checked.length === 0) {
       alert('Please select at least one product.')
       return
     }
 
-    const requests = []
+    const totalAdd = $checked.length
+    const cartData = customerData.get('cart')()
+    const startCount = cartData?.summary_count || 0
+    const expectedCount = startCount + totalAdd
 
+    console.log(`🛒 Adding ${totalAdd} products, expecting total: ${expectedCount}`)
+
+    // --- Visual UX: show expected count immediately
+    $('.counter-number').text(expectedCount)
+
+    // --- Send all AJAX requests
+    const requests = []
     $checked.each(function () {
       const sku = $(this).data('product-sku')
       const $form = $(`form[data-product-sku="${sku}"]`)
-
       if ($form.length) {
-        const req = $.ajax({
-          url: $form.attr('action'),
-          type: 'POST',
-          data: $form.serialize(),
-          showLoader: true,
-        })
-          .done(() => console.log(`✅ Added SKU ${sku} to cart`))
-          .fail((xhr) => console.error(`❌ Failed to add SKU ${sku}:`, xhr))
-
-        requests.push(req)
-      } else {
-        console.warn(`⚠️ No form found for SKU ${sku}`)
+        requests.push(
+          $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: $form.serialize(),
+          })
+        )
       }
     })
 
-    // Wait for all AJAX adds to finish
     $.when.apply($, requests).done(function () {
-      console.log('🛒 All products added. Refreshing minicart data...')
+      console.log('✅ All products added. Syncing with real cart...')
 
-      // Small delay lets Magento finish updating quote totals
-      setTimeout(function () {
+      // Give backend a second to catch up
+      setTimeout(() => {
         customerData.invalidate(['cart'])
         customerData.reload(['cart'], true)
 
-        // Open minicart after reload completes
-        const cartData = customerData.get('cart')
-        const interval = setInterval(function () {
-          const count = cartData()?.summary_count
-          if (count !== undefined) {
-            console.log(`🧮 Updated cart count: ${count}`)
+        // Open minicart once reload completes
+        const interval = setInterval(() => {
+          const updated = customerData.get('cart')()?.summary_count
+          if (updated && updated >= expectedCount) {
             clearInterval(interval)
             $('[data-block="minicart"] .action.showcart').trigger('click')
           }
-        }, 300)
+        }, 400)
+        setTimeout(() => clearInterval(interval), 8000)
       }, 800)
     })
   })
