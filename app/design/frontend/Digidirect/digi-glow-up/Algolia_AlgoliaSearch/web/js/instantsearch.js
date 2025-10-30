@@ -1660,4 +1660,34 @@ window.addEventListener('load', () => {
 
   start()
   
+  //Search Mobile Fix
+  const input = document.querySelector('.aa-Input'); // Algolia input
+  const panel = document.querySelector('.aa-Panel');
+
+  if (!input || !panel) return;
+
+  // Close panel when clicking/tapping outside
+  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('touchstart', handleOutsideClick);
+
+  function handleOutsideClick(e) {
+    if (!panel.contains(e.target) && e.target !== input) {
+      // Hide the panel
+      panel.style.display = 'none';
+      input.blur();
+
+      // Stop Algolia from re-opening automatically
+      setTimeout(() => {
+        input.setAttribute('autocomplete', 'off');
+        input.setAttribute('aria-expanded', 'false');
+      }, 100);
+    }
+  }
+
+  // Optional: prevent auto-open on refocus
+  input.addEventListener('focus', function (e) {
+    if (panel.style.display !== 'none') return;
+    if (!input.value) e.stopImmediatePropagation?.(); // stopImmediatePropagation is optional, may not be needed
+  });
+  
 })

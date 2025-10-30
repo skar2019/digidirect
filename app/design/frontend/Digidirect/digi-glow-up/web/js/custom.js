@@ -411,6 +411,54 @@ const miniInterval = setInterval(updateMinicartOverlay, 400)
 $(window).on('unload beforeunload', () => clearInterval(miniInterval))
 $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
+function setupPersistentAutoMinicart() {
+  let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+  let firstLoad = true
+
+  const attachObserver = ($counter) => {
+    if ($counter.data('observer-attached')) return
+    $counter.data('observer-attached', true)
+
+    const observer = new MutationObserver(() => {
+      const currentCount = parseInt($counter.text() || 0)
+
+      // Skip auto-open on first load
+      if (firstLoad) {
+        lastCartCount = currentCount
+        firstLoad = false
+        return
+      }
+
+      if (currentCount > lastCartCount) {
+        const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+        if (!$minicartDropdown.is(':visible')) openMinicart()
+      }
+
+      lastCartCount = currentCount
+    })
+
+    observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
+  }
+
+  // Observe body for new counter nodes
+  const bodyObserver = new MutationObserver(() => {
+    const $counters = $('.counter-number[data-bind*="summary_count"]')
+    $counters.each(function () {
+      attachObserver($(this))
+    })
+  })
+
+  bodyObserver.observe(document.body, { childList: true, subtree: true })
+
+  // Attach to any existing counters
+  $('.counter-number[data-bind*="summary_count"]').each(function () {
+    attachObserver($(this))
+  })
+}
+
+$(document).ready(() => setupPersistentAutoMinicart())
+
+
 /* ========================
    🧩 Auto Minicart by Counter (new logic)
 ======================== */
