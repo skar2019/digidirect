@@ -402,7 +402,7 @@ $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
 function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  //let firstLoad = true
+  let firstLoad = true
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -412,11 +412,11 @@ function setupPersistentAutoMinicart() {
       const currentCount = parseInt($counter.text() || 0)
 
       // Skip auto-open on first load
-      /*if (firstLoad) {
+      if (firstLoad) {
         lastCartCount = currentCount
         firstLoad = false
         return
-      }*/
+      }
 
       if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
@@ -445,7 +445,7 @@ function setupPersistentAutoMinicart() {
   })
 }
 
-//$(document).ready(() => setupPersistentAutoMinicart())
+$(document).ready(() => setupPersistentAutoMinicart())
 
 
 /* ========================
