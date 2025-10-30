@@ -1660,34 +1660,36 @@ window.addEventListener('load', () => {
 
   start()
   
-  //Search Mobile Fix
-  const input = document.querySelector('.aa-Input'); // Algolia input
-  const panel = document.querySelector('.aa-Panel');
+  //Test Fix Search Mobile
+  const input = document.querySelector('.aa-Input');
 
-  if (!input || !panel) return;
+  if (!input) return;
 
-  // Close panel when clicking/tapping outside
-  document.addEventListener('click', handleOutsideClick);
-  document.addEventListener('touchstart', handleOutsideClick);
+  function closePanel() {
+    const panel = document.querySelector('.aa-Panel');
+    if (panel) panel.style.display = 'none';
+    input.blur();
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('aria-expanded', 'false');
+  }
 
   function handleOutsideClick(e) {
-    if (!panel.contains(e.target) && e.target !== input) {
-      // Hide the panel
-      panel.style.display = 'none';
-      input.blur();
+    const panel = document.querySelector('.aa-Panel');
+    if (!panel) return;
 
-      // Stop Algolia from re-opening automatically
-      setTimeout(() => {
-        input.setAttribute('autocomplete', 'off');
-        input.setAttribute('aria-expanded', 'false');
-      }, 100);
+    if (!panel.contains(e.target) && e.target !== input) {
+      closePanel();
     }
   }
 
-  // Optional: prevent auto-open on refocus
+  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('touchstart', handleOutsideClick);
+
+  // Optional: prevent auto-open on focus if empty
   input.addEventListener('focus', function (e) {
-    if (panel.style.display !== 'none') return;
-    if (!input.value) e.stopImmediatePropagation?.(); // stopImmediatePropagation is optional, may not be needed
+    const panel = document.querySelector('.aa-Panel');
+    if (panel && panel.style.display !== 'none') return;
+    if (!input.value) e.stopImmediatePropagation?.();
   });
   
 })

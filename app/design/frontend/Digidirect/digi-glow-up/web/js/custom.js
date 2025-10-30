@@ -413,7 +413,7 @@ $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
 function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  let firstLoad = true
+  let firstChange = true // ignore first mutation
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -422,10 +422,9 @@ function setupPersistentAutoMinicart() {
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
 
-      // Skip auto-open on first load
-      if (firstLoad) {
+      if (firstChange) {
         lastCartCount = currentCount
-        firstLoad = false
+        firstChange = false
         return
       }
 
@@ -450,10 +449,12 @@ function setupPersistentAutoMinicart() {
 
   bodyObserver.observe(document.body, { childList: true, subtree: true })
 
-  // Attach to any existing counters
-  $('.counter-number[data-bind*="summary_count"]').each(function () {
-    attachObserver($(this))
-  })
+  // Attach to any existing counters after small delay
+  setTimeout(() => {
+    $('.counter-number[data-bind*="summary_count"]').each(function () {
+      attachObserver($(this))
+    })
+  }, 50)
 }
 
 $(document).ready(() => setupPersistentAutoMinicart())
@@ -1559,71 +1560,76 @@ $(function () {
   
   //Upsell add to cart all checked
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-    e.preventDefault()
+  e.preventDefault();
 
-    const $checked = $('.pa-bundle-product:checked')
+  const $checked = $('.pa-bundle-product:checked');
+  if ($checked.length === 0) {
+    alert('Please select at least one product.');
+    return;
+  }
 
-    if ($checked.length === 0) {
-      alert('Please select at least one product.')
-      return
+  const items = $checked.toArray();
+  const startCount = customerData.get('cart')()?.summary_count || 0;
+
+  // Disable any auto-close while adding products
+  let addingMultiple = true;
+
+  function addNext(index) {
+    if (index >= items.length) {
+      console.log('🛒 All products processed. Finalizing cart...');
+      finalizeCartUpdate();
+      return;
     }
 
-    const items = $checked.toArray()
-    const startCount = customerData.get('cart')()?.summary_count || 0
+    const $checkbox = $(items[index]);
+    const sku = $checkbox.data('product-sku');
+    const $form = $(`form[data-product-sku="${sku}"]`);
 
-    function addNext(index) {
-      if (index >= items.length) {
-        console.log('🛒 All products processed. Refreshing cart...')
-        finalizeCartUpdate()
-        return
-      }
+    if (!$form.length) {
+      console.warn(`⚠️ No form found for SKU ${sku}`);
+      addNext(index + 1);
+      return;
+    }
 
-      const $checkbox = $(items[index])
-      const sku = $checkbox.data('product-sku')
-      const $form = $(`form[data-product-sku="${sku}"]`)
-
-      if (!$form.length) {
-        console.warn(`⚠️ No form found for SKU ${sku}`)
-        addNext(index + 1)
-        return
-      }
-
-      $.ajax({
-        url: $form.attr('action'),
-        type: 'POST',
-        data: $form.serialize(),
-        showLoader: index === 0, // show loader only on first add
+    $.ajax({
+      url: $form.attr('action'),
+      type: 'POST',
+      data: $form.serialize(),
+      showLoader: index === 0, // show loader only on first add
+    })
+      .done(() => {
+        console.log(`✅ Added SKU ${sku} to cart`);
+        addNext(index + 1);
       })
-        .done(() => {
-          console.log(`✅ Added SKU ${sku} to cart`)
-          addNext(index + 1)
-        })
-        .fail((xhr) => {
-          console.error(`❌ Failed to add SKU ${sku}:`, xhr)
-          addNext(index + 1)
-        })
-    }
+      .fail((xhr) => {
+        console.error(`❌ Failed to add SKU ${sku}:`, xhr);
+        addNext(index + 1);
+      });
+  }
 
-    function finalizeCartUpdate() {
-      // Invalidate and reload
-      customerData.invalidate(['cart'])
-      customerData.reload(['cart'], true)
+  function finalizeCartUpdate() {
+    // Revalidate and reload cart
+    customerData.invalidate(['cart']);
+    customerData.reload(['cart'], true);
 
-      const interval = setInterval(() => {
-        const updatedCount = customerData.get('cart')()?.summary_count || 0
-        if (updatedCount > startCount) {
-          clearInterval(interval)
-          console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`)
-          $('[data-block="minicart"] .action.showcart').trigger('click')
-        }
-      }, 400)
+    // Wait until cart count updates
+    const interval = setInterval(() => {
+      const updatedCount = customerData.get('cart')()?.summary_count || 0;
+      if (updatedCount > startCount) {
+        clearInterval(interval);
+        console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
+        // Now we can allow auto-close again if needed
+        addingMultiple = false;
+      }
+    }, 400);
 
-      setTimeout(() => clearInterval(interval), 10000)
-    }
+    setTimeout(() => clearInterval(interval), 10000);
+  }
 
-    // Start adding products sequentially
-    addNext(0)
-  })
+  // Start adding products sequentially
+  addNext(0);
+});
+
   
     // Close PA Upsell Widget
     $('#upsell-close, #upsell-add-to-cart-all').on('click', function () {
