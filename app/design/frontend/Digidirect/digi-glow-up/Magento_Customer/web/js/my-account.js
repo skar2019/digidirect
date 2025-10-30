@@ -18,12 +18,17 @@ require(['jquery',
 
             if ($('.form-edit-account .customer-dob #dob').val()) {
                 $('.form-edit-account .field-dob').attr('style', 'width: 49% !important;');
+                $('.form-edit-account .customer-dob').attr('style', 'opacity: 0.6;');
+                $('.form-edit-account .customer-dob').attr('style', 'cursor: default;');
             } else {
                 $('input[name="dob"]').after('<button class="ui-datepicker-trigger-glowup icon-dob"></button>');
             }
 
             if (!$('input[name="digiclub-dob"]').val()) {
                 $('input[name="digiclub-dob"]').after('<button class="ui-datepicker-trigger-glowup icon-dob-digiclub"></button>');
+            } else {
+                $('.form-edit-account input[name="digiclub-dob"]').attr('style', 'opacity: 0.6;');
+                $('.form-edit-account input[name="digiclub-dob"]').attr('style', 'cursor: default;');
             }
 
             selectors.forEach(({ input, icon }) => {
