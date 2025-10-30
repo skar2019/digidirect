@@ -4,6 +4,7 @@
 ?>
 <div data-block="minicart" class="minicart-wrapper">
     <?php echo $block->getChildHtml('minicart_private'); ?>
+    
     <!-- 🔹 Overlay -->
     <div class="minicart-overlay" style="display:none;"></div>
 
@@ -14,7 +15,7 @@
             "dropdownDialog": {
                 "appendTo": ".minicart-wrapper",
                 "triggerTarget": ".showcart",
-                "closeOnClickOutside": true,
+                "closeOnClickOutside": false,
                 "closeOnEscape": true,
                 "timeout": "2000",
                 "closeOnMouseLeave": false,
@@ -62,7 +63,7 @@
 
     <!-- ✅ Fixed Custom Script -->
     <script>
-      require(['jquery', 'mage/dropdown'], function ($) {
+    require(['jquery', 'mage/dropdown'], function ($) {
       $(function () {
         const $overlay = $('.minicart-overlay')
         const $minicart = $('.block-minicart')
@@ -73,7 +74,7 @@
             overflow: 'hidden',
             'pointer-events': 'none',
           })
-          $minicart.css('pointer-events', 'auto') // allow interaction inside minicart only
+          $minicart.css('pointer-events', 'auto') // allow interaction inside minicart
         }
 
         // --- Re-enable page interaction when minicart closes ---
@@ -84,32 +85,36 @@
           })
         }
 
-        // --- Prevent closing when clicking outside ---
-        // Override dropdownDialog options after initialization
-        $minicart.on('contentUpdated', function () {
+        // --- Ensure dropdownDialog exists before binding events ---
+        function initMinicartEvents() {
           const widget = $minicart.data('mageDropdownDialog')
-          if (widget) {
-            widget.options.closeOnClickOutside = false
-          }
-        })
+          if (!widget) return
 
-        // --- When minicart opens ---
-        $(document).on('dropdownDialogOpen', '.block-minicart', function () {
-          $overlay.stop(true, true).fadeIn(200)
-          disablePageInteraction()
-        })
+          // Prevent outside click from closing minicart
+          widget.options.closeOnClickOutside = false
 
-        // --- When minicart closes ---
-        $(document).on('dropdownDialogClose', '.block-minicart', function () {
-          $overlay.stop(true, true).fadeOut(200)
-          enablePageInteraction()
-        })
+          // Open event
+          $minicart.on('dropdownDialogOpen.custom', function () {
+            $overlay.stop(true, true).fadeIn(200)
+            disablePageInteraction()
+          })
 
-        // --- Close only via the close button ---
+          // Close event
+          $minicart.on('dropdownDialogClose.custom', function () {
+            $overlay.stop(true, true).fadeOut(200)
+            enablePageInteraction()
+          })
+        }
+
+        // Initialize immediately + delayed (for async widget load)
+        initMinicartEvents()
+        setTimeout(initMinicartEvents, 1000)
+
+        // --- Close only via close button ---
         $(document).on('click', '.minicart-close', function () {
           $minicart.dropdownDialog('close')
         })
       })
-      })
+    })
     </script>
 </div>
