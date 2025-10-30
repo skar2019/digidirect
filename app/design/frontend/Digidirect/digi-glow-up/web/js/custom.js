@@ -404,14 +404,14 @@ function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
   console.log("lastCartCount", lastCartCount);
   let firstLoad = true
-
+    
+  if (lastCartCount == 0) {
+      return
+  }
+  
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
     $counter.data('observer-attached', true)
-    
-    if (lastCartCount == 0) {
-        return
-    }
 
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
