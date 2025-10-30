@@ -18,8 +18,8 @@ require(['jquery',
 
             if ($('.form-edit-account .customer-dob #dob').val()) {
                 $('.form-edit-account .field-dob').attr('style', 'width: 49% !important;');
-                $('.form-edit-account .customer-dob').attr('style', 'opacity: 0.6;');
-                $('.form-edit-account .customer-dob').attr('style', 'cursor: default;');
+                $('.form-edit-account .customer-dob').attr('style', 'opacity: 0.6 !important;');
+                $('.form-edit-account .customer-dob #dob').attr('style', 'cursor: default !important;');
             } else {
                 $('input[name="dob"]').after('<button class="ui-datepicker-trigger-glowup icon-dob"></button>');
             }
@@ -27,8 +27,8 @@ require(['jquery',
             if (!$('input[name="digiclub-dob"]').val()) {
                 $('input[name="digiclub-dob"]').after('<button class="ui-datepicker-trigger-glowup icon-dob-digiclub"></button>');
             } else {
-                $('.form-edit-account input[name="digiclub-dob"]').attr('style', 'opacity: 0.6;');
-                $('.form-edit-account input[name="digiclub-dob"]').attr('style', 'cursor: default;');
+                $('input[name="digiclub-dob"]').attr('style', 'opacity: 0.6 !important;');
+                $('input[name="digiclub-dob"]').attr('style', 'cursor: default !important;');
             }
 
             selectors.forEach(({ input, icon }) => {
