@@ -76,13 +76,17 @@
         font-size: 1.1rem;
         margin: 0;
         padding: 10px 10px;
-        bottom: 70px;
+        bottom: 0px;
+        z-index: 99999;
 
+        .content {
+            display: block !important;
+        }
         p {
             margin: auto;
             display: inline-block !important;
             flex: 1;
-            text-align: left;
+            text-align: center;
 
         }
 
@@ -94,6 +98,15 @@
         .actions {
             display: block !important;
             margin: 5px;
+
+            .allow.primary {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            .reject.secondary {
+                width: 100%;
+            }
+
         }
     }
 }
