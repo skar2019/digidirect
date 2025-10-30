@@ -82,7 +82,7 @@
               }
 
               // Detect dynamically added minicart wrapper (.ui-dialog containing .block-minicart)
-              /*const observer = new MutationObserver(() => {
+              const observer = new MutationObserver(() => {
                 const $dialog = $('.ui-dialog.mage-dropdown-dialog').has('.block-minicart')
                 if (!$dialog.length) return
 
@@ -110,7 +110,7 @@
               })
 
               // Watch for new dropdowns being added
-              observer.observe(document.body, { childList: true, subtree: true })*/
+              observer.observe(document.body, { childList: true, subtree: true })
 
               // Close only via the close button
               $(document).on('click', '.minicart-close', function (e) {
