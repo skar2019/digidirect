@@ -1664,11 +1664,16 @@ window.addEventListener('load', () => {
   const input = document.querySelector('.aa-Input');
   if (!input) return;
 
-  function closeAlgoliaPanel() {
-    // Trigger Algolia behavior: blur + empty input + dispatch "search" event
+  let ignoreNextFocus = false;
+
+  function closePanel() {
+    const panel = document.querySelector('.aa-Panel');
+    if (panel) {
+      // remove 'active' class if exists
+      panel.classList.remove('aa-Panel--open');
+    }
     input.blur();
-    input.value = ''; // simulate empty input
-    input.dispatchEvent(new Event('input', { bubbles: true })); // trigger Algolia internal listeners
+    ignoreNextFocus = true;
   }
 
   function handleOutsideClick(e) {
@@ -1676,11 +1681,20 @@ window.addEventListener('load', () => {
     if (!panel) return;
 
     if (!panel.contains(e.target) && e.target !== input) {
-      closeAlgoliaPanel();
+      closePanel();
     }
   }
 
+  // Listen for outside clicks/taps
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('touchstart', handleOutsideClick);
+
+  // Prevent immediate re-opening on mobile
+  input.addEventListener('focus', function () {
+    if (ignoreNextFocus) {
+      ignoreNextFocus = false;
+      input.blur();
+    }
+  });
   
 })
