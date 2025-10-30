@@ -346,17 +346,40 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
         $(document).ready(function() {
             // Specific handling for menu button
             $('.footer-mobile-menu-icon').on('click', function(e) {
-                $('.mobile-modal-close, .minicart-close').trigger('click');
+                // Check if menu is already open, if so close it
+                if ($('.mobile-menu').hasClass('active') || $('.mobile-menu').is(':visible')) {
+                    $('.mobile-menu-close').trigger('click');
+                } else {
+                    // Close other modals before opening menu
+                    $('.mobile-service-close, .minicart-close').trigger('click');
+                }
             });
 
             // Specific handling for cart button
             $('.showcart').on('click', function(e) {
-                $('.mobile-menu-close, .mobile-modal-close').trigger('click');
+                // Check if cart is already open, if so close it
+                if ($('.minicart').hasClass('active') || $('.minicart').is(':visible')) {
+                    $('.minicart-close').trigger('click');
+                } else {
+                    // Close other modals before opening cart
+                    $('.mobile-menu-close, .mobile-service-close').trigger('click');
+                }
+            });
+
+            // Specific handling for services button
+            $('[data-modal-trigger="digiSevicesModal"]').on('click', function(e) {
+                // Check if service modal is already open, if so close it
+                if ($('#digiSevicesModal').hasClass('active') || $('#digiSevicesModal').is(':visible')) {
+                    $('.mobile-service-close').trigger('click');
+                } else {
+                    // Close other modals before opening service
+                    $('.mobile-menu-close, .minicart-close').trigger('click');
+                }
             });
 
             // For all other buttons, close all modals
-            $('.mobile-footer-nav .footer-nav-item:not(.footer-mobile-menu-icon):not(.showcart)').on('click', function() {
-                $('.mobile-menu-close, .mobile-modal-close, .minicart-close').trigger('click');
+            $('.mobile-footer-nav .footer-nav-item:not(.footer-mobile-menu-icon):not(.showcart):not([data-modal-trigger])').on('click', function() {
+                $('.mobile-menu-close, .mobile-service-close, .minicart-close').trigger('click');
             });
         });
     });
