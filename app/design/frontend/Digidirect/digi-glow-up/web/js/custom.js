@@ -450,15 +450,15 @@ function setupPersistentAutoMinicart() {
   })
 }
 
-$(document).ready(() => setupPersistentAutoMinicart())
+//$(document).ready(() => setupPersistentAutoMinicart())
 
 
 /* ========================
    🧩 Auto Minicart by Counter (new logic)
 ======================== */
-/*function setupAutoMinicartByCounter() {
+function setupAutoMinicartByCounter() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-
+  console.log("lastCartCount", lastCartCount);
   const observeCartCounter = () => {
     const target = document.querySelector('.counter-number[data-bind*="summary_count"]')
     if (!target) return
@@ -466,7 +466,8 @@ $(document).ready(() => setupPersistentAutoMinicart())
     const observer = new MutationObserver(() => {
       const $counter = $('.counter-number[data-bind*="summary_count"]')
       const currentCount = parseInt($counter.text() || 0)
-
+      
+      console.log("currentCount", currentCount);
       if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
@@ -486,7 +487,7 @@ $(document).ready(() => setupPersistentAutoMinicart())
   }, 300)
 }
 
-$(document).ready(() => setupAutoMinicartByCounter())*/
+$(document).ready(() => setupAutoMinicartByCounter())
 
 
     /* ========================
