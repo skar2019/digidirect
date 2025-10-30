@@ -405,9 +405,9 @@ function setupPersistentAutoMinicart() {
   console.log("lastCartCount", lastCartCount);
   let firstLoad = true
     
-  if (lastCartCount == 0) {
-      return
-  }
+  //if (lastCartCount == 0) {
+  //    return
+  //}
   
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -456,7 +456,7 @@ $(document).ready(() => setupPersistentAutoMinicart())
 /* ========================
    🧩 Auto Minicart by Counter (new logic)
 ======================== */
-function setupAutoMinicartByCounter() {
+/*function setupAutoMinicartByCounter() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
 
   const observeCartCounter = () => {
@@ -486,7 +486,7 @@ function setupAutoMinicartByCounter() {
   }, 300)
 }
 
-$(document).ready(() => setupAutoMinicartByCounter())
+$(document).ready(() => setupAutoMinicartByCounter())*/
 
 
     /* ========================
