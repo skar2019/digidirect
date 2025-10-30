@@ -418,10 +418,10 @@ function setupPersistentAutoMinicart() {
         return
       }
 
-      /*if (currentCount > lastCartCount) {
+      //if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
         if (!$minicartDropdown.is(':visible')) openMinicart()
-      }*/
+      //}
 
       lastCartCount = currentCount
     })
