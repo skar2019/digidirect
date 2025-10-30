@@ -62,32 +62,52 @@
 
     <!-- ✅ Fixed Custom Script -->
     <script>
-    require(['jquery', 'mage/dropdown'], function ($) {
-        $(function () {
-            const $minicart = $('.block-minicart');
-            const $overlay = $('.minicart-overlay');
+        require(['jquery', 'mage/dropdown'], function ($) {
+          $(function () {
+            const $minicart = $('.block-minicart')
+            const $overlay = $('.minicart-overlay')
 
-            // Fade overlay with dropdown
+            // --- Function to disable body scroll and pointer events ---
+            function disablePageInteraction() {
+              $('body').addClass('overlay-active').css({
+                overflow: 'hidden',
+                'pointer-events': 'none',
+              })
+              $minicart.css('pointer-events', 'auto') // re-enable only inside minicart
+            }
+
+            // --- Function to re-enable everything ---
+            function enablePageInteraction() {
+              $('body').removeClass('overlay-active').css({
+                overflow: '',
+                'pointer-events': '',
+              })
+            }
+
+            // --- When minicart opens ---
             $minicart.on('dropdownDialogOpen', function () {
-                $overlay.stop(true, true).fadeIn(200);
-                $minicart.stop(true, true).fadeIn(200);
-            });
+              $overlay.stop(true, true).fadeIn(200)
+              $minicart.stop(true, true).fadeIn(200)
+              disablePageInteraction()
+            })
 
+            // --- When minicart closes ---
             $minicart.on('dropdownDialogClose', function () {
-                $overlay.stop(true, true).fadeOut(200);
-                $minicart.stop(true, true).fadeOut(200);
-            });
+              $overlay.stop(true, true).fadeOut(200)
+              $minicart.stop(true, true).fadeOut(200)
+              enablePageInteraction()
+            })
 
-            // Overlay click closes minicart
+            // --- Clicking overlay closes minicart ---
             $overlay.on('click', function () {
-                $minicart.dropdownDialog('close');
-            });
+              $minicart.dropdownDialog('close')
+            })
 
-            // ✅ Delegated close button event (works even inside dropdown)
+            // --- Close button inside minicart ---
             $(document).on('click', '.minicart-close', function () {
-                $minicart.dropdownDialog('close');
-            });
-        });
-    });
+              $minicart.dropdownDialog('close')
+            })
+          })
+        })
     </script>
 </div>
