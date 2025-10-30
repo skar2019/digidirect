@@ -656,10 +656,10 @@ if ($block->getOrderId()) {
                 </div>
 
                 <?php if ($block->getOrderId()) : ?>
-                    <div class="bank-item reference">
+                    <div class="bank-item">
                         <label class="ref-label">
                             Reference
-                            <span class="info-icon" title="Use your Order Number as reference">ⓘ</span>
+<!--                            <span class="info-icon" title="Use your Order Number as reference">ⓘ</span>-->
                         </label>
                         <span><?= $block->getOrderId(); ?></span>
                     </div>
@@ -675,6 +675,8 @@ if ($block->getOrderId()) {
                     <span><?= $bankDetailsSeparated['Account Number'] ?? '' ?></span>
                 </div>
             </div>
+
+            <div class="reference-note"><span class="bold-text">Note:</span> Your order will be processed once the payment is received. Please see our bank details and include your <span class="bold-text">Order Number</span> as the <span class="bold-text">Reference</span> when making the transfer.</div>
         </div>
 
     <?php endif; ?>
