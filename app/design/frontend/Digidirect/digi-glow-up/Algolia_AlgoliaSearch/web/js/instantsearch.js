@@ -1661,7 +1661,7 @@ window.addEventListener('load', () => {
   start()
   
   //Test Fix Search Mobile
-  const input = document.querySelector('.aa-Input');
+  /*const input = document.querySelector('.aa-Input');
   if (!input) return;
 
   let ignoreNextFocus = false;
@@ -1695,6 +1695,6 @@ window.addEventListener('load', () => {
       ignoreNextFocus = false;
       input.blur();
     }
-  });
+  });*/
   
 })
