@@ -1660,4 +1660,36 @@ window.addEventListener('load', () => {
 
   start()
   
+  //Test Fix Search Mobile
+  const input = document.querySelector('.aa-Input');
+
+  if (!input) return;
+
+  function closePanel() {
+    const panel = document.querySelector('.aa-Panel');
+    if (panel) panel.style.display = 'none';
+    input.blur();
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('aria-expanded', 'false');
+  }
+
+  function handleOutsideClick(e) {
+    const panel = document.querySelector('.aa-Panel');
+    if (!panel) return;
+
+    if (!panel.contains(e.target) && e.target !== input) {
+      closePanel();
+    }
+  }
+
+  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('touchstart', handleOutsideClick);
+
+  // Optional: prevent auto-open on focus if empty
+  input.addEventListener('focus', function (e) {
+    const panel = document.querySelector('.aa-Panel');
+    if (panel && panel.style.display !== 'none') return;
+    if (!input.value) e.stopImmediatePropagation?.();
+  });
+  
 })
