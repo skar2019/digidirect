@@ -166,55 +166,44 @@ $(window).on('scroll resize', () => {
 
     
     // Blur Active AA Panel Only When Not Mobile
-    let aaPanelObserver
+    let aaPanelObserver;
 
-    function initDesktopBlurObserver() {
-      const $body = $('body')
-      const isMobile = window.innerWidth <= 768
-      const hasAaPanel = $('.aa-Panel').length > 0
+    function initBlurObserver() {
+      const $body = $('body');
 
-      if (!isMobile && window.MutationObserver) {
-        // 🧹 Reset any mobile inline styles
-        $body.css({ position: '', top: '', width: '', overflowY: '' })
+      // 🧹 Reset any inline styles
+      $body.css({ position: '', top: '', width: '', overflowY: '' });
 
-        if (!aaPanelObserver) {
-          aaPanelObserver = new MutationObserver(() => {
-            if ($('.aa-Panel').length) {
-              $body.addClass('blur-active')
-            } else {
-              $body.removeClass('blur-active')
-            }
-            positionBlurOverlay()
-          })
+      const hasAaPanel = $('.aa-Panel').length > 0;
 
-          aaPanelObserver.observe(document.body, { childList: true, subtree: true })
-        }
-      } 
-      else if (isMobile) {
-        // 👇 Always disconnect observer on mobile
-        if (aaPanelObserver) {
-          aaPanelObserver.disconnect()
-          aaPanelObserver = null
-        }
+      // --- Set up MutationObserver if not already ---
+      if (window.MutationObserver && !aaPanelObserver) {
+        aaPanelObserver = new MutationObserver(() => {
+          if ($('.aa-Panel').length) {
+            $body.addClass('blur-active');
+          } else {
+            $body.removeClass('blur-active');
+          }
+          positionBlurOverlay();
+        });
 
-        $body.removeClass('blur-active')
+        aaPanelObserver.observe(document.body, { childList: true, subtree: true });
+      }
 
-        // ✅ Apply lock CSS only if aa-Panel exists or is visible
-        if (hasAaPanel) {
-          $body.css({
-            position: 'fixed',
-            width: '100%',
-          })
-        } else {
-          // 🧹 Ensure clean body when aa-Panel not active
-          $body.css({ position: '', width: '' })
-        }
+      // --- Apply lock CSS if aa-Panel exists ---
+      if (hasAaPanel) {
+        $body.css({
+          position: 'fixed',
+          width: '100%',
+        });
+      } else {
+        $body.css({ position: '', width: '' });
       }
     }
 
     // Initialize and re-check on resize
-    $(window).on('resize', initDesktopBlurObserver)
-    initDesktopBlurObserver()
+    $(window).on('resize', initBlurObserver);
+    initBlurObserver();
 
 
     /* ========================
@@ -314,7 +303,7 @@ $(window).on('scroll resize', () => {
        $('#pa-welcome-back').removeClass('active')
        $('body').removeClass('blur-active')
        positionBlurOverlay() // keep your old blur overlay working
-     })
+     })  
      
     /* ========================
    🛒 AJAX Minicart - CLEAN (counter-based)
@@ -413,7 +402,7 @@ $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
 function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  let firstChange = true // ignore first mutation
+  //let firstLoad = true
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -422,11 +411,12 @@ function setupPersistentAutoMinicart() {
     const observer = new MutationObserver(() => {
       const currentCount = parseInt($counter.text() || 0)
 
-      if (firstChange) {
+      // Skip auto-open on first load
+      /*if (firstLoad) {
         lastCartCount = currentCount
-        firstChange = false
+        firstLoad = false
         return
-      }
+      }*/
 
       if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
@@ -449,12 +439,10 @@ function setupPersistentAutoMinicart() {
 
   bodyObserver.observe(document.body, { childList: true, subtree: true })
 
-  // Attach to any existing counters after small delay
-  setTimeout(() => {
-    $('.counter-number[data-bind*="summary_count"]').each(function () {
-      attachObserver($(this))
-    })
-  }, 50)
+  // Attach to any existing counters
+  $('.counter-number[data-bind*="summary_count"]').each(function () {
+    attachObserver($(this))
+  })
 }
 
 $(document).ready(() => setupPersistentAutoMinicart())
@@ -1527,19 +1515,6 @@ $(function () {
         $('body').removeClass('_has-modal')
       }
     )
-    
-    //AA Panel close on outside touch
-    
-    $(document).on('click touchstart', '.page-header, .mobile-footer-nav', function () {
-        if (window.innerWidth <= 768) {
-          const $panel = $('.aa-Panel')
-          if ($panel.length) {
-            $panel.remove()
-            $('body').removeClass('blur-active') // if you use blur overlay
-            console.log('📱 Closed Algolia panel on actual mobile.')
-          }
-        }
-    })
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
   $('#product-addtocart-button').on('click', function () {

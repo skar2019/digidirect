@@ -181,21 +181,26 @@
 
 .reference-note {
     margin-top: 20px;
-    padding: 0 20px;
+    padding: 0 77px 15px;
     text-align: left !important;
-    color: #AEAEB2;
+    color: #242426;
+    display: flex;
+    gap: 12px;
 
     .bold-text {
         font-weight: 700;
     }
 }
-/*@media (max-width: 768px) {
-    .bank-details-grid {
+@media (max-width: 768px) {
+    .reference-note {
+        padding: 0 20px 15px !important;
+    }
+    /*.bank-details-grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
     }
 
     .bank-item.reference {
         grid-row: auto;
-    }
-}*/
+    }*/
+}

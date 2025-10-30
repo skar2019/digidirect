@@ -1661,16 +1661,19 @@ window.addEventListener('load', () => {
   start()
   
   //Test Fix Search Mobile
-  const input = document.querySelector('.aa-Input');
-
+  /*const input = document.querySelector('.aa-Input');
   if (!input) return;
+
+  let ignoreNextFocus = false;
 
   function closePanel() {
     const panel = document.querySelector('.aa-Panel');
-    if (panel) panel.style.display = 'none';
+    if (panel) {
+      // remove 'active' class if exists
+      panel.classList.remove('aa-Panel--open');
+    }
     input.blur();
-    input.setAttribute('autocomplete', 'off');
-    input.setAttribute('aria-expanded', 'false');
+    ignoreNextFocus = true;
   }
 
   function handleOutsideClick(e) {
@@ -1682,14 +1685,16 @@ window.addEventListener('load', () => {
     }
   }
 
+  // Listen for outside clicks/taps
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('touchstart', handleOutsideClick);
 
-  // Optional: prevent auto-open on focus if empty
-  input.addEventListener('focus', function (e) {
-    const panel = document.querySelector('.aa-Panel');
-    if (panel && panel.style.display !== 'none') return;
-    if (!input.value) e.stopImmediatePropagation?.();
-  });
+  // Prevent immediate re-opening on mobile
+  input.addEventListener('focus', function () {
+    if (ignoreNextFocus) {
+      ignoreNextFocus = false;
+      input.blur();
+    }
+  });*/
   
 })
