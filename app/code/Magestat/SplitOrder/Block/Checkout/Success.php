@@ -7,7 +7,6 @@ use Magento\Checkout\Model\Session;
 use Magento\Sales\Model\Order\Config;
 use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Sales\Api\Data\OrderInterface;
-
 /**
  * Class Success
  * Overriding Magento One page success
@@ -18,9 +17,9 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
      * @var Session
      */
     private $checkoutSession;
-    
+
     protected $orderInterface;
-    
+
     /**
      * @param Context $context
      * @param Session $checkoutSession
@@ -60,15 +59,45 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         }
         return $splitOrders;
     }
-    
-    public function getOrderByIncrementId($id) 
+
+    public function getOrderByIncrementId($id)
     {
         $order = $this->orderInterface->loadByIncrementId($id);
         return $order;
     }
-    
+
     public function getRealOrderDetail() {
         return $this->checkoutSession->getLastRealOrder();
     }
-    
+
+    /**
+     * @return void
+     */
+    public function getBankDetails($orderId)
+    {
+        $order = $this->getOrderByIncrementId($orderId);
+        $instructions = $order->getPayment()->getMethodInstance()->getInstructions();
+        return $this->parseBankInstructions($instructions);
+    }
+
+    /**
+     * @param string $instructions
+     * @return array
+     */
+    public function parseBankInstructions(string $instructions): array
+    {
+        $details = [];
+        $lines = preg_split('/\r\n|\r|\n/', trim($instructions));
+
+        foreach ($lines as $line) {
+            if (strpos($line, ':') !== false) {
+                list($label, $value) = explode(':', $line, 2);
+                $details[trim($label)] = trim($value);
+            }
+        }
+
+        return $details;
+    }
+
+
 }

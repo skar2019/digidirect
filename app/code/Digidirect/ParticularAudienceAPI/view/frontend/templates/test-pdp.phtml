@@ -1628,7 +1628,7 @@ require(['jquery'], function ($) {
         }
     });
 
-    $(".pa-bundle-product").change(function() {
+    /*$(".pa-bundle-product").change(function() {
         var bundleTotal = Number($("#pa-bundle-total").text().substring(1));
         var bundleProductPrice = Number($(this).attr("data-product-price"));
         console.log(bundleTotal, bundleProductPrice);
@@ -1638,7 +1638,7 @@ require(['jquery'], function ($) {
             var newBundleTotal = bundleTotal - bundleProductPrice;
         }
         $("#pa-bundle-total").text('$' + Number(newBundleTotal).toFixed(2));
-    });
+    });*/
     
     $("#pdp-frquently-bought-with-desktop input").each(function() {
         $(this).prop("checked", true);

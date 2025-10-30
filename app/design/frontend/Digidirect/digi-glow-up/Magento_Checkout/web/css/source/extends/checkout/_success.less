@@ -23,6 +23,10 @@
     z-index: 3;
 }*/
 
+.checkout-onepage-success .columns .column.main {
+    padding-bottom: 20px !important;
+}
+
 .thank-you-wrapper {
     padding: 40px 20px;
     text-align: center;
@@ -36,6 +40,7 @@
         color: #FFFFFF !important;
         &:hover {
             background-color: #000000;
+            text-decoration: none !important;
         }
     }
 }
@@ -84,7 +89,102 @@
     display: none !important;
 }
 
-.thank-you-wrapper .title.-addition .order-number {
-    //color: #242426 !important;
+.bank-details-box {
+    width: 100%;
+    max-width: 920px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow:  0 0 1px 1px rgba(0, 0, 0, 0.02);
+    text-align: center;
 }
 
+.bank-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    line-height: normal;
+    color: #242426;
+}
+
+.bank-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px 40px;
+    align-items: start;
+    justify-items: center;
+    padding-bottom: 15px;
+}
+
+.bank-item.reference {
+    grid-row: span 2;
+    align-self: center;
+}
+
+
+.bank-item {
+    text-align: center;
+}
+
+.bank-item label {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #242426;
+    margin-bottom: 6px;
+    line-height: normal;
+}
+
+.bank-item span {
+    font-size: 16px;
+    color: #AEAEB2;
+}
+
+.info-icon {
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 4px;
+    cursor: pointer;
+    color: #888;
+    border-radius: 50%;
+    padding: 1px 4px;
+    transition: all 0.2s ease;
+}
+
+.info-icon:hover {
+    color: #242426;
+}
+
+.ref-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.info-icon {
+    position: relative;
+}
+
+.info-icon:hover::after {
+    content: "Use your Order Number as the payment reference";
+    position: absolute;
+    bottom: 125%;
+    left: 0;
+    font-size: 11px;
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+/*@media (max-width: 768px) {
+    .bank-details-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .bank-item.reference {
+        grid-row: auto;
+    }
+}*/

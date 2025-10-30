@@ -3,7 +3,7 @@ require(['jquery'], function ($) {
         if (pageWrapper) {
             const partyCanvas = document.createElement('canvas');
             partyCanvas.id = 'party-canvas';
-            partyCanvas.style.position = 'absolute';
+            partyCanvas.style.position = 'fixed';
             partyCanvas.style.top = '0';
             partyCanvas.style.left = '0';
             partyCanvas.style.width = '100%';

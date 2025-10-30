@@ -76,7 +76,7 @@ header.modal-header {
     overflow: auto;
     padding-right: 20px;
     padding-top: 35px;
-    max-height: 470px
+    max-height: 450px
 }
 
 .minicart-wrapper .product .actions > .primary {
@@ -379,7 +379,7 @@ a.action.viewcart span {
     color: #1d1d1f;
 }
 
-.minicart-close {
+.minicart-close, .upsell-close {
     font-size: 24px;
     cursor: pointer;
     line-height: 0;
@@ -408,7 +408,10 @@ a.action.viewcart span {
 
 .minicart-close:hover,
 .minicart-close:active,
-.minicart-close:focus {
+.minicart-close:focus,
+.upsell-close:hover,
+.upsell-close:active,
+.upsell-close:focus{
     color: unset;
     background: #fff !important;
     border: 0 !important;
@@ -604,6 +607,7 @@ button.action-secondary.action-dismiss {
         margin-bottom: 15px;
         padding: 15px;
         border-radius: 32px;
+        background: #fafafa;
     }
     
     .block-minicart .product {
