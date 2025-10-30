@@ -1662,15 +1662,13 @@ window.addEventListener('load', () => {
   
   //Test Fix Search Mobile
   const input = document.querySelector('.aa-Input');
-
   if (!input) return;
 
-  function closePanel() {
-    const panel = document.querySelector('.aa-Panel');
-    if (panel) panel.style.display = 'none';
+  function closeAlgoliaPanel() {
+    // Trigger Algolia behavior: blur + empty input + dispatch "search" event
     input.blur();
-    input.setAttribute('autocomplete', 'off');
-    input.setAttribute('aria-expanded', 'false');
+    input.value = ''; // simulate empty input
+    input.dispatchEvent(new Event('input', { bubbles: true })); // trigger Algolia internal listeners
   }
 
   function handleOutsideClick(e) {
@@ -1678,18 +1676,11 @@ window.addEventListener('load', () => {
     if (!panel) return;
 
     if (!panel.contains(e.target) && e.target !== input) {
-      closePanel();
+      closeAlgoliaPanel();
     }
   }
 
   document.addEventListener('click', handleOutsideClick);
   document.addEventListener('touchstart', handleOutsideClick);
-
-  // Optional: prevent auto-open on focus if empty
-  input.addEventListener('focus', function (e) {
-    const panel = document.querySelector('.aa-Panel');
-    if (panel && panel.style.display !== 'none') return;
-    if (!input.value) e.stopImmediatePropagation?.();
-  });
   
 })
