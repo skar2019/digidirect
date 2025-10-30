@@ -445,7 +445,7 @@ function setupPersistentAutoMinicart() {
   })
 }
 
-$(document).ready(() => setupPersistentAutoMinicart())
+//$(document).ready(() => setupPersistentAutoMinicart())
 
 
 /* ========================
