@@ -303,31 +303,7 @@ $(window).on('scroll resize', () => {
        $('#pa-welcome-back').removeClass('active')
        $('body').removeClass('blur-active')
        positionBlurOverlay() // keep your old blur overlay working
-     })
-     
-// Prevent minicart from auto-opening on page load
-function hideMinicartOnFirstLoad() {
-  const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
-  const $minicart = $('[data-block="minicart"]')
-  const $miniOverlay = $('.minicart-overlay')
-
-  // Only act if the dropdown is visible
-  if ($minicartDropdown.is(':visible')) {
-    $minicartDropdown.hide()        // hide the dropdown
-    $minicart.removeClass('active') // remove active state
-  }
-
-  // Hide overlay if it exists
-  if ($miniOverlay.length) $miniOverlay.hide()
-
-  // Reset scroll lock
-  document.body.style.overflow = ''
-  document.documentElement.style.overflow = ''
-  document.body.style.position = ''
-  document.documentElement.style.position = ''
-}
-
-$(document).ready(() => hideMinicartOnFirstLoad())     
+     })  
      
     /* ========================
    🛒 AJAX Minicart - CLEAN (counter-based)
@@ -426,7 +402,7 @@ $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
 function setupPersistentAutoMinicart() {
   let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  let firstLoad = true
+  //let firstLoad = true
 
   const attachObserver = ($counter) => {
     if ($counter.data('observer-attached')) return
@@ -436,11 +412,11 @@ function setupPersistentAutoMinicart() {
       const currentCount = parseInt($counter.text() || 0)
 
       // Skip auto-open on first load
-      if (firstLoad) {
+      /*if (firstLoad) {
         lastCartCount = currentCount
         firstLoad = false
         return
-      }
+      }*/
 
       if (currentCount > lastCartCount) {
         const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
