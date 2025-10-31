@@ -609,7 +609,7 @@ class TestPronto extends AbstractHelper
                 $carriercode = 'COLL';
             }
 
-            if($orderId == '002551077')
+            if($orderId == '002551983')
             {
                 $carriercode = 'GO';
             }
@@ -1397,11 +1397,7 @@ class TestPronto extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
-            //pao's order 001313994-1 001313991-1
-            if($orderId == '001901158')
-            {
-                $amount_tendered = 1986.10;
-            }
+
 
 
             $amount_tendered = round($amount_tendered, 2);
