@@ -1609,14 +1609,14 @@ if (document.querySelector('#pa-upsell')) {
 
     const $checked = $('.pa-bundle-product:checked');
 
-    // 🧩 If no products are selected
+    // 🧩If no products are selected
     if ($checked.length === 0) {
       // Simply show message box
       $('#custom-alert').css('display', 'block');
       return false;
     }
 
-    // 🧩 If products are selected, proceed with adding
+    // 🧩If products are selected, proceed with adding
     addNext(0);
   });
 
