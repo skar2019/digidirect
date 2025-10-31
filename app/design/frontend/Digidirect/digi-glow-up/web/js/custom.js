@@ -231,19 +231,6 @@ $(window).on('scroll resize', () => {
       }
     }
 
-    function toggleOverlay() {
-      if ($('#pa-welcome-back').hasClass('active')) {
-        $('.page-wrapper').addClass('has-overlay')
-        $('body').addClass('overlay-active')
-      } else {
-        $('.page-wrapper').removeClass('has-overlay')
-        $('body').removeClass('overlay-active')
-      }
-    }
-
-    // Run once on page load
-    toggleOverlay()
-
     // Observe dynamic class changes
     const target = document.querySelector('#pa-welcome-back')
     if (target) {
@@ -412,54 +399,114 @@ $(window).on('scroll resize', () => {
         ✅ Excludes first load & account pages
      ======================== */
      function setupPersistentAutoMinicart() {
-       if (isAccountPage()) return // ⛔ Skip on account-related pages
+        if (isAccountPage()) return // ⛔ Skip on account-related pages
 
-       let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-       let firstLoad = true
+        let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+        let firstLoad = true
 
-       const attachObserver = ($counter) => {
-         if ($counter.data('observer-attached')) return
-         $counter.data('observer-attached', true)
+        const attachObserver = ($counter) => {
+          if ($counter.data('observer-attached')) return
+          $counter.data('observer-attached', true)
 
-         const observer = new MutationObserver(() => {
-           const currentCount = parseInt($counter.text() || 0)
+          const observer = new MutationObserver(() => {
+            const currentCount = parseInt($counter.text() || 0)
 
-           // Skip auto-open on first load
-           if (firstLoad) {
-             lastCartCount = currentCount
-             firstLoad = false
-             return
-           }
+            // Skip auto-open on first load
+            if (firstLoad) {
+              lastCartCount = currentCount
+              firstLoad = false
+              return
+            }
 
-           // Auto-open minicart if count increases
-           //if (currentCount > lastCartCount) {
-             const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
-             if (!$minicartDropdown.is(':visible')) openMinicart()
-           //}
+            // ✅ NEW: Skip opening minicart if #pa-upsell is still active
+            const $upsell = $('#pa-upsell')
+            const isUpsellActive = $upsell.length && $upsell.hasClass('active')
 
-           lastCartCount = currentCount
-         })
+            if (isUpsellActive) {
+              console.log('🟡 Upsell active — delaying minicart open.')
+              lastCartCount = currentCount
+              return // 🚫 Stop here until upsell closes
+            }
 
-         observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
-       }
+            // ✅ When count increases, open minicart
+            if (currentCount > lastCartCount) {
+              const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+              if (!$minicartDropdown.is(':visible')) openMinicart()
+            }
 
-       // Observe body for dynamically injected counters
-       const bodyObserver = new MutationObserver(() => {
-         const $counters = $('.counter-number[data-bind*="summary_count"]')
-         $counters.each(function () {
-           attachObserver($(this))
-         })
-       })
+            lastCartCount = currentCount
+          })
 
-       bodyObserver.observe(document.body, { childList: true, subtree: true })
+          observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
+        }
 
-       // Attach to existing counters
-       $('.counter-number[data-bind*="summary_count"]').each(function () {
-         attachObserver($(this))
-       })
-     }
+        // Observe body for dynamically injected counters
+        const bodyObserver = new MutationObserver(() => {
+          const $counters = $('.counter-number[data-bind*="summary_count"]')
+          $counters.each(function () {
+            attachObserver($(this))
+          })
+        })
+
+        bodyObserver.observe(document.body, { childList: true, subtree: true })
+
+        // Attach to existing counters
+        $('.counter-number[data-bind*="summary_count"]').each(function () {
+          attachObserver($(this))
+        })
+
+        // ✅ Watch #pa-upsell for class changes and open minicart when it closes
+        if (window.MutationObserver) {
+          const upsellObserverTarget = document.getElementById('pa-upsell')
+          if (upsellObserverTarget) {
+            const upsellObserver = new MutationObserver(() => {
+              const isActive = $('#pa-upsell').hasClass('active')
+              if (!isActive) {
+                console.log('🟢 Upsell closed — opening minicart.')
+                openMinicart()
+              }
+            })
+            upsellObserver.observe(upsellObserverTarget, { attributes: true, attributeFilter: ['class'] })
+          }
+        }
+      }
 
      $(document).ready(() => setupPersistentAutoMinicart())
+     
+     
+     //Overlay Observer
+     function toggleOverlay() {
+        const hasActivePopup =
+          $('#pa-welcome-back').hasClass('active') ||
+          $('#pa-upsell').hasClass('active')
+
+        if (hasActivePopup) {
+          $('.page-wrapper').addClass('has-overlay')
+          $('body').addClass('overlay-active')
+        } else {
+          $('.page-wrapper').removeClass('has-overlay')
+          $('body').removeClass('overlay-active')
+        }
+      }
+
+      // 🧩 Run once on page load
+      toggleOverlay()
+
+      // 🧠 Watch dynamically for #pa-upsell or #pa-welcome-back changes
+      if (window.MutationObserver) {
+        const observer = new MutationObserver(() => {
+          // Run toggle check on any class change or new element
+          toggleOverlay()
+        })
+
+        // Observe the entire document for dynamic popups
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['class'],
+        })
+    }
 
 
     /* ========================

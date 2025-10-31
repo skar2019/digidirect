@@ -646,6 +646,7 @@ html {
         padding-left: 8px;
         padding-right: 8px;
         box-sizing: border-box;
+        padding-top: 15px !important;
     }
     #algoliaAutocomplete{
         margin-bottom: 10px;
