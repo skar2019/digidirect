@@ -1608,6 +1608,7 @@ if (document.querySelector('#pa-upsell')) {
     e.preventDefault();
 
     const $checked = $('.pa-bundle-product:checked');
+
     if ($checked.length === 0) {
       showCustomMessage('Please select at least one product.');
       return;
@@ -1615,9 +1616,7 @@ if (document.querySelector('#pa-upsell')) {
 
     const items = $checked.toArray();
     const startCount = customerData.get('cart')()?.summary_count || 0;
-
-    // Disable any auto-close while adding products
-    let addingMultiple = true;
+    let addingMultiple = true; // prevent auto-close
 
     function addNext(index) {
       if (index >= items.length) {
@@ -1653,17 +1652,14 @@ if (document.querySelector('#pa-upsell')) {
     }
 
     function finalizeCartUpdate() {
-      // Revalidate and reload cart
       customerData.invalidate(['cart']);
       customerData.reload(['cart'], true);
 
-      // Wait until cart count updates
       const interval = setInterval(() => {
         const updatedCount = customerData.get('cart')()?.summary_count || 0;
         if (updatedCount > startCount) {
           clearInterval(interval);
           console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
-          // Now we can allow auto-close again if needed
           addingMultiple = false;
         }
       }, 400);
@@ -1671,32 +1667,23 @@ if (document.querySelector('#pa-upsell')) {
       setTimeout(() => clearInterval(interval), 10000);
     }
 
-    // Start adding products sequentially
     addNext(0);
   });
 
-  /* 🧩 Custom message box function */
+  /* 🧩 Custom message (uses existing markup inside #pa-upsell) */
   function showCustomMessage(message) {
-    // Remove if already exists
-    $('#custom-alert').remove();
+    const $overlay = $('#pa-upsell .custom-alert-overlay');
+    const $messageBox = $overlay.find('p');
 
-    const modalHTML = `
-      <div id="custom-alert" class="custom-alert-overlay">
-        <div class="custom-alert-box">
-          <p>${message}</p>
-          <button id="custom-alert-close">Close</button>
-        </div>
-      </div>
-    `;
+    $messageBox.text(message);
+    $overlay.fadeIn(200);
 
-    $('body').append(modalHTML);
-
-    // Close handler
-    $('#custom-alert-close').on('click', function () {
-      $('#custom-alert').fadeOut(200, function () {
-        $(this).remove();
+    // Close button handler
+    $overlay.find('#custom-alert-close')
+      .off('click')
+      .on('click', function () {
+        $overlay.fadeOut(200);
       });
-    });
   }
 
   
