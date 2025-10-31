@@ -1606,15 +1606,20 @@ if (document.querySelector('#pa-upsell')) {
   //Upsell add to cart all checked
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
     e.preventDefault();
-    e.stopImmediatePropagation(); // 🧱 stops *all* other click handlers (stronger)
+    e.stopImmediatePropagation(); // 🧱 blocks all other click handlers
     e.stopPropagation();
 
     const $checked = $('.pa-bundle-product:checked');
 
+    // 🧩 Handle case where no products are selected
     if ($checked.length === 0) {
-      //$('#pa-upsell').addClass('active'); // keep upsell open
+      // Keep upsell open explicitly (prevents it from closing on first click)
+      $('#pa-upsell').addClass('active').show();
+
+      // Show message box inside upsell
       showCustomMessage('Please select at least one product.');
-      return;
+
+      return false; // stops further event chain
     }
 
     const items = $checked.toArray();
@@ -1670,21 +1675,30 @@ if (document.querySelector('#pa-upsell')) {
       setTimeout(() => clearInterval(interval), 10000);
     }
 
+    // Start adding items sequentially
     addNext(0);
-});
+  });
+
 
   /* 🧩 Custom message (uses existing markup inside #pa-upsell) */
   function showCustomMessage(message) {
     const $overlay = $('#pa-upsell .custom-alert-overlay');
     const $messageBox = $overlay.find('p');
 
+    // Set text and show the alert
     $messageBox.text(message);
     $overlay.fadeIn(200);
+
+    // Prevent clicks on overlay from closing upsell
+    $overlay.on('click', function (e) {
+      e.stopPropagation();
+    });
 
     // Close button handler
     $overlay.find('#custom-alert-close')
       .off('click')
-      .on('click', function () {
+      .on('click', function (e) {
+        e.stopPropagation();
         $overlay.fadeOut(200);
       });
   }
