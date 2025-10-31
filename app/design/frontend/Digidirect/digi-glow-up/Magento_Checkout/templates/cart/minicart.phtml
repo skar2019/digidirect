@@ -81,7 +81,25 @@
                 })
               }
 
-              // Detect dynamically added minicart wrapper (.ui-dialog containing .block-minicart)
+              // 🧩 Watch for when #pa-upsell toggles the active class
+              const upsellObserver = new MutationObserver(() => {
+                const isUpsellActive = $('#pa-upsell').hasClass('active')
+                if (isUpsellActive) {
+                  $overlay.addClass('active').fadeIn(200)
+                } else {
+                  $overlay.removeClass('active').fadeOut(200)
+                }
+              })
+
+              const paUpsell = document.getElementById('pa-upsell')
+              if (paUpsell) {
+                upsellObserver.observe(paUpsell, {
+                  attributes: true,
+                  attributeFilter: ['class'],
+                })
+              }
+
+              // 🛒 Detect dynamically added minicart wrapper (.ui-dialog containing .block-minicart)
               const observer = new MutationObserver(() => {
                 const $dialog = $('.ui-dialog.mage-dropdown-dialog').has('.block-minicart')
                 if (!$dialog.length) return
@@ -112,7 +130,7 @@
               // Watch for new dropdowns being added
               observer.observe(document.body, { childList: true, subtree: true })
 
-              // Close only via the close button
+              // 🧹 Close only via the close button
               $(document).on('click', '.minicart-close', function (e) {
                 e.stopPropagation()
                 const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
@@ -128,6 +146,6 @@
                 e.stopPropagation()
               })
             })
-    })
+        })
 </script>
 </div>
