@@ -1660,19 +1660,30 @@ if (document.querySelector('#pa-upsell')) {
     }
 
     function finalizeCartUpdate() {
-      customerData.invalidate(['cart']);
-      customerData.reload(['cart'], true);
+        customerData.invalidate(['cart']);
+        customerData.reload(['cart'], true);
 
-      const interval = setInterval(() => {
-        const updatedCount = customerData.get('cart')()?.summary_count || 0;
-        if (updatedCount > startCount) {
-          clearInterval(interval);
-          console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
-          addingMultiple = false;
-        }
-      }, 400);
+        const interval = setInterval(() => {
+          const updatedCount = customerData.get('cart')()?.summary_count || 0;
+          if (updatedCount > startCount) {
+            clearInterval(interval);
+            console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
+            addingMultiple = false;
 
-      setTimeout(() => clearInterval(interval), 10000);
+            // 🧩 Only open minicart if upsell is NOT active
+            if (!$('#pa-upsell').hasClass('active')) {
+              const $minicart = $('.action.showcart');
+              if (!$minicart.hasClass('active')) {
+                $minicart.trigger('click');
+                console.log('🛒 Minicart opened (upsell inactive)');
+              }
+            } else {
+              console.log('🚫 Minicart suppressed — upsell still active');
+            }
+          }
+        }, 400);
+
+        setTimeout(() => clearInterval(interval), 10000);
     }
 
     // Start adding items sequentially
