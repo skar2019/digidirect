@@ -314,6 +314,42 @@
             }
         }
     }
+
+    .not-eligible-for-discount .tooltip-content {
+        display: none;
+        position: absolute;
+        bottom: 108%;
+        left: 74%;
+        transform: translateX(-50%);
+        background: #000;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 400;
+        padding: 6px 10px;
+        border-radius: 4px;
+        white-space: normal;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+        max-width: 400px;
+        text-transform: none;
+
+        // little arrow
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+    }
+
+    .tooltip:hover .tooltiptext {
+        display: block;
+    }
 }
 
 // RIGHT COLUMN - Purchase Actions
