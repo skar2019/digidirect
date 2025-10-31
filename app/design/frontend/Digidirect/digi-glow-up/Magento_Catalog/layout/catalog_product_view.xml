@@ -81,6 +81,11 @@
 
                     <container name="product.description.section" htmlTag="div" htmlClass="product-description-section"/>
 
+                    <container name="not.eligible" htmlTag="div" htmlClass="not-eligible-container">
+                        <block class="Magento\Catalog\Block\Product\View"
+                               template="Magento_Catalog::product/noteligiblefordiscount.phtml"
+                               name="pdp-not-eligible"/>
+                    </container>
                     <container name="product.additional.info" htmlTag="div" htmlClass="product-additional-info">
                         <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm"
                                template="Itoris_PriceMatch::product/form.phtml"/>
