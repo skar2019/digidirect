@@ -161,9 +161,15 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 
 <!-- Account Popup Overlay -->
 <div id="mobile-account-popup" class="account-popup">
-    <div class="account-popup-header">
+<!--    <div class="account-popup-header">-->
+<!--        <span class="signout">Sign Out</span>-->
+<!--        <button class="close-popup" aria-label="Close">&times;</button>-->
+<!--    </div>-->
+    <div class="account-popup-header-in-pages">
         <span class="signout">Sign Out</span>
-        <button class="close-popup" aria-label="Close">&times;</button>
+        <div class="close-popup">
+            <img src="<?= $block->getViewFileUrl('images/mobile-menu-close.png') ?>">
+        </div>
     </div>
     <ul class="account-menu">
         <div class="block-collapsible-nav navigation">
