@@ -1606,18 +1606,20 @@ if (document.querySelector('#pa-upsell')) {
   //Upsell add to cart all checked
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
     e.preventDefault();
+    e.stopImmediatePropagation(); // 🧱 stops *all* other click handlers (stronger)
+    e.stopPropagation();
 
     const $checked = $('.pa-bundle-product:checked');
 
     if ($checked.length === 0) {
+      $('#pa-upsell').addClass('active'); // keep upsell open
       showCustomMessage('Please select at least one product.');
-      e.stopPropagation();
-      return false;
+      return;
     }
 
     const items = $checked.toArray();
     const startCount = customerData.get('cart')()?.summary_count || 0;
-    let addingMultiple = true; // prevent auto-close
+    let addingMultiple = true;
 
     function addNext(index) {
       if (index >= items.length) {
@@ -1640,7 +1642,7 @@ if (document.querySelector('#pa-upsell')) {
         url: $form.attr('action'),
         type: 'POST',
         data: $form.serialize(),
-        showLoader: index === 0, // show loader only on first add
+        showLoader: index === 0,
       })
         .done(() => {
           console.log(`✅ Added SKU ${sku} to cart`);
@@ -1669,7 +1671,7 @@ if (document.querySelector('#pa-upsell')) {
     }
 
     addNext(0);
-  });
+});
 
   /* 🧩 Custom message (uses existing markup inside #pa-upsell) */
   function showCustomMessage(message) {
