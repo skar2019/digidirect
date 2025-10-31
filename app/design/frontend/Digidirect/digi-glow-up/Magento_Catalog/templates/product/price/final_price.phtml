@@ -48,7 +48,9 @@ $quoteHelper = $helper = $this->helper('Digidirect\Digi\Helper\Quote');
 $customerGroupId = $quoteHelper->getCustomerGroupId();
 $customerGroupId = 0;
 
-$eligibleForDiscount = $block->getProduct()->getNotEligibleForDiscount();
+$product = $block->getSaleableItem();
+$customAttribute = $product->getCustomAttribute('not_eligible_for_discount');
+$eligibleForDiscount = $customAttribute ? $customAttribute->getValue() : null;
 
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
