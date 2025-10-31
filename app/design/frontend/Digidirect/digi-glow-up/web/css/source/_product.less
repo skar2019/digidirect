@@ -315,41 +315,56 @@
         }
     }
 
-    .not-eligible-for-discount .tooltip-content {
-        display: none;
-        position: absolute;
-        bottom: 108%;
-        left: 74%;
-        transform: translateX(-50%);
-        background: #000;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 400;
-        padding: 6px 10px;
-        border-radius: 4px;
-        white-space: normal;
-        width: 100%;
+    .not-eligible-container {
         text-align: center;
-        z-index: 10;
-        max-width: 400px;
-        text-transform: none;
+        color:  #242426;
+        font-size: 18px;
 
-        // little arrow
-        &::after {
+    }
+
+    .not-eligible-for-discount {
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+
+        .tooltip .tooltiptext::after {
             content: "";
             position: absolute;
             top: 100%;
-            left: 50%;
+            left: 1%;
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #333 transparent transparent transparent;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     }
 
-    .tooltip:hover .tooltiptext {
-        display: block;
-    }
+
 }
 
 // RIGHT COLUMN - Purchase Actions

@@ -29,12 +29,13 @@ if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
                 <?= $block->escapeHtml(__('<a href="%1">Learn more</a>', $block->getPrivacyPolicyLink()), ['a']) ?>
             </p>
             <div class="actions">
-                <button id="btn-cookie-allow" class="action allow primary">
-                    <span><?= $block->escapeHtml(__('Allow Cookies')) ?></span>
-                </button>
                 <button id="btn-cookie-reject" class="action reject secondary">
                     <span><?= $block->escapeHtml(__('Reject All')) ?></span>
                 </button>
+                <button id="btn-cookie-allow" class="action allow primary">
+                    <span><?= $block->escapeHtml(__('Allow Cookies')) ?></span>
+                </button>
+
             </div>
         </div>
     </div>
