@@ -1606,7 +1606,7 @@ if (document.querySelector('#pa-upsell')) {
   //Upsell add to cart all checked
   $(document).on('click', '#upsell-add-to-cart-all', function (e) {
     e.preventDefault();
-    e.stopImmediatePropagation(); // 🧱 blocks all other click handlers
+    //e.stopImmediatePropagation(); // 🧱 blocks all other click handlers
     e.stopPropagation();
 
     const $checked = $('.pa-bundle-product:checked');
