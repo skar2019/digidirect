@@ -1702,14 +1702,14 @@ if (document.querySelector('#pa-upsell')) {
 
     // Prevent clicks on overlay from closing upsell
     $overlay.on('click', function (e) {
-      e.stopPropagation();
+      //e.stopPropagation();
     });
 
     // Close button handler
     $overlay.find('#custom-alert-close')
       .off('click')
       .on('click', function (e) {
-        e.stopPropagation();
+        //e.stopPropagation();
         $overlay.fadeOut(200);
       });
   }
