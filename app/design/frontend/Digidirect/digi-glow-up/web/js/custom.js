@@ -403,7 +403,10 @@ $(window).on('scroll resize', () => {
 
         let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
         let firstLoad = true
+        let upsellReady = false
+        let minicartQueued = false
 
+        // 🧩 Attach counter observer
         const attachObserver = ($counter) => {
           if ($counter.data('observer-attached')) return
           $counter.data('observer-attached', true)
@@ -411,24 +414,25 @@ $(window).on('scroll resize', () => {
           const observer = new MutationObserver(() => {
             const currentCount = parseInt($counter.text() || 0)
 
-            // Skip auto-open on first load
+            // Skip first load
             if (firstLoad) {
               lastCartCount = currentCount
               firstLoad = false
               return
             }
 
-            // ✅ NEW: Skip opening minicart if #pa-upsell is still active
+            // Check upsell
             const $upsell = $('#pa-upsell')
             const isUpsellActive = $upsell.length && $upsell.hasClass('active')
 
             if (isUpsellActive) {
               console.log('🟡 Upsell active — delaying minicart open.')
+              minicartQueued = true // mark to open later
               lastCartCount = currentCount
-              return // 🚫 Stop here until upsell closes
+              return
             }
 
-            // ✅ When count increases, open minicart
+            // Open minicart when count increases
             if (currentCount > lastCartCount) {
               const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
               if (!$minicartDropdown.is(':visible')) openMinicart()
@@ -440,12 +444,18 @@ $(window).on('scroll resize', () => {
           observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
         }
 
-        // Observe body for dynamically injected counters
+        // 🧩 Observe counters injected later
         const bodyObserver = new MutationObserver(() => {
           const $counters = $('.counter-number[data-bind*="summary_count"]')
           $counters.each(function () {
             attachObserver($(this))
           })
+
+          // 🔍 Wait until #pa-upsell appears, then attach its observer
+          if (!upsellReady && $('#pa-upsell').length) {
+            upsellReady = true
+            observeUpsell()
+          }
         })
 
         bodyObserver.observe(document.body, { childList: true, subtree: true })
@@ -455,19 +465,23 @@ $(window).on('scroll resize', () => {
           attachObserver($(this))
         })
 
-        // ✅ Watch #pa-upsell for class changes and open minicart when it closes
-        if (window.MutationObserver) {
-          const upsellObserverTarget = document.getElementById('pa-upsell')
-          if (upsellObserverTarget) {
-            const upsellObserver = new MutationObserver(() => {
-              const isActive = $('#pa-upsell').hasClass('active')
-              if (!isActive) {
-                console.log('🟢 Upsell closed — opening minicart.')
-                openMinicart()
-              }
-            })
-            upsellObserver.observe(upsellObserverTarget, { attributes: true, attributeFilter: ['class'] })
-          }
+        // 🧩 Separate function to watch upsell activation
+        function observeUpsell() {
+          const upsellEl = document.getElementById('pa-upsell')
+          if (!upsellEl) return
+
+          console.log('👀 Watching #pa-upsell...')
+          const upsellObserver = new MutationObserver(() => {
+            const isActive = $('#pa-upsell').hasClass('active')
+
+            if (!isActive && minicartQueued) {
+              console.log('🟢 Upsell closed — opening minicart now.')
+              minicartQueued = false
+              openMinicart()
+            }
+          })
+
+          upsellObserver.observe(upsellEl, { attributes: true, attributeFilter: ['class'] })
         }
       }
 
