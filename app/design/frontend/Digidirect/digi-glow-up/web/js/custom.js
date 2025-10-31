@@ -1614,7 +1614,7 @@ if (document.querySelector('#pa-upsell')) {
     // 🧩 Handle case where no products are selected
     if ($checked.length === 0) {
       // Keep upsell open explicitly (prevents it from closing on first click)
-      $('#pa-upsell').addClass('active').show();
+      //$('#pa-upsell').addClass('active').show();
 
       // Show message box inside upsell
       showCustomMessage('Please select at least one product.');
