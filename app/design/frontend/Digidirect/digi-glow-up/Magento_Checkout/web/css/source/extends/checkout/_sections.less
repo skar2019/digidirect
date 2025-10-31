@@ -387,7 +387,9 @@
         justify-content: right;
     }
     .action-extension-toolbar button,
-    .actions-toolbar .primary button
+    .actions-toolbar .primary button,
+    .actions-toolbar .action.primary.remove-all-gift-card,
+    .actions-toolbar .action.primary.remove
     {
         background-color: @color-orange;
         color: @color-white;
@@ -397,8 +399,11 @@
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.5px;
-
         padding: 11px 30px;
+    }
+
+    .actions-toolbar .action.primary.remove {
+        padding: 11px 20px !important;
     }
 
        // .actions-toolbar .primary button
