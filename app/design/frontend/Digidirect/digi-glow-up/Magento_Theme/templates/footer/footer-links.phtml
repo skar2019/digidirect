@@ -128,7 +128,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
         <span class="nav-label">Services</span>
     </button>
 
-    <button data-bind="scope: 'minicart_content'" class="footer-nav-item showcart">
+    <button  class="footer-nav-item showcart-footer">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.64844 1.64844H3.08249C3.97259 1.64844 4.67313 2.41491 4.59896 3.29677L3.9149 11.5055C3.79951 12.8489 4.86268 14.0027 6.21432 14.0027H14.9917C16.1785 14.0027 17.2169 13.0302 17.3076 11.8516L17.7526 5.67038C17.8515 4.30226 16.8131 3.18963 15.4367 3.18963H4.79676" stroke="#545456" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M13.3896 18.1307C13.9586 18.1307 14.4198 17.6695 14.4198 17.1005C14.4198 16.5316 13.9586 16.0703 13.3896 16.0703C12.8206 16.0703 12.3594 16.5316 12.3594 17.1005C12.3594 17.6695 12.8206 18.1307 13.3896 18.1307Z" stroke="#545456" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -346,47 +346,3 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
         </div>
     </div>
 </div>
-
-<script>
-    require(['jquery'], function($) {
-        $(document).ready(function() {
-            // Specific handling for menu button
-            $('.footer-mobile-menu-icon').on('click', function(e) {
-                // Check if menu is already open, if so close it
-                if ($('.mobile-menu').hasClass('active') || $('.mobile-menu').is(':visible')) {
-                    $('.mobile-menu-close').trigger('click');
-                } else {
-                    // Close other modals before opening menu
-                    $('.mobile-service-close, .minicart-close').trigger('click');
-                }
-            });
-
-            // Specific handling for cart button
-            $('.showcart').on('click', function(e) {
-                // Check if cart is already open, if so close it
-                if ($('.minicart').hasClass('active') || $('.minicart').is(':visible')) {
-                    $('.minicart-close').trigger('click');
-                } else {
-                    // Close other modals before opening cart
-                    $('.mobile-menu-close, .mobile-service-close').trigger('click');
-                }
-            });
-
-            // Specific handling for services button
-            $('[data-modal-trigger="digiSevicesModal"]').on('click', function(e) {
-                // Check if service modal is already open, if so close it
-                if ($('#digiSevicesModal').hasClass('active') || $('#digiSevicesModal').is(':visible')) {
-                    $('.mobile-service-close').trigger('click');
-                } else {
-                    // Close other modals before opening service
-                    $('.mobile-menu-close, .minicart-close').trigger('click');
-                }
-            });
-
-            // For all other buttons, close all modals
-            $('.mobile-footer-nav .footer-nav-item:not(.footer-mobile-menu-icon):not(.showcart):not([data-modal-trigger])').on('click', function() {
-                $('.mobile-menu-close, .mobile-service-close, .minicart-close').trigger('click');
-            });
-        });
-    });
-</script>

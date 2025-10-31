@@ -70,4 +70,17 @@ class Quote extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->customerSession->isLoggedIn();
     }
+
+    /**
+     * Get customer group ID
+     *
+     * @return int
+     */
+    public function getCustomerGroupId()
+    {
+        if ($this->customerSession->isLoggedIn()) {
+            return $this->customerSession->getCustomer()->getGroupId();
+        }
+        return 0;
+    }
 }

@@ -35,7 +35,7 @@
     .actions {
         display: flex;
         margin: 5px;
-        flex-direction: row-reverse;
+        flex-direction: row;
 
         .action.allow.primary {
             background: #fe4c25;
@@ -48,7 +48,6 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             font-weight: normal;
-            margin: 1px 1px 1px 10px;
         }
 
         .action.reject.secondary {
@@ -62,6 +61,7 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             font-weight: normal;
+            margin: 1px 1px 1px 10px;
         }
 
         .action.allow.primary:hover {
@@ -96,15 +96,15 @@
         }
 
         .actions {
-            display: block !important;
             margin: 5px;
 
             .allow.primary {
-                width: 100%;
-                margin: 1px 1px 5px 0px !important;
+                width: 45%;
+
             }
             .reject.secondary {
-                width: 100%;
+                width: 45%;
+                margin: 1px 10px 0 0 !important;
             }
 
         }

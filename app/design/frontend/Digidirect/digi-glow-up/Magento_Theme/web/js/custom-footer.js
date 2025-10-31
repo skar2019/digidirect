@@ -32,21 +32,49 @@ require(['jquery'], function($) {
 
 
         $('.footer-mobile-menu-icon').on('click', function(){
-            $('.mobile-menu').addClass('active');
+
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+
+            if ($('.mobile-menu').hasClass('active')) {
+
+                $('.mobile-menu-close').trigger('click');
+
+            } else {
+
+                $('.mobile-menu').addClass('active');
+            }
+
+
         });
 
         $('.footer-search').on('click', function(){
 
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+
             document.querySelector('.aa-Input').focus();
         });
 
+        $('.showcart-footer').on('click', function(){
+
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+
+            $('.showcart').trigger('click');
+        });
+
+
 
         $('#open-account-popup').on('click', function(){
+
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
 
         $('.account-popup-header .close-popup').on('click', function(){
+
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -63,8 +91,12 @@ require(['jquery'], function($) {
             var modalId = $(this).attr('data-modal-trigger');
             var $modal = $('[data-modal="' + modalId + '"]');
 
-            $modal.addClass('active');
-            $('body').addClass('modal-open');
+            if ($modal.hasClass('active')) {
+                closeModal(modalId);
+            } else {
+                $modal.addClass('active');
+                $('body').addClass('modal-open');
+            }
 
             // Trigger animation
             setTimeout(function() {
