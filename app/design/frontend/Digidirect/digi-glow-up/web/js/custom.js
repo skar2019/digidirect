@@ -307,181 +307,159 @@ $(window).on('scroll resize', () => {
      
     /* ========================
    🛒 AJAX Minicart - CLEAN (counter-based)
-======================== */
+        ✅ Excludes account pages
+     ======================== */
 
-const $minicart = $('[data-block="minicart"]')
-let scrollY = 0
-let isLocked = false
+     const $minicart = $('[data-block="minicart"]')
+     let scrollY = 0
+     let isLocked = false
 
-function isMobile() {
-  return window.innerWidth <= 768
-}
+     function isMobile() {
+       return window.innerWidth <= 768
+     }
 
-function lockScroll() {
-  if (!isMobile() || isLocked) return
-  scrollY = window.scrollY
-  document.body.dataset.scrollY = scrollY
-  isLocked = true
+     function isAccountPage() {
+       const path = window.location.pathname
+       return /\/customer|\/account|\/login|\/register|\/forgotpassword/i.test(path)
+     }
 
-  setTimeout(() => {
-    ;[document.documentElement, document.body].forEach((el) => {
-      el.style.position = 'fixed'
-      el.style.top = `-${scrollY}px`
-      el.style.left = '0'
-      el.style.right = '0'
-      el.style.width = '100%'
-      el.style.overflow = 'hidden'
-    })
-  }, 150)
-}
+     function lockScroll() {
+       if (!isMobile() || isLocked) return
+       scrollY = window.scrollY
+       document.body.dataset.scrollY = scrollY
+       isLocked = true
 
-function unlockScroll() {
-  if (!isLocked) return
-  const savedScrollY = parseInt(document.body.dataset.scrollY || '0', 10)
-  isLocked = false
+       setTimeout(() => {
+         ;[document.documentElement, document.body].forEach((el) => {
+           el.style.position = 'fixed'
+           el.style.top = `-${scrollY}px`
+           el.style.left = '0'
+           el.style.right = '0'
+           el.style.width = '100%'
+           el.style.overflow = 'hidden'
+         })
+       }, 150)
+     }
 
-  ;[document.documentElement, document.body].forEach((el) => {
-    el.style.position = ''
-    el.style.top = ''
-    el.style.left = ''
-    el.style.right = ''
-    el.style.width = ''
-    el.style.overflow = ''
-  })
+     function unlockScroll() {
+       if (!isLocked) return
+       const savedScrollY = parseInt(document.body.dataset.scrollY || '0', 10)
+       isLocked = false
 
-  delete document.body.dataset.scrollY
-  setTimeout(() => window.scrollTo(0, savedScrollY), 100)
-}
+       ;[document.documentElement, document.body].forEach((el) => {
+         el.style.position = ''
+         el.style.top = ''
+         el.style.left = ''
+         el.style.right = ''
+         el.style.width = ''
+         el.style.overflow = ''
+       })
 
-function updateMinicartOverlay() {
-  const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
-  const $headerMenu = $('.ruby-menu-demo-header')
-  const $miniOverlay = $('.minicart-overlay')
+       delete document.body.dataset.scrollY
+       setTimeout(() => window.scrollTo(0, savedScrollY), 100)
+     }
 
-  const isVisible =
-    $minicartDropdown.length &&
-    $minicartDropdown.is(':visible') &&
-    $minicartDropdown.css('display') !== 'none'
+     function updateMinicartOverlay() {
+       const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+       const $headerMenu = $('.ruby-menu-demo-header')
+       const $miniOverlay = $('.minicart-overlay')
 
-  if (isVisible) {
-    if ($headerMenu.length) $headerMenu.css('z-index', 0)
-    if ($miniOverlay.length) $miniOverlay.css('display', 'block')
-    lockScroll()
-  } else {
-    if ($headerMenu.length) $headerMenu.css('z-index', '')
-    if ($miniOverlay.length) $miniOverlay.css('display', 'none')
-    setTimeout(unlockScroll, 300)
-  }
-}
+       const isVisible =
+         $minicartDropdown.length &&
+         $minicartDropdown.is(':visible') &&
+         $minicartDropdown.css('display') !== 'none'
 
-function openMinicart() {
-  const $showCart = $minicart.find('.action.showcart')
-  if ($showCart.length) $showCart.trigger('click')
-  else $minicart.trigger('click')
+       if (isVisible) {
+         if ($headerMenu.length) $headerMenu.css('z-index', 0)
+         if ($miniOverlay.length) $miniOverlay.css('display', 'block')
+         lockScroll()
+       } else {
+         if ($headerMenu.length) $headerMenu.css('z-index', '')
+         if ($miniOverlay.length) $miniOverlay.css('display', 'none')
+         setTimeout(unlockScroll, 300)
+       }
+     }
 
-  if (isMobile()) {
-    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
-  }
+     function openMinicart() {
+       const $showCart = $minicart.find('.action.showcart')
+       if ($showCart.length) $showCart.trigger('click')
+       else $minicart.trigger('click')
 
-  setTimeout(updateMinicartOverlay, 300)
-}
+       if (isMobile()) {
+         setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 200)
+       }
 
-// Keep overlay sync
-if (window.MutationObserver) {
-  const miniObserver = new MutationObserver(() => updateMinicartOverlay())
-  miniObserver.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['style', 'class'],
-  })
-}
-const miniInterval = setInterval(updateMinicartOverlay, 400)
-$(window).on('unload beforeunload', () => clearInterval(miniInterval))
-$(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
+       setTimeout(updateMinicartOverlay, 300)
+     }
 
-function setupPersistentAutoMinicart() {
-  let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
-  let firstLoad = true
+     // Keep overlay sync
+     if (window.MutationObserver) {
+       const miniObserver = new MutationObserver(() => updateMinicartOverlay())
+       miniObserver.observe(document.body, {
+         childList: true,
+         subtree: true,
+         attributes: true,
+         attributeFilter: ['style', 'class'],
+       })
+     }
 
-  const attachObserver = ($counter) => {
-    if ($counter.data('observer-attached')) return
-    $counter.data('observer-attached', true)
+     const miniInterval = setInterval(updateMinicartOverlay, 400)
+     $(window).on('unload beforeunload', () => clearInterval(miniInterval))
+     $(document).on('click', '.minicart-close', () => setTimeout(unlockScroll, 300))
 
-    const observer = new MutationObserver(() => {
-      const currentCount = parseInt($counter.text() || 0)
+     /* ========================
+        🧩 Persistent Auto Minicart (Counter-based)
+        ✅ Excludes first load & account pages
+     ======================== */
+     function setupPersistentAutoMinicart() {
+       if (isAccountPage()) return // ⛔ Skip on account-related pages
 
-      // Skip auto-open on first load
-      if (firstLoad) {
-        lastCartCount = currentCount
-        firstLoad = false
-        return
-      }
+       let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+       let firstLoad = true
 
-      //if (currentCount > lastCartCount) {
-        const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
-        if (!$minicartDropdown.is(':visible')) openMinicart()
-      //}
+       const attachObserver = ($counter) => {
+         if ($counter.data('observer-attached')) return
+         $counter.data('observer-attached', true)
 
-      lastCartCount = currentCount
-    })
+         const observer = new MutationObserver(() => {
+           const currentCount = parseInt($counter.text() || 0)
 
-    observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
-  }
+           // Skip auto-open on first load
+           if (firstLoad) {
+             lastCartCount = currentCount
+             firstLoad = false
+             return
+           }
 
-  // Observe body for new counter nodes
-  const bodyObserver = new MutationObserver(() => {
-    const $counters = $('.counter-number[data-bind*="summary_count"]')
-    $counters.each(function () {
-      attachObserver($(this))
-    })
-  })
+           // Auto-open minicart if count increases
+           if (currentCount > lastCartCount) {
+             const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+             if (!$minicartDropdown.is(':visible')) openMinicart()
+           }
 
-  bodyObserver.observe(document.body, { childList: true, subtree: true })
+           lastCartCount = currentCount
+         })
 
-  // Attach to any existing counters
-  $('.counter-number[data-bind*="summary_count"]').each(function () {
-    attachObserver($(this))
-  })
-}
+         observer.observe($counter[0], { childList: true, subtree: true, characterData: true })
+       }
 
-$(document).ready(() => setupPersistentAutoMinicart()) //if disabled, minicart auto pop up not working! Double click to appear mincart still happening even disabled.
+       // Observe body for dynamically injected counters
+       const bodyObserver = new MutationObserver(() => {
+         const $counters = $('.counter-number[data-bind*="summary_count"]')
+         $counters.each(function () {
+           attachObserver($(this))
+         })
+       })
 
+       bodyObserver.observe(document.body, { childList: true, subtree: true })
 
-/* ========================
-   🧩 Auto Minicart by Counter (new logic)
-======================== */
-function setupAutoMinicartByCounter() {
-  let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
+       // Attach to existing counters
+       $('.counter-number[data-bind*="summary_count"]').each(function () {
+         attachObserver($(this))
+       })
+     }
 
-  const observeCartCounter = () => {
-    const target = document.querySelector('.counter-number[data-bind*="summary_count"]')
-    if (!target) return
-
-    const observer = new MutationObserver(() => {
-      const $counter = $('.counter-number[data-bind*="summary_count"]')
-      const currentCount = parseInt($counter.text() || 0)
-
-      if (currentCount > lastCartCount) {
-        const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
-        if (!$minicartDropdown.is(':visible')) openMinicart()
-      }
-
-      lastCartCount = currentCount
-    })
-
-    observer.observe(target, { childList: true, subtree: true, characterData: true })
-  }
-
-  const initObserver = setInterval(() => {
-    if (document.querySelector('.counter-number[data-bind*="summary_count"]')) {
-      clearInterval(initObserver)
-      observeCartCounter()
-    }
-  }, 300)
-}
-
-//$(document).ready(() => setupAutoMinicartByCounter()) // Double click to appear mincart still happening even disabled
+     $(document).ready(() => setupPersistentAutoMinicart())
 
 
     /* ========================
@@ -1517,11 +1495,42 @@ $(function () {
     )
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
-  $('#product-addtocart-button').on('click', function () {
-    setTimeout(function () {
-      $('#pa-upsell').addClass('active')
-    }, 2000) // 1000ms = 1 second delay
+$('#product-addtocart-button').on('click', function () {
+  setTimeout(function () {
+    $('#pa-upsell').addClass('active')
+    $('.minicart-overlay').css('display', 'block') // 🔹 Sync overlay on show
+  }, 2000) // 2s delay
+})
+
+// 🔄 Keep overlay consistent with pa-upsell active state
+const paUpsellObserver = new MutationObserver(() => {
+  const isActive = $('#pa-upsell').hasClass('active')
+  const $miniOverlay = $('.minicart-overlay')
+
+  if (isActive) {
+    $miniOverlay.css('display', 'block')
+  } else {
+    // Only hide overlay if minicart is not visible
+    const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]')
+    const minicartVisible =
+      $minicartDropdown.length &&
+      $minicartDropdown.is(':visible') &&
+      $minicartDropdown.css('display') !== 'none'
+
+    if (!minicartVisible) {
+      $miniOverlay.css('display', 'none')
+    }
+  }
+})
+
+// Observe pa-upsell for active class changes
+if (document.querySelector('#pa-upsell')) {
+  paUpsellObserver.observe(document.querySelector('#pa-upsell'), {
+    attributes: true,
+    attributeFilter: ['class'],
   })
+}
+
   
   //PA Upsell Widget Checked Default
   $(window).on('load', function () {
