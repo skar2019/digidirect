@@ -1603,24 +1603,19 @@ if (document.querySelector('#pa-upsell')) {
       $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
   })
   
-  //Upsell add to cart all checked
-  $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-    e.preventDefault();
-
-    const $checked = $('.pa-bundle-product:checked');
-
-    // 🧩If no products are selected
-    if ($checked.length === 0) {
-      // Simply show message box
-      $('#custom-alert').css('display', 'block');
-      return false;
-    }
-
-    // 🧩If products are selected, proceed with adding
-    addNext(0);
-  });
+  // 🧩 Upsell Add All Checked
+$(document).on('click', '#upsell-add-to-cart-all', function (e) {
+  e.preventDefault();
 
   const $checked = $('.pa-bundle-product:checked');
+
+  // 🧩 If no products are selected
+  if ($checked.length === 0) {
+    $('#custom-alert').css('display', 'block');
+    return false;
+  }
+
+  // 🧩 If products are selected, proceed with adding
   const items = $checked.toArray();
   const startCount = customerData.get('cart')()?.summary_count || 0;
   let addingMultiple = true;
@@ -1681,6 +1676,16 @@ if (document.querySelector('#pa-upsell')) {
 
     setTimeout(() => clearInterval(interval), 10000);
   }
+
+  // Start adding items sequentially
+  addNext(0);
+});
+
+// 🧩 Close custom alert
+$(document).on('click', '#custom-alert-close', function () {
+  $('#custom-alert').css('display', 'none');
+});
+
 
   /* 🧩 Simple custom message behavior */
   $(document).on('click', '#custom-alert-close', function () {
