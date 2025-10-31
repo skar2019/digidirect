@@ -1612,7 +1612,7 @@ if (document.querySelector('#pa-upsell')) {
     const $checked = $('.pa-bundle-product:checked');
 
     if ($checked.length === 0) {
-      $('#pa-upsell').addClass('active'); // keep upsell open
+      //$('#pa-upsell').addClass('active'); // keep upsell open
       showCustomMessage('Please select at least one product.');
       return;
     }
