@@ -66,11 +66,12 @@
             $(function () {
               const $overlay = $('.minicart-overlay')
 
-              function disablePageInteraction() {
+              function disablePageInteraction($minicartWrapper) {
                 $('body').addClass('overlay-active').css({
                   overflow: 'hidden',
                   'pointer-events': 'none',
                 })
+                $minicartWrapper.css('pointer-events', 'auto') // Allow clicks only inside minicart
               }
 
               function enablePageInteraction() {
@@ -80,33 +81,8 @@
                 })
               }
 
-              function updateOverlayState() {
-                const isUpsellActive = $('#pa-upsell').hasClass('active')
-                const isMinicartVisible = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart').length > 0
-
-                if (isUpsellActive || isMinicartVisible) {
-                  // Show overlay (only once)
-                  $overlay.stop(true, true).show().addClass('active')
-                  disablePageInteraction()
-                } else {
-                  // Hide overlay only when both are inactive
-                  $overlay.stop(true, true).hide().removeClass('active')
-                  enablePageInteraction()
-                }
-              }
-
-              // 🧩 Observe #pa-upsell class changes
-              const paUpsell = document.getElementById('pa-upsell')
-              if (paUpsell) {
-                const upsellObserver = new MutationObserver(updateOverlayState)
-                upsellObserver.observe(paUpsell, {
-                  attributes: true,
-                  attributeFilter: ['class'],
-                })
-              }
-
-              // 🛒 Observe minicart visibility changes
-              const minicartObserver = new MutationObserver(() => {
+              // Detect dynamically added minicart wrapper (.ui-dialog containing .block-minicart)
+              const observer = new MutationObserver(() => {
                 const $dialog = $('.ui-dialog.mage-dropdown-dialog').has('.block-minicart')
                 if (!$dialog.length) return
 
@@ -114,28 +90,44 @@
                 if ($dialog.data('watching')) return
                 $dialog.data('watching', true)
 
-                const dialogObserver = new MutationObserver(updateOverlayState)
+                // Observe visibility changes (display:none <-> display:block)
+                const dialogObserver = new MutationObserver(() => {
+                  const isVisible = $dialog.is(':visible')
+
+                  if (isVisible) {
+                    $overlay.stop(true, true).fadeIn(200)
+                    disablePageInteraction($dialog)
+                  } else {
+                    $overlay.stop(true, true).fadeOut(200)
+                    enablePageInteraction()
+                  }
+                })
+
                 dialogObserver.observe($dialog[0], {
                   attributes: true,
                   attributeFilter: ['style'],
                 })
               })
 
-              minicartObserver.observe(document.body, { childList: true, subtree: true })
+              // Watch for new dropdowns being added
+              observer.observe(document.body, { childList: true, subtree: true })
 
-              // 🧹 Close minicart manually
+              // Close only via the close button
               $(document).on('click', '.minicart-close', function (e) {
                 e.stopPropagation()
                 const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
-                if ($dialog.length) $dialog.hide()
-                updateOverlayState()
+                if ($dialog.length) {
+                  $dialog.hide()
+                  $overlay.fadeOut(200)
+                  enablePageInteraction()
+                }
               })
 
-              // Prevent clicks on overlay from closing minicart or upsell
+              // Prevent overlay click from closing minicart
               $overlay.on('click', function (e) {
                 e.stopPropagation()
               })
             })
-        })
+    })
 </script>
 </div>
