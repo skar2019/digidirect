@@ -1147,7 +1147,7 @@ body.blur-active .global-blur-overlay {
     }
 
     .pa-upsell .product-widget-header .continue-shopping {
-        font-size: 40px !important;
+        font-size: 35px !important;
     }
 
     .pa-upsell .pa-digidirect-product-widget .product-image-container {
@@ -1545,10 +1545,14 @@ body.blur-active .global-blur-overlay {
     }
 
     //Mini Cart
+    
+    .block-content:has(.empty-cart) {
+        margin-top: 50%;
+    }
 
     .block-minicart .block-content > div {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column-reverse !important;
         justify-content: center;
         text-align: center;
     }
