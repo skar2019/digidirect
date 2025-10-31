@@ -1103,6 +1103,24 @@ body.blur-active .global-blur-overlay {
     margin: 0 auto;
 }
 
+.custom-alert-overlay {
+    position: absolute;
+    max-height: 200px !important;
+    width: 100% !important;
+    left: 50% !important;
+    top: 50% !important;
+    max-width: 450px !important;
+    margin: 0 !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 2;
+    box-shadow: 0 0 12px 2px rgba(0, 0, 0, .35);
+    border-radius: 32px;
+    background: #f5f5f7;
+    border: 1px #d9d9d9 solid;
+    padding: 30px 15px;
+    pointer-events: all;
+}
+
 @media screen and (max-width: 1512px) {
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 20px;
