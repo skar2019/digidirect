@@ -1557,10 +1557,10 @@ $(function () {
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
 $('#product-addtocart-button').on('click', function () {
-  setTimeout(function () {
+  //setTimeout(function () {
     $('#pa-upsell').addClass('active')
     $('.minicart-overlay').css('display', 'block') // 🔹 Sync overlay on show
-  }, 2000) // 2s delay
+  //}, 2000) // 2s delay
 })
 
 // 🔄 Keep overlay consistent with pa-upsell active state
@@ -1611,7 +1611,8 @@ if (document.querySelector('#pa-upsell')) {
 
     if ($checked.length === 0) {
       showCustomMessage('Please select at least one product.');
-      return;
+      e.stopPropagation();
+      return false;
     }
 
     const items = $checked.toArray();
