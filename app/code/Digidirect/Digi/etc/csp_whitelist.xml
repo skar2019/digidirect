@@ -53,7 +53,6 @@
                 <value id="paypalscript" type="host">*.paypal.com</value>
                 <value id="visitorsscript" type="host">*.visitors.live</value>
                 <value id="evenbritescript" type="host">*.eventbrite.com</value>
-                <value id="evenbriteapi" type="host">*.eventbriteapi.com</value>
                 <value id="wibmoscript" type="host">*.wibmo.com</value>
                 <value id="paypalcnscript" type="host">*.paypal.cn</value>
                 <value id="paypalobjscript" type="host">*.paypalobjects.com</value>
