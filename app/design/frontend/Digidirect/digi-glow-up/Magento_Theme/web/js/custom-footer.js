@@ -57,7 +57,19 @@ require(['jquery'], function($) {
         $('.showcart-footer').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
-            document.querySelector('.aa-Input')?.blur();
+
+            const input = document.querySelector('.aa-Input');
+            if (input) {
+                // Temporarily make readonly to prevent refocus
+                input.setAttribute('readonly', 'readonly');
+                input.blur();
+
+                // Remove readonly after keyboard dismisses
+                setTimeout(() => {
+                    input.removeAttribute('readonly');
+                }, 500); // Longer delay for iOS
+            }
+
 
             $('.showcart').trigger('click');
         });
