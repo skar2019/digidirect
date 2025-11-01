@@ -60,14 +60,18 @@ require(['jquery'], function($) {
 
             const input = document.querySelector('.aa-Input');
             if (input) {
-                // Temporarily make readonly to prevent refocus
-                input.setAttribute('readonly', 'readonly');
-                input.blur();
+                console.log("input");
+                // Create and dispatch Enter key event
+                const enterEvent = new KeyboardEvent('keydown', {
+                    key: 'Enter',
+                    code: 'Enter',
+                    keyCode: 13,
+                    which: 13,
+                    bubbles: true,
+                    cancelable: true
+                });
 
-                // Remove readonly after keyboard dismisses
-                setTimeout(() => {
-                    input.removeAttribute('readonly');
-                }, 500); // Longer delay for iOS
+                input.dispatchEvent(enterEvent);
             }
 
 
