@@ -1605,39 +1605,42 @@ if (document.querySelector('#pa-upsell')) {
   
   // 🧩 Upsell Add All Checked
 $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-  e.preventDefault(); // ✅ stops form submission / link navigation
-  e.stopPropagation(); // ✅ prevents parent handlers from closing upsell
+  e.preventDefault() // ✅ stops form submission / link navigation
+  e.stopPropagation() // ✅ prevents parent handlers from closing upsell
 
-  const $checked = $('.pa-bundle-product:checked');
+  const $checked = $('.pa-bundle-product:checked')
 
   // 🧩 If no products are selected
   if ($checked.length === 0) {
-    $('#custom-alert').css('display', 'block');
-    // Optional: keep upsell open visually
-    $('#pa-upsell').addClass('active');
-    return;
+    $('#custom-alert').css('display', 'block')
+    // Keep upsell open visually
+    $('#pa-upsell').addClass('active')
+    return
   }
 
   // 🧩 If products are selected, proceed with adding
-  const items = $checked.toArray();
-  const startCount = customerData.get('cart')()?.summary_count || 0;
-  let addingMultiple = true;
+  // Remove upsell popup when user confirms adding products
+  $('#pa-upsell').removeClass('active')
+
+  const items = $checked.toArray()
+  const startCount = customerData.get('cart')()?.summary_count || 0
+  let addingMultiple = true
 
   function addNext(index) {
     if (index >= items.length) {
-      console.log('🛒 All products processed. Finalizing cart...');
-      finalizeCartUpdate();
-      return;
+      console.log('🛒 All products processed. Finalizing cart...')
+      finalizeCartUpdate()
+      return
     }
 
-    const $checkbox = $(items[index]);
-    const sku = $checkbox.data('product-sku');
-    const $form = $(`form[data-product-sku="${sku}"]`);
+    const $checkbox = $(items[index])
+    const sku = $checkbox.data('product-sku')
+    const $form = $(`form[data-product-sku="${sku}"]`)
 
     if (!$form.length) {
-      console.warn(`⚠️ No form found for SKU ${sku}`);
-      addNext(index + 1);
-      return;
+      console.warn(`⚠️ No form found for SKU ${sku}`)
+      addNext(index + 1)
+      return
     }
 
     $.ajax({
@@ -1647,42 +1650,42 @@ $(document).on('click', '#upsell-add-to-cart-all', function (e) {
       showLoader: index === 0,
     })
       .done(() => {
-        console.log(`✅ Added SKU ${sku} to cart`);
-        addNext(index + 1);
+        console.log(`✅ Added SKU ${sku} to cart`)
+        addNext(index + 1)
       })
       .fail((xhr) => {
-        console.error(`❌ Failed to add SKU ${sku}:`, xhr);
-        addNext(index + 1);
-      });
+        console.error(`❌ Failed to add SKU ${sku}:`, xhr)
+        addNext(index + 1)
+      })
   }
 
   function finalizeCartUpdate() {
-    customerData.invalidate(['cart']);
-    customerData.reload(['cart'], true);
+    customerData.invalidate(['cart'])
+    customerData.reload(['cart'], true)
 
     const interval = setInterval(() => {
-      const updatedCount = customerData.get('cart')()?.summary_count || 0;
+      const updatedCount = customerData.get('cart')()?.summary_count || 0
       if (updatedCount > startCount) {
-        clearInterval(interval);
-        console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
-        addingMultiple = false;
+        clearInterval(interval)
+        console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`)
+        addingMultiple = false
 
         if (!$('#pa-upsell').hasClass('active')) {
-          const $minicart = $('.action.showcart');
+          const $minicart = $('.action.showcart')
           if (!$minicart.hasClass('active')) {
-            $minicart.trigger('click');
-            console.log('🛒 Minicart opened (upsell inactive)');
+            $minicart.trigger('click')
+            console.log('🛒 Minicart opened (upsell inactive)')
           }
         }
       }
-    }, 400);
+    }, 400)
 
-    setTimeout(() => clearInterval(interval), 10000);
+    setTimeout(() => clearInterval(interval), 10000)
   }
 
   // Start adding items sequentially
-  addNext(0);
-});
+  addNext(0)
+})
 
 // 🧩 Close custom alert
 $(document).on('click', '#custom-alert-close', function () {
