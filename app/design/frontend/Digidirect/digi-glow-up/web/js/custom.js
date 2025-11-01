@@ -1612,7 +1612,7 @@ $(document).on('click', '#upsell-add-to-cart-all', function (e) {
   // 🧩 If no products are selected
   if ($checked.length === 0) {
     $('#custom-alert').css('display', 'block');
-    return false;
+    //return false;
   }
 
   // 🧩 If products are selected, proceed with adding
