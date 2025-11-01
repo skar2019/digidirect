@@ -1103,7 +1103,7 @@ body.blur-active .global-blur-overlay {
     margin: 0 auto;
 }
 
-.custom-alert {
+#custom-alert {
     position: absolute;
     max-height: 200px !important;
     width: 100% !important;
@@ -1135,6 +1135,7 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 1512px) {
+    
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 20px;
     }
@@ -1572,7 +1573,9 @@ body.blur-active .global-blur-overlay {
     }
 
     .pa-digidirect-product-widget .discount-price-wrapper {
-        width: 95px;
+        font-size: 10px;
+        font-weight: 500;
+        width: 80px;
     }
 
     //Mini Cart
@@ -1679,6 +1682,17 @@ body.blur-active .global-blur-overlay {
         font-size: 16px !important;
         transform-origin: left center;
     }
+    
+    //PDP PA Widget
+
+    .pa-digidirect-product-widget .action.tocart.primary img {
+        display: none;
+    }
+    
+    .pa-digidirect-product-widget .action.tocart.primary {
+        padding: 3px 8px;
+    }
+
 }
 
 @media screen and (min-width: 768px) {
