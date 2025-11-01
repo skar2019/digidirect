@@ -2,6 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Digidirect_Digi" setup_version="1.0.28">
         <sequence>
+            <module name="Magento_Csp"/>
             <module name="Digidirect_Utilities"/>
             <module name="Digidirect_Store"/>
             <module name="Digidirect_MSI"/>
