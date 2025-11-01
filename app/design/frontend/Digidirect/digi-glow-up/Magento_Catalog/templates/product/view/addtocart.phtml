@@ -128,10 +128,8 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
 </script>
 <script type="text/x-magento-init">
     {
-        "#product_addtocart_form": {
-            "Magento_Catalog/js/catalog-add-to-cart": {
-                "addToCartButtonSelector": ".tocart-pdp-btn"
-            }
+        "*": {
+            "Magento_Catalog/js/catalog-add-to-cart": {}
         }
     }
 </script>
@@ -143,7 +141,7 @@ $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')-
                 "components": {
                     "qty-change": {
                         "component": "Magento_Catalog/js/qty-change",
-                        "defaultQty": <?php echo $block->getProductDefaultQty() * 1 ?>
+                        "defaultQty": <?php echo (int)$block->getProductDefaultQty() ?: 1 ?>
                     }
                  }
             }
