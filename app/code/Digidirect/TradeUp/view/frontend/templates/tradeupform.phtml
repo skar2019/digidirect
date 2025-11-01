@@ -1,0 +1,452 @@
+
+<?php
+
+if(isset($_POST['button']) && isset($_FILES['attachment']))
+{
+
+	// $recipient_email = 'newseller@digidirect.com.au'; //recipient email address
+	$recipient_email = 'jireh.c@digidirect.com.au'; //developer email
+	$firstname = $_POST["firstname"];
+	$lastname = $_POST["lastname"];
+	$email = $_POST["email"];
+	$phonenumber = $_POST["phonenumber"];
+	$descriptiongoods = $_POST["descriptiongoods"];
+	$rate = $_POST['rate'];
+	// $rate = $_POST['rate'] ?? '';
+	$accessories = implode(", ", $_POST['accessories']);
+	$miscellaneousaccessories = $_POST["miscellaneousaccessories"];
+
+	// echo $rate;
+
+	// $note = $_POST["message"]; //body of the email
+	
+
+	//Get uploaded file data using $_FILES array
+	$tmp_name = $_FILES['attachment']['tmp_name']; // get the temporary file name of the file on the server
+	$name	 = $_FILES['attachment']['name']; // get the name of the file
+	$size	 = $_FILES['attachment']['size']; // get size of the file for size validation
+	$type	 = $_FILES['attachment']['type']; // get type of the file
+	// $error	 = $_FILES['attachment']['error']; // get the error (if any)
+
+	//Load POST data from HTML form
+	$Fullname = $firstname." ".$lastname; //sender name
+	$subject = "Trade Up Form"; //subject for the email
+	$message = "\n"."\n"
+	."Fullname :"."\t".$Fullname."\n"
+	."Email :"."\t".$email."\n"
+	."Contact Number :"."\t".$phonenumber."\n"
+	."Description Of Goods  :"."\t".$descriptiongoods."\n"
+	."Rate :"."\t".$rate."\n"
+	."Included Accessories :"."\t".$accessories."\n"
+	."Miscellaneous Accessories :"."\t".$miscellaneousaccessories."\n"."\n";
+
+
+	if (empty($tmp_name)) {
+
+		$boundary = md5("random"); // define boundary with a md5 hashed value
+		
+		//header
+		$headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
+		$headers .= "From:".$email."\r\n"; // Sender Email
+		// $headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
+
+		$headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
+		$headers .= "boundary = $boundary\r\n"; //Defining the Boundary
+
+		//plain text
+		$body = "--$boundary\r\n";
+		$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
+		$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+		$body .= chunk_split(base64_encode($message));
+	
+	}else {
+
+		//read from the uploaded file & base64_encode content
+		$handle = fopen($tmp_name, "r"); // set the file handle only for reading the file
+		$content = fread($handle, $size); // reading the file
+		fclose($handle);				 // close upon completion
+
+		$encoded_content = chunk_split(base64_encode($content));
+		$boundary = md5("random"); // define boundary with a md5 hashed value
+
+		//header
+		$headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
+		$headers .= "From:".$from_email."\r\n"; // Sender Email
+		// $headers.='Bcc: Jai <jireh.c@digidirect.com.au>';
+
+		$headers .= "Content-Type: multipart/mixed;"; // Defining Content-Type
+		$headers .= "boundary = $boundary\r\n"; //Defining the Boundary
+			
+		//plain text
+		$body = "--$boundary\r\n";
+		$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
+		$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+		$body .= chunk_split(base64_encode($message));
+
+		//attachment
+		$body .= "--$boundary\r\n";
+		$body .="Content-Type: $type; name=".$name."\r\n";
+		$body .="Content-Disposition: attachment; filename=".$name."\r\n";
+		$body .="Content-Transfer-Encoding: base64\r\n";
+		$body .="X-Attachment-Id: ".rand(1000, 99999)."\r\n\r\n";
+		$body .= $encoded_content; // Attaching the encoded file with email
+
+
+	}
+
+	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
+ 
+	if($sentMailResult){
+		echo "<p class='successmessage'>Successfully Sent. Thank You"."</p>";
+		// unlink($name); // delete the file after attachment sent.
+	}
+	else{
+		die("Sorry but the email could not be sent.
+					Please go back and try again!");
+	}
+
+}
+?>
+
+
+<div id="digimarketseler_form_application">
+    <div class="container" >
+
+      <header>Trade Up Form</header>
+
+      <form enctype="multipart/form-data" method="POST" action="">
+
+			<div class="inline-row">
+				<div class="row1">
+					<div class="control input-placeholder">
+						<input type="text" id="firstname" name="firstname" required />
+						<div class="placeholder">First Name<span>*</span></div>
+					</div>
+				</div>
+		
+				<div class="row1 input-placeholder">
+					<div class="control">
+						<input type="text" id="lastname" name="lastname" required/>
+						<div class="placeholder">Last Name<span>*</span></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="inline-row">
+				<div class="row1">
+					<div class="control input-placeholder">
+						<input type="email" id="email" name="email" required />
+						<div class="placeholder">Email<span>*</span></div>
+					</div>
+				</div>
+				<div class="row1 input-placeholder">
+					<div class="control">
+						<input type="text" id="phonenumber" name="phonenumber" required/>
+						<div class="placeholder">Phone Number<span>*</span></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="descriptiongoods margin-top-extra">
+				<div class="control">
+					<textarea name="descriptiongoods" id="descriptiongoods" cols="10" rows="2" placeholder="Description of goods (Brand, model, colour, serial)"></textarea>
+				</div>
+			</div>
+			<br>
+			
+			<!-- <div style="position:relative; margin:auto; width:100%;"> -->
+				<!-- <span style="position:absolute; color:black; border:1px solid #FCD900; background: #FCD900; min-width:100px; text-align: center;"> -->
+				<!-- <span class="tool-tip">
+					<span id="myValue"></span>
+				</span> -->
+
+				<!-- <input type="range" id="myRange" max="6" min="1" style="width:100%" onchange="showVal(this.value)">  -->
+
+				<!-- <datalist class="tickmarks">
+					<option value="1" label="1."></option>
+					<option value="2" label="2."></option>
+					<option value="3" label="3."></option>
+					<option value="4" label="4."></option>
+					<option value="5" label="5."></option>
+					<option value="6" label="6."></option>
+				</datalist> -->
+
+				<!-- <input type="hidden" id="ratingcopy" name="rate" value="4"> -->
+				<!-- <span id="valBox"></span> -->
+
+				<!-- <datalist class="tickmarks" id="rating">
+					<option value="1" label="Inoperable"></option>
+					<option value="2" label="Fair"></option>
+					<option value="3" label="Good"></option>
+					<option value="4" label="Very Good"></option>
+					<option value="5" label="Excellent"></option>
+					<option value="6" label="Perfect"></option>
+				</datalist>
+			</div> -->
+
+			<!-- range v2 -->
+			<div class="label-title">What condition would you say this item is in?</div>
+			<br><br>
+
+			<div class="range-wrap">
+				<input type="range" class="range" id="myRange" min="1" max="6" onchange="showVal(this.value)">
+				<output class="bubble"></output>
+			</div>
+
+				<datalist class="tickmarks">
+					<option value="1" label="1."></option>
+					<option value="2" label="2."></option>
+					<option value="3" label="3."></option>
+					<option value="4" label="4."></option>
+					<option value="5" label="5."></option>
+					<option value="6" label="6."></option>
+				</datalist>
+
+				<input type="hidden" id="ratingcopy" name="rate" value="4">
+				<!-- <span id="valBox"></span> -->
+
+				<datalist class="tickmarks" id="rating">
+					<option value="1" label="Inoperable"></option>
+					<option value="2" label="Fair"></option>
+					<option value="3" label="Good"></option>
+					<option value="4" label="Very Good"></option>
+					<option value="5" label="Excellent"></option>
+					<option value="6" label="Perfect"></option>
+				</datalist>
+			<!-- end range v2 -->
+
+
+
+			<div class="checklist-row categories margin-top-extra">
+
+				<div class="label-title">Included Accessories<span>*</span></div>
+
+				<ul>
+					<li>
+						<label><input type="checkbox" value="Battery" name="accessories[]" /> Battery</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Original Box" name="accessories[]" /> Original Box</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Instruction Manual" name="accessories[]" /> Instruction Manual</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Body Cap" name="accessories[]" /> Body Cap</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Charger" name="accessories[]" /> Charger</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="USB Cables" name="accessories[]" /> USB Cables</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Filters" name="accessories[]" /> Filters</label>
+					</li>
+					<li>
+						<label><input type="checkbox" value="Lens Cap" name="accessories[]" /> Lens Cap</label>
+					</li>
+				</ul>
+
+			</div>
+
+			<div class="miscellaneousaccessories margin-top-extra">
+				<div class="control">
+					<textarea name="miscellaneousaccessories" id="miscellaneousaccessories" cols="10" rows="2" placeholder="Miscellaneous Accessories (Bags/ Straps/ Tripod Plates/ Additional Batteries etc.)"></textarea>
+				</div>
+			</div>
+			
+
+			<!-- <div class="control margin-top-extra">
+				<label for="message">Attachement (optional)</label>
+				<div class="uploadfile drop-zone">
+					<span class="drop-zone__prompt1">Add file</span>
+					<span class="drop-zone__prompt2">or drop files here</span>
+					<input type="file" name="attachment" class="drop-zone__input">
+				</div>
+			</div>
+
+			<br>
+			<p>Hit submit and a digiDirect Marketplace specialist will contact you shortly.</p> -->
+
+			<br>
+
+			<input class="btn btn-primary" type="submit" name="button" value="Submit" />
+
+			<br><br>
+
+        </form>
+    </div>    
+
+</div>
+
+
+
+<script>
+
+require(['jquery', 'jquery/ui'], function($){
+
+	jQuery(document).ready( function() {
+		$('input').keyup(function () {
+			if ($.trim($(this).val()).length) {
+				$(this).addClass('placeholder-remove');
+				} else {
+				$(this).removeClass('placeholder-remove');
+			}
+		});
+
+		var required = $('input').filter('[required]:visible');
+		// var required = $('input,textarea,select').filter('[required]:visible');
+
+		$("input[type='submit']").click(function(){
+        // ID = $(this).parent().parent().attr('id');
+			// alert("button");
+			var allRequired = true;
+			required.each(function(){
+				if($(this).val() == ''){
+					allRequired = false;
+				}
+			});
+
+			if(!allRequired){
+				//DO SOMETHING HERE... POPUP AN ERROR MESSAGE, ALERT , ETC.
+				alert("Please Fill up the required fields*");
+			}
+
+
+			function ValidateEmail(email) {
+				var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				return expr.test(email);
+			};
+
+			if (!ValidateEmail($("#email").val())) {
+				alert("Please enter your valid email address");
+			} else if (ValidateEmail($("#email").val()))  {
+				console.log("valid Trade up email")
+			}
+			
+		
+			checkedaccessories = $("input[type=checkbox]:checked").length;
+
+			if(!checkedaccessories) {
+				alert("You must check at least one Accessories.");
+				return false;
+			}
+
+		}); 
+		
+	});
+
+
+});
+
+</script>
+
+<script>
+	document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+	const dropZoneElement = inputElement.closest(".drop-zone");
+
+	dropZoneElement.addEventListener("click", (e) => {
+		inputElement.click();
+	});
+
+	inputElement.addEventListener("change", (e) => {
+		if (inputElement.files.length) {
+		updateThumbnail(dropZoneElement, inputElement.files[0]);
+		}
+	});
+
+	dropZoneElement.addEventListener("dragover", (e) => {
+		e.preventDefault();
+		dropZoneElement.classList.add("drop-zone--over");
+	});
+
+	["dragleave", "dragend"].forEach((type) => {
+		dropZoneElement.addEventListener(type, (e) => {
+		dropZoneElement.classList.remove("drop-zone--over");
+		});
+	});
+
+	dropZoneElement.addEventListener("drop", (e) => {
+		e.preventDefault();
+
+		if (e.dataTransfer.files.length) {
+		inputElement.files = e.dataTransfer.files;
+		updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+		}
+
+		dropZoneElement.classList.remove("drop-zone--over");
+	});
+	});
+
+	/**
+	* Updates the thumbnail on a drop zone element.
+	*
+	* @param {HTMLElement} dropZoneElement
+	* @param {File} file
+	*/
+	function updateThumbnail(dropZoneElement, file) {
+	let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+	// First time - remove the prompt
+	if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+		dropZoneElement.querySelector(".drop-zone__prompt").remove();
+	}
+
+	// First time - there is no thumbnail element, so lets create it
+	if (!thumbnailElement) {
+		thumbnailElement = document.createElement("div");
+		thumbnailElement.classList.add("drop-zone__thumb");
+		dropZoneElement.appendChild(thumbnailElement);
+	}
+
+	thumbnailElement.dataset.label = file.name;
+
+	// Show thumbnail for image files
+	if (file.type.startsWith("image/")) {
+		const reader = new FileReader();
+
+		reader.readAsDataURL(file);
+		reader.onload = () => {
+		thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+		};
+	} else {
+		thumbnailElement.style.backgroundImage = null;
+	}
+}
+</script>
+
+<script>
+	// added script
+	const allRanges = document.querySelectorAll(".range-wrap");
+allRanges.forEach(wrap => {
+  const range = wrap.querySelector(".range");
+  const bubble = wrap.querySelector(".bubble");
+
+  range.addEventListener("input", () => {
+    setBubble(range, bubble);
+  });
+  setBubble(range, bubble);
+});
+
+function setBubble(range, bubble) {
+  const val = range.value;
+
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+
+  bubble.innerHTML = val;
+
+  // Sorta magic numbers based on size of the native UI thumb
+  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+
+}
+//copy rating value
+function showVal(newVal){
+	document.getElementById("ratingcopy").value=newVal;
+	// document.getElementById("valBox").innerHTML=newVal;
+}
+
+	// end added script
+</script>
