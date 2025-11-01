@@ -1605,13 +1605,16 @@ if (document.querySelector('#pa-upsell')) {
   
   // 🧩 Upsell Add All Checked
 $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-  e.preventDefault();
+  e.preventDefault(); // ✅ stops form submission / link navigation
+  e.stopPropagation(); // ✅ prevents parent handlers from closing upsell
 
   const $checked = $('.pa-bundle-product:checked');
 
   // 🧩 If no products are selected
   if ($checked.length === 0) {
     $('#custom-alert').css('display', 'block');
+    // Optional: keep upsell open visually
+    $('#pa-upsell').addClass('active');
     return;
   }
 
