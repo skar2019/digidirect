@@ -3,7 +3,7 @@
 
 $product = $block->getProduct();
 $customAttribute = $product->getCustomAttribute('not_eligible_for_discount');
-$eligibleForDiscount = true;//$customAttribute ? $customAttribute->getValue() : null;
+$eligibleForDiscount = $customAttribute ? $customAttribute->getValue() : null;
 ?>
 
 <?php if ($eligibleForDiscount ): ?>

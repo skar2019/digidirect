@@ -139,22 +139,13 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
     </button>
 
     <button class="footer-nav-item" <?php if ($isCustomerLoggedIn) echo 'id="open-account-popup"'; else echo 'onclick="window.location.href=\'' . $block->getUrl('customer/account') . '\'"'; ?>>
-        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-            <g clip-path="url(#clip0_7798_148425)">
-                <mask id="mask0_7798_148425" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                    <path d="M20.5018 0.507812H0.71875V20.2909H20.5018V0.507812Z" fill="white"/>
-                </mask>
-                <g mask="url(#mask0_7798_148425)">
-                    <path d="M10.6225 11.0224C8.00949 11.0224 5.88281 8.89568 5.88281 6.28267C5.88281 3.66965 8.00949 1.54297 10.6225 1.54297C13.2355 1.54297 15.3622 3.66965 15.3622 6.28267C15.3622 8.89568 13.2355 11.0224 10.6225 11.0224ZM10.6225 2.77941C8.69366 2.77941 7.11926 4.35382 7.11926 6.28267C7.11926 8.21152 8.69366 9.78592 10.6225 9.78592C12.5514 9.78592 14.1258 8.21152 14.1258 6.28267C14.1258 4.35382 12.5514 2.77941 10.6225 2.77941Z" fill="#545456"/>
-                    <path d="M17.7093 19.2682C17.3713 19.2682 17.091 18.988 17.091 18.65C17.091 15.8062 14.1896 13.4982 10.6286 13.4982C7.06764 13.4982 4.16613 15.8062 4.16613 18.65C4.16613 18.988 3.88587 19.2682 3.54791 19.2682C3.20995 19.2682 2.92969 18.988 2.92969 18.65C2.92969 15.1303 6.38348 12.2617 10.6286 12.2617C14.8738 12.2617 18.3275 15.1303 18.3275 18.65C18.3275 18.988 18.0472 19.2682 17.7093 19.2682Z" fill="#545456"/>
-                </g>
-            </g>
-            <defs>
-                <clipPath id="clip0_7798_148425">
-                    <rect width="19.7831" height="19.7831" fill="white" transform="translate(0.71875 0.513672)"/>
-                </clipPath>
-            </defs>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.87083 8.99167C7.14671 8.99167 8.99167 7.14671 8.99167 4.87083C8.99167 2.59496 7.14671 0.75 4.87083 0.75C2.59496 0.75 0.75 2.59496 0.75 4.87083C0.75 7.14671 2.59496 8.99167 4.87083 8.99167Z" stroke="#545456" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.9092 6.51917C14.9092 3.32964 11.7361 0.75 7.82959 0.75C3.92304 0.75 0.75 3.32964 0.75 6.51917" stroke="#545456" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
         <span class="nav-label"><?php if ($isCustomerLoggedIn) echo 'Account'; else echo 'Login'; ?></span>
     </button>
 </nav>

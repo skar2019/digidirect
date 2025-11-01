@@ -1557,10 +1557,10 @@ $(function () {
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
 $('#product-addtocart-button').on('click', function () {
-  setTimeout(function () {
+  //setTimeout(function () {
     $('#pa-upsell').addClass('active')
     $('.minicart-overlay').css('display', 'block') // 🔹 Sync overlay on show
-  }, 2000) // 2s delay
+  //}, 2000) // 2s delay
 })
 
 // 🔄 Keep overlay consistent with pa-upsell active state
@@ -1603,105 +1603,104 @@ if (document.querySelector('#pa-upsell')) {
       $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
   })
   
-  //Upsell add to cart all checked
-  $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-    e.preventDefault();
+  // 🧩 Upsell Add All Checked
+$(document).on('click', '#upsell-add-to-cart-all', function (e) {
+  e.preventDefault() // ✅ stops form submission / link navigation
+  e.stopPropagation() // ✅ prevents parent handlers from closing upsell
 
-    const $checked = $('.pa-bundle-product:checked');
-    if ($checked.length === 0) {
-      showCustomMessage('Please select at least one product.');
-      return;
-    }
+  const $checked = $('.pa-bundle-product:checked')
 
-    const items = $checked.toArray();
-    const startCount = customerData.get('cart')()?.summary_count || 0;
-
-    // Disable any auto-close while adding products
-    let addingMultiple = true;
-
-    function addNext(index) {
-      if (index >= items.length) {
-        console.log('🛒 All products processed. Finalizing cart...');
-        finalizeCartUpdate();
-        return;
-      }
-
-      const $checkbox = $(items[index]);
-      const sku = $checkbox.data('product-sku');
-      const $form = $(`form[data-product-sku="${sku}"]`);
-
-      if (!$form.length) {
-        console.warn(`⚠️ No form found for SKU ${sku}`);
-        addNext(index + 1);
-        return;
-      }
-
-      $.ajax({
-        url: $form.attr('action'),
-        type: 'POST',
-        data: $form.serialize(),
-        showLoader: index === 0, // show loader only on first add
-      })
-        .done(() => {
-          console.log(`✅ Added SKU ${sku} to cart`);
-          addNext(index + 1);
-        })
-        .fail((xhr) => {
-          console.error(`❌ Failed to add SKU ${sku}:`, xhr);
-          addNext(index + 1);
-        });
-    }
-
-    function finalizeCartUpdate() {
-      // Revalidate and reload cart
-      customerData.invalidate(['cart']);
-      customerData.reload(['cart'], true);
-
-      // Wait until cart count updates
-      const interval = setInterval(() => {
-        const updatedCount = customerData.get('cart')()?.summary_count || 0;
-        if (updatedCount > startCount) {
-          clearInterval(interval);
-          console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
-          // Now we can allow auto-close again if needed
-          addingMultiple = false;
-        }
-      }, 400);
-
-      setTimeout(() => clearInterval(interval), 10000);
-    }
-
-    // Start adding products sequentially
-    addNext(0);
-  });
-
-  /* 🧩 Custom message box function */
-  function showCustomMessage(message) {
-    // Remove if already exists
-    $('#custom-alert').remove();
-
-    const modalHTML = `
-      <div id="custom-alert" class="custom-alert-overlay">
-        <div class="custom-alert-box">
-          <p>${message}</p>
-          <button id="custom-alert-close">Close</button>
-        </div>
-      </div>
-    `;
-
-    $('body').append(modalHTML);
-
-    // Close handler
-    $('#custom-alert-close').on('click', function () {
-      $('#custom-alert').fadeOut(200, function () {
-        $(this).remove();
-      });
-    });
+  // 🧩 If no products are selected
+  if ($checked.length === 0) {
+    $('#custom-alert').css('display', 'block')
+    // Keep upsell open visually
+    $('#pa-upsell').addClass('active')
+    return
   }
+
+  // 🧩 If products are selected, proceed with adding
+  // Remove upsell popup when user confirms adding products
+  $('#pa-upsell').removeClass('active')
+
+  const items = $checked.toArray()
+  const startCount = customerData.get('cart')()?.summary_count || 0
+  let addingMultiple = true
+
+  function addNext(index) {
+    if (index >= items.length) {
+      console.log('🛒 All products processed. Finalizing cart...')
+      finalizeCartUpdate()
+      return
+    }
+
+    const $checkbox = $(items[index])
+    const sku = $checkbox.data('product-sku')
+    const $form = $(`form[data-product-sku="${sku}"]`)
+
+    if (!$form.length) {
+      console.warn(`⚠️ No form found for SKU ${sku}`)
+      addNext(index + 1)
+      return
+    }
+
+    $.ajax({
+      url: $form.attr('action'),
+      type: 'POST',
+      data: $form.serialize(),
+      showLoader: index === 0,
+    })
+      .done(() => {
+        console.log(`✅ Added SKU ${sku} to cart`)
+        addNext(index + 1)
+      })
+      .fail((xhr) => {
+        console.error(`❌ Failed to add SKU ${sku}:`, xhr)
+        addNext(index + 1)
+      })
+  }
+
+  function finalizeCartUpdate() {
+    customerData.invalidate(['cart'])
+    customerData.reload(['cart'], true)
+
+    const interval = setInterval(() => {
+      const updatedCount = customerData.get('cart')()?.summary_count || 0
+      if (updatedCount > startCount) {
+        clearInterval(interval)
+        console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`)
+        addingMultiple = false
+
+        if (!$('#pa-upsell').hasClass('active')) {
+          const $minicart = $('.action.showcart')
+          if (!$minicart.hasClass('active')) {
+            $minicart.trigger('click')
+            console.log('🛒 Minicart opened (upsell inactive)')
+          }
+        }
+      }
+    }, 400)
+
+    setTimeout(() => clearInterval(interval), 10000)
+  }
+
+  // Start adding items sequentially
+  addNext(0)
+})
+
+// 🧩 Close custom alert
+$(document).on('click', '#custom-alert-close', function () {
+  $('#custom-alert').css('display', 'none');
+});
+
+
+  /* 🧩 Simple custom message behavior */
+  $(document).on('click', '#custom-alert-close', function () {
+    $('#custom-alert').css('display', 'none');
+  });
 
   
     // Close PA Upsell Widget
-    $('#upsell-close, #upsell-add-to-cart-all').on('click', function () {
+    $('#upsell-close').on('click', function () {
       $('#pa-upsell').removeClass('active')
     })
     

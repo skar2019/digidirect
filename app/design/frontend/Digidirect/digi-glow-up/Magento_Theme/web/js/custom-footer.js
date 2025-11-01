@@ -57,6 +57,7 @@ require(['jquery'], function($) {
         $('.showcart-footer').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+            document.querySelector('.aa-Input')?.blur();
 
             $('.showcart').trigger('click');
         });
@@ -66,7 +67,7 @@ require(['jquery'], function($) {
         $('#open-account-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-
+            document.querySelector('.aa-Input')?.blur();
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
@@ -74,7 +75,7 @@ require(['jquery'], function($) {
         $('.account-popup-header .close-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-
+            document.querySelector('.aa-Input')?.blur();
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -91,17 +92,18 @@ require(['jquery'], function($) {
             var modalId = $(this).attr('data-modal-trigger');
             var $modal = $('[data-modal="' + modalId + '"]');
 
-            if ($modal.hasClass('active')) {
-                closeModal(modalId);
-            } else {
-                $modal.addClass('active');
-                $('body').addClass('modal-open');
-            }
+            $('.mobile-menu-close, .minicart-close').trigger('click');
+            document.querySelector('.aa-Input')?.blur();
+
+            $modal.addClass('active');
+            $('body').addClass('modal-open');
 
             // Trigger animation
             setTimeout(function() {
                 $modal.find('.mobile-modal-container').css('transform', 'translateY(0)');
             }, 10);
+
+
         });
 
         // Close modal
@@ -115,16 +117,6 @@ require(['jquery'], function($) {
             var $modal = $(this).closest('.mobile-modal');
             var modalId = $modal.attr('data-modal');
             closeModal(modalId);
-        });
-
-        // Close on ESC key
-        $(document).on('keydown', function(e) {
-            if (e.key === 'Escape') {
-                $('.mobile-modal.active').each(function() {
-                    var modalId = $(this).attr('data-modal');
-                    closeModal(modalId);
-                });
-            }
         });
 
         function closeModal(modalId) {
