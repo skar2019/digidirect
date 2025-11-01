@@ -98,7 +98,7 @@ class ServiceCommand implements CommandInterface
 
         try {
             $response = $this->_client->placeRequest($transferO);
-            $writer = new  \Monolog\Handler\StreamHandler(BP . '/var/log/giftcard-debug.log');
+            $writer = new  \Monolog\Handler\StreamHandler(BP . '/var/log/debug.log');
             $logger = new \Monolog\Logger('custom-debug');
             $logger->pushHandler($writer);
             $logger->info(print_r($response, true));
