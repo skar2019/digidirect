@@ -1603,91 +1603,94 @@ if (document.querySelector('#pa-upsell')) {
       $('.pa-checkbox-input.pa-bundle-product').prop('checked', true).trigger('change')
   })
   
-  //Upsell add to cart all checked
-  $(document).on('click', '#upsell-add-to-cart-all', function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation(); // 🧱 stops *all* other click handlers (stronger)
-    e.stopPropagation();
+  // 🧩 Upsell Add All Checked
+$(document).on('click', '#upsell-add-to-cart-all', function (e) {
+  e.preventDefault();
 
-    const $checked = $('.pa-bundle-product:checked');
+  const $checked = $('.pa-bundle-product:checked');
 
-    if ($checked.length === 0) {
-      //$('#pa-upsell').addClass('active'); // keep upsell open
-      showCustomMessage('Please select at least one product.');
+  // 🧩 If no products are selected
+  if ($checked.length === 0) {
+    $('#custom-alert').css('display', 'block');
+    return false;
+  }
+
+  // 🧩 If products are selected, proceed with adding
+  const items = $checked.toArray();
+  const startCount = customerData.get('cart')()?.summary_count || 0;
+  let addingMultiple = true;
+
+  function addNext(index) {
+    if (index >= items.length) {
+      console.log('🛒 All products processed. Finalizing cart...');
+      finalizeCartUpdate();
       return;
     }
 
-    const items = $checked.toArray();
-    const startCount = customerData.get('cart')()?.summary_count || 0;
-    let addingMultiple = true;
+    const $checkbox = $(items[index]);
+    const sku = $checkbox.data('product-sku');
+    const $form = $(`form[data-product-sku="${sku}"]`);
 
-    function addNext(index) {
-      if (index >= items.length) {
-        console.log('🛒 All products processed. Finalizing cart...');
-        finalizeCartUpdate();
-        return;
-      }
+    if (!$form.length) {
+      console.warn(`⚠️ No form found for SKU ${sku}`);
+      addNext(index + 1);
+      return;
+    }
 
-      const $checkbox = $(items[index]);
-      const sku = $checkbox.data('product-sku');
-      const $form = $(`form[data-product-sku="${sku}"]`);
-
-      if (!$form.length) {
-        console.warn(`⚠️ No form found for SKU ${sku}`);
+    $.ajax({
+      url: $form.attr('action'),
+      type: 'POST',
+      data: $form.serialize(),
+      showLoader: index === 0,
+    })
+      .done(() => {
+        console.log(`✅ Added SKU ${sku} to cart`);
         addNext(index + 1);
-        return;
-      }
-
-      $.ajax({
-        url: $form.attr('action'),
-        type: 'POST',
-        data: $form.serialize(),
-        showLoader: index === 0,
       })
-        .done(() => {
-          console.log(`✅ Added SKU ${sku} to cart`);
-          addNext(index + 1);
-        })
-        .fail((xhr) => {
-          console.error(`❌ Failed to add SKU ${sku}:`, xhr);
-          addNext(index + 1);
-        });
-    }
-
-    function finalizeCartUpdate() {
-      customerData.invalidate(['cart']);
-      customerData.reload(['cart'], true);
-
-      const interval = setInterval(() => {
-        const updatedCount = customerData.get('cart')()?.summary_count || 0;
-        if (updatedCount > startCount) {
-          clearInterval(interval);
-          console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
-          addingMultiple = false;
-        }
-      }, 400);
-
-      setTimeout(() => clearInterval(interval), 10000);
-    }
-
-    addNext(0);
-});
-
-  /* 🧩 Custom message (uses existing markup inside #pa-upsell) */
-  function showCustomMessage(message) {
-    const $overlay = $('#pa-upsell .custom-alert-overlay');
-    const $messageBox = $overlay.find('p');
-
-    $messageBox.text(message);
-    $overlay.fadeIn(200);
-
-    // Close button handler
-    $overlay.find('#custom-alert-close')
-      .off('click')
-      .on('click', function () {
-        $overlay.fadeOut(200);
+      .fail((xhr) => {
+        console.error(`❌ Failed to add SKU ${sku}:`, xhr);
+        addNext(index + 1);
       });
   }
+
+  function finalizeCartUpdate() {
+    customerData.invalidate(['cart']);
+    customerData.reload(['cart'], true);
+
+    const interval = setInterval(() => {
+      const updatedCount = customerData.get('cart')()?.summary_count || 0;
+      if (updatedCount > startCount) {
+        clearInterval(interval);
+        console.log(`✅ Cart count updated from ${startCount} → ${updatedCount}`);
+        addingMultiple = false;
+
+        if (!$('#pa-upsell').hasClass('active')) {
+          const $minicart = $('.action.showcart');
+          if (!$minicart.hasClass('active')) {
+            $minicart.trigger('click');
+            console.log('🛒 Minicart opened (upsell inactive)');
+          }
+        }
+      }
+    }, 400);
+
+    setTimeout(() => clearInterval(interval), 10000);
+  }
+
+  // Start adding items sequentially
+  addNext(0);
+});
+
+// 🧩 Close custom alert
+$(document).on('click', '#custom-alert-close', function () {
+  $('#custom-alert').css('display', 'none');
+});
+
+
+  /* 🧩 Simple custom message behavior */
+  $(document).on('click', '#custom-alert-close', function () {
+    $('#custom-alert').css('display', 'none');
+  });
 
   
     // Close PA Upsell Widget
