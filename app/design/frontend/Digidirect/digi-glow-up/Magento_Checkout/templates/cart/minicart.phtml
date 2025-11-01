@@ -121,25 +121,36 @@
 
               // Close minicart via the close button
                 $(document).on('click', '.minicart-close', function (e) {
-                  e.preventDefault()
-                  e.stopPropagation()
+                    e.preventDefault()
+                    e.stopPropagation()
 
-                  const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
-                  const $minicartWrapper = $('.minicart-wrapper')
-                  const $showcart = $('.action.showcart')
+                    const $overlay = $('.minicart-overlay')
+                    const $minicartWrapper = $('.minicart-wrapper')
+                    const $showcart = $('.action.showcart')
+                    const $dropdown = $minicartWrapper.find('.block-minicart')
 
-                  if ($dialog.length) {
-                    // Properly close minicart
-                    $dialog.hide()
-                    $overlay.fadeOut(200)
-                    enablePageInteraction()
+                    if ($dropdown.length) {
+                      try {
+                        const dropdownWidget = $dropdown.data('mageDropdownDialog')
+                        if (dropdownWidget && typeof dropdownWidget.close === 'function') {
+                          // ✅ Use Magento’s native close method
+                          dropdownWidget.close()
+                          console.log('🧩 Minicart closed via dropdownDialog.close()')
+                        } else {
+                          // 🧱 Fallback — force hide if widget unavailable
+                          $('.ui-dialog.mage-dropdown-dialog:visible').hide()
+                          console.warn('⚠️ Fallback minicart hide used')
+                        }
+                      } catch (err) {
+                        console.error('❌ Error closing minicart:', err)
+                      }
 
-                    // 🧹 Clean up active classes so Magento sees it as closed
-                    $minicartWrapper.removeClass('active')
-                    $showcart.removeClass('active')
-
-                    console.log('🧩 Minicart closed and classes cleaned up')
-                  }
+                      // 🧹 Always clean up
+                      $overlay.fadeOut(200)
+                      $minicartWrapper.removeClass('active')
+                      $showcart.removeClass('active')
+                      enablePageInteraction()
+                    }
                 })
 
               // Prevent overlay click from closing minicart or interacting with background
