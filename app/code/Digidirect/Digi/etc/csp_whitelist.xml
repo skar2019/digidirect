@@ -12,7 +12,7 @@
                 <!--CDN-->
 
                 <!--<value id="qantasscript" type="host">*.services.qantasloyalty.com</value>-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarescript" type="host">*.cloudflare.com</value>
                 <!--Google-->
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
                 <value id="google-maps-api" type="host">maps.googleapis.com</value>
@@ -86,7 +86,7 @@
         <policy id="style-src">
             <values>
                 <!--CDN-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarestyle" type="host">*.cloudflare.com</value>
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
@@ -110,7 +110,7 @@
         </policy>
         <policy id="img-src">
             <values>
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflareimg" type="host">*.cloudflare.com</value>
                 <value id="klarna-base" type="host">cdn.klarna.com</value>
 
                 <value id="paypal" type="host">*.paypal.com</value>
@@ -166,7 +166,7 @@
                 <!--CDN-->
 
                 <value id="zendeskconnect" type="host">*.zendesk.com</value>
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflareconnect" type="host">*.cloudflare.com</value>
                 <value id="paypal" type="host">*.paypal.com</value>
                 <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
@@ -222,7 +222,7 @@
         <policy id="font-src">
             <values>
                 <!--CDN-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarefont" type="host">*.cloudflare.com</value>
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
