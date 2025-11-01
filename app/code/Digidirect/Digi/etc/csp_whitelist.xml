@@ -12,7 +12,7 @@
                 <!--CDN-->
 
                 <!--<value id="qantasscript" type="host">*.services.qantasloyalty.com</value>-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarescript" type="host">*.cloudflare.com</value>
                 <!--Google-->
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
                 <value id="google-maps-api" type="host">maps.googleapis.com</value>
@@ -44,9 +44,9 @@
                 <value id="dotdigitalsrc" type="host">r3.dotdigital-pages.com</value>
                 <value id="smoothioscriptt" type="host">api.smooch.io</value>
                 <value id="klarnascript" type="host">*.klarna.com</value>
+                <value id="klarnacdnscript" type="host">*.klarnacdn.net</value>
                 <value id="gstaticscript" type="host">*.gstatic.com</value>
                 <value id="googlepayscript" type="host">*.google.com</value>
-                <value id="klarnascript" type="host">*.klarnacdn.net</value>
                 <value id="cardinalscript" type="host">*.cardinalcommerce.com</value>
                 <value id="braintreegatewayscript" type="host">*.braintreegateway.com</value>
                 <value id="braintreescript" type="host">*.braintree-api.com</value>
@@ -69,7 +69,6 @@
                 <!-- <value id="studentbeansId" type="host">*.beansid.com</value> -->
                  <value id="ig" type="host">*.instagram.com</value>
                 <value id="jqueryscr" type="host">*.jquery.com</value>
-                <value id="jqueryscr" type="host">*.jquery.com</value>
                 <value id="adobetmsrc" type="host">*.adobedtm.com</value>
                 <value id="adobesrc" type="host">*.adobed.com</value>
                 <value id="latitudesrc" type="host">*.latitudefinancial.com</value>
@@ -86,7 +85,7 @@
         <policy id="style-src">
             <values>
                 <!--CDN-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarestyle" type="host">*.cloudflare.com</value>
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
@@ -110,7 +109,7 @@
         </policy>
         <policy id="img-src">
             <values>
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflareimg" type="host">*.cloudflare.com</value>
                 <value id="klarna-base" type="host">cdn.klarna.com</value>
 
                 <value id="paypal" type="host">*.paypal.com</value>
@@ -127,7 +126,7 @@
                 <value id="digizendimg" type="host">digidirect.zendesk.com</value>
                 <value id="pinterestimg" type="host">*.pinterest.com</value>
                 <value id="analyticsyahooimg" type="host">*.analytics.yahoo.com</value>
-                <value id="digizendimg" type="host">*.zendesk.com</value>
+                <value id="digizendimg2" type="host">*.zendesk.com</value>
                 <value id="gstaticimg" type="host">*.gstatic.com</value>
                 <value id="googlepayimg" type="host">*.google.com</value>
                 <value id="klarnaimg" type="host">*.klarnacdn.net</value>
@@ -142,7 +141,7 @@
                 <value id="latitudeimgsrc" type="host">*.latitudepayapps.com</value>
                 <value id="zipimgsrc" type="host">zip.co</value>
                 <value id="bpizipimgsrc" type="host">bpi.zip.co</value>
-                <value id="latitudeimgsrc" type="host">*.latitudefinancial.com</value>
+                <value id="latitudefinancialimg" type="host">*.latitudefinancial.com</value>
                 <value id="clarity" type="host">*.google.lk</value>
                 <value id="digiImages" type="host">*.digidirect.com.au</value>
             </values>
@@ -166,8 +165,8 @@
                 <!--CDN-->
 
                 <value id="zendeskconnect" type="host">*.zendesk.com</value>
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
-                <value id="paypal" type="host">*.paypal.com</value>
+                <value id="cloudflareconnect" type="host">*.cloudflare.com</value>
+                <value id="paypalconnect" type="host">*.paypal.com</value>
                 <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
                 <value id="paconnect2" type="host">*.particularaudience.com</value>
@@ -222,7 +221,7 @@
         <policy id="font-src">
             <values>
                 <!--CDN-->
-                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudflarefont" type="host">*.cloudflare.com</value>
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
                 <!--Functions-->
