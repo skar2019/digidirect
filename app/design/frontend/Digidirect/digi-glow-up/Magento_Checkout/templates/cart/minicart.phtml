@@ -120,15 +120,27 @@
               observer.observe(document.body, { childList: true, subtree: true })
 
               // Close minicart via the close button
-              $(document).on('click', '.minicart-close', function (e) {
-                e.stopPropagation()
-                const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
-                if ($dialog.length) {
-                  $dialog.hide()
-                  $overlay.fadeOut(200)
-                  enablePageInteraction()
-                }
-              })
+                $(document).on('click', '.minicart-close', function (e) {
+                  e.preventDefault()
+                  e.stopPropagation()
+
+                  const $dialog = $('.ui-dialog.mage-dropdown-dialog:visible').has('.block-minicart')
+                  const $minicartWrapper = $('.minicart-wrapper')
+                  const $showcart = $('.action.showcart')
+
+                  if ($dialog.length) {
+                    // Properly close minicart
+                    $dialog.hide()
+                    $overlay.fadeOut(200)
+                    enablePageInteraction()
+
+                    // 🧹 Clean up active classes so Magento sees it as closed
+                    $minicartWrapper.removeClass('active')
+                    $showcart.removeClass('active')
+
+                    console.log('🧩 Minicart closed and classes cleaned up')
+                  }
+                })
 
               // Prevent overlay click from closing minicart or interacting with background
               $overlay.on('click', function (e) {

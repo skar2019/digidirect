@@ -1697,7 +1697,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
   
     // Close PA Upsell Widget
-    $('#upsell-close, #upsell-add-to-cart-all').on('click', function () {
+    $('#upsell-close').on('click', function () {
       $('#pa-upsell').removeClass('active')
     })
     
