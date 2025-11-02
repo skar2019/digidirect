@@ -1721,31 +1721,20 @@ $(document).on('click', '#custom-alert-close', function () {
       $.ajax({
         url: '/checkout/cart/updatePost/',
         type: 'POST',
-        dataType: 'json',
-        data: $.param({
+        data: {
           form_key: formKey,
           [`cart[${itemId}][qty]`]: newQty,
           update_cart_action: 'update_qty',
-        }),
+        },
         beforeSend: function () {
           console.log('⏳ Sending AJAX update for item', itemId)
           $input.prop('disabled', true)
         },
         success: function (res) {
           console.log('✅ Cart updated successfully', res)
-
-          // Refresh mini cart + totals
           require(['Magento_Customer/js/customer-data'], function (customerData) {
             customerData.reload(['cart'], true)
           })
-
-          // Partial reload for totals and row subtotal
-          $('.cart-totals').load(window.location.href + ' .cart-totals > *')
-          const $row = $input.closest('tr')
-          if ($row.length) {
-            const id = $row.attr('id')
-            $(`#${id} .col.subtotal`).load(window.location.href + ` #${id} .col.subtotal > *`)
-          }
         },
         error: function (xhr, status, err) {
           console.error('❌ Cart update failed', status, err)
