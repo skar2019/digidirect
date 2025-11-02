@@ -191,46 +191,68 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 </tr>
 </tbody>
 
-<!-- ✅ Quantity Controls Script -->
 <script>
 require(['jquery', 'mage/mage'], function ($) {
   $(function () {
-    // 🧩 Update cart function
+    // 🧩 Find main cart form (Magento default selector)
+    const $cartForm = $('#form-validate')
+
+    // ✅ Function to update cart
     function updateCart($input) {
-      const form = $input.closest('form')
-      const updateBtn = form.find('[data-cart-item-update]')
-      if (updateBtn.length) {
-        updateBtn.prop('disabled', false)
-        updateBtn.trigger('click')
-        console.log('🛒 Cart updated for:', $input.attr('name'))
+      if (!$cartForm.length) {
+        console.warn('⚠️ Cart form not found')
+        return
+      }
+
+      const $updateBtn = $cartForm.find('[data-cart-item-update]')
+      if ($updateBtn.length) {
+        // Enable and trigger click (Magento listens to this)
+        $updateBtn.prop('disabled', false)
+        setTimeout(() => {
+          $updateBtn[0].click()
+          console.log('🛒 Updated cart for:', $input.attr('name'))
+        }, 50)
+      } else {
+        // fallback
+        console.log('⚠️ No update button found, submitting form directly')
+        $cartForm.trigger('submit')
       }
     }
 
-    // 🟢 Increase quantity
+    // ➕ Increase qty
     $(document).on('click', '.qty-increase', function (e) {
       e.preventDefault()
-      const $input = $(this).siblings('input.input-text.qty')
-      let currentQty = parseFloat($input.val()) || 1
+      const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
+      if (!$input.length) return
+
+      const currentQty = parseFloat($input.val()) || 1
       const newQty = currentQty + 1
       $input.val(newQty).trigger('change')
       updateCart($input)
     })
 
-    // 🔵 Decrease quantity (never below 1)
+    // ➖ Decrease qty (never below 1)
     $(document).on('click', '.qty-decrease', function (e) {
       e.preventDefault()
-      const $input = $(this).siblings('input.input-text.qty')
-      let currentQty = parseFloat($input.val()) || 1
+      const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
+      if (!$input.length) return
+
+      const currentQty = parseFloat($input.val()) || 1
       const newQty = Math.max(1, currentQty - 1)
       $input.val(newQty).trigger('change')
       updateCart($input)
     })
 
-    // 🔒 Prevent manual values < 1
+    // 🔒 Ensure manual input can't go below 1
     $(document).on('input', 'input.input-text.qty', function () {
       const val = parseFloat($(this).val())
-      if (isNaN(val) || val < 1) $(this).val(1)
+      if (isNaN(val) || val < 1) {
+        $(this).val(1)
+      }
     })
+
+    // Optional: remove readonly if Magento adds it via KO
+    $('input.input-text.qty[readonly]').removeAttr('readonly')
   })
 })
 </script>

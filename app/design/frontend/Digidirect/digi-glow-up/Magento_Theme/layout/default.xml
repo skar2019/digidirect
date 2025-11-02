@@ -8,6 +8,13 @@
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
     <body>
+        <referenceContainer name="before.body.start">
+            <block class="Magento\Cms\Block\Block" name="site.takeover">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">site-takeover</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
         <referenceContainer name="main.content">
             <container name="blur.overlay.container" as="blur_overlay" htmlTag="div" htmlClass="blur-overlay"/>
         </referenceContainer>
