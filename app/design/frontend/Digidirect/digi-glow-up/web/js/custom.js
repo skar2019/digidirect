@@ -1709,41 +1709,54 @@ $(document).on('click', '#custom-alert-close', function () {
     // 🔁 AJAX Cart Update Helper
     // ======================
     function updateCartAjax($input, newQty) {
-      const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
-      if (!itemIdMatch) {
-        console.error('❌ Cannot extract item ID from', $input.attr('name'))
-        return
+        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
+        if (!itemIdMatch) {
+          console.error('❌ Cannot extract item ID from', $input.attr('name'));
+          return;
+        }
+
+        const itemId = itemIdMatch[1];
+        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
+
+        // Build the URL safely using Magento's URL builder
+        require(['mage/url'], function (urlBuilder) {
+          const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
+
+          $.ajax({
+            url: updateUrl,
+            type: 'POST',
+            data: {
+              form_key: $('input[name="form_key"]').val(),
+              [`cart[${itemId}][qty]`]: newQty,
+              update_cart_action: 'update_qty',
+            },
+            beforeSend: function () {
+              console.log('⏳ Sending AJAX update for item', itemId);
+              $input.prop('disabled', true);
+            },
+            success: function () {
+              console.log('✅ Cart updated successfully');
+
+              // Refresh minicart via customerData (already loaded)
+              customerData.reload(['cart'], true);
+
+              // Optional: refresh totals and row subtotal
+              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
+              const $row = $input.closest('tr');
+              if ($row.length) {
+                const rowId = $row.attr('id');
+                $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
+              }
+            },
+            error: function (xhr, status, err) {
+              console.error('❌ Cart update failed', status, err);
+            },
+            complete: function () {
+              $input.prop('disabled', false);
+            },
+          });
+        });
       }
-
-      const itemId = itemIdMatch[1]
-      console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`)
-
-      $.ajax({
-        url: '/checkout/cart/updatePost/',
-        type: 'POST',
-        data: {
-          form_key: formKey,
-          [`cart[${itemId}][qty]`]: newQty,
-          update_cart_action: 'update_qty',
-        },
-        beforeSend: function () {
-          console.log('⏳ Sending AJAX update for item', itemId)
-          $input.prop('disabled', true)
-        },
-        success: function (res) {
-          console.log('✅ Cart updated successfully', res)
-          require(['Magento_Customer/js/customer-data'], function (customerData) {
-            customerData.reload(['cart'], true)
-          })
-        },
-        error: function (xhr, status, err) {
-          console.error('❌ Cart update failed', status, err)
-        },
-        complete: function () {
-          $input.prop('disabled', false)
-        },
-      })
-    }
 
     // ======================
     // 🧮 Qty Button Click Logic
