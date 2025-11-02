@@ -35,30 +35,7 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
 
-            const inputEl = document.querySelector('.aa-Input');
-
-            if (inputEl) {
-                console.log("cartinput");
-                // Simulate Enter key press (Go/Done equivalent)
-                ['keydown', 'keyup'].forEach(type => {
-                    const event = new KeyboardEvent(type, {
-                        key: 'Enter',
-                        code: 'Enter',
-                        keyCode: 13,
-                        which: 13,
-                        bubbles: true,
-                        cancelable: true
-                    });
-                    console.log("keydown");
-                    inputEl.dispatchEvent(event);
-                });
-
-                // Optional: if the input is inside a <form>, submit it
-                const form = inputEl.closest('form');
-                if (form) {
-                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-                }
-            }
+            closeAlgolia();
 
             if ($('.mobile-menu').hasClass('active')) {
 
@@ -83,31 +60,8 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .account-popup-header .close-popup').trigger('click');
             console.log("testcart");
-            const inputEl = document.querySelector('.aa-Input');
 
-            if (inputEl) {
-                console.log("cartinput");
-                // Simulate Enter key press (Go/Done equivalent)
-                ['keydown', 'keyup'].forEach(type => {
-                    const event = new KeyboardEvent(type, {
-                        key: 'Enter',
-                        code: 'Enter',
-                        keyCode: 13,
-                        which: 13,
-                        bubbles: true,
-                        cancelable: true
-                    });
-                    console.log("keydown");
-                    inputEl.dispatchEvent(event);
-                });
-
-                // Optional: if the input is inside a <form>, submit it
-                const form = inputEl.closest('form');
-                if (form) {
-                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-                }
-            }
-
+            closeAlgolia();
 
             $('.showcart').trigger('click');
         });
@@ -117,36 +71,15 @@ require(['jquery'], function($) {
         $('#open-account-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-                const inputEl = document.querySelector('.aa-Input');
-
-                if (inputEl) {
-                    console.log("cartinput");
-                    // Simulate Enter key press (Go/Done equivalent)
-                    ['keydown', 'keyup'].forEach(type => {
-                        const event = new KeyboardEvent(type, {
-                            key: 'Enter',
-                            code: 'Enter',
-                            keyCode: 13,
-                            which: 13,
-                            bubbles: true,
-                            cancelable: true
-                        });
-                        console.log("keydown");
-                        inputEl.dispatchEvent(event);
-                    });
-
-                    // Optional: if the input is inside a <form>, submit it
-                    const form = inputEl.closest('form');
-                    if (form) {
-                        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-                    }
-                }
+            closeAlgolia();
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
 
         $('.account-popup-header .close-popup').on('click', function(){
 
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+            closeAlgolia();
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -164,32 +97,8 @@ require(['jquery'], function($) {
             var $modal = $('[data-modal="' + modalId + '"]');
 
             $('.mobile-menu-close, .minicart-close').trigger('click');
-            document.querySelector('.aa-Input')?.blur();
 
-            const inputEl = document.querySelector('.aa-Input');
-
-            if (inputEl) {
-                console.log("cartinput");
-                // Simulate Enter key press (Go/Done equivalent)
-                ['keydown', 'keyup'].forEach(type => {
-                    const event = new KeyboardEvent(type, {
-                        key: 'Enter',
-                        code: 'Enter',
-                        keyCode: 13,
-                        which: 13,
-                        bubbles: true,
-                        cancelable: true
-                    });
-                    console.log("keydown");
-                    inputEl.dispatchEvent(event);
-                });
-
-                // Optional: if the input is inside a <form>, submit it
-                const form = inputEl.closest('form');
-                if (form) {
-                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-                }
-            }
+            closeAlgolia();
 
             $modal.addClass('active');
             $('body').addClass('modal-open');
@@ -227,4 +136,45 @@ require(['jquery'], function($) {
         }
 
     });
+
+    function closeAlgolia() {
+        if (window.algoliaWrapperInstance) {
+            console.log('[Algolia] Attempting to close autocomplete');
+
+            // Hide the main autocomplete panel
+            const panel = document.querySelector('.aa-Panel');
+            if (panel) {
+                panel.style.display = 'none';
+                console.log('[Algolia] Autocomplete panel hidden ✅');
+            }
+
+            // Find and blur the search input (works for mobile and desktop)
+            const searchInput = document.querySelector('.algolia-search-input input, input[type="search"], input[name="q"], #search');
+            if (searchInput) {
+                searchInput.blur();
+
+                // On mobile, blurring might not always hide the keyboard
+                // Force remove focus by focusing on body then blurring
+                if (document.activeElement === searchInput) {
+                    searchInput.setAttribute('readonly', 'readonly');
+                    setTimeout(function() {
+                        searchInput.removeAttribute('readonly');
+                        searchInput.blur();
+                    }, 100);
+                }
+
+                console.log('[Algolia] Search input blurred ✅');
+            }
+
+            // Remove any mobile-specific overlay/backdrop if present
+            const backdrop = document.querySelector('.aa-DetachedOverlay, .algolia-autocomplete-mobile-overlay, [class*="overlay"]');
+            if (backdrop) {
+                backdrop.style.display = 'none';
+                console.log('[Algolia] Mobile overlay hidden ✅');
+            }
+
+            // Optional: Prevent body scroll lock on mobile
+            document.body.style.overflow = '';
+        }
+    }
 });
