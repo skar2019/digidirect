@@ -1700,29 +1700,9 @@ $(document).on('click', '#custom-alert-close', function () {
 
   
     // Close PA Upsell Widget
-    $('#upsell-close').on('click', function () {
-      $('#pa-upsell').removeClass('active')
+    $(document).on('click', '.qty-increase, .qty-decrease', function (e) {
+      console.log('🧩 qty button clicked', this)
     })
-    
-    
-    //Cart page product quantity update
-    function bindQtyButtons() {
-        console.log('🧩 binding qty buttons (cart block)')
-        $(document).off('click.qty').on('click.qty', '.qty-increase, .qty-decrease', function (e) {
-          e.preventDefault()
-          e.stopPropagation()
-          console.log('🧩 qty button clicked', this)
-        })
-      }
-
-      // Run once on load
-      $(bindQtyButtons)
-
-      // Rebind every time cart data updates (KO re-render)
-      customerData.get('cart').subscribe(function () {
-        console.log('🧩 cart data updated → rebinding qty buttons')
-        bindQtyButtons()
-      })
   
   })
 })
