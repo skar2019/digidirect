@@ -1700,11 +1700,53 @@ $(document).on('click', '#custom-alert-close', function () {
 
   
     // Close PA Upsell Widget
-    $('body').on('click', '.qty-increase, .qty-decrease', function (e) {
+    $('#upsell-close').on('click', function () {
+      $('#pa-upsell').removeClass('active')
+    })
+    
+    
+    // ======================
+    // Cart Quantity Buttons
+    // ======================
+    document.addEventListener(
+      'click',
+      function (e) {
+        const btn = e.target.closest('.qty-increase-cart-page, .qty-decrease-cart-page')
+        if (!btn) return
+
         e.preventDefault()
         e.stopPropagation()
-        console.log('🧩 qty button clicked', this)
-      })
+
+        console.log('🧩 qty button clicked:', btn.className)
+
+        // ✅ Find sibling input
+        let input
+        if (btn.classList.contains('qty-increase-cart-page')) {
+          input = btn.previousElementSibling
+        } else {
+          input = btn.nextElementSibling
+        }
+
+        if (!input || !input.classList.contains('input-text')) {
+          console.warn('⚠️ No quantity input found for', btn)
+          return
+        }
+
+        let qty = parseInt(input.value, 10) || 1
+
+        if (btn.classList.contains('qty-increase-cart-page')) {
+          qty++
+        } else if (btn.classList.contains('qty-decrease-cart-page')) {
+          qty = Math.max(1, qty - 1)
+        }
+
+        input.value = qty
+        input.dispatchEvent(new Event('change', { bubbles: true }))
+
+        console.log(`🧩 qty updated → ${qty}`)
+      },
+      true // ✅ capture mode (important for SVG clicks)
+    )
   
   })
 })

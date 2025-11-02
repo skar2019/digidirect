@@ -141,6 +141,22 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                       </svg>
                     </div>
 
+                    <input
+                      id="cart-<?php echo $_item->getId(); ?>-qty"
+                      name="cart[<?php echo $_item->getId(); ?>][qty]"
+                      data-cart-item-id="<?php echo $_item->getSku(); ?>"
+                      value="<?php echo $block->getQty(); ?>"
+                      type="number"
+                      size="4"
+                      title="<?= __('Qty'); ?>"
+                      class="input-text qty"
+                      maxlength="12"
+                      min="1"
+                      inputmode="numeric"
+                      data-validate="{'required':true,'validate-greater-than-zero':true}"
+                      data-role="cart-item-qty"
+                    />
+
                     <div class="qty-increase-cart-page">
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <rect width="20" height="20" rx="10" fill="#242426"></rect>
