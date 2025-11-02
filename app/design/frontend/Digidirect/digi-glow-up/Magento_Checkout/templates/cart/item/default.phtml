@@ -194,63 +194,192 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 <script>
 require(['jquery', 'mage/mage'], function ($) {
   $(function () {
-    const $cartForm = $('#form-validate')
+    console.log('cart-qty-debug: script loaded')
 
-    // 🧩 Core cart update logic (uses real form submit)
-    function updateCart($input) {
-      if (!$cartForm.length) return
+    // debounce to prevent double submissions
+    const submitLocks = new WeakMap()
 
-      const $updateBtn = $cartForm.find('[data-cart-item-update]')
-      const $actionInput = $('<input>', {
-        type: 'hidden',
-        name: 'update_cart_action',
-        value: 'update_qty'
-      })
-
-      // Add hidden field if not present
-      if (!$cartForm.find('input[name="update_cart_action"]').length) {
-        $cartForm.append($actionInput)
-      }
-
-      // Small delay to let DOM update value first
-      setTimeout(() => {
-        console.log('🛒 Submitting cart update for:', $input.attr('name'))
-        $cartForm.trigger('submit')
-      }, 100)
+    function debug(...args) {
+      // prefix for easy search
+      console.log('cart-qty-debug:', ...args)
     }
 
-    // ➕ Increase qty
+    function findCartForm() {
+      // Try the usual selectors used by Magento cart templates
+      const selectors = ['#form-validate', 'form[action*="/checkout/cart/"]', 'form[name="cart_form"]', 'form']
+      for (let sel of selectors) {
+        const $f = $(sel).first()
+        if ($f.length) {
+          debug('found cart form with selector', sel, $f[0])
+          return $f
+        }
+      }
+      debug('no cart form found with default selectors')
+      return $()
+    }
+
+    function updateCart($input) {
+      debug('updateCart called for input', $input && $input.attr ? $input.attr('name') : $input)
+      const $form = findCartForm()
+      if (!$form.length) {
+        debug('ERROR: Cart form not found, aborting update')
+        return
+      }
+
+      // ensure update_cart_action exists (Magento expects this)
+      if (!$form.find('input[name="update_cart_action"]').length) {
+        $form.append($('<input>').attr({
+          type: 'hidden',
+          name: 'update_cart_action',
+          value: 'update_qty'
+        }))
+        debug('appended hidden update_cart_action input')
+      } else {
+        debug('hidden update_cart_action already present')
+      }
+
+      // prevent multiple concurrent submit attempts for the same form
+      if (submitLocks.get($form[0])) {
+        debug('submit already in progress, skipping')
+        return
+      }
+      submitLocks.set($form[0], true)
+
+      // small delay to allow KO / other bindings to pick up change
+      setTimeout(function () {
+        // Try update button first (safer)
+        const $updateBtn = $form.find('[data-cart-item-update]').first()
+        if ($updateBtn.length) {
+          debug('attempting to click update button:', $updateBtn[0])
+          try {
+            $updateBtn.prop('disabled', false)
+            $updateBtn[0].click()
+            debug('update button click dispatched — waiting 500ms to check effect')
+            // wait and then release lock (we can't reliably detect when server returns here)
+            setTimeout(() => {
+              submitLocks.delete($form[0])
+              debug('released submit lock after button click')
+            }, 500)
+            return
+          } catch (err) {
+            debug('update button click failed:', err)
+          }
+        } else {
+          debug('no [data-cart-item-update] button found')
+        }
+
+        // Fallback: trigger submit via jQuery
+        try {
+          debug('triggering jQuery submit on form', $form[0])
+          $form.trigger('submit')
+          // release lock after short delay
+          setTimeout(() => {
+            submitLocks.delete($form[0])
+            debug('released submit lock after jQuery submit')
+          }, 500)
+          return
+        } catch (err) {
+          debug('jQuery submit failed:', err)
+        }
+
+        // Final fallback: native form.submit()
+        try {
+          debug('calling native form.submit()', $form[0])
+          $form[0].submit()
+          setTimeout(() => {
+            submitLocks.delete($form[0])
+            debug('released submit lock after native submit')
+          }, 500)
+          return
+        } catch (err) {
+          debug('native form.submit() failed:', err)
+          submitLocks.delete($form[0])
+        }
+      }, 120) // 120ms gives bindings a moment to react
+    }
+
+    // Helper: find the qty input relative to a button
+    function getQtyInputFromButton($btn) {
+      // look in the same .qty-buttons container first
+      let $input = $btn.closest('.qty-buttons').find('input.input-text.qty').first()
+      if ($input.length) return $input
+      // fallback: search siblings / closest td
+      $input = $btn.siblings('input.input-text.qty').first()
+      if ($input.length) return $input
+      $input = $btn.closest('td').find('input.input-text.qty').first()
+      return $input
+    }
+
+    // Increase
     $(document).on('click', '.qty-increase', function (e) {
       e.preventDefault()
-      const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-      if (!$input.length) return
+      const $btn = $(this)
+      debug('click .qty-increase detected', this)
+      const $input = getQtyInputFromButton($btn)
+      if (!$input || !$input.length) {
+        debug('ERROR: qty input not found for increase button', $btn[0])
+        return
+      }
 
-      let currentQty = parseFloat($input.val()) || 1
-      const newQty = currentQty + 1
-      $input.val(newQty).trigger('change')
+      // try to parse value
+      let current = parseFloat($input.val())
+      if (isNaN(current)) current = 1
+      const newVal = current + 1
+      debug('increase: current', current, 'new', newVal, 'input element', $input[0])
+
+      $input.val(newVal)
+      // trigger change events used by KO / Magento
+      $input.trigger('input').trigger('change')
+      // log the actual DOM value after setting
+      debug('after set, input.value=', $input.val())
+
       updateCart($input)
     })
 
-    // ➖ Decrease qty (never below 1)
+    // Decrease
     $(document).on('click', '.qty-decrease', function (e) {
       e.preventDefault()
-      const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-      if (!$input.length) return
+      const $btn = $(this)
+      debug('click .qty-decrease detected', this)
+      const $input = getQtyInputFromButton($btn)
+      if (!$input || !$input.length) {
+        debug('ERROR: qty input not found for decrease button', $btn[0])
+        return
+      }
 
-      let currentQty = parseFloat($input.val()) || 1
-      const newQty = Math.max(1, currentQty - 1)
-      $input.val(newQty).trigger('change')
+      let current = parseFloat($input.val())
+      if (isNaN(current)) current = 1
+      const newVal = Math.max(1, current - 1)
+      debug('decrease: current', current, 'new', newVal, 'input element', $input[0])
+
+      $input.val(newVal)
+      $input.trigger('input').trigger('change')
+      debug('after set, input.value=', $input.val())
+
       updateCart($input)
     })
 
-    // 🔒 Prevent typing below 1
+    // Prevent invalid manual input
     $(document).on('input', 'input.input-text.qty', function () {
-      const val = parseFloat($(this).val())
-      if (isNaN(val) || val < 1) $(this).val(1)
+      const $i = $(this)
+      let val = parseFloat($i.val())
+      if (isNaN(val) || val < 1) {
+        debug('manual input corrected to 1 for', $i[0])
+        $i.val(1)
+      }
     })
 
-    // 🧹 Remove readonly (Magento sometimes forces it)
-    $('input.input-text.qty[readonly]').removeAttr('readonly')
+    // log page-level status for easier debugging
+    $(window).on('load', function () {
+      debug('window.load: document ready')
+      debug('number of qty inputs found:', $('input.input-text.qty').length)
+      debug('example input[0]:', $('input.input-text.qty').get(0))
+      debug('update button found:', $('[data-cart-item-update]').length ? $('[data-cart-item-update]').get(0) : null)
+      debug('cart form via findCartForm():', findCartForm().get(0))
+    })
+
+    // Also immediately log when script runs
+    debug('initial scan - qty inputs:', $('input.input-text.qty').length)
   })
 })
 </script>
