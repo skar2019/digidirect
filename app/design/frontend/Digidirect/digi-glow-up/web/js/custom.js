@@ -396,10 +396,11 @@ $(window).on('scroll resize', () => {
 
      /* ========================
         🧩 Persistent Auto Minicart (Counter-based)
-        ✅ Excludes first load & account pages
+        ✅ Excludes first load, account pages & cart page
      ======================== */
      function setupPersistentAutoMinicart() {
-        if (isAccountPage()) return // ⛔ Skip on account-related pages
+        // ⛔ Skip on account pages and cart page
+        if (isAccountPage() || window.location.pathname.includes('/checkout/cart')) return;
 
         let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
         let firstLoad = true
