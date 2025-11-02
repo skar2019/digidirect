@@ -1708,20 +1708,36 @@ $(document).on('click', '#custom-alert-close', function () {
     //Cart page product quantity update
     function bindQtyButtons() {
         console.log('🧩 binding qty buttons (cart block)')
-        $(document).off('click.qty').on('click.qty', '.qty-increase, .qty-decrease', function (e) {
+        const $form = $('#form-validate')
+
+        if (!$form.length) {
+          console.warn('⚠️ form-validate not yet found, retrying...')
+          setTimeout(bindQtyButtons, 500)
+          return
+        }
+
+        // 🧹 Unbind any previous handlers first
+        $form.off('.qty-events')
+
+        // 🧩 Bind within form (more reliable)
+        $form.on('click.qty-events', '.qty-increase, .qty-decrease', function (e) {
           e.preventDefault()
           e.stopPropagation()
           console.log('🧩 qty button clicked', this)
         })
+
+        console.log('✅ qty buttons bound inside form-validate')
       }
 
-      // Run once on load
-      $(bindQtyButtons)
-
-      // Rebind every time cart data updates (KO re-render)
-      customerData.get('cart').subscribe(function () {
-        console.log('🧩 cart data updated → rebinding qty buttons')
+      // Run once after DOM ready
+      $(function () {
         bindQtyButtons()
+
+        // Rebind every time cart data updates (e.g., Knockout re-renders)
+        customerData.get('cart').subscribe(function () {
+          console.log('🔄 customerData(cart) updated — rebinding qty buttons')
+          bindQtyButtons()
+        })
       })
   
   })
