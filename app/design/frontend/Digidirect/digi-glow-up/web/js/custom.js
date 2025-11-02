@@ -1706,21 +1706,18 @@ $(document).on('click', '#custom-alert-close', function () {
     
     
     //Cart page product quantity update
-    $(function () {
-        console.log('🧩 cart-qty: initialized (AMD safe)')
+    $(window).on('load', function () {
+    console.log('🧩 cart-qty: window load binding')
 
-        const formKey = $('input[name="form_key"]').val()
-        if (!formKey) console.warn('⚠️ cart-qty: no form_key found')
-
-        // ✅ Prevent form submission from qty buttons
-        $(document).on('click', '.qty-increase, .qty-decrease', function (e) {
-          e.preventDefault()
-          e.stopPropagation()
-          console.log('🧩 qty button click prevented form submit')
-        })
-
-        console.log('🧩 cart-qty: ready — handlers bound')
+    $(document).on('click', '.qty-increase, .qty-decrease', function (e) {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log('🧩 qty button clicked', this)
     })
+  })
+    
+    console.log('buttons count:', document.querySelectorAll('.qty-increase').length)
+    console.log('buttons count:', document.querySelectorAll('.qty-decrease').length)
   
   })
 })
