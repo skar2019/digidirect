@@ -35,6 +35,31 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
 
+            const inputEl = document.querySelector('.aa-Input');
+
+            if (inputEl) {
+                console.log("cartinput");
+                // Simulate Enter key press (Go/Done equivalent)
+                ['keydown', 'keyup'].forEach(type => {
+                    const event = new KeyboardEvent(type, {
+                        key: 'Enter',
+                        code: 'Enter',
+                        keyCode: 13,
+                        which: 13,
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    console.log("keydown");
+                    inputEl.dispatchEvent(event);
+                });
+
+                // Optional: if the input is inside a <form>, submit it
+                const form = inputEl.closest('form');
+                if (form) {
+                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                }
+            }
+
             if ($('.mobile-menu').hasClass('active')) {
 
                 $('.mobile-menu-close').trigger('click');
@@ -56,22 +81,31 @@ require(['jquery'], function($) {
 
         $('.showcart-footer').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+            $('.mobile-menu-close, .mobile-services-close, .account-popup-header .close-popup').trigger('click');
+            console.log("testcart");
+            const inputEl = document.querySelector('.aa-Input');
 
-            const input = document.querySelector('.aa-Input');
-            if (input) {
-                console.log("input");
-                // Create and dispatch Enter key event
-                const enterEvent = new KeyboardEvent('keydown', {
-                    key: 'Enter',
-                    code: 'Enter',
-                    keyCode: 13,
-                    which: 13,
-                    bubbles: true,
-                    cancelable: true
+            if (inputEl) {
+                console.log("cartinput");
+                // Simulate Enter key press (Go/Done equivalent)
+                ['keydown', 'keyup'].forEach(type => {
+                    const event = new KeyboardEvent(type, {
+                        key: 'Enter',
+                        code: 'Enter',
+                        keyCode: 13,
+                        which: 13,
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    console.log("keydown");
+                    inputEl.dispatchEvent(event);
                 });
 
-                input.dispatchEvent(enterEvent);
+                // Optional: if the input is inside a <form>, submit it
+                const form = inputEl.closest('form');
+                if (form) {
+                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                }
             }
 
 
@@ -83,15 +117,36 @@ require(['jquery'], function($) {
         $('#open-account-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            document.querySelector('.aa-Input')?.blur();
+                const inputEl = document.querySelector('.aa-Input');
+
+                if (inputEl) {
+                    console.log("cartinput");
+                    // Simulate Enter key press (Go/Done equivalent)
+                    ['keydown', 'keyup'].forEach(type => {
+                        const event = new KeyboardEvent(type, {
+                            key: 'Enter',
+                            code: 'Enter',
+                            keyCode: 13,
+                            which: 13,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        console.log("keydown");
+                        inputEl.dispatchEvent(event);
+                    });
+
+                    // Optional: if the input is inside a <form>, submit it
+                    const form = inputEl.closest('form');
+                    if (form) {
+                        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                    }
+                }
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
 
         $('.account-popup-header .close-popup').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            document.querySelector('.aa-Input')?.blur();
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -110,6 +165,31 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .minicart-close').trigger('click');
             document.querySelector('.aa-Input')?.blur();
+
+            const inputEl = document.querySelector('.aa-Input');
+
+            if (inputEl) {
+                console.log("cartinput");
+                // Simulate Enter key press (Go/Done equivalent)
+                ['keydown', 'keyup'].forEach(type => {
+                    const event = new KeyboardEvent(type, {
+                        key: 'Enter',
+                        code: 'Enter',
+                        keyCode: 13,
+                        which: 13,
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    console.log("keydown");
+                    inputEl.dispatchEvent(event);
+                });
+
+                // Optional: if the input is inside a <form>, submit it
+                const form = inputEl.closest('form');
+                if (form) {
+                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                }
+            }
 
             $modal.addClass('active');
             $('body').addClass('modal-open');
