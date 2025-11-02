@@ -1706,18 +1706,23 @@ $(document).on('click', '#custom-alert-close', function () {
     
     
     //Cart page product quantity update
-    $(window).on('load', function () {
-    console.log('🧩 cart-qty: window load binding')
+    function bindQtyButtons() {
+        console.log('🧩 binding qty buttons (cart block)')
+        $(document).off('click.qty').on('click.qty', '.qty-increase, .qty-decrease', function (e) {
+          e.preventDefault()
+          e.stopPropagation()
+          console.log('🧩 qty button clicked', this)
+        })
+      }
 
-    $(document).on('click', '.qty-increase, .qty-decrease', function (e) {
-      e.preventDefault()
-      e.stopPropagation()
-      console.log('🧩 qty button clicked', this)
-    })
-  })
-    
-    console.log('buttons count:', document.querySelectorAll('.qty-increase').length)
-    console.log('buttons count:', document.querySelectorAll('.qty-decrease').length)
+      // Run once on load
+      $(bindQtyButtons)
+
+      // Rebind every time cart data updates (KO re-render)
+      customerData.get('cart').subscribe(function () {
+        console.log('🧩 cart data updated → rebinding qty buttons')
+        bindQtyButtons()
+      })
   
   })
 })
