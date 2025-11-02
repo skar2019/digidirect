@@ -1700,7 +1700,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
   
     // Close PA Upsell Widget
-    $(document).on('click', '.qty-increase, .qty-decrease', function (e) {
+    $(document).on('click', '.qty-increase-cart-page, .qty-decrease-cart-page', function (e) {
       console.log('🧩 qty button clicked', this)
     })
   
