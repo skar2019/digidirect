@@ -138,24 +138,23 @@ require(['jquery'], function($) {
     });
 
     function closeAlgolia() {
-        // Close autocomplete cleanly - works on mobile and desktop
+        // Close autocomplete cleanly - ONLY hide the dropdown panel
         if (window.algoliaWrapperInstance) {
-            console.log('[Algolia] Attempting to close autocomplete');
+            console.log('[Algolia] Closing autocomplete dropdown');
 
-            // Hide the main autocomplete panel
-            const panel = document.querySelector('.aa-Panel');
+            // ONLY hide the dropdown panel with class .aa-Panel
+            const panel = document.querySelector('.aa-Panel.is-ready');
             if (panel) {
                 panel.style.display = 'none';
-                console.log('[Algolia] Autocomplete panel hidden ✅');
+                console.log('[Algolia] Dropdown panel hidden ✅');
             }
 
-            // Find and blur the search input (works for mobile and desktop)
-            const searchInput = document.querySelector('.algolia-search-input input, input[type="search"], input[name="q"], #search');
+            // Blur the search input (but don't hide it)
+            const searchInput = document.querySelector('.algolia-search-input input, input[type="search"], input[name="q"]');
             if (searchInput) {
                 searchInput.blur();
 
-                // On mobile, blurring might not always hide the keyboard
-                // Force remove focus by focusing on body then blurring
+                // Mobile keyboard dismissal
                 if (document.activeElement === searchInput) {
                     searchInput.setAttribute('readonly', 'readonly');
                     setTimeout(function() {
@@ -167,19 +166,10 @@ require(['jquery'], function($) {
                 console.log('[Algolia] Search input blurred ✅');
             }
 
-            // Remove any mobile-specific overlay/backdrop if present
-            const backdrop = document.querySelector('.aa-DetachedOverlay, .algolia-autocomplete-mobile-overlay, [class*="overlay"]');
-            if (backdrop) {
-                backdrop.style.display = 'none';
-                console.log('[Algolia] Mobile overlay hidden ✅');
-            }
-
-            // DON'T hide the search block itself - only the dropdown
-            // Make sure search input container is visible
-            const searchBlock = document.querySelector('.algolia-search-block');
-            if (searchBlock) {
-                searchBlock.style.display = ''; // Reset to default
-            }
+            // Optional: Clear search value
+            // if (searchInput) {
+            //     searchInput.value = '';
+            // }
         }
     }
 });
