@@ -1706,17 +1706,14 @@ $(document).on('click', '#custom-alert-close', function () {
     
     
     //Cart page product quantity update
-    
     $(function () {
         console.log('🧩 cart-qty-debug: script initialized inside custom JS')
 
-        // 🧩 Get form key (for CSRF protection)
         const formKey = $('input[name="form_key"]').val()
         if (!formKey) console.warn('⚠️ cart-qty-debug: no form_key found')
 
-        // 🧩 AJAX cart update helper
+        // 🧩 AJAX helper
         function updateCartAjax($input, newQty) {
-        console.log("updateCartAjax!");
           const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
           if (!itemIdMatch) {
             console.error('❌ cart-qty-debug: cannot extract item ID from', $input.attr('name'))
@@ -1724,17 +1721,17 @@ $(document).on('click', '#custom-alert-close', function () {
           }
 
           const itemId = itemIdMatch[1]
-          console.log(`🧩 cart-qty-debug: updateCartAjax called for item ${itemId} → ${newQty}`)
+          console.log(`🧩 cart-qty-debug: updateCartAjax(${itemId}, ${newQty})`)
 
           $.ajax({
             url: '/checkout/cart/updatePost/',
             type: 'POST',
             dataType: 'json',
-            data: {
+            data: $.param({
               form_key: formKey,
-              cart: { [itemId]: { qty: newQty } },
+              [`cart[${itemId}][qty]`]: newQty,
               update_cart_action: 'update_qty',
-            },
+            }),
             beforeSend: function () {
               console.log(`⏳ cart-qty-debug: sending AJAX for ${itemId} (qty ${newQty})`)
               $input.prop('disabled', true)
@@ -1742,15 +1739,20 @@ $(document).on('click', '#custom-alert-close', function () {
             success: function (res) {
               console.log('✅ cart-qty-debug: cart update success', res)
 
-              // 🔄 Refresh totals and minicart
+              // 🔄 Refresh mini cart + totals + counter
               if (window.customerData) {
                 require(['Magento_Customer/js/customer-data'], function (customerData) {
                   customerData.reload(['cart', 'checkout-data'], true)
                 })
               }
 
-              // Reload totals section only
+              // Partial reload for totals and row subtotal
               $('.cart-totals').load(window.location.href + ' .cart-totals > *')
+              const $row = $input.closest('tbody.cart.item')
+              if ($row.length) {
+                const id = $row.attr('id')
+                $(`#${id} .col.subtotal`).load(window.location.href + ` #${id} .col.subtotal > *`)
+              }
             },
             error: function (xhr, status, err) {
               console.error('❌ cart-qty-debug: AJAX update failed', status, err)
@@ -1759,49 +1761,53 @@ $(document).on('click', '#custom-alert-close', function () {
               $input.prop('disabled', false)
             },
           })
-      }
-
-      // 🆙 Increase qty
-      $(document).on('click', '.qty-increase', function (e) {
-        console.log("Increase qty!");
-        e.preventDefault()
-        const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-        if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (increase)')
-
-        const currentQty = parseFloat($input.val()) || 1
-        const newQty = currentQty + 1
-        $input.val(newQty).trigger('change')
-
-        console.log(`🧩 cart-qty-debug: increased ${currentQty} → ${newQty}`)
-        updateCartAjax($input, newQty)
-      })
-
-      // 🔽 Decrease qty (min 1)
-      $(document).on('click', '.qty-decrease', function (e) {
-        console.log("Decrease qty!");
-        e.preventDefault()
-        const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-        if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (decrease)')
-
-        const currentQty = parseFloat($input.val()) || 1
-        const newQty = Math.max(1, currentQty - 1)
-        $input.val(newQty).trigger('change')
-
-        console.log(`🧩 cart-qty-debug: decreased ${currentQty} → ${newQty}`)
-        updateCartAjax($input, newQty)
-      })
-
-      // ✋ Manual input guard (never below 1)
-      $(document).on('input', 'input.input-text.qty', function () {
-        const val = parseFloat($(this).val())
-        if (isNaN(val) || val < 1) {
-          console.warn('⚠️ cart-qty-debug: manual input below 1, corrected to 1')
-          $(this).val(1)
         }
-      })
 
-      console.log('🧩 cart-qty-debug: ready — qty buttons bound')
-    })
+        // 🆙 Increase qty
+        $(document).on('click', '.qty-increase', function (e) {
+          e.preventDefault()
+          e.stopImmediatePropagation()
+          console.log('➕ cart-qty-debug: increase clicked')
+
+          const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
+          if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (increase)')
+
+          const currentQty = parseFloat($input.val()) || 1
+          const newQty = currentQty + 1
+          $input.val(newQty).trigger('change')
+
+          console.log(`🧩 cart-qty-debug: increased ${currentQty} → ${newQty}`)
+          updateCartAjax($input, newQty)
+        })
+
+        // 🔽 Decrease qty
+        $(document).on('click', '.qty-decrease', function (e) {
+          e.preventDefault()
+          e.stopImmediatePropagation()
+          console.log('➖ cart-qty-debug: decrease clicked')
+
+          const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
+          if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (decrease)')
+
+          const currentQty = parseFloat($input.val()) || 1
+          const newQty = Math.max(1, currentQty - 1)
+          $input.val(newQty).trigger('change')
+
+          console.log(`🧩 cart-qty-debug: decreased ${currentQty} → ${newQty}`)
+          updateCartAjax($input, newQty)
+        })
+
+        // ✋ Manual input guard (never below 1)
+        $(document).on('input', 'input.input-text.qty', function () {
+          const val = parseFloat($(this).val())
+          if (isNaN(val) || val < 1) {
+            console.warn('⚠️ cart-qty-debug: manual input below 1, corrected to 1')
+            $(this).val(1)
+          }
+        })
+
+        console.log('🧩 cart-qty-debug: ready — qty buttons bound')
+      })
     
     
   })
