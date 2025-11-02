@@ -317,13 +317,11 @@
 
     .not-eligible-container {
         text-align: center;
-        color:  #242426;
+        color: #242426;
         font-size: 18px;
-
     }
 
     .not-eligible-for-discount {
-
         .tooltip {
             position: relative;
             display: inline-block;
@@ -363,8 +361,6 @@
             opacity: 1;
         }
     }
-
-
 }
 
 // RIGHT COLUMN - Purchase Actions
@@ -401,7 +397,6 @@
         .order-limit-tooltip,
         .awaiting-stock-tooltip {
             color: #545456;
-
 
             .order-limit-text,
             .awaiting-stock-text {
@@ -1427,8 +1422,7 @@
     .product-top-mobile {
         display: flex !important;
 
-        .product-sku-section.mobile-only
-        {
+        .product-sku-section.mobile-only {
             display: inline-flex;
 
             .sku {
@@ -1443,7 +1437,7 @@
             }
         }
 
-        .product-info-marketplacer.mobile-only{
+        .product-info-marketplacer.mobile-only {
             display: inline-flex;
             width: 70%;
             color: #6e6e73;
@@ -1470,9 +1464,6 @@
             justify-content: center !important;
         }
     }
-
-
-
 }
 
 .fotorama__arr,
@@ -1490,6 +1481,10 @@
 .modals-wrapper .modal-popup.itoris-pm-modal {
     .modal-inner-wrap {
         max-height: 80vh !important;
+
+        .modal-content {
+            overflow-y: auto;
+        }
     }
     .action-close {
         height: 30px;
@@ -1516,4 +1511,23 @@
 
 .zip-widget__popup__overlay-external-modal {
     align-items: center !important;
+}
+
+@media screen and (min-width: 768px) {
+    .modals-wrapper .modal-popup.itoris-pm-modal {
+        div.modal-inner-wrap {
+            margin-left: -25% !important;
+            margin-top: 2% !important;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .modals-wrapper .modal-popup.itoris-pm-modal {
+        div.modal-inner-wrap {
+            .modal-content {
+                padding: 10px 20px;
+            }
+        }
+    }
 }

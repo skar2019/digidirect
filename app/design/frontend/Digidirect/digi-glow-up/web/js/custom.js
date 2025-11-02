@@ -396,10 +396,11 @@ $(window).on('scroll resize', () => {
 
      /* ========================
         🧩 Persistent Auto Minicart (Counter-based)
-        ✅ Excludes first load & account pages
+        ✅ Excludes first load, account pages & cart page
      ======================== */
      function setupPersistentAutoMinicart() {
-        if (isAccountPage()) return // ⛔ Skip on account-related pages
+        // ⛔ Skip on account pages and cart page
+        if (isAccountPage() || window.location.pathname.includes('/checkout/cart')) return;
 
         let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
         let firstLoad = true
@@ -1705,104 +1706,99 @@ $(document).on('click', '#custom-alert-close', function () {
     })
     
     
-    //Cart page product quantity update
-    
-    $(function () {
-        console.log('🧩 cart-qty-debug: script initialized inside custom JS')
+    // ======================
+    // 🔁 AJAX Cart Update Helper
+    // ======================
+    function updateCartAjax($input, newQty) {
+        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
+        if (!itemIdMatch) {
+          console.error('❌ Cannot extract item ID from', $input.attr('name'));
+          return;
+        }
 
-        // 🧩 Get form key (for CSRF protection)
-        const formKey = $('input[name="form_key"]').val()
-        if (!formKey) console.warn('⚠️ cart-qty-debug: no form_key found')
+        const itemId = itemIdMatch[1];
+        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
 
-        // 🧩 AJAX cart update helper
-        function updateCartAjax($input, newQty) {
-        console.log("updateCartAjax!");
-          const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
-          if (!itemIdMatch) {
-            console.error('❌ cart-qty-debug: cannot extract item ID from', $input.attr('name'))
-            return
-          }
-
-          const itemId = itemIdMatch[1]
-          console.log(`🧩 cart-qty-debug: updateCartAjax called for item ${itemId} → ${newQty}`)
+        // Build the URL safely using Magento's URL builder
+        require(['mage/url'], function (urlBuilder) {
+          const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
 
           $.ajax({
-            url: '/checkout/cart/updatePost/',
+            url: updateUrl,
             type: 'POST',
-            dataType: 'json',
             data: {
-              form_key: formKey,
-              cart: { [itemId]: { qty: newQty } },
+              form_key: $('input[name="form_key"]').val(),
+              [`cart[${itemId}][qty]`]: newQty,
               update_cart_action: 'update_qty',
             },
             beforeSend: function () {
-              console.log(`⏳ cart-qty-debug: sending AJAX for ${itemId} (qty ${newQty})`)
-              $input.prop('disabled', true)
+              console.log('⏳ Sending AJAX update for item', itemId);
+              $input.prop('disabled', true);
             },
-            success: function (res) {
-              console.log('✅ cart-qty-debug: cart update success', res)
+            success: function () {
+              console.log('✅ Cart updated successfully');
 
-              // 🔄 Refresh totals and minicart
-              if (window.customerData) {
-                require(['Magento_Customer/js/customer-data'], function (customerData) {
-                  customerData.reload(['cart', 'checkout-data'], true)
-                })
+              // Refresh minicart via customerData (already loaded)
+              customerData.reload(['cart'], true);
+
+              // Optional: refresh totals and row subtotal
+              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
+              const $row = $input.closest('tr');
+              if ($row.length) {
+                const rowId = $row.attr('id');
+                $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
               }
-
-              // Reload totals section only
-              $('.cart-totals').load(window.location.href + ' .cart-totals > *')
             },
             error: function (xhr, status, err) {
-              console.error('❌ cart-qty-debug: AJAX update failed', status, err)
+              console.error('❌ Cart update failed', status, err);
             },
             complete: function () {
-              $input.prop('disabled', false)
+              $input.prop('disabled', false);
             },
-          })
+          });
+        });
       }
 
-      // 🆙 Increase qty
-      $(document).on('click', '.qty-increase', function (e) {
-        console.log("Increase qty!");
+    // ======================
+    // 🧮 Qty Button Click Logic
+    // ======================
+    document.addEventListener(
+      'click',
+      function (e) {
+        const btn = e.target.closest('.qty-increase-cart-page, .qty-decrease-cart-page')
+        if (!btn) return
+
         e.preventDefault()
-        const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-        if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (increase)')
+        e.stopPropagation()
 
-        const currentQty = parseFloat($input.val()) || 1
-        const newQty = currentQty + 1
-        $input.val(newQty).trigger('change')
+        console.log('🧩 qty button clicked:', btn.className)
 
-        console.log(`🧩 cart-qty-debug: increased ${currentQty} → ${newQty}`)
-        updateCartAjax($input, newQty)
-      })
-
-      // 🔽 Decrease qty (min 1)
-      $(document).on('click', '.qty-decrease', function (e) {
-        console.log("Decrease qty!");
-        e.preventDefault()
-        const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
-        if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (decrease)')
-
-        const currentQty = parseFloat($input.val()) || 1
-        const newQty = Math.max(1, currentQty - 1)
-        $input.val(newQty).trigger('change')
-
-        console.log(`🧩 cart-qty-debug: decreased ${currentQty} → ${newQty}`)
-        updateCartAjax($input, newQty)
-      })
-
-      // ✋ Manual input guard (never below 1)
-      $(document).on('input', 'input.input-text.qty', function () {
-        const val = parseFloat($(this).val())
-        if (isNaN(val) || val < 1) {
-          console.warn('⚠️ cart-qty-debug: manual input below 1, corrected to 1')
-          $(this).val(1)
+        // Find sibling input
+        let input
+        if (btn.classList.contains('qty-increase-cart-page')) {
+          input = btn.previousElementSibling
+        } else {
+          input = btn.nextElementSibling
         }
-      })
 
-      console.log('🧩 cart-qty-debug: ready — qty buttons bound')
-    })
-    
-    
+        if (!input || !input.classList.contains('input-text')) {
+          console.warn('⚠️ No qty input found for', btn)
+          return
+        }
+
+        const $input = $(input)
+        let qty = parseInt($input.val(), 10) || 1
+
+        if (btn.classList.contains('qty-increase-cart-page')) qty++
+        else qty = Math.max(1, qty - 1)
+
+        $input.val(qty).trigger('change')
+        console.log(`🧩 qty updated → ${qty}`)
+
+        // 🧠 Trigger AJAX cart update
+        updateCartAjax($input, qty)
+      },
+      true // capture mode
+    )
   })
 })

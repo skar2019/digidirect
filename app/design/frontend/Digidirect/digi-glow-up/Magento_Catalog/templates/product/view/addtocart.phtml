@@ -14,6 +14,7 @@ $_specialOrderValue = $block->getProduct()->getSpecialOrder();
 $_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
 $orderLimit = $block->getProduct()->getData('order_limit');
 
+
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -36,7 +37,8 @@ $orderLimit = $block->getProduct()->getData('order_limit');
                                    id="qty"
                                    value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
                                    title="<?= /* @escapeNotVerified */ __('Qty') ?>"
-                                   class="input-text qty qty-pdp"
+                                   class="input-text qty qty-pdp ttt"
+                                   data-maxQty="<?= $_orderLimit ?>"
                                    data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" readonly/>
                             <div role="button" class="qty-increase" data-bind="click: increaseQty">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,6 +55,7 @@ $orderLimit = $block->getProduct()->getData('order_limit');
                             </div>
                         </div>
                     </div>
+                    <div class="qty-error-message mage-error"><?= /* @escapeNotVerified */ __('The maximum you may purchase is') . ' ' . $_orderLimit ?></div>
                 </div>
             <?php endif; ?>
             <div class="actions">
