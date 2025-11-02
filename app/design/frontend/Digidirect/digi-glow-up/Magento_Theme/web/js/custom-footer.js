@@ -138,6 +138,7 @@ require(['jquery'], function($) {
     });
 
     function closeAlgolia() {
+        // Close autocomplete cleanly - works on mobile and desktop
         if (window.algoliaWrapperInstance) {
             console.log('[Algolia] Attempting to close autocomplete');
 
@@ -173,8 +174,12 @@ require(['jquery'], function($) {
                 console.log('[Algolia] Mobile overlay hidden ✅');
             }
 
-            // Optional: Prevent body scroll lock on mobile
-            document.body.style.overflow = '';
+            // DON'T hide the search block itself - only the dropdown
+            // Make sure search input container is visible
+            const searchBlock = document.querySelector('.algolia-search-block');
+            if (searchBlock) {
+                searchBlock.style.display = ''; // Reset to default
+            }
         }
     }
 });
