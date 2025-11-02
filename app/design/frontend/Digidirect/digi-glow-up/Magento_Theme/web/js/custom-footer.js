@@ -57,7 +57,23 @@ require(['jquery'], function($) {
         $('.showcart-footer').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
-            document.querySelector('.aa-Input')?.blur();
+
+            const input = document.querySelector('.aa-Input');
+            if (input) {
+                console.log("input");
+                // Create and dispatch Enter key event
+                const enterEvent = new KeyboardEvent('keydown', {
+                    key: 'Enter',
+                    code: 'Enter',
+                    keyCode: 13,
+                    which: 13,
+                    bubbles: true,
+                    cancelable: true
+                });
+
+                input.dispatchEvent(enterEvent);
+            }
+
 
             $('.showcart').trigger('click');
         });
