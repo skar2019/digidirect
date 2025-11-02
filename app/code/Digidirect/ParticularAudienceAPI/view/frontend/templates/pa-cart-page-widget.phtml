@@ -65,10 +65,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         Object.keys(widgetSlots).forEach(key => {
-
+            
             let product = widgetSlots[key].products[0];
             let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
-
+            
             productCtr++;
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
@@ -110,7 +110,7 @@ require(['jquery'], function ($) {
                 return obj.name === 'item_rating';
             })
 
-            let digiSecondsRating = "";
+            let digiSecondsRating = "";            
 
             if (digiSecondsRatingValue.stringValue == "5") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
@@ -176,46 +176,53 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                                '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
-                                '</button>' + sponsoredLabel
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
+                                '</button>' + 
                             '</form>'
             }
-            //console.log(product.name, sellerName);
+            
+            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none"> <g clip-path="url(#clip0_7978_37674)"> <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13"> <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"></path></mask> <g mask="url(#mask0_7978_37674)"> <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"></path></g></g> <defs> <clipPath id="clip0_7978_37674"> <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"></rect></clipPath></defs></svg></a>`;
+            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container"></div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
                 }
             } else {
-                digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+            }
+
+            let price = Number(product.prices[0].price);
+            let discountPrice = Number(product.prices[0].discountPrice);
+
+            let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            let discountValue = price - discountPrice;
+            let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            
+            if (discount === "$NaN") {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div></div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span>digi</span>Deals</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
-                        digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
+                        digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div></div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
                 }
-
-                let price = Number(product.prices[0].price);
-                let discountPrice = Number(product.prices[0].discountPrice);
-
-                let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-                let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-
-                let discountValue = price - discountPrice;
-                let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' +
+                                            '</span>' + 
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -224,10 +231,10 @@ require(['jquery'], function ($) {
                                         '<span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
                                     '</div>' +
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label"></span>' +
+                                        '<span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ discountPriceToDisplay +'</span>' +
-                                            '</span>' +
+                                            '</span>' + 
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -240,16 +247,16 @@ require(['jquery'], function ($) {
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' +
+                                            '</span>' + 
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
-                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' +
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">' + priceToDisplay +'</span>' +
-                                            '</span>' +
+                                            '</span>' + 
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -269,34 +276,23 @@ require(['jquery'], function ($) {
             var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
             var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
-
+            
             var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
-
-            productItem = productItemDiv +
-                        '<div class="wish-list-wrapper" data-role="add-to-links">' +
-                            '<a href="#"' +
-                            'data-post=""' +
-                            'class="action towishlist" data-action="add-to-wishlist"' +
-                            'title="Add to Wish List">' +
-                            '<i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>' +
-                            '</a>' +
-                        '</div>' +
-                        '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                            digiDealsLogo +
-                            '<span class="product-image-container">' +
-                                '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                    '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
-                                '</span>' +
+            
+            productItem = productItemDiv + digiDealsLogo +
+                        '<a href="' + product.url + '" class="product-image-container">' +
+                            '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                             '</span>' +
                         '</a>' +
-                        '<div class="product details product-item-details">' +
+                        '<a href="' + product.url + '" class="product details product-item-details">' +
                             '<strong class="product-item-name">' +
-                                '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
+                                '<span title="' + product.name + '" class="product-item-link">' +
                                     product.name +
-                                '</a>' +
-                            '</strong>' +
-                            priceBlock + zip +
-                        '</div>' +
+                                '</span>' +
+                            '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                            priceBlock + productInfoBottom +
+                        '</a>' + sponsoredLabel +
                     '</div>'
             $(appendTo).append(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
