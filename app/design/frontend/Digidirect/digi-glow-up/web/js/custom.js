@@ -1716,6 +1716,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
         // 🧩 AJAX cart update helper
         function updateCartAjax($input, newQty) {
+        console.log("updateCartAjax!");
           const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
           if (!itemIdMatch) {
             console.error('❌ cart-qty-debug: cannot extract item ID from', $input.attr('name'))
@@ -1762,6 +1763,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
       // 🆙 Increase qty
       $(document).on('click', '.qty-increase', function (e) {
+        console.log("Increase qty!");
         e.preventDefault()
         const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
         if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (increase)')
@@ -1776,6 +1778,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
       // 🔽 Decrease qty (min 1)
       $(document).on('click', '.qty-decrease', function (e) {
+        console.log("Decrease qty!");
         e.preventDefault()
         const $input = $(this).closest('.qty-buttons').find('input.input-text.qty')
         if (!$input.length) return console.warn('⚠️ cart-qty-debug: no qty input found (decrease)')
