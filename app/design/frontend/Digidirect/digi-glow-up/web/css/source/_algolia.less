@@ -822,11 +822,6 @@
         padding: 0 25px;
         width: 205px;
     }
-    
-    .list-view-col .price-wrapper {
-        display: flex;
-        justify-content: left;
-    }
 
     .list-view-col .discount-price-wrapper {
         display: block;
@@ -843,20 +838,11 @@
     .list-view-col .price-container {
         margin-top: 5px;
     }
-    
-    .list-view-col .result-wrapper .price {
-        margin-top: 0;
-    }
 
     .ais-Hits-item .list-view-col .action.tocart.primary img {
         padding: 0;
         display: inline;
         padding-right: 5px;
-    }
-
-    .ais-Hits-item .list-view-col .action.tocart.primary {
-        width: auto;
-        margin-top: 5px;
     }
 
     .list-view-col .price-wrapper:has(.price:not(:empty)) {
@@ -1052,6 +1038,25 @@
         height: 29px;
     }
 
+}
+
+
+@media only screen and (min-width: 768px) {
+    
+    .ais-Hits-item .list-view-col .action.tocart.primary {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    .list-view-col .result-wrapper .price {
+        margin-top: 20px;
+    }
+    
+    .list-view-col .price-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+    
 }
 
 @media only screen and (max-width: 390px) {

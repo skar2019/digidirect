@@ -1810,21 +1810,33 @@ $(document).on('click', '#custom-alert-close', function () {
     //Price range input currency formatting
     
     function formatCurrency(input) {
-        let value = input.value.replace(/[^0-9.]/g, ''); // remove non-numeric chars
-        if(value) {
-          value = parseFloat(value).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
-        }
-        input.value = value;
+      let value = input.value.replace(/[^0-9.]/g, ''); // remove non-numeric chars
+      if (value) {
+        value = parseFloat(value).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
       }
+      input.value = value;
+    }
 
+    function attachCurrencyFormatter() {
       const minPrice = document.getElementById('min-price');
       const maxPrice = document.getElementById('max-price');
 
+      if (!minPrice || !maxPrice) return false; // wait until inputs exist
+
       [minPrice, maxPrice].forEach(input => {
         input.addEventListener('input', () => formatCurrency(input));
-        input.addEventListener('blur', () => formatCurrency(input)); // format on blur as well
+        input.addEventListener('blur', () => formatCurrency(input));
       });
-    
-    
+
+      return true; // attached successfully
+    }
+
+    // Try attaching every 200ms until elements exist
+    const interval = setInterval(() => {
+      if (attachCurrencyFormatter()) {
+        clearInterval(interval); // stop once attached
+      }
+    }, 200);
+
   })
 })
