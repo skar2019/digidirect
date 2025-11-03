@@ -76,7 +76,7 @@ require(['jquery'], function($) {
 
 
 
-        $('#open-account-popup').on('click', function(){
+        $('#open-account-popup, .account-top-link-mobile').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAlgolia();
@@ -84,18 +84,25 @@ require(['jquery'], function($) {
             $('body').css('overflow', 'hidden');
         });
 
-        $('.account-popup-header-in-pages .close-popup').on('click', function(){
+        $('.account-popup-header .close-popup').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            closeAlgolia();
-            $('#mobile-account-popup').removeClass('active');
-            $('body').css('overflow', '');
+            if (window.location.href.indexOf('/customer/') !== -1) {
+                window.location.href = '/';
+            } else {
+                $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+                closeAlgolia();
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
         });
 
         $('.account-popup-header .signout, .account-popup-header-in-pages .signout').on('click', function(){
             window.location.href = '/customer/account/logout/';
         });
 
+        $('.account-popup-header-in-pages .close-popup').on('click', function(){
+            window.location.href = '/';
+        });
 
         $('[data-modal-trigger]').on('click', function() {
             var modalId = $(this).attr('data-modal-trigger');
@@ -138,6 +145,19 @@ require(['jquery'], function($) {
                 $modal.removeClass('active');
                 $('body').removeClass('modal-open');
             }, 300);
+        }
+
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            if ((window.location.pathname === '/customer/account'
+                || window.location.pathname === '/customer/account/'
+                || window.location.pathname === '/customer/account/index'
+                || window.location.pathname === '/customer/account/index/'
+                )
+                && window.showLoginOverlay) {
+                $('#open-account-popup').trigger('click');
+
+                window.showLoginOverlay = false;
+            }
         }
 
     });

@@ -4,6 +4,7 @@ namespace Digidirect\Customer\ViewModel;
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Wishlist\Model\Wishlist;
+use Magento\Framework\HTTP\Header;
 
 class Customer implements ArgumentInterface
 {
@@ -18,6 +19,12 @@ class Customer implements ArgumentInterface
     protected $wishlist;
 
     /**
+     * @var Header
+     */
+    protected $httpHeader;
+
+
+    /**
      * Constructor
      *
      * @param Session $customerSession
@@ -25,10 +32,12 @@ class Customer implements ArgumentInterface
      */
     public function __construct(
         Session $customerSession,
-        Wishlist $wishlist
+        Wishlist $wishlist,
+        Header $httpHeader
     ) {
         $this->customerSession = $customerSession;
         $this->wishlist = $wishlist;
+        $this->httpHeader = $httpHeader;
     }
 
     /**
@@ -85,4 +94,28 @@ class Customer implements ArgumentInterface
         return null;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getShowLoginOverlay() {
+        return $this->customerSession->getShowLoginOverlay();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function unsetShowLoginOverlay() {
+        return $this->customerSession->unsShowLoginOverlay();
+    }
+
+    /**
+     * @return false|int
+     */
+    public function isMobile()
+    {
+        $userAgent = $this->httpHeader->getHttpUserAgent();
+
+        $isMobile = preg_match('/Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry|Opera Mini/i', $userAgent);
+        return $isMobile;
+    }
 }

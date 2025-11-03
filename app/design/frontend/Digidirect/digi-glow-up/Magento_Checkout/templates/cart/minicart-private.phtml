@@ -5,6 +5,7 @@
 /** @var \Digidirect\Customer\ViewModel\Customer $viewModel */
 $viewModel = $block->getData('view_model');
 $isLoggedIn = $viewModel->isLoggedIn();
+$isMobile = $viewModel->isMobile();
 ?>
 <!-- 🔹 Wishlist -->
 <a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
@@ -36,14 +37,22 @@ $isLoggedIn = $viewModel->isLoggedIn();
     </a>
 <?php else :?>
     <div class="account-icon">
-        <a href="<?= $block->getUrl('customer/account') ?>">
-            <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
-        </a>
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
+            </a>
     </div>
     <div class="account-text">
-        <a href="<?= $block->getUrl('customer/account') ?>">
-            <span class="username"><?= $viewModel->getFirstName();?></span
-        </a>
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <span class="username"><?= $viewModel->getFirstName();?></span
+            </a>
         <a href="<?= $block->getUrl('customer/account/logout') ?>">
             <span class="logout">Logout</span>
         </a>
