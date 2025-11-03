@@ -1320,26 +1320,49 @@ define([
                         const inputWrapper = document.createElement('div')
                         inputWrapper.id = 'price-inputs'
                         inputWrapper.innerHTML = `
-                            <div class="price-input-wrapper">
-                              <span class="currency">$</span>
-                              <input type="number" id="min-price" placeholder="Min" />
-                            </div>
-                            <div class="price-input-wrapper">
-                              <span class="currency">$</span>
-                              <input type="number" id="max-price" placeholder="Max" />
-                            </div>
+                          <div class="price-input-wrapper">
+                            <span class="currency">$</span>
+                            <input type="text" id="min-price" placeholder="Min" inputmode="numeric" />
+                          </div>
+                          <div class="price-input-wrapper">
+                            <span class="currency">$</span>
+                            <input type="text" id="max-price" placeholder="Max" inputmode="numeric" />
+                          </div>
                         `
                         aisSlider.after(inputWrapper)
 
-                        // Input → slider sync
-                        document.getElementById('min-price').addEventListener('change', e => {
-                            const { max } = getSliderValues()
-                            setSliderValues(Number(e.target.value), max)
-                        })
-                        document.getElementById('max-price').addEventListener('change', e => {
-                            const { min } = getSliderValues()
-                            setSliderValues(min, Number(e.target.value))
-                        })
+                        const formatNumber = (val) => {
+                            if (!val) return ''
+                            const num = parseInt(val.replace(/,/g, ''), 10)
+                            return isNaN(num) ? '' : num.toLocaleString()
+                        }
+
+                        const getNumericValue = (el) => {
+                            const raw = el.value.replace(/,/g, '')
+                            return Number(raw) || 0
+                        }
+
+                        const minInput = document.getElementById('min-price')
+                        const maxInput = document.getElementById('max-price')
+
+                        const handleInput = (inputEl, isMin) => {
+                            // Reformat as user types
+                            const caretPos = inputEl.selectionStart
+                            const formatted = formatNumber(inputEl.value)
+                            inputEl.value = formatted
+
+                            // Update slider
+                            const { min, max } = getSliderValues()
+                            const newVal = getNumericValue(inputEl)
+                            if (isMin) {
+                                setSliderValues(newVal, max)
+                            } else {
+                                setSliderValues(min, newVal)
+                            }
+                        }
+
+                        minInput.addEventListener('input', () => handleInput(minInput, true))
+                        maxInput.addEventListener('input', () => handleInput(maxInput, false))
                     }
 
                     // Grab your input boxes
@@ -1419,6 +1442,7 @@ define([
                 const $hitsPerPage = $('.hits-per-page-container')
                 const $pagination = $('#instant-search-pagination-container')
                 const $viewToggle = $('.ais-ViewToggle')
+                const $stats = $('#algolia-stats')
 
                 function moveElements() {
                   const $facets = $('#instant-search-facets-container')
@@ -1426,9 +1450,24 @@ define([
                   const isMobile = $(window).width() <= 768
 
                   // 🔒 Safety checks
-                  if (!$facets.length || !$leftContainer.length) return
-                  if (!$infos.length || !$refineToggle.length || !$customRefinement.length) return
-                  if (!$hitsPerPage.length || !$pagination.length || !$viewToggle.length) return
+                  if (
+                    !$facets.length || !$leftContainer.length || !$infos.length || !$refineToggle.length ||
+                    !$customRefinement.length || !$hitsPerPage.length || !$pagination.length ||
+                    !$viewToggle.length || !$stats.length
+                  ) return
+
+                  // ==============================
+                  // Move algolia-stats
+                  // ==============================
+                  if (isMobile) {
+                    if ($stats.next()[0] !== $leftContainer[0]) {
+                      $stats.insertBefore($leftContainer)
+                    }
+                  } else {
+                    if ($stats.parent()[0] !== $infos[0]) {
+                      $stats.prependTo($infos)
+                    }
+                  }
 
                   // ==============================
                   // Move algolia-infos
@@ -1472,6 +1511,9 @@ define([
 
                 // Run once when ready
                 moveElements()
+
+                // Optional: re-run on resize
+                $(window).on('resize', moveElements)
 
                 // Recheck a few times (Algolia may inject late)
                 let retries = 0

@@ -1807,36 +1807,69 @@ $(document).on('click', '#custom-alert-close', function () {
       true // capture mode
     )
     
-    //Price range input currency formatting
-    
-    function formatCurrency(input) {
-      let value = input.value.replace(/[^0-9.]/g, ''); // remove non-numeric chars
-      if (value) {
-        value = parseFloat(value).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
-      }
-      input.value = value;
-    }
+    // ===============================
+        // 🧩 Fix product count in PLP
+        // ===============================
+        function removeHitsItemsFromEnd() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (!hitsList) return
 
-    function attachCurrencyFormatter() {
-      const minPrice = document.getElementById('min-price');
-      const maxPrice = document.getElementById('max-price');
+          const paProducts = hitsList.querySelectorAll('.pa-product')
+          const count = paProducts.length
 
-      if (!minPrice || !maxPrice) return false; // wait until inputs exist
+          if (count === 0) return
 
-      [minPrice, maxPrice].forEach(input => {
-        input.addEventListener('input', () => formatCurrency(input));
-        input.addEventListener('blur', () => formatCurrency(input));
-      });
+          const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
 
-      return true; // attached successfully
-    }
+          // Safety check: never remove more than exists
+          const removeCount = Math.min(count, hitsItems.length)
 
-    // Try attaching every 200ms until elements exist
-    const interval = setInterval(() => {
-      if (attachCurrencyFormatter()) {
-        clearInterval(interval); // stop once attached
-      }
-    }, 200);
+          // Only remove NON-pa-product items from the end
+          let removed = 0
+          for (let i = hitsItems.length - 1; i >= 0 && removed < removeCount; i--) {
+            const item = hitsItems[i]
+            if (!item.querySelector('.pa-product')) {
+              item.remove()
+              removed++
+            }
+          }
+
+          console.log(`Removed ${removed} .ais-Hits-item elements from the end.`)
+        }
+
+        // 🧭 Debounce helper to prevent multiple rapid runs
+        let debounceTimer
+        function debounceRemove() {
+          clearTimeout(debounceTimer)
+          debounceTimer = setTimeout(removeHitsItemsFromEnd, 300)
+        }
+
+        // 🔍 Observe Algolia hits list dynamically
+        const observer = new MutationObserver((mutationsList) => {
+          for (const mutation of mutationsList) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+              debounceRemove()
+              break
+            }
+          }
+        })
+
+        // Wait for hits list to appear before observing
+        function initObserver() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (hitsList) {
+            observer.observe(hitsList, { childList: true, subtree: true })
+            console.log('✅ Observer attached to .ais-Hits-list')
+            // Run once after attaching
+            debounceRemove()
+          } else {
+            // Retry until Algolia inserts it
+            setTimeout(initObserver, 300)
+          }
+        }
+
+        // 🚀 Start observing
+        initObserver()
 
   })
 })
