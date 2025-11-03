@@ -7,6 +7,9 @@ define([
     return function (targetWidget) {
         $.widget('mage.catalogAddToCart', targetWidget, {
             disableAddToCartButton: function (form) {
+
+                console.log('disableAddToCartButton called from mixin');
+
                 var addToCartButton = $(form).find(this.options.addToCartButtonSelector),
                     buttonTextSpan = addToCartButton.find('span.addcart_words');
 

@@ -457,7 +457,6 @@ require(['jquery'], function ($) {
                                 '</button>' + 
                             '</form>'
             }
-            //console.log(product.name, sellerName);
             
             let addToWishList;
             
@@ -467,8 +466,6 @@ require(['jquery'], function ($) {
                 addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
             }
             
-            //02ed2d33-ee8e-ec11-aae9-02dca44cceec
-            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
                     digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
@@ -476,7 +473,7 @@ require(['jquery'], function ($) {
                     digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
                 }
             } else {
-                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
             }
 
             let price = Number(product.prices[0].price);
@@ -496,12 +493,12 @@ require(['jquery'], function ($) {
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span>digi</span>Deals</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
                 } else {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span class="digi" style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +

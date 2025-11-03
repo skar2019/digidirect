@@ -208,7 +208,7 @@ $(window).on('scroll resize', () => {
 
     /* ========================
 ✨ Sync #pa-welcome-back with Body Blur
-    Show only once every 6 hours
+    Show only to returning visitors, once every 6 hours
     ======================== */
     const $container = $('#welcome-back-widget-desktop')
     const $target = $('#pa-welcome-back')
@@ -218,18 +218,24 @@ $(window).on('scroll resize', () => {
     const now = Date.now()
     const lastShown = localStorage.getItem('welcomeBackLastShown')
 
-    // Check if widget should be shown
-    const canShow = !lastShown || now - parseInt(lastShown, 10) > SIX_HOURS
+    // Check if first-time visitor
+    const isFirstVisit = !localStorage.getItem('hasVisited')
+
+    // Show widget only for returning visitors
+    const canShow = !isFirstVisit && (!lastShown || now - parseInt(lastShown, 10) > SIX_HOURS)
 
     if ($container.length && $target.length && canShow) {
-      const count = $container.find('.product-item-info').length
-      if (count > 5) {
         setTimeout(() => {
-          $target.addClass('active')
-          localStorage.setItem('welcomeBackLastShown', Date.now()) // record time
+            $target.addClass('active')
+
+            // Record time widget was shown
+            localStorage.setItem('welcomeBackLastShown', Date.now())
         }, 1000)
-      }
     }
+
+    // Mark visitor as having visited (for future visits)
+    localStorage.setItem('hasVisited', 'true')
+
 
     // Observe dynamic class changes
     const target = document.querySelector('#pa-welcome-back')
@@ -396,10 +402,11 @@ $(window).on('scroll resize', () => {
 
      /* ========================
         🧩 Persistent Auto Minicart (Counter-based)
-        ✅ Excludes first load & account pages
+        ✅ Excludes first load, account pages & cart page
      ======================== */
      function setupPersistentAutoMinicart() {
-        if (isAccountPage()) return // ⛔ Skip on account-related pages
+        // ⛔ Skip on account pages and cart page
+        if (isAccountPage() || window.location.pathname.includes('/checkout/cart')) return;
 
         let lastCartCount = parseInt($('.counter-number[data-bind*="summary_count"]').text() || 0)
         let firstLoad = true
@@ -1704,5 +1711,165 @@ $(document).on('click', '#custom-alert-close', function () {
       $('#pa-upsell').removeClass('active')
     })
     
+    
+    // ======================
+    // 🔁 AJAX Cart Update Helper
+    // ======================
+    function updateCartAjax($input, newQty) {
+        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
+        if (!itemIdMatch) {
+          console.error('❌ Cannot extract item ID from', $input.attr('name'));
+          return;
+        }
+
+        const itemId = itemIdMatch[1];
+        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
+
+        // Build the URL safely using Magento's URL builder
+        require(['mage/url'], function (urlBuilder) {
+          const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
+
+          $.ajax({
+            url: updateUrl,
+            type: 'POST',
+            data: {
+              form_key: $('input[name="form_key"]').val(),
+              [`cart[${itemId}][qty]`]: newQty,
+              update_cart_action: 'update_qty',
+            },
+            beforeSend: function () {
+              console.log('⏳ Sending AJAX update for item', itemId);
+              $input.prop('disabled', true);
+            },
+            success: function () {
+              console.log('✅ Cart updated successfully');
+
+              // Refresh minicart via customerData (already loaded)
+              customerData.reload(['cart'], true);
+
+              // Optional: refresh totals and row subtotal
+              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
+              const $row = $input.closest('tr');
+              if ($row.length) {
+                const rowId = $row.attr('id');
+                $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
+              }
+            },
+            error: function (xhr, status, err) {
+              console.error('❌ Cart update failed', status, err);
+            },
+            complete: function () {
+              $input.prop('disabled', false);
+            },
+          });
+        });
+      }
+
+    // ======================
+    // 🧮 Qty Button Click Logic
+    // ======================
+    document.addEventListener(
+      'click',
+      function (e) {
+        const btn = e.target.closest('.qty-increase-cart-page, .qty-decrease-cart-page')
+        if (!btn) return
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        console.log('🧩 qty button clicked:', btn.className)
+
+        // Find sibling input
+        let input
+        if (btn.classList.contains('qty-increase-cart-page')) {
+          input = btn.previousElementSibling
+        } else {
+          input = btn.nextElementSibling
+        }
+
+        if (!input || !input.classList.contains('input-text')) {
+          console.warn('⚠️ No qty input found for', btn)
+          return
+        }
+
+        const $input = $(input)
+        let qty = parseInt($input.val(), 10) || 1
+
+        if (btn.classList.contains('qty-increase-cart-page')) qty++
+        else qty = Math.max(1, qty - 1)
+
+        $input.val(qty).trigger('change')
+        console.log(`🧩 qty updated → ${qty}`)
+
+        // 🧠 Trigger AJAX cart update
+        updateCartAjax($input, qty)
+      },
+      true // capture mode
+    )
+    
+    // ===============================
+        // 🧩 Fix product count in PLP
+        // ===============================
+        function removeHitsItemsFromEnd() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (!hitsList) return
+
+          const paProducts = hitsList.querySelectorAll('.pa-product')
+          const count = paProducts.length
+
+          if (count === 0) return
+
+          const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
+
+          // Safety check: never remove more than exists
+          const removeCount = Math.min(count, hitsItems.length)
+
+          // Only remove NON-pa-product items from the end
+          let removed = 0
+          for (let i = hitsItems.length - 1; i >= 0 && removed < removeCount; i--) {
+            const item = hitsItems[i]
+            if (!item.querySelector('.pa-product')) {
+              item.remove()
+              removed++
+            }
+          }
+
+          console.log(`Removed ${removed} .ais-Hits-item elements from the end.`)
+        }
+
+        // 🧭 Debounce helper to prevent multiple rapid runs
+        let debounceTimer
+        function debounceRemove() {
+          clearTimeout(debounceTimer)
+          debounceTimer = setTimeout(removeHitsItemsFromEnd, 300)
+        }
+
+        // 🔍 Observe Algolia hits list dynamically
+        const observer = new MutationObserver((mutationsList) => {
+          for (const mutation of mutationsList) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+              debounceRemove()
+              break
+            }
+          }
+        })
+
+        // Wait for hits list to appear before observing
+        function initObserver() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (hitsList) {
+            observer.observe(hitsList, { childList: true, subtree: true })
+            console.log('✅ Observer attached to .ais-Hits-list')
+            // Run once after attaching
+            debounceRemove()
+          } else {
+            // Retry until Algolia inserts it
+            setTimeout(initObserver, 300)
+          }
+        }
+
+        // 🚀 Start observing
+        initObserver()
+
   })
 })

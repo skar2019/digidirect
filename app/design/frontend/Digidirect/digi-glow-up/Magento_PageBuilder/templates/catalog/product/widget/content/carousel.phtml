@@ -1,0 +1,108 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php
+/**
+ * Product carousel widget template
+ *
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+    <?php
+    $type = 'widget-product-carousel';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    ?>
+    <ol class="product-items <?= /* @noEscape */ $type ?>">
+        <?php $iterator = 1; ?>
+        <?php foreach ($items as $_item): ?>
+            <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+            <div class="product-item-info">
+                <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                    <?= $block->getImage($_item, $image)->toHtml() ?>
+                </a>
+                <div class="product-item-details">
+                    <strong class="product-item-name">
+                        <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                           href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                           class="product-item-link">
+                            <?= $block->escapeHtml($_item->getName()) ?>
+                        </a>
+                    </strong>
+                    <?php if ($templateType): ?>
+                        <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                    <?php endif; ?>
+
+                    <?= $block->getProductPriceHtml($_item, $type) ?>
+
+                    <?= $block->getProductDetailsHtml($_item) ?>
+
+                    <?php if ($showWishlist || $showCompare || $showCart): ?>
+                        <div class="product-item-inner">
+                            <div class="product-item-actions">
+                                <?php if ($showCart): ?>
+                                    <div class="actions-primary">
+                                        <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                        <form data-role="tocart-form" data-product-sku="<?= $block->escapeHtml($_item->getSku()) ?>" action="<?= $block->escapeUrl($postParams['action']) ?>" method="post">
+                                            <input type="hidden" name="product" value="<?= $block->escapeHtmlAttr($postParams['data']['product']) ?>">
+                                            <input type="hidden" name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>" value="<?= /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+                                            <?= $block->getBlockHtml('formkey') ?>
+                                            <button type="submit"
+                                                    title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+                                                    class="action tocart primary">
+                                                <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                            </button>
+                                        </form>
+                                        <script type="text/x-magento-init">
+                                        {
+                                            "[data-role=tocart-form], .form.map.checkout": {
+                                                "catalogAddToCart": {
+                                                    "product_sku": "<?= $escaper->escapeJs($_item->getSku()); ?>"
+                                                }
+                                            }
+                                        }
+                                        </script>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($showWishlist || $showCompare): ?>
+                                    <div class="actions-secondary" data-role="add-to-links">
+                                        <?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow() && $showWishlist): ?>
+                                            <a href="#"
+                                               data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none"> <g clip-path="url(#clip0_7978_37674)"> <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13"> <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"></path></mask> <g mask="url(#mask0_7978_37674)"> <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"></path></g></g> <defs> <clipPath id="clip0_7978_37674"> <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"></rect></clipPath></defs></svg>
+                                                <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                            <?php $compareHelper = $this->helper(\Magento\Catalog\Helper\Product\Compare::class);?>
+                                            <a href="#" class="action tocompare" data-post='<?= /* @noEscape */ $compareHelper->getPostDataParams($_item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Compare')) ?>">
+                                                <span><?= $block->escapeHtml(__('Add to Compare')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+        <?php endforeach ?>
+    </ol>
+<?php endif;?>

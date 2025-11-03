@@ -14,22 +14,22 @@ define([], function () {
         },
 
         getItemHtml: function ({item, components, html}) {
-            
+
             var badge = '';
-            
-            console.log("item", JSON.stringify(item));
-            
+
+            //console.log("item", JSON.stringify(item));
+
             if (item['price'] !== undefined && item['price']['AUD'] !== undefined) {
 
                 let defaultOriginalPrice = 0;
                 let defaultOriginalPriceStr = item['price']['AUD']['default_original_formated'];
-                
+
                 if (defaultOriginalPriceStr) {
                     defaultOriginalPrice = Number(defaultOriginalPriceStr.replace("$", "").replace(",", ""));
                 }
 
                 //console.log("defaultOriginalPriceStr", defaultOriginalPriceStr);
-                
+
                 let basePrice = defaultOriginalPrice > item['price']['AUD']['default']
                     ? defaultOriginalPrice
                     : item['price']['AUD']['default'];
@@ -43,8 +43,8 @@ define([], function () {
                 if (item['wiser_price']) {
                     wiserDiscount = basePrice - item['wiser_price'];
                 }
-                
-                console.log(item['name'], priceDiscount, wiserDiscount);
+
+                //console.log(item['name'], priceDiscount, wiserDiscount);
 
                 if (priceDiscount > 0 || wiserDiscount > 0) {
                     badge = html`<div class="ribbon-digideals"><span>digi</span>Deals</div>`;
@@ -52,7 +52,7 @@ define([], function () {
                     badge = html`<div class="ribbon-digideals always-hidden"><span>digi</span>Deals</div>`;
                 }
             }
-            
+
             let categoryIds = item['categoryIds'] || [];
             let digiSecondsIds = ["2564","2567","2570","2573"];
             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
@@ -60,7 +60,7 @@ define([], function () {
             if (hasMatch) {
                 badge = html`<div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>`;
             }
-            
+
             return html`<a class="algoliasearch-autocomplete-hit"
                            href="${item.url}"
                            data-objectId="${item.objectID}"
@@ -93,8 +93,8 @@ define([], function () {
 
         getColorHtml: function(item, components, html) {
             const highlight = this.safeHighlight(components, item, "color");
-            
-            return highlight 
+
+            return highlight
                 ? html`<span class="color">color: ${highlight}</span>`
                 : "";
         },
@@ -102,7 +102,7 @@ define([], function () {
         getCategoriesHtml: function(item, components, html) {
             const highlight = this.safeHighlight(components, item, "categories_without_path", false);
 
-            return highlight 
+            return highlight
                 ? html`<span>in ${highlight}</span>`
                 : "";
         },

@@ -248,7 +248,7 @@ a.action.towishlist {
     background: #fe4c25;
     border-radius: 24px;
     font-size: 11px;
-    padding: 3px 13px;
+    padding: 3px 8px;
     font-weight: 400;
     line-height: 19px;
     text-transform: uppercase;
@@ -1183,6 +1183,30 @@ body.blur-active .global-blur-overlay {
     outline: currentcolor;
 }
 
+.checkout-cart-index .modal-popup.confirm .modal-inner-wrap {
+    padding-top: 30px;
+}
+
+.checkout-cart-index .modal-popup .modal-header {
+    display: none;
+}
+
+.checkout-cart-index .qty-buttons button {
+    padding: 0;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+}
+
+.ais-Stats {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px;
+    line-height: 27px;
+    margin-right: 50px;
+}
+
 @media screen and (max-width: 1512px) {
 
     .pa-digidirect-product-widget .product-widget-header {
@@ -1555,6 +1579,10 @@ body.blur-active .global-blur-overlay {
     .list-view .pa-product.product-item-info .result-wrapper .price {
         margin-top: 0;
     }
+    
+    .ais-Stats {
+        margin-left: 10px;
+    }
 
     //Brands
     #glow-up-brands .owl-item {
@@ -1588,6 +1616,7 @@ body.blur-active .global-blur-overlay {
         font-size: 12px;
         line-height: normal;
         font-weight: 100;
+        height: 35px;
     }
 
     .catalog-category-view
@@ -1630,7 +1659,7 @@ body.blur-active .global-blur-overlay {
     //Mini Cart
 
     .block-content:has(.empty-cart) {
-        margin-top: 50%;
+        margin-top: 30%;
     }
 
     .block-minicart .block-content > div {
@@ -1661,6 +1690,10 @@ body.blur-active .global-blur-overlay {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    
+    .block-minicart .subtitle.empty {
+        font-size: 16px;
     }
 
     //Message
@@ -1741,6 +1774,20 @@ body.blur-active .global-blur-overlay {
     .pa-digidirect-product-widget .action.tocart.primary {
         padding: 3px 8px;
     }
+    
+    //Cart Page
+    
+    .checkout-cart-index .cart-container {
+        padding: 0 15px;
+    }
+    
+    .cart.table-wrapper {
+        margin: 0;
+    }
+    
+    .cart-row {
+        padding: 0 15px;
+    }
 
 }
 
@@ -1748,6 +1795,14 @@ body.blur-active .global-blur-overlay {
     .block.newsletter .newsletter-left {
         max-width: 35%;
     }
+    
+    .list-view-col .product-info-bottom {
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    
 }
 
 .page-main .page.messages {

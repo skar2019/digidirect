@@ -64,11 +64,11 @@ define([
         buildAutocomplete() {
             /** We have nothing to do here if autocomplete is disabled **/
             if (typeof algoliaConfig === 'undefined' || !algoliaConfig.autocomplete.enabled) return;
-            
+
             const searchClient = this.getSearchClient();
-            
+
             const sources = this.buildAutocompleteSources(searchClient);
-            
+
             const plugins = this.buildAutocompletePlugins(searchClient);
 
             let options = this.buildAutocompleteOptions(searchClient, sources, plugins);
@@ -99,8 +99,8 @@ define([
 
         buildAutocompleteOptions(searchClient, sources, plugins) {
             const debounced = this.debounce(items => Promise.resolve(items), this.DEBOUNCE_MS);
-        
-            let options = algoliaCommon.triggerHooks('beforeAutocompleteOptions', {}); 
+
+            let options = algoliaCommon.triggerHooks('beforeAutocompleteOptions', {});
 
             options = {
                 ...options,
@@ -131,13 +131,13 @@ define([
             };
 
             options = algoliaCommon.triggerHooks('afterAutocompleteOptions', options);
-            
+
             return options;
         },
 
         /**
          * Validate and merge behaviors for custom sources
-         * 
+         *
          * @param searchClient
          * @param sources Magento sources
          * @returns Algolia sources
@@ -192,7 +192,7 @@ define([
 
         /**
          * Build all of the extension's federated sources for Autocomplete
-         * @param searchClient 
+         * @param searchClient
          * @returns array of source objects
          */
         buildAutocompleteSources(searchClient) {
@@ -226,7 +226,7 @@ define([
                 'beforeAutocompleteSources',
                 sources,
                 searchClient
-            ); 
+            );
 
             sources = algoliaCommon.triggerHooks(
                 'afterAutocompleteSources',
@@ -240,7 +240,7 @@ define([
         /**
          * Build pre-baked sources
          * @param section - object containing data for federated section in the autocomplete menu
-         * @param searchClient 
+         * @param searchClient
          * @returns object representing a single source
          */
         buildAutocompleteSource(section, searchClient) {
@@ -262,7 +262,7 @@ define([
         /**
          * Build a default source configuration for all pre baked federated autocomplete sections
          * @param section - object containing data for this section
-         * @returns 
+         * @returns
          */
         buildAutocompleteSourceDefault(section) {
             const options = {
@@ -308,7 +308,7 @@ define([
 
         /**
          * Build the source to be used for federated section showing product results
-         * @param section - object containing data for this section 
+         * @param section - object containing data for this section
          * @param source - default values for the source object
          * @returns source object
          */
@@ -393,12 +393,12 @@ define([
             options = algoliaCommon.triggerHooks(
                 'beforeAutocompleteProductSourceOptions',
                 options
-            ); 
+            );
 
             options.facets = ['categories.level0'];
             options.numericFilters = 'visibility_search=1';
             options.ruleContexts = ['magento_filters', '']; // Empty context to keep backward compatibility for already created rules in dashboard
-            
+
             options = algoliaCommon.triggerHooks(
                 'afterAutocompleteProductSourceOptions',
                 options
@@ -408,7 +408,7 @@ define([
 
         /**
          * Build the source to be used for federated section showing category results
-         * @param section - object containing data for this section 
+         * @param section - object containing data for this section
          * @param source - default values for the source object
          * @returns source object
          */
@@ -438,7 +438,7 @@ define([
 
          /**
          * Build the source to be used for federated section showing CMS page results
-         * @param section - object containing data for this section 
+         * @param section - object containing data for this section
          * @param source - default values for the source object
          * @returns source object
          */
@@ -462,7 +462,7 @@ define([
 
         /**
          * Build the source to be used for federated sections based on product attributes
-         * @param section - object containing data for this section 
+         * @param section - object containing data for this section
          * @param source - default values for the source object
          * @returns source object
          */
@@ -492,9 +492,9 @@ define([
 
         buildAutocompletePlugins(searchClient) {
             let plugins = [];
-            
+
             if (algoliaConfig.autocomplete.nbOfQueriesSuggestions > 0) {
-                state.hasSuggestionSection = true; 
+                state.hasSuggestionSection = true;
                 plugins.push(this.buildSuggestionsPlugin(searchClient));
             }
             return algoliaCommon.triggerHooks(
@@ -505,13 +505,17 @@ define([
         },
 
         /**
-         * 
-         * @param options 
-         * @returns the Algolia Autocomplete instance 
+         *
+         * @param options
+         * @returns the Algolia Autocomplete instance
          */
         startAutocomplete(options) {
             /** Bind autocomplete feature to the input */
             const algoliaAutocompleteInstance = autocomplete.autocomplete(options);
+            // ADD THIS: Store the instance globally
+            window.algoliaAutocompleteInstance = algoliaAutocompleteInstance;
+            console.log('[Algolia] Autocomplete instance captured', algoliaAutocompleteInstance);
+
             return algoliaCommon.triggerHooks(
                 'afterAutocompleteStart',
                 algoliaAutocompleteInstance
@@ -699,7 +703,7 @@ define([
          * See https://www.algolia.com/doc/ui-libraries/autocomplete/guides/debouncing-sources/#select-a-debounce-delay
          * @param fn Function to debounce
          * @param time Delay in ms before function executes
-         * @returns 
+         * @returns
          */
         debounce(fn, time) {
             let timerId = undefined;
@@ -840,18 +844,18 @@ define([
             if (!algoliaConfig.removeBranding) {
                 const algoliaFooter = `<div id="algoliaFooter" class="footer_algolia"><span class="algolia-search-by-label">${algoliaConfig.translations.searchBy}</span><a href="https://www.algolia.com/?utm_source=magento&utm_medium=link&utm_campaign=magento_autocompletion_menu" title="${algoliaConfig.translations.searchBy} Algolia" target="_blank"><img src="${algoliaConfig.urls.logo}" alt="${algoliaConfig.translations.searchBy} Algolia" /></a></div>`;
                 $('.aa-PanelLayout').append(algoliaFooter);
-            } 
+            }
         },
 
         handleSuggestionsLayout() {
-            if (state.hasSuggestionSection) { 
+            if (state.hasSuggestionSection) {
                 $('.aa-Panel').addClass('productColumn2');
                 $('.aa-Panel').removeClass('productColumn1');
             } else {
                 $('.aa-Panel').removeClass('productColumn2');
                 $('.aa-Panel').addClass('productColumn1');
             }
-            
+
         },
 
         addKeyboardNavigation() {
