@@ -35,7 +35,7 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
 
-            closeAlgolia();
+            //closeAlgolia();
 
             if ($('.mobile-menu').hasClass('active')) {
 
@@ -61,7 +61,7 @@ require(['jquery'], function($) {
             $('.mobile-menu-close, .mobile-services-close, .account-popup-header .close-popup').trigger('click');
             console.log("testcart");
 
-            closeAlgolia();
+            //closeAlgolia();
 
             $('.showcart').trigger('click');
         });
@@ -71,7 +71,7 @@ require(['jquery'], function($) {
         $('#open-account-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            closeAlgolia();
+            //closeAlgolia();
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
@@ -79,7 +79,7 @@ require(['jquery'], function($) {
         $('.account-popup-header .close-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            closeAlgolia();
+            //closeAlgolia();
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -98,7 +98,7 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .minicart-close').trigger('click');
 
-            closeAlgolia();
+            //closeAlgolia();
 
             $modal.addClass('active');
             $('body').addClass('modal-open');
@@ -138,38 +138,28 @@ require(['jquery'], function($) {
     });
 
     function closeAlgolia() {
-        // Close autocomplete cleanly - ONLY hide the dropdown panel
+        // Close autocomplete cleanly - just remove the is-ready class
         if (window.algoliaWrapperInstance) {
-            console.log('[Algolia] Closing autocomplete dropdown');
-
-            // ONLY hide the dropdown panel with class .aa-Panel
-            const panel = document.querySelector('.aa-Panel.is-ready');
+            const panel = document.querySelector('.aa-Panel');
             if (panel) {
-                panel.style.display = 'none';
-                console.log('[Algolia] Dropdown panel hidden ✅');
+                panel.classList.remove('is-ready');
+                console.log('[Algolia] Autocomplete closed ✅');
             }
 
-            // Blur the search input (but don't hide it)
-            const searchInput = document.querySelector('.algolia-search-input input, input[type="search"], input[name="q"]');
-            if (searchInput) {
-                searchInput.blur();
+            // Blur the input
+            const input = document.querySelector('input[type="search"]');
+            if (input) {
+                input.blur();
 
                 // Mobile keyboard dismissal
-                if (document.activeElement === searchInput) {
-                    searchInput.setAttribute('readonly', 'readonly');
+                if (document.activeElement === input) {
+                    input.setAttribute('readonly', 'readonly');
                     setTimeout(function() {
-                        searchInput.removeAttribute('readonly');
-                        searchInput.blur();
+                        input.removeAttribute('readonly');
+                        input.blur();
                     }, 100);
                 }
-
-                console.log('[Algolia] Search input blurred ✅');
             }
-
-            // Optional: Clear search value
-            // if (searchInput) {
-            //     searchInput.value = '';
-            // }
         }
     }
 });
