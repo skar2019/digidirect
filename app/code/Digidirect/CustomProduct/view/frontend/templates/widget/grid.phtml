@@ -20,12 +20,15 @@ $collection = $block->getProductCollection();
                 $productCategoryIds = $_product->getCategoryIds();
                 $isDigiSeconds = (bool) array_intersect($productCategoryIds, $targetCategoryIds);
 
+                $isDigiOnly = false;
                 // DigiOnly logic based on seller attribute
-                $marketplacerSeller = trim((string) $_product->getMarketplacerSeller());
-                $isDigiOnly = (strcasecmp($marketplacerSeller, 'digiDirect') === 0 || $marketplacerSeller === 20329);
+                $marketplacerSeller = $_product->getData('marketplacer_seller');
+                if ($marketplacerSeller == 20329) {
+                    $isDigiOnly = true;
+                }
 
                 // DigiPrint logic based on attribute
-                $isDigiPrint = (bool) $_product->getIsDigiprint();
+                $isDigiPrint = (bool) $_product->getData('is_digiprint');
 
                 // DigiMarket placeholder (customize if needed)
                 $isDigiMarket = false;
@@ -36,7 +39,7 @@ $collection = $block->getProductCollection();
 
                 // 🧠 Check for wiser_price (custom pricing rule)
                 $wiserPrice = $_product->getWiserPrice();
-                if (is_numeric($wiserPrice) && (float)$wiserPrice < $finalPrice) {
+                if (is_numeric($wiserPrice) && (float)$wiserPrice > 0 && (float)$wiserPrice < $finalPrice) {
                     $finalPrice = (float)$wiserPrice;
                 }
 
@@ -56,7 +59,7 @@ $collection = $block->getProductCollection();
                 $position = isset($position) ? $position + 1 : 1;
                 ?>
 
-                <div <?= $marketplacerSeller; ?> <?= $wiserPrice; ?> class="col-md-4 col-sm-6 grid-view-col ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <div class="col-md-4 col-sm-6 grid-view-col ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                     <a href="javascript:void(0);"
                         class="action towishlist"
                         title="<?= __('Add to Wishlist') ?>"
@@ -145,7 +148,7 @@ $collection = $block->getProductCollection();
                                         <?php if ($isDigiPrint): ?>
                                             <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
                                         <?php else: ?>
-                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later,</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
                                             <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                                         <?php endif; ?>
                                     </div>
