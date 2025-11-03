@@ -21,11 +21,11 @@ $collection = $block->getProductCollection();
                 $isDigiSeconds = (bool) array_intersect($productCategoryIds, $targetCategoryIds);
 
                 // DigiOnly logic based on seller attribute
-                $marketplacerSeller = trim((string) $_product->getData('marketplacer_seller'));
+                $marketplacerSeller = trim((string) $_product->getMarketplacerSeller);
                 $isDigiOnly = (strcasecmp($marketplacerSeller, 'digiDirect') === 0 || $marketplacerSeller === 20329);
 
                 // DigiPrint logic based on attribute
-                $isDigiPrint = (bool) $_product->getData('is_digiprint');
+                $isDigiPrint = (bool) $_product->getIsDigiprint();
 
                 // DigiMarket placeholder (customize if needed)
                 $isDigiMarket = false;
@@ -35,7 +35,7 @@ $collection = $block->getProductCollection();
                 $finalPrice = (float) $_product->getFinalPrice();
 
                 // 🧠 Check for wiser_price (custom pricing rule)
-                $wiserPrice = $_product->getData('wiser_price');
+                $wiserPrice = $_product->getWiserPrice();
                 if (is_numeric($wiserPrice) && (float)$wiserPrice < $finalPrice) {
                     $finalPrice = (float)$wiserPrice;
                 }
