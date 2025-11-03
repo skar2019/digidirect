@@ -28,11 +28,19 @@
         margin: 0 auto;
     }
 
-    .checkout-logo { display: block; }
-    .checkout-logo-mobile { display: none; }
+    .checkout-logo {
+        display: block;
+    }
+    .checkout-logo-mobile {
+        display: none;
+    }
 
-    .secure-white-img { display: block; }
-    .secure-white-img-mobile { display: none; }
+    .secure-white-img {
+        display: block;
+    }
+    .secure-white-img-mobile {
+        display: none;
+    }
 
     .checkout-logo {
         //background: url('/pub/media/logo-desktop.png') no-repeat center center;
@@ -41,7 +49,6 @@
         padding-top: 5px;
         padding-right: 20px;
     }
-
 }
 
 .secure-text-header {
@@ -423,7 +430,8 @@
         font-size: 18px;
     }
 
-    #opc-sidebar .item-count, #opc-sidebar a.action.viewcart span {
+    #opc-sidebar .item-count,
+    #opc-sidebar a.action.viewcart span {
         font-size: 12px;
     }
 }
@@ -547,16 +555,25 @@
 }
 
 @media screen and (max-width: 490px) {
-    .checkout-logo { display: none !important;}
-    .checkout-logo-mobile { display: block !important; padding-right: 30px;}
+    .checkout-logo {
+        display: none !important;
+    }
+    .checkout-logo-mobile {
+        display: block !important;
+        padding-right: 30px;
+    }
 
-    .secure-white-img { display: none !important; }
-    .secure-white-img-mobile { display: block !important; }
+    .secure-white-img {
+        display: none !important;
+    }
+    .secure-white-img-mobile {
+        display: block !important;
+    }
 
     .page-header .header-content {
         padding: 40px 20px 0 20px !important;
         .secure-text-header {
-             display: none;
+            display: none;
         }
     }
 }
@@ -620,11 +637,13 @@
             flex-direction: column;
             gap: 25px;
 
-            .security-title, .privacy-title {
+            .security-title,
+            .privacy-title {
                 font-size: 14px;
             }
 
-            .security-subtext, .privacy-text {
+            .security-subtext,
+            .privacy-text {
                 font-size: 12px;
             }
         }
@@ -675,6 +694,10 @@
         border-bottom: none !important;
         padding: 0 !important;
     }
-
+}
+@media screen and (max-width: 768px) {
+    #opc-sidebar .minicart-items.product-item-name {
+        margin-left: 0;
+    }
 }
 /****** checkout footer end******/
