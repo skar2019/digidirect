@@ -11,9 +11,11 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
 $_specialOrderValue = $block->getProduct()->getSpecialOrder();
-$_orderLimit = $block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
 $orderLimit = $block->getProduct()->getData('order_limit');
-
+if (empty($_orderLimit) || $_orderLimit == 0)
+{
+    $orderLimit = 10;
+}
 
 ?>
 <?php $_product = $block->getProduct(); ?>
@@ -113,7 +115,7 @@ $orderLimit = $block->getProduct()->getData('order_limit');
         <div class="order-limit-tooltip">
             <span class="order-limit-text">
                 <span class="icon-box-remove"></span>
-                <span>order limits apply <?= $_orderLimit ?> - <?= $orderLimit ?></span>
+                <span>order limits apply</span>
                 <i class="tooltip-toggle"><span class="icon-info"></span></i>
                 <span class="tooltip-content">Orders of units more than <?= $_orderLimit ?> may be cancelled due to availability constraints.</span>
             </span>
