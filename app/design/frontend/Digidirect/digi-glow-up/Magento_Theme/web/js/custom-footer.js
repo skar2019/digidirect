@@ -139,47 +139,27 @@ require(['jquery'], function($) {
 
     function closeAlgolia() {
         // Close autocomplete cleanly - works on mobile and desktop
-        if (window.algoliaWrapperInstance) {
-            console.log('[Algolia] Attempting to close autocomplete');
+        if (window.algoliaAutocompleteInstance && typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+            // Use Algolia's built-in method to close properly
+            window.algoliaAutocompleteInstance.setIsOpen(false);
+            console.log('[Algolia] Autocomplete closed via setIsOpen ✅');
 
-            // Hide the main autocomplete panel
-            const panel = document.querySelector('.aa-Panel');
-            if (panel) {
-                panel.style.display = 'none';
-                console.log('[Algolia] Autocomplete panel hidden ✅');
-            }
+            // Blur the search input
+            const input = document.querySelector('input[type="search"], .aa-Input');
+            if (input) {
+                input.blur();
 
-            // Find and blur the search input (works for mobile and desktop)
-            const searchInput = document.querySelector('.algolia-search-input input, input[type="search"], input[name="q"], #search');
-            if (searchInput) {
-                searchInput.blur();
-
-                // On mobile, blurring might not always hide the keyboard
-                // Force remove focus by focusing on body then blurring
-                if (document.activeElement === searchInput) {
-                    searchInput.setAttribute('readonly', 'readonly');
+                // Mobile keyboard dismissal
+                if (document.activeElement === input) {
+                    input.setAttribute('readonly', 'readonly');
                     setTimeout(function() {
-                        searchInput.removeAttribute('readonly');
-                        searchInput.blur();
+                        input.removeAttribute('readonly');
+                        input.blur();
                     }, 100);
                 }
-
-                console.log('[Algolia] Search input blurred ✅');
             }
-
-            // Remove any mobile-specific overlay/backdrop if present
-            const backdrop = document.querySelector('.aa-DetachedOverlay, .algolia-autocomplete-mobile-overlay, [class*="overlay"]');
-            if (backdrop) {
-                backdrop.style.display = 'none';
-                console.log('[Algolia] Mobile overlay hidden ✅');
-            }
-
-            // DON'T hide the search block itself - only the dropdown
-            // Make sure search input container is visible
-            const searchBlock = document.querySelector('.algolia-search-block');
-            if (searchBlock) {
-                searchBlock.style.display = ''; // Reset to default
-            }
+        } else {
+            console.warn('[Algolia] Autocomplete instance not available');
         }
     }
 });
