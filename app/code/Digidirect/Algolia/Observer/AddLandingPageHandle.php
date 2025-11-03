@@ -26,16 +26,19 @@ class AddLandingPageHandle implements ObserverInterface
             return;
         }
 
-        // Only for brand pages (assuming ?brands=apple in URL)
-        $brand = $this->request->getParam('brands');
-        if (!$brand) {
+        // Get path info, e.g., /brands/apple
+        $pathInfo = trim($this->request->getPathInfo(), '/');
+
+        // Check if path starts with "brands/"
+        if (strpos($pathInfo, 'brands/') !== 0) {
             return;
         }
 
+        // Path has "brands/*" → add the handle
         $layoutUpdate = $observer->getEvent()->getLayout()->getUpdate();
         $handle = 'algolia_brands_page';
 
-        $this->logger->info('Adding Algolia brands page handle: ' . $handle);
+        $this->logger->info('Adding Algolia brands page handle for path: ' . $pathInfo);
         $layoutUpdate->addHandle($handle);
     }
 }
