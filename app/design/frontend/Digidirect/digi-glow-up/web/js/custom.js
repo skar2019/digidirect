@@ -1807,58 +1807,69 @@ $(document).on('click', '#custom-alert-close', function () {
       true // capture mode
     )
     
-    //Fix product count in PLP
-    
-    function removeHitsItemsFromEnd() {
-        const hitsList = document.querySelector('.ais-Hits-list')
-        if (!hitsList) return
+    // ===============================
+        // 🧩 Fix product count in PLP
+        // ===============================
+        function removeHitsItemsFromEnd() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (!hitsList) return
 
-        // Count how many .pa-product exist inside
-        const paProducts = hitsList.querySelectorAll('.pa-product')
-        const count = paProducts.length
+          const paProducts = hitsList.querySelectorAll('.pa-product')
+          const count = paProducts.length
 
-        if (count === 0) return
+          if (count === 0) return
 
-        // Get all .ais-Hits-item elements
-        const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
+          const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
 
-        // Remove items starting from the end
-        for (let i = hitsItems.length - 1; i >= hitsItems.length - count; i--) {
-          const item = hitsItems[i]
-          if (item) item.remove()
+          // Safety check: never remove more than exists
+          const removeCount = Math.min(count, hitsItems.length)
+
+          // Only remove NON-pa-product items from the end
+          let removed = 0
+          for (let i = hitsItems.length - 1; i >= 0 && removed < removeCount; i--) {
+            const item = hitsItems[i]
+            if (!item.querySelector('.pa-product')) {
+              item.remove()
+              removed++
+            }
+          }
+
+          console.log(`Removed ${removed} .ais-Hits-item elements from the end.`)
         }
 
-        console.log(`Removed ${count} .ais-Hits-item elements from the end.`)
-      }
+        // 🧭 Debounce helper to prevent multiple rapid runs
+        let debounceTimer
+        function debounceRemove() {
+          clearTimeout(debounceTimer)
+          debounceTimer = setTimeout(removeHitsItemsFromEnd, 300)
+        }
 
-      // 🔎 Run once initially (in case results already exist)
-      removeHitsItemsFromEnd()
+        // 🔍 Observe Algolia hits list dynamically
+        const observer = new MutationObserver((mutationsList) => {
+          for (const mutation of mutationsList) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+              debounceRemove()
+              break
+            }
+          }
+        })
 
-      // 🧩 Observe changes to Algolia hits list
-      const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            // Delay slightly to ensure Algolia finishes rendering
-            setTimeout(removeHitsItemsFromEnd, 100)
-            break
+        // Wait for hits list to appear before observing
+        function initObserver() {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (hitsList) {
+            observer.observe(hitsList, { childList: true, subtree: true })
+            console.log('✅ Observer attached to .ais-Hits-list')
+            // Run once after attaching
+            debounceRemove()
+          } else {
+            // Retry until Algolia inserts it
+            setTimeout(initObserver, 300)
           }
         }
-      })
 
-      // Wait for hits list to appear before observing
-      function initObserver() {
-        const hitsList = document.querySelector('.ais-Hits-list')
-        if (hitsList) {
-          observer.observe(hitsList, { childList: true, subtree: true })
-          console.log('Observer attached to .ais-Hits-list')
-        } else {
-          // Retry until Algolia inserts it
-          setTimeout(initObserver, 300)
-        }
-      }
-
-      // Start watching
-      initObserver()
+        // 🚀 Start observing
+        initObserver()
 
   })
 })
