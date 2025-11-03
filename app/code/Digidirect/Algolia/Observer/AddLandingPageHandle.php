@@ -26,19 +26,29 @@ class AddLandingPageHandle implements ObserverInterface
             return;
         }
 
-        // Get path info, e.g., /brands/apple
+        $layout = $observer->getData('layout');
+        $landingPageId = (int) $this->request->getParam('landing_page_id');
+        
         $pathInfo = trim($this->request->getPathInfo(), '/');
-
-        // Check if path starts with "brands/"
-        if (strpos($pathInfo, 'brands/') !== 0) {
-            return;
-        }
-
-        // Path has "brands/*" → add the handle
-        $layoutUpdate = $observer->getEvent()->getLayout()->getUpdate();
-        $handle = 'algolia_brands_page';
-
-        $this->logger->info('Adding Algolia brands page handle for path: ' . $pathInfo);
-        $layoutUpdate->addHandle($handle);
+        $this->logger->info('$pathInfo: ' . $pathInfo);
+        
+        //if (strpos($pathInfo, 'brands/') !== 0) {
+        //    return;
+        //}
+        
+        if ($landingPageId) {
+            // Add specific landing page handle
+            $handle = 'algolia_landingpage_view_landing_page_id_' . $landingPageId;
+            $this->logger->info('Adding handle: ' . $handle);
+            $layout->getUpdate()->addHandle($handle);
+        } /*else {
+            // Only apply default banner if "brand" is in the URL query parameter
+            $brand = $this->request->getParam('brands'); // adjust param name if different
+            if ($brand) {
+                $defaultHandle = 'algolia_landingpage_default_brands_banner';
+                $this->logger->info('Adding default handle for brand: ' . $brand);
+                $layout->getUpdate()->addHandle($defaultHandle);
+            }
+        }*/
     }
 }
