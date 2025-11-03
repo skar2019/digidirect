@@ -208,7 +208,7 @@ $(window).on('scroll resize', () => {
 
     /* ========================
 ✨ Sync #pa-welcome-back with Body Blur
-    Show only once every 6 hours
+    Show only to returning visitors, once every 6 hours
     ======================== */
     const $container = $('#welcome-back-widget-desktop')
     const $target = $('#pa-welcome-back')
@@ -218,18 +218,24 @@ $(window).on('scroll resize', () => {
     const now = Date.now()
     const lastShown = localStorage.getItem('welcomeBackLastShown')
 
-    // Check if widget should be shown
-    const canShow = !lastShown || now - parseInt(lastShown, 10) > SIX_HOURS
+    // Check if first-time visitor
+    const isFirstVisit = !localStorage.getItem('hasVisited')
+
+    // Show widget only for returning visitors
+    const canShow = !isFirstVisit && (!lastShown || now - parseInt(lastShown, 10) > SIX_HOURS)
 
     if ($container.length && $target.length && canShow) {
-      const count = $container.find('.product-item-info').length
-      if (count > 5) {
         setTimeout(() => {
-          $target.addClass('active')
-          localStorage.setItem('welcomeBackLastShown', Date.now()) // record time
+            $target.addClass('active')
+
+            // Record time widget was shown
+            localStorage.setItem('welcomeBackLastShown', Date.now())
         }, 1000)
-      }
     }
+
+    // Mark visitor as having visited (for future visits)
+    localStorage.setItem('hasVisited', 'true')
+
 
     // Observe dynamic class changes
     const target = document.querySelector('#pa-welcome-back')
@@ -1800,5 +1806,25 @@ $(document).on('click', '#custom-alert-close', function () {
       },
       true // capture mode
     )
+    
+    //Price range input currency formatting
+    
+    function formatCurrency(input) {
+        let value = input.value.replace(/[^0-9.]/g, ''); // remove non-numeric chars
+        if(value) {
+          value = parseFloat(value).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
+        }
+        input.value = value;
+      }
+
+      const minPrice = document.getElementById('min-price');
+      const maxPrice = document.getElementById('max-price');
+
+      [minPrice, maxPrice].forEach(input => {
+        input.addEventListener('input', () => formatCurrency(input));
+        input.addEventListener('blur', () => formatCurrency(input)); // format on blur as well
+      });
+    
+    
   })
 })
