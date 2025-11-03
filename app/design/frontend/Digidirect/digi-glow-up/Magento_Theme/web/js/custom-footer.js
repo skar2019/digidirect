@@ -35,7 +35,7 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
 
-            //closeAlgolia();
+            closeAlgolia();
 
             if ($('.mobile-menu').hasClass('active')) {
 
@@ -61,7 +61,7 @@ require(['jquery'], function($) {
             $('.mobile-menu-close, .mobile-services-close, .account-popup-header .close-popup').trigger('click');
             console.log("testcart");
 
-            //closeAlgolia();
+            closeAlgolia();
 
             $('.showcart').trigger('click');
         });
@@ -71,7 +71,7 @@ require(['jquery'], function($) {
         $('#open-account-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            //closeAlgolia();
+            closeAlgolia();
             $('#mobile-account-popup').addClass('active account');
             $('body').css('overflow', 'hidden');
         });
@@ -79,7 +79,7 @@ require(['jquery'], function($) {
         $('.account-popup-header .close-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            //closeAlgolia();
+            closeAlgolia();
             $('#mobile-account-popup').removeClass('active');
             $('body').css('overflow', '');
         });
@@ -98,7 +98,7 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .minicart-close').trigger('click');
 
-            //closeAlgolia();
+            closeAlgolia();
 
             $modal.addClass('active');
             $('body').addClass('modal-open');
@@ -138,16 +138,14 @@ require(['jquery'], function($) {
     });
 
     function closeAlgolia() {
-        // Close autocomplete cleanly - just remove the is-ready class
-        if (window.algoliaWrapperInstance) {
-            const panel = document.querySelector('.aa-Panel');
-            if (panel) {
-                panel.classList.remove('is-ready');
-                console.log('[Algolia] Autocomplete closed ✅');
-            }
+        // Close autocomplete cleanly - works on mobile and desktop
+        if (window.algoliaAutocompleteInstance && typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+            // Use Algolia's built-in method to close properly
+            window.algoliaAutocompleteInstance.setIsOpen(false);
+            console.log('[Algolia] Autocomplete closed via setIsOpen ✅');
 
-            // Blur the input
-            const input = document.querySelector('input[type="search"]');
+            // Blur the search input
+            const input = document.querySelector('input[type="search"], .aa-Input');
             if (input) {
                 input.blur();
 
@@ -160,6 +158,8 @@ require(['jquery'], function($) {
                     }, 100);
                 }
             }
+        } else {
+            console.warn('[Algolia] Autocomplete instance not available');
         }
     }
 });
