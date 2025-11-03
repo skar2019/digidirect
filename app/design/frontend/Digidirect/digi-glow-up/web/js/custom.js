@@ -1807,36 +1807,58 @@ $(document).on('click', '#custom-alert-close', function () {
       true // capture mode
     )
     
-    //Price range input currency formatting
+    //Fix product count in PLP
     
-    function formatCurrency(input) {
-      let value = input.value.replace(/[^0-9.]/g, ''); // remove non-numeric chars
-      if (value) {
-        value = parseFloat(value).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: 0 });
+    function removeHitsItemsFromEnd() {
+        const hitsList = document.querySelector('.ais-Hits-list')
+        if (!hitsList) return
+
+        // Count how many .pa-product exist inside
+        const paProducts = hitsList.querySelectorAll('.pa-product')
+        const count = paProducts.length
+
+        if (count === 0) return
+
+        // Get all .ais-Hits-item elements
+        const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
+
+        // Remove items starting from the end
+        for (let i = hitsItems.length - 1; i >= hitsItems.length - count; i--) {
+          const item = hitsItems[i]
+          if (item) item.remove()
+        }
+
+        console.log(`Removed ${count} .ais-Hits-item elements from the end.`)
       }
-      input.value = value;
-    }
 
-    function attachCurrencyFormatter() {
-      const minPrice = document.getElementById('min-price');
-      const maxPrice = document.getElementById('max-price');
+      // 🔎 Run once initially (in case results already exist)
+      removeHitsItemsFromEnd()
 
-      if (!minPrice || !maxPrice) return false; // wait until inputs exist
+      // 🧩 Observe changes to Algolia hits list
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            // Delay slightly to ensure Algolia finishes rendering
+            setTimeout(removeHitsItemsFromEnd, 100)
+            break
+          }
+        }
+      })
 
-      [minPrice, maxPrice].forEach(input => {
-        input.addEventListener('input', () => formatCurrency(input));
-        input.addEventListener('blur', () => formatCurrency(input));
-      });
-
-      return true; // attached successfully
-    }
-
-    // Try attaching every 200ms until elements exist
-    const interval = setInterval(() => {
-      if (attachCurrencyFormatter()) {
-        clearInterval(interval); // stop once attached
+      // Wait for hits list to appear before observing
+      function initObserver() {
+        const hitsList = document.querySelector('.ais-Hits-list')
+        if (hitsList) {
+          observer.observe(hitsList, { childList: true, subtree: true })
+          console.log('Observer attached to .ais-Hits-list')
+        } else {
+          // Retry until Algolia inserts it
+          setTimeout(initObserver, 300)
+        }
       }
-    }, 200);
+
+      // Start watching
+      initObserver()
 
   })
 })
