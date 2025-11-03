@@ -3,6 +3,8 @@
 $viewModel = $block->getViewModel();
 $quoteHelper = $helper = $this->helper('Digidirect\Digi\Helper\Quote');
 $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
+$showOverlay = $viewModel->getShowLoginOverlay();
+$viewModel->unsetShowLoginOverlay();
 ?>
 
 <nav data-action="navigation" class="footer-nav" id="footer_nav">
@@ -156,7 +158,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 <!--        <span class="signout">Sign Out</span>-->
 <!--        <button class="close-popup" aria-label="Close">&times;</button>-->
 <!--    </div>-->
-    <div class="account-popup-header-in-pages">
+    <div class="account-popup-header">
         <span class="signout">Sign Out</span>
         <div class="close-popup">
             <img src="<?= $block->getViewFileUrl('images/mobile-menu-close.png') ?>">
@@ -337,3 +339,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    window.showLoginOverlay = <?= $showOverlay ? 'true' : 'false' ?>;
+</script>
