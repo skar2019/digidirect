@@ -11,10 +11,10 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
 $_specialOrderValue = $block->getProduct()->getSpecialOrder();
-$orderLimit = $block->getProduct()->getData('order_limit');
+$_orderLimit = $block->getProduct()->getData('order_limit');
 if (empty($_orderLimit) || $_orderLimit == 0)
 {
-    $orderLimit = 10;
+    $_orderLimit = 10;
 }
 
 ?>
