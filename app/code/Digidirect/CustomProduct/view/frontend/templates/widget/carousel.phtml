@@ -12,51 +12,69 @@ $collection = $block->getProductCollection();
             <?php foreach ($collection as $_product): ?>
                 <?php
                 // -----------------------
-                // Placeholder logic mapping
-                // Replace these with your real attribute checks or functions
+                // 🧩 Custom Product Logic
                 // -----------------------
-                $isDigiMarket      = false; //(bool) $_product->getData('is_digi_market');          // boolean / attribute
-                $isDigiSeconds     = false; //(bool) $_product->getData('is_digi_seconds');         // boolean / attribute
-                $isDigiOnly        = true; //(bool) $_product->getData('is_digi_only');            // boolean / attribute
-                $isDigiPrint       = false; //(bool) $_product->getData('is_digi_print');           // boolean / attribute
 
-                // customFinalPrice: if exists and less than price
-                $regularPrice      = (float) $_product->getPrice();
-                $finalPrice        = (float) $_product->getFinalPrice();
+                // DigiSeconds logic based on category IDs
+                $targetCategoryIds = [2564,2567,2570,2573];
+                $productCategoryIds = $_product->getCategoryIds();
+                $isDigiSeconds = (bool) array_intersect($productCategoryIds, $targetCategoryIds);
+
+                // DigiOnly logic based on seller attribute
+                $marketplacerSeller = trim((string) $_product->getData('marketplacer_seller'));
+                $isDigiOnly = (strcasecmp($marketplacerSeller, 'digiDirect') === 0 || $marketplacerSeller === '20329');
+
+                // DigiPrint logic based on attribute
+                $isDigiPrint = (bool) $_product->getData('is_digiprint');
+
+                // DigiMarket placeholder (customize if needed)
+                $isDigiMarket = false;
+
+                // 🧮 Price logic
+                $regularPrice = (float) $_product->getPrice();
+                $finalPrice = (float) $_product->getFinalPrice();
+
+                // 🧠 Check for wiser_price (custom pricing rule)
+                $wiserPrice = $_product->getData('wiser_price');
+                if (is_numeric($wiserPrice) && (float)$wiserPrice < $finalPrice) {
+                    $finalPrice = (float)$wiserPrice;
+                }
+
                 $hasCustomFinalPrice = ($finalPrice < $regularPrice);
-                $customFinalPrice  = $hasCustomFinalPrice ? number_format($finalPrice, 2) : null;
-                $discount          = $hasCustomFinalPrice ? number_format($regularPrice - $finalPrice, 2) : null;
+                $customFinalPrice = $hasCustomFinalPrice ? number_format($finalPrice, 2) : null;
+                $discount = $hasCustomFinalPrice ? number_format($regularPrice - $finalPrice, 2) : null;
 
-                // Preorder / Add to cart flags (placeholder)
-                $isPreorder        = (bool) $_product->getData('is_preorder');
-                $isAddToCartEnabled = true; // you can add logic to disable for some SKUs
+                // Misc flags
+                $isPreorder = (bool) $_product->getData('is_preorder');
+                $isAddToCartEnabled = true;
 
-                // product urls / image
-                $productUrl        = $_product->getProductUrl();
-                $imageUrl          = $block->getImageUrl($_product);
-                $productName       = $_product->getName();
-                $objectID          = $_product->getId();
-                $position          = isset($position) ? $position + 1 : 1; // optional position increment if needed
+                // Product info
+                $productUrl = $_product->getProductUrl();
+                $imageUrl = $block->getImageUrl($_product);
+                $productName = $_product->getName();
+                $objectID = $_product->getId();
+                $position = isset($position) ? $position + 1 : 1;
                 ?>
+
                 <div class="col-md-4 col-sm-6 grid-view-col ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                     <meta itemprop="position" content="<?= isset($position) ? (int)$position : '' ?>" />
                     <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
                         <meta itemprop="url" content="<?= $block->escapeUrl($productUrl) ?>"/>
+
                         <a class="result" href="<?= $block->escapeUrl($productUrl) ?>"
                            data-objectid="<?= (int)$objectID ?>"
                            data-indexname="<?= $block->escapeHtmlAttr($block->getName()) ?>"
                            data-position="<?= isset($position) ? (int)$position : '' ?>"
-                           >
-                            <?php // ribbons ?>
+                        >
+
+                            <?php // 🏷️ Ribbons ?>
                             <?php if ($isDigiMarket): ?>
                                 <div class="ribbon-online">Online only</div>
                             <?php endif; ?>
 
                             <?php if (!$isDigiSeconds): ?>
-                                <?php if ($hasCustomFinalPrice): ?>
-                                    <?php if ($isDigiOnly): ?>
-                                        <div class="ribbon-digideals"><span>digi</span>Deals</div>
-                                    <?php endif; ?>
+                                <?php if ($hasCustomFinalPrice && $isDigiOnly): ?>
+                                    <div class="ribbon-digideals"><span>digi</span>Deals</div>
                                 <?php endif; ?>
                             <?php endif; ?>
 
@@ -67,7 +85,7 @@ $collection = $block->getProductCollection();
                             <div class="result-content">
                                 <div class="result-thumbnail">
                                     <?php if ($imageUrl): ?>
-                                        <img itemprop="image" src="<?= $block->escapeUrl($imageUrl) ?>" alt="<?= $block->escapeHtmlAttr($productName) ?>" />
+                                        <img itemprop="image" src="<?= $block->escapeUrl($imageUrl) ?>" alt="<?= $block->escapeHtmlAttr($productName) ?>" class="product-image-photo"/>
                                     <?php else: ?>
                                         <span class="no-image"></span>
                                     <?php endif; ?>
@@ -104,7 +122,6 @@ $collection = $block->getProductCollection();
                                     </div>
 
                                     <?php
-                                    // Price / Offer block
                                     $currencyCode = $block->getStore()->getCurrentCurrencyCode();
                                     ?>
                                     <div itemprop="offers" itemscope itemtype="<?= $hasCustomFinalPrice ? 'http://schema.org/AggregateOffer' : 'http://schema.org/Offer' ?>" class="price">
@@ -174,7 +191,6 @@ $collection = $block->getProductCollection();
                                             <?php endif; ?>
                                         <?php endif; ?>
                                     </div>
-
                                 </div> <!-- result-sub-content -->
                             </div> <!-- result-content -->
                             <div class="algolia-clearfix"></div>
