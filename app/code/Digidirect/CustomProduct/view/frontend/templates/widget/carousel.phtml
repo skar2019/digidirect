@@ -7,7 +7,7 @@ $collection = $block->getProductCollection();
         <h2 class="widget-title"><?= $block->escapeHtml($block->getData('title')) ?></h2>
     <?php endif; ?>
 
-    <div class="products-carousel">
+    <div class="products-carousel owl-carousel custom">
         <?php if ($collection->getSize()): ?>
             <?php foreach ($collection as $_product): ?>
                 <?php
@@ -187,9 +187,47 @@ $collection = $block->getProductCollection();
         <?php endif; ?>
     </div>
 
-    <!-- Optional: small inline init hint (remove if you init elsewhere) -->
     <script>
-        // Example: init your slider for .digidirect-carousel-inner here (requires slider library)
-        // initSlider('.digidirect-carousel-inner');
+        require(['jquery'], function ($) {
+            'use strict'
+            $(document).ready(function () {
+                $(".owl-carousel.custom").owlCarousel({
+                    loop: false,
+                    nav: true,
+                    margin: 15,
+                    touchDrag: true,
+                    mouseDrag: true,
+                    smartSpeed: 800,
+                    slideBy: 1,
+                    responsive: {
+                        0: {
+                            items:2
+                        },
+                        600: {
+                            items: 2
+                        },
+                        992: {
+                            items: 2
+                        },
+                        1024: {
+                            items: 5
+                        },
+                        1310: {
+                            items: 5
+                        },
+                        1366: {
+                            items: 5
+                        },
+                        1550: {
+                            items: 5
+                        }
+                    },
+                    dots: false,
+                    autoplay: false,
+                    autoplayTimeout: 3000
+                });
+            })
+        })
     </script>
+
 </div>

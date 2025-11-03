@@ -24,7 +24,18 @@ class ProductList extends Template implements BlockInterface
         $this->productCollectionFactory = $productCollectionFactory;
         $this->imageHelper = $imageHelper;
         $this->_storeManager = $storeManager;
+
         parent::__construct($context, $data);
+
+        // 👇 dynamically set template based on widget “display_mode” parameter
+        if (!empty($data['display_mode'])) {
+            $mode = strtolower(trim($data['display_mode']));
+            if ($mode === 'carousel') {
+                $this->setTemplate('widget/carousel.phtml');
+            } else {
+                $this->setTemplate('widget/grid.phtml');
+            }
+        }
     }
 
     public function getStore()
@@ -77,6 +88,7 @@ class ProductList extends Template implements BlockInterface
             $collection->addAttributeToFilter('price', ['lteq' => (float)$maxPrice]);
         }
 
+        // 👇 Product count limit
         $limit = (int)$this->getData('limit') ?: 8;
         $collection->setPageSize($limit);
 
