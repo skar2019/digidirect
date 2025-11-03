@@ -18,6 +18,14 @@ require(['jquery'], function($) {
             }
         );
 
+        if (window.location.pathname === '/') {
+            document.querySelector('.home-footer-menu')?.classList.add('active');
+        }
+
+        if (window.location.pathname === '/customer/account/index/' || window.location.pathname === '/customer/account/index/') {
+            document.querySelector('.account-footer-menu')?.classList.add('active');
+        }
+
         document.querySelectorAll('.footer-nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 // Remove active class from all footer nav items
@@ -33,7 +41,7 @@ require(['jquery'], function($) {
 
         $('.footer-mobile-menu-icon').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup').trigger('click');
 
             closeAlgolia();
 
@@ -51,14 +59,14 @@ require(['jquery'], function($) {
 
         $('.footer-search').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .account-popup-header .close-popup').trigger('click');
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup').trigger('click');
 
             document.querySelector('.aa-Input').focus();
         });
 
         $('.showcart-footer').on('click', function(){
 
-            $('.mobile-menu-close, .mobile-services-close, .account-popup-header .close-popup').trigger('click');
+            $('.mobile-menu-close, .mobile-services-close, .close-popup').trigger('click');
             console.log("testcart");
 
             closeAlgolia();
@@ -76,7 +84,7 @@ require(['jquery'], function($) {
             $('body').css('overflow', 'hidden');
         });
 
-        $('.account-popup-header .close-popup').on('click', function(){
+        $('.account-popup-header-in-pages .close-popup').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAlgolia();
@@ -88,9 +96,6 @@ require(['jquery'], function($) {
             window.location.href = '/customer/account/logout/';
         });
 
-        $('.account-popup-header-in-pages .close-popup').on('click', function(){
-            window.location.href = '/';
-        });
 
         $('[data-modal-trigger]').on('click', function() {
             var modalId = $(this).attr('data-modal-trigger');
