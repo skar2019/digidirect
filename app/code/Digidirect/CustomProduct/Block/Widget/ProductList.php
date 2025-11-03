@@ -8,7 +8,6 @@ use Magento\Widget\Block\BlockInterface;
 
 class ProductList extends Template implements BlockInterface
 {
-    protected $_template = "widget/grid.phtml";
     protected $productCollectionFactory;
     protected $imageHelper;
 
@@ -20,6 +19,14 @@ class ProductList extends Template implements BlockInterface
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->imageHelper = $imageHelper;
+
+        // 🧱 Choose template based on display mode
+        if (isset($data['display_mode']) && $data['display_mode'] === 'carousel') {
+            $this->_template = "widget/carousel.phtml";
+        } else {
+            $this->_template = "widget/grid.phtml";
+        }
+
         parent::__construct($context, $data);
     }
 

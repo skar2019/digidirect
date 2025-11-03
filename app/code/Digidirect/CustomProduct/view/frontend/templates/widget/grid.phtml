@@ -1,4 +1,5 @@
 <?php
+/** @var $block \Digidirect\CustomProduct\Block\Widget\ProductList */
 $collection = $block->getProductCollection();
 ?>
 <div class="digidirect-custom-widget digidirect-custom-grid">
@@ -9,15 +10,176 @@ $collection = $block->getProductCollection();
     <div class="products-grid">
         <?php if ($collection->getSize()): ?>
             <?php foreach ($collection as $_product): ?>
-                <div class="product-item">
-                    <a href="<?= $_product->getProductUrl() ?>">
-                        <?php $img = $block->getImageUrl($_product); ?>
-                        <?php if ($img): ?>
-                            <img src="<?= $block->escapeUrl($img) ?>" alt="<?= $block->escapeHtmlAttr($_product->getName()) ?>" class="product-image" />
-                        <?php endif; ?>
-                        <h3 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h3>
-                        <div class="price"><?= $block->escapeHtml($_product->getPrice()) ?></div>
-                    </a>
+                <?php
+                // -----------------------
+                // Placeholder logic mapping
+                // Replace these with your real attribute checks or functions
+                // -----------------------
+                $isDigiMarket      = (bool) $_product->getData('is_digi_market');          // boolean / attribute
+                $isDigiSeconds     = (bool) $_product->getData('is_digi_seconds');         // boolean / attribute
+                $isDigiOnly        = (bool) $_product->getData('is_digi_only');            // boolean / attribute
+                $isDigiPrint       = (bool) $_product->getData('is_digi_print');           // boolean / attribute
+
+                // customFinalPrice: if exists and less than price
+                $regularPrice      = (float) $_product->getPrice();
+                $finalPrice        = (float) $_product->getFinalPrice();
+                $hasCustomFinalPrice = ($finalPrice < $regularPrice);
+                $customFinalPrice  = $hasCustomFinalPrice ? number_format($finalPrice, 2) : null;
+                $discount          = $hasCustomFinalPrice ? number_format($regularPrice - $finalPrice, 2) : null;
+
+                // Preorder / Add to cart flags (placeholder)
+                $isPreorder        = (bool) $_product->getData('is_preorder');
+                $isAddToCartEnabled = true; // you can add logic to disable for some SKUs
+
+                // product urls / image
+                $productUrl        = $_product->getProductUrl();
+                $imageUrl          = $block->getImageUrl($_product);
+                $productName       = $_product->getName();
+                $objectID          = $_product->getId();
+                $position          = isset($position) ? $position + 1 : 1; // optional position increment if needed
+                ?>
+                <div class="col-md-4 col-sm-6 grid-view-col ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="position" content="<?= isset($position) ? (int)$position : '' ?>" />
+                    <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
+                        <meta itemprop="url" content="<?= $block->escapeUrl($productUrl) ?>"/>
+                        <a class="result" href="<?= $block->escapeUrl($productUrl) ?>"
+                           data-objectid="<?= (int)$objectID ?>"
+                           data-indexname="<?= $block->escapeHtmlAttr($block->getName()) ?>"
+                           data-position="<?= isset($position) ? (int)$position : '' ?>"
+                           >
+                            <?php // ribbons ?>
+                            <?php if ($isDigiMarket): ?>
+                                <div class="ribbon-online">Online only</div>
+                            <?php endif; ?>
+
+                            <?php if (!$isDigiSeconds): ?>
+                                <?php if ($hasCustomFinalPrice): ?>
+                                    <?php if ($isDigiOnly): ?>
+                                        <div class="ribbon-digideals"><span>digi</span>Deals</div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if ($isDigiSeconds): ?>
+                                <div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>
+                            <?php endif; ?>
+
+                            <div class="result-content">
+                                <div class="result-thumbnail">
+                                    <?php if ($imageUrl): ?>
+                                        <img itemprop="image" src="<?= $block->escapeUrl($imageUrl) ?>" alt="<?= $block->escapeHtmlAttr($productName) ?>" />
+                                    <?php else: ?>
+                                        <span class="no-image"></span>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="result-sub-content">
+                                    <div style="color: #4D4E4E;font-size: 10px;font-weight: 400;word-wrap: break-word;text-align: left;">
+                                        <?= $block->escapeHtml($_product->getData('first_category_label') ?: '') ?>
+                                    </div>
+
+                                    <h3 itemprop="name" class="result-title text-ellipsis"><?= $block->escapeHtml($productName) ?></h3>
+
+                                    <div class="ratings">
+                                        <div class="product-reviews-summary short">
+                                            <div class="rating-summary">
+                                                <span class="label"><span><?= __('Rating') ?>:</span></span>
+                                                <?php $ratingSummary = (int) ($_product->getData('rating_summary') ?: 0); ?>
+                                                <div class="rating-result" title="<?= $ratingSummary ?>%">
+                                                    <span style="width:<?= $ratingSummary ?>%"><span><?= $ratingSummary ?>%</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-description text-ellipsis"><?= $block->escapeHtml($_product->getShortDescription() ?: '') ?></div>
+
+                                    <div class="s19-rental-price-target">
+                                        <?php if ($isDigiPrint): ?>
+                                            <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                        <?php else: ?>
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later,</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php
+                                    // Price / Offer block
+                                    $currencyCode = $block->getStore()->getCurrentCurrencyCode();
+                                    ?>
+                                    <div itemprop="offers" itemscope itemtype="<?= $hasCustomFinalPrice ? 'http://schema.org/AggregateOffer' : 'http://schema.org/Offer' ?>" class="price">
+                                        <?php if ($hasCustomFinalPrice): ?>
+                                            <meta itemprop="lowPrice" content="<?= number_format($finalPrice, 2, '.', '') ?>" />
+                                            <meta itemprop="highPrice" content="<?= number_format($regularPrice, 2, '.', '') ?>" />
+                                        <?php else: ?>
+                                            <meta itemprop="price" content="<?= number_format($regularPrice, 2, '.', '') ?>" />
+                                        <?php endif; ?>
+                                        <meta itemprop="priceCurrency" content="<?= $block->escapeHtmlAttr($currencyCode) ?>" />
+
+                                        <?php if ($hasCustomFinalPrice): ?>
+                                            <div class="price-wrapper">
+                                                <span class="price-container">
+                                                    <?php if ($_product->getData('default_original_price')): ?>
+                                                        <span class="price"><?= $block->escapeHtml($_product->getData('default_original_price')) ?></span>
+                                                    <?php else: ?>
+                                                        <span class="price"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
+                                                    <?php endif; ?>
+                                                </span>
+                                                <div>
+                                                    <span class="after_special custom_final_price"><?= $block->escapeHtml($customFinalPrice) ?></span>
+                                                </div>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="price-wrapper">
+                                                <span class="price-container">
+                                                    <span class="price"></span>
+                                                </span>
+                                                <div>
+                                                    <span class="after_special"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="product-info-bottom">
+                                        <?php if ($hasCustomFinalPrice): ?>
+                                            <div class="discount-price-wrapper">
+                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> Off
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="discount-price-wrapper-no-price"></div>
+                                        <?php endif; ?>
+
+                                        <?php if ($isAddToCartEnabled): ?>
+                                            <?php if (!$isDigiPrint): ?>
+                                                <form data-role="tocart-form" action="<?= $block->getUrl('checkout/cart/add') ?>" method="post">
+                                                    <input type="hidden" name="product" value="<?= (int)$objectID ?>">
+                                                    <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>">
+                                                    <button type="submit" title="<?= __('Add to Cart') ?>" class="action tocart primary"
+                                                        data-objectid="<?= (int)$objectID ?>">
+                                                        <?php if (!$isPreorder): ?>
+                                                            <span><?= __('Add to Cart') ?></span>
+                                                            <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" alt="" />
+                                                        <?php else: ?>
+                                                            <span><?= __('Pre-Order') ?></span>
+                                                        <?php endif; ?>
+                                                    </button>
+                                                </form>
+                                            <?php else: ?>
+                                                <div class="actions-primary">
+                                                    <a class="ordernow-link" href="<?= $block->escapeUrl($_product->getData('digiprint_url') ?: '#') ?>" target="_blank">
+                                                        <button type="button" title="<?= __('Order Now') ?>" class="action tocart primary"><?= __('Order Now') ?></button>
+                                                    </a>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                </div> <!-- result-sub-content -->
+                            </div> <!-- result-content -->
+                            <div class="algolia-clearfix"></div>
+                        </a>
+                    </div>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
