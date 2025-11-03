@@ -1806,6 +1806,41 @@ body.blur-active .global-blur-overlay {
     .cart-row {
         padding: 0 15px;
     }
+    
+    //Brands Page
+    
+    .brands-index-index #maincontent {
+        margin: 0;
+    }
+    
+    .page-wrapper > :not(.page-header):not(.page-bottom):not(.page-footer) {
+        padding: 0 20px !important;
+    }
+    
+    .brand-alphabet {
+        display: none;
+    }
+    
+    .brand-filter {
+        width: 100%;
+        position: relative;
+    }
+    
+    #brand-search {
+        width: 100%;
+        height: 41px;
+    }
+    
+    .brand-filter svg {
+        position: absolute;
+        right: 4px;
+        top: 12px;
+        display: block;
+    }
+    
+    .brand-group ul {
+        grid-template-columns: repeat(2,1fr);
+    }
 
 }
 
@@ -2009,6 +2044,11 @@ button.action.primary.action-dismiss {
     border-radius: 22px;
     font-size: 15px;
     padding: 4px 5px 6px 17px;
+    border: 0;
+}
+
+.brand-filter svg {
+    display: none;
 }
 
 .brand-list h3 {

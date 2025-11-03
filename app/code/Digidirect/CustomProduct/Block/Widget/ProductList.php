@@ -55,7 +55,7 @@ class ProductList extends Template implements BlockInterface
     public function getProductCollection()
     {
         $collection = $this->productCollectionFactory->create();
-        $collection->addAttributeToSelect(['name', 'price', 'small_image', 'sku'])
+        $collection->addAttributeToSelect('*')
             ->addAttributeToFilter('status', 1)
             ->addAttributeToFilter('visibility', ['in' => [2, 3, 4]]);
 
