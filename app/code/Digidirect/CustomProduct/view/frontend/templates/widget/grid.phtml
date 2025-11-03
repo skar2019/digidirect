@@ -15,10 +15,10 @@ $collection = $block->getProductCollection();
                 // Placeholder logic mapping
                 // Replace these with your real attribute checks or functions
                 // -----------------------
-                $isDigiMarket      = (bool) $_product->getData('is_digi_market');          // boolean / attribute
-                $isDigiSeconds     = (bool) $_product->getData('is_digi_seconds');         // boolean / attribute
-                $isDigiOnly        = (bool) $_product->getData('is_digi_only');            // boolean / attribute
-                $isDigiPrint       = (bool) $_product->getData('is_digi_print');           // boolean / attribute
+                $isDigiMarket      = false; //(bool) $_product->getData('is_digi_market');          // boolean / attribute
+                $isDigiSeconds     = false; //(bool) $_product->getData('is_digi_seconds');         // boolean / attribute
+                $isDigiOnly        = true; //(bool) $_product->getData('is_digi_only');            // boolean / attribute
+                $isDigiPrint       = false; //(bool) $_product->getData('is_digi_print');           // boolean / attribute
 
                 // customFinalPrice: if exists and less than price
                 $regularPrice      = (float) $_product->getPrice();
@@ -120,7 +120,7 @@ $collection = $block->getProductCollection();
                                             <div class="price-wrapper">
                                                 <span class="price-container">
                                                     <?php if ($_product->getData('default_original_price')): ?>
-                                                        <span class="price"><?= $block->escapeHtml($_product->getData('default_original_price')) ?></span>
+                                                        <span class="price"><?= $block->escapeHtml(number_format($finalPrice, 2, '.', '')) ?></span>
                                                     <?php else: ?>
                                                         <span class="price"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
                                                     <?php endif; ?>

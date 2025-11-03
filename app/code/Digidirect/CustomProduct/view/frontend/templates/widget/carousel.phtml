@@ -7,51 +7,63 @@ $collection = $block->getProductCollection();
         <h2 class="widget-title"><?= $block->escapeHtml($block->getData('title')) ?></h2>
     <?php endif; ?>
 
-    <div class="digidirect-carousel-inner">
+    <div class="products-carousel">
         <?php if ($collection->getSize()): ?>
             <?php foreach ($collection as $_product): ?>
                 <?php
-                // Placeholder logic (same as grid)
-                $isDigiMarket      = (bool) $_product->getData('is_digi_market');
-                $isDigiSeconds     = (bool) $_product->getData('is_digi_seconds');
-                $isDigiOnly        = (bool) $_product->getData('is_digi_only');
-                $isDigiPrint       = (bool) $_product->getData('is_digi_print');
+                // -----------------------
+                // Placeholder logic mapping
+                // Replace these with your real attribute checks or functions
+                // -----------------------
+                $isDigiMarket      = false; //(bool) $_product->getData('is_digi_market');          // boolean / attribute
+                $isDigiSeconds     = false; //(bool) $_product->getData('is_digi_seconds');         // boolean / attribute
+                $isDigiOnly        = true; //(bool) $_product->getData('is_digi_only');            // boolean / attribute
+                $isDigiPrint       = false; //(bool) $_product->getData('is_digi_print');           // boolean / attribute
 
+                // customFinalPrice: if exists and less than price
                 $regularPrice      = (float) $_product->getPrice();
                 $finalPrice        = (float) $_product->getFinalPrice();
                 $hasCustomFinalPrice = ($finalPrice < $regularPrice);
                 $customFinalPrice  = $hasCustomFinalPrice ? number_format($finalPrice, 2) : null;
                 $discount          = $hasCustomFinalPrice ? number_format($regularPrice - $finalPrice, 2) : null;
 
+                // Preorder / Add to cart flags (placeholder)
                 $isPreorder        = (bool) $_product->getData('is_preorder');
-                $isAddToCartEnabled = true;
+                $isAddToCartEnabled = true; // you can add logic to disable for some SKUs
 
+                // product urls / image
                 $productUrl        = $_product->getProductUrl();
                 $imageUrl          = $block->getImageUrl($_product);
                 $productName       = $_product->getName();
                 $objectID          = $_product->getId();
+                $position          = isset($position) ? $position + 1 : 1; // optional position increment if needed
                 ?>
-                <div class="carousel-item ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <?php if ($isDigiMarket): ?>
-                        <div class="ribbon-online">Online only</div>
-                    <?php endif; ?>
-
-                    <?php if (!$isDigiSeconds): ?>
-                        <?php if ($hasCustomFinalPrice): ?>
-                            <?php if ($isDigiOnly): ?>
-                                <div class="ribbon-digideals"><span>digi</span>Deals</div>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-
-                    <?php if ($isDigiSeconds): ?>
-                        <div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>
-                    <?php endif; ?>
-
+                <div class="col-md-4 col-sm-6 grid-view-col ais-Hits-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="position" content="<?= isset($position) ? (int)$position : '' ?>" />
                     <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
                         <meta itemprop="url" content="<?= $block->escapeUrl($productUrl) ?>"/>
                         <a class="result" href="<?= $block->escapeUrl($productUrl) ?>"
-                           data-objectid="<?= (int)$objectID ?>">
+                           data-objectid="<?= (int)$objectID ?>"
+                           data-indexname="<?= $block->escapeHtmlAttr($block->getName()) ?>"
+                           data-position="<?= isset($position) ? (int)$position : '' ?>"
+                           >
+                            <?php // ribbons ?>
+                            <?php if ($isDigiMarket): ?>
+                                <div class="ribbon-online">Online only</div>
+                            <?php endif; ?>
+
+                            <?php if (!$isDigiSeconds): ?>
+                                <?php if ($hasCustomFinalPrice): ?>
+                                    <?php if ($isDigiOnly): ?>
+                                        <div class="ribbon-digideals"><span>digi</span>Deals</div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if ($isDigiSeconds): ?>
+                                <div class="ribbon-digideals digiseconds"><span style="color: #FE4C25">digi</span>Seconds</div>
+                            <?php endif; ?>
+
                             <div class="result-content">
                                 <div class="result-thumbnail">
                                     <?php if ($imageUrl): ?>
@@ -68,6 +80,18 @@ $collection = $block->getProductCollection();
 
                                     <h3 itemprop="name" class="result-title text-ellipsis"><?= $block->escapeHtml($productName) ?></h3>
 
+                                    <div class="ratings">
+                                        <div class="product-reviews-summary short">
+                                            <div class="rating-summary">
+                                                <span class="label"><span><?= __('Rating') ?>:</span></span>
+                                                <?php $ratingSummary = (int) ($_product->getData('rating_summary') ?: 0); ?>
+                                                <div class="rating-result" title="<?= $ratingSummary ?>%">
+                                                    <span style="width:<?= $ratingSummary ?>%"><span><?= $ratingSummary ?>%</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="result-description text-ellipsis"><?= $block->escapeHtml($_product->getShortDescription() ?: '') ?></div>
 
                                     <div class="s19-rental-price-target">
@@ -79,6 +103,10 @@ $collection = $block->getProductCollection();
                                         <?php endif; ?>
                                     </div>
 
+                                    <?php
+                                    // Price / Offer block
+                                    $currencyCode = $block->getStore()->getCurrentCurrencyCode();
+                                    ?>
                                     <div itemprop="offers" itemscope itemtype="<?= $hasCustomFinalPrice ? 'http://schema.org/AggregateOffer' : 'http://schema.org/Offer' ?>" class="price">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <meta itemprop="lowPrice" content="<?= number_format($finalPrice, 2, '.', '') ?>" />
@@ -86,13 +114,13 @@ $collection = $block->getProductCollection();
                                         <?php else: ?>
                                             <meta itemprop="price" content="<?= number_format($regularPrice, 2, '.', '') ?>" />
                                         <?php endif; ?>
-                                        <meta itemprop="priceCurrency" content="<?= $block->escapeHtmlAttr($block->getStore()->getCurrentCurrencyCode()) ?>" />
+                                        <meta itemprop="priceCurrency" content="<?= $block->escapeHtmlAttr($currencyCode) ?>" />
 
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="price-wrapper">
                                                 <span class="price-container">
                                                     <?php if ($_product->getData('default_original_price')): ?>
-                                                        <span class="price"><?= $block->escapeHtml($_product->getData('default_original_price')) ?></span>
+                                                        <span class="price"><?= $block->escapeHtml(number_format($finalPrice, 2, '.', '')) ?></span>
                                                     <?php else: ?>
                                                         <span class="price"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
                                                     <?php endif; ?>
@@ -111,7 +139,6 @@ $collection = $block->getProductCollection();
                                                 </div>
                                             </div>
                                         <?php endif; ?>
-
                                     </div>
 
                                     <div class="product-info-bottom">
@@ -128,7 +155,8 @@ $collection = $block->getProductCollection();
                                                 <form data-role="tocart-form" action="<?= $block->getUrl('checkout/cart/add') ?>" method="post">
                                                     <input type="hidden" name="product" value="<?= (int)$objectID ?>">
                                                     <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>">
-                                                    <button type="submit" title="<?= __('Add to Cart') ?>" class="action tocart primary" data-objectid="<?= (int)$objectID ?>">
+                                                    <button type="submit" title="<?= __('Add to Cart') ?>" class="action tocart primary"
+                                                        data-objectid="<?= (int)$objectID ?>">
                                                         <?php if (!$isPreorder): ?>
                                                             <span><?= __('Add to Cart') ?></span>
                                                             <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" alt="" />
@@ -147,16 +175,17 @@ $collection = $block->getProductCollection();
                                         <?php endif; ?>
                                     </div>
 
-                                </div><!-- result-sub-content -->
-                            </div><!-- result-content -->
+                                </div> <!-- result-sub-content -->
+                            </div> <!-- result-content -->
+                            <div class="algolia-clearfix"></div>
                         </a>
-                    </div><!-- result-wrapper -->
-                </div><!-- carousel-item -->
+                    </div>
+                </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p class="no-products"><?= __('No products found') ?></p>
         <?php endif; ?>
-    </div><!-- digidirect-carousel-inner -->
+    </div>
 
     <!-- Optional: small inline init hint (remove if you init elsewhere) -->
     <script>

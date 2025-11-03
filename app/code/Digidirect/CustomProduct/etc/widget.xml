@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
-
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
     <widget id="digidirect_customproduct_list"
             class="Digidirect\CustomProduct\Block\Widget\ProductList"
             is_email_compatible="true">
@@ -20,35 +18,34 @@
 
             <parameter name="skus" xsi:type="text" sort_order="20" visible="true">
                 <label>Product SKUs (comma-separated)</label>
-                <required>false</required>
+                    <required>false</required>
             </parameter>
 
             <parameter name="category_id" xsi:type="text" sort_order="30" visible="true">
                 <label>Category ID (optional)</label>
-                <required>false</required>
+                    <required>false</required>
             </parameter>
 
             <parameter name="limit" xsi:type="text" sort_order="40" visible="true">
                 <label>Product Limit</label>
-                <required>false</required>
+                    <required>false</required>
                 <value>8</value>
             </parameter>
 
             <parameter name="min_price" xsi:type="text" sort_order="50" visible="true">
                 <label>Min Price (optional)</label>
-                <required>false</required>
+                    <required>false</required>
             </parameter>
 
             <parameter name="max_price" xsi:type="text" sort_order="60" visible="true">
                 <label>Max Price (optional)</label>
-                <required>false</required>
+                    <required>false</required>
             </parameter>
 
             <parameter name="title" xsi:type="text" sort_order="70" visible="true">
                 <label>Block Title</label>
-                <required>false</required>
+                    <required>false</required>
             </parameter>
         </parameters>
     </widget>
-
 </widgets>

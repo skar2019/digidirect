@@ -5,29 +5,40 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class ProductList extends Template implements BlockInterface
 {
+    protected $_template = "widget/grid.phtml";
     protected $productCollectionFactory;
     protected $imageHelper;
+    protected $_storeManager;
 
     public function __construct(
         Template\Context $context,
         CollectionFactory $productCollectionFactory,
         ImageHelper $imageHelper,
+        StoreManagerInterface $storeManager,
         array $data = []
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->imageHelper = $imageHelper;
-
-        // 🧱 Choose template based on display mode
-        if (isset($data['display_mode']) && $data['display_mode'] === 'carousel') {
-            $this->_template = "widget/carousel.phtml";
-        } else {
-            $this->_template = "widget/grid.phtml";
-        }
-
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $data);
+    }
+
+    public function getStore()
+    {
+        return $this->_storeManager->getStore();
+    }
+
+    public function getCurrencyCode()
+    {
+        try {
+            return $this->_storeManager->getStore()->getCurrentCurrencyCode();
+        } catch (\Exception $e) {
+            return 'USD';
+        }
     }
 
     public function getProductCollection()
