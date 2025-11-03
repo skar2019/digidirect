@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/widget.xsd">
+
+    <widget id="digidirect_customproduct_grid" class="Digidirect\CustomProduct\Block\Widget\ProductList" is_email_compatible="false">
+        <label translate="true">Digidirect — Custom Product Grid</label>
+        <parameters>
+            <parameter name="title" xsi:type="text" sort_order="10" visible="true">
+                <label translate="true">Widget Title</label>
+            </parameter>
+            <parameter name="skus" xsi:type="text" sort_order="20" visible="true">
+                <label translate="true">Product SKUs (comma-separated)</label>
+            </parameter>
+            <parameter name="category_id" xsi:type="text" sort_order="30" visible="true">
+                <label translate="true">Category ID (optional)</label>
+            </parameter>
+            <parameter name="min_price" xsi:type="text" sort_order="40" visible="true">
+                <label translate="true">Min price (optional)</label>
+            </parameter>
+            <parameter name="max_price" xsi:type="text" sort_order="50" visible="true">
+                <label translate="true">Max price (optional)</label>
+            </parameter>
+            <parameter name="limit" xsi:type="text" sort_order="60" visible="true">
+                <label translate="true">Number of products to display</label>
+                <default>8</default>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content" as="content" template="Digidirect_CustomProduct::widget/grid.phtml"/>
+        </containers>
+    </widget>
+
+    <widget id="digidirect_customproduct_carousel" class="Digidirect\CustomProduct\Block\Widget\ProductList" is_email_compatible="false">
+        <label translate="true">Digidirect — Custom Product Carousel</label>
+        <parameters>
+            <parameter name="title" xsi:type="text" sort_order="10" visible="true">
+                <label translate="true">Widget Title</label>
+            </parameter>
+            <parameter name="skus" xsi:type="text" sort_order="20" visible="true">
+                <label translate="true">Product SKUs (comma-separated)</label>
+            </parameter>
+            <parameter name="category_id" xsi:type="text" sort_order="30" visible="true">
+                <label translate="true">Category ID (optional)</label>
+            </parameter>
+            <parameter name="min_price" xsi:type="text" sort_order="40" visible="true">
+                <label translate="true">Min price (optional)</label>
+            </parameter>
+            <parameter name="max_price" xsi:type="text" sort_order="50" visible="true">
+                <label translate="true">Max price (optional)</label>
+            </parameter>
+            <parameter name="limit" xsi:type="text" sort_order="60" visible="true">
+                <label translate="true">Number of products to display</label>
+                <default>8</default>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content" as="content" template="Digidirect_CustomProduct::widget/carousel.phtml"/>
+        </containers>
+    </widget>
+
+</widgets>

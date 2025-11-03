@@ -1,0 +1,27 @@
+<?php
+$collection = $block->getProductCollection();
+?>
+<div class="digidirect-custom-widget digidirect-custom-carousel">
+    <?php if ($block->getData('title')): ?>
+        <h2 class="widget-title"><?= $block->escapeHtml($block->getData('title')) ?></h2>
+    <?php endif; ?>
+
+    <div class="digidirect-carousel-inner">
+        <?php if ($collection->getSize()): ?>
+            <?php foreach ($collection as $_product): ?>
+                <div class="carousel-item">
+                    <a href="<?= $_product->getProductUrl() ?>">
+                        <?php $img = $block->getImageUrl($_product); ?>
+                        <?php if ($img): ?>
+                            <img src="<?= $block->escapeUrl($img) ?>" alt="<?= $block->escapeHtmlAttr($_product->getName()) ?>" class="product-image" />
+                        <?php endif; ?>
+                        <h3 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h3>
+                        <div class="price"><?= $block->escapeHtml($_product->getPrice()) ?></div>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="no-products"><?= __('No products found') ?></p>
+        <?php endif; ?>
+    </div>
+</div>
