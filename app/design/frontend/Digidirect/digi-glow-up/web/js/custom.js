@@ -1876,20 +1876,28 @@ $(document).on('click', '#custom-alert-close', function () {
         initObserver()
         
     $(document).ready(function() {
-        const $carousel = $('.owl-carousel');
+    const $carousel = $('.owl-carousel');
 
-        // Refresh after images are loaded
-        $carousel.find('img').each(function() {
-            $(this).on('load', function() {
-                $carousel.trigger('refresh.owl.carousel');
-            });
-        });
+    let imagesLoadedCount = 0;
+    const totalImages = $carousel.find('img').length;
 
-        // Also refresh on window resize
-        $(window).on('resize', function() {
+    $carousel.find('img').each(function() {
+      if (this.complete) {
+        imagesLoadedCount++;
+      } else {
+        $(this).on('load', function() {
+          imagesLoadedCount++;
+          if (imagesLoadedCount === totalImages) {
             $carousel.trigger('refresh.owl.carousel');
+          }
         });
+      }
     });
+
+    $(window).on('resize', function() {
+      $carousel.trigger('refresh.owl.carousel');
+    });
+});
 
   })
 })
