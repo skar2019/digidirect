@@ -26,6 +26,19 @@ require(['jquery'], function($) {
             document.querySelector('.account-footer-menu')?.classList.add('active');
         }
 
+
+        const closeButtons = document.querySelectorAll('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
+
+        // Add click event listener to each close button
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove 'active' class from all footer nav items
+                document.querySelectorAll('.footer-nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+            });
+        });
+
         document.querySelectorAll('.footer-nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 // Remove active class from all footer nav items
