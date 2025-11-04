@@ -54,13 +54,13 @@ class CartPage extends Action implements HttpPostActionInterface
         $items = $this->cart->getQuote()->getAllVisibleItems();
         $skuParams = '';
         foreach ($items as $index => $item) {
-            $skuParams .= "&productsInCart[" . $index . "]=" . urlencode($item->getId());
+            $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
 
         // Build recommendation URL
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/checkout/cart&expandProductDetails=true" . $customerIdParam . $skuParams;
 
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
+        $this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
