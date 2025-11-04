@@ -27,7 +27,8 @@ class AddLandingPageHandle implements ObserverInterface
         }
 
         $layout = $observer->getData('layout');
-
+        $landingPageId = (int) $this->request->getParam('landing_page_id');
+        
         // ✅ Get the original, friendly URL path (not internal)
         $originalPath = trim($this->request->getOriginalPathInfo(), '/'); // e.g. "brands/apple"
 
@@ -37,7 +38,12 @@ class AddLandingPageHandle implements ObserverInterface
         if (strpos($originalPath, 'brands/') === 0) {
             $handle = 'algolia_landingpage_default_brands_banner';
             $layout->getUpdate()->addHandle($handle);
-            $this->logger->info('Added layout handle: ' . $handle);
+        } else {
+            if ($landingPageId) {
+                // Add specific landing page handle
+                $handle = 'algolia_landingpage_view_landing_page_id_' . $landingPageId;
+                $layout->getUpdate()->addHandle($handle);
+            } 
         }
     }
 }
