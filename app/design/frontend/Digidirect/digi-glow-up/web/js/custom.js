@@ -1875,9 +1875,20 @@ $(document).on('click', '#custom-alert-close', function () {
         // 🚀 Start observing
         initObserver()
         
-    //Owl carousel fix on android mobile
-    $(window).on('resize', function() {
-        $('.owl-carousel').trigger('refresh.owl.carousel');
+    $(document).ready(function() {
+        const $carousel = $('.owl-carousel');
+
+        // Refresh after images are loaded
+        $carousel.find('img').each(function() {
+            $(this).on('load', function() {
+                $carousel.trigger('refresh.owl.carousel');
+            });
+        });
+
+        // Also refresh on window resize
+        $(window).on('resize', function() {
+            $carousel.trigger('refresh.owl.carousel');
+        });
     });
 
   })

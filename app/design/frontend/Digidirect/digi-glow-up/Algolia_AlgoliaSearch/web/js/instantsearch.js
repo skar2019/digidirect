@@ -1438,7 +1438,7 @@ define([
                 
                 const $infos = $('.algolia-infos')
                 const $refineToggle = $('#refine-toggle')
-                const $customRefinement = $('#algolia-custom-refinement')
+                const $customRefinement = $('.algolia-custom-refinement')
                 const $hitsPerPage = $('.hits-per-page-container')
                 const $pagination = $('#instant-search-pagination-container')
                 const $viewToggle = $('.ais-ViewToggle')

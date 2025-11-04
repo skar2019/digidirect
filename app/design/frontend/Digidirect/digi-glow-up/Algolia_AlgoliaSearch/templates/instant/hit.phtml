@@ -52,7 +52,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
         </defs>
         </svg>
     </a>
-
+    
     <div class="col-md-4 col-sm-6 grid-view-col" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <meta itemprop="position" content="{{__position}}" />
         <div class="result-wrapper" itemprop="item" itemscope itemtype="http://schema.org/Product">
@@ -172,7 +172,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                 {{#isDigiPrint}}
                                     <div class="actions-primary">
                                         <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
-                                            <button type="button" title="Order Now" class="action tocart primary">Order Now <i class="fas fa-cart-plus" style="float: right;"></i></button>
+                                            <button type="button" title="Order Now" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/></button>
                                         </a>
                                     </div>
                                 {{/isDigiPrint}}
@@ -324,7 +324,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     {{#isDigiPrint}}
                                         <div class="actions-primary">
                                             <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
-                                                <button type="button" title="Order Now" class="action tocart primary">Order Now <i class="fas fa-cart-plus" style="float: right;"></i></button>
+                                                <button type="button" title="Order Now" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/></i></button>
                                             </a>
                                         </div>
                                     {{/isDigiPrint}}
