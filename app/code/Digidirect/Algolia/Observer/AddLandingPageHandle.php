@@ -36,12 +36,15 @@ class AddLandingPageHandle implements ObserverInterface
         //    return;
         //}
         
-        if ($landingPageId) {
+        $defaultHandle = 'algolia_landingpage_default_brands_banner';
+        $layout->getUpdate()->addHandle($defaultHandle);
+        
+        /*if ($landingPageId) {
             // Add specific landing page handle
             $handle = 'algolia_landingpage_view_landing_page_id_' . $landingPageId;
             $this->logger->info('Adding handle: ' . $handle);
             $layout->getUpdate()->addHandle($handle);
-        } /*else {
+        } else {
             // Only apply default banner if "brand" is in the URL query parameter
             $brand = $this->request->getParam('brands'); // adjust param name if different
             if ($brand) {
