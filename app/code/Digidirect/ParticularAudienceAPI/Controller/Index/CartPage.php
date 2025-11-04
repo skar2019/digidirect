@@ -54,7 +54,7 @@ class CartPage extends Action implements HttpPostActionInterface
         $items = $this->cart->getQuote()->getAllVisibleItems();
         $skuParams = '';
         foreach ($items as $index => $item) {
-            $skuParams .= "&productsInCart[" . $index . "]=" . urlencode($item->getId());
+            $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
 
         // Build recommendation URL
