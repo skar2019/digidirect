@@ -427,8 +427,10 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     align-items: center !important;
     flex-wrap: wrap;
     margin: 0 35px !important;
-    padding: 15px 15px !important;
+    padding: 15px 0 !important;
     border-radius: 10px;
+    justify-content: space-between;
+    background: unset !important;
 
     .actions-toolbar button.primary {
         margin-top: 0 !important;
@@ -986,4 +988,33 @@ input:not([disabled]):focus {
     .web-latitude-title-glowup {
         display: none !important;
     }
+}
+
+.checkout-index-index {
+    .paypal-buttons-layout-horizontal {
+        height: 45px !important;
+    }
+
+    #braintree_paypal_placeholder {
+        width: 100%;
+    }
+
+    .paypal-method-wrapper .actions-toolbar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding-left: 37px !important;
+        gap: 5px;
+        max-width: 50%;
+        margin-top: 0 !important;
+    }
+
+    /*.payment-method-content .paypal-method-wrapper > .actions-toolbar {
+        display:block !important;
+    }*/
+    .payment-method-content .paypal-method-wrapper .actions-toolbar:has(#braintree_paypal_placeholder) {
+        display: block !important;
+    }
+
 }
