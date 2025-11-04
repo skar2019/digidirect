@@ -469,6 +469,16 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
     left: 10px;
 }
 
+@media only screen and (max-width: 768px) {
+    .payment-method.latitude-glowup .primary {
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+    }
+}
+
 .payment-method.latitude-glowup {
     #main-container {
         margin: 0 30px !important;
@@ -849,6 +859,10 @@ input[name="payment[latipay_method]"]:after{
 
     .checkout-billing-address .actions-toolbar .primary {
         gap: 15px;
+    }
+
+    #co-payment-form .afterpay.payment-method .actions-toolbar-wraper .terms-conditions {
+        padding-bottom: 10px;
     }
 }
 
