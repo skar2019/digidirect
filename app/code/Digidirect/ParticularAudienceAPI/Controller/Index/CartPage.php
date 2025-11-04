@@ -60,7 +60,7 @@ class CartPage extends Action implements HttpPostActionInterface
         // Build recommendation URL
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/checkout/cart&expandProductDetails=true" . $customerIdParam . $skuParams;
 
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
+        $this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);

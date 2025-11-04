@@ -282,12 +282,16 @@ $(window).on('scroll resize', () => {
     //toggleWelcomeBackBlur()
 
     /* ========================
-        🌐 Reposition #pa-welcome-back
-     ======================== */
-     const $paWelcomeBack = $('#pa-welcome-back')
-     if ($paWelcomeBack.length && !$paWelcomeBack.parent().hasClass('page-wrapper')) {
-       $('.page-wrapper').before($paWelcomeBack)
-     }
+            🌐 Reposition #pa-welcome-back & #pa-upsell
+       ======================== */
+    const paWidgets = ['#pa-welcome-back', '#pa-upsell'];
+
+    paWidgets.forEach(selector => {
+      const $widget = $(selector);
+      if ($widget.length && !$widget.parent().hasClass('page-wrapper')) {
+        $('.page-wrapper').before($widget);
+      }
+    });
 
      /* ========================
         ❌ Close Welcome Back & Remove Blur
@@ -1870,6 +1874,11 @@ $(document).on('click', '#custom-alert-close', function () {
 
         // 🚀 Start observing
         initObserver()
+        
+    //Owl carousel fix on android mobile
+    $(window).on('resize', function() {
+        $('.owl-carousel').trigger('refresh.owl.carousel');
+    });
 
   })
 })
