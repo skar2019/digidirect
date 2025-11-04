@@ -360,13 +360,28 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 
 .paypal-method-wrapper .label::after {
     content: "";
-    width: 150px;
+    width: 130px;
     height: 50px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     background-image: url('@{baseDir}images/checkout/paypal.png');
+    position: relative;
+    left: 8px;
 }
+
+/*.payment-method:has(#paypal_express) label::after {
+    content: "";
+    width: 200px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    vertical-align: middle;
+    background-image: url(../images/checkout/paypal.png);
+    position: relative;
+    left: 10px;
+}*/
 
 .payment-method-braintree .label::after {
     content: "";
@@ -475,6 +490,19 @@ input[name='billingAddressbraintree.telephone'] .control._with-tooltip {
 .payment-group .payment-method:has(#paypal_express){
     display: none;
 }
+
+/*.payment-group .payment-method:has(#paypal_express) .payment-icon,
+.payment-group .payment-method:has(#paypal_express) .action.action-help{
+    display: none;
+}*/
+
+/*.payment-method-item.braintree-paypal-account {
+    display: none;
+}*/
+
+/*.payment-method-content .actions-toolbar.braintree-paypal-actions {
+    display: block !important;
+}*/
 
 .checkout-index-index .latipay-title::after {
     display: none !important;
@@ -753,6 +781,10 @@ input[name="payment[latipay_method]"]:after{
         left: 7px !important;
     }
 
+    .paypal-method-wrapper .label::after {
+        width: 85px !important;
+    }
+
     #checkout-step-payment .billing-address-form {
         .field:has(input[name="firstname"]),
         .field:has(select[name="country_id"]),
@@ -924,3 +956,34 @@ input:not([disabled]):focus {
     display: none;
 }
 /**** Payment Information End ****/
+
+.checkout-index-index .modals-wrapper .modal-popup.confirm._show{
+    .modal-footer button {
+        width: 10% !important;
+    }
+    .modal-inner-wrap {
+        left: 50% !important;
+        max-height: 170px !important;
+     }
+    .modal-footer {
+        margin-top: 10px !important; ;
+    }
+}
+
+.mobile-latitude-title-glowup {
+    display: none;
+}
+
+.web-latitude-title-glowup {
+    display: block;
+}
+
+@media only screen and (max-width: 768px) {
+    .mobile-latitude-title-glowup {
+        display: block !important;
+    }
+
+    .web-latitude-title-glowup {
+        display: none !important;
+    }
+}

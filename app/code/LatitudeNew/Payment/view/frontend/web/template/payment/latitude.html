@@ -11,7 +11,8 @@
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
         <label data-bind="attr: {'for': getCode()}" class="label">
-            <span data-bind="text: getTitle()"></span>
+            <span class="web-latitude-title-glowup" data-bind="text: getTitle()"></span>
+            <span class="mobile-latitude-title-glowup">Interest Free</span>
         </label>
         <img class="latitude-icon" data-bind="attr: {src: getLogoUrl(), alt: $t(getTitle())}" style="height:35px; margin-left:10px; margin-bottom:-13px">
     </div>

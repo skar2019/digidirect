@@ -160,11 +160,15 @@
 .checkout-index-index {
     .modals-wrapper .modal-popup .modal-inner-wrap {
         margin: 0 !important;
-        left: 25% !important;
         max-width: 740px !important;
+    }
+
+    .modals-wrapper .modal-popup:has(#opc-new-shipping-address) .modal-inner-wrap {
+        left: 25% !important;
         top: 5%;
     }
 
+    //.modals-wrapper footer.modal-footer:has(.action-save-address) {
     .modals-wrapper footer.modal-footer {
         display: flex !important;
         justify-content: center;
@@ -184,8 +188,11 @@
         height: 100%;
     }
 
-    .modal-popup .modal-content {
+    .modal-popup:has(#opc-new-shipping-address) .modal-content {
         overflow-y: scroll;
+    }
+
+    .modal-popup .modal-content {
         flex: 1 1 auto;
         -ms-overflow-style: none;
         scrollbar-width: thin;
