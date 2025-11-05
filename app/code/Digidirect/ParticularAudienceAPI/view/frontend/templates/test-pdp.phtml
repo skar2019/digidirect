@@ -1041,21 +1041,54 @@ require(['jquery'], function ($) {
     productTile('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#upsell-widget-desktop', false);
     
     (function () {
-        const paMinicartObserverConfig = { childList: true, subtree: true }
+        const config = { childList: true, subtree: true }
 
-        const paMinicartObserver = new MutationObserver((mutations, observerInstance) => {
-            const $paMinicart = $('#pa-minicart-desktop')
-            if ($paMinicart.length) {
+        const observer = new MutationObserver((mutations, instance) => {
+            const $widget = $('#pa-minicart-widget-desktop')
+
+            // 🟢 Wait for widget container to appear
+            if ($widget.length) {
+              // Run your product tile builder
                 productTile('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false)
-                observerInstance.disconnect()
-            }
-        })
+                setTimeout(() => {
+                    const $carousel = $widget.filter('.owl-carousel.pa-minicart')
+                    if ($carousel.length && !$carousel.hasClass('owl-loaded')) {
+                        console.log('🦉 Initializing OwlCarousel for minicart...')
+                        $carousel.owlCarousel({
+                            loop: false,
+                            nav: true,
+                            margin: 15,
+                            touchDrag: true,
+                            mouseDrag: true,
+                            smartSpeed: 800,
+                            slideBy: 1,
+                            responsive: {
+                                0: { items: 2 },
+                                600: { items: 2 },
+                                992: { items: 2 },
+                                1024: { items: 5 },
+                                1310: { items: 5 },
+                                1366: { items: 5 },
+                                1550: { items: 5 }
+                            },
+                            dots: false,
+                            autoplay: false,
+                            autoplayTimeout: 3000
+                        })
+                    }
+                }, 800)
 
-        paMinicartObserver.observe(document.body, paMinicartObserverConfig)
-        setTimeout(() => {
-          paMinicartObserver.disconnect()
-        }, 10000)
-    })()
+              instance.disconnect()
+          }
+    })
+
+  // 🎯 Observe the minicart container (use document.body as fallback)
+  const target = document.querySelector('.block-minicart') || document.body
+  observer.observe(target, config)
+
+  // ⏰ Stop after 10s just in case
+  setTimeout(() => observer.disconnect(), 10000)
+})()
     
     if (customerId && sessionId) {
         $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {

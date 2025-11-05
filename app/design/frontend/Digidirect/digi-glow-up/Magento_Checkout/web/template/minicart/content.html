@@ -109,13 +109,6 @@
             </div>
         </if>
     </ifnot>
-
-    <div class="pa-digidirect-product-widget pa-minicart-widget">
-        <div class="product-widget-header" style="display: block;">
-            <div class="widget-main-label" style="color: #242426; font-size: 32px; font-family: Inter; font-weight: 500; line-height: 33px; word-wrap: break-word">You may also like</div>
-        </div>
-        <div id="pa-minicart-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel pa-minicart"></div>
-    </div>
     
     <div
         id="minicart-widgets"
@@ -125,4 +118,12 @@
         <each args="getRegion('promotion')" render=""></each>
     </div>
 </div>
+
+<div class="pa-digidirect-product-widget pa-minicart-widget">
+    <div class="product-widget-header" style="display: block;">
+        <div class="widget-main-label" style="color: #242426; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 33px; word-wrap: break-word">You may also like</div>
+    </div>
+    <div id="pa-minicart-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel pa-minicart"></div>
+</div>
+
 <each args="getRegion('sign-in-popup')" render=""></each>
