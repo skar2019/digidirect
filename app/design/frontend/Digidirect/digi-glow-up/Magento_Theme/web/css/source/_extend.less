@@ -3,6 +3,61 @@
     Author     : rondel
 */
 @import "_digi_print_common.less";
+
+//Hide Discount
+
+.price-container:not(.price-final_price) {
+    display: none !important;
+}
+
+.discount-price-wrapper {
+    display: none !important;
+}
+
+.product-info-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-info-bottom form {
+    margin-left: auto;
+}
+
+.ais-Hits-item .action.tocart.primary img {
+    padding-right: 0 !important;
+}
+
+.old-price-wrapper {
+    display: none !important;
+}
+
+.pa-digidirect-product-widget .discount-price-wrapper {
+    display: none !important;
+}
+
+.pa-digidirect-product-widget .action.tocart.primary img {
+    padding-right: 0 !important;
+}
+
+.before_price.promotional {
+    display: none;
+}
+
+.algoliasearch-autocomplete-price .discount {
+    display: none;
+}
+
+.block-minicart .price-container:not(.price-final_price) {
+    display: block !important;
+}
+
+.checkout-cart-index .old-price {
+    display: none;
+}
+
+//End
+
 body {
     font-family: @font-family__base;
 }
@@ -106,6 +161,9 @@ a:hover {
 #maincontent {
     max-width: 100%;
     padding: 0;
+}
+
+.homepage-row, .plp-row {
     overflow: hidden;
 }
 
@@ -257,7 +315,7 @@ a.action.towishlist {
 
 .pa-digidirect-product-widget .discount-price-wrapper {
     text-align: left;
-    display: flex !important;
+    display: flex; //revert to !important when removing price discount
     justify-content: center;
     align-items: center;
     gap: 3px;
