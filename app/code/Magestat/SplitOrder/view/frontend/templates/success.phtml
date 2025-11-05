@@ -13,8 +13,10 @@ $bankDetailsSeparated = [];
 if ($block->getOrderId()) {
     $order = $block->getOrderByIncrementId($block->getOrderId());
     $customerEmail = $order->getCustomerEmail();
-    $bankDetailsSeparated = $block->getBankDetails($block->getOrderId());
     $methodCode = $order->getPayment()->getMethod();
+    if ($methodCode === 'banktransfer') {
+        $bankDetailsSeparated = $block->getBankDetails($block->getOrderId());
+    }
 }
 ?>
 
