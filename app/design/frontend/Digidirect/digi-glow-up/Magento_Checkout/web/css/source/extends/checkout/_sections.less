@@ -315,17 +315,20 @@
     justify-content: space-between;
     align-items: center;
     gap: 15px;
+    flex-direction: column;
+    margin: 15px 0;
 }
 
 #opc-shipping_method .methods-shipping li {
     padding: 15px;
     border: 1px solid #d2d2d9;
-    margin: 15px 0;
+    margin: 0;
     width: 100%;
     display: flex;
     align-items: center;
     border-radius: 10px;
     cursor: pointer;
+
 }
 
 .opc-wrapper .delivery-notes .control > textarea {
@@ -575,4 +578,8 @@ body.checkout-onepage-success, body.checkout-index-index {
             }
         }
     }
+}
+
+#customer-email-fieldset {
+    margin: 0 !important;
 }
