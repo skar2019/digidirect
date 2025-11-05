@@ -1077,18 +1077,17 @@ require(['jquery'], function ($) {
                         })
                     }
                 }, 800)
+                instance.disconnect()
+            }
+        })
 
-              instance.disconnect()
-          }
-    })
+        // 🎯 Observe the minicart container (use document.body as fallback)
+        const target = document.querySelector('.block-minicart') || document.body
+        observer.observe(target, config)
 
-  // 🎯 Observe the minicart container (use document.body as fallback)
-  const target = document.querySelector('.block-minicart') || document.body
-  observer.observe(target, config)
-
-  // ⏰ Stop after 10s just in case
-  setTimeout(() => observer.disconnect(), 10000)
-})()
+        // ⏰ Stop after 10s just in case
+        setTimeout(() => observer.disconnect(), 10000)
+    })()
     
     if (customerId && sessionId) {
         $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
