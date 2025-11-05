@@ -954,7 +954,7 @@ if ($mobileMenuClose.length) {
           $next.css({
             right: `${offset}px`,
             top: `${topValue}px`,
-            transform: 'translateY(-50%)`,
+            transform: `translateY(-50%)`,
           })
         }
 
