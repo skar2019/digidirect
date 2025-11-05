@@ -2,8 +2,8 @@
 /** @var $block \Magento\Catalog\Block\Product\View */
 $product = $block->getProduct();
 $_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
-$_specialOrderValue = false;//$block->getProduct()->getSpecialOrder();
-$_orderLimit = 1;//$block->getProduct()->getResource()->getAttribute('order_limit')->getFrontend()->getValue($block->getProduct());
+$_specialOrderValue = $block->getProduct()->getSpecialOrder();
+$_orderLimit =  $block->getProduct()->getData('order_limit');
 $final_price = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 $final_price = number_format($final_price, 2, ".", ",");
 ?>
