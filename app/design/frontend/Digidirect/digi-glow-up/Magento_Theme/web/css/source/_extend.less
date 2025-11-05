@@ -3,6 +3,53 @@
     Author     : rondel
 */
 @import "_digi_print_common.less";
+
+//Hide Discount
+
+.price-container:not(.price-final_price) {
+    display: none !important;
+}
+
+.discount-price-wrapper {
+    display: none !important;
+}
+
+.product-info-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-info-bottom form {
+    margin-left: auto;
+}
+
+.ais-Hits-item .action.tocart.primary img {
+    padding-right: 0 !important;
+}
+
+.old-price-wrapper {
+    display: none;
+}
+
+.pa-digidirect-product-widget .discount-price-wrapper {
+    display: none !important;
+}
+
+.pa-digidirect-product-widget .action.tocart.primary img {
+    padding-right: 0 !important;
+}
+
+.before_price.promotional {
+    display: none;
+}
+
+.algoliasearch-autocomplete-price .discount {
+    display: none;
+}
+
+//End
+
 body {
     font-family: @font-family__base;
 }
@@ -106,6 +153,9 @@ a:hover {
 #maincontent {
     max-width: 100%;
     padding: 0;
+}
+
+.homepage-row, .plp-row {
     overflow: hidden;
 }
 
