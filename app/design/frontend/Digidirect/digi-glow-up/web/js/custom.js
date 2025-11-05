@@ -1567,7 +1567,7 @@ $(function () {
     )
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
-$('#product-addtocart-button').on('click', function () {
+$('.tocart-pdp-btn, #zip-product-widget, .pdp-afterpay-logo, .add-to-cart-trigger').on('click', function () {
   //setTimeout(function () {
     $('#pa-upsell').addClass('active')
     $('.minicart-overlay').css('display', 'block') // 🔹 Sync overlay on show
