@@ -518,16 +518,27 @@ select {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
         padding: 50px 30px 0 15px !important;
     }
 
-    .account-popup-header .signout, .account-popup-header-in-pages .signout {
+    .account-popup-header {
+        justify-content: flex-end !important;
+    }
+
+    .account-popup-header .signout, .account-popup-header-in-pages .signout,
+    .account-popup-header .goback-txt, .account-popup-header-in-pages .goback-txt {
         color: #7C7C80;
         font-size: 18px;
         font-weight: 590;
         letter-spacing: 0.2px;
-        //padding-top: 8px;
+    }
+
+    .account-popup-header .goback, .account-popup-header-in-pages .goback {
+        img {
+            position: relative;
+            top: 2px;
+            margin: 0 5px;
+        }
     }
 
     .account-popup-header .close-popup, .account-popup-header-in-pages .close-popup,
@@ -556,26 +567,8 @@ select {
 
     .account {
         .page-main {
-            //padding-top: 10px !important;
             padding: 15px !important;
         }
-
-        #maincontent {
-           // padding-left: 10px;
-           // padding-right: 10px;
-        }
-
-        /*.block.block-dashboard-orders {
-            margin-bottom: 15px !important;
-        }
-
-        .column.main .block:not(.widget) .block-content .box {
-            margin-bottom: 15px !important;
-        }
-
-        .column.main .block:not(.widget) .box-title {
-            //margin: 0 !important;
-        }*/
 
         .sidebar-main,
         .panel.wrapper,
