@@ -200,7 +200,7 @@ require(['jquery'], function ($) {
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' +
                             '</a>'
             } else {
@@ -428,11 +428,12 @@ require(['jquery'], function ($) {
             }
 
             if (digiPrintValue == 1) {
-                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
-                                '</button>' +
-                            '</a>'
+                addToCart =
+                    '<div class="ordernow-link" onclick="window.open(\'' + digiPrintLinkValue + '\', \'_blank\')">' +
+                      '<button type="button" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" />' +
+                      '</button>' +
+                    '</div>';
+
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
@@ -660,7 +661,7 @@ require(['jquery'], function ($) {
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' +
                             '</a>'
             } else {
@@ -883,7 +884,7 @@ require(['jquery'], function ($) {
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' +
                             '</a>'
                 s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Order Online Today!</p></div>'
@@ -1038,6 +1039,7 @@ require(['jquery'], function ($) {
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-desktop', false);
     productTile('252b5970-293e-ec11-aae9-02dca44cceec', '#you-may-also-like-mobile', true);
     productTile('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#upsell-widget-desktop', false);
+    productTile('02ed2d33-ee8e-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false);
     
     if (customerId && sessionId) {
         $("#pa-digimarket-side-panel .product-item-info.product-item:not(.slot)").each(function() {
