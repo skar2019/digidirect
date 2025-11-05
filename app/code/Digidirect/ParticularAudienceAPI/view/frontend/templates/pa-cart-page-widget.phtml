@@ -153,7 +153,7 @@ require(['jquery'], function ($) {
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' +
                             '</a>'
             } else {
