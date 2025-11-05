@@ -385,7 +385,7 @@ ul.slick-dots {
         top: 0;
         left: 0;
         width: 100vw;
-        height: calc(~"100vh - 73px");
+        height: calc(~"(100vh - 73px + env(safe-area-inset-bottom))");
         background: rgba(255, 255, 255, 0.96);
         z-index: 9999;
         overflow-y: auto;
@@ -394,6 +394,7 @@ ul.slick-dots {
         opacity: 0;
         visibility: hidden;
         transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s;
+        padding-bottom: env(safe-area-inset-bottom);
     }
 
     .mobile-menu.active {
