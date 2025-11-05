@@ -56,6 +56,18 @@
     display: none;
 }
 
+.product-info-bottom {
+    display: block !important;
+}
+
+.result-wrapper .price {
+margin-top: 13px !important;
+}
+
+.pa-digidirect-product-widget .s19-rental-price-target {
+top: 63px !important;
+}
+
 //End
 
 body {
@@ -1274,6 +1286,10 @@ body.blur-active .global-blur-overlay {
     display: none;
 }   
 
+.checkout-cart-index .gift-options-cart-item+.towishlist {
+    display: none !important;
+}
+
 //CMS Page
 
 .cms-page-view .result-wrapper .price {
@@ -1346,6 +1362,30 @@ body.blur-active .global-blur-overlay {
 }
 
 @media screen and (max-width: 768px) {
+    
+    //Hide Discount
+    
+    .result-wrapper .price {
+        margin-top: 4px !important;
+    }
+    
+    .ais-Hits-item .after_special {
+        font-size: 15px !important;
+    }
+    
+    .pa-product.product-item-info .result-wrapper .price {
+        margin-top: 2px !important;
+    }
+    
+    .ais-Hits-item .s19-rental-price-target p {
+        font-size: 9px !important;
+    }
+    .catalog-category-view .pa-digidirect-product-widget .product-item .price-box {
+        margin-top: 3px !important;
+    }
+    
+    //End
+    
     input,
     textarea {
         font-size: 16px !important; /* prevents iOS zoom */

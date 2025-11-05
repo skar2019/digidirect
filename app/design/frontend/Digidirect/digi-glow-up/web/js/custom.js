@@ -4,7 +4,10 @@ define([
   'uiRegistry',
   'Magento_Ui/js/core/app',
   'Magento_Customer/js/customer-data',
-], function ($, ko, registry, uiApp, customerData) {
+  'mage/url',
+  'Magento_Checkout/js/model/cart/totals-processor/default',
+  'Magento_Checkout/js/model/quote'
+], function ($, ko, registry, uiApp, customerData, urlBuilder, totalsProcessor, quote) {
   'use strict'
 
   $(function () {
@@ -1720,49 +1723,53 @@ $(document).on('click', '#custom-alert-close', function () {
     // 🔁 AJAX Cart Update Helper
     // ======================
     function updateCartAjax($input, newQty) {
-        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
-        if (!itemIdMatch) return console.error('❌ Cannot extract item ID from', $input.attr('name'));
+        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
+        if (!itemIdMatch) {
+          console.error('❌ Cannot extract item ID from', $input.attr('name'))
+          return
+        }
 
-        const itemId = itemIdMatch[1];
-        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
+        const itemId = itemIdMatch[1]
+        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`)
 
-        require(['mage/url', 'Magento_Customer/js/customer-data'], function (urlBuilder, customerData) {
-          const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
+        const updateUrl = urlBuilder.build('checkout/cart/updatePost/')
 
-          $.ajax({
-            url: updateUrl,
-            type: 'POST',
-            data: {
-              form_key: $('input[name="form_key"]').val(),
-              [`cart[${itemId}][qty]`]: newQty,
-              update_cart_action: 'update_qty',
-            },
-            beforeSend: function () {
-              $input.prop('disabled', true);
-            },
-            success: function () {
-              console.log('✅ Cart updated successfully');
+        $.ajax({
+          url: updateUrl,
+          type: 'POST',
+          data: {
+            form_key: $('input[name="form_key"]').val(),
+            [`cart[${itemId}][qty]`]: newQty,
+            update_cart_action: 'update_qty',
+          },
+          beforeSend: function () {
+            $input.prop('disabled', true)
+          },
+          success: function () {
+            console.log('✅ Cart updated successfully')
 
-              // 🔄 Reload cart + checkout data
-              customerData.reload(['cart', 'checkout-data'], true);
+            // 🔄 Refresh minicart + checkout data
+            customerData.reload(['cart', 'checkout-data'], true)
 
-              // 🔁 Reload row subtotal and totals block
-              const $row = $input.closest('tr');
-              if ($row.length) {
-                const rowId = $row.attr('id');
-                $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
-              }
+            // 🔁 Trigger Knockout totals recalculation
+            totalsProcessor.estimateTotals(quote.shippingAddress())
 
-              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
-            },
-            error: function (xhr, status, err) {
-              console.error('❌ Cart update failed', status, err);
-            },
-            complete: function () {
-              $input.prop('disabled', false);
-            },
-          });
-        });
+            // 🔁 Refresh row subtotal only (not entire totals block)
+            const $row = $input.closest('tr')
+            if ($row.length) {
+              const rowId = $row.attr('id')
+              $(`#${rowId} .col.subtotal`).load(
+                window.location.href + ` #${rowId} .col.subtotal > *`
+              )
+            }
+          },
+          error: function (xhr, status, err) {
+            console.error('❌ Cart update failed', status, err)
+          },
+          complete: function () {
+            $input.prop('disabled', false)
+          },
+        })
       }
 
     // ======================

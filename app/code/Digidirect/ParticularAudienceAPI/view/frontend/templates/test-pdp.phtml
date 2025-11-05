@@ -428,11 +428,12 @@ require(['jquery'], function ($) {
             }
 
             if (digiPrintValue == 1) {
-                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
-                                '</button>' +
-                            '</a>'
+                addToCart =
+                    '<div class="ordernow-link" onclick="window.open(\'' + digiPrintLinkValue + '\', \'_blank\')">' +
+                      '<button type="button" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" />' +
+                      '</button>' +
+                    '</div>';
+
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
