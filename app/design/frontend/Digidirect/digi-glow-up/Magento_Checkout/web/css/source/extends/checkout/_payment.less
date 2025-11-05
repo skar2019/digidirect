@@ -1033,7 +1033,7 @@ input:not([disabled]):focus {
 
     .applepay-method-wrapper .label::after {
         content: "";
-        width: 80px;
+        width: 65px;
         height: 50px;
         background-repeat: no-repeat;
         background-position: center;
@@ -1041,6 +1041,11 @@ input:not([disabled]):focus {
         background-image: url('@{baseDir}images/checkout/apple-pay.svg');
         position: relative;
         left: 4px;
+        top: 1px;
+    }
+
+    .paypal-button.paypal-button-shape-rect {
+        border-radius: 10px !important;
     }
 
 }
