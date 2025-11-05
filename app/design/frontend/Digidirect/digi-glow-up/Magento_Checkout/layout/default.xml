@@ -13,6 +13,7 @@
                     <argument name="viewModel" xsi:type="object">Digidirect\Checkout\ViewModel\WishlistCount</argument>
                 </arguments>
             </block>
+            <block class="Magento\Framework\View\Element\Template" name="pa.minicart.widget" template="Magento_Checkout::cart/pa-minicart-widget.phtml" after="-" />
         </referenceBlock>
     </body>
 </page>
