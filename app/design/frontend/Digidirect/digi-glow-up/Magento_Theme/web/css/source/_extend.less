@@ -29,7 +29,7 @@
 }
 
 .old-price-wrapper {
-    display: none;
+    display: none !important;
 }
 
 .pa-digidirect-product-widget .discount-price-wrapper {
@@ -45,6 +45,14 @@
 }
 
 .algoliasearch-autocomplete-price .discount {
+    display: none;
+}
+
+.block-minicart .price-container:not(.price-final_price) {
+    display: block !important;
+}
+
+.checkout-cart-index .old-price {
     display: none;
 }
 
@@ -307,7 +315,7 @@ a.action.towishlist {
 
 .pa-digidirect-product-widget .discount-price-wrapper {
     text-align: left;
-    display: flex !important;
+    display: flex; //revert to !important when removing price discount
     justify-content: center;
     align-items: center;
     gap: 3px;

@@ -1721,16 +1721,12 @@ $(document).on('click', '#custom-alert-close', function () {
     // ======================
     function updateCartAjax($input, newQty) {
         const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
-        if (!itemIdMatch) {
-          console.error('❌ Cannot extract item ID from', $input.attr('name'));
-          return;
-        }
+        if (!itemIdMatch) return console.error('❌ Cannot extract item ID from', $input.attr('name'));
 
         const itemId = itemIdMatch[1];
         console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
 
-        // Build the URL safely using Magento's URL builder
-        require(['mage/url'], function (urlBuilder) {
+        require(['mage/url', 'Magento_Customer/js/customer-data'], function (urlBuilder, customerData) {
           const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
 
           $.ajax({
@@ -1742,22 +1738,22 @@ $(document).on('click', '#custom-alert-close', function () {
               update_cart_action: 'update_qty',
             },
             beforeSend: function () {
-              console.log('⏳ Sending AJAX update for item', itemId);
               $input.prop('disabled', true);
             },
             success: function () {
               console.log('✅ Cart updated successfully');
 
-              // Refresh minicart via customerData (already loaded)
-              customerData.reload(['cart'], true);
+              // 🔄 Reload cart + checkout data
+              customerData.reload(['cart', 'checkout-data'], true);
 
-              // Optional: refresh totals and row subtotal
-              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
+              // 🔁 Reload row subtotal and totals block
               const $row = $input.closest('tr');
               if ($row.length) {
                 const rowId = $row.attr('id');
                 $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
               }
+
+              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
             },
             error: function (xhr, status, err) {
               console.error('❌ Cart update failed', status, err);
