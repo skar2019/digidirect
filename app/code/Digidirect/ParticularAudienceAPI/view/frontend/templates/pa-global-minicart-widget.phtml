@@ -284,15 +284,17 @@ require(['jquery'], function ($) {
                             '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                 '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                             '</span>' +
-                        '</a>' +
-                        '<a href="' + product.url + '" class="product details product-item-details">' +
-                            sponsoredLabel + '<strong class="product-item-name">' +
-                                '<span title="' + product.name + '" class="product-item-link">' +
-                                    product.name +
-                                '</span>' +
-                            '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
-                            priceBlock + productInfoBottom +
-                        '</a>' +
+                        '</a>' + 
+                        '<div style="position: relative;">' + sponsoredLabel +
+                            '<a href="' + product.url + '" class="product details product-item-details">' +
+                                 '<strong class="product-item-name">' +
+                                    '<span title="' + product.name + '" class="product-item-link">' +
+                                        product.name +
+                                    '</span>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                priceBlock + productInfoBottom +
+                            '</a>' +
+                        '</div>' +
                     '</div>'
             $(appendTo).append(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
@@ -300,7 +302,55 @@ require(['jquery'], function ($) {
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
 
-    productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#cart-page-desktop', false);
+    //Minicart PA Widget
+    (function () {
+        const config = { childList: true, subtree: true }
+
+        const observer = new MutationObserver((mutations, instance) => {
+            const $widget = $('#pa-minicart-widget-desktop')
+
+            // 🟢 Wait for widget container to appear
+            if ($widget.length) {
+              // Run your product tile builder
+                productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false)
+                setTimeout(() => {
+                    const $carousel = $widget.filter('.owl-carousel.pa-minicart')
+                    if ($carousel.length && !$carousel.hasClass('owl-loaded')) {
+                        console.log('🦉 Initializing OwlCarousel for minicart...')
+                        $carousel.owlCarousel({
+                            loop: false,
+                            nav: true,
+                            margin: 15,
+                            touchDrag: true,
+                            mouseDrag: true,
+                            smartSpeed: 800,
+                            slideBy: 1,
+                            responsive: {
+                                0: { items: 2 },
+                                600: { items: 2 },
+                                992: { items: 2 },
+                                1024: { items: 4 },
+                                1310: { items: 4 },
+                                1366: { items: 4 },
+                                1550: { items: 4 }
+                            },
+                            dots: false,
+                            autoplay: false,
+                            autoplayTimeout: 3000
+                        })
+                    }
+                }, 800)
+                instance.disconnect()
+            }
+        })
+
+        // 🎯 Observe the minicart container (use document.body as fallback)
+        const target = document.querySelector('.block-minicart') || document.body
+        observer.observe(target, config)
+
+        // ⏰ Stop after 10s just in case
+        setTimeout(() => observer.disconnect(), 10000)
+    })()
 
     function slots(widgetId, productId, recommenderId, campaignId, tacticId, retailBoostCollectionCampaignId, adSetId, adSetVersion, costPerClick, timeStamp, hmacSalt, hmac, keywordId) {
 
