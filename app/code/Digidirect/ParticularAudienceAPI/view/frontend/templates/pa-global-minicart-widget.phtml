@@ -310,7 +310,7 @@ require(['jquery'], function ($) {
             // 🟢 Wait for widget container to appear
             if ($widget.length) {
               // Run your product tile builder
-                productTileForWidget('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false)
+                productTile('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false)
                 setTimeout(() => {
                     const $carousel = $widget.filter('.owl-carousel.pa-minicart')
                     if ($carousel.length && !$carousel.hasClass('owl-loaded')) {
