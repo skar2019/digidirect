@@ -536,45 +536,56 @@ $(window).on('scroll resize', () => {
 
     /* ========================
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
-    ✅ Works together with Owl's 1-Finger native swipe
- ======================== */
-  function applyTwoFingerSwipe($context = $(document)) {
-    const $carousels = $context.find('.owl-carousel')
+   ✅ Works together with Owl's 1-Finger native swipe
+======================== */
+function initTwoFingerSwipe() {
+    const $carousels = $('.owl-carousel')
 
     $carousels.each(function () {
       const $carousel = $(this)
+
+      // Prevent rebinding the same carousel twice
       if ($carousel.data('twoFingerBound')) return
       $carousel.data('twoFingerBound', true)
 
-      let startX = 0, isTwoFinger = false, hasSwiped = false, isAtEdge = false
-      const threshold = 50, lockDuration = 250, transitionSpeed = 600, edgeElastic = 40
+      let startX = 0
+      let isTwoFinger = false
+      let hasSwiped = false
+      let isAtEdge = false
+      const threshold = 50
+      const lockDuration = 250
+      const transitionSpeed = 600
+      const edgeElastic = 40
+
       const node = $carousel[0]
 
-      node.addEventListener('touchstart', e => {
-        const t = e.touches
-        if (t.length === 2) {
+      node.addEventListener('touchstart', function (e) {
+        const touches = e.touches
+        if (touches.length === 2) {
           isTwoFinger = true
-          startX = (t[0].clientX + t[1].clientX) / 2
+          startX = (touches[0].clientX + touches[1].clientX) / 2
           hasSwiped = false
           isAtEdge = false
           e.stopImmediatePropagation()
-        } else isTwoFinger = false
+        } else {
+          isTwoFinger = false
+        }
       }, { capture: true })
 
-      node.addEventListener('touchmove', e => {
+      node.addEventListener('touchmove', function (e) {
         if (!isTwoFinger || hasSwiped) return
-        const t = e.touches
-        if (t.length !== 2) return
+        const touches = e.touches
+        if (touches.length !== 2) return
 
-        const currentX = (t[0].clientX + t[1].clientX) / 2
+        const currentX = (touches[0].clientX + touches[1].clientX) / 2
         const deltaX = currentX - startX
-        const data = $carousel.data('owl.carousel')
-        if (!data) return
 
-        const atFirst = data.current() === 0
-        const atLast = data.current() === data.maximum()
+        const carouselData = $carousel.data('owl.carousel')
+        if (!carouselData) return
 
-        // 🪄 Elastic edge
+        const atFirst = carouselData.current() === 0
+        const atLast = carouselData.current() === carouselData.maximum()
+
         if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
           const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
           $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
@@ -582,17 +593,25 @@ $(window).on('scroll resize', () => {
           return
         }
 
-        // 🔄 Trigger swipe
         if (Math.abs(deltaX) > threshold) {
-          $carousel.trigger(deltaX > 0 ? 'prev.owl.carousel' : 'next.owl.carousel', [transitionSpeed])
+          if (deltaX > 0) {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          }
+
           hasSwiped = true
           e.preventDefault()
           e.stopImmediatePropagation()
-          setTimeout(() => { hasSwiped = false; isTwoFinger = false }, lockDuration)
+
+          setTimeout(() => {
+            hasSwiped = false
+            isTwoFinger = false
+          }, lockDuration)
         }
       }, { capture: true })
 
-      node.addEventListener('touchend', () => {
+      node.addEventListener('touchend', function () {
         if (isAtEdge) {
           $carousel.css({
             transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
@@ -604,7 +623,7 @@ $(window).on('scroll resize', () => {
         isTwoFinger = false
       }, { capture: true })
 
-      node.addEventListener('touchcancel', () => {
+      node.addEventListener('touchcancel', function () {
         isTwoFinger = false
         if (isAtEdge) {
           $carousel.css({
@@ -616,31 +635,44 @@ $(window).on('scroll resize', () => {
         }
       }, { capture: true })
 
-      // 🖱️ Smooth wheel scroll navigation
       $carousel.on('wheel', function (e) {
         const event = e.originalEvent
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
           e.preventDefault()
           if (hasSwiped) return
           hasSwiped = true
-          $carousel.trigger(event.deltaX > 0 ? 'next.owl.carousel' : 'prev.owl.carousel', [transitionSpeed])
-          setTimeout(() => { hasSwiped = false }, lockDuration)
+
+          if (event.deltaX > 0) {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          }
+
+          setTimeout(() => {
+            hasSwiped = false
+          }, lockDuration)
         }
       })
     })
   }
 
-  // 🧩 Run initially (main page)
-  $(document).ready(() => applyTwoFingerSwipe())
+  // 🔁 Observe minicart changes and re-init swipe when new carousels appear
+  const minicart = document.querySelector('.block-minicart')
 
-  // 🧠 Re-apply whenever minicart content updates
-  const cartData = customerData.get('cart')
-  cartData.subscribe(() => {
-    // Delay a bit to let OwlCarousel initialize in minicart
-    setTimeout(() => applyTwoFingerSwipe($('#minicart-content-wrapper')), 500)
+  if (minicart) {
+    const observer = new MutationObserver(() => {
+      $('.minicart-items-wrapper .owl-carousel').each(function () {
+        initTwoFingerSwipe()
+      })
+    })
+
+    observer.observe(minicart, { childList: true, subtree: true })
+  }
+
+  // 🟢 Also run once on page load (for any carousels outside minicart)
+  $(document).ready(function () {
+    initTwoFingerSwipe()
   })
-
-  return { applyTwoFingerSwipe }
 
 
     /* ========================
