@@ -570,13 +570,13 @@ require(['jquery'], function ($) {
                             '</span>' +
                         '</a>' +
                         '<a href="' + product.url + '" class="product details product-item-details">' +
-                            '<strong class="product-item-name">' +
+                            sponsoredLabel + '<strong class="product-item-name">' +
                                 '<span title="' + product.name + '" class="product-item-link">' +
                                     product.name +
                                 '</span>' +
                             '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                             priceBlock + productInfoBottom +
-                        '</a>' + sponsoredLabel +
+                        '</a>' +
                     '</div>'
             $(appendTo).append(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
