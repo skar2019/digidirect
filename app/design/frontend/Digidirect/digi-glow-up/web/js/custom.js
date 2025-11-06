@@ -538,121 +538,141 @@ $(window).on('scroll resize', () => {
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
    ✅ Works together with Owl's 1-Finger native swipe
 ======================== */
-const $carousels = $('.owl-carousel')
+function initTwoFingerSwipe() {
+    const $carousels = $('.owl-carousel')
 
-$carousels.each(function () {
-  const $carousel = $(this)
-  let startX = 0
-  let isTwoFinger = false
-  let hasSwiped = false
-  let isAtEdge = false
-  const threshold = 50            // ⬅️ swipe distance before triggering
-  const lockDuration = 250
-  const transitionSpeed = 600     // ⬅️ animation speed for next/prev
-  const edgeElastic = 40          // ⬅️ "bounce" effect amount at edges
+    $carousels.each(function () {
+      const $carousel = $(this)
 
-  // 🧩 Attach event listeners in capture mode (run before Owl)
-  const node = $carousel[0]
+      // Prevent rebinding the same carousel twice
+      if ($carousel.data('twoFingerBound')) return
+      $carousel.data('twoFingerBound', true)
 
-  node.addEventListener('touchstart', function (e) {
-    const touches = e.touches
-    if (touches.length === 2) {
-      isTwoFinger = true
-      startX = (touches[0].clientX + touches[1].clientX) / 2
-      hasSwiped = false
-      isAtEdge = false
-      // Prevent Owl from reacting to this gesture
-      e.stopImmediatePropagation()
-    } else {
-      isTwoFinger = false
-    }
-  }, { capture: true })
+      let startX = 0
+      let isTwoFinger = false
+      let hasSwiped = false
+      let isAtEdge = false
+      const threshold = 50
+      const lockDuration = 250
+      const transitionSpeed = 600
+      const edgeElastic = 40
 
-  node.addEventListener('touchmove', function (e) {
-    if (!isTwoFinger || hasSwiped) return
-    const touches = e.touches
-    if (touches.length !== 2) return
+      const node = $carousel[0]
 
-    const currentX = (touches[0].clientX + touches[1].clientX) / 2
-    const deltaX = currentX - startX
+      node.addEventListener('touchstart', function (e) {
+        const touches = e.touches
+        if (touches.length === 2) {
+          isTwoFinger = true
+          startX = (touches[0].clientX + touches[1].clientX) / 2
+          hasSwiped = false
+          isAtEdge = false
+          e.stopImmediatePropagation()
+        } else {
+          isTwoFinger = false
+        }
+      }, { capture: true })
 
-    const carouselData = $carousel.data('owl.carousel')
-    if (!carouselData) return
+      node.addEventListener('touchmove', function (e) {
+        if (!isTwoFinger || hasSwiped) return
+        const touches = e.touches
+        if (touches.length !== 2) return
 
-    const atFirst = carouselData.current() === 0
-    const atLast = carouselData.current() === carouselData.maximum()
+        const currentX = (touches[0].clientX + touches[1].clientX) / 2
+        const deltaX = currentX - startX
 
-    // 🪄 Elastic edge effect
-    if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
-      const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
-      $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
-      isAtEdge = true
-      return
-    }
+        const carouselData = $carousel.data('owl.carousel')
+        if (!carouselData) return
 
-    // 🔄 Swipe trigger
-    if (Math.abs(deltaX) > threshold) {
-      if (deltaX > 0) {
-        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-      } else {
-        $carousel.trigger('next.owl.carousel', [transitionSpeed])
-      }
+        const atFirst = carouselData.current() === 0
+        const atLast = carouselData.current() === carouselData.maximum()
 
-      hasSwiped = true
-      e.preventDefault()
-      e.stopImmediatePropagation()
+        if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
+          const elastic = Math.min(Math.abs(deltaX) / 4, edgeElastic)
+          $carousel.css('transform', `translateX(${deltaX > 0 ? elastic : -elastic}px)`)
+          isAtEdge = true
+          return
+        }
 
-      setTimeout(() => {
-        hasSwiped = false
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX > 0) {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          }
+
+          hasSwiped = true
+          e.preventDefault()
+          e.stopImmediatePropagation()
+
+          setTimeout(() => {
+            hasSwiped = false
+            isTwoFinger = false
+          }, lockDuration)
+        }
+      }, { capture: true })
+
+      node.addEventListener('touchend', function () {
+        if (isAtEdge) {
+          $carousel.css({
+            transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+            transform: 'translateX(0)',
+          })
+          setTimeout(() => $carousel.css('transition', ''), 300)
+          isAtEdge = false
+        }
         isTwoFinger = false
-      }, lockDuration)
-    }
-  }, { capture: true })
+      }, { capture: true })
 
-  node.addEventListener('touchend', function () {
-    if (isAtEdge) {
-      $carousel.css({
-        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-        transform: 'translateX(0)',
+      node.addEventListener('touchcancel', function () {
+        isTwoFinger = false
+        if (isAtEdge) {
+          $carousel.css({
+            transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
+            transform: 'translateX(0)',
+          })
+          setTimeout(() => $carousel.css('transition', ''), 300)
+          isAtEdge = false
+        }
+      }, { capture: true })
+
+      $carousel.on('wheel', function (e) {
+        const event = e.originalEvent
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+          e.preventDefault()
+          if (hasSwiped) return
+          hasSwiped = true
+
+          if (event.deltaX > 0) {
+            $carousel.trigger('next.owl.carousel', [transitionSpeed])
+          } else {
+            $carousel.trigger('prev.owl.carousel', [transitionSpeed])
+          }
+
+          setTimeout(() => {
+            hasSwiped = false
+          }, lockDuration)
+        }
       })
-      setTimeout(() => $carousel.css('transition', ''), 300)
-      isAtEdge = false
-    }
-    isTwoFinger = false
-  }, { capture: true })
+    })
+  }
 
-  node.addEventListener('touchcancel', function () {
-    isTwoFinger = false
-    if (isAtEdge) {
-      $carousel.css({
-        transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-        transform: 'translateX(0)',
+  // 🔁 Observe minicart changes and re-init swipe when new carousels appear
+  const minicart = document.querySelector('.block-minicart')
+
+  if (minicart) {
+    const observer = new MutationObserver(() => {
+      $('.minicart-items-wrapper .owl-carousel').each(function () {
+        initTwoFingerSwipe()
       })
-      setTimeout(() => $carousel.css('transition', ''), 300)
-      isAtEdge = false
-    }
-  }, { capture: true })
+    })
 
-  // 🖱️ Smooth horizontal scroll wheel navigation
-  $carousel.on('wheel', function (e) {
-    const event = e.originalEvent
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      e.preventDefault()
-      if (hasSwiped) return
-      hasSwiped = true
+    observer.observe(minicart, { childList: true, subtree: true })
+  }
 
-      if (event.deltaX > 0) {
-        $carousel.trigger('next.owl.carousel', [transitionSpeed])
-      } else {
-        $carousel.trigger('prev.owl.carousel', [transitionSpeed])
-      }
-
-      setTimeout(() => {
-        hasSwiped = false
-      }, lockDuration)
-    }
+  // 🟢 Also run once on page load (for any carousels outside minicart)
+  $(document).ready(function () {
+    initTwoFingerSwipe()
   })
-})
 
 
     /* ========================
