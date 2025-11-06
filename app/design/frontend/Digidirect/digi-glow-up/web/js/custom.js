@@ -1749,57 +1749,66 @@ $(document).on('click', '#custom-alert-close', function () {
     
     
     // ======================
-    // 🔁 AJAX Cart Update Helper
-    // ======================
-    function updateCartAjax($input, newQty) {
-        const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
-        if (!itemIdMatch) {
-          console.error('❌ Cannot extract item ID from', $input.attr('name'));
-          return;
+// 🔁 AJAX Cart Update Helper
+// ======================
+function updateCartAjax($input, newQty) {
+  const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/)
+  if (!itemIdMatch) {
+    console.error('❌ Cannot extract item ID from', $input.attr('name'))
+    return
+  }
+
+  const itemId = itemIdMatch[1]
+  console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`)
+
+  // Build the URL safely using Magento's URL builder
+  require(['mage/url', 'Magento_Checkout/js/model/cart/totals-processor/default', 'Magento_Checkout/js/model/quote'], 
+  function (urlBuilder, totalsProcessor, quote) {
+    const updateUrl = urlBuilder.build('checkout/cart/updatePost/')
+
+    $.ajax({
+      url: updateUrl,
+      type: 'POST',
+      data: {
+        form_key: $('input[name="form_key"]').val(),
+        [`cart[${itemId}][qty]`]: newQty,
+        update_cart_action: 'update_qty',
+      },
+      beforeSend: function () {
+        console.log('⏳ Sending AJAX update for item', itemId)
+        $input.prop('disabled', true)
+      },
+      success: function () {
+        console.log('✅ Cart updated successfully')
+
+        // 🔁 Refresh customer data (minicart + cart summary sections)
+        customerData.invalidate(['cart', 'checkout-data'])
+        customerData.reload(['cart', 'checkout-data'], true)
+
+        // 🔁 Trigger totals recalculation (Knockout summary)
+        try {
+          totalsProcessor.estimateTotals(quote)
+          console.log('🔄 Totals recalculated')
+        } catch (err) {
+          console.warn('⚠️ Could not run totalsProcessor:', err)
         }
 
-        const itemId = itemIdMatch[1];
-        console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
-
-        // Build the URL safely using Magento's URL builder
-        require(['mage/url'], function (urlBuilder) {
-          const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
-
-          $.ajax({
-            url: updateUrl,
-            type: 'POST',
-            data: {
-              form_key: $('input[name="form_key"]').val(),
-              [`cart[${itemId}][qty]`]: newQty,
-              update_cart_action: 'update_qty',
-            },
-            beforeSend: function () {
-              console.log('⏳ Sending AJAX update for item', itemId);
-              $input.prop('disabled', true);
-            },
-            success: function () {
-              console.log('✅ Cart updated successfully');
-
-              // Refresh minicart via customerData (already loaded)
-              customerData.reload(['cart'], true);
-
-              // Optional: refresh totals and row subtotal
-              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
-              const $row = $input.closest('tr');
-              if ($row.length) {
-                const rowId = $row.attr('id');
-                $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
-              }
-            },
-            error: function (xhr, status, err) {
-              console.error('❌ Cart update failed', status, err);
-            },
-            complete: function () {
-              $input.prop('disabled', false);
-            },
-          });
-        });
-      }
+        // Optional: visually refresh the subtotal cell for the updated row
+        const $row = $input.closest('tr')
+        if ($row.length) {
+          const rowId = $row.attr('id')
+          $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`)
+        }
+      },
+      error: function (xhr, status, err) {
+        console.error('❌ Cart update failed', status, err)
+      },
+      complete: function () {
+        $input.prop('disabled', false)
+      },
+    })
+  })
+}
 
     // ======================
     // 🧮 Qty Button Click Logic
@@ -1930,6 +1939,31 @@ $(document).on('click', '#custom-alert-close', function () {
       $carousel.trigger('refresh.owl.carousel');
     });
 });
+
+//Hide PA Minicart Widget If Cart Is Empty
+function toggleMiniUpsell() {
+  const $minicart = $('.block-minicart')
+  const $upsell = $('.pa-minicart-widget')
+
+  if ($minicart.find('.empty-cart').length > 0) {
+    $upsell.addClass('is-hidden')
+  } else {
+    $upsell.removeClass('is-hidden')
+  }
+}
+
+// Observe minicart for updates
+const minicartEl = document.querySelector('.block-minicart')
+if (minicartEl) {
+  const upsellObserver = new MutationObserver(() => {
+    toggleMiniUpsell()
+  })
+  upsellObserver.observe(minicartEl, { childList: true, subtree: true })
+}
+
+// Initial check on load
+$(document).ready(toggleMiniUpsell)
+
 
   })
 })
