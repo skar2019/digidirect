@@ -1034,7 +1034,7 @@ body.blur-active .global-blur-overlay {
     margin: 0;
 }
 
-#upsell-widget-desktop .owl-nav {
+#upsell-widget-desktop .owl-nav, #pa-minicart-widget-desktop .owl-nav {
     position: absolute;
     top: 50%;
     left: 0;
@@ -1061,7 +1061,7 @@ body.blur-active .global-blur-overlay {
     top: 0 !important;
 }
 
-#upsell-widget-desktop .owl-nav button.owl-prev {
+#upsell-widget-desktop .owl-nav button.owl-prev, #pa-minicart-widget-desktop .owl-nav button.owl-prev {
     position: fixed;
     border-radius: 50%;
     backdrop-filter: blur(10px);
@@ -1074,6 +1074,7 @@ body.blur-active .global-blur-overlay {
     cursor: pointer;
     z-index: 10000;
     top: 0 !important;
+    opacity: 0.5 !important;
 }
 
 #welcome-back-widget-desktop .owl-nav button.owl-next {
@@ -1091,7 +1092,7 @@ body.blur-active .global-blur-overlay {
     top: 0 !important;
 }
 
-#upsell-widget-desktop .owl-nav button.owl-next {
+#upsell-widget-desktop .owl-nav button.owl-next, #pa-minicart-widget-desktop .owl-nav button.owl-next {
     position: fixed;
     border-radius: 50%;
     backdrop-filter: blur(10px);
@@ -1104,6 +1105,11 @@ body.blur-active .global-blur-overlay {
     cursor: pointer;
     z-index: 10000;
     top: 0 !important;
+    opacity: 0.5 !important;
+}
+
+#pa-minicart-widget-desktop .owl-nav button.owl-prev, #pa-minicart-widget-desktop .owl-nav button.owl-next {
+    height: 100% !important
 }
 
 #welcome-back-widget-desktop .owl-prev:before,
