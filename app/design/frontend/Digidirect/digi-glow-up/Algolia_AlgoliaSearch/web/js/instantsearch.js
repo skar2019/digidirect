@@ -1642,15 +1642,24 @@ window.addEventListener('load', () => {
     })
   })
   
-  // Reposition Instant Search Bar
-  ;(function () {
+  // Reposition Instant Search Bar (robust version)
+;(function () {
   const SEARCH_BAR_ID = '#instant-search-bar'
   const FACETS_CONTAINER_ID = '#instant-search-facets-container'
-  const MAX_WAIT_MS = 8000
   const RECHECK_DELAY = 200
   const DESKTOP_ONLY = false
 
   const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+
+  function hideSearchBar() {
+    const searchBar = document.querySelector(SEARCH_BAR_ID)
+    if (searchBar) searchBar.style.display = 'none'
+  }
+
+  function showSearchBar() {
+    const searchBar = document.querySelector(SEARCH_BAR_ID)
+    if (searchBar) searchBar.style.display = ''
+  }
 
   function moveAndInsert() {
     const searchBar = document.querySelector(SEARCH_BAR_ID)
@@ -1672,47 +1681,49 @@ window.addEventListener('load', () => {
       console.log('✅ Added "Search Within Results" label')
     }
 
-    return true
+    return searchBar.parentElement === facetsContainer
   }
 
-  function waitForElementsAndObserve() {
+  function startRepositionWatcher() {
     if (DESKTOP_ONLY && !isDesktop()) return
 
-    const startTime = Date.now()
+    hideSearchBar() // hide at start
 
-    const check = setInterval(() => {
-      const ready = moveAndInsert()
-      const timeout = Date.now() - startTime > MAX_WAIT_MS
+    let observerStarted = false
 
-      if (ready || timeout) {
-        clearInterval(check)
+    const ensurePositioned = () => {
+      const done = moveAndInsert()
+      if (done) {
+        showSearchBar() // ✅ only show when actually inside correct container
 
-        if (ready) {
-          const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-          const searchBar = document.querySelector(SEARCH_BAR_ID)
-
-          if (facetsContainer && searchBar) {
-            // Watch both in case Algolia re-renders
-            const observer = new MutationObserver(() => {
-              moveAndInsert()
-            })
-            observer.observe(document.body, { childList: true, subtree: true })
-          }
-        } else {
-          console.warn('⏱️ Timeout: Could not find elements to move.')
+        // Start observing for re-renders only once
+        if (!observerStarted) {
+          observerStarted = true
+          const observer = new MutationObserver(() => {
+            const stillInPlace = moveAndInsert()
+            if (stillInPlace) showSearchBar()
+            else hideSearchBar()
+          })
+          observer.observe(document.body, { childList: true, subtree: true })
         }
+      } else {
+        hideSearchBar()
+        // keep retrying until it’s really repositioned
+        setTimeout(ensurePositioned, RECHECK_DELAY)
       }
-    }, RECHECK_DELAY)
+    }
+
+    ensurePositioned()
   }
 
   // Start after DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', waitForElementsAndObserve)
+    document.addEventListener('DOMContentLoaded', startRepositionWatcher)
   } else {
-    waitForElementsAndObserve()
+    startRepositionWatcher()
   }
 })()
-  
+
   //Test Fix Search Mobile
   /*const input = document.querySelector('.aa-Input');
   if (!input) return;
