@@ -538,13 +538,9 @@ $(window).on('scroll resize', () => {
    🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
    ✅ Works together with Owl's 1-Finger native swipe
 ======================== */
-function initTwoFingerSwipe() {
-    const $carousels = $('.owl-carousel')
-
-    $carousels.each(function () {
+function initTwoFingerSwipe($scope = $(document)) {
+    $scope.find('.owl-carousel').each(function () {
       const $carousel = $(this)
-
-      // Prevent rebinding the same carousel twice
       if ($carousel.data('twoFingerBound')) return
       $carousel.data('twoFingerBound', true)
 
@@ -556,7 +552,6 @@ function initTwoFingerSwipe() {
       const lockDuration = 250
       const transitionSpeed = 600
       const edgeElastic = 40
-
       const node = $carousel[0]
 
       node.addEventListener('touchstart', function (e) {
@@ -656,20 +651,32 @@ function initTwoFingerSwipe() {
     })
   }
 
-  // 🔁 Observe minicart changes and re-init swipe when new carousels appear
+  // 🔁 Observe minicart for dynamic content
   const minicart = document.querySelector('.block-minicart')
-
   if (minicart) {
     const observer = new MutationObserver(() => {
-      $('.minicart-items-wrapper .owl-carousel').each(function () {
-        initTwoFingerSwipe()
-      })
+      // Wait a bit for Knockout to finish rendering minicart items
+      setTimeout(() => {
+        const $carousels = $('.minicart-items-wrapper .owl-carousel')
+
+        // Wait until Owl Carousel is actually initialized
+        $carousels.each(function () {
+          const $this = $(this)
+          const checkOwl = setInterval(() => {
+            if ($this.data('owl.carousel')) {
+              clearInterval(checkOwl)
+              initTwoFingerSwipe($this.parent())
+            }
+          }, 200)
+          setTimeout(() => clearInterval(checkOwl), 3000) // stop trying after 3s
+        })
+      }, 500)
     })
 
     observer.observe(minicart, { childList: true, subtree: true })
   }
 
-  // 🟢 Also run once on page load (for any carousels outside minicart)
+  // Also apply globally on page load
   $(document).ready(function () {
     initTwoFingerSwipe()
   })
