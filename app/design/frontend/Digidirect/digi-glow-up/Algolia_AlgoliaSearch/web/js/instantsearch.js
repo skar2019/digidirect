@@ -1643,53 +1643,75 @@ window.addEventListener('load', () => {
   })
   
   // Reposition Instant Search Bar
-const SEARCH_BAR_ID = '#instant-search-bar'
-const FACETS_CONTAINER_ID = '#instant-search-facets-container'
-const MAX_WAIT_MS = 8000
-const RECHECK_DELAY = 200
-const DESKTOP_ONLY = false
+  ;(function () {
+  const SEARCH_BAR_ID = '#instant-search-bar'
+  const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+  const MAX_WAIT_MS = 8000
+  const RECHECK_DELAY = 200
+  const DESKTOP_ONLY = false
 
-const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+  const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
 
-function moveAndInsert() {
-  const searchBar = document.querySelector(SEARCH_BAR_ID)
-  const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-  if (!searchBar || !facetsContainer) return false
+  function moveAndInsert() {
+    const searchBar = document.querySelector(SEARCH_BAR_ID)
+    const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+    if (!searchBar || !facetsContainer) return false
 
-  if (searchBar.parentElement !== facetsContainer) {
-    facetsContainer.appendChild(searchBar)
-    console.log('✅ instant-search-bar moved inside instant-search-facets-container')
-  }
-
-  if (!searchBar.querySelector('.search-within-label')) {
-    const label = document.createElement('span')
-    label.className = 'search-within-label'
-    label.textContent = 'Search Within Results'
-    searchBar.insertBefore(label, searchBar.firstChild)
-    console.log('✅ Added "Search Within Results" label')
-  }
-
-  return true
-}
-
-function start() {
-  if (DESKTOP_ONLY && !isDesktop()) return
-
-  const startTime = Date.now()
-  const observer = new MutationObserver(() => moveAndInsert())
-  observer.observe(document.body, { childList: true, subtree: true })
-
-  const poll = setInterval(() => {
-    if (moveAndInsert()) {
-      clearInterval(poll)
-    } else if (Date.now() - startTime > MAX_WAIT_MS) {
-      clearInterval(poll)
-      console.warn('⏱️ Timeout: Could not find elements to move.')
+    // Move search bar
+    if (searchBar.parentElement !== facetsContainer) {
+      facetsContainer.appendChild(searchBar)
+      console.log('✅ instant-search-bar moved inside instant-search-facets-container')
     }
-  }, RECHECK_DELAY)
-}
 
-start()
+    // Add label if missing
+    if (!searchBar.querySelector('.search-within-label')) {
+      const label = document.createElement('span')
+      label.className = 'search-within-label'
+      label.textContent = 'Search Within Results'
+      searchBar.insertBefore(label, searchBar.firstChild)
+      console.log('✅ Added "Search Within Results" label')
+    }
+
+    return true
+  }
+
+  function waitForElementsAndObserve() {
+    if (DESKTOP_ONLY && !isDesktop()) return
+
+    const startTime = Date.now()
+
+    const check = setInterval(() => {
+      const ready = moveAndInsert()
+      const timeout = Date.now() - startTime > MAX_WAIT_MS
+
+      if (ready || timeout) {
+        clearInterval(check)
+
+        if (ready) {
+          const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+          const searchBar = document.querySelector(SEARCH_BAR_ID)
+
+          if (facetsContainer && searchBar) {
+            // Watch both in case Algolia re-renders
+            const observer = new MutationObserver(() => {
+              moveAndInsert()
+            })
+            observer.observe(document.body, { childList: true, subtree: true })
+          }
+        } else {
+          console.warn('⏱️ Timeout: Could not find elements to move.')
+        }
+      }
+    }, RECHECK_DELAY)
+  }
+
+  // Start after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForElementsAndObserve)
+  } else {
+    waitForElementsAndObserve()
+  }
+})()
   
   //Test Fix Search Mobile
   /*const input = document.querySelector('.aa-Input');
