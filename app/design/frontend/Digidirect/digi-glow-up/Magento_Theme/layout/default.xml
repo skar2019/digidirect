@@ -8,6 +8,9 @@
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
     <body>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="global.pa.minicart" template="Digidirect_ParticularAudienceAPI::global-pa-minicart.phtml"/>
+        </referenceContainer>
         <referenceContainer name="before.body.start">
             <block class="Magento\Cms\Block\Block" name="site.takeover">
                 <arguments>
