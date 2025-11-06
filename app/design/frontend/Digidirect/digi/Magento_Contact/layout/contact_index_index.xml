@@ -12,27 +12,38 @@
     <body>
         <referenceContainer name="main.content" htmlClass="page-main cms-bg-block">
             <referenceContainer name="columns.top">
-                <block class="Magento\Cms\Block\Block" name="page.cms.bg" >
+                <!-- <block class="Magento\Cms\Block\Block" name="page.cms.bg" >
                     <arguments>
                         <argument name="block_id" xsi:type="string">cms-bg-title</argument>
                     </arguments>
-                </block>
+                </block> -->
+                    <block class="Magento\Cms\Block\Block" name="contact.us.header">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">contact-us-header</argument>
+                        </arguments>
+                    </block>
             </referenceContainer>
         </referenceContainer>
         <referenceContainer name="content">
             <container name="contact.page" htmlTag="div" htmlClass="contact-page -cms-page">
+                <block class="Magento\Contact\Block\ContactForm" name="contactForm" template="Magento_Contact::form.phtml">
+                        <container name="form.additional.info" label="Form Additional Info"/>
+                </block>
+                
                 <container name="contact.left" htmlTag="div" htmlClass="left-column">
                     <block class="Magento\Contact\Block\ContactForm" name="contactForm" template="Magento_Contact::form.phtml">
                         <container name="form.additional.info" label="Form Additional Info"/>
                     </block>
                 </container>
-                <container name="contact.right" htmlTag="div" htmlClass="right-column">
+
+                
+                <!-- <container name="contact.right" htmlTag="div" htmlClass="right-column">
                     <block class="Magento\Cms\Block\Block" name="contact.banner">
                         <arguments>
-                            <argument name="block_id" xsi:type="string">cms-contact-banner</argument>
+                            <argument name="block_id" xsi:type="string">cms-contact-bannerss</argument>
                         </arguments>
                     </block>
-                </container>
+                </container> -->
             </container>
         </referenceContainer>
 
