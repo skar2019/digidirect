@@ -192,10 +192,14 @@ $viewModel->unsetShowLoginOverlay();
 <!--        <button class="close-popup" aria-label="Close">&times;</button>-->
 <!--    </div>-->
     <div class="account-popup-header">
+<!--        <div class="close-popup">-->
+<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-close.png') ?><!--">-->
+<!--        </div>-->
+<!--        <div class="goback">-->
+<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-back.png') ?><!--"/>-->
+<!--            <span class="goback-txt">Go Back</span>-->
+<!--        </div>-->
         <span class="signout">Sign Out</span>
-        <div class="close-popup">
-            <img src="<?= $block->getViewFileUrl('images/mobile-menu-close.png') ?>">
-        </div>
     </div>
     <ul class="account-menu">
         <div class="block-collapsible-nav navigation">

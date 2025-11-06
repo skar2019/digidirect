@@ -889,7 +889,7 @@ if ($mobileMenuClose.length) {
 ======================== */
 (function () {
   function moveAllNavsToBody() {
-    $('.owl-carousel').not('.welcome, .upsell').each(function (index) {
+    $('.owl-carousel').not('.welcome, .upsell', '.pa-minicart').each(function (index) {
       const $carousel = $(this)
       const $nav = $carousel.find('.owl-nav')
       if (!$nav.length || $nav.data('moved')) return
@@ -1567,7 +1567,7 @@ $(function () {
     )
 
   // Show Upsell PA Pop Up Widget (with 2s delay)
-$('#product-addtocart-button').on('click', function () {
+$('.tocart-pdp-btn, #zip-product-widget, .pdp-afterpay-logo, .add-to-cart-trigger').on('click', function () {
   //setTimeout(function () {
     $('#pa-upsell').addClass('active')
     $('.minicart-overlay').css('display', 'block') // 🔹 Sync overlay on show
@@ -1721,12 +1721,16 @@ $(document).on('click', '#custom-alert-close', function () {
     // ======================
     function updateCartAjax($input, newQty) {
         const itemIdMatch = $input.attr('name')?.match(/\[(\d+)\]/);
-        if (!itemIdMatch) return console.error('❌ Cannot extract item ID from', $input.attr('name'));
+        if (!itemIdMatch) {
+          console.error('❌ Cannot extract item ID from', $input.attr('name'));
+          return;
+        }
 
         const itemId = itemIdMatch[1];
         console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
 
-        require(['mage/url', 'Magento_Customer/js/customer-data'], function (urlBuilder, customerData) {
+        // Build the URL safely using Magento's URL builder
+        require(['mage/url'], function (urlBuilder) {
           const updateUrl = urlBuilder.build('checkout/cart/updatePost/');
 
           $.ajax({
@@ -1738,22 +1742,22 @@ $(document).on('click', '#custom-alert-close', function () {
               update_cart_action: 'update_qty',
             },
             beforeSend: function () {
+              console.log('⏳ Sending AJAX update for item', itemId);
               $input.prop('disabled', true);
             },
             success: function () {
               console.log('✅ Cart updated successfully');
 
-              // 🔄 Reload cart + checkout data
-              customerData.reload(['cart', 'checkout-data'], true);
+              // Refresh minicart via customerData (already loaded)
+              customerData.reload(['cart'], true);
 
-              // 🔁 Reload row subtotal and totals block
+              // Optional: refresh totals and row subtotal
+              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
               const $row = $input.closest('tr');
               if ($row.length) {
                 const rowId = $row.attr('id');
                 $(`#${rowId} .col.subtotal`).load(window.location.href + ` #${rowId} .col.subtotal > *`);
               }
-
-              $('.cart-totals').load(window.location.href + ' .cart-totals > *');
             },
             error: function (xhr, status, err) {
               console.error('❌ Cart update failed', status, err);

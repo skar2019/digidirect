@@ -1044,8 +1044,18 @@ input:not([disabled]):focus {
         top: 1px;
     }
 
+    @media only screen and (min-width: 300px) {
+        .paypal-button.paypal-button-shape-rect {
+            border-radius: 50px !important;
+        }
+    }
+
     .paypal-button.paypal-button-shape-rect {
-        border-radius: 10px !important;
+        border-radius: 50px !important;
+    }
+
+    #braintree_paypal_paylater_placeholder {
+        display: none !important;
     }
 
 }

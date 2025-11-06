@@ -162,6 +162,9 @@ require(['jquery'], function($) {
             }
         }
 
+        $('.goback').on('click', function() {
+            $('#open-account-popup').trigger('click');
+        });
     });
 
     function closeAlgolia() {
