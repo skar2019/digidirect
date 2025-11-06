@@ -889,7 +889,7 @@ if ($mobileMenuClose.length) {
 ======================== */
 (function () {
   function moveAllNavsToBody() {
-    $('.owl-carousel').not('.welcome, .upsell', '.pa-minicart').each(function (index) {
+    $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function (index) {
       const $carousel = $(this)
       const $nav = $carousel.find('.owl-nav')
       if (!$nav.length || $nav.data('moved')) return

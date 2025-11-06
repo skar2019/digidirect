@@ -179,7 +179,7 @@ if ($currentPage != "catalogsearch_result_index") {
                                     <?php 
                                         $hasDiscountClass = "has-discount";
                                     ?>
-                                    <div class="ribbon-digideals">digiDeals</div>
+                                    <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <?php if ($discountPrice > 0 || ($discountWiserPrice >= 10 && $wiserPrice != 0) || $marketplacesPrice > $finalProductPrice): ?>
@@ -187,7 +187,7 @@ if ($currentPage != "catalogsearch_result_index") {
                                         $hasDiscountClass = "has-discount";
                                     ?>
                                     <?php if ($isDigiSeconds == 0): ?>
-                                        <div class="ribbon-digideals">digiDeals</div>
+                                        <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endif; ?>
