@@ -604,7 +604,17 @@ require(['jquery'], function ($) {
         productTile(paWidgetId, '.products.items.product-items.-grid', false);
     }*/
 
-    productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
+    if (currentUrl.includes("/digiseconds/openbox")) {
+        productTileForWidget('cabdb7b3-a9bb-f011-abf3-02bf4bf6447c', '#openbox-recommended-widget-desktop', false);
+    } else if (currentUrl.includes("/digiseconds/preloved")) {
+        productTileForWidget('1c3884bf-a9bb-f011-abf3-02bf4bf6447c', '#preloved-recommended-widget-desktop', false);
+    } else if (currentUrl.includes("/digiseconds/refurb")) {
+        productTileForWidget('70d4a6da-a9bb-f011-abf3-02bf4bf6447c', '#refurb-recommended-widget-desktop', false)
+    } else {
+        productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
+    }
+
+    
     //productTileForWidget('cabdb7b3-a9bb-f011-abf3-02bf4bf6447c', '#openbox-recommended-widget-desktop', false);
     //productTileForWidget('70d4a6da-a9bb-f011-abf3-02bf4bf6447c', '#refurb-recommended-widget-desktop', false);
     //productTileForWidget('1c3884bf-a9bb-f011-abf3-02bf4bf6447c', '#preloved-recommended-widget-desktop', false);
