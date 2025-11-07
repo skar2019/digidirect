@@ -73,15 +73,6 @@ require(['jquery'], function ($) {
     } else if (currentUrl.includes("/clearance")) {
         urlPath = "/clearance-pa";
         paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
-    } else if (currentUrl.includes("/digiseconds/openbox")) {
-        urlPath = "/digiseconds/openbox";
-        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
-    } else if (currentUrl.includes("/digiseconds/preloved")) {
-        urlPath = "/digiseconds/preloved";
-        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
-    } else if (currentUrl.includes("/digiseconds/refurb")) {
-        urlPath = "/digiseconds/refurb";
-        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
     } else {
         urlPath = "/plp-products-pa";
         paWidgetId = "aeb2401a-2dcd-ed11-aae9-02dca44cceec";
@@ -605,9 +596,9 @@ require(['jquery'], function ($) {
     }*/
 
     productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
-    productTileForWidget('cabdb7b3-a9bb-f011-abf3-02bf4bf6447c', '#openbox-recommended-widget-desktop', false);
-    productTileForWidget('70d4a6da-a9bb-f011-abf3-02bf4bf6447c', '#refurb-recommended-widget-desktop', false);
-    productTileForWidget('1c3884bf-a9bb-f011-abf3-02bf4bf6447c', '#preloved-recommended-widget-desktop', false);
+    productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#openbox-recommended-widget-desktop', false);
+    productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#refurb-recommended-widget-desktop', false);
+    productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#preloved-recommended-widget-desktop', false);
     productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#digideals-recommended-widget-desktop', false);
     
     //Minicart PA Widget
