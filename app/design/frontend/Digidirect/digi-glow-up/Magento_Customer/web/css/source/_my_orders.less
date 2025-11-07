@@ -146,6 +146,23 @@
     .field-date .control .sub-label {
         width: unset !important;
     }
+
+    .sales-order-view, .sales-order-invoice {
+        .actions-toolbar.order-actions-toolbar .actions {
+            display: flex !important;
+            justify-content: flex-end;
+        }
+        .order-details-items.invoice .actions-toolbar {
+            text-align: center !important;
+        }
+        .order-details-items.invoice .order-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
+    }
+
 }
 
 .my-orders-search-advanced {

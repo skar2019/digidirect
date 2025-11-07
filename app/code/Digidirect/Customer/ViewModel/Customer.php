@@ -29,6 +29,7 @@ class Customer implements ArgumentInterface
      *
      * @param Session $customerSession
      * @param Wishlist $wishlist
+     * @param Header $httpHeader
      */
     public function __construct(
         Session $customerSession,
@@ -114,8 +115,6 @@ class Customer implements ArgumentInterface
     public function isMobile()
     {
         $userAgent = $this->httpHeader->getHttpUserAgent();
-
-        $isMobile = preg_match('/Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry|Opera Mini/i', $userAgent);
-        return $isMobile;
+        return preg_match('/Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry|Opera Mini/i', $userAgent);
     }
 }
