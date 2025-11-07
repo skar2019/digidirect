@@ -1727,7 +1727,7 @@ window.addEventListener('load', () => {
 // 🧹 Clear PA Products When Filtered (ignore initial render)
 ;(function () {
   const TARGET_SELECTOR = '#instant-search-results-container'
-  const PRODUCT_SELECTOR = 'li .ais-Hits-list .pa-product'
+  const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
 
   const waitForTarget = setInterval(() => {
     const target = document.querySelector(TARGET_SELECTOR)
