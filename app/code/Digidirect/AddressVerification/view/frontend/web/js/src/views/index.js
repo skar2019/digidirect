@@ -106,7 +106,7 @@ export default class Autocomplete {
         });
 
         // set empty placeholder for init field
-        node.attr('placeholder', '');
+        node.attr('placeholder', 'Street');
 
         // check if we have preselected and restrict in this case
         if (!this.autocomplete.componentRestrictions) {

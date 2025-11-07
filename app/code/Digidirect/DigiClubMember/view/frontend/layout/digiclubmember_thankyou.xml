@@ -4,5 +4,7 @@
         <referenceContainer name="content">
             <block class="Digidirect\DigiClubMember\Block\Customer\ThankYou" name="digiclubmember_thankyou" template="Digidirect_DigiClubMember::customer/digiclubmember_thankyou.phtml" cacheable="false"/>
         </referenceContainer>
+
+        <referenceBlock name="global.newsletter" remove="true" />
     </body>
 </page>

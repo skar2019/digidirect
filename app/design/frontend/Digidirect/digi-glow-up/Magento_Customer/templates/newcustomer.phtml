@@ -1,0 +1,22 @@
+<?php
+/** @var \Magento\Customer\Block\Form\Login\Info $block */
+?>
+<?php if ($block->getRegistration()->isAllowed()): ?>
+<div class="block block-new-customer -vast">
+    <div class="block-title -great">
+        <h3 id="block-new-customer-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('New Customers')) ?></h3>
+    </div>
+    <div class="block-content" aria-labelledby="block-new-customer-heading">
+        <div class="tick-block">
+            <h4><?= __('Creating an account has many benefits:') ?></h4>
+            <p><?= __('Creating an account provides many benefits. You\'ll be able to check out faster, keep more than one address, and track your orders with ease. You can also save your favourite products to lists and more, plus upgrade to digiClub FREE for further rewards.') ?></p>
+
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <a href="<?= $block->escapeUrl($block->getCreateAccountUrl()) ?>" class="action create button secondary -responsive" title="<?= $block->escapeHtml(__('Create an Account')) ?>"><span><?= $block->escapeHtml(__('Create an Account')) ?></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

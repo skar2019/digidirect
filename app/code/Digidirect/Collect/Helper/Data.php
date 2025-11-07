@@ -656,6 +656,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_existingItems[$quoteId . '-' . self::DELIVERY_TYPE_COLLECT] = $collect;
         }
 
+        $logger = \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class);
+        $logger->debug('digidebug5 key = ' . $key);
+        $logger->debug('digidebug6 existing items = ' . print_r($this->_existingItems, true));
+
         return $this->_existingItems[$key];
     }
 

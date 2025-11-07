@@ -1,0 +1,180 @@
+.customer-address-form {
+    .form-address-edit {
+        max-width: 800px;
+    }
+
+    fieldset .legend {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 15px 0 !important;
+    }
+
+    .label span {
+        margin-bottom: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        color: #545456;
+    }
+
+    .input-text:focus {
+        border-color: #ff6600;
+        outline: none;
+    }
+
+    .name-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .field._required > .label:after {
+        content: '*';
+        color: #e02b27;
+        font-size: 1.2rem;
+        margin: 0 0 0 5px;
+    }
+
+    .field.-half {
+        width: 48%;
+        vertical-align: top;
+    }
+
+    .field.-half:first-child {
+        margin-right: 4%;
+    }
+
+    .fieldset {
+        margin-bottom: 20px !important;
+    }
+
+    .fieldset > .field:not(.choice) > .label {
+        text-align: left !important;
+        float: unset !important;
+        width: 30% !important;
+    }
+
+
+    .field.choice {
+        margin: 20px 0;
+    }
+
+    .field.choice label {
+        margin-left: 8px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .field.company {
+        padding-top: 10px;
+    }
+
+    .address-raw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 29px;
+    }
+
+    .country-raw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 29px;
+    }
+
+    .field.telephone {
+        width: 48% !important;
+    }
+
+    .field.-region {
+        margin-left: 30px !important;
+    }
+
+    .fieldset .field:not(.choice) > .control input[type="text"] {
+        background: @color-white !important;
+    }
+
+    .fieldset .field:not(.choice) > .control {
+        width: 100% !important;
+        float: unset !important;
+    }
+
+    .field .control {
+        margin-top: 15px;
+    }
+
+    .fieldset > .field.choice:before {
+        width: auto !important;
+        padding: 15px 0 5px 0 !important;
+    }
+
+    .actions-toolbar {
+        justify-content: left !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        .field.-half {
+            display: block;
+            width: 100%;
+            margin-right: 0 !important;
+            margin-bottom: 16px;
+        }
+
+        .action.save {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+        }
+    }
+}
+
+.customer-address-index {
+   .actions-toolbar {
+        justify-content: left !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .customer-address-form .field.-half {
+        margin-bottom: 0 !important;
+    }
+
+}
+
+.account .message.message {
+    margin: 0 0 10px 0 !important
+}
+
+.form-address-edit {
+    .field.-region .control,
+    .field.-country .control {
+        position: relative;
+        display: inline-block;
+    }
+
+    .field.-region .control:after,
+    .field.-country .control:after {
+        content: "";
+        position: absolute;
+        top: 52%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('../images/iconsax-arrow-down-02.png') no-repeat center center;
+        background-size: contain;
+        pointer-events: none;
+        display: block;
+
+    }
+
+    #region_id,
+    #country {
+        appearance: none !important;
+        min-width: 50px;
+        padding-right: 40px !important;
+    }
+}
+
+

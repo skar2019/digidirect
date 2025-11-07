@@ -18,7 +18,7 @@ require(['jquery'], function ($) {
     if ((!customerId || customerId === undefined) || (!sessionId || sessionId === undefined)) {
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/index/getconfig",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/index/getconfig",
             type: "POST",
             data: {
                 customerId: customerId
@@ -73,13 +73,25 @@ require(['jquery'], function ($) {
     } else if (currentUrl.includes("/clearance")) {
         urlPath = "/clearance-pa";
         paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
+    } else if (currentUrl.includes("/digiseconds/openbox")) {
+        urlPath = "/digiseconds/openbox";
+        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
+    } else if (currentUrl.includes("/digiseconds/preloved")) {
+        urlPath = "/digiseconds/preloved";
+        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
+    } else if (currentUrl.includes("/digiseconds/refurb")) {
+        urlPath = "/digiseconds/refurb";
+        //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
+    } else {
+        urlPath = "/plp-products-pa";
+        paWidgetId = "aeb2401a-2dcd-ed11-aae9-02dca44cceec";
     }
     
     var result;
 
     $.ajax({
         async: false,
-        url: "https://www.digidirect.com.au/particularaudienceapi/index/productlisting", //getRecommendationsUrl,
+        url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/index/productlisting", //getRecommendationsUrl,
         type: "POST",
         data: {
             customerId: customerId,
@@ -171,11 +183,11 @@ require(['jquery'], function ($) {
             let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
             
             if (categories.options[0].value == "PRELOVED") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
             } else if (categories.options[0].value == "OPENBOX") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
             } else if (categories.options[0].value == "REFURB") {
-                digiSecondsOverlay = '<img src="https://www.digidirect.com.au/media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
             
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
@@ -191,13 +203,13 @@ require(['jquery'], function ($) {
             if (digiPrintValue == 1) {
                 addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
                                 '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <i class="fas fa-cart-plus" style="float: right;"></i>' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
                                 '</button>' +
                             '</a>'
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
-                                'action="https://www.digidirect.com.au/checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                'action="<?= $block->getBaseUrl(); ?>checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
                                 '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
                                 '<input type="text" name="qty" value="1" hidden/>' +
                                 '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
@@ -214,8 +226,8 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                                '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
-                                '</button>'
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
+                                '</button>' +
                             '</form>'
             }
             //console.log(product.name, sellerName);
@@ -225,19 +237,28 @@ require(['jquery'], function ($) {
                 } else {
                     digiDealsLogo = '';
                 }
+            } else {
+                digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
             }
+                
+            let price = Number(product.prices[0].price);
+            let discountPrice = Number(product.prices[0].discountPrice);
+
+            let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            let discountValue = price - discountPrice;
+            let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-digideals">digiDeals</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
+                } else {
+                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
                 }
-                
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
-                let discountPriceToDisplay = "$" + Number(product.prices[0].discountPrice).toFixed(2);
-                let discount = "$" + Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
@@ -250,7 +271,7 @@ require(['jquery'], function ($) {
                                 '</div>' +
                                 '<div class="current-price-wrapper has-special-price">' +
                                     '<div class="digidirectprice">' +
-                                        '<span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
+                                        '<span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
                                     '</div>' +
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' + 
@@ -260,17 +281,16 @@ require(['jquery'], function ($) {
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
-                                '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"> <span class="price-label" style="margin-right: 5px;">PRICE SLASHED</span><span class="price">'+ priceToDisplay +'</span></span>' +
+                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
                                         '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
-                                    '</div>' +
-                                    '<div class="discount-price-wrapper"><span class="discount-price">'+ discount +'</span> Off</div>';
+                                    '</div>';
             } else {
-                let priceToDisplay = "$" + Number(product.prices[0].price).toFixed(2);
+                let price = Number(product.prices[0].price);
+                let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="current-price-wrapper no-special-price">' +
-                                    '<div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
+                                    '<div class="digidirectprice"><span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
                                         '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">' + priceToDisplay +'</span>' +
@@ -279,9 +299,15 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <div> ' +
+                algoliaPriceBlock = '<div class="price-wrapper"><span class="price-container"> <span class="price"></span></span><div> ' +
                                         '<span class="after_special">' + priceToDisplay +'</span>' +
                                     '</div></div> ';
+            }
+            
+            if (!discount) {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
             }
             
             var view = "";
@@ -291,37 +317,9 @@ require(['jquery'], function ($) {
                 view = "-desktop";
             }
             var tileId = 'product-' + product.refId + view;
-            productItem = '<li class="item product product-item">' +
-                        '<div id="'+ tileId +'" class="pa-product product-item-info" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                            '<a href="' + product.url + '" class="product photo product-item-photo" tabindex="-1">' +
-                                digiDealsLogo + digiSeconds +
-                                '<span class="product-image-container" style="width: 240px;">' +
-                                    '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                        '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
-                                    '</span>' +
-                                '</span>' +
-                            '</a><div class="testfreaks-items"></div>' +
-                            '<strong class="product name product-item-name -grid default-product-name">' +
-                                '<a title="' + product.name + '" href="' + product.url + '" class="product-item-link">' +
-                                    product.name +
-                                '</a>' +
-                            '</strong>' +
-                            '<div class="product details product-item-details">' +
-                                priceBlock +
-                                '<div class="product-item-inner">' +
-                                    '<div class="product actions product-item-actions">' +
-                                        '<div class="actions-primary"><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
-                                            addToCart +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-            
             
             var paProductItem = '<li class="ais-Hits-item">' +
-                    digiDealsLogo + digiSeconds +
+                    digiDealsLogo +
                     '<div id="'+ tileId +'" class="pa-product product-item-info col-md-4 col-sm-6" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                         '<div class="result-wrapper" itemprop="item" itemtype="http://schema.org/Product">' +
                             '<a class="result" href="' + product.url + '" data-objectid="'+ product.refId +'">' +
@@ -330,19 +328,19 @@ require(['jquery'], function ($) {
                                         '<img itemprop="image" src="' + product.images[0] + '" alt="' + product.name + '">' +
                                     '</div>' +
                                     '<div class="result-sub-content">' +
+                                        '<div style="color: #4D4E4E;font-size: 10px;font-weight: 400;word-wrap: break-word;text-align: left;">Sponsored</div>' +
                                         '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
                                         '<div class="ratings">' +
-                                            '<div class="result-sub-content">'+
-                                                '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
-                                                    algoliaPriceBlock +
-                                                '</div>' +
-                                            '</div>' +
+                                            '<div class="result-sub-content"></div>' +
                                         '</div>' +
                                         '<div class="result-description text-ellipsis"></div>' +
                                         '<div class="s19-rental-price-target">' +
-                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later, </p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
-                                        '</div>' + addToCart +
+                                        '</div>' + 
+                                        '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
+                                            algoliaPriceBlock +
+                                        '</div>' + productInfoBottom +
                                     '</div>' + 
                                 '</div>' +
                                 '<div class="algolia-clearfix"></div>' +
@@ -357,10 +355,321 @@ require(['jquery'], function ($) {
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
     
+    function productTileForWidget(widgetId, appendTo, isMobile) {
+        let productItem = "";
+        let widget = widgets.find(obj => {
+            return obj.id === widgetId;
+        })
+        let widgetSlots = widget.slots;
+        var productCtr = 0;
+        Object.keys(widgetSlots).forEach(key => {
+            
+            let product = widgetSlots[key].products[0];
+            let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
+            
+            productCtr++;
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
+
+            let digiDealsLogo = "";
+            let priceBlock = "";
+            let addToCart = "";
+
+            let digiSeconds = "";
+            let digiSecondsOverlay = "";
+            let sellerName = "";
+
+            let categories = product.attributes.find(obj => {
+                return obj.name === 'Categories';
+            })
+
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+
+            let digiSecondsRatingValue = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
+            })
+
+            let digiSecondsRating = "";            
+
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            }
+
+            sellerName = seller.stringValue;
+
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
+
+            const includesString = (str, searchString) =>
+            new RegExp(searchString, 'i').test(str);
+
+            if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
+            } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
+            } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
+                digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
+            }
+
+            digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
+            //console.log("adSetId", adSetId, product.name);
+
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
+            let sponsoredLabel = "";
+            if (adSetId || adSetId != null) {
+                sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
+            }
+
+            if (digiPrintValue == 1) {
+                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
+                                '<button type="button" title="Order Now" class="action tocart primary">' +
+                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
+                                '</button>' +
+                            '</a>'
+            } else {
+                addToCart = '<form data-role="tocart-form"' +
+                                'data-product-sku="' + product.sku + '"' +
+                                'action="<?= $block->getBaseUrl(); ?>checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                '<input type="text" name="qty" value="1" hidden/>' +
+                                '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
+                                '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
+                                '</button>' + 
+                            '</form>'
+            }
+            
+            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none"> <g clip-path="url(#clip0_7978_37674)"> <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13"> <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"></path></mask> <g mask="url(#mask0_7978_37674)"> <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"></path></g></g> <defs> <clipPath id="clip0_7978_37674"> <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"></rect></clipPath></defs></svg></a>`;
+            
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
+                } else {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
+                }
+            } else {
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+            }
+
+            let price = Number(product.prices[0].price);
+            let discountPrice = Number(product.prices[0].discountPrice);
+
+            let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            let discountValue = price - discountPrice;
+            let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            
+            if (discount === "$NaN") {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+            }
+
+            if (product.prices[0].discountPrice) {
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
+                    }
+                } else {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                }
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="current-price-wrapper has-special-price">' +
+                                    '<div class="digidirectprice">' +
+                                        '<span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
+                                    '</div>' +
+                                    '<span class="special-price"><span class="price-container price-final_price tax weee">' +
+                                        '<span class="price-label"></span>' + 
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>';
+            } else {
+                let price = Number(product.prices[0].price);
+                let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper" style="visibility: hidden;"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="current-price-wrapper no-special-price">' +
+                                    '<div class="digidirectprice"><span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">' + priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>';
+            }
+
+            let hideProductItem = "";
+            if (isMobile && productCtr > 4) {
+                hideProductItem = "hide-product-item";
+            }
+            var view = "";
+            if (isMobile) {
+                view = "mobile";
+            } else {
+                view = "desktop";
+            }
+            var tileId = view + '-' + widgetId + '-product-' + product.refId;
+
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
+            
+            var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
+            
+            productItem = productItemDiv + digiDealsLogo +
+                        '<a href="' + product.url + '" class="product-image-container">' +
+                            '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                            '</span>' +
+                        '</a>' + 
+                        '<div style="position: relative;">' + sponsoredLabel +
+                            '<a href="' + product.url + '" class="product details product-item-details">' +
+                                 '<strong class="product-item-name">' +
+                                    '<span title="' + product.name + '" class="product-item-link">' +
+                                        product.name +
+                                    '</span>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                priceBlock + productInfoBottom +
+                            '</a>' +
+                        '</div>' +
+                    '</div>'
+            $(appendTo).append(productItem);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
+        });
+        $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
+    }
+    
     /*if (paWidgetId != "") {
         productTile(paWidgetId, '.products.items.product-items.-grid', false);
     }*/
 
+    if (currentUrl.includes("/digiseconds/openbox")) {
+        productTileForWidget('cabdb7b3-a9bb-f011-abf3-02bf4bf6447c', '#openbox-recommended-widget-desktop', false);
+    } else if (currentUrl.includes("/digiseconds/preloved")) {
+        productTileForWidget('1c3884bf-a9bb-f011-abf3-02bf4bf6447c', '#preloved-recommended-widget-desktop', false);
+    } else if (currentUrl.includes("/digiseconds/refurb")) {
+        productTileForWidget('70d4a6da-a9bb-f011-abf3-02bf4bf6447c', '#refurb-recommended-widget-desktop', false)
+    } else {
+        productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
+    }
+
+    
+    //productTileForWidget('cabdb7b3-a9bb-f011-abf3-02bf4bf6447c', '#openbox-recommended-widget-desktop', false);
+    //productTileForWidget('70d4a6da-a9bb-f011-abf3-02bf4bf6447c', '#refurb-recommended-widget-desktop', false);
+    //productTileForWidget('1c3884bf-a9bb-f011-abf3-02bf4bf6447c', '#preloved-recommended-widget-desktop', false);
+    //productTileForWidget('aeb2401a-2dcd-ed11-aae9-02dca44cceec', '#digideals-recommended-widget-desktop', false);
+    
+    //Minicart PA Widget
+    (function () {
+        const config = { childList: true, subtree: true }
+
+        const observer = new MutationObserver((mutations, instance) => {
+            const $widget = $('#pa-minicart-widget-desktop')
+
+            // 🟢 Wait for widget container to appear
+            if ($widget.length) {
+              // Run your product tile builder
+                productTileForWidget('5576c304-fd3d-ec11-aae9-02dca44cceec', '#pa-minicart-widget-desktop', false)
+                setTimeout(() => {
+                    const $carousel = $widget.filter('.owl-carousel.pa-minicart')
+                    if ($carousel.length && !$carousel.hasClass('owl-loaded')) {
+                        console.log('🦉 Initializing OwlCarousel for minicart...')
+                        $carousel.owlCarousel({
+                            loop: false,
+                            nav: true,
+                            margin: 15,
+                            touchDrag: true,
+                            mouseDrag: true,
+                            smartSpeed: 800,
+                            slideBy: 1,
+                            responsive: {
+                                0: { items: 2 },
+                                600: { items: 2 },
+                                992: { items: 2 },
+                                1024: { items: 4 },
+                                1310: { items: 4 },
+                                1366: { items: 4 },
+                                1550: { items: 4 }
+                            },
+                            dots: false,
+                            autoplay: false,
+                            autoplayTimeout: 3000
+                        })
+                    }
+                }, 800)
+                instance.disconnect()
+            }
+        })
+
+        // 🎯 Observe the minicart container (use document.body as fallback)
+        const target = document.querySelector('.block-minicart') || document.body
+        observer.observe(target, config)
+
+        // ⏰ Stop after 10s just in case
+        setTimeout(() => observer.disconnect(), 10000)
+    })()
+    
     const observer = new MutationObserver((mutations) => { 
         if ($(".ais-Hits-list").length) {
             if (paWidgetId != "") {
@@ -376,6 +685,42 @@ require(['jquery'], function ($) {
     function stopMutationObserver() {
         observer.disconnect(); 
     }
+    
+    $(document).ready(function(){                                               
+        $(".owl-carousel.custom").owlCarousel({
+            loop: false,
+            nav: true,
+            margin: 15,
+            touchDrag: true,
+            mouseDrag: true,
+            responsive: {
+                0: {
+                    items:2
+                },
+                600: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1024: {
+                    items: 5
+                },
+                1310: {
+                    items: 5
+                },
+                1366: {
+                    items: 5
+                },
+                1550: {
+                    items: 5
+                }
+            },
+            dots: false,
+            autoplay: false,
+            autoplayTimeout: 3000
+        });
+    });
     
     $(".pa-product.product-item-info:not(.slot)").each(function() {
         var element = $(this).attr("id");
@@ -455,7 +800,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             //async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/slots",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/slots",
             type: "POST",
             data: {
                 eventData: slotData
@@ -589,7 +934,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/clicks",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/clicks",
             type: "POST",
             data: {
                 eventData: clickData
@@ -679,7 +1024,7 @@ require(['jquery'], function ($) {
 
         $.ajax({
             async: false,
-            url: "https://www.digidirect.com.au/particularaudienceapi/events/addtocart",
+            url: "<?= $block->getBaseUrl(); ?>particularaudienceapi/events/addtocart",
             type: "POST",
             data: {
                 eventData: productData

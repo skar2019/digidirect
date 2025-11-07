@@ -4,20 +4,21 @@
  * See COPYING.txt for license details.
  */
 -->
-<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div class="payment-method latitude-glowup" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div id="method-latitude" class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
         <label data-bind="attr: {'for': getCode()}" class="label">
-            <span data-bind="text: getTitle()"></span>
+            <span class="web-latitude-title-glowup" data-bind="text: getTitle()"></span>
+            <span class="mobile-latitude-title-glowup">Interest Free</span>
         </label>
         <img class="latitude-icon" data-bind="attr: {src: getLogoUrl(), alt: $t(getTitle())}" style="height:35px; margin-left:10px; margin-bottom:-13px">
     </div>
 
     <div class="payment-method-content"
-        style="padding: 0 10px !important; max-width: 500px !important"
+        style="padding: 0 10px !important;"
     >
         <span data-bind="html: getInstallmentText()"></span>
         <div id="main-container"></div>
@@ -46,13 +47,6 @@
                 attr: {title: $t('Place Order')},
                 enable: (getCode() == isChecked()),
                 css: {disabled: !isPlaceOrderActionAllowed()}
-                "
-                style="
-                width: 100% !important;
-                max-width: 400px !important;
-                font-size: 18px !important;
-                line-height: 1 !important;
-                padding: 14px 17px !important;
                 "
                 disabled>
                 <span data-bind="i18n: 'Choose a plan'"></span>

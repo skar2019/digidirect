@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_form_template_handle"/>
+    <body>
+        <referenceContainer name="customer_form_register">
+            <!-- <move element="company.new.wrapper" destination="customer_form_register" after="-" />  -->
+                        <block class="Magento\Framework\View\Element\Template"
+                   ifconfig="company/general/allow_company_registration"
+                   template="Magento_Theme::template.phtml"
+                   name="company.new.wrapper">
+                <block class="Magento\Company\Block\Company\Login\Info" name="company.new"
+                       ifconfig="btob/website_configuration/company_active"
+                       template="Magento_Company::company/account/create_link.phtml"/>
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="global.newsletter" remove="true" />
+    </body>
+</page>

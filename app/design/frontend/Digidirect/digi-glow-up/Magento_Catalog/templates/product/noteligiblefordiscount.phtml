@@ -1,0 +1,21 @@
+<?php
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+$product = $block->getProduct();
+$customAttribute = $product->getCustomAttribute('not_eligible_for_discount');
+$eligibleForDiscount = $customAttribute ? $customAttribute->getValue() : null;
+?>
+
+<?php if ($eligibleForDiscount ): ?>
+
+    <div class="not-eligible-for-discount">
+        <div class="tooltip">
+            <svg width="16" height="16" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 12C2.6862 12 0 9.3138 0 6C0 2.6862 2.6862 0 6 0C9.3138 0 12 2.6862 12 6C12 9.3138 9.3138 12 6 12ZM3.552 4.3404V4.4016C3.552 4.48117 3.58361 4.55747 3.63987 4.61373C3.69613 4.66999 3.77244 4.7016 3.852 4.7016H4.4502C4.48952 4.7016 4.52845 4.69386 4.56478 4.67881C4.6011 4.66376 4.63411 4.64171 4.66191 4.61391C4.68971 4.58611 4.71176 4.5531 4.72681 4.51678C4.74186 4.48045 4.7496 4.44152 4.7496 4.4022C4.7496 3.6282 5.3484 3.2148 6.1536 3.2148C6.9384 3.2148 7.4544 3.6282 7.4544 4.2168C7.4544 4.7736 7.1652 5.0322 6.4428 5.3628L6.2364 5.4552C5.6274 5.724 5.4 6.126 5.4 6.8286V6.9C5.4 6.97957 5.43161 7.05587 5.48787 7.11213C5.54413 7.16839 5.62044 7.2 5.7 7.2H6.2982C6.33752 7.2 6.37645 7.19226 6.41278 7.17721C6.4491 7.16216 6.48211 7.14011 6.50991 7.11231C6.53771 7.08451 6.55976 7.0515 6.57481 7.01518C6.58986 6.97885 6.5976 6.93992 6.5976 6.9006C6.5976 6.591 6.6804 6.4668 6.9276 6.3534L7.1346 6.2604C8.0016 5.868 8.652 5.352 8.652 4.2264V4.1646C8.652 2.9778 7.62 2.1 6.1536 2.1C4.6668 2.1 3.552 2.9568 3.552 4.3404ZM5.1 8.9946C5.1 9.5148 5.4954 9.9 5.9946 9.9C6.5046 9.9 6.9 9.5148 6.9 8.9946C6.9 8.4744 6.5046 8.1 5.9946 8.1C5.4954 8.1 5.1 8.4744 5.1 8.9946Z" fill="#0171E3"/>
+            </svg> Not eligible for discount.
+            <span class="tooltiptext">This product has been excluded from promotional offers and sales, and cannot be purchased using promo codes.</span>
+        </div>
+
+
+    </div>
+<?php endif; ?>

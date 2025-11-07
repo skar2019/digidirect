@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="algolia_after_create_configuration">
+        <observer name="change_algolia_placeholder" instance="Digidirect\Algolia\Observer\ChangePlaceholder" />
+    </event>
+    <event name="layout_load_before">
+        <observer name="digidirect_add_algolia_landingpage_handle" instance="Digidirect\Algolia\Observer\AddLandingPageHandle" />
+    </event>
+</config>

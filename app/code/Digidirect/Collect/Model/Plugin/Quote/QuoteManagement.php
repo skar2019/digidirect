@@ -84,32 +84,110 @@ class QuoteManagement
      */
     protected function validateShippingMethod(QuoteEntity $quote)
     {
-        if (!$this->collectHelper->isSingleCartVariation()) {
-            return true;
-        }
-        $shippingMethod = $quote->getShippingAddress()->getShippingMethod();
+        if ($this->collectHelper->isSingleVariation()
+            && ((!$shippingMethod = $quote->getShippingAddress()->getShippingMethod())
+                || Collectcarrier::COLLECT_SHIPPING_METHOD == $shippingMethod)
+        ) {
+            $this->applyDummyAddress($quote->getShippingAddress());
+            // Ensure all required fields are present for collect
+            $this->ensureRequiredShippingAddress($quote);
+        } elseif ($this->collectHelper->isCollectItems($quote->getId()) &&
+            !$this->collectHelper->isDeliveryItems($quote->getId())
+        ) {
+            $qouteShippingAddress = $quote->getShippingAddress();
 
-        if ($this->collectHelper->isCollectItems($quote->getId())
-            && ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD)) {
-            throw new SelectedShippingMethodException(
-                __(
-                    'Click&Collect is not compatible with another delivery methods other than "%1", please select %1.',
-                    $this->collectHelper->getCollectMethodTitle()
-                )
-            );
+            $shippingMethod = $quote->getShippingAddress()->getShippingMethod();
+
+            $address = $this->addressHelper->applyDummyAddress($quote->getShippingAddress());
+            $address->setShippingMethod(Collectcarrier::COLLECT_SHIPPING_METHOD);
+            $rate = $address->getShippingRateByCode($address->getShippingMethod());
+            if (!$rate) {
+                $rate = $this->createAddressRateForCollect();
+                $address->addShippingRate($rate);
+            }
+            $address->setShippingDescription($rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle());
+
+            // Ensure all required fields are present for collect
+            $this->ensureRequiredShippingAddress($quote);
         }
 
-        if ($this->collectHelper->isDeliveryItems($quote->getId())
-            && ($shippingMethod === Collectcarrier::COLLECT_SHIPPING_METHOD)) {
-            throw new SelectedShippingMethodException(
-                __(
-                    'Delivery is not compatible with "%1" delivery method, please select another delivery method.',
-                    $this->collectHelper->getCollectMethodTitle()
-                )
-            );
+    }
+
+
+    /**
+     * Ensure required shipping address fields are set for collect shipping.
+     *
+     * @param QuoteEntity $quote
+     * @return void
+     */
+    protected function ensureRequiredShippingAddress(QuoteEntity $quote)
+    {
+        $shippingAddress = $quote->getShippingAddress();
+        if (!$shippingAddress) {
+            return;
         }
 
-        return true;
+        $shippingMethod = $shippingAddress->getShippingMethod();
+        if ($shippingMethod !== Collectcarrier::COLLECT_SHIPPING_METHOD) {
+            return;
+        }
+
+        $billing = $quote->getBillingAddress();
+
+        $val = function ($getter, $billingGetter, $fallback = null) use ($shippingAddress, $billing) {
+            $v = null;
+            if ($shippingAddress && method_exists($shippingAddress, $getter)) {
+                $v = $shippingAddress->{$getter}();
+            }
+            if (($v === null || $v === '' || $v === [] || $v === 0) && $billing && method_exists($billing, $billingGetter)) {
+                $v = $billing->{$billingGetter}();
+            }
+            return ($v === null || $v === '' || $v === []) ? $fallback : $v;
+        };
+
+        $firstname = $val('getFirstname', 'getFirstname', 'Store');
+        $lastname  = $val('getLastname',  'getLastname',  'Pickup');
+        $telephone = $val('getTelephone', 'getTelephone', '0000000000');
+
+        $street = $shippingAddress->getStreet();
+        if (empty($street) || !is_array($street) || count(array_filter($street)) === 0) {
+            $street = $billing ? $billing->getStreet() : null;
+        }
+        if (empty($street) || !is_array($street) || count(array_filter($street)) === 0) {
+            $street = ['Store Pickup'];
+        }
+
+        $city      = $val('getCity',      'getCity',      'Store Pickup');
+        $postcode  = $val('getPostcode',  'getPostcode',  '0000');
+        $countryId = $val('getCountryId', 'getCountryId', 'AU');
+
+        // Region/RegionId are optional but keep consistent shape
+        $region    = $val('getRegion',    'getRegion',    null);
+        $regionId  = $val('getRegionId',  'getRegionId',  null);
+
+        $shippingAddress->setFirstname($firstname);
+        $shippingAddress->setLastname($lastname);
+        $shippingAddress->setTelephone($telephone);
+        $shippingAddress->setStreet($street);
+        $shippingAddress->setCity($city);
+        $shippingAddress->setPostcode($postcode);
+        $shippingAddress->setCountryId($countryId);
+
+        if ($region !== null && $region !== '') {
+            $shippingAddress->setRegion($region);
+        }
+        if ($regionId) {
+            $shippingAddress->setRegionId($regionId);
+        }
+
+        $shippingAddress->setShippingMethod(Collectcarrier::COLLECT_SHIPPING_METHOD);
+        $rate = $shippingAddress->getShippingRateByCode(Collectcarrier::COLLECT_SHIPPING_METHOD);
+        if (!$rate) {
+            $rate = $this->createAddressRateForCollect();
+            $shippingAddress->addShippingRate($rate);
+        }
+
+        $shippingAddress->setSaveInAddressBook(0);
     }
 
     /**

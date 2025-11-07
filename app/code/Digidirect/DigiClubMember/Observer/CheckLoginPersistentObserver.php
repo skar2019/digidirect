@@ -95,13 +95,13 @@ class CheckLoginPersistentObserver implements ObserverInterface
             $page_url = $this->urlInterface->getUrl('competitions');
             $this->redirect->redirect($controller->getResponse(), $page_url);
             
-        } else if (!$this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclub-sony') {
-            $url = $this->urlInterface->getUrl('digiclub-sony');
+        } else if (!$this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'sony-secret-sale') {
+            $url = $this->urlInterface->getUrl('sony-secret-sale');
             $page_url = $this->urlInterface->getUrl('customer/account/login', ['referer' => base64_encode($url), 'digiclub' => true]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
             
-        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'digiclub-sony' && $this->_customerSession->getCustomer()->getGroupId() != 10) {
-            $url = $this->urlInterface->getUrl('digiclub-sony');
+        } else if ($this->_customerSession->isLoggedIn() && $currentUrl == $this->urlInterface->getBaseUrl().'sony-secret-sale' && $this->_customerSession->getCustomer()->getGroupId() != 10) {
+            $url = $this->urlInterface->getUrl('sony-secret-sale');
             $page_url = $this->urlInterface->getUrl('digiclubmember/customer/index', ['referer' => base64_encode($url)]);
             $this->redirect->redirect($controller->getResponse(), $page_url);
             

@@ -1,0 +1,17 @@
+<div class="product-help-box">
+    <div class="product-help-icon">
+        <span class="icon-warning-penta"></span>
+    </div>
+    <div class="product-help-content">
+        <p><?= $block->escapeHtml(__('Need help? Ask our team')) ?></p>
+        <div class="product-help-links">
+            <a href="#" class="help-chat" onclick="openChat();"><?= $block->escapeHtml(__('Chat')) ?></a> |
+            <a href="mailto:support@example.com" class="help-email"><?= $block->escapeHtml(__('Email')) ?></a>
+        </div>
+    </div>
+</div>
+<script>
+    function openChat() {
+        zE('messenger', 'open');
+    }
+</script>

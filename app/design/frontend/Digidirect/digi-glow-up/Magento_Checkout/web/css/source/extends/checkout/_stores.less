@@ -1,0 +1,103 @@
+.checkout-shipping-address {
+
+    input[type="radio"] {
+        display: none;
+    }
+    .locator-items {
+        input[type="radio"] {
+            display: block !important;
+        }
+    }
+    .locator-item  {
+        position: relative;
+        color: #7F7F7F;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0;
+        border: 1px solid #D9D9D9;
+        padding: 15px;
+        border-radius: 0.5em;
+        width: 99%;
+        margin: 15px 0 0;
+    }
+
+    .icon {
+        display: none;
+    }
+
+    .-hours {
+        display: none;
+    }
+
+    .delivery-number {
+        display: none;
+    }
+
+    .additional {
+        display: none;
+    }
+    .description-cc {
+        padding-top: 15px;
+
+    }
+
+    .pickup-unavailable {
+        margin-bottom: 0 !important;
+        .title-cc {
+            padding-top: 15px;
+            font-size: 18px;
+            color: #1D1D1F;
+        }
+
+        .description-cc {
+            color: #7f7f7f;
+
+        }
+    }
+
+    .locator-list {
+        margin: 0 !important;
+    }
+
+    .locator-select-radio {
+        margin-right: 12px;
+        margin-top: 6px;
+        accent-color: #ff3c00;
+    }
+
+    .locator-select-radio:checked + .locator-select-card {
+        border-color: #ff3c00;
+        background: #fff5f0;
+    }
+    .locator-select-option {
+        width: 100% !important;
+        transition: border-color 0.2s, background 0.2s;
+        cursor: pointer;
+        margin: 10px 0;
+    }
+
+}
+@color-orange: #FE4C25;
+.opc-wrapper .collect-block {
+    //display: block !important;
+}
+
+.wrap-block {
+    display: block !important;
+}
+
+.wrap-block .wrapper-title {
+    padding-top: 20px;
+}
+.wrap-block .wrapper-title .title {
+    display: none;
+    font-weight: 600;
+}
+.wrap-block .action.primary {
+    background-color: @color-orange;
+    border-radius: 100px;
+    margin-top: 10px;
+    border: none;
+}
+

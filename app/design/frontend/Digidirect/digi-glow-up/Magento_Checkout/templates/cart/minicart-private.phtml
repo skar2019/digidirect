@@ -1,0 +1,61 @@
+<?php
+/** @var $block \Digidirect\Customer\Block\CustomerHeaderLinks*/
+?>
+<?php
+/** @var \Digidirect\Customer\ViewModel\Customer $viewModel */
+$viewModel = $block->getData('view_model');
+$isLoggedIn = $viewModel->isLoggedIn();
+$isMobile = $viewModel->isMobile();
+?>
+<!-- 🔹 Wishlist -->
+<a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
+    <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
+    <span>Wishlist</span>
+
+    <?php if ($isLoggedIn) :?>
+        <div class="wishlist-count"><?= $viewModel->getWishlistItemsCount(); ?></div>
+    <?php endif; ?>
+</a>
+
+<!-- 🔹 Cart Trigger -->
+<a class="action showcart" href="javascript:void(0);" data-bind="scope: 'minicart_content'">
+    <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
+    <span>Cart</span>
+    <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
+    <span class="counter qty empty <?php if (!$isLoggedIn) : echo 'counter-guest'; endif; ?>"
+          data-bind="css: { empty: !getCartParam('summary_count') }, blockLoader: isLoading">
+            <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
+        </span>
+</a>
+
+<!-- 🔹 Login -->
+<div class="action login-logout">
+<?php if (!$isLoggedIn) :?>
+    <a href="<?= $block->getUrl('customer/account/login') ?>">
+        <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
+        <span>Login</span>
+    </a>
+<?php else :?>
+    <div class="account-icon">
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
+            </a>
+    </div>
+    <div class="account-text">
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <span class="username"><?= $viewModel->getFirstName();?></span
+            </a>
+        <a href="<?= $block->getUrl('customer/account/logout') ?>">
+            <span class="logout">Logout</span>
+        </a>
+    </div>
+<?php endif; ?>
+</div>

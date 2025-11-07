@@ -94,7 +94,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             // list of form field nodes
             this.nodes = {};
             for (var selector in this.selectors) {
-                this.nodes[this.selectors[selector]] = (0, _jquery2.default)('[name="' + this.selectors[selector] + '"]').filter(':visible').first()[0];
+                this.nodes[this.selectors[selector]] = (0, _jquery2.default)('[name="' + this.selectors[selector] + '"]').first()[0];
             }
             // initializing watchers
             this.watchers();
@@ -158,7 +158,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
                 var self = this,
                     service = new google.maps.places.AutocompleteService(),
                     isAutocompleteAttribute = 'digidirect-autocomplete',
-                    node = (0, _jquery2.default)('[name="' + selector + '"]:not([' + isAutocompleteAttribute + '])').filter(':visible').first();
+                    node = (0, _jquery2.default)('[name="' + selector + '"]:not([' + isAutocompleteAttribute + '])').first();
 
                 if (node.length == 0) return;
 
@@ -193,7 +193,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
                 });
 
                 // set empty placeholder for init field
-                node.attr('placeholder', '');
+                node.attr('placeholder', 'Street');
 
                 // check if we have preselected and restrict in this case
                 if (!this.autocomplete.componentRestrictions) {
@@ -331,7 +331,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
         }, {
             key: 'success',
             value: function success() {
-                
+
             }
         }, {
             key: 'gmError',

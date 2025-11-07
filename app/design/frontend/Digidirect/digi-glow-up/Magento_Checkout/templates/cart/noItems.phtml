@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+/**  @var $block \Magento\Checkout\Block\Cart */
+?>
+<div class="cart-empty">
+    <div class="page-title-wrapper">
+        <h1 class="page-title"><?= /* @escapeNotVerified */ __('My Cart') ?></h1>
+    </div>
+    <?= $block->getChildHtml('checkout_cart_empty_widget') ?>
+    <div class="cart-empty-wrapper">
+        <p class="text"><?= /* @escapeNotVerified */ __('Ready to fill this cart with awesome finds?') ?></p>
+        <span class='empty-cart-icon'>
+            <img src="<?php echo $block->getViewFileUrl('images/checkout/empty-cart.png') ?>" alt="<?= /* @escapeNotVerified */ __('No products added yet.') ?>" />
+        </span>
+        <div class="action"><?php /* @escapeNotVerified */ echo __('<a href="%1" class="button action primary">Let\'s go Shopping</a>',
+                $block->escapeUrl($block->getContinueShoppingUrl())) ?></div>
+    </div>
+
+    <?php if($block->getChildBlock('empty.cart.products')):?><?= $block->getChildHtml('empty.cart.products') ?> <?php endif; ?>
+    <?= $block->getChildHtml('shopping.cart.table.after') ?>
+</div>

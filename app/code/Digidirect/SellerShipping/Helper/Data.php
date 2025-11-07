@@ -14,7 +14,7 @@ class Data extends AbstractHelper
     protected $logger;
     protected $productFactory;
     protected $quoteRepository;
-    
+
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         Session $session,
