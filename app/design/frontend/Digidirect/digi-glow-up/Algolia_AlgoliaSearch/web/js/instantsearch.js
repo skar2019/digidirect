@@ -1724,6 +1724,34 @@ window.addEventListener('load', () => {
   }
 })()
 
+// 🧹 Clear PA Products When Filtered
+;(function () {
+  const TARGET_SELECTOR = '#instant-search-results-container'
+  const PRODUCT_SELECTOR = '.ais-Hits-list .pa-product'
+
+  // Wait until the target exists (in case InstantSearch loads async)
+  const waitForTarget = setInterval(() => {
+    const target = document.querySelector(TARGET_SELECTOR)
+    if (!target) return
+
+    clearInterval(waitForTarget)
+
+    const observer = new MutationObserver(() => {
+      const products = document.querySelectorAll(PRODUCT_SELECTOR)
+      if (products.length > 0) {
+        products.forEach((el) => el.remove())
+        console.log('🧹 PA products removed after filter change.')
+      }
+    })
+
+    observer.observe(target, {
+      childList: true,
+      subtree: true,
+    })
+  }, 300)
+})()
+
+
   //Test Fix Search Mobile
   /*const input = document.querySelector('.aa-Input');
   if (!input) return;

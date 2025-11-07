@@ -1852,117 +1852,54 @@ function updateCartAjax($input, newQty) {
       true // capture mode
     )
     
-    // ===============================
-        // 🧩 Fix product count in PLP
-        // ===============================
-        function removeHitsItemsFromEnd() {
-          const hitsList = document.querySelector('.ais-Hits-list')
-          if (!hitsList) return
-
-          const paProducts = hitsList.querySelectorAll('.pa-product')
-          const count = paProducts.length
-
-          if (count === 0) return
-
-          const hitsItems = hitsList.querySelectorAll('.ais-Hits-item')
-
-          // Safety check: never remove more than exists
-          const removeCount = Math.min(count, hitsItems.length)
-
-          // Only remove NON-pa-product items from the end
-          let removed = 0
-          for (let i = hitsItems.length - 1; i >= 0 && removed < removeCount; i--) {
-            const item = hitsItems[i]
-            if (!item.querySelector('.pa-product')) {
-              item.remove()
-              removed++
-            }
-          }
-
-          console.log(`Removed ${removed} .ais-Hits-item elements from the end.`)
-        }
-
-        // 🧭 Debounce helper to prevent multiple rapid runs
-        let debounceTimer
-        function debounceRemove() {
-          clearTimeout(debounceTimer)
-          debounceTimer = setTimeout(removeHitsItemsFromEnd, 300)
-        }
-
-        // 🔍 Observe Algolia hits list dynamically
-        const observer = new MutationObserver((mutationsList) => {
-          for (const mutation of mutationsList) {
-            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-              debounceRemove()
-              break
-            }
-          }
-        })
-
-        // Wait for hits list to appear before observing
-        function initObserver() {
-          const hitsList = document.querySelector('.ais-Hits-list')
-          if (hitsList) {
-            observer.observe(hitsList, { childList: true, subtree: true })
-            console.log('✅ Observer attached to .ais-Hits-list')
-            // Run once after attaching
-            debounceRemove()
-          } else {
-            // Retry until Algolia inserts it
-            setTimeout(initObserver, 300)
-          }
-        }
-
-        // 🚀 Start observing
-        initObserver()
-        
+    //Fix Carousel On Android Mobile
     $(document).ready(function() {
-    const $carousel = $('.owl-carousel');
+        const $carousel = $('.owl-carousel');
 
-    let imagesLoadedCount = 0;
-    const totalImages = $carousel.find('img').length;
+        let imagesLoadedCount = 0;
+        const totalImages = $carousel.find('img').length;
 
-    $carousel.find('img').each(function() {
-      if (this.complete) {
-        imagesLoadedCount++;
-      } else {
-        $(this).on('load', function() {
-          imagesLoadedCount++;
-          if (imagesLoadedCount === totalImages) {
-            $carousel.trigger('refresh.owl.carousel');
+        $carousel.find('img').each(function() {
+          if (this.complete) {
+            imagesLoadedCount++;
+          } else {
+            $(this).on('load', function() {
+              imagesLoadedCount++;
+              if (imagesLoadedCount === totalImages) {
+                $carousel.trigger('refresh.owl.carousel');
+              }
+            });
           }
         });
+
+        $(window).on('resize', function() {
+          $carousel.trigger('refresh.owl.carousel');
+        });
+    });
+
+    //Hide PA Minicart Widget If Cart Is Empty
+    function toggleMiniUpsell() {
+      const $minicart = $('.block-minicart')
+      const $upsell = $('.pa-minicart-widget')
+
+      if ($minicart.find('.empty-cart').length > 0) {
+        $upsell.addClass('is-hidden')
+      } else {
+        $upsell.removeClass('is-hidden')
       }
-    });
+    }
 
-    $(window).on('resize', function() {
-      $carousel.trigger('refresh.owl.carousel');
-    });
-});
+    // Observe minicart for updates
+    const minicartEl = document.querySelector('.block-minicart')
+    if (minicartEl) {
+      const upsellObserver = new MutationObserver(() => {
+        toggleMiniUpsell()
+      })
+      upsellObserver.observe(minicartEl, { childList: true, subtree: true })
+    }
 
-//Hide PA Minicart Widget If Cart Is Empty
-function toggleMiniUpsell() {
-  const $minicart = $('.block-minicart')
-  const $upsell = $('.pa-minicart-widget')
-
-  if ($minicart.find('.empty-cart').length > 0) {
-    $upsell.addClass('is-hidden')
-  } else {
-    $upsell.removeClass('is-hidden')
-  }
-}
-
-// Observe minicart for updates
-const minicartEl = document.querySelector('.block-minicart')
-if (minicartEl) {
-  const upsellObserver = new MutationObserver(() => {
-    toggleMiniUpsell()
-  })
-  upsellObserver.observe(minicartEl, { childList: true, subtree: true })
-}
-
-// Initial check on load
-$(document).ready(toggleMiniUpsell)
+    // Initial check on load
+    $(document).ready(toggleMiniUpsell)
 
 
   })
