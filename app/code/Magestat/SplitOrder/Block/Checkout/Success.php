@@ -2,6 +2,7 @@
 
 namespace Magestat\SplitOrder\Block\Checkout;
 
+use Magento\Framework\HTTP\Header;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Checkout\Model\Session;
 use Magento\Sales\Model\Order\Config;
@@ -18,13 +19,22 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
      */
     private $checkoutSession;
 
+    /**
+     * @var OrderInterface
+     */
     protected $orderInterface;
+
+    /**
+     * @var Header
+     */
+    protected $httpHeader;
 
     /**
      * @param Context $context
      * @param Session $checkoutSession
      * @param Config $orderConfig
      * @param HttpContext $httpContext
+     * @param Header $httpHeader
      * @param array $data
      */
     public function __construct(
@@ -33,6 +43,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         Config $orderConfig,
         HttpContext $httpContext,
         OrderInterface $orderInterface,
+        Header $httpHeader,
         array $data = []
     ) {
         parent::__construct(
@@ -44,6 +55,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         );
         $this->checkoutSession = $checkoutSession;
         $this->orderInterface = $orderInterface;
+        $this->httpHeader = $httpHeader;
     }
 
     /**
@@ -99,5 +111,13 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         return $details;
     }
 
+    /**
+     * @return false|int
+     */
+    public function isMobile()
+    {
+        $userAgent = $this->httpHeader->getHttpUserAgent();
+        return preg_match('/Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry|Opera Mini/i', $userAgent);
+    }
 
 }

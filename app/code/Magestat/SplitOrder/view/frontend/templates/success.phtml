@@ -18,6 +18,7 @@ if ($block->getOrderId()) {
         $bankDetailsSeparated = $block->getBankDetails($block->getOrderId());
     }
 }
+$isMobile = $block->isMobile();
 ?>
 
 <script>
@@ -667,16 +668,31 @@ if ($block->getOrderId()) {
                     </div>
                 <?php endif; ?>
 
-                <div class="bank-item">
-                    <label>Account Name</label>
-                    <span><?= $bankDetailsSeparated['Account Name'] ?? '' ?></span>
-                </div>
-
-                <div class="bank-item">
-                    <label>Account Number</label>
-                    <span><?= $bankDetailsSeparated['Account Number'] ?? '' ?></span>
-                </div>
+                <?php if(!$isMobile) : ?>
+                    <div class="bank-item bank-detail-account-name">
+                        <label>Account Name</label>
+                        <span><?= $bankDetailsSeparated['Account Name'] ?? '' ?></span>
+                    </div>
+                    <div class="bank-item">
+                        <label>Account Number</label>
+                        <span><?= $bankDetailsSeparated['Account Number'] ?? '' ?></span>
+                    </div>
+                <?php endif; ?>
             </div>
+
+            <?php if($isMobile) : ?>
+                <div class="bank-detail-second-row">
+                    <div class="bank-item bank-detail-account-name">
+                        <label>Account Name</label>
+                        <span><?= $bankDetailsSeparated['Account Name'] ?? '' ?></span>
+                    </div>
+
+                    <div class="bank-item">
+                        <label>Account Number</label>
+                        <span><?= $bankDetailsSeparated['Account Number'] ?? '' ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <div class="reference-note"><span class="bold-text">Note:</span> Your order will be processed once the payment is received. Please see our bank details and include your Order Number as the Reference when making the transfer.</div>
         </div>
