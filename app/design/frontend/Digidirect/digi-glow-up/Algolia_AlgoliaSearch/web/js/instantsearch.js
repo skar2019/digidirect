@@ -1724,24 +1724,37 @@ window.addEventListener('load', () => {
   }
 })()
 
-// 🧹 Clear PA Products When Filtered
+// 🧹 Clear PA Products When Filtered (ignore initial render)
 ;(function () {
   const TARGET_SELECTOR = '#instant-search-results-container'
-  const PRODUCT_SELECTOR = '.ais-Hits-list .pa-product'
+  const PRODUCT_SELECTOR = 'li .ais-Hits-list .pa-product'
 
-  // Wait until the target exists (in case InstantSearch loads async)
   const waitForTarget = setInterval(() => {
     const target = document.querySelector(TARGET_SELECTOR)
     if (!target) return
 
     clearInterval(waitForTarget)
 
+    let isFirstRender = true
+    let timeout
+
     const observer = new MutationObserver(() => {
-      const products = document.querySelectorAll(PRODUCT_SELECTOR)
-      if (products.length > 0) {
-        products.forEach((el) => el.remove())
-        console.log('🧹 PA products removed after filter change.')
-      }
+      // Debounce to avoid rapid multiple triggers
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        if (isFirstRender) {
+          // First mutation (initial render) → skip
+          isFirstRender = false
+          return
+        }
+
+        // After filters change
+        const products = document.querySelectorAll(PRODUCT_SELECTOR)
+        if (products.length > 0) {
+          products.forEach((el) => el.remove())
+          console.log('🧹 PA products removed after filter change.')
+        }
+      }, 200)
     })
 
     observer.observe(target, {
