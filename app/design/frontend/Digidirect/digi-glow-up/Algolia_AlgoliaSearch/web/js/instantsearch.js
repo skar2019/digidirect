@@ -1444,76 +1444,105 @@ define([
                 const $viewToggle = $('.ais-ViewToggle')
                 const $stats = $('#algolia-stats')
 
+                const SEARCH_BAR_ID = '#instant-search-bar'
+                const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+
+                // ============================================================
+                // 🧭 Move Elements (original logic + search bar reposition)
+                // ============================================================
                 function moveElements() {
-                  const $facets = $('#instant-search-facets-container')
+                  const $facets = $(FACETS_CONTAINER_ID)
                   const $leftContainer = $('#algolia-left-container')
                   const isMobile = $(window).width() <= 768
 
-                  // 🔒 Safety checks
+                  // Safety checks
                   if (
-                    !$facets.length || !$leftContainer.length || !$infos.length || !$refineToggle.length ||
-                    !$customRefinement.length || !$hitsPerPage.length || !$pagination.length ||
-                    !$viewToggle.length || !$stats.length
-                  ) return
+                    !$facets.length ||
+                    !$leftContainer.length ||
+                    !$infos.length ||
+                    !$refineToggle.length ||
+                    !$customRefinement.length ||
+                    !$hitsPerPage.length ||
+                    !$pagination.length ||
+                    !$viewToggle.length ||
+                    !$stats.length
+                  )
+                    return
 
-                  // ==============================
-                  // Move algolia-stats
-                  // ==============================
+                  // algolia-stats
                   if (isMobile) {
-                    if ($stats.next()[0] !== $leftContainer[0]) {
-                      $stats.insertBefore($leftContainer)
-                    }
+                    if ($stats.next()[0] !== $leftContainer[0]) $stats.insertBefore($leftContainer)
                   } else {
-                    if ($stats.parent()[0] !== $infos[0]) {
-                      $stats.prependTo($infos)
-                    }
+                    if ($stats.parent()[0] !== $infos[0]) $stats.prependTo($infos)
                   }
 
-                  // ==============================
-                  // Move algolia-infos
-                  // ==============================
+                  // algolia-infos
                   if (isMobile) {
-                    if ($infos.parent()[0] !== $refineToggle.parent()[0]) {
-                      $infos.insertAfter($refineToggle)
-                    }
+                    if ($infos.parent()[0] !== $refineToggle.parent()[0]) $infos.insertAfter($refineToggle)
                   } else {
-                    if ($infos.next()[0] !== $customRefinement[0]) {
-                      $infos.insertBefore($customRefinement)
-                    }
+                    if ($infos.next()[0] !== $customRefinement[0]) $infos.insertBefore($customRefinement)
                   }
 
-                  // ==============================
-                  // Move hits-per-page-container
-                  // ==============================
+                  // hits-per-page-container
                   if (isMobile) {
-                    if ($hitsPerPage.next()[0] !== $pagination[0]) {
-                      $hitsPerPage.insertBefore($pagination)
-                    }
+                    if ($hitsPerPage.next()[0] !== $pagination[0]) $hitsPerPage.insertBefore($pagination)
                   } else {
-                    if ($hitsPerPage.next()[0] !== $viewToggle[0]) {
-                      $hitsPerPage.insertBefore($viewToggle)
-                    }
+                    if ($hitsPerPage.next()[0] !== $viewToggle[0]) $hitsPerPage.insertBefore($viewToggle)
                   }
 
-                  // ==============================
-                  // Move instant-search-facets-container
-                  // ==============================
+                  // instant-search-facets-container
                   if (isMobile) {
-                    if ($facets.prev()[0] !== $leftContainer[0]) {
-                      $facets.insertAfter($leftContainer)
-                    }
+                    if ($facets.prev()[0] !== $leftContainer[0]) $facets.insertAfter($leftContainer)
                   } else {
-                    if ($facets.parent()[0] !== $leftContainer[0]) {
-                      $facets.appendTo($leftContainer)
-                    }
+                    if ($facets.parent()[0] !== $leftContainer[0]) $facets.appendTo($leftContainer)
+                  }
+
+                  repositionSearchBar()
+                }
+
+                // ============================================================
+                // 🔍 Reposition Instant Search Bar
+                // ============================================================
+                function repositionSearchBar() {
+                  const searchBar = document.querySelector(SEARCH_BAR_ID)
+                  const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+                  if (!searchBar || !facetsContainer) return
+
+                  // Hide while not positioned
+                  searchBar.style.display = 'none'
+
+                  // Move inside facets container
+                  if (searchBar.parentElement !== facetsContainer) {
+                    facetsContainer.appendChild(searchBar)
+                    console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+                  }
+
+                  // Add label if missing
+                  if (!searchBar.querySelector('.search-within-label')) {
+                    const label = document.createElement('span')
+                    label.className = 'search-within-label'
+                    label.textContent = 'Search Within Results'
+                    searchBar.insertBefore(label, searchBar.firstChild)
+                    console.log('✅ Added "Search Within Results" label')
+                  }
+
+                  // Show only when properly placed
+                  if (searchBar.parentElement === facetsContainer) {
+                    searchBar.style.display = ''
                   }
                 }
 
-                // Run once when ready
-                moveElements()
+                // ============================================================
+                // 🚀 Init
+                // ============================================================
+                $(document).ready(function () {
+                  moveElements()
 
-                // Optional: re-run on resize
-                $(window).on('resize', moveElements)
+                  // Re-run repositioning on resize (for mobile ↔ desktop switch)
+                  $(window).on('resize', function () {
+                    moveElements()
+                  })
+                })
 
                 // Recheck a few times (Algolia may inject late)
                 let retries = 0
@@ -1724,24 +1753,37 @@ window.addEventListener('load', () => {
   }
 })()
 
-// 🧹 Clear PA Products When Filtered
+// 🧹 Clear PA Products When Filtered (ignore initial render)
 ;(function () {
   const TARGET_SELECTOR = '#instant-search-results-container'
-  const PRODUCT_SELECTOR = '.ais-Hits-list .pa-product'
+  const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
 
-  // Wait until the target exists (in case InstantSearch loads async)
   const waitForTarget = setInterval(() => {
     const target = document.querySelector(TARGET_SELECTOR)
     if (!target) return
 
     clearInterval(waitForTarget)
 
+    let isFirstRender = true
+    let timeout
+
     const observer = new MutationObserver(() => {
-      const products = document.querySelectorAll(PRODUCT_SELECTOR)
-      if (products.length > 0) {
-        products.forEach((el) => el.remove())
-        console.log('🧹 PA products removed after filter change.')
-      }
+      // Debounce to avoid rapid multiple triggers
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        if (isFirstRender) {
+          // First mutation (initial render) → skip
+          isFirstRender = false
+          return
+        }
+
+        // After filters change
+        const products = document.querySelectorAll(PRODUCT_SELECTOR)
+        if (products.length > 0) {
+          products.forEach((el) => el.remove())
+          console.log('🧹 PA products removed after filter change.')
+        }
+      }, 200)
     })
 
     observer.observe(target, {
