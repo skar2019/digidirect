@@ -53,7 +53,13 @@ $collection = $block->getProductCollection();
 
                 // Product info
                 $productUrl = $_product->getProductUrl();
-                $imageUrl = $block->getImageUrl($_product);
+                
+                /** @var \Magento\Catalog\Helper\Image $imageHelper */
+                $imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
+                $imageUrl = $imageHelper
+                    ->init($_product, 'product_base_image') // high-res base image
+                    ->getUrl();
+                
                 $productName = $_product->getName();
                 $objectID = $_product->getId();
                 $position = isset($position) ? $position + 1 : 1;
