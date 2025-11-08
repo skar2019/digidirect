@@ -31,7 +31,7 @@ define([
          * Docs: https://www.algolia.com/doc/api-reference/widgets/instantsearch/js/
          */
         async buildInstantSearch() {
-            
+
             const templateProcessor = await templateEngine.getSelectedEngineAdapter();
 
             const mockAlgoliaBundle = this.mockAlgoliaBundle();
@@ -433,11 +433,11 @@ define([
                                 currency: 'AUD',
                                 minimumFractionDigits: 2
                             });
-                            
+
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
-                            
+
                             if (item.marketplacer_seller == "digiDirect") {
                                 item.isDigiMarket = false;
                                 item.isDigiOnly = true;
@@ -453,12 +453,7 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }
-                            
-                            //Workaround, remove on go live!
-                                var productUrl = item.url;
-                                let newProductUrl = productUrl.replace("https://www.digidirect.com.au", "https://mcstaging2.digidirect.com.au");
-                                item.url = newProductUrl;
-                            //
+
 
                             /*if (item.pre_order_status == "Yes") {
                                 item.isPreorder = true;
@@ -467,13 +462,13 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }*/
-                            
+
                             let categoryIds = item.categoryIds;
                             let digiSecondsIds = ["2564","2567","2570","2573"];
 
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
                             //console.log("hasMatch", hasMatch);
-                            
+
                             function decodeHtmlEntities(str) {
                                 const txt = document.createElement('textarea')
                                 txt.innerHTML = str
@@ -1156,7 +1151,7 @@ define([
         },
 
         addWidget(search, type, config) {
-            
+
             if (type === 'custom') {
                 search.addWidgets([config]);
                 return;
@@ -1181,7 +1176,7 @@ define([
             }
 
             search.addWidgets([widget(config)]);
-            
+
             function histogramWidget({ container, attribute, buckets = 20 }) {
                 if (typeof container === 'string') {
                     container = document.querySelector(container)
@@ -1190,7 +1185,7 @@ define([
                     console.warn(`Histogram container not found.`)
                     return { render() {} }
                 }
-                  
+
                 return {
                     render({ results, helper }) {
                         const stats = results.getFacetStats(attribute)
@@ -1242,9 +1237,9 @@ define([
                 }
             }
 
-            
+
             window.addEventListener('load', function () {
-                
+
                 // Add widgets (these get picked up by the already-started search)
                 search.addWidgets([
                   instantsearch.widgets.hitsPerPage({
@@ -1270,7 +1265,7 @@ define([
                         }
                     });
                 }
-                
+
                 search.on('render', () => {
                     const helper = search.helper
                     const attribute = 'price.AUD.default'
@@ -1303,7 +1298,7 @@ define([
                         histo.id = 'price-histogram'
                         aisSlider.before(histo)
                     }
-                    
+
                     if (document.querySelector('#price-histogram') && !search.__histogramAdded) {
                         search.addWidgets([
                             histogramWidget({
@@ -1389,7 +1384,7 @@ define([
 
 
                 // ❌ No search.start() here → avoids double start error
-                
+
                 function clampHandles() {
                     const track = document.querySelector('.rheostat-background');
                     const handles = document.querySelectorAll('.rheostat-handle');
@@ -1426,8 +1421,8 @@ define([
                 }
 
                 // Run clamp every time the slider updates
-                
-                
+
+
                 function attachClamp() {
                     document.querySelector('.rheostat').addEventListener('mousemove', clampHandles);
                     document.querySelector('.rheostat').addEventListener('mouseup', clampHandles);
@@ -1435,7 +1430,7 @@ define([
 
                 // run after InstantSearch render
                 search.on('render', attachClamp);
-                
+
                 ;(function () {
                     const SEARCH_BAR_ID = '#instant-search-bar'
                     const FACETS_CONTAINER_ID = '#instant-search-facets-container'
@@ -1665,7 +1660,7 @@ window.addEventListener('load', () => {
       updateProductClasses()
     })
   })
-  
+
   // Reposition Instant Search Bar (robust version)
 ;(function () {
   const SEARCH_BAR_ID = '#instant-search-bar'
@@ -1825,5 +1820,5 @@ window.addEventListener('load', () => {
       input.blur();
     }
   });*/
-  
+
 })

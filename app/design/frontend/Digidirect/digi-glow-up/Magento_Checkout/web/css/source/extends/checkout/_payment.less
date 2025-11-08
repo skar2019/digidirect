@@ -644,7 +644,7 @@ input[name="payment[latipay_method]"]:after{
     .form-discount {
         display: flex !important;
         max-width: none !important;
-        align-items: flex-end;
+        align-items: flex-start;
         justify-content: space-between;
         padding-top: 15px;
         gap: 15px;
@@ -686,7 +686,7 @@ input[name="payment[latipay_method]"]:after{
         gap: 15px;
         width: 100%;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
 
         .giftcard-number,
         .giftcard-pin {
@@ -733,6 +733,12 @@ input[name="payment[latipay_method]"]:after{
         line-height: 24px;
         letter-spacing: 0.4px;
     }
+}
+@media (min-width: 768px) {
+  #co-payment-form .form-giftcard-account .actions-toolbar {
+    position: relative;
+    top: 5px;
+  }
 }
 
 @media (min-width: 1440px) {
