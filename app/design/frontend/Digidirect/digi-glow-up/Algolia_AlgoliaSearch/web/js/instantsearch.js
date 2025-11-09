@@ -1432,21 +1432,53 @@ define([
                 search.on('render', attachClamp);
 
                 ;(function () {
-                    const $infos = $('.algolia-infos')
-                    const $refineToggle = $('#refine-toggle')
-                    const $customRefinement = $('.algolia-custom-refinement')
-                    const $hitsPerPage = $('.hits-per-page-container')
-                    const $pagination = $('#instant-search-pagination-container')
-                    const $viewToggle = $('.ais-ViewToggle')
-                    const $stats = $('#algolia-stats')
-
                     const SEARCH_BAR_ID = '#instant-search-bar'
                     const FACETS_CONTAINER_ID = '#instant-search-facets-container'
 
-                    // ============================================================
-                    // 🧭 Move Elements (original logic + search bar reposition)
-                    // ============================================================
+                    function repositionSearchBar(force = false) {
+                      const searchBar = document.querySelector(SEARCH_BAR_ID)
+                      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+                      if (!facetsContainer) return false
+
+                      if (!searchBar) {
+                        // Not in DOM yet — wait
+                        return false
+                      }
+
+                      // Hide while moving
+                      searchBar.style.display = 'none'
+
+                      // Move inside facets container if not already
+                      if (searchBar.parentElement !== facetsContainer || force) {
+                        facetsContainer.appendChild(searchBar)
+                        console.log('✅ Moved #instant-search-bar into #instant-search-facets-container')
+                      }
+
+                      // Add label if missing
+                      if (!searchBar.querySelector('.search-within-label')) {
+                        const label = document.createElement('span')
+                        label.className = 'search-within-label'
+                        label.textContent = 'Search Within Results'
+                        searchBar.insertBefore(label, searchBar.firstChild)
+                      }
+
+                      // Show only when properly placed
+                      if (searchBar.parentElement === facetsContainer) {
+                        searchBar.style.display = ''
+                        return true
+                      }
+
+                      return false
+                    }
+
                     function moveElements() {
+                      const $infos = $('.algolia-infos')
+                      const $refineToggle = $('#refine-toggle')
+                      const $customRefinement = $('.algolia-custom-refinement')
+                      const $hitsPerPage = $('.hits-per-page-container')
+                      const $pagination = $('#instant-search-pagination-container')
+                      const $viewToggle = $('.ais-ViewToggle')
+                      const $stats = $('#algolia-stats')
                       const $facets = $(FACETS_CONTAINER_ID)
                       const $leftContainer = $('#algolia-left-container')
                       const isMobile = $(window).width() <= 768
@@ -1464,93 +1496,52 @@ define([
                       )
                         return
 
-                      // algolia-stats
+                      // Normal reposition logic for other elements
                       if (isMobile) {
                         if ($stats.next()[0] !== $leftContainer[0]) $stats.insertBefore($leftContainer)
-                      } else {
-                        if ($stats.parent()[0] !== $infos[0]) $stats.prependTo($infos)
-                      }
-
-                      // algolia-infos
-                      if (isMobile) {
                         if ($infos.parent()[0] !== $refineToggle.parent()[0]) $infos.insertAfter($refineToggle)
-                      } else {
-                        if ($infos.next()[0] !== $customRefinement[0]) $infos.insertBefore($customRefinement)
-                      }
-
-                      // hits-per-page-container
-                      if (isMobile) {
                         if ($hitsPerPage.next()[0] !== $pagination[0]) $hitsPerPage.insertBefore($pagination)
-                      } else {
-                        if ($hitsPerPage.next()[0] !== $viewToggle[0]) $hitsPerPage.insertBefore($viewToggle)
-                      }
-
-                      // instant-search-facets-container
-                      if (isMobile) {
                         if ($facets.prev()[0] !== $leftContainer[0]) $facets.insertAfter($leftContainer)
                       } else {
+                        if ($stats.parent()[0] !== $infos[0]) $stats.prependTo($infos)
+                        if ($infos.next()[0] !== $customRefinement[0]) $infos.insertBefore($customRefinement)
+                        if ($hitsPerPage.next()[0] !== $viewToggle[0]) $hitsPerPage.insertBefore($viewToggle)
                         if ($facets.parent()[0] !== $leftContainer[0]) $facets.appendTo($leftContainer)
                       }
 
                       repositionSearchBar()
                     }
 
-                    // ============================================================
-                    // 🔍 Reposition Instant Search Bar
-                    // ============================================================
-                    function repositionSearchBar() {
-                      const searchBar = document.querySelector(SEARCH_BAR_ID)
-                      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-                      if (!searchBar || !facetsContainer) return false
-
-                      // Hide while not positioned
-                      searchBar.style.display = 'none'
-
-                      // Move inside facets container
-                      if (searchBar.parentElement !== facetsContainer) {
-                        facetsContainer.appendChild(searchBar)
-                        console.log('✅ instant-search-bar moved inside instant-search-facets-container')
-                      }
-
-                      // Add label if missing
-                      if (!searchBar.querySelector('.search-within-label')) {
-                        const label = document.createElement('span')
-                        label.className = 'search-within-label'
-                        label.textContent = 'Search Within Results'
-                        searchBar.insertBefore(label, searchBar.firstChild)
-                        console.log('✅ Added "Search Within Results" label')
-                      }
-
-                      // Show only when properly placed
-                      if (searchBar.parentElement === facetsContainer) {
-                        searchBar.style.display = ''
-                        return true
-                      }
-
-                      return false
-                    }
-
-                    // ============================================================
-                    // 🚀 Init
-                    // ============================================================
                     $(document).ready(function () {
                       moveElements()
 
-                      // Watch for DOM changes (Algolia sometimes re-renders facets)
-                      const observer = new MutationObserver(() => moveElements())
+                      // Watch for DOM changes (Algolia sometimes re-renders facets or search bar)
+                      const observer = new MutationObserver(() => {
+                        moveElements()
+                        repositionSearchBar()
+                      })
                       observer.observe(document.body, { childList: true, subtree: true })
 
                       // Keep retrying until search bar is positioned
                       let retries = 0
-                      const maxRetries = 30 // ~6 seconds
+                      const maxRetries = 50 // ~10 seconds
                       const interval = setInterval(() => {
                         const done = repositionSearchBar()
                         retries++
-                        if (done || retries > maxRetries) clearInterval(interval)
+                        if (done) {
+                          clearInterval(interval)
+                          console.log('✅ Search bar successfully repositioned')
+                        } else if (retries > maxRetries) {
+                          clearInterval(interval)
+                          console.warn('⚠️ Search bar reposition timeout')
+                        }
                       }, 200)
 
-                      // Also re-run on resize (for mobile ↔ desktop switch)
-                      $(window).on('resize', moveElements)
+                      // Also rerun on resize (for mobile ↔ desktop switch)
+                      $(window).on('resize', () => {
+                        moveElements()
+                        repositionSearchBar(true) // force reposition on resize
+                      })
                     })
                   })()
 
