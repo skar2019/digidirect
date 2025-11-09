@@ -317,6 +317,7 @@ class Product
             }
         }
 
+
         $pricewithTax = $this->taxHelper->getTaxPrice($product, $product->getFinalPrice(), $this->checkTaxIncluded());
 
         $data = [

@@ -3,13 +3,18 @@
  * RegenerateProductRewrites.php
  *
  * @package OlegKoval_RegenerateUrlRewrites
- * @author Oleg Koval <contact@olegkoval.com>
+ * @author Oleg Koval <olegkoval.ca@gmail.com>
  * @copyright 2017-2067 Oleg Koval
  * @license OSL-3.0, AFL-3.0
  */
 
 namespace OlegKoval\RegenerateUrlRewrites\Model;
 
+use Magento\Catalog\Model\Product\Visibility;
+use Magento\Catalog\Model\ResourceModel\Product\Action;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
+use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use OlegKoval\RegenerateUrlRewrites\Helper\Regenerate as RegenerateHelper;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Catalog\Model\ResourceModel\Product\ActionFactory as ProductActionFactory;
@@ -35,7 +40,7 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     protected $productActionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ResourceModel\Product\Action
+     * @var Action
      */
     protected $productAction;
 
@@ -45,7 +50,7 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     protected $productUrlRewriteGeneratorFactory;
 
     /**
-     * @var \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator
+     * @var ProductUrlRewriteGenerator
      */
     protected $productUrlRewriteGenerator;
 
@@ -55,7 +60,7 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     protected $productUrlPathGeneratorFactory;
 
     /**
-     * @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator
+     * @var ProductUrlPathGenerator
      */
     protected $productUrlPathGenerator;
 
@@ -66,6 +71,7 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
 
     /**
      * RegenerateProductRewrites constructor.
+     *
      * @param RegenerateHelper $helper
      * @param ResourceConnection $resourceConnection
      * @param ProductActionFactory $productActionFactory
@@ -74,12 +80,12 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
      * @param ProductCollectionFactory $productCollectionFactory
      */
     public function __construct(
-        RegenerateHelper $helper,
-        ResourceConnection $resourceConnection,
-        ProductActionFactory $productActionFactory,
+        RegenerateHelper                        $helper,
+        ResourceConnection                      $resourceConnection,
+        ProductActionFactory                    $productActionFactory,
         ProductUrlRewriteGeneratorFactory\Proxy $productUrlRewriteGeneratorFactory,
-        ProductUrlPathGeneratorFactory\Proxy $productUrlPathGeneratorFactory,
-        ProductCollectionFactory $productCollectionFactory
+        ProductUrlPathGeneratorFactory\Proxy    $productUrlPathGeneratorFactory,
+        ProductCollectionFactory                $productCollectionFactory
     )
     {
         parent::__construct($helper, $resourceConnection);
@@ -92,9 +98,10 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
 
     /**
      * Regenerate Products Url Rewrites in specific store
+     *
      * @return $this
      */
-    public function regenerate($storeId = 0)
+    public function regenerate(int $storeId = 0): static
     {
         if (count($this->regenerateOptions['productsFilter']) > 0) {
             $this->regenerateProductsRangeUrlRewrites(
@@ -114,11 +121,10 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * Regenerate all products Url Rewrites
      * @param int $storeId
      * @return $this
      */
-    public function regenerateAllProductsUrlRewrites($storeId = 0)
+    public function regenerateAllProductsUrlRewrites(int $storeId = 0): static
     {
         $this->regenerateProductsRangeUrlRewrites([], $storeId);
 
@@ -127,11 +133,12 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
 
     /**
      * Regenerate Url Rewrites for a specific product
+     *
      * @param int $productId
      * @param int $storeId
      * @return $this
      */
-    public function regenerateSpecificProductUrlRewrites($productId, $storeId = 0)
+    public function regenerateSpecificProductUrlRewrites(int $productId, int $storeId = 0): static
     {
         $this->regenerateProductsRangeUrlRewrites([$productId], $storeId);
 
@@ -139,12 +146,13 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * Regenerate Url Rewrites for a products range
+     * Regenerate Url Rewrites for a product range
+     *
      * @param array $productsFilter
      * @param int $storeId
      * @return $this
      */
-    public function regenerateProductsRangeUrlRewrites($productsFilter = [], $storeId = 0)
+    public function regenerateProductsRangeUrlRewrites(array $productsFilter = [], int $storeId = 0): static
     {
         $products = $this->_getProductsCollection($productsFilter, $storeId);
         $pageCount = $products->getLastPageNumber();
@@ -170,12 +178,11 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * Regenerate Url Rewrites for specific product in specific store
      * @param $entity
      * @param int $storeId
      * @return $this
      */
-    public function processProduct($entity, $storeId = 0)
+    public function processProduct($entity, int $storeId = 0): static
     {
         $entity->setStoreId($storeId)->setData('url_path', null);
 
@@ -183,29 +190,33 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
             $entity->setData('save_rewrites_history', true);
         }
 
-        // reset url_path to null, we need this to set a flag to use a Url Rewrites:
-        // see logic in core Product Url model: \Magento\Catalog\Model\Product\Url::getUrl()
-        // if "request_path" is not null or equal to "false" then Magento do not serach and do not use Url Rewrites
+        // reset url_path to null, we need this to set a flag to use an Url Rewrites:
+        // see logic in a core Product Url model: \Magento\Catalog\Model\Product\Url::getUrl()
+        // if "request_path" is not null or equal to "false" then Magento do not search and do not use Url Rewrites
         $updateAttributes = ['url_path' => null];
         if (!$this->regenerateOptions['noRegenUrlKey']) {
             $generatedKey = $this->_getProductUrlPathGenerator()->getUrlKey($entity->setUrlKey(null));
             $updateAttributes['url_key'] = $generatedKey;
         }
 
-        $this->_getProductAction()->updateAttributes(
-            [$entity->getId()],
-            $updateAttributes,
-            $storeId
-        );
-
-        $urlRewrites = $this->_getProductUrlRewriteGenerator()->generate($entity);
-        $urlRewrites = $this->helper->sanitizeProductUrlRewrites($urlRewrites);
-
-        if (!empty($urlRewrites)) {
-            $this->saveUrlRewrites(
-                $urlRewrites,
-                [['entity_type' => $this->entityType, 'entity_id' => $entity->getId(), 'store_id' => $storeId]]
+        try {
+            $this->_getProductAction()->updateAttributes(
+                [$entity->getId()],
+                $updateAttributes,
+                $storeId
             );
+
+            $urlRewrites = $this->_getProductUrlRewriteGenerator()->generate($entity);
+            $urlRewrites = $this->helper->sanitizeProductUrlRewrites($urlRewrites);
+
+            if (!empty($urlRewrites)) {
+                $this->saveUrlRewrites(
+                    $urlRewrites,
+                    [['entity_type' => $this->entityType, 'entity_id' => $entity->getId(), 'store_id' => $storeId]]
+                );
+            }
+        } catch (\Exception $e) {
+            // go to the next product
         }
 
         $this->progressBarProgress++;
@@ -214,9 +225,9 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * @return \Magento\Catalog\Model\ResourceModel\Product\Action
+     * @return Action
      */
-    protected function _getProductAction()
+    protected function _getProductAction(): Action
     {
         if (is_null($this->productAction)) {
             $this->productAction = $this->productActionFactory->create();
@@ -226,9 +237,9 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * @return \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator
+     * @return ProductUrlRewriteGenerator
      */
-    protected function _getProductUrlRewriteGenerator()
+    protected function _getProductUrlRewriteGenerator(): ProductUrlRewriteGenerator
     {
         if (is_null($this->productUrlRewriteGenerator)) {
             $this->productUrlRewriteGenerator = $this->productUrlRewriteGeneratorFactory->create();
@@ -238,9 +249,9 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
     }
 
     /**
-     * @return \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator
+     * @return ProductUrlPathGenerator
      */
-    protected function _getProductUrlPathGenerator()
+    protected function _getProductUrlPathGenerator(): ProductUrlPathGenerator
     {
         if (is_null($this->productUrlPathGenerator)) {
             $this->productUrlPathGenerator = $this->productUrlPathGeneratorFactory->create();
@@ -251,11 +262,12 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
 
     /**
      * Get products collection
+     *
      * @param array $productsFilter
      * @param int $storeId
-     * @return mixed
+     * @return Collection
      */
-    protected function _getProductsCollection($productsFilter = [], $storeId = 0)
+    protected function _getProductsCollection(array $productsFilter = [], int $storeId = 0): Collection
     {
         $productsCollection = $this->productCollectionFactory->create();
 
@@ -265,7 +277,8 @@ class RegenerateProductRewrites extends AbstractRegenerateRewrites
             ->addAttributeToSelect('visibility')
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path')
-            // use limit to avoid a "eating" of a memory
+            ->addAttributeToFilter('visibility', ['neq' => Visibility::VISIBILITY_NOT_VISIBLE])
+            // use limit to avoid an "eating" of a memory
             ->setPageSize($this->productsCollectionPageSize);
 
         if (count($productsFilter) > 0) {
