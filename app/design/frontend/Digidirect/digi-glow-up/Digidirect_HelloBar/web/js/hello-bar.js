@@ -61,6 +61,34 @@ require(['jquery'], function ($) {
       })
     })
 
+      // ---- Swipe detection ----
+      let touchStartX = 0
+      let touchEndX = 0
+
+      slidesContainer.addEventListener('touchstart', function (e) {
+          touchStartX = e.touches[0].clientX
+      })
+
+      slidesContainer.addEventListener('touchmove', function (e) {
+          touchEndX = e.touches[0].clientX
+      })
+
+      slidesContainer.addEventListener('touchend', function () {
+          const swipeDistance = touchEndX - touchStartX
+
+          const threshold = 50
+
+          if (Math.abs(swipeDistance) > threshold) {
+              if (swipeDistance < 0) {
+                  currentIndex = (currentIndex + 1) % slides.length
+              } else {
+                  currentIndex = (currentIndex - 1 + slides.length) % slides.length
+              }
+              switchSlide(currentIndex)
+              stopAutoMoveTemporarily()
+          }
+      })
+
     // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
       const newIndex = Array.from(slides).findIndex((s) =>

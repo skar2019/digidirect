@@ -23,7 +23,7 @@ class Layout
 	) {
 		$result = $proceed($httpResponse);
 		$html   = $httpResponse->getBody();
-		$html   = $this->minify($html);
+		//$html   = $this->minify($html);
         $httpResponse->setBody($html);
 		return $result;
     }

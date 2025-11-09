@@ -31,7 +31,7 @@ define([
          * Docs: https://www.algolia.com/doc/api-reference/widgets/instantsearch/js/
          */
         async buildInstantSearch() {
-            
+
             const templateProcessor = await templateEngine.getSelectedEngineAdapter();
 
             const mockAlgoliaBundle = this.mockAlgoliaBundle();
@@ -433,11 +433,11 @@ define([
                                 currency: 'AUD',
                                 minimumFractionDigits: 2
                             });
-                            
+
                             //formatter.format(e.target.value);
                             item.hasCustomFinalPrice = false;
                             item.hasNoCustomFinalPrice = true;
-                            
+
                             if (item.marketplacer_seller == "digiDirect") {
                                 item.isDigiMarket = false;
                                 item.isDigiOnly = true;
@@ -453,12 +453,7 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }
-                            
-                            //Workaround, remove on go live!
-                                var productUrl = item.url;
-                                let newProductUrl = productUrl.replace("https://www.digidirect.com.au", "https://mcstaging2.digidirect.com.au");
-                                item.url = newProductUrl;
-                            //
+
 
                             /*if (item.pre_order_status == "Yes") {
                                 item.isPreorder = true;
@@ -467,13 +462,13 @@ define([
                                 item.isPreorder = false;
                                 item.isNotPreorder = true;
                             }*/
-                            
+
                             let categoryIds = item.categoryIds;
                             let digiSecondsIds = ["2564","2567","2570","2573"];
 
                             let hasMatch = categoryIds.some(cat => digiSecondsIds.includes(cat));
                             //console.log("hasMatch", hasMatch);
-                            
+
                             function decodeHtmlEntities(str) {
                                 const txt = document.createElement('textarea')
                                 txt.innerHTML = str
@@ -1156,7 +1151,7 @@ define([
         },
 
         addWidget(search, type, config) {
-            
+
             if (type === 'custom') {
                 search.addWidgets([config]);
                 return;
@@ -1181,7 +1176,7 @@ define([
             }
 
             search.addWidgets([widget(config)]);
-            
+
             function histogramWidget({ container, attribute, buckets = 20 }) {
                 if (typeof container === 'string') {
                     container = document.querySelector(container)
@@ -1190,7 +1185,7 @@ define([
                     console.warn(`Histogram container not found.`)
                     return { render() {} }
                 }
-                  
+
                 return {
                     render({ results, helper }) {
                         const stats = results.getFacetStats(attribute)
@@ -1242,9 +1237,9 @@ define([
                 }
             }
 
-            
+
             window.addEventListener('load', function () {
-                
+
                 // Add widgets (these get picked up by the already-started search)
                 search.addWidgets([
                   instantsearch.widgets.hitsPerPage({
@@ -1270,7 +1265,7 @@ define([
                         }
                     });
                 }
-                
+
                 search.on('render', () => {
                     const helper = search.helper
                     const attribute = 'price.AUD.default'
@@ -1303,7 +1298,7 @@ define([
                         histo.id = 'price-histogram'
                         aisSlider.before(histo)
                     }
-                    
+
                     if (document.querySelector('#price-histogram') && !search.__histogramAdded) {
                         search.addWidgets([
                             histogramWidget({
@@ -1389,7 +1384,7 @@ define([
 
 
                 // ❌ No search.start() here → avoids double start error
-                
+
                 function clampHandles() {
                     const track = document.querySelector('.rheostat-background');
                     const handles = document.querySelectorAll('.rheostat-handle');
@@ -1426,8 +1421,8 @@ define([
                 }
 
                 // Run clamp every time the slider updates
-                
-                
+
+
                 function attachClamp() {
                     document.querySelector('.rheostat').addEventListener('mousemove', clampHandles);
                     document.querySelector('.rheostat').addEventListener('mouseup', clampHandles);
@@ -1435,55 +1430,23 @@ define([
 
                 // run after InstantSearch render
                 search.on('render', attachClamp);
-                
+
                 ;(function () {
+                    const $infos = $('.algolia-infos')
+                    const $refineToggle = $('#refine-toggle')
+                    const $customRefinement = $('.algolia-custom-refinement')
+                    const $hitsPerPage = $('.hits-per-page-container')
+                    const $pagination = $('#instant-search-pagination-container')
+                    const $viewToggle = $('.ais-ViewToggle')
+                    const $stats = $('#algolia-stats')
+
                     const SEARCH_BAR_ID = '#instant-search-bar'
                     const FACETS_CONTAINER_ID = '#instant-search-facets-container'
 
-                    function repositionSearchBar(force = false) {
-                      const searchBar = document.querySelector(SEARCH_BAR_ID)
-                      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-                      if (!facetsContainer) return false
-
-                      if (!searchBar) {
-                        // Not in DOM yet — wait
-                        return false
-                      }
-
-                      // Hide while moving
-                      searchBar.style.display = 'none'
-
-                      // Move inside facets container if not already
-                      if (searchBar.parentElement !== facetsContainer || force) {
-                        facetsContainer.appendChild(searchBar)
-                        console.log('✅ Moved #instant-search-bar into #instant-search-facets-container')
-                      }
-
-                      // Add label if missing
-                      if (!searchBar.querySelector('.search-within-label')) {
-                        const label = document.createElement('span')
-                        label.className = 'search-within-label'
-                        label.textContent = 'Search Within Results'
-                        searchBar.insertBefore(label, searchBar.firstChild)
-                      }
-
-                      // Show only when properly placed
-                      if (searchBar.parentElement === facetsContainer) {
-                        searchBar.style.display = ''
-                        return true
-                      }
-
-                      return false
-                    }
-
+                    // ============================================================
+                    // 🧭 Move Elements (original logic + search bar reposition)
+                    // ============================================================
                     function moveElements() {
-                      const $infos = $('.algolia-infos')
-                      const $refineToggle = $('#refine-toggle')
-                      const $customRefinement = $('.algolia-custom-refinement')
-                      const $hitsPerPage = $('.hits-per-page-container')
-                      const $pagination = $('#instant-search-pagination-container')
-                      const $viewToggle = $('.ais-ViewToggle')
-                      const $stats = $('#algolia-stats')
                       const $facets = $(FACETS_CONTAINER_ID)
                       const $leftContainer = $('#algolia-left-container')
                       const isMobile = $(window).width() <= 768
@@ -1501,52 +1464,93 @@ define([
                       )
                         return
 
-                      // Normal reposition logic for other elements
+                      // algolia-stats
                       if (isMobile) {
                         if ($stats.next()[0] !== $leftContainer[0]) $stats.insertBefore($leftContainer)
-                        if ($infos.parent()[0] !== $refineToggle.parent()[0]) $infos.insertAfter($refineToggle)
-                        if ($hitsPerPage.next()[0] !== $pagination[0]) $hitsPerPage.insertBefore($pagination)
-                        if ($facets.prev()[0] !== $leftContainer[0]) $facets.insertAfter($leftContainer)
                       } else {
                         if ($stats.parent()[0] !== $infos[0]) $stats.prependTo($infos)
+                      }
+
+                      // algolia-infos
+                      if (isMobile) {
+                        if ($infos.parent()[0] !== $refineToggle.parent()[0]) $infos.insertAfter($refineToggle)
+                      } else {
                         if ($infos.next()[0] !== $customRefinement[0]) $infos.insertBefore($customRefinement)
+                      }
+
+                      // hits-per-page-container
+                      if (isMobile) {
+                        if ($hitsPerPage.next()[0] !== $pagination[0]) $hitsPerPage.insertBefore($pagination)
+                      } else {
                         if ($hitsPerPage.next()[0] !== $viewToggle[0]) $hitsPerPage.insertBefore($viewToggle)
+                      }
+
+                      // instant-search-facets-container
+                      if (isMobile) {
+                        if ($facets.prev()[0] !== $leftContainer[0]) $facets.insertAfter($leftContainer)
+                      } else {
                         if ($facets.parent()[0] !== $leftContainer[0]) $facets.appendTo($leftContainer)
                       }
 
                       repositionSearchBar()
                     }
 
+                    // ============================================================
+                    // 🔍 Reposition Instant Search Bar
+                    // ============================================================
+                    function repositionSearchBar() {
+                      const searchBar = document.querySelector(SEARCH_BAR_ID)
+                      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+                      if (!searchBar || !facetsContainer) return false
+
+                      // Hide while not positioned
+                      searchBar.style.display = 'none'
+
+                      // Move inside facets container
+                      if (searchBar.parentElement !== facetsContainer) {
+                        facetsContainer.appendChild(searchBar)
+                        console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+                      }
+
+                      // Add label if missing
+                      if (!searchBar.querySelector('.search-within-label')) {
+                        const label = document.createElement('span')
+                        label.className = 'search-within-label'
+                        label.textContent = 'Search Within Results'
+                        searchBar.insertBefore(label, searchBar.firstChild)
+                        console.log('✅ Added "Search Within Results" label')
+                      }
+
+                      // Show only when properly placed
+                      if (searchBar.parentElement === facetsContainer) {
+                        searchBar.style.display = ''
+                        return true
+                      }
+
+                      return false
+                    }
+
+                    // ============================================================
+                    // 🚀 Init
+                    // ============================================================
                     $(document).ready(function () {
                       moveElements()
 
-                      // Watch for DOM changes (Algolia sometimes re-renders facets or search bar)
-                      const observer = new MutationObserver(() => {
-                        moveElements()
-                        repositionSearchBar()
-                      })
+                      // Watch for DOM changes (Algolia sometimes re-renders facets)
+                      const observer = new MutationObserver(() => moveElements())
                       observer.observe(document.body, { childList: true, subtree: true })
 
                       // Keep retrying until search bar is positioned
                       let retries = 0
-                      const maxRetries = 50 // ~10 seconds
+                      const maxRetries = 30 // ~6 seconds
                       const interval = setInterval(() => {
                         const done = repositionSearchBar()
                         retries++
-                        if (done) {
-                          clearInterval(interval)
-                          console.log('✅ Search bar successfully repositioned')
-                        } else if (retries > maxRetries) {
-                          clearInterval(interval)
-                          console.warn('⚠️ Search bar reposition timeout')
-                        }
+                        if (done || retries > maxRetries) clearInterval(interval)
                       }, 200)
 
-                      // Also rerun on resize (for mobile ↔ desktop switch)
-                      $(window).on('resize', () => {
-                        moveElements()
-                        repositionSearchBar(true) // force reposition on resize
-                      })
+                      // Also re-run on resize (for mobile ↔ desktop switch)
+                      $(window).on('resize', moveElements)
                     })
                   })()
 
@@ -1665,7 +1669,7 @@ window.addEventListener('load', () => {
       updateProductClasses()
     })
   })
-  
+
   // Reposition Instant Search Bar (robust version)
 ;(function () {
   const SEARCH_BAR_ID = '#instant-search-bar'
@@ -1825,5 +1829,5 @@ window.addEventListener('load', () => {
       input.blur();
     }
   });*/
-  
+
 })

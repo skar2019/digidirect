@@ -17,6 +17,7 @@ dependencies:
 runtime:
   extensions:
     - xsl
+    - newrelic
     - sodium
 
 # The relationships of the application with services or other applications.
@@ -100,7 +101,6 @@ crons:
   algolia:
     spec: '*/5 * * * *'
     cmd: 'bin/magento indexer:reindex algolia_queue_runner'
-
 
 # Environment variables
 variables:
