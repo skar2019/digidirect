@@ -61,7 +61,7 @@ class Data extends AbstractHelper
         $nonDigidirectSeller = 0;
         $digidirectSellerCount = 0;
         $nonDigidirectSellerCount = 0;
-        $standardShipping = 0; //8.95;
+        $standardShipping = 8.95;
 
         foreach ($sellers as $seller) {
             $sellerTotal = 0;
