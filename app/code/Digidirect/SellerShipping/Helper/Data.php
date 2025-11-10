@@ -190,10 +190,19 @@ class Data extends AbstractHelper
 
     public function getDigiShipping()
     {
-        $standardShipping = 0; //8.95;
+        $sellers = $this->getSellers();
+        $standardShipping = 8.95;
+        
+        foreach($sellers as $seller){
+            $this->logger->info('getDigiShipping: ' . $seller[0] . ", " .$seller[1]);
+            if ($seller[0] == "digiDirect" && $seller[1] == 0) {
+                $standardShipping = 0;
+            }
+        }
+        
         $bulkItemSurcharge = 0;
-        if ($this->checkForBulkyItems()) {
-            //$bulkItemSurcharge = 20; Revert once free shipping is done!
+        if ($this->checkForBulkyItems() == true) {
+            $bulkItemSurcharge = 20;
         }
         return $standardShipping + $bulkItemSurcharge;
     }
