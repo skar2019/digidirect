@@ -735,7 +735,7 @@ return [
         'Digidirect_Feed' => 0,
         'Digidirect_FilterShipping' => 1,
         'Digidirect_FreeGift' => 1,
-        'Digidirect_GlowupHome' => 0,
+        'Digidirect_GlowupHome' => 1,
         'Digidirect_AddressVerification' => 1,
         'Digidirect_HelloBar' => 1,
         'Digidirect_HotDealsProducts' => 1,
