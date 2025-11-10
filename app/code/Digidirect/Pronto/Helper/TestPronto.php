@@ -16,6 +16,7 @@ use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
 use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class TestPronto extends AbstractHelper
 {
@@ -180,6 +181,8 @@ class TestPronto extends AbstractHelper
     protected $currentseller;
     protected $syncedseller;
 
+    protected $scopeConfig;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -195,7 +198,8 @@ class TestPronto extends AbstractHelper
         \Digidirect\CustomOrderLog\Logger\Logger $logger,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
         CountryFactory $countryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory)
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ScopeConfigInterface $scopeConfig)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -212,7 +216,7 @@ class TestPronto extends AbstractHelper
         $this->timezone = $timezone;
         $this->countryFactory = $countryFactory;
         $this->productFactory = $productFactory;
-
+        $this->scopeConfig = $scopeConfig;
     }
 
 
@@ -604,12 +608,12 @@ class TestPronto extends AbstractHelper
 
             $carriercode = "";
 
-            if($orderId == '002551434')
+            if($orderId == '002559189')
             {
                 $carriercode = 'COLL';
             }
 
-            if($orderId == '002551983')
+            if($orderId == '002559204')
             {
                 $carriercode = 'GO';
             }
@@ -2531,5 +2535,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-
+//redeploy
 }
