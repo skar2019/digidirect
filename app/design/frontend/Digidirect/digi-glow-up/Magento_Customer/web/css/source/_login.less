@@ -135,7 +135,7 @@
                 .action.create {
                     font-weight: 600;
                     width: max-content;
-                    background-color: #2c2c2c;
+                    background-color: @login-button__bg__color;
                     &:hover {
                         background: @color-light-black;
                     }
@@ -242,6 +242,29 @@
         }
         &:hover {
             text-decoration: underline;
+        }
+    }
+}
+.customer-account-login {
+    .actions-toolbar {
+        .action {
+            &.login {
+                background: @color-orange;
+                border-color: @color-orange;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}
+
+.customer-account-create {
+    .actions-toolbar {
+        .action.create {
+            background: @login-button__bg__color;
+            border-color: @login-button__bg__color;
         }
     }
 }
