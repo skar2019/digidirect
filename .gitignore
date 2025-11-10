@@ -72,5 +72,3 @@ atlassian*
 /generated/*
 !/generated/.htaccess
 .DS_Store
-/pub/media/catalog/*
-/pub/media/captcha/*
