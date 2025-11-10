@@ -76,8 +76,12 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-
+            
+            //Free Shipping $99
             if ($seller == "digiDirect") {
+                if ($sellerTotal > 98) {
+                    $standardShipping = 0;
+                }
                 $digidirectSellerCount++;
             } elseif (in_array($seller, $zeroShipping)) {
                 $nonDigidirectSellerCount++;
@@ -133,9 +137,9 @@ class Data extends AbstractHelper
                 }
             }
 
-            //Free Shipping
+            //Free Shipping $99
             $sellerShipping = 8.95;
-            if ($itemSeller == "digiDirect") {
+            if ($seller == "digiDirect" && $sellerTotal > 98) {
                 $sellerShipping = 0;
             }
             //
