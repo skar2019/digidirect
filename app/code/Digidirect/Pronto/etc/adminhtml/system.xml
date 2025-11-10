@@ -1,9 +1,16 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
+        <!-- Existing tab -->
         <tab id="mwave_settings" translate="label" sortOrder="100">
             <label>MWave Settings</label>
         </tab>
+
+        <!-- New tab -->
+        <tab id="pronto_settings" translate="label" sortOrder="110">
+            <label>Pronto Settings</label>
+        </tab>
+
         <section id="mwave_credential_section" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>SFTP Credentials</label>
             <tab>mwave_settings</tab>
@@ -22,6 +29,33 @@
                 <field id="password" translate="label" type="password" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Password</label>
                 </field>
+
+            </group>
+        </section>
+
+        <!-- New section under the new tab -->
+        <section id="pronto_settings_section" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Pronto Settings</label>
+            <tab>pronto_settings</tab>
+            <resource>Digidirect_Pronto::config_credentials</resource>
+            <group id="pronto_group" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pronto Credentials</label>
+                <field id="url" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Token</label>
+                </field>
+
+                <field id="compcode" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>CompCode</label>
+                </field>
+
+                <field id="user" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User</label>
+                </field>
+
+                <field id="token" translate="label" type="password" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Token</label>
+                </field>
+
 
             </group>
         </section>
