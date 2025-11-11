@@ -1728,12 +1728,9 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
-                //if($test)
-                //{
+
                 var_dump($data['sales-order']);
-                //}
-                //create xml of order data here
-                //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
 
