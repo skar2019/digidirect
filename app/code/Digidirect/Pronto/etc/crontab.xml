@@ -2,6 +2,53 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="digidirect_pronto">
-
+        <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendOrder">
+            <schedule>*/2 * * * *</schedule>
+        </job>
+        <job name="pronto_order_sync_processing" instance="Digidirect\Pronto\Cron\SendOrder" method="sendProcessingOrder">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
+            <schedule>*/10 * * * *</schedule>
+        </job>
+        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="executeSync">
+            <schedule>0 0 * * *</schedule>
+        </job>
+        <job name="pronto_retail_sync" instance="Digidirect\Pronto\Cron\RetailStoreProntoOrders" method="execute">
+            <schedule>*/15 * * * *</schedule>
+        </job>
+        <job name="pronto_productmedia" instance="Digidirect\Pronto\Cron\ProductMedia" method="execute">
+            <schedule>22 0 * * *</schedule>
+        </job>
+        <job name="pronto_wiserdata1" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>* 6 * * *</schedule>
+        </job>
+        <job name="pronto_wiserdata2" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>* 12 * * *</schedule>
+        </job>
+        <job name="pronto_sftp" instance="Digidirect\Pronto\Cron\Sendfile" method="execute">
+            <schedule>45 0 * * *</schedule>
+        </job>
+        <job name="pronto_sftpwiser1" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
+            <schedule>29 6 * * *</schedule>
+        </job>
+        <job name="pronto_sftpwiser2" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
+            <schedule>29 12 * * *</schedule>
+        </job>
+        <job name="pronto_customfinalp" instance="Digidirect\Pronto\Cron\WiserData" method="customfinalp">
+            <schedule>3 7 * * *</schedule>
+        </job>
+        <job name="pronto_mwavedata" instance="Digidirect\Pronto\Cron\MwaveData" method="execute">
+            <schedule>30 * * * *</schedule>
+        </job>
+        <job name="pronto_mwaveextradata" instance="Digidirect\Pronto\Cron\MwaveData" method="mwaveExtraData">
+            <schedule>30 1 * * *</schedule>
+        </job>
+        <job name="pronto_mwavesftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="execute">
+            <schedule>55 * * * *</schedule>
+        </job>
+        <job name="pronto_mwaveextrasftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="sendExtraData">
+            <schedule>55 1 * * *</schedule>
+        </job>
     </group>
 </config>

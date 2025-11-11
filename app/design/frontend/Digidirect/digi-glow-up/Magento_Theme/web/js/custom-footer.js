@@ -73,15 +73,26 @@ require(['jquery'], function($) {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
             document.querySelector('.aa-Input').focus();
         });
 
         $('.showcart-footer').on('click', function(){
 
             $('.mobile-menu-close, .mobile-services-close, .close-popup').trigger('click');
-            console.log("testcart");
 
             closeAlgolia();
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
             closeAccountPopup();
 
             $('.showcart').trigger('click');

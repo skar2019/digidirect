@@ -3,7 +3,7 @@ namespace Digidirect\Pronto\Cron;
 
 use Digidirect\Pronto\Helper\ProductEntHelper;
 
-class WiserData
+class MwaveData
 {
 
 
@@ -19,13 +19,14 @@ class WiserData
     }
     public function execute()
     {
-        $this->helper->productData();
+        $this->helper->mwaveData();
     }
 
-    public function customFinalP()
+    public function mwaveExtraData()
     {
-        $this->helper->customFinalPrice();
+        $this->helper->mwaveExtraData();
     }
+
 
 
 }

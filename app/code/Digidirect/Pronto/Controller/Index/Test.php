@@ -17,7 +17,7 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-            $this->helper->testCustomFinalPrice();
+            $this->helper->mwaveExtraData();
 
     }
 }

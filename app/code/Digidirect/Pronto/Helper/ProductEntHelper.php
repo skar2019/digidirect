@@ -736,7 +736,6 @@ class ProductEntHelper extends AbstractHelper
     public function testCustomFinalPrice()
     {
 
-        exit;
         $collection = $this->getProductCollection();
         $counter = 0;
         foreach ($collection as $product) {
@@ -747,6 +746,9 @@ class ProductEntHelper extends AbstractHelper
             if($seller == '20329' || $seller == 20329)
             {
                 echo $product->getSku();
+                echo "<br /> \n";
+                $finalPrice = $product->getFinalPrice();
+                echo "final price 0: ".$finalPrice;
                 echo "<br /> \n";
                 $final_price = $product->getData('final_price');
                 echo "final price 1: ".$final_price;
@@ -761,8 +763,8 @@ class ProductEntHelper extends AbstractHelper
                 $finalprice4 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
                 echo "<br /> \n";
                 echo "final price 4: ".$finalprice4;
-                $product->setCustomAttribute('custom_final_price', $final_price);
-                $this->productRepository->save($product);
+//                $product->setCustomAttribute('custom_final_price', $final_price);
+//                $this->productRepository->save($product);
                 $counter++;
             }
 
@@ -776,5 +778,748 @@ class ProductEntHelper extends AbstractHelper
 
     }
 
+    public function mwaveData()
+    {
+
+        $this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+        $filepath = 'export/digidirect.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
+            'Category 3','Category 4','Price','Average Cost','Cost','Final Price','Stock Condition','Stock Group','3WHS','Stock On Hand',
+            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
+
+        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        $id = "";
+        foreach ($collection as $product) {
+            $data = [];
+            $description = "";
+
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
+            {
+                if(!empty($product->getDescription()))
+                {
+                    $description = strip_tags($product->getDescription());
+                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+                }
+
+                if(isset($this->attributeOptions[$product->getBrand()]))
+                {
+                    $brandname = $this->attributeOptions[$product->getBrand()];
+
+                }
+                else
+                {
+                    $brandname = "";
+                }
+
+                $category1 = "";
+                $category2 = "";
+                $category3 = "";
+                $category4 = "";
+                //echo $product->getId() ."<br/>";
+                $productCategoryIds = $product->getCategoryIds();
+                if((count($productCategoryIds)))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+
+                        if($category['id'] == $productCategoryIds[0])
+                        {
+                            $category1 =$category['name'];
+                        }
+
+                        if(isset($productCategoryIds[1]))
+                        {
+                            if($category['id'] == $productCategoryIds[1])
+                            {
+                                $category2 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[2]))
+                        {
+                            if($category['id'] == $productCategoryIds[2])
+                            {
+                                $category3 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[3]))
+                        {
+                            if($category['id'] == $productCategoryIds[3])
+                            {
+                                $category4 =$category['name'];
+                            }
+                        }
+
+                    }
+                }
+
+                //echo $product->getBarcode1()."b1 <br/>";
+                $gtin = "";
+                $barcode1 = $product->getCustomAttribute('barcode1');
+                if(is_null($barcode1))
+                {
+                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    if(is_null($barcode2))
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    $bc = $barcode1->getValue();
+                    if(is_numeric($bc))
+                    {
+                        $gtin = $bc;
+                    }
+                    else
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+                        if(is_null($barcode2))
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                }
+
+                $title = $product->getName();
+                $title = strip_tags($title);
+                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                $actualcost = 0;
+                $cost = $product->getCustomAttribute('cost');
+                if(is_null($cost))
+                {
+                    $actualcost = $regular_price / 1.1;
+                }
+                else
+                {
+                    $actualcost = $cost->getValue();
+                    if($actualcost == 0)
+                    {
+                        $actualcost = $regular_price / 1.1;
+                    }
+                }
+
+                $avgcost = 0;
+                $costavg = $product->getCustomAttribute('avg_cost');
+                if(is_null($costavg))
+                {
+                    $avgcost = $regular_price / 1.1;
+                }
+                else
+                {
+                    $avgcost = $costavg->getValue();
+                    if($avgcost == 0)
+                    {
+                        $avgcost = $regular_price / 1.1;
+                    }
+                }
+
+                $avgcost = number_format($avgcost, 2, '.', '');
+
+
+                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+                $final_price2 = $product->getFinalPrice();
+                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+//                $product->setCustomAttribute('custom_final_price', $final_price3);
+//                $this->productRepository->save($product);
+//            echo "final price ".$final_price."<br/>";
+//            echo "final price2 ".$final_price2."<br/>";
+//            echo $product->getSku()." final price3 ".$final_price3."<br/>";
+                $stockC = "Other";
+                $stockcondition = $product->getCustomAttribute('stock_condition');
+
+                if(is_null($stockcondition))
+                {
+                    $stockC = "Other";
+                }
+                else {
+                    $stockC = $stockcondition->getValue();
+
+                    if ($stockC == 179) {
+                        $stockC = "0";
+                    } elseif ($stockC == 181) {
+                        $stockC = "T";
+                    } else {
+                        $stockC = "Other";
+                    }
+                }
+
+                $sckGrp = "";
+                $stockgroup = $product->getCustomAttribute('stock_group');
+                if(!is_null($stockgroup))
+                {
+                    $sckGrp = $stockgroup->getValue();
+                }
+                //echo $sckGrp."<br/>";
+
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                $stockonhand = 0;
+                $threewhs = 0;
+                foreach ($sourceItems as $sourceItemId => $sourceItem)
+                {
+                    $code = $sourceItem->getSourceCode();
+                    if($code == '3WHS' )
+                    {
+                        $threewhs = $sourceItem->getQuantity();
+                    }
+                    else
+                    {
+                        $stockonhand += $sourceItem->getQuantity();
+                    }
+
+                }
+
+                $stockDivision = $product->getCustomAttribute('stock_division');
+                if(!is_null($stockDivision))
+                {
+                    $stockDivision = $stockDivision->getValue();
+                }
+                $stockDepartment = $product->getCustomAttribute('stock_department');
+                if(!is_null($stockDepartment))
+                {
+                    $stockDepartment = $stockDepartment->getValue();
+                }
+                $stockCategory = $product->getCustomAttribute('stock_category');
+                if(!is_null($stockCategory))
+                {
+                    $stockCategory = $stockCategory->getValue();
+                }
+                $stockClass = $product->getCustomAttribute('stock_class');
+                if(!is_null($stockClass))
+                {
+                    $stockClass = $stockClass->getValue();
+                }
+
+                $isPreOrder = $product->getCustomAttribute('pre_order_status');
+                if(!is_null($isPreOrder))
+                {
+                    $isPreOrder = $isPreOrder->getValue();
+                    if($isPreOrder == 1 || $isPreOrder == 2)
+                    {
+                        $isPreOrder = 1;
+                    }
+                }
+
+                $noteligiblefordiscount = $product->getCustomAttribute('not_eligible_for_discount');
+                if(!is_null($noteligiblefordiscount))
+                {
+                    $noteligiblefordiscount = $noteligiblefordiscount->getValue();
+                }
+                else
+                {
+                    $noteligiblefordiscount = 0;
+                }
+
+                //echo $stockonhand."<br/>";
+                $data[] = $brandname;
+                $data[] = $description;
+                $data[] = $gtin;
+                $data[] = $product->getSku();
+                $data[] = $product->getApn();
+                $data[] = $title;
+                $data[] = $category1;
+                $data[] = $category2;
+                $data[] = $category3;
+                $data[] = $category4;
+                $data[] = $regular_price;
+                $data[] = $avgcost;
+                $data[] = $actualcost;
+                $data[] = $final_price3;
+                $data[] = $stockC;
+                $data[] = $sckGrp;
+                $data[] = $threewhs;
+                $data[] = $stockonhand;
+                $data[] = $stockDivision;
+                $data[] = $stockDepartment;
+                $data[] = $stockCategory;
+                $data[] = $stockClass;
+                $data[] = $seller;
+                $data[] = $isPreOrder;
+                $data[] = $noteligiblefordiscount;
+
+                $stream->writeCsv($data);
+            }
+
+        }
+
+    }
+
+    public function debugWiserData()
+    {
+
+        //$this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        //$getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+//        $filepath = 'export/debugwiserdata.csv';
+//        $this->directory->create('export');
+//        $stream = $this->directory->openFile($filepath, 'w+');
+//        $stream->lock();
+//        $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
+//            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition','Stock Group','Stock On Hand',
+//            'Stock Division', 'Stock Department','Stock Category','Stock Class','Seller Code','Is PreOrder','Not Eligible for Discount'];
+//
+//        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        $id = "";
+        foreach ($collection as $product) {
+            $data = [];
+            $description = "";
+
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
+            {
+//                if(!empty($product->getDescription()))
+//                {
+//                    $description = strip_tags($product->getDescription());
+//                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+//                }
+//
+//                if(isset($this->attributeOptions[$product->getBrand()]))
+//                {
+//                    $brandname = $this->attributeOptions[$product->getBrand()];
+//
+//                }
+//                else
+//                {
+//                    $brandname = "";
+//                }
+//
+//                $category1 = "";
+//                $category2 = "";
+//                $category3 = "";
+//                $category4 = "";
+//                //echo $product->getId() ."<br/>";
+//                $productCategoryIds = $product->getCategoryIds();
+//                if((count($productCategoryIds)))
+//                {
+//                    foreach ($getCategoryList as $id => $category)
+//                    {
+//
+//                        if($category['id'] == $productCategoryIds[0])
+//                        {
+//                            $category1 =$category['name'];
+//                        }
+//
+//                        if(isset($productCategoryIds[1]))
+//                        {
+//                            if($category['id'] == $productCategoryIds[1])
+//                            {
+//                                $category2 =$category['name'];
+//                            }
+//                        }
+//
+//                        if(isset($productCategoryIds[2]))
+//                        {
+//                            if($category['id'] == $productCategoryIds[2])
+//                            {
+//                                $category3 =$category['name'];
+//                            }
+//                        }
+//
+//                        if(isset($productCategoryIds[3]))
+//                        {
+//                            if($category['id'] == $productCategoryIds[3])
+//                            {
+//                                $category4 =$category['name'];
+//                            }
+//                        }
+//
+//                    }
+//                }
+//
+//                //echo $product->getBarcode1()."b1 <br/>";
+//                $gtin = "";
+//                $barcode1 = $product->getCustomAttribute('barcode1');
+//                if(is_null($barcode1))
+//                {
+//                    $barcode2 = $product->getCustomAttribute('barcode2');
+//                    if(is_null($barcode2))
+//                    {
+//
+//                    }
+//
+//                }
+//                else
+//                {
+//                    $bc = $barcode1->getValue();
+//                    if(is_numeric($bc))
+//                    {
+//                        $gtin = $bc;
+//                    }
+//                    else
+//                    {
+//                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+//                        if(is_null($barcode2))
+//                        {
+//
+//                        }
+//                        else
+//                        {
+//
+//                        }
+//
+//                    }
+//                }
+//
+//                $title = $product->getName();
+//                $title = strip_tags($title);
+//                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+//                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+//                $actualcost = 0;
+//                $cost = $product->getCustomAttribute('cost');
+//                if(is_null($cost))
+//                {
+//                    $actualcost = $regular_price / 1.1;
+//                }
+//                else
+//                {
+//                    $actualcost = $cost->getValue();
+//                    if($actualcost == 0)
+//                    {
+//                        $actualcost = $regular_price / 1.1;
+//                    }
+//                }
+//
+//                $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+//                $final_price2 = $product->getFinalPrice();
+//                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+////                $product->setCustomAttribute('custom_final_price', $final_price3);
+////                $this->productRepository->save($product);
+////            echo "final price ".$final_price."<br/>";
+////            echo "final price2 ".$final_price2."<br/>";
+////            echo $product->getSku()." final price3 ".$final_price3."<br/>";
+//                $stockC = "Other";
+//                $stockcondition = $product->getCustomAttribute('stock_condition');
+//
+//                if(is_null($stockcondition))
+//                {
+//                    $stockC = "Other";
+//                }
+//                else {
+//                    $stockC = $stockcondition->getValue();
+//
+//                    if ($stockC == 179) {
+//                        $stockC = "0";
+//                    } elseif ($stockC == 181) {
+//                        $stockC = "T";
+//                    } else {
+//                        $stockC = "Other";
+//                    }
+//                }
+//
+//                $sckGrp = "";
+//                $stockgroup = $product->getCustomAttribute('stock_group');
+//                if(!is_null($stockgroup))
+//                {
+//                    $sckGrp = $stockgroup->getValue();
+//                }
+//                //echo $sckGrp."<br/>";
+//
+//                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+//
+//                $stockonhand = 0;
+//                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+//
+//                    $stockonhand += $sourceItem->getQuantity();
+//                }
+//
+//                $stockDivision = $product->getCustomAttribute('stock_division');
+//                if(!is_null($stockDivision))
+//                {
+//                    $stockDivision = $stockDivision->getValue();
+//                }
+//                $stockDepartment = $product->getCustomAttribute('stock_department');
+//                if(!is_null($stockDepartment))
+//                {
+//                    $stockDepartment = $stockDepartment->getValue();
+//                }
+//                $stockCategory = $product->getCustomAttribute('stock_category');
+//                if(!is_null($stockCategory))
+//                {
+//                    $stockCategory = $stockCategory->getValue();
+//                }
+//                $stockClass = $product->getCustomAttribute('stock_class');
+//                if(!is_null($stockClass))
+//                {
+//                    $stockClass = $stockClass->getValue();
+//                }
+//
+//                $isPreOrder = $product->getCustomAttribute('pre_order_status');
+//                if(!is_null($isPreOrder))
+//                {
+//                    $isPreOrder = $isPreOrder->getValue();
+//                    if($isPreOrder == 1 || $isPreOrder == 2)
+//                    {
+//                        $isPreOrder = 1;
+//                    }
+//                }
+//
+//                $noteligiblefordiscount = $product->getCustomAttribute('not_eligible_for_discount');
+//                if(!is_null($noteligiblefordiscount))
+//                {
+//                    $noteligiblefordiscount = $noteligiblefordiscount->getValue();
+//                }
+//                else
+//                {
+//                    $noteligiblefordiscount = 0;
+//                }
+
+                echo $product->getSku() ."<br/>";
+
+//                $data[] = $brandname;
+//                $data[] = $description;
+//                $data[] = $gtin;
+//                $data[] = $product->getSku();
+//                $data[] = $product->getApn();
+//                $data[] = $title;
+//                $data[] = $category1;
+//                $data[] = $category2;
+//                $data[] = $category3;
+//                $data[] = $category4;
+//                $data[] = $regular_price;
+//                $data[] = $actualcost;
+//                $data[] = $final_price3;
+//                $data[] = $stockC;
+//                $data[] = $sckGrp;
+//                $data[] = $stockonhand;
+//                $data[] = $stockDivision;
+//                $data[] = $stockDepartment;
+//                $data[] = $stockCategory;
+//                $data[] = $stockClass;
+//                $data[] = $seller;
+//                $data[] = $isPreOrder;
+//                $data[] = $noteligiblefordiscount;
+//
+//                $stream->writeCsv($data);
+            }
+
+        }
+
+        exit;
+
+    }
+
+    public function mwaveExtraData()
+    {
+
+        $this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+        $filepath = 'export/digiDirectProductAttributes.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['SKU','Product Title','Brand Name','Model Number','UPC','Description','Category 1','Category 2',
+            'Category 3','Category 4','Product Overview','Specs','Whats in the box','Package Weight','Length Width Height',
+            'Warranty','Image URLs','Cost Price','Final Price'];
+
+        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        $id = "";
+        foreach ($collection as $product) {
+            $data = [];
+            $description = "";
+            $overview = "";
+            $imageurl = "";
+            $specification = "";
+            $whatsinthebox = "";
+
+            $seller = $product->getData('marketplacer_seller');
+            if($seller == '20329')
+            {
+                if(!empty($product->getDescription()))
+                {
+                    $description = $product->getDescription();
+                    //$description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+                }
+
+                $overview = $product->getShortDescription();
+
+                $specification = $product->getSpecification();
+
+                $whatsinthebox = $product->getWhatsInTheBox();
+
+                if(isset($this->attributeOptions[$product->getBrand()]))
+                {
+                    $brandname = $this->attributeOptions[$product->getBrand()];
+
+                }
+                else
+                {
+                    $brandname = "";
+                }
+
+                $category1 = "";
+                $category2 = "";
+                $category3 = "";
+                $category4 = "";
+                //echo $product->getId() ."<br/>";
+                $productCategoryIds = $product->getCategoryIds();
+                if((count($productCategoryIds)))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+
+                        if($category['id'] == $productCategoryIds[0])
+                        {
+                            $category1 =$category['name'];
+                        }
+
+                        if(isset($productCategoryIds[1]))
+                        {
+                            if($category['id'] == $productCategoryIds[1])
+                            {
+                                $category2 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[2]))
+                        {
+                            if($category['id'] == $productCategoryIds[2])
+                            {
+                                $category3 =$category['name'];
+                            }
+                        }
+
+                        if(isset($productCategoryIds[3]))
+                        {
+                            if($category['id'] == $productCategoryIds[3])
+                            {
+                                $category4 =$category['name'];
+                            }
+                        }
+
+                    }
+                }
+
+                //echo $product->getBarcode1()."b1 <br/>";
+                $gtin = "";
+                $barcode1 = $product->getCustomAttribute('barcode1');
+                if(is_null($barcode1))
+                {
+                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    if(is_null($barcode2))
+                    {
+
+                    }
+
+                }
+                else
+                {
+                    $bc = $barcode1->getValue();
+                    if(is_numeric($bc))
+                    {
+                        $gtin = $bc;
+                    }
+                    else
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
+                        if(is_null($barcode2))
+                        {
+
+                        }
+                        else
+                        {
+                            $gtin = $barcode2->getValue();
+                        }
+
+                    }
+                }
+
+                $title = $product->getName();
+                $title = strip_tags($title);
+                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+
+                $weight = $product->getWeight();
+                $dimensions = "";
+                $dimensionsAttr = $product->getCustomAttribute('product_dimensions');
+                if(!is_null($dimensionsAttr))
+                {
+                    $dimensions = $dimensionsAttr->getValue();
+                }
+                $warranty = "";
+
+                $imageUrl = "";
+                if(empty($product->getImage()))
+                {
+                    $imageUrl = "";
+                }
+
+                $imageUrl = $product->getMediaConfig()->getMediaUrl($product->getImage());
+                if(empty($imageUrl))
+                {
+                    $imageUrl = "";
+                }
+
+                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+                $avgcost = 0;
+                $costavg = $product->getCustomAttribute('avg_cost');
+                if(is_null($costavg))
+                {
+                    $avgcost = $regular_price / 1.1;
+                }
+                else
+                {
+                    $avgcost = $costavg->getValue();
+                    if($avgcost == 0)
+                    {
+                        $avgcost = $regular_price / 1.1;
+                    }
+                }
+
+                $avgcost = number_format($avgcost, 2, '.', '');
+
+                $finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+
+                //echo $stockonhand."<br/>";
+                $data[] = $product->getSku();
+                $data[] = $title;
+                $data[] = $brandname;
+                $data[] = $product->getApn();
+                $data[] = $gtin;
+                $data[] = $description;
+                $data[] = $category1;
+                $data[] = $category2;
+                $data[] = $category3;
+                $data[] = $category4;
+                $data[] = $overview;
+                $data[] = $specification;
+                $data[] = $whatsinthebox;
+                $data[] = $weight;
+                $data[] = $dimensions;
+                $data[] = $warranty;
+                $data[] = $imageUrl;
+                $data[] = $avgcost;
+                $data[] = $finalPrice;
+
+                $stream->writeCsv($data);
+            }
+
+        }
+        exit;
+    }
 
 }
+//redeploy
