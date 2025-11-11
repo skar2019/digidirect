@@ -53,7 +53,12 @@
                 height: 100%;
             }
 
+<<<<<<< HEAD
             @supports (display: -webkit-flex) or (display: -moz-flex) or (display: flex) {
+=======
+            @supports (display: -webkit-flex) or (display: -moz-flex) or
+                (display: flex) {
+>>>>>>> origin/staging2
                 &.-content-scroll._show .modal-inner-wrap {
                     height: auto;
                 }
@@ -97,7 +102,11 @@
                 box-sizing: border-box;
                 vertical-align: middle;
 
+<<<<<<< HEAD
                 span{
+=======
+                span {
+>>>>>>> origin/staging2
                     color: #000 !important;
                 }
             }
@@ -129,7 +138,15 @@
 //  Tablet +
 //  ---------------------------------------------
 
+<<<<<<< HEAD
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+=======
+.media-width(@extremum, @break)
+    when
+    (@extremum = "min")
+    and
+    (@break = @screen__m) {
+>>>>>>> origin/staging2
     & when (@modal-extend__is-enabled = true) {
         .modal-custom,
         .modal-popup,
@@ -203,7 +220,15 @@
 //  Desktop +
 //  ---------------------------------------------
 
+<<<<<<< HEAD
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+=======
+.media-width(@extremum, @break)
+    when
+    (@extremum = "min")
+    and
+    (@break = @screen__l) {
+>>>>>>> origin/staging2
     & when (@modal-extend__is-enabled = true) {
         .modal-custom,
         .modal-popup,
@@ -214,7 +239,11 @@
 
                 &:hover,
                 &:active,
+<<<<<<< HEAD
                 &:focus{
+=======
+                &:focus {
+>>>>>>> origin/staging2
                     background: transparent !important;
                 }
             }
@@ -341,4 +370,7 @@
 @modal-popup-slide-inner-scroll__show__overflow-y__m-custom-only: auto;
 @modal-popup-slide-inner-scroll-modal-inner-wrap__height__m-custom-only: auto;
 @modal-popup-slide-inner-scroll-modal-inner-wrap__min-height__m-custom-only: false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/staging2

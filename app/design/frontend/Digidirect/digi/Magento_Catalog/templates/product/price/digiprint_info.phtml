@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
 $currentProduct = $productBlock->getCurrentProduct();
 
@@ -6,11 +7,21 @@ $digiprintItemCondition = ($currentProduct->getItemCondition() ? $currentProduct
 $digiprintItemDescription = ($currentProduct->getData('whats_in_the_box') ? $currentProduct->getData('whats_in_the_box') : '');
 $digiprintCustomLinkProductSKU = ($currentProduct->getData('digiprint_customlink') ? $currentProduct->getData('digiprint_customlink') : '');
 $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->getData('is_digiprint') : '');
+=======
+    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+    $currentProduct = $productBlock->getCurrentProduct();
+
+    $digiprintItemCondition = ($currentProduct->getItemCondition() ? $currentProduct->getItemCondition() : '');
+    $digiprintItemDescription = ($currentProduct->getData('digiprint_desc') ? $currentProduct->getData('digiprint_desc') : '');
+    $digiprintCustomLinkProductSKU = ($currentProduct->getData('digiprint_customlink') ? $currentProduct->getData('digiprint_customlink') : '');
+    $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->getData('is_digiprint') : '');
+>>>>>>> origin/staging2
 ?>
 
 
 <?php if ($is_digiPrint == 1): ?>
     <br>
+<<<<<<< HEAD
     <p>
         <a class="create-now-btn pa-digiprintproduct" href="<?php echo $digiprintCustomLinkProductSKU;?>" target="_blank">
             <button>
@@ -27,6 +38,25 @@ $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->get
    .qantas-pts-wrapper, .box-tocart, .payment-gateways-container, .payment-gateways-container-bottom, .product-info-main-bottom, .studio19-wrapper, .awaiting, .widget-product, .zip-container, .ribbon-wrapper
    {display:none !important;}</style>';
     ?>
+=======
+        <p>
+            <a class="create-now-btn pa-digiprintproduct" href="<?php echo $digiprintCustomLinkProductSKU;?>" target="_blank"> 
+                <button>
+                    <span>Create Now <span><i class="fa-solid fa-cart-plus" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;font-weight: 900;font-size: 18px;"></i></span></span>
+                </button>
+            </a>
+        </p>
+    <br>
+    <span class="digiprint-note">
+        Dimensions: <br>
+        <?= /* @escapeNotVerified */ $digiprintItemDescription ?>
+    </span>
+
+   <?php echo '<style>
+   .qantas-pts-wrapper, .box-tocart, .payment-gateways-container, .payment-gateways-container-bottom, .product-info-main-bottom, .studio19-wrapper, .awaiting, .widget-product, .zip-container, .ribbon-wrapper
+   {display:none !important;}</style>'; 
+   ?>
+>>>>>>> origin/staging2
 <?php endif; ?>
 
 
@@ -55,7 +85,11 @@ $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->get
         width:100%;
         font-family: 'Poppins',sans-serif;
         text-transform: uppercase;
+<<<<<<< HEAD
         padding: 14px 17px;
+=======
+        padding: 14px 17px; 
+>>>>>>> origin/staging2
         height: 50px;
         display: block;
     }
@@ -72,6 +106,10 @@ $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->get
 
     span.digiprint-note {
         background: #f5f5f5;
+<<<<<<< HEAD
+=======
+        height: 150px;
+>>>>>>> origin/staging2
         padding: 25px;
         border-radius: 4px;
         border: 1px solid #E8E8E8;

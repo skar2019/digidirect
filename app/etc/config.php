@@ -258,7 +258,11 @@ return [
         'Magento_CompanyRelation' => 1,
         'Magento_Shipping' => 1,
         'Magento_CompareListGraphQl' => 1,
+<<<<<<< HEAD
         'Magento_TwoFactorAuth' => 1,
+=======
+        'Magento_TwoFactorAuth' => 0,
+>>>>>>> origin/staging2
         'Magento_ConfigurableImportExport' => 1,
         'Magento_ConfigurableNegotiableQuote' => 1,
         'Magento_ProductAlert' => 1,
@@ -491,7 +495,11 @@ return [
         'Magento_NegotiableQuoteTemplateGraphQl' => 1,
         'Magento_NegotiableQuoteTemplateSharedCatalog' => 1,
         'Magento_NegotiableQuoteWeee' => 1,
+<<<<<<< HEAD
         'Magento_NewRelicReporting' => 1,
+=======
+        'Magento_NewRelicReporting' => 0,
+>>>>>>> origin/staging2
         'Magento_Newsletter' => 1,
         'Magento_NewsletterGraphQl' => 1,
         'Magento_OfflinePayments' => 1,
@@ -645,7 +653,11 @@ return [
         'Magento_AdobeStockImageAdminUi' => 1,
         'Magento_ThemeGraphQl' => 1,
         'Magento_Translation' => 1,
+<<<<<<< HEAD
         'Magento_AdminAdobeImsTwoFactorAuth' => 1,
+=======
+        'Magento_AdminAdobeImsTwoFactorAuth' => 0,
+>>>>>>> origin/staging2
         'Magento_GiftCardSharedCatalog' => 1,
         'Magento_Ups' => 0,
         'Magento_CatalogUrlRewriteDataExporter' => 1,
@@ -684,7 +696,11 @@ return [
         'Apptrian_ImageOptimizer' => 0,
         'Bss_DeleteOrder' => 1,
         'Bss_FacebookPixel' => 1,
+<<<<<<< HEAD
         'Bss_PreOrder' => 0,
+=======
+        'Bss_PreOrder' => 1,
+>>>>>>> origin/staging2
         'CommissionFactory_Tracking' => 1,
         'Digidirect_Utilities' => 1,
         'Digidirect_AbstractAttributes' => 1,
@@ -698,6 +714,10 @@ return [
         'Digidirect_BestsellersProducts' => 1,
         'Digidirect_Blog' => 1,
         'Digidirect_InfiniteScroll' => 0,
+<<<<<<< HEAD
+=======
+        'Digidirect_Brands' => 1,
+>>>>>>> origin/staging2
         'Digidirect_Catalog' => 1,
         'Digidirect_LayeredNavigation' => 0,
         'Digidirect_Checkout' => 1,
@@ -714,6 +734,10 @@ return [
         'Digidirect_CustomLog' => 1,
         'Digidirect_CustomOptions' => 1,
         'Digidirect_CustomOrderLog' => 1,
+<<<<<<< HEAD
+=======
+        'Digidirect_CustomProduct' => 1,
+>>>>>>> origin/staging2
         'Digidirect_Customer' => 1,
         'Digidirect_DealsTest' => 1,
         'Digidirect_MSI' => 1,
@@ -733,7 +757,13 @@ return [
         'Digidirect_Feed' => 0,
         'Digidirect_FilterShipping' => 1,
         'Digidirect_FreeGift' => 1,
+<<<<<<< HEAD
         'Digidirect_AddressVerification' => 1,
+=======
+        'Digidirect_GlowupHome' => 1,
+        'Digidirect_AddressVerification' => 1,
+        'Digidirect_HelloBar' => 1,
+>>>>>>> origin/staging2
         'Digidirect_HotDealsProducts' => 1,
         'Digidirect_BlogInfiniteScroll' => 1,
         'Digidirect_InvoiceEmail' => 1,
@@ -771,17 +801,30 @@ return [
         'Digidirect_ShopByBrandMenu' => 0,
         'Digidirect_ShopByCategory' => 1,
         'Digidirect_SingleCheckoutButton' => 1,
+<<<<<<< HEAD
         'Digidirect_SocialSharing' => 1,
+=======
+        'Digidirect_SocialSharing' => 0,
+        'Digidirect_StickyCart' => 1,
+>>>>>>> origin/staging2
         'Digidirect_StoreLocator' => 1,
         'Digidirect_CollectStoreLocator' => 1,
         'Digidirect_StoreLocatorInfiniteScroll' => 0,
         'Digidirect_Theme' => 1,
+<<<<<<< HEAD
+=======
+        'Digidirect_TradeUp' => 1,
+>>>>>>> origin/staging2
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 1,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'EthanYehuda_CronjobManager' => 1,
         'Experius_WysiwygDownloads' => 1,
         'Fastly_Cdn' => 1,
+<<<<<<< HEAD
+=======
+        'Impact_Integration' => 1,
+>>>>>>> origin/staging2
         'Itoris_Core' => 1,
         'Itoris_PriceMatch' => 1,
         'LatitudeNew_Payment' => 1,
@@ -796,8 +839,13 @@ return [
         'Magezon_Builder' => 1,
         'Magezon_Newsletter' => 1,
         'Magezon_PageBuilder' => 1,
+<<<<<<< HEAD
         'Magezon_PageBuilderIconBox' => 1,
         'Magezon_PageBuilderPageableContainer' => 1,
+=======
+        'Magezon_PageBuilderIconBox' => 0,
+        'Magezon_PageBuilderPageableContainer' => 0,
+>>>>>>> origin/staging2
         'Marketplacer_Base' => 1,
         'Marketplacer_BrandApi' => 1,
         'Marketplacer_Brand' => 1,
@@ -805,8 +853,13 @@ return [
         'Marketplacer_Seller' => 1,
         'Marketplacer_Marketplacer' => 1,
         'Mbs_BestSeller' => 1,
+<<<<<<< HEAD
         'OuterEdge_StructuredData' => 1,
         'OlegKoval_RegenerateUrlRewrites' => 1,
+=======
+        'OlegKoval_RegenerateUrlRewrites' => 1,
+        'OuterEdge_StructuredData' => 1,
+>>>>>>> origin/staging2
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
         'Plumrocket_Base' => 1,
@@ -817,8 +870,13 @@ return [
         'WeSupply_Toolbox' => 0,
         'WebPanda_SalesProductImage' => 1,
         'Webkul_MyCustomCollection' => 1,
+<<<<<<< HEAD
         'WeltPixel_Backend' => 1,
         'WeltPixel_GA4' => 1,
+=======
+        'WeltPixel_Backend' => 0,
+        'WeltPixel_GA4' => 0,
+>>>>>>> origin/staging2
         'ZV_SeoCompatible' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
