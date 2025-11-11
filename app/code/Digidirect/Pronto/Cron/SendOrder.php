@@ -33,14 +33,12 @@ class SendOrder
 
     public function sendOrder()
     {
-        exit;
         $this->helper->orderPost();
 
     }
 
     public function sendProcessingOrder()
     {
-        exit;
         $this->helper->orderProcessing();
 
     }

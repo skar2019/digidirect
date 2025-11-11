@@ -16,6 +16,7 @@ use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
 use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Order extends AbstractHelper
 {
@@ -173,6 +174,8 @@ class Order extends AbstractHelper
 
     protected $productDigiprot;
 
+    protected $scopeConfig;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -188,7 +191,8 @@ class Order extends AbstractHelper
         \Digidirect\CustomOrderLog\Logger\Logger $logger,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
         CountryFactory $countryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory)
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ScopeConfigInterface $scopeConfig)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -205,6 +209,7 @@ class Order extends AbstractHelper
         $this->timezone = $timezone;
         $this->countryFactory = $countryFactory;
         $this->productFactory = $productFactory;
+        $this->scopeConfig = $scopeConfig;
 
     }
 
@@ -342,6 +347,12 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'BU') !== false) {
                     $rep ="BUNNINGS";
                     $account = "BUNN01";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                } else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
@@ -884,6 +895,18 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("WW","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'BU') !== false) {
+                    $payment_type ="BN";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
 
             }
 
@@ -1015,9 +1038,9 @@ class Order extends AbstractHelper
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
-                if($price > 0)
+                if($discount > 0)
                 {
-                    $discperc = ($discount / $price) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty; // in pronto, discount % are mutliplied by qty, so here we divide it
                 }
                 if($coupon != "")
                 {
@@ -1037,8 +1060,11 @@ class Order extends AbstractHelper
                 $sku = $item->getSku();
                 $productDetails = $this->productFactory->create();
 
-
-                if(strpos($sku, 'mp-') !== false)
+                if(is_null($sku))
+                {
+                    continue;
+                }
+                else if(strpos($sku, 'mp-') !== false)
                 {
                     //check seller here
                     $mpTotal += $total;
@@ -1266,13 +1292,6 @@ class Order extends AbstractHelper
                 $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-                //TEST
-                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-
-                //LIVE - port :8084
-                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-
-
                 $islive = true;
                 if($islive)
                 {
@@ -1281,13 +1300,18 @@ class Order extends AbstractHelper
 
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
-                    $this->curl->addHeader("compcode", "DIG"); //live
-                    $this->curl->addHeader("user", "ewaveapi");
-                    $this->curl->addHeader("token", "904241bdbf10efa9");
-                    //
-//                    $this->curl->addHeader("compcode", "UA1"); //test
-//                    $this->curl->addHeader("user", "clint.mercado");
-//                    $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                    $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/url');;
+                    $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/compcode');
+                    $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/user');
+                    $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/token');;
+
+                    $url = $host.'/rest/abtws/sales?call-type=create_orders';
+
+                    $this->curl->addHeader("compcode", $compcode);
+                    $this->curl->addHeader("user", $user);
+                    $this->curl->addHeader("token", $token);
+
 
                     $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
                     $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
@@ -2098,9 +2122,9 @@ class Order extends AbstractHelper
                 $todiscount = $price * $qty;
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
-                if($price > 0)
+                if($discount > 0)
                 {
-                    $discperc = ($discount / $todiscount) * 100;
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if($coupon != "")
                 {
@@ -2290,21 +2314,16 @@ class Order extends AbstractHelper
             //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($sellerdata, 'sales-orders');
 
-            //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/url');;
+            $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/compcode');
+            $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/user');
+            $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/token');;
 
-            //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = $host.'/rest/abtws/sales?call-type=create_orders';
 
-            $this->curl->addHeader("Content-Type", "application/xml");
-            $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
-            //
-//            $this->curl->addHeader("compcode", "UA1"); //test
-//            $this->curl->addHeader("user", "clint.mercado");
-//            $this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("compcode", $compcode);
+            $this->curl->addHeader("user", $user);
+            $this->curl->addHeader("token", $token);
 
             $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
             $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
@@ -2488,6 +2507,12 @@ class Order extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                     //for woolworths
+                } else if (strpos($orderId, 'LS') !== false) {
+                    $rep = "LASOO";
+                    $account = "LASO00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
                 }
 
 
@@ -2516,7 +2541,7 @@ class Order extends AbstractHelper
             }
 
             if (!$isMarketPlace) {
-                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01") {
+                if ($account == "WOOL00" || $account == "QANT00" || $account == "WEST00" || $account == "MYDE00" || $account == "CATC00" || $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00" || $account == "REEB00" || $account == "BUNN01" || $account == "LASO00") {
                     $account = "";
                 }
             }
@@ -2949,6 +2974,18 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("WW", "", $catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'BU') !== false) {
+                    $payment_type ="BN";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("BU","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'LS') !== false) {
+                    $payment_type ="LS";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("LS","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
 
             }
 
@@ -3065,8 +3102,8 @@ class Order extends AbstractHelper
                 $discount = (double)$item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
                 $discperc = 0;
-                if ($price > 0) {
-                    $discperc = ($discount / $price) * 100;
+                if ($discount > 0) {
+                    $discperc = (($discount / $price) * 100) / $qty;
                 }
                 if ($coupon != "") {
                     $discount = 0; //set this to zero since we subtract it to total
@@ -3272,12 +3309,6 @@ class Order extends AbstractHelper
                 $this->logger->info('Pronto Order Sync Data - ', $data['sales-order']);
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-                //TEST
-                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-
-                //LIVE - port :8084
-                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-
 
                 $islive = true;
                 if ($islive) {
@@ -3286,13 +3317,17 @@ class Order extends AbstractHelper
 
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
-                    $this->curl->addHeader("compcode", "DIG"); //live
-                    $this->curl->addHeader("user", "ewaveapi");
-                    $this->curl->addHeader("token", "904241bdbf10efa9");
-                    //
-//                    $this->curl->addHeader("compcode", "UA1"); //test
-//                    $this->curl->addHeader("user", "clint.mercado");
-//                    $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                    $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/url');;
+                    $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/compcode');
+                    $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/user');
+                    $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/token');;
+
+                    $url = $host.'/rest/abtws/sales?call-type=create_orders';
+
+                    $this->curl->addHeader("compcode", $compcode);
+                    $this->curl->addHeader("user", $user);
+                    $this->curl->addHeader("token", $token);
 
                     $this->curl->setOption(CURLOPT_SSL_VERIFYHOST, false);
                     $this->curl->setOption(CURLOPT_SSL_VERIFYPEER, false);

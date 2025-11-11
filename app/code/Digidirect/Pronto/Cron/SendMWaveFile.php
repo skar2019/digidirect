@@ -1,24 +1,24 @@
 <?php
-namespace Digidirect\Pronto\Controller\Index;
+namespace Digidirect\Pronto\Cron;
 
 use Digidirect\Pronto\Helper\SftpMWaveSender;
 
-class SendFile extends \Magento\Framework\App\Action\Action
+class SendMWaveFile
 {
-    protected $_pageFactory;
 
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
         SftpMWaveSender $helper)
     {
         $this->helper = $helper;
-        return parent::__construct($context);
     }
 
     public function execute()
     {
+        $this->helper->sendFile();
+    }
 
-
+    public function sendExtraData()
+    {
         $this->helper->sendExtraData();
     }
 }
