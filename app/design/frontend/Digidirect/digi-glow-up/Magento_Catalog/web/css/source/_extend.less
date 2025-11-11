@@ -430,3 +430,69 @@ div.mage-error.qty-error-message {
 .product-right-column .product-info-main .product-add-form .box-tocart.error {
     margin-bottom: 15px !important;
 }
+
+//Hide Tabs On digiPrint
+.digiprint-product {
+    .product-accordion .delivery,
+    .product-accordion .returns,
+    .whatinthebox,
+    .reviews,
+    .qa {
+        display: none !important;
+    }
+
+    .create-now-btn {
+        text-decoration: none;
+    }
+
+    .create-now-btn:hover {
+        text-decoration: none;
+    }
+
+    a.action.create-now-btn {
+        background: #fe4c25;
+        border: none;
+        border-radius: 25px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 0.5px;
+        padding: 11px 35px;
+        height: 37px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        min-width: 0 !important;
+        border-radius: 25px;
+    }
+
+    .create-now-btn svg {
+        margin-left: 10px;
+        margin-right: 10px;
+        float: right;
+    }
+
+    .create-now-btn:hover {
+        opacity: 0.8;
+    }
+
+    .digiprint-note {
+        height: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        padding: 12px;
+        background: #fff;
+
+        ul {
+            margin-bottom: 0;
+            li {
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
