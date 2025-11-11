@@ -1547,37 +1547,38 @@ window.addEventListener('load', () => {
     })
   })
 
-  // Reposition Instant Search Bar (robust version)
+// Robust vanilla JS: move elements + robust instant-search-bar reposition
 ;(function () {
   const SEARCH_BAR_ID = '#instant-search-bar'
   const FACETS_CONTAINER_ID = '#instant-search-facets-container'
   const RECHECK_DELAY = 200
   const DESKTOP_ONLY = false
+  const MAX_RETRIES = 300 // safety cap to avoid infinite loops
 
+  const isMobile = () => window.innerWidth <= 768
   const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
 
+  // ---------- helper show/hide search bar ----------
   function hideSearchBar() {
-    const searchBar = document.querySelector(SEARCH_BAR_ID)
-    if (searchBar) searchBar.style.display = 'none'
+    const sb = document.querySelector(SEARCH_BAR_ID)
+    if (sb) sb.style.display = 'none'
   }
-
   function showSearchBar() {
-    const searchBar = document.querySelector(SEARCH_BAR_ID)
-    if (searchBar) searchBar.style.display = ''
+    const sb = document.querySelector(SEARCH_BAR_ID)
+    if (sb) sb.style.display = ''
   }
 
-  function moveAndInsert() {
+  // ---------- move & insert search bar only (returns true when in place) ----------
+  function moveAndInsertSearchBar() {
     const searchBar = document.querySelector(SEARCH_BAR_ID)
     const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
     if (!searchBar || !facetsContainer) return false
 
-    // Move search bar
     if (searchBar.parentElement !== facetsContainer) {
       facetsContainer.appendChild(searchBar)
       console.log('✅ instant-search-bar moved inside instant-search-facets-container')
     }
 
-    // Add label if missing
     if (!searchBar.querySelector('.search-within-label')) {
       const label = document.createElement('span')
       label.className = 'search-within-label'
@@ -1589,23 +1590,115 @@ window.addEventListener('load', () => {
     return searchBar.parentElement === facetsContainer
   }
 
+  // ---------- Move other elements (original logic) ----------
+  function moveElements() {
+    const infos = document.querySelector('.algolia-infos')
+    const refineToggle = document.querySelector('#refine-toggle')
+    const customRefinement = document.querySelector('.algolia-custom-refinement')
+    const hitsPerPage = document.querySelector('.hits-per-page-container')
+    const pagination = document.querySelector('#instant-search-pagination-container')
+    const viewToggle = document.querySelector('.ais-ViewToggle')
+    const stats = document.querySelector('#algolia-stats')
+    const facets = document.querySelector(FACETS_CONTAINER_ID)
+    const leftContainer = document.querySelector('#algolia-left-container')
+
+    // if core containers not present yet, skip
+    if (!facets || !leftContainer) return
+
+    // if any of the smaller elements are missing, we still try moving the ones that exist
+    const mobile = isMobile()
+
+    // algolia-stats
+    if (stats) {
+      if (mobile) {
+        // place before leftContainer (so nextElementSibling == leftContainer)
+        if (stats.nextElementSibling !== leftContainer) {
+          leftContainer.parentNode.insertBefore(stats, leftContainer)
+        }
+      } else {
+        if (stats.parentElement !== infos && infos) {
+          infos.insertBefore(stats, infos.firstChild)
+        }
+      }
+    }
+
+    // algolia-infos
+    if (infos && refineToggle && customRefinement) {
+      if (mobile) {
+        if (infos.parentElement !== refineToggle.parentElement) {
+          // insert infos after refineToggle
+          refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
+        }
+      } else {
+        if (infos.nextElementSibling !== customRefinement) {
+          customRefinement.parentNode.insertBefore(infos, customRefinement)
+        }
+      }
+    }
+
+    // hits-per-page-container
+    if (hitsPerPage && pagination && viewToggle) {
+      if (mobile) {
+        if (hitsPerPage.nextElementSibling !== pagination) {
+          pagination.parentNode.insertBefore(hitsPerPage, pagination)
+        }
+      } else {
+        if (hitsPerPage.nextElementSibling !== viewToggle) {
+          viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
+        }
+      }
+    }
+
+    // instant-search-facets-container
+    if (facets && leftContainer) {
+      if (mobile) {
+        if (facets.previousElementSibling !== leftContainer) {
+          leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
+        }
+      } else {
+        if (facets.parentElement !== leftContainer) {
+          leftContainer.appendChild(facets)
+        }
+      }
+    }
+
+    // after moving structural elements, ensure search bar is placed inside facets
+    // but don't show it here; search watcher controls visibility
+  }
+
+  // ---------- Start robust watcher that ensures search bar ends up inside facets ----------
   function startRepositionWatcher() {
     if (DESKTOP_ONLY && !isDesktop()) return
 
-    hideSearchBar() // hide at start
+    hideSearchBar() // hide at start until placed
 
     let observerStarted = false
+    let retries = 0
 
-    const ensurePositioned = () => {
-      const done = moveAndInsert()
-      if (done) {
-        showSearchBar() // ✅ only show when actually inside correct container
+    // repeated attempt to both moveElements and place the search bar
+    function ensurePositioned() {
+      // try to move other elements first (layout may need these)
+      try {
+        moveElements()
+      } catch (e) {
+        // swallow to allow retries
+        console.warn('moveElements error', e)
+      }
 
-        // Start observing for re-renders only once
+      // then try to place search bar
+      const placed = moveAndInsertSearchBar()
+      retries++
+
+      if (placed) {
+        showSearchBar()
+
+        // start observing for re-renders only once
         if (!observerStarted) {
           observerStarted = true
           const observer = new MutationObserver(() => {
-            const stillInPlace = moveAndInsert()
+            // on mutation, re-run moveElements and verify search bar still in place
+            moveElements()
+            const stillInPlace = moveAndInsertSearchBar()
             if (stillInPlace) showSearchBar()
             else hideSearchBar()
           })
@@ -1613,19 +1706,38 @@ window.addEventListener('load', () => {
         }
       } else {
         hideSearchBar()
-        // keep retrying until it’s really repositioned
-        setTimeout(ensurePositioned, RECHECK_DELAY)
+        if (retries < MAX_RETRIES) {
+          setTimeout(ensurePositioned, RECHECK_DELAY)
+        } else {
+          console.warn('instant-search-bar repositioning retries exceeded, stopping further retries.')
+        }
       }
     }
 
     ensurePositioned()
   }
 
-  // Start after DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startRepositionWatcher)
-  } else {
+  // ---------- Boot: DOM ready and resize handling ----------
+  function boot() {
+    // initial attempt to place elements immediately
+    moveElements()
     startRepositionWatcher()
+
+    // re-run moves on resize (mobile/desktop layout switch)
+    let resizeTimer = null
+    window.addEventListener('resize', function () {
+      // debounce small flurry of resize events slightly
+      if (resizeTimer) clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        moveElements()
+      }, 120)
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot)
+  } else {
+    boot()
   }
 })()
 
