@@ -79,7 +79,10 @@ require(['jquery'], function($) {
                 behavior: 'smooth'
             });
 
-            document.querySelector('.aa-Input').focus();
+            // Wait for smooth scroll to complete before focusing
+            setTimeout(function() {
+                document.querySelector('.aa-Input').focus();
+            }, 500); // Adjust timing as needed (300-800ms typical)
         });
 
         $('.showcart-footer').on('click', function(){
@@ -205,7 +208,6 @@ require(['jquery'], function($) {
     }
 
     function closeAccountPopup() {
-
 
         if (window.location.href.indexOf('/customer/') !== -1) {
             window.location.href = '/';
