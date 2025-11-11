@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 /**
  * Copyright © 2016 Magento. All rights reserved.
@@ -10,16 +9,3 @@
     'ZV_SeoCompatible',
     __DIR__
 );
-=======
-<?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'ZV_SeoCompatible',
-    __DIR__
-);
->>>>>>> origin/staging2

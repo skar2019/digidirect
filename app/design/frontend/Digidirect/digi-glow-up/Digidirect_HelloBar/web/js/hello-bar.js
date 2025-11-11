@@ -61,8 +61,6 @@ require(['jquery'], function ($) {
       })
     })
 
-<<<<<<< HEAD
-=======
       // ---- Swipe detection ----
       let touchStartX = 0
       let touchEndX = 0
@@ -91,7 +89,6 @@ require(['jquery'], function ($) {
           }
       })
 
->>>>>>> origin/staging2
     // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
       const newIndex = Array.from(slides).findIndex((s) =>

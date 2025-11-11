@@ -27,7 +27,6 @@ $brand = strtolower($brand);
 $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
 $sku = $_product->getSku();
 $awaiting = $_product->getAwaitingProduct();
-<<<<<<< HEAD
 $overrideAwaiting = $_product->getOverrideAwaiting();
 
 //if($brand == 'canon' || $brand == 'sony' )
@@ -44,9 +43,6 @@ if($overrideAwaiting == 1)
 {
     $awaiting = 1;
 }
-=======
-
->>>>>>> origin/staging2
 //if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
 //    $qff_bonus_points = $_product->getQffBonusPoints();
 //    $qff_base_points = $_product->getQffBase();
