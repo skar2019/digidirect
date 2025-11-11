@@ -10,15 +10,11 @@
 
 
 <?php if ($is_digiPrint == 1): ?>
-    <br>
-        <p>
-            <a class="create-now-btn pa-digiprintproduct" href="<?php echo $digiprintCustomLinkProductSKU;?>" target="_blank">
-                <button>
+        <div class="digi-print-create">
+            <a class="create-now-btn pa-digiprintproduct action primary" href="<?php echo $digiprintCustomLinkProductSKU;?>" target="_blank">
                     <span>Create Now </span>
-                </button>
             </a>
-        </p>
-    <br>
+        </div>
 
     <div class="digiprint-note">
         <span class="digiprint-span">
@@ -48,7 +44,7 @@
 
     } */
 
-    .create-now-btn button {
+    .create-now-btn {
         background: #fe4c25;
         border: none;
         border-radius: 25px;
@@ -57,6 +53,7 @@
         font-size: 14px;
         line-height: 18px;
         text-transform: uppercase;
+        text-align:center;
         letter-spacing: 0.5px;
         padding: 11px 35px;
         height: 37px;
@@ -64,6 +61,7 @@
         transition: all 0.3s ease;
         width: 100%;
         min-width: 0 !important;
+        
     }
 
     .create-now-btn svg {
@@ -72,7 +70,7 @@
         float: right;
     }
 
-    .create-now-btn button:hover {
+    .create-now-btn:hover {
         opacity: 0.8;
     }
 

@@ -74,9 +74,6 @@
                         <block class="Magento\Framework\View\Element\Template"
                                template="Magento_Catalog::product/price/digiseconds_info.phtml"
                                name="pdp-digiseconds-info"/>
-                        <block class="Magento\Framework\View\Element\Template"
-                               template="Magento_Catalog::product/price/digiprint_info.phtml"
-                               name="pdp-digiprint-info"/>
 
                     </container>
 
@@ -112,6 +109,11 @@
                             <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper"/>
                         </container>
                     </referenceContainer>
+
+                <block class="Magento\Framework\View\Element\Template"
+                    template="Magento_Catalog::product/price/digiprint_info.phtml"
+                    name="pdp-digiprint-info" before="custom.help.block"/>
+
 
                 <block class="Magento\Framework\View\Element\Template"
                    name="custom.help.block"
