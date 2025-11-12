@@ -27,10 +27,10 @@ class Sftpwisersender extends AbstractHelper
         $destinationPath = '/uploads/wiserdata.csv';
         $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/wiserdata.csv';
 
-        $host = $this->scopeConfig->getValue('wiser_settings_section/wiser_settings/host');
-        $compcode = $this->scopeConfig->getValue('wiser_settings_section/wiser_settings/port');
-        $user = $this->scopeConfig->getValue('wiser_settings_section/wiser_settings/username');
-        $token = $this->scopeConfig->getValue('wiser_settings_section/wiser_settings/password');
+        $host = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/host');
+        $compcode = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/port');
+        $user = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/username');
+        $token = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/password');
 
         $sftpConfig = [
             'host' => 'sftp.360pi.com',
