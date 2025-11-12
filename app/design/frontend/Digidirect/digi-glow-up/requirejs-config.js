@@ -1,5 +1,6 @@
 var config = {
   deps: [
-    'js/custom'
+      'js/custom',
+      'Digidirect_HelloBar/js/hello-bar'
   ]
 };
