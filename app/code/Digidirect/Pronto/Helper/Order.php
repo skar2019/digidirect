@@ -1301,10 +1301,10 @@ class Order extends AbstractHelper
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
 
-                    $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/url');;
-                    $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/compcode');
-                    $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/user');
-                    $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_settings/token');;
+                    $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+                    $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+                    $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+                    $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
 
                     $url = $host.'/rest/abtws/sales?call-type=create_orders';
 

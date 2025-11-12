@@ -24,22 +24,22 @@ $returnsBlock = $block->getLayout()
     </div>
 
     <!-- Delivery (CMS static block) -->
-    <div data-role="collapsible">
+    <div data-role="collapsible" class="delivery">
         <div data-role="trigger">
             <span><?= __('Delivery') ?></span>
         </div>
     </div>
-    <div data-role="content">
+    <div data-role="content" class="delivery">
         <?= $deliveryBlock ? $deliveryBlock->toHtml() : ''; ?>
     </div>
 
     <!-- Returns (CMS static block) -->
-    <div data-role="collapsible">
+    <div data-role="collapsible" class="returns">
         <div data-role="trigger">
             <span><?= __('Returns') ?></span>
         </div>
     </div>
-    <div data-role="content">
+    <div data-role="content" class="returns">
         <?= $returnsBlock ? $returnsBlock->toHtml() : ''; ?>
     </div>
 </div>
