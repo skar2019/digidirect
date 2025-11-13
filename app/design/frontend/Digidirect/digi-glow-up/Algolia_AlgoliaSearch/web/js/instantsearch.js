@@ -885,7 +885,7 @@ define([
          */
         setupWrapper(templateProcessor) {
             const div = document.createElement('div');
-            $(div).addClass('algolia-instant-results-wrapper').css('min-width', '500px');
+            $(div).addClass('algolia-instant-results-wrapper').css('min-height', '500px');
 
             $(algoliaConfig.instant.selector).addClass(
                 'algolia-instant-replaced-content'
@@ -1547,279 +1547,222 @@ window.addEventListener('load', () => {
     })
   })
 
-// Robust vanilla JS: move elements + robust instant-search-bar reposition
-;(function () {
-  const SEARCH_BAR_ID = '#instant-search-bar'
-  const FACETS_CONTAINER_ID = '#instant-search-facets-container'
-  const RECHECK_DELAY = 200
-  const DESKTOP_ONLY = false
-  const MAX_RETRIES = 300 // safety cap to avoid infinite loops
+  // ------------------------------
+  // Robust vanilla JS: move elements + robust instant-search-bar reposition
+  // ------------------------------
+  ;(function () {
+    const SEARCH_BAR_ID = '#instant-search-bar'
+    const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+    const RECHECK_DELAY = 200
+    const DESKTOP_ONLY = false
+    const MAX_RETRIES = 300 // safety cap to avoid infinite loops
 
-  const isMobile = () => window.innerWidth <= 768
-  const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+    const isMobile = () => window.innerWidth <= 768
+    const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
 
-  // ---------- helper show/hide search bar ----------
-  function hideSearchBar() {
-    const sb = document.querySelector(SEARCH_BAR_ID)
-    if (sb) sb.style.display = 'none'
-  }
-  function showSearchBar() {
-    const sb = document.querySelector(SEARCH_BAR_ID)
-    if (sb) sb.style.display = ''
-  }
-
-  // ---------- move & insert search bar only (returns true when in place) ----------
-  function moveAndInsertSearchBar() {
-    const searchBar = document.querySelector(SEARCH_BAR_ID)
-    const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-    if (!searchBar || !facetsContainer) return false
-
-    if (searchBar.parentElement !== facetsContainer) {
-      facetsContainer.appendChild(searchBar)
-      console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+    function hideSearchBar() {
+      const sb = document.querySelector(SEARCH_BAR_ID)
+      if (sb) sb.style.display = 'none'
+    }
+    function showSearchBar() {
+      const sb = document.querySelector(SEARCH_BAR_ID)
+      if (sb) sb.style.display = ''
     }
 
-    if (!searchBar.querySelector('.search-within-label')) {
-      const label = document.createElement('span')
-      label.className = 'search-within-label'
-      label.textContent = 'Search Within Results'
-      searchBar.insertBefore(label, searchBar.firstChild)
-      console.log('✅ Added "Search Within Results" label')
-    }
+    function moveAndInsertSearchBar() {
+      const searchBar = document.querySelector(SEARCH_BAR_ID)
+      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+      if (!searchBar || !facetsContainer) return false
 
-    return searchBar.parentElement === facetsContainer
-  }
-
-  // ---------- Move other elements (original logic) ----------
-  function moveElements() {
-    const infos = document.querySelector('.algolia-infos')
-    const refineToggle = document.querySelector('#refine-toggle')
-    const customRefinement = document.querySelector('.algolia-custom-refinement')
-    const hitsPerPage = document.querySelector('.hits-per-page-container')
-    const pagination = document.querySelector('#instant-search-pagination-container')
-    const viewToggle = document.querySelector('.ais-ViewToggle')
-    const stats = document.querySelector('#algolia-stats')
-    const facets = document.querySelector(FACETS_CONTAINER_ID)
-    const leftContainer = document.querySelector('#algolia-left-container')
-
-    // if core containers not present yet, skip
-    if (!facets || !leftContainer) return
-
-    // if any of the smaller elements are missing, we still try moving the ones that exist
-    const mobile = isMobile()
-
-    // algolia-stats
-    if (stats) {
-      if (mobile) {
-        // place before leftContainer (so nextElementSibling == leftContainer)
-        if (stats.nextElementSibling !== leftContainer) {
-          leftContainer.parentNode.insertBefore(stats, leftContainer)
-        }
-      } else {
-        if (stats.parentElement !== infos && infos) {
-          infos.insertBefore(stats, infos.firstChild)
-        }
-      }
-    }
-
-    // algolia-infos
-    if (infos && refineToggle && customRefinement) {
-      if (mobile) {
-        if (infos.parentElement !== refineToggle.parentElement) {
-          // insert infos after refineToggle
-          refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
-        }
-      } else {
-        if (infos.nextElementSibling !== customRefinement) {
-          customRefinement.parentNode.insertBefore(infos, customRefinement)
-        }
-      }
-    }
-
-    // hits-per-page-container
-    if (hitsPerPage && pagination && viewToggle) {
-      if (mobile) {
-        if (hitsPerPage.nextElementSibling !== pagination) {
-          pagination.parentNode.insertBefore(hitsPerPage, pagination)
-        }
-      } else {
-        if (hitsPerPage.nextElementSibling !== viewToggle) {
-          viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
-        }
-      }
-    }
-
-    // instant-search-facets-container
-    if (facets && leftContainer) {
-      if (mobile) {
-        if (facets.previousElementSibling !== leftContainer) {
-          leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
-        }
-      } else {
-        if (facets.parentElement !== leftContainer) {
-          leftContainer.appendChild(facets)
-        }
-      }
-    }
-
-    // after moving structural elements, ensure search bar is placed inside facets
-    // but don't show it here; search watcher controls visibility
-  }
-
-  // ---------- Start robust watcher that ensures search bar ends up inside facets ----------
-  function startRepositionWatcher() {
-    if (DESKTOP_ONLY && !isDesktop()) return
-
-    hideSearchBar() // hide at start until placed
-
-    let observerStarted = false
-    let retries = 0
-
-    // repeated attempt to both moveElements and place the search bar
-    function ensurePositioned() {
-      // try to move other elements first (layout may need these)
-      try {
-        moveElements()
-      } catch (e) {
-        // swallow to allow retries
-        console.warn('moveElements error', e)
+      if (searchBar.parentElement !== facetsContainer) {
+        facetsContainer.appendChild(searchBar)
+        console.log('✅ instant-search-bar moved inside instant-search-facets-container')
       }
 
-      // then try to place search bar
-      const placed = moveAndInsertSearchBar()
-      retries++
+      if (!searchBar.querySelector('.search-within-label')) {
+        const label = document.createElement('span')
+        label.className = 'search-within-label'
+        label.textContent = 'Search Within Results'
+        searchBar.insertBefore(label, searchBar.firstChild)
+        console.log('✅ Added "Search Within Results" label')
+      }
 
-      if (placed) {
-        showSearchBar()
+      return searchBar.parentElement === facetsContainer
+    }
 
-        // start observing for re-renders only once
-        if (!observerStarted) {
-          observerStarted = true
-          const observer = new MutationObserver(() => {
-            // on mutation, re-run moveElements and verify search bar still in place
-            moveElements()
-            const stillInPlace = moveAndInsertSearchBar()
-            if (stillInPlace) showSearchBar()
-            else hideSearchBar()
-          })
-          observer.observe(document.body, { childList: true, subtree: true })
-        }
-      } else {
-        hideSearchBar()
-        if (retries < MAX_RETRIES) {
-          setTimeout(ensurePositioned, RECHECK_DELAY)
+    function moveElements() {
+      const infos = document.querySelector('.algolia-infos')
+      const refineToggle = document.querySelector('#refine-toggle')
+      const customRefinement = document.querySelector('.algolia-custom-refinement')
+      const hitsPerPage = document.querySelector('.hits-per-page-container')
+      const pagination = document.querySelector('#instant-search-pagination-container')
+      const viewToggle = document.querySelector('.ais-ViewToggle')
+      const stats = document.querySelector('#algolia-stats')
+      const facets = document.querySelector(FACETS_CONTAINER_ID)
+      const leftContainer = document.querySelector('#algolia-left-container')
+
+      if (!facets || !leftContainer) return
+
+      const mobile = isMobile()
+
+      if (stats) {
+        if (mobile) {
+          if (stats.nextElementSibling !== leftContainer) {
+            leftContainer.parentNode.insertBefore(stats, leftContainer)
+          }
         } else {
-          console.warn('instant-search-bar repositioning retries exceeded, stopping further retries.')
+          if (stats.parentElement !== infos && infos) {
+            infos.insertBefore(stats, infos.firstChild)
+          }
+        }
+      }
+
+      if (infos && refineToggle && customRefinement) {
+        if (mobile) {
+          if (infos.parentElement !== refineToggle.parentElement) {
+            refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
+          }
+        } else {
+          if (infos.nextElementSibling !== customRefinement) {
+            customRefinement.parentNode.insertBefore(infos, customRefinement)
+          }
+        }
+      }
+
+      if (hitsPerPage && pagination && viewToggle) {
+        if (mobile) {
+          if (hitsPerPage.nextElementSibling !== pagination) {
+            pagination.parentNode.insertBefore(hitsPerPage, pagination)
+          }
+        } else {
+          if (hitsPerPage.nextElementSibling !== viewToggle) {
+            viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
+          }
+        }
+      }
+
+      if (facets && leftContainer) {
+        if (mobile) {
+          if (facets.previousElementSibling !== leftContainer) {
+            leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
+          }
+        } else {
+          if (facets.parentElement !== leftContainer) {
+            leftContainer.appendChild(facets)
+          }
         }
       }
     }
 
-    ensurePositioned()
-  }
+    function startRepositionWatcher(callback) {
+      if (DESKTOP_ONLY && !isDesktop()) return
 
-  // ---------- Boot: DOM ready and resize handling ----------
-  function boot() {
-    // initial attempt to place elements immediately
-    moveElements()
-    startRepositionWatcher()
+      hideSearchBar()
 
-    // re-run moves on resize (mobile/desktop layout switch)
-    let resizeTimer = null
-    window.addEventListener('resize', function () {
-      // debounce small flurry of resize events slightly
-      if (resizeTimer) clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(() => {
-        moveElements()
-      }, 120)
-    })
-  }
+      let observerStarted = false
+      let retries = 0
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot)
-  } else {
-    boot()
-  }
-})()
-
-// 🧹 Clear PA Products When Filtered (ignore initial render)
-;(function () {
-  const TARGET_SELECTOR = '#instant-search-results-container'
-  const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
-
-  const waitForTarget = setInterval(() => {
-    const target = document.querySelector(TARGET_SELECTOR)
-    if (!target) return
-
-    clearInterval(waitForTarget)
-
-    let isFirstRender = true
-    let timeout
-
-    const observer = new MutationObserver(() => {
-      // Debounce to avoid rapid multiple triggers
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (isFirstRender) {
-          // First mutation (initial render) → skip
-          isFirstRender = false
-          return
+      function ensurePositioned() {
+        try {
+          moveElements()
+        } catch (e) {
+          console.warn('moveElements error', e)
         }
 
-        // After filters change
-        const products = document.querySelectorAll(PRODUCT_SELECTOR)
-        if (products.length > 0) {
-          products.forEach((el) => el.remove())
-          console.log('🧹 PA products removed after filter change.')
+        const placed = moveAndInsertSearchBar()
+        retries++
+
+        if (placed) {
+          showSearchBar()
+
+          if (!observerStarted) {
+            observerStarted = true
+            const observer = new MutationObserver(() => {
+              moveElements()
+              const stillInPlace = moveAndInsertSearchBar()
+              if (stillInPlace) showSearchBar()
+              else hideSearchBar()
+            })
+            observer.observe(document.body, { childList: true, subtree: true })
+
+            // ✅ Call callback once everything is ready
+            if (typeof callback === 'function') callback()
+          }
+        } else {
+          hideSearchBar()
+          if (retries < MAX_RETRIES) {
+            setTimeout(ensurePositioned, RECHECK_DELAY)
+          } else {
+            console.warn('instant-search-bar repositioning retries exceeded, stopping further retries.')
+          }
         }
-      }, 200)
-    })
+      }
 
-    observer.observe(target, {
-      childList: true,
-      subtree: true,
-    })
-  }, 300)
-})()
-
-document.querySelectorAll('.algolia-instant-selector-results').forEach(el => {
-    el.removeAttribute('style')
-})
-
-  //Test Fix Search Mobile
-  /*const input = document.querySelector('.aa-Input');
-  if (!input) return;
-
-  let ignoreNextFocus = false;
-
-  function closePanel() {
-    const panel = document.querySelector('.aa-Panel');
-    if (panel) {
-      // remove 'active' class if exists
-      panel.classList.remove('aa-Panel--open');
+      ensurePositioned()
     }
-    input.blur();
-    ignoreNextFocus = true;
-  }
 
-  function handleOutsideClick(e) {
-    const panel = document.querySelector('.aa-Panel');
-    if (!panel) return;
+    function boot(callback) {
+      moveElements()
+      startRepositionWatcher(callback)
 
-    if (!panel.contains(e.target) && e.target !== input) {
-      closePanel();
+      let resizeTimer = null
+      window.addEventListener('resize', function () {
+        if (resizeTimer) clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(() => {
+          moveElements()
+        }, 120)
+      })
     }
-  }
 
-  // Listen for outside clicks/taps
-  document.addEventListener('click', handleOutsideClick);
-  document.addEventListener('touchstart', handleOutsideClick);
-
-  // Prevent immediate re-opening on mobile
-  input.addEventListener('focus', function () {
-    if (ignoreNextFocus) {
-      ignoreNextFocus = false;
-      input.blur();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll))
+    } else {
+      boot(callbackAfterAll)
     }
-  });*/
 
+    // ✅ Callback function to run after everything else completes
+    function callbackAfterAll() {
+      document.querySelectorAll('.algolia-instant-selector-results').forEach(el => {
+        el.removeAttribute('style')
+      })
+      console.log('✅ Removed style attribute from .algolia-instant-selector-results after all tasks.')
+    }
+  })()
+
+  // 🧹 Clear PA Products When Filtered (ignore initial render)
+  ;(function () {
+    const TARGET_SELECTOR = '#instant-search-results-container'
+    const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
+
+    const waitForTarget = setInterval(() => {
+      const target = document.querySelector(TARGET_SELECTOR)
+      if (!target) return
+
+      clearInterval(waitForTarget)
+
+      let isFirstRender = true
+      let timeout
+
+      const observer = new MutationObserver(() => {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+          if (isFirstRender) {
+            isFirstRender = false
+            return
+          }
+
+          const products = document.querySelectorAll(PRODUCT_SELECTOR)
+          if (products.length > 0) {
+            products.forEach((el) => el.remove())
+            console.log('🧹 PA products removed after filter change.')
+          }
+        }, 200)
+      })
+
+      observer.observe(target, {
+        childList: true,
+        subtree: true,
+      })
+    }, 300)
+  })()
 })
