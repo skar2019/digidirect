@@ -1711,48 +1711,58 @@ define([
       }
 
       // ✅ Callback after everything is done (layout, search bar, and hits)
-      function callbackAfterAll() {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches
+    function callbackAfterAll() {
+      const executeCleanup = () => {
+        const elementsToClear = [
+          ...document.querySelectorAll('.algolia-instant-selector-results'),
+          ...document.querySelectorAll('.hits-per-page-container'),
+          ...document.querySelectorAll('.ais-ViewToggle')
+        ]
+        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts']
 
-        const executeCleanup = () => {
-          const elementsToClear = [
-            ...document.querySelectorAll('.algolia-instant-selector-results'),
-            ...document.querySelectorAll('.hits-per-page-container'),
-            ...document.querySelectorAll('.ais-ViewToggle')
-          ]
-          const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts']
+        elementsToClear.forEach(el => el.removeAttribute('style'))
+        idsToClear.forEach(id => {
+          const el = document.getElementById(id)
+          if (el) el.removeAttribute('style')
+        })
 
-          elementsToClear.forEach(el => el.removeAttribute('style'))
-          idsToClear.forEach(id => {
-            const el = document.getElementById(id)
-            if (el) el.removeAttribute('style')
-          })
+        const searchBox = document.querySelector('.ais-SearchBox')
+        if (searchBox) searchBox.style.display = ''
 
-          const searchBox = document.querySelector('.ais-SearchBox')
-          if (searchBox) searchBox.style.display = ''
-
-          console.log('✅ Removed style attributes and showed search box.')
-          if (loader) loader.style.display = 'none' // ✅ hide loader only now
-        }
-
-        if (isMobile) {
-          const checkHitsComplete = () => {
-            const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
-            if (hits.length > 0) executeCleanup()
-            else setTimeout(checkHitsComplete, 200)
-          }
-          checkHitsComplete()
-        } else {
-          const observer = new MutationObserver(() => {
-            const hitsList = document.querySelector('.ais-Hits-list')
-            if (hitsList) {
-              executeCleanup()
-              observer.disconnect()
-            }
-          })
-          observer.observe(document.body, { childList: true, subtree: true })
-        }
+        console.log('✅ Removed style attributes and showed search box.')
+        if (loader) loader.style.display = 'none' // ✅ hide loader only now
       }
+
+      const checkMobileHits = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
+        if (!isMobile) return
+
+        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
+        if (hits.length > 0) executeCleanup()
+        else setTimeout(checkMobileHits, 200)
+      }
+
+      const observeDesktopHits = () => {
+        const observer = new MutationObserver(() => {
+          const isMobile = window.matchMedia('(max-width: 768px)').matches
+          if (isMobile) return // Skip cleanup on mobile
+
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (hitsList) {
+            executeCleanup()
+            observer.disconnect()
+          }
+        })
+        observer.observe(document.body, { childList: true, subtree: true })
+      }
+
+      // Start logic
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        checkMobileHits()
+      } else {
+        observeDesktopHits()
+      }
+    }
 
     })()
 
