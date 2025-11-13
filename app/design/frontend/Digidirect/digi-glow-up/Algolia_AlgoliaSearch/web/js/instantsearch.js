@@ -1719,16 +1719,18 @@ window.addEventListener('load', () => {
         const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
 
         if (hits.length > 0) {
-          // Elements to remove style from
+          // Elements to remove style from (classes)
           const elementsToClear = [
             ...document.querySelectorAll('.algolia-instant-selector-results'),
             ...document.querySelectorAll('.hits-per-page-container'),
             ...document.querySelectorAll('.ais-ViewToggle')
           ]
 
+          // IDs to remove style from
           const idsToClear = [
             'algolia-left-container',
-            'algolia-stats'
+            'algolia-stats',
+            'algolia-sorts' // added here
           ]
 
           // Remove style attributes from classes
