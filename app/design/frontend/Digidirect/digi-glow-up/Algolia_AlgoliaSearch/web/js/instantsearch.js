@@ -1740,7 +1740,11 @@ window.addEventListener('load', () => {
             if (el) el.removeAttribute('style')
           })
 
-          console.log('✅ Removed style attributes from all target elements after hits loaded.')
+          // Show the search box
+          const searchBox = document.querySelector('.ais-SearchBox')
+          if (searchBox) searchBox.style.display = ''
+
+          console.log('✅ Removed style attributes and showed search box after hits loaded.')
         } else {
           setTimeout(checkHitsComplete, 200)
         }

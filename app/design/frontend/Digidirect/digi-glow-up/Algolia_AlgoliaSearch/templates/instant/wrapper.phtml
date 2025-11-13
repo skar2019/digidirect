@@ -1,5 +1,11 @@
 <?php /** @var \Algolia\AlgoliaSearch\Block\Instant\Wrapper $block */ ?>
 
+<div id="plp-custom-loader" style="position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.8); z-index:9999; display:flex; justify-content:center; align-items:center;">
+    <img src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+         alt="<?= /* @escapeNotVerified */ __('Loading...') ?>"
+         style="width:80px; height:80px;">
+</div>
+
 <!-- Wrapping template -->
 <script type="text/template" id="instant_wrapper_template">
     {{#findAutocomplete}}
@@ -99,36 +105,20 @@
 </script>
 
 <script type="text/javascript">
-    require(['jquery', 'mage/loader'], function ($) {
-        // Append Magento global loader to body
-        var loader = $('<div/>').loader().appendTo('body');
+    require(['jquery'], function($){
+        var loader = $('#plp-custom-loader');
 
-        // Function to show loader
-        function showLoader() {
-            loader.loader('show');
-        }
+        // Show loader immediately
+        loader.show();
 
-        // Function to hide loader
-        function hideLoader() {
-            loader.loader('hide');
-        }
-
-        // === Show loader while page is loading ===
-        $(document).ready(function() {
-            showLoader(); // show immediately
-        });
-
+        // Hide loader after page fully loads
         $(window).on('load', function() {
-            hideLoader(); // hide once all content is loaded
+            loader.fadeOut(200); // fade out smoothly
         });
 
-        // === Show loader for AJAX product loads (filters, pagination, sorting) ===
-        $(document).ajaxStart(function() {
-            showLoader();
-        });
-
+        // Optional: hide loader after AJAX requests (filters, sorting, pagination)
         $(document).ajaxStop(function() {
-            hideLoader();
+            loader.fadeOut(200);
         });
     });
 </script>
