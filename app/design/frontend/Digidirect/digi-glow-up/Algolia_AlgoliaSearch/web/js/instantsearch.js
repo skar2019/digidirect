@@ -1715,45 +1715,66 @@ window.addEventListener('load', () => {
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      const checkHitsComplete = () => {
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
+      const isMobile = window.matchMedia('(max-width: 768px)').matches
 
-        if (hits.length > 0) {
-          // Elements to remove style from (classes)
-          const elementsToClear = [
-            ...document.querySelectorAll('.algolia-instant-selector-results'),
-            ...document.querySelectorAll('.hits-per-page-container'),
-            ...document.querySelectorAll('.ais-ViewToggle')
-          ]
+      const executeCleanup = () => {
+        // Elements to remove style from (classes)
+        const elementsToClear = [
+          ...document.querySelectorAll('.algolia-instant-selector-results'),
+          ...document.querySelectorAll('.hits-per-page-container'),
+          ...document.querySelectorAll('.ais-ViewToggle')
+        ]
 
-          // IDs to remove style from
-          const idsToClear = [
-            'algolia-left-container',
-            'algolia-stats',
-            'algolia-sorts' // added here
-          ]
+        // IDs to remove style from
+        const idsToClear = [
+          'algolia-left-container',
+          'algolia-stats',
+          'algolia-sorts' // added here
+        ]
 
-          // Remove style attributes from classes
-          elementsToClear.forEach(el => el.removeAttribute('style'))
+        // Remove style attributes from classes
+        elementsToClear.forEach(el => el.removeAttribute('style'))
 
-          // Remove style attributes from IDs
-          idsToClear.forEach(id => {
-            const el = document.getElementById(id)
-            if (el) el.removeAttribute('style')
-          })
+        // Remove style attributes from IDs
+        idsToClear.forEach(id => {
+          const el = document.getElementById(id)
+          if (el) el.removeAttribute('style')
+        })
 
-          // Show the search box
-          const searchBox = document.querySelector('.ais-SearchBox')
-          if (searchBox) searchBox.style.display = ''
+        // Show the search box
+        const searchBox = document.querySelector('.ais-SearchBox')
+        if (searchBox) searchBox.style.display = ''
 
-          console.log('✅ Removed style attributes and showed search box after hits loaded.')
-        } else {
-          setTimeout(checkHitsComplete, 200)
-        }
+        console.log('✅ Removed style attributes and showed search box.')
       }
 
-      checkHitsComplete()
+      // ✅ Mobile: wait for hits to complete
+      if (isMobile) {
+        const checkHitsComplete = () => {
+          const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
+          if (hits.length > 0) {
+            executeCleanup()
+          } else {
+            setTimeout(checkHitsComplete, 200)
+          }
+        }
+        checkHitsComplete()
+      }
+
+      // ✅ Desktop: execute as soon as elements exist (fast)
+      else {
+        const observer = new MutationObserver(() => {
+          const hitsList = document.querySelector('.ais-Hits-list')
+          if (hitsList) {
+            executeCleanup()
+            observer.disconnect()
+          }
+        })
+
+        observer.observe(document.body, { childList: true, subtree: true })
+      }
     }
+
   })()
 
   // 🧹 Clear PA Products When Filtered (ignore initial render)
