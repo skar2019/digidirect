@@ -1718,10 +1718,18 @@ window.addEventListener('load', () => {
       const checkHitsComplete = () => {
         const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
         const selectorResults = document.querySelectorAll('.algolia-instant-selector-results')
+        const leftContainer = document.getElementById('algolia-left-container')
+        const statsContainer = document.getElementById('algolia-stats')
 
         if (hits.length > 0) {
+          // Remove style from selector results
           selectorResults.forEach(el => el.removeAttribute('style'))
-          console.log('✅ Removed style attribute from .algolia-instant-selector-results after all hits loaded.')
+
+          // Remove style from specific divs
+          if (leftContainer) leftContainer.removeAttribute('style')
+          if (statsContainer) statsContainer.removeAttribute('style')
+
+          console.log('✅ Removed style attributes after all hits loaded.')
         } else {
           setTimeout(checkHitsComplete, 200)
         }
