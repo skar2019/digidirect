@@ -421,7 +421,7 @@ define([
                             ).style.display = 'block';
                         }
                         return items.map(function (item) {
-                            console.log(item);
+                            //console.log(item);
                             item.__indexName = search.helper.lastResults.index;
                             item = transformHit(item, algoliaConfig.priceKey, search.helper);
                             // FIXME: transformHit is a global
@@ -885,7 +885,7 @@ define([
          */
         setupWrapper(templateProcessor) {
             const div = document.createElement('div');
-            $(div).addClass('algolia-instant-results-wrapper').css('min-height', '500px');
+            $(div).addClass('algolia-instant-results-wrapper');
 
             $(algoliaConfig.instant.selector).addClass(
                 'algolia-instant-replaced-content'
@@ -1494,7 +1494,7 @@ window.addEventListener('load', () => {
   // Helper: update .pa-product classes based on view mode
   const updateProductClasses = () => {
     const products = document.querySelectorAll('.pa-product')
-    if (!products.length) return // nothing yet — skip
+    if (!products.length) return
     if (body.classList.contains('list-view')) {
       products.forEach(p => p.classList.add('list-view-col'))
     } else {
@@ -1508,7 +1508,7 @@ window.addEventListener('load', () => {
     if (products.length) {
       updateProductClasses()
     } else {
-      setTimeout(waitForProducts, 200) // check again every 200ms
+      setTimeout(waitForProducts, 200)
     }
   }
 
@@ -1529,7 +1529,6 @@ window.addEventListener('load', () => {
   toggleButtons.forEach(button => {
     button.addEventListener('click', () => {
       const view = button.getAttribute('data-view')
-
       toggleButtons.forEach(btn => btn.classList.remove('is-active'))
       button.classList.add('is-active')
 
@@ -1539,23 +1538,21 @@ window.addEventListener('load', () => {
         body.classList.remove('list-view')
       }
 
-      // 3. Save view choice
+      // Save and update
       localStorage.setItem('viewMode', view)
-
-      // 4. Update .pa-product layout
       updateProductClasses()
     })
   })
 
-  // ------------------------------
+  // ---------------------------------------------------------------------------
   // Robust vanilla JS: move elements + robust instant-search-bar reposition
-  // ------------------------------
+  // ---------------------------------------------------------------------------
   ;(function () {
     const SEARCH_BAR_ID = '#instant-search-bar'
     const FACETS_CONTAINER_ID = '#instant-search-facets-container'
     const RECHECK_DELAY = 200
     const DESKTOP_ONLY = false
-    const MAX_RETRIES = 300 // safety cap to avoid infinite loops
+    const MAX_RETRIES = 300
 
     const isMobile = () => window.innerWidth <= 768
     const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
@@ -1602,7 +1599,6 @@ window.addEventListener('load', () => {
       const leftContainer = document.querySelector('#algolia-left-container')
 
       if (!facets || !leftContainer) return
-
       const mobile = isMobile()
 
       if (stats) {
@@ -1656,7 +1652,6 @@ window.addEventListener('load', () => {
 
     function startRepositionWatcher(callback) {
       if (DESKTOP_ONLY && !isDesktop()) return
-
       hideSearchBar()
 
       let observerStarted = false
@@ -1685,7 +1680,7 @@ window.addEventListener('load', () => {
             })
             observer.observe(document.body, { childList: true, subtree: true })
 
-            // ✅ Call callback once everything is ready
+            // ✅ Call callback once layout is ready
             if (typeof callback === 'function') callback()
           }
         } else {
@@ -1693,7 +1688,7 @@ window.addEventListener('load', () => {
           if (retries < MAX_RETRIES) {
             setTimeout(ensurePositioned, RECHECK_DELAY)
           } else {
-            console.warn('instant-search-bar repositioning retries exceeded, stopping further retries.')
+            console.warn('instant-search-bar repositioning retries exceeded.')
           }
         }
       }
@@ -1708,9 +1703,7 @@ window.addEventListener('load', () => {
       let resizeTimer = null
       window.addEventListener('resize', function () {
         if (resizeTimer) clearTimeout(resizeTimer)
-        resizeTimer = setTimeout(() => {
-          moveElements()
-        }, 120)
+        resizeTimer = setTimeout(() => moveElements(), 120)
       })
     }
 
@@ -1720,12 +1713,21 @@ window.addEventListener('load', () => {
       boot(callbackAfterAll)
     }
 
-    // ✅ Callback function to run after everything else completes
+    // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      document.querySelectorAll('.algolia-instant-selector-results').forEach(el => {
-        el.removeAttribute('style')
-      })
-      console.log('✅ Removed style attribute from .algolia-instant-selector-results after all tasks.')
+      const checkHitsComplete = () => {
+        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
+        const selectorResults = document.querySelectorAll('.algolia-instant-selector-results')
+
+        if (hits.length > 0) {
+          selectorResults.forEach(el => el.removeAttribute('style'))
+          console.log('✅ Removed style attribute from .algolia-instant-selector-results after all hits loaded.')
+        } else {
+          setTimeout(checkHitsComplete, 200)
+        }
+      }
+
+      checkHitsComplete()
     }
   })()
 
