@@ -97,23 +97,3 @@
         </div>
     </div>
 </script>
-
-<script type="text/javascript">
-    require(['jquery'], function($){
-        var loader = $('#plp-custom-loader');
-
-        // Show loader immediately
-        loader.show();
-
-        // Hide loader after page fully loads
-        $(window).on('load', function() {
-            loader.hide();
-        });
-
-        // Optional: hide loader after AJAX requests (filters, sorting, pagination)
-        $(document).ajaxStop(function() {
-            loader.hide();
-        });
-    });
-</script>
-
