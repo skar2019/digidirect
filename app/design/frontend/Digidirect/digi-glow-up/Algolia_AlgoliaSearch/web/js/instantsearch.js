@@ -1713,54 +1713,63 @@ define([
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
       const executeCleanup = () => {
+        // Clear inline styles for these elements
         const elementsToClear = [
           ...document.querySelectorAll('.algolia-instant-selector-results'),
           ...document.querySelectorAll('.hits-per-page-container'),
           ...document.querySelectorAll('.ais-ViewToggle')
-        ]
-        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts']
+        ];
+        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts'];
 
-        elementsToClear.forEach(el => el.removeAttribute('style'))
+        elementsToClear.forEach(el => el.removeAttribute('style'));
         idsToClear.forEach(id => {
-          const el = document.getElementById(id)
-          if (el) el.removeAttribute('style')
-        })
+          const el = document.getElementById(id);
+          if (el) el.removeAttribute('style');
+        });
 
-        const searchBox = document.querySelector('.ais-SearchBox')
-        if (searchBox) searchBox.style.display = 'block' // ✅ explicitly block
+        // Force the search box to display
+        const searchBox = document.querySelector('.ais-SearchBox');
+        if (searchBox) searchBox.style.display = 'block'; // ✅ explicitly block
 
-        console.log('✅ Removed style attributes and showed search box.')
-        if (loader) loader.style.display = 'none' // ✅ hide loader only now
-      }
+        console.log('✅ Removed style attributes and showed search box.');
 
+        // Hide loader
+        if (loader) loader.style.display = 'none';
+      };
+
+      // Mobile: wait until hits are loaded
       const checkMobileHits = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches
-        if (!isMobile) return
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
 
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
-        if (hits.length > 0) executeCleanup()
-        else setTimeout(checkMobileHits, 200)
-      }
+        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
+        if (hits.length > 0) {
+          executeCleanup();
+        } else {
+          setTimeout(checkMobileHits, 200);
+        }
+      };
 
+      // Desktop: execute as soon as .ais-Hits-list exists
       const observeDesktopHits = () => {
         const observer = new MutationObserver(() => {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches
-          if (isMobile) return // Skip cleanup on mobile
+          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          if (isMobile) return; // Skip on mobile
 
-          const hitsList = document.querySelector('.ais-Hits-list')
+          const hitsList = document.querySelector('.ais-Hits-list');
           if (hitsList) {
-            executeCleanup()
-            observer.disconnect()
+            executeCleanup();
+            observer.disconnect();
           }
-        })
-        observer.observe(document.body, { childList: true, subtree: true })
-      }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      };
 
       // Start logic
       if (window.matchMedia('(max-width: 768px)').matches) {
-        checkMobileHits()
+        checkMobileHits();
       } else {
-        observeDesktopHits()
+        observeDesktopHits();
       }
     }
 
