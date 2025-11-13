@@ -1717,19 +1717,30 @@ window.addEventListener('load', () => {
     function callbackAfterAll() {
       const checkHitsComplete = () => {
         const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
-        const selectorResults = document.querySelectorAll('.algolia-instant-selector-results')
-        const leftContainer = document.getElementById('algolia-left-container')
-        const statsContainer = document.getElementById('algolia-stats')
 
         if (hits.length > 0) {
-          // Remove style from selector results
-          selectorResults.forEach(el => el.removeAttribute('style'))
+          // Elements to remove style from
+          const elementsToClear = [
+            ...document.querySelectorAll('.algolia-instant-selector-results'),
+            ...document.querySelectorAll('.hits-per-page-container'),
+            ...document.querySelectorAll('.ais-ViewToggle')
+          ]
 
-          // Remove style from specific divs
-          if (leftContainer) leftContainer.removeAttribute('style')
-          if (statsContainer) statsContainer.removeAttribute('style')
+          const idsToClear = [
+            'algolia-left-container',
+            'algolia-stats'
+          ]
 
-          console.log('✅ Removed style attributes after all hits loaded.')
+          // Remove style attributes from classes
+          elementsToClear.forEach(el => el.removeAttribute('style'))
+
+          // Remove style attributes from IDs
+          idsToClear.forEach(id => {
+            const el = document.getElementById(id)
+            if (el) el.removeAttribute('style')
+          })
+
+          console.log('✅ Removed style attributes from all target elements after hits loaded.')
         } else {
           setTimeout(checkHitsComplete, 200)
         }

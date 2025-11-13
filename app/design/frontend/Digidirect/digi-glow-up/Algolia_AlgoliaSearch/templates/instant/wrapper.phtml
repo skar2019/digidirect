@@ -41,13 +41,13 @@
                                     <div class="pull-left" id="algolia-sorts"></div>
                                 </div>
                                 <div class="algolia-clearfix"></div>
-                                <div class="hits-per-page-container">
+                                <div class="hits-per-page-container" style="display: none;">
                                     <div class="sort-by-label pull-left">
                                         <?php echo $block->escapeHtml(__('Show Items Per Page :')); ?> &nbsp;
                                     </div>
                                     <div id="hits-per-page"></div>
                                 </div>
-                                <div class="ais-ViewToggle">
+                                <div class="ais-ViewToggle" style="display: none;">
                                     <button class="ais-ViewToggle-button" data-view="grid">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <mask id="mask0_8784_75355" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
@@ -97,3 +97,39 @@
         </div>
     </div>
 </script>
+
+<script type="text/javascript">
+    require(['jquery', 'mage/loader'], function ($) {
+        // Append Magento global loader to body
+        var loader = $('<div/>').loader().appendTo('body');
+
+        // Function to show loader
+        function showLoader() {
+            loader.loader('show');
+        }
+
+        // Function to hide loader
+        function hideLoader() {
+            loader.loader('hide');
+        }
+
+        // === Show loader while page is loading ===
+        $(document).ready(function() {
+            showLoader(); // show immediately
+        });
+
+        $(window).on('load', function() {
+            hideLoader(); // hide once all content is loaded
+        });
+
+        // === Show loader for AJAX product loads (filters, pagination, sorting) ===
+        $(document).ajaxStart(function() {
+            showLoader();
+        });
+
+        $(document).ajaxStop(function() {
+            hideLoader();
+        });
+    });
+</script>
+
