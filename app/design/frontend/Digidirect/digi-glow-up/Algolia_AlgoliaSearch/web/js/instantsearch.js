@@ -885,7 +885,7 @@ define([
          */
         setupWrapper(templateProcessor) {
             const div = document.createElement('div');
-            $(div).addClass('algolia-instant-results-wrapper');
+            $(div).addClass('algolia-instant-results-wrapper').css('min-width', '500px');
 
             $(algoliaConfig.instant.selector).addClass(
                 'algolia-instant-replaced-content'
@@ -893,7 +893,7 @@ define([
             $(algoliaConfig.instant.selector).wrap(div);
 
             $('.algolia-instant-results-wrapper').append(
-                '<div class="algolia-instant-selector-results"></div>'
+                '<div class="algolia-instant-selector-results" style="display: none;"></div>'
             );
 
             const template = $('#instant_wrapper_template').html();
@@ -1781,6 +1781,9 @@ window.addEventListener('load', () => {
   }, 300)
 })()
 
+document.querySelectorAll('.algolia-instant-selector-results').forEach(el => {
+    el.removeAttribute('style')
+})
 
   //Test Fix Search Mobile
   /*const input = document.querySelector('.aa-Input');
