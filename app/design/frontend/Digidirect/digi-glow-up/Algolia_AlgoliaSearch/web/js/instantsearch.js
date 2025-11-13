@@ -1710,7 +1710,7 @@ define([
         boot(callbackAfterAll)
       }
 
-      // ✅ Callback after everything is done (layout, search bar, and hits)
+    // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
       const executeCleanup = () => {
         const elementsToClear = [
@@ -1727,7 +1727,7 @@ define([
         })
 
         const searchBox = document.querySelector('.ais-SearchBox')
-        if (searchBox) searchBox.style.display = ''
+        if (searchBox) searchBox.style.display = 'block' // ✅ explicitly block
 
         console.log('✅ Removed style attributes and showed search box.')
         if (loader) loader.style.display = 'none' // ✅ hide loader only now
