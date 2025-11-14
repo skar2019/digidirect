@@ -1712,25 +1712,40 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
+
+      // Force .ais-SearchBox visible
       const ensureSearchBoxVisible = () => {
-        const searchBox = document.querySelector('.ais-SearchBox');
-        if (searchBox) {
-          searchBox.style.display = 'block';
-        } else {
-          // Observe DOM for search box creation
-          const observer = new MutationObserver((mutations, obs) => {
-            const sb = document.querySelector('.ais-SearchBox');
-            if (sb) {
-              sb.style.display = 'block';
-              obs.disconnect();
-            }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
-        }
+        const forceShow = (el) => {
+          el.style.setProperty('display', 'block', 'important');
+        };
+
+        // Try to get search box immediately
+        let searchBox = document.querySelector('.ais-SearchBox');
+        if (searchBox) forceShow(searchBox);
+
+        // MutationObserver for dynamically added search box
+        const observer = new MutationObserver((mutations, obs) => {
+          searchBox = document.querySelector('.ais-SearchBox');
+          if (searchBox) {
+            forceShow(searchBox);
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Backup: force show every 200ms until found
+        const interval = setInterval(() => {
+          searchBox = document.querySelector('.ais-SearchBox');
+          if (searchBox) {
+            forceShow(searchBox);
+            clearInterval(interval);
+          }
+        }, 200);
       };
 
+      // Execute cleanup after hits load
       const executeCleanup = () => {
-        // Clear inline styles for these elements
+        // Clear inline styles
         const elementsToClear = [
           ...document.querySelectorAll('.algolia-instant-selector-results'),
           ...document.querySelectorAll('.hits-per-page-container'),
@@ -1750,7 +1765,16 @@ define([
         console.log('✅ Removed style attributes and showed search box.');
 
         // Hide loader
-        if (loader) loader.style.display = 'none';
+        if (window.loader) loader.style.display = 'none';
+      };
+
+      // Show left container immediately on desktop
+      const showLeftContainerDesktop = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) {
+          const leftContainer = document.getElementById('algolia-left-container');
+          if (leftContainer) leftContainer.style.display = 'block';
+        }
       };
 
       // Mobile: wait until hits are loaded
@@ -1766,11 +1790,11 @@ define([
         }
       };
 
-      // Desktop: execute as soon as .ais-Hits-list exists
+      // Desktop: observe hits list
       const observeDesktopHits = () => {
         const observer = new MutationObserver(() => {
           const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return; // Skip on mobile
+          if (isMobile) return;
 
           const hitsList = document.querySelector('.ais-Hits-list');
           if (hitsList) {
@@ -1781,12 +1805,17 @@ define([
         observer.observe(document.body, { childList: true, subtree: true });
       };
 
-      // Start logic
+      // === Start logic ===
+      showLeftContainerDesktop(); // Show left container immediately on desktop
+
       if (window.matchMedia('(max-width: 768px)').matches) {
         checkMobileHits();
       } else {
         observeDesktopHits();
       }
+
+      // Force search box on start
+      ensureSearchBoxVisible();
     }
 
     })()
