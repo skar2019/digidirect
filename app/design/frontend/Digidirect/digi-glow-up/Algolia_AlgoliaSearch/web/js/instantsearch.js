@@ -1712,32 +1712,31 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      const loader = window.loader || document.getElementById('plp-loader');
-
-      // Force search box visible
-      const forceSearchBox = () => {
+      const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
         if (searchBox) {
-          searchBox.style.setProperty('display', 'block', 'important');
+          searchBox.style.display = 'block';
+        } else {
+          // Observe DOM for search box creation
+          const observer = new MutationObserver((mutations, obs) => {
+            const sb = document.querySelector('.ais-SearchBox');
+            if (sb) {
+              sb.style.display = 'block';
+              obs.disconnect();
+            }
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
         }
       };
 
-      // Show left container immediately on desktop
-      const showLeftContainerDesktop = () => {
-        if (!window.matchMedia('(max-width: 768px)').matches) {
-          const leftContainer = document.getElementById('algolia-left-container');
-          if (leftContainer) leftContainer.style.display = 'block';
-        }
-      };
-
-      // Cleanup function: remove inline styles and hide loader
       const executeCleanup = () => {
+        // Clear inline styles for these elements
         const elementsToClear = [
           ...document.querySelectorAll('.algolia-instant-selector-results'),
           ...document.querySelectorAll('.hits-per-page-container'),
           ...document.querySelectorAll('.ais-ViewToggle')
         ];
-        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts'];
+        const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
         elementsToClear.forEach(el => el.removeAttribute('style'));
         idsToClear.forEach(id => {
@@ -1745,28 +1744,49 @@ define([
           if (el) el.removeAttribute('style');
         });
 
-        forceSearchBox();
+        // Ensure search box is visible
+        ensureSearchBoxVisible();
+
+        console.log('✅ Removed style attributes and showed search box.');
 
         // Hide loader
         if (loader) loader.style.display = 'none';
-        console.log('✅ Cleanup done, loader hidden.');
       };
 
-      // Wait for hits to appear (mobile or desktop)
-      const waitForHits = () => {
+      // Mobile: wait until hits are loaded
+      const checkMobileHits = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
+
         const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
         if (hits.length > 0) {
           executeCleanup();
         } else {
-          // Retry after short delay
-          setTimeout(waitForHits, 200);
+          setTimeout(checkMobileHits, 200);
         }
       };
 
-      // === Start logic ===
-      forceSearchBox();
-      showLeftContainerDesktop();
-      waitForHits();
+      // Desktop: execute as soon as .ais-Hits-list exists
+      const observeDesktopHits = () => {
+        const observer = new MutationObserver(() => {
+          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          if (isMobile) return; // Skip on mobile
+
+          const hitsList = document.querySelector('.ais-Hits-list');
+          if (hitsList) {
+            executeCleanup();
+            observer.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      };
+
+      // Start logic
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        checkMobileHits();
+      } else {
+        observeDesktopHits();
+      }
     }
 
     })()
