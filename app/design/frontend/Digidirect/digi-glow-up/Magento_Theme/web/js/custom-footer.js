@@ -82,7 +82,7 @@ require(['jquery'], function($) {
             // Wait for smooth scroll to complete before focusing
             setTimeout(function() {
                 document.querySelector('.aa-Input').focus();
-            }, 300); // Adjust timing as needed (300-800ms typical)
+            }, 500); // Adjust timing as needed (300-800ms typical)
         });
 
         $('.showcart-footer').on('click', function(){
