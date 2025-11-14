@@ -1712,36 +1712,26 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      // Reference to loader
       const loader = window.loader || document.getElementById('plp-loader');
 
-      // Force .ais-SearchBox visible
-      const ensureSearchBoxVisible = () => {
-        const forceShow = (el) => el.style.setProperty('display', 'block', 'important');
-
-        // Interval to check until the element exists
-        const interval = setInterval(() => {
-          const searchBox = document.querySelector('.ais-SearchBox');
-          if (searchBox) {
-            forceShow(searchBox);
-            clearInterval(interval);
-          }
-        }, 200);
-
-        // MutationObserver as a safety net
-        const observer = new MutationObserver((mutations, obs) => {
-          const searchBox = document.querySelector('.ais-SearchBox');
-          if (searchBox) {
-            forceShow(searchBox);
-            obs.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+      // Force search box visible
+      const forceSearchBox = () => {
+        const searchBox = document.querySelector('.ais-SearchBox');
+        if (searchBox) {
+          searchBox.style.setProperty('display', 'block', 'important');
+        }
       };
 
-      // Execute cleanup after hits load
+      // Show left container immediately on desktop
+      const showLeftContainerDesktop = () => {
+        if (!window.matchMedia('(max-width: 768px)').matches) {
+          const leftContainer = document.getElementById('algolia-left-container');
+          if (leftContainer) leftContainer.style.display = 'block';
+        }
+      };
+
+      // Cleanup function: remove inline styles and hide loader
       const executeCleanup = () => {
-        // Clear inline styles
         const elementsToClear = [
           ...document.querySelectorAll('.algolia-instant-selector-results'),
           ...document.querySelectorAll('.hits-per-page-container'),
@@ -1755,62 +1745,28 @@ define([
           if (el) el.removeAttribute('style');
         });
 
-        // Force search box visible
-        ensureSearchBoxVisible();
+        forceSearchBox();
 
         // Hide loader
         if (loader) loader.style.display = 'none';
         console.log('✅ Cleanup done, loader hidden.');
       };
 
-      // Show left container immediately on desktop
-      const showLeftContainerDesktop = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) {
-          const leftContainer = document.getElementById('algolia-left-container');
-          if (leftContainer) leftContainer.style.display = 'block';
-        }
-      };
-
-      // Wait for hits on mobile
-      const checkMobileHits = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) return;
-
+      // Wait for hits to appear (mobile or desktop)
+      const waitForHits = () => {
         const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
         if (hits.length > 0) {
           executeCleanup();
         } else {
-          setTimeout(checkMobileHits, 200);
+          // Retry after short delay
+          setTimeout(waitForHits, 200);
         }
       };
 
-      // Observe hits on desktop
-      const observeDesktopHits = () => {
-        const observer = new MutationObserver(() => {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return;
-
-          const hitsList = document.querySelector('.ais-Hits-list');
-          if (hitsList) {
-            executeCleanup();
-            observer.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-      };
-
       // === Start logic ===
-      showLeftContainerDesktop(); // show desktop left container
-
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        checkMobileHits();
-      } else {
-        observeDesktopHits();
-      }
-
-      // Start forcing search box display
-      ensureSearchBoxVisible();
+      forceSearchBox();
+      showLeftContainerDesktop();
+      waitForHits();
     }
 
     })()
