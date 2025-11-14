@@ -82,6 +82,9 @@ require(['jquery'], function ($) {
     } else if (currentUrl.includes("/digiseconds/refurb")) {
         urlPath = "/digiseconds/refurb";
         //paWidgetId = "dc1541bc-acc3-ed11-aae9-02dca44cceec";
+    } else {
+        urlPath = "/plp-products-pa";
+        paWidgetId = "aeb2401a-2dcd-ed11-aae9-02dca44cceec";
     }
     
     var result;
@@ -346,7 +349,9 @@ require(['jquery'], function ($) {
                     '</div>' + sponsoredLabel
                 '</li>';
             
-            $(prependTo).prepend(paProductItem);
+            if (urlPath != "/plp-products-pa") {
+                $(prependTo).prepend(paProductItem);   
+            }
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
@@ -674,20 +679,21 @@ require(['jquery'], function ($) {
         setTimeout(() => observer.disconnect(), 10000)
     })()
     
-    const observer = new MutationObserver((mutations) => { 
-        if ($(".ais-Hits-list").length) {
-            if (paWidgetId != "") {
-                productTile(paWidgetId, '.ais-Hits-list', false);
+    if (urlPath != "/plp-products-pa") {
+        const observer = new MutationObserver((mutations) => { 
+            if ($(".ais-Hits-list").length) {
+                if (paWidgetId != "") {
+                    productTile(paWidgetId, '.ais-Hits-list', false);
+                }
+                stopMutationObserver();
             }
-            stopMutationObserver();
+        }); 
+        const config = { attributes: true, childList: true, subtree: true }; 
+        observer.observe(document.body, config); 
+
+        function stopMutationObserver() {
+            observer.disconnect(); 
         }
-    }); 
-    
-    const config = { attributes: true, childList: true, subtree: true }; 
-    observer.observe(document.body, config); 
-    
-    function stopMutationObserver() {
-        observer.disconnect(); 
     }
     
     $(document).ready(function(){                                               

@@ -9,7 +9,7 @@
     <div id="algolia_instant_selector"
          class="<?php echo $block->escapeHtml($block->hasFacets() ? ' with-facets' : ''); ?>">
         <div class="row">
-            <div class="col-md-3" id="algolia-left-container">
+            <div class="col-md-3" id="algolia-left-container" style="display: none;">
                 <div id="refine-toggle" class="visible-xs visible-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
 <path d="M18.0272 3.58789V5.51289C18.0272 6.21289 17.5897 7.08789 17.1522 7.52539L13.3897 10.8504C12.8647 11.2879 12.5147 12.1629 12.5147 12.8629V16.6254C12.5147 17.1504 12.1647 17.8504 11.7272 18.1129L10.5022 18.9004C9.36472 19.6004 7.78972 18.8129 7.78972 17.4129V12.7754C7.78972 12.1629 7.43972 11.3754 7.08972 10.9379L6.67847 10.5091C6.40722 10.2204 6.35472 9.78289 6.57347 9.44164L11.0535 2.24914C11.211 1.99539 11.491 1.83789 11.7972 1.83789H16.2772C17.2397 1.83789 18.0272 2.62539 18.0272 3.58789Z" fill="white"/>
@@ -33,21 +33,21 @@
                     <div class="col-md-12">
                         <div itemscope itemtype="http://schema.org/ItemList" class="hits">
                             <div class="algolia-infos">
-                                <div class="pull-left" id="algolia-stats"></div>
+                                <div class="pull-left" id="algolia-stats" style="display: none;"></div>
                                 <div class="pull-right">
                                     <div class="sort-by-label pull-left">
                                         <?php echo $block->escapeHtml(__('Sort By :')); ?> &nbsp;
                                     </div>
-                                    <div class="pull-left" id="algolia-sorts"></div>
+                                    <div class="pull-left" id="algolia-sorts" style="display: none;"></div>
                                 </div>
                                 <div class="algolia-clearfix"></div>
-                                <div class="hits-per-page-container">
+                                <div class="hits-per-page-container" style="display: none;">
                                     <div class="sort-by-label pull-left">
                                         <?php echo $block->escapeHtml(__('Show Items Per Page :')); ?> &nbsp;
                                     </div>
                                     <div id="hits-per-page"></div>
                                 </div>
-                                <div class="ais-ViewToggle">
+                                <div class="ais-ViewToggle" style="display: none;">
                                     <button class="ais-ViewToggle-button" data-view="grid">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <mask id="mask0_8784_75355" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
