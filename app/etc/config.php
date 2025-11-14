@@ -627,6 +627,7 @@ return [
         'Magento_StagingGraphQl' => 1,
         'Magento_CatalogStagingGraphQl' => 1,
         'Magento_StagingPageBuilder' => 0,
+        'Magento_Stomp' => 1,
         'Magento_CatalogPermissionsGraphQl' => 1,
         'Magento_CatalogCustomerGraphQl' => 1,
         'Magento_Support' => 1,

@@ -463,7 +463,7 @@ define([
                     $('#payment .step-title.accordion-step').text('3. Payment');
                 }
 
-            }, 600);
+            }, 800);
         },
 
         /**
