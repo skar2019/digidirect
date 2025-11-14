@@ -1712,42 +1712,31 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      // Reference to loader
-      const loader = window.loader || document.getElementById('plp-loader');
-
-      // Force .ais-SearchBox visible
       const ensureSearchBoxVisible = () => {
-        const forceShow = (el) => el.style.setProperty('display', 'block', 'important');
-
-        // Interval to check until the element exists
-        const interval = setInterval(() => {
-          const searchBox = document.querySelector('.ais-SearchBox');
-          if (searchBox) {
-            forceShow(searchBox);
-            clearInterval(interval);
-          }
-        }, 200);
-
-        // MutationObserver as a safety net
-        const observer = new MutationObserver((mutations, obs) => {
-          const searchBox = document.querySelector('.ais-SearchBox');
-          if (searchBox) {
-            forceShow(searchBox);
-            obs.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+        const searchBox = document.querySelector('.ais-SearchBox');
+        if (searchBox) {
+          searchBox.style.display = 'block';
+        } else {
+          // Observe DOM for search box creation
+          const observer = new MutationObserver((mutations, obs) => {
+            const sb = document.querySelector('.ais-SearchBox');
+            if (sb) {
+              sb.style.display = 'block';
+              obs.disconnect();
+            }
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+        }
       };
 
-      // Execute cleanup after hits load
       const executeCleanup = () => {
-        // Clear inline styles
+        // Clear inline styles for these elements
         const elementsToClear = [
           ...document.querySelectorAll('.algolia-instant-selector-results'),
           ...document.querySelectorAll('.hits-per-page-container'),
           ...document.querySelectorAll('.ais-ViewToggle')
         ];
-        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts'];
+        const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
         elementsToClear.forEach(el => el.removeAttribute('style'));
         idsToClear.forEach(id => {
@@ -1755,24 +1744,16 @@ define([
           if (el) el.removeAttribute('style');
         });
 
-        // Force search box visible
+        // Ensure search box is visible
         ensureSearchBoxVisible();
+
+        console.log('✅ Removed style attributes and showed search box.');
 
         // Hide loader
         if (loader) loader.style.display = 'none';
-        console.log('✅ Cleanup done, loader hidden.');
       };
 
-      // Show left container immediately on desktop
-      const showLeftContainerDesktop = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) {
-          const leftContainer = document.getElementById('algolia-left-container');
-          if (leftContainer) leftContainer.style.display = 'block';
-        }
-      };
-
-      // Wait for hits on mobile
+      // Mobile: wait until hits are loaded
       const checkMobileHits = () => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
@@ -1785,11 +1766,11 @@ define([
         }
       };
 
-      // Observe hits on desktop
+      // Desktop: execute as soon as .ais-Hits-list exists
       const observeDesktopHits = () => {
         const observer = new MutationObserver(() => {
           const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return;
+          if (isMobile) return; // Skip on mobile
 
           const hitsList = document.querySelector('.ais-Hits-list');
           if (hitsList) {
@@ -1800,17 +1781,12 @@ define([
         observer.observe(document.body, { childList: true, subtree: true });
       };
 
-      // === Start logic ===
-      showLeftContainerDesktop(); // show desktop left container
-
+      // Start logic
       if (window.matchMedia('(max-width: 768px)').matches) {
         checkMobileHits();
       } else {
         observeDesktopHits();
       }
-
-      // Start forcing search box display
-      ensureSearchBoxVisible();
     }
 
     })()

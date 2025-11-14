@@ -76,12 +76,8 @@ class Data extends AbstractHelper
                     $sellerTotal += $productTotal;
                 }
             }
-            
-            //Free Shipping $99
+
             if ($seller == "digiDirect") {
-                if ($sellerTotal > 98) {
-                    $standardShipping = 0;
-                }
                 $digidirectSellerCount++;
             } elseif (in_array($seller, $zeroShipping)) {
                 $nonDigidirectSellerCount++;
@@ -137,13 +133,7 @@ class Data extends AbstractHelper
                 }
             }
 
-            //Free Shipping $99
             $sellerShipping = 8.95;
-            if ($seller == "digiDirect" && $sellerTotal > 98) {
-                $sellerShipping = 0;
-            }
-            //
-            
             if (in_array($seller, $zeroShipping)) {
                 $sellerShipping = 0;
             }
@@ -190,18 +180,9 @@ class Data extends AbstractHelper
 
     public function getDigiShipping()
     {
-        $sellers = $this->getSellers();
         $standardShipping = 8.95;
-        
-        foreach($sellers as $seller){
-            $this->logger->info('getDigiShipping: ' . $seller[0] . ", " .$seller[1]);
-            if ($seller[0] == "digiDirect" && $seller[1] == 0) {
-                $standardShipping = 0;
-            }
-        }
-        
         $bulkItemSurcharge = 0;
-        if ($this->checkForBulkyItems() == true) {
+        if ($this->checkForBulkyItems()) {
             $bulkItemSurcharge = 20;
         }
         return $standardShipping + $bulkItemSurcharge;
