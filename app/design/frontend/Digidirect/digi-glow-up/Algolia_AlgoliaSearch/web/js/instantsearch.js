@@ -1487,307 +1487,364 @@ define([
 
 });
 
-window.addEventListener('load', () => {
-  const body = document.body
-  const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button')
+  const loader = document.getElementById('plp-custom-loader')
+  if (loader) loader.style.display = 'block' // Show immediately
 
-  // Helper: update .pa-product classes based on view mode
-  const updateProductClasses = () => {
-    const products = document.querySelectorAll('.pa-product')
-    if (!products.length) return
-    if (body.classList.contains('list-view')) {
-      products.forEach(p => p.classList.add('list-view-col'))
-    } else {
-      products.forEach(p => p.classList.remove('list-view-col'))
-    }
-  }
+  window.addEventListener('load', () => {
+    const body = document.body
+    const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button')
 
-  // Wait until .pa-product elements exist
-  const waitForProducts = () => {
-    const products = document.querySelectorAll('.pa-product')
-    if (products.length) {
-      updateProductClasses()
-    } else {
-      setTimeout(waitForProducts, 200)
-    }
-  }
-
-  // 1. Load saved view from localStorage
-  const savedView = localStorage.getItem('viewMode')
-  if (savedView === 'list') {
-    body.classList.add('list-view')
-    document.querySelector('[data-view="list"]').classList.add('is-active')
-  } else {
-    body.classList.remove('list-view')
-    document.querySelector('[data-view="grid"]').classList.add('is-active')
-  }
-
-  // Run once elements exist
-  waitForProducts()
-
-  // 2. Handle button clicks
-  toggleButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const view = button.getAttribute('data-view')
-      toggleButtons.forEach(btn => btn.classList.remove('is-active'))
-      button.classList.add('is-active')
-
-      if (view === 'list') {
-        body.classList.add('list-view')
+    // Helper: update .pa-product classes based on view mode
+    const updateProductClasses = () => {
+      const products = document.querySelectorAll('.pa-product')
+      if (!products.length) return
+      if (body.classList.contains('list-view')) {
+        products.forEach(p => p.classList.add('list-view-col'))
       } else {
-        body.classList.remove('list-view')
-      }
-
-      // Save and update
-      localStorage.setItem('viewMode', view)
-      updateProductClasses()
-    })
-  })
-
-  // ---------------------------------------------------------------------------
-  // Robust vanilla JS: move elements + robust instant-search-bar reposition
-  // ---------------------------------------------------------------------------
-  ;(function () {
-    const SEARCH_BAR_ID = '#instant-search-bar'
-    const FACETS_CONTAINER_ID = '#instant-search-facets-container'
-    const RECHECK_DELAY = 200
-    const DESKTOP_ONLY = false
-    const MAX_RETRIES = 300
-
-    const isMobile = () => window.innerWidth <= 768
-    const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
-
-    function hideSearchBar() {
-      const sb = document.querySelector(SEARCH_BAR_ID)
-      if (sb) sb.style.display = 'none'
-    }
-    function showSearchBar() {
-      const sb = document.querySelector(SEARCH_BAR_ID)
-      if (sb) sb.style.display = ''
-    }
-
-    function moveAndInsertSearchBar() {
-      const searchBar = document.querySelector(SEARCH_BAR_ID)
-      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
-      if (!searchBar || !facetsContainer) return false
-
-      if (searchBar.parentElement !== facetsContainer) {
-        facetsContainer.appendChild(searchBar)
-        console.log('✅ instant-search-bar moved inside instant-search-facets-container')
-      }
-
-      if (!searchBar.querySelector('.search-within-label')) {
-        const label = document.createElement('span')
-        label.className = 'search-within-label'
-        label.textContent = 'Search Within Results'
-        searchBar.insertBefore(label, searchBar.firstChild)
-        console.log('✅ Added "Search Within Results" label')
-      }
-
-      return searchBar.parentElement === facetsContainer
-    }
-
-    function moveElements() {
-      const infos = document.querySelector('.algolia-infos')
-      const refineToggle = document.querySelector('#refine-toggle')
-      const customRefinement = document.querySelector('.algolia-custom-refinement')
-      const hitsPerPage = document.querySelector('.hits-per-page-container')
-      const pagination = document.querySelector('#instant-search-pagination-container')
-      const viewToggle = document.querySelector('.ais-ViewToggle')
-      const stats = document.querySelector('#algolia-stats')
-      const facets = document.querySelector(FACETS_CONTAINER_ID)
-      const leftContainer = document.querySelector('#algolia-left-container')
-
-      if (!facets || !leftContainer) return
-      const mobile = isMobile()
-
-      if (stats) {
-        if (mobile) {
-          if (stats.nextElementSibling !== leftContainer) {
-            leftContainer.parentNode.insertBefore(stats, leftContainer)
-          }
-        } else {
-          if (stats.parentElement !== infos && infos) {
-            infos.insertBefore(stats, infos.firstChild)
-          }
-        }
-      }
-
-      if (infos && refineToggle && customRefinement) {
-        if (mobile) {
-          if (infos.parentElement !== refineToggle.parentElement) {
-            refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
-          }
-        } else {
-          if (infos.nextElementSibling !== customRefinement) {
-            customRefinement.parentNode.insertBefore(infos, customRefinement)
-          }
-        }
-      }
-
-      if (hitsPerPage && pagination && viewToggle) {
-        if (mobile) {
-          if (hitsPerPage.nextElementSibling !== pagination) {
-            pagination.parentNode.insertBefore(hitsPerPage, pagination)
-          }
-        } else {
-          if (hitsPerPage.nextElementSibling !== viewToggle) {
-            viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
-          }
-        }
-      }
-
-      if (facets && leftContainer) {
-        if (mobile) {
-          if (facets.previousElementSibling !== leftContainer) {
-            leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
-          }
-        } else {
-          if (facets.parentElement !== leftContainer) {
-            leftContainer.appendChild(facets)
-          }
-        }
+        products.forEach(p => p.classList.remove('list-view-col'))
       }
     }
 
-    function startRepositionWatcher(callback) {
-      if (DESKTOP_ONLY && !isDesktop()) return
-      hideSearchBar()
-
-      let observerStarted = false
-      let retries = 0
-
-      function ensurePositioned() {
-        try {
-          moveElements()
-        } catch (e) {
-          console.warn('moveElements error', e)
-        }
-
-        const placed = moveAndInsertSearchBar()
-        retries++
-
-        if (placed) {
-          showSearchBar()
-
-          if (!observerStarted) {
-            observerStarted = true
-            const observer = new MutationObserver(() => {
-              moveElements()
-              const stillInPlace = moveAndInsertSearchBar()
-              if (stillInPlace) showSearchBar()
-              else hideSearchBar()
-            })
-            observer.observe(document.body, { childList: true, subtree: true })
-
-            // ✅ Call callback once layout is ready
-            if (typeof callback === 'function') callback()
-          }
-        } else {
-          hideSearchBar()
-          if (retries < MAX_RETRIES) {
-            setTimeout(ensurePositioned, RECHECK_DELAY)
-          } else {
-            console.warn('instant-search-bar repositioning retries exceeded.')
-          }
-        }
+    // Wait until .pa-product elements exist
+    const waitForProducts = () => {
+      const products = document.querySelectorAll('.pa-product')
+      if (products.length) {
+        updateProductClasses()
+      } else {
+        setTimeout(waitForProducts, 200)
       }
-
-      ensurePositioned()
     }
 
-    function boot(callback) {
-      moveElements()
-      startRepositionWatcher(callback)
-
-      let resizeTimer = null
-      window.addEventListener('resize', function () {
-        if (resizeTimer) clearTimeout(resizeTimer)
-        resizeTimer = setTimeout(() => moveElements(), 120)
-      })
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll))
+    // Load saved view mode
+    const savedView = localStorage.getItem('viewMode')
+    if (savedView === 'list') {
+      body.classList.add('list-view')
+      document.querySelector('[data-view="list"]')?.classList.add('is-active')
     } else {
-      boot(callbackAfterAll)
+      body.classList.remove('list-view')
+      document.querySelector('[data-view="grid"]')?.classList.add('is-active')
     }
+
+    waitForProducts()
+
+    // Handle button clicks
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const view = button.getAttribute('data-view')
+        toggleButtons.forEach(btn => btn.classList.remove('is-active'))
+        button.classList.add('is-active')
+
+        if (view === 'list') body.classList.add('list-view')
+        else body.classList.remove('list-view')
+
+        localStorage.setItem('viewMode', view)
+        updateProductClasses()
+      })
+    })
+
+    // ---------------------------------------------------------------------
+    // Search bar reposition + layout adjustments
+    // ---------------------------------------------------------------------
+    ;(function () {
+      const SEARCH_BAR_ID = '#instant-search-bar'
+      const FACETS_CONTAINER_ID = '#instant-search-facets-container'
+      const RECHECK_DELAY = 200
+      const DESKTOP_ONLY = false
+      const MAX_RETRIES = 300
+
+      const isMobile = () => window.innerWidth <= 768
+      const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+
+      function hideSearchBar() {
+        const sb = document.querySelector(SEARCH_BAR_ID)
+        if (sb) sb.style.display = 'none'
+      }
+      function showSearchBar() {
+        const sb = document.querySelector(SEARCH_BAR_ID)
+        if (sb) sb.style.display = ''
+      }
+
+      function moveAndInsertSearchBar() {
+        const searchBar = document.querySelector(SEARCH_BAR_ID)
+        const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+        if (!searchBar || !facetsContainer) return false
+
+        if (searchBar.parentElement !== facetsContainer) {
+          facetsContainer.appendChild(searchBar)
+          console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+        }
+
+        if (!searchBar.querySelector('.search-within-label')) {
+          const label = document.createElement('span')
+          label.className = 'search-within-label'
+          label.textContent = 'Search Within Results'
+          searchBar.insertBefore(label, searchBar.firstChild)
+          console.log('✅ Added "Search Within Results" label')
+        }
+
+        return searchBar.parentElement === facetsContainer
+      }
+
+      function moveElements() {
+        const infos = document.querySelector('.algolia-infos')
+        const refineToggle = document.querySelector('#refine-toggle')
+        const customRefinement = document.querySelector('.algolia-custom-refinement')
+        const hitsPerPage = document.querySelector('.hits-per-page-container')
+        const pagination = document.querySelector('#instant-search-pagination-container')
+        const viewToggle = document.querySelector('.ais-ViewToggle')
+        const stats = document.querySelector('#algolia-stats')
+        const facets = document.querySelector(FACETS_CONTAINER_ID)
+        const leftContainer = document.querySelector('#algolia-left-container')
+
+        if (!facets || !leftContainer) return
+        const mobile = isMobile()
+
+        if (stats) {
+          if (mobile) {
+            if (stats.nextElementSibling !== leftContainer) {
+              leftContainer.parentNode.insertBefore(stats, leftContainer)
+            }
+          } else {
+            if (stats.parentElement !== infos && infos) {
+              infos.insertBefore(stats, infos.firstChild)
+            }
+          }
+        }
+
+        if (infos && refineToggle && customRefinement) {
+          if (mobile) {
+            if (infos.parentElement !== refineToggle.parentElement) {
+              refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
+            }
+          } else {
+            if (infos.nextElementSibling !== customRefinement) {
+              customRefinement.parentNode.insertBefore(infos, customRefinement)
+            }
+          }
+        }
+
+        if (hitsPerPage && pagination && viewToggle) {
+          if (mobile) {
+            if (hitsPerPage.nextElementSibling !== pagination) {
+              pagination.parentNode.insertBefore(hitsPerPage, pagination)
+            }
+          } else {
+            if (hitsPerPage.nextElementSibling !== viewToggle) {
+              viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
+            }
+          }
+        }
+
+        if (facets && leftContainer) {
+          if (mobile) {
+            if (facets.previousElementSibling !== leftContainer) {
+              leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
+            }
+          } else {
+            if (facets.parentElement !== leftContainer) {
+              leftContainer.appendChild(facets)
+            }
+          }
+        }
+      }
+
+      function startRepositionWatcher(callback) {
+        if (DESKTOP_ONLY && !isDesktop()) return
+        hideSearchBar()
+
+        let observerStarted = false
+        let retries = 0
+
+        function ensurePositioned() {
+          try {
+            moveElements()
+          } catch (e) {
+            console.warn('moveElements error', e)
+          }
+
+          const placed = moveAndInsertSearchBar()
+          retries++
+
+          if (placed) {
+            showSearchBar()
+
+            if (!observerStarted) {
+              observerStarted = true
+              const observer = new MutationObserver(() => {
+                moveElements()
+                const stillInPlace = moveAndInsertSearchBar()
+                if (stillInPlace) showSearchBar()
+                else hideSearchBar()
+              })
+              observer.observe(document.body, { childList: true, subtree: true })
+
+              // ✅ Call callback once layout is ready
+              if (typeof callback === 'function') callback()
+            }
+          } else {
+            hideSearchBar()
+            if (retries < MAX_RETRIES) {
+              setTimeout(ensurePositioned, RECHECK_DELAY)
+            } else {
+              console.warn('instant-search-bar repositioning retries exceeded.')
+            }
+          }
+        }
+
+        ensurePositioned()
+      }
+
+      function boot(callback) {
+        moveElements()
+        startRepositionWatcher(callback)
+        let resizeTimer = null
+        window.addEventListener('resize', function () {
+          if (resizeTimer) clearTimeout(resizeTimer)
+          resizeTimer = setTimeout(() => moveElements(), 120)
+        })
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll))
+      } else {
+        boot(callbackAfterAll)
+      }
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      const checkHitsComplete = () => {
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item')
+      // Reference to loader
+      const loader = window.loader || document.getElementById('plp-loader');
 
-        if (hits.length > 0) {
-          // Elements to remove style from
-          const elementsToClear = [
-            ...document.querySelectorAll('.algolia-instant-selector-results'),
-            ...document.querySelectorAll('.hits-per-page-container'),
-            ...document.querySelectorAll('.ais-ViewToggle')
-          ]
+      // Force .ais-SearchBox visible
+      const ensureSearchBoxVisible = () => {
+        const forceShow = (el) => el.style.setProperty('display', 'block', 'important');
 
-          const idsToClear = [
-            'algolia-left-container',
-            'algolia-stats'
-          ]
+        // Interval to check until the element exists
+        const interval = setInterval(() => {
+          const searchBox = document.querySelector('.ais-SearchBox');
+          if (searchBox) {
+            forceShow(searchBox);
+            clearInterval(interval);
+          }
+        }, 200);
 
-          // Remove style attributes from classes
-          elementsToClear.forEach(el => el.removeAttribute('style'))
+        // MutationObserver as a safety net
+        const observer = new MutationObserver((mutations, obs) => {
+          const searchBox = document.querySelector('.ais-SearchBox');
+          if (searchBox) {
+            forceShow(searchBox);
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      };
 
-          // Remove style attributes from IDs
-          idsToClear.forEach(id => {
-            const el = document.getElementById(id)
-            if (el) el.removeAttribute('style')
-          })
+      // Execute cleanup after hits load
+      const executeCleanup = () => {
+        // Clear inline styles
+        const elementsToClear = [
+          ...document.querySelectorAll('.algolia-instant-selector-results'),
+          ...document.querySelectorAll('.hits-per-page-container'),
+          ...document.querySelectorAll('.ais-ViewToggle')
+        ];
+        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts'];
 
-          // Show the search box
-          const searchBox = document.querySelector('.ais-SearchBox')
-          if (searchBox) searchBox.style.display = ''
+        elementsToClear.forEach(el => el.removeAttribute('style'));
+        idsToClear.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.removeAttribute('style');
+        });
 
-          console.log('✅ Removed style attributes and showed search box after hits loaded.')
-        } else {
-          setTimeout(checkHitsComplete, 200)
+        // Force search box visible
+        ensureSearchBoxVisible();
+
+        // Hide loader
+        if (loader) loader.style.display = 'none';
+        console.log('✅ Cleanup done, loader hidden.');
+      };
+
+      // Show left container immediately on desktop
+      const showLeftContainerDesktop = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) {
+          const leftContainer = document.getElementById('algolia-left-container');
+          if (leftContainer) leftContainer.style.display = 'block';
         }
+      };
+
+      // Wait for hits on mobile
+      const checkMobileHits = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
+
+        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
+        if (hits.length > 0) {
+          executeCleanup();
+        } else {
+          setTimeout(checkMobileHits, 200);
+        }
+      };
+
+      // Observe hits on desktop
+      const observeDesktopHits = () => {
+        const observer = new MutationObserver(() => {
+          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          if (isMobile) return;
+
+          const hitsList = document.querySelector('.ais-Hits-list');
+          if (hitsList) {
+            executeCleanup();
+            observer.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      };
+
+      // === Start logic ===
+      showLeftContainerDesktop(); // show desktop left container
+
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        checkMobileHits();
+      } else {
+        observeDesktopHits();
       }
 
-      checkHitsComplete()
+      // Start forcing search box display
+      ensureSearchBoxVisible();
     }
-  })()
 
-  // 🧹 Clear PA Products When Filtered (ignore initial render)
-  ;(function () {
-    const TARGET_SELECTOR = '#instant-search-results-container'
-    const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
+    })()
 
-    const waitForTarget = setInterval(() => {
-      const target = document.querySelector(TARGET_SELECTOR)
-      if (!target) return
+    // 🧹 Remove PA products after filter
+    ;(function () {
+      const TARGET_SELECTOR = '#instant-search-results-container'
+      const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
 
-      clearInterval(waitForTarget)
+      const waitForTarget = setInterval(() => {
+        const target = document.querySelector(TARGET_SELECTOR)
+        if (!target) return
 
-      let isFirstRender = true
-      let timeout
+        clearInterval(waitForTarget)
+        let isFirstRender = true
+        let timeout
 
-      const observer = new MutationObserver(() => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-          if (isFirstRender) {
-            isFirstRender = false
-            return
-          }
+        const observer = new MutationObserver(() => {
+          clearTimeout(timeout)
+          timeout = setTimeout(() => {
+            if (isFirstRender) {
+              isFirstRender = false
+              return
+            }
 
-          const products = document.querySelectorAll(PRODUCT_SELECTOR)
-          if (products.length > 0) {
-            products.forEach((el) => el.remove())
-            console.log('🧹 PA products removed after filter change.')
-          }
-        }, 200)
-      })
+            const products = document.querySelectorAll(PRODUCT_SELECTOR)
+            if (products.length > 0) {
+              products.forEach(el => el.remove())
+              console.log('🧹 PA products removed after filter change.')
+            }
+          }, 200)
+        })
 
-      observer.observe(target, {
-        childList: true,
-        subtree: true,
-      })
-    }, 300)
-  })()
-})
+        observer.observe(target, { childList: true, subtree: true })
+      }, 300)
+    })()
+  })
