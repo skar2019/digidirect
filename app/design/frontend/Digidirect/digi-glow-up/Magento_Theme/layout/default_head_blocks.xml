@@ -5,8 +5,8 @@
         <css src="css/styles-l.css"/>
         <link src="https://fonts.googleapis.com" src_type="url" rel="preconnect"/>
         <link src="https://fonts.gstatic.com" src_type="url" rel="preconnect"/>
-        <link src="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-              src_type="url"
-              rel="stylesheet"/>
+<!--        <link src="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"-->
+<!--              src_type="url"-->
+<!--              rel="stylesheet"/>-->
     </head>
 </page>
