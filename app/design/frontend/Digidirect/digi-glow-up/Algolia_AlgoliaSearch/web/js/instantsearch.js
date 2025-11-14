@@ -1712,35 +1712,31 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
+      // Reference to loader
+      const loader = window.loader || document.getElementById('plp-loader');
 
       // Force .ais-SearchBox visible
       const ensureSearchBoxVisible = () => {
-        const forceShow = (el) => {
-          el.style.setProperty('display', 'block', 'important');
-        };
+        const forceShow = (el) => el.style.setProperty('display', 'block', 'important');
 
-        // Try to get search box immediately
-        let searchBox = document.querySelector('.ais-SearchBox');
-        if (searchBox) forceShow(searchBox);
+        // Interval to check until the element exists
+        const interval = setInterval(() => {
+          const searchBox = document.querySelector('.ais-SearchBox');
+          if (searchBox) {
+            forceShow(searchBox);
+            clearInterval(interval);
+          }
+        }, 200);
 
-        // MutationObserver for dynamically added search box
+        // MutationObserver as a safety net
         const observer = new MutationObserver((mutations, obs) => {
-          searchBox = document.querySelector('.ais-SearchBox');
+          const searchBox = document.querySelector('.ais-SearchBox');
           if (searchBox) {
             forceShow(searchBox);
             obs.disconnect();
           }
         });
         observer.observe(document.body, { childList: true, subtree: true });
-
-        // Backup: force show every 200ms until found
-        const interval = setInterval(() => {
-          searchBox = document.querySelector('.ais-SearchBox');
-          if (searchBox) {
-            forceShow(searchBox);
-            clearInterval(interval);
-          }
-        }, 200);
       };
 
       // Execute cleanup after hits load
@@ -1759,13 +1755,12 @@ define([
           if (el) el.removeAttribute('style');
         });
 
-        // Ensure search box is visible
+        // Force search box visible
         ensureSearchBoxVisible();
 
-        console.log('✅ Removed style attributes and showed search box.');
-
         // Hide loader
-        if (window.loader) loader.style.display = 'none';
+        if (loader) loader.style.display = 'none';
+        console.log('✅ Cleanup done, loader hidden.');
       };
 
       // Show left container immediately on desktop
@@ -1777,7 +1772,7 @@ define([
         }
       };
 
-      // Mobile: wait until hits are loaded
+      // Wait for hits on mobile
       const checkMobileHits = () => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
@@ -1790,7 +1785,7 @@ define([
         }
       };
 
-      // Desktop: observe hits list
+      // Observe hits on desktop
       const observeDesktopHits = () => {
         const observer = new MutationObserver(() => {
           const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -1806,7 +1801,7 @@ define([
       };
 
       // === Start logic ===
-      showLeftContainerDesktop(); // Show left container immediately on desktop
+      showLeftContainerDesktop(); // show desktop left container
 
       if (window.matchMedia('(max-width: 768px)').matches) {
         checkMobileHits();
@@ -1814,7 +1809,7 @@ define([
         observeDesktopHits();
       }
 
-      // Force search box on start
+      // Start forcing search box display
       ensureSearchBoxVisible();
     }
 
