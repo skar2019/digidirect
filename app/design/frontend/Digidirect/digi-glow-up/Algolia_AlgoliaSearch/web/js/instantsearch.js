@@ -1736,7 +1736,7 @@ define([
           ...document.querySelectorAll('.hits-per-page-container'),
           ...document.querySelectorAll('.ais-ViewToggle')
         ];
-        const idsToClear = ['algolia-left-container', 'algolia-stats', 'algolia-sorts'];
+        const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
         elementsToClear.forEach(el => el.removeAttribute('style'));
         idsToClear.forEach(id => {
