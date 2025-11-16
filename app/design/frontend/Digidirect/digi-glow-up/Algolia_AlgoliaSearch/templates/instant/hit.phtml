@@ -106,7 +106,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                         {{/<?php echo $maxVar; ?>}}
                             <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                 {{#hasCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
+                                    <div class="price-wrapper black-friday"> 
                                         <span class="price-container">
                                             {{#defaultOriginalPrice}}
                                                 <span class="price">
@@ -124,7 +124,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     </div>
                                 {{/hasCustomFinalPrice}}
                                 {{#hasNoCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
+                                    <div class="price-wrapper black-friday"> 
                                         <span class="price-container">
                                             <span class="price"></span>
                                         </span>
@@ -260,7 +260,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             {{/<?php echo $maxVar; ?>}}
                                 <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     {{#hasCustomFinalPrice}}
-                                        <div class="price-wrapper"> 
+                                        <div class="price-wrapper black-friday"> 
                                             <div>  
                                                 <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div>
                                                 <span class="after_special custom_final_price black-friday">{{customFinalPrice}}</span>
@@ -278,7 +278,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                         </div>
                                     {{/hasCustomFinalPrice}}
                                     {{#hasNoCustomFinalPrice}}
-                                        <div class="price-wrapper"> 
+                                        <div class="price-wrapper black-friday"> 
                                             <span class="price-container">
                                                 <span class="price"></span>
                                             </span>
