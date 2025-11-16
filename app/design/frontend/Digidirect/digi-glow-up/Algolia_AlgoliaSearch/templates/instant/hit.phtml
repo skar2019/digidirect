@@ -23,7 +23,8 @@ $seller = $block->escapeHtml('marketplacer_seller');
     {{#isNotDigiSeconds}}
         {{#hasCustomFinalPrice}}
             {{#isDigiOnly}}
-                <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                <div style="display: none;" class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                <div class="ribbon-digideals" style="width: auto; padding: 7px 16px; background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638; color: #FE4C25; font-weight: 700;"><span class="digi" style="color: #333; font-weight: 700;">Black Friday&nbsp;</span>Sale</div>
             {{/isDigiOnly}}
         {{/hasCustomFinalPrice}}
     {{/isNotDigiSeconds}}
