@@ -193,7 +193,7 @@ require(['jquery'], function ($) {
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div></div>';
+                    digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Deal</div></div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-container"><div class="ribbon-online">Online Only</div></div>';
                     }
@@ -226,7 +226,7 @@ require(['jquery'], function ($) {
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
-                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                                '<div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div> <span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
                                             '</span>' +
                                         '</span>' +
                                     '</span>' +
