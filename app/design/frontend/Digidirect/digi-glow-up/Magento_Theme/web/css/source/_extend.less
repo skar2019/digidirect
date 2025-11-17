@@ -1507,6 +1507,13 @@ body.blur-active .global-blur-overlay {
 
 .price-wrapper.black-friday {
     margin-top: -21px;
+    height: 53px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-wrapper.black-friday > div {
+    margin-top: auto;
 }
 
 .s19-rental-price-target.black-friday {
@@ -1587,6 +1594,10 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 
 .pa-digidirect-product-widget-container .product-item .special-price .price {
     margin-top: auto;
+}
+
+.product-info-bottom:has(.discount-price-wrapper-no-price) {
+    display: block!important;
 }
 
 @media screen and (max-width: 1512px) {
