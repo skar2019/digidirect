@@ -3,6 +3,7 @@
     Author     : rondel
 */
 @import "_digi_print_common.less";
+@import "_blackfriday_mobile.less";
 
 //Redeploy
 //Hide Discount
@@ -1308,7 +1309,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target {
-    top: 66px !important;
+    top: 98px !important;
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target p {
@@ -1421,7 +1422,7 @@ body.blur-active .global-blur-overlay {
 
 .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
     padding-top: 0;
-    top: 59px !important;
+    top: 110px !important;
 }
 
 .widget-placeholder .product-item-info.product-item {
@@ -1464,7 +1465,7 @@ body.blur-active .global-blur-overlay {
 
 .black-friday-deal {
     background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638;
-    color: #FE4C25;
+    color: #333;
     font-weight: 700;
     border-radius: 18.2px;
     text-align: left;
@@ -1474,7 +1475,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .black-friday-deal .digi {
-    color: #333;
+    color: #FE4C25;
     font-weight: 700;
 }
 
@@ -1507,6 +1508,13 @@ body.blur-active .global-blur-overlay {
 
 .price-wrapper.black-friday {
     margin-top: -21px;
+    height: 53px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-wrapper.black-friday > div {
+    margin-top: auto;
 }
 
 .s19-rental-price-target.black-friday {
@@ -1550,6 +1558,89 @@ body.blur-active .global-blur-overlay {
 
 .black-friday .s19-rental-price-target p {
     font-size: 9px !important;
+}
+
+.aa-Panel .ribbon-digideals.black-friday {
+    width: fit-content;
+    padding: 2px 10px;
+}
+
+.ruby-menu-mega-blog.just-link.black-friday {
+    background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638;
+    color: #333;
+    font-weight: 700;
+    border-radius: 18.2px;
+    text-align: left;
+    width: max-content;
+    font-size: 10px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+
+li.ruby-menu-mega-blog.just-link.black-friday:hover a {
+    background: initial;
+}
+
+//Black Friday
+
+.product-item .special-price .price-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 63px;
+}
+
+.pa-digidirect-product-widget-container .product-item .special-price .price {
+    margin-top: auto;
+}
+
+.product-info-bottom:has(.discount-price-wrapper-no-price) {
+    display: block!important;
+}
+
+.list-view-col .price-wrapper.black-friday>div {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-view-col .product-info-bottom.black-friday {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-item .special-price .price-wrapper {
+    height: 54px;
+}
+
+.minicart-wrapper .pa-minicart-widget a .black-friday-deal span {
+    color: #fe4c25 !important;
+}
+
+.pa-minicart-widget .product-info-bottom.black-friday .discount-price-wrapper {
+    display: block !important;
+    font-size: 8px;
+}
+
+.minicart-wrapper .pa-minicart-widget .ribbon-digideals.black-friday .digi {
+    color: #333 !important;
+    font-weight: 700;
+}
+
+.pa-minicart-widget .ribbon-digideals.black-friday {
+    font-size: 11px;
+}
+
+.minicart-wrapper .pa-minicart-widget .black-friday .discount-price {
+    color: #333 !important;
+    font-size: 8px;
 }
 
 @media screen and (max-width: 1512px) {
@@ -2303,7 +2394,11 @@ body.blur-active .global-blur-overlay {
 
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
         padding-top: 0;
-        top: 51px !important;
+        top: 83px !important;
+    }
+    
+    .pa-upsell .black-friday .price-wrapper {
+        height: 49px !important;
     }
 }
 
