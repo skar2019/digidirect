@@ -608,12 +608,22 @@ class TestPronto extends AbstractHelper
 
             $carriercode = "";
 
-            if($orderId == '002559189')
+            if($orderId == '002565993')
             {
                 $carriercode = 'COLL';
             }
 
-            if($orderId == '002559204')
+            if($orderId == '002566005')
+            {
+                $carriercode = 'GO';
+            }
+
+            if($test == 'COLL')
+            {
+                $carriercode = 'COLL';
+            }
+
+            if($test == 'GO')
             {
                 $carriercode = 'GO';
             }
@@ -1733,7 +1743,7 @@ class TestPronto extends AbstractHelper
 
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-                if(!$test)
+                if(!$test || $test == 'COLL' || $test == 'GO')
                 {
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
