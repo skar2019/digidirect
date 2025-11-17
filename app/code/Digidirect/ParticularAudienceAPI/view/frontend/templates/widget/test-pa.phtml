@@ -214,7 +214,7 @@ require(['jquery'], function ($) {
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
-                                                '<div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div> <span class="price black-friday">'+ priceToDisplay +'</span>' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
                                             '</span>' +
                                         '</span>' +
                                     '</span>' +
@@ -226,7 +226,7 @@ require(['jquery'], function ($) {
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
-                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                                '<div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div> <span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
                                             '</span>' +
                                         '</span>' +
                                     '</span>' +
