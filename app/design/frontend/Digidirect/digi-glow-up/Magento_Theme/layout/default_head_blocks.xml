@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
+        <css src="https://cdn.jsdelivr.net/gh/primer/css/fonts/hubot-sans.css" src_type="url"/>
 <!--        <css src="css/styles-l.css"/>-->
         <link src="https://fonts.googleapis.com" src_type="url" rel="preconnect"/>
         <link src="https://fonts.gstatic.com" src_type="url" rel="preconnect"/>

@@ -23,7 +23,8 @@ $seller = $block->escapeHtml('marketplacer_seller');
     {{#isNotDigiSeconds}}
         {{#hasCustomFinalPrice}}
             {{#isDigiOnly}}
-                <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                <div style="display: none;" class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                <div class="ribbon-digideals black-friday"><span class="digi">Black Friday&nbsp;</span>Sale</div>
             {{/isDigiOnly}}
         {{/hasCustomFinalPrice}}
     {{/isNotDigiSeconds}}
@@ -85,7 +86,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             </div>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
-                        <div class="s19-rental-price-target">
+                        <div class="s19-rental-price-target black-friday">
                             {{#isDigiPrint}}
                                 <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
                             {{/isDigiPrint}}
@@ -105,7 +106,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                         {{/<?php echo $maxVar; ?>}}
                             <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                 {{#hasCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
+                                    <div class="price-wrapper black-friday"> 
                                         <span class="price-container">
                                             {{#defaultOriginalPrice}}
                                                 <span class="price">
@@ -117,12 +118,13 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                             {{/defaultOriginalPrice}}
                                         </span>
                                         <div>  
-                                            <span class="after_special custom_final_price">{{customFinalPrice}}</span>
+                                            <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div>
+                                            <span class="after_special custom_final_price black-friday">{{customFinalPrice}}</span>
                                         </div> 
                                     </div>
                                 {{/hasCustomFinalPrice}}
                                 {{#hasNoCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
+                                    <div class="price-wrapper black-friday"> 
                                         <span class="price-container">
                                             <span class="price"></span>
                                         </span>
@@ -134,10 +136,10 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     </div>
                                 {{/hasNoCustomFinalPrice}}
                         </div>
-                        <div class="product-info-bottom">
+                        <div class="product-info-bottom black-friday">
                             {{#hasCustomFinalPrice}}
                                 <div class="discount-price-wrapper">
-                                    <span class="discount-price">{{discount}}</span> Off
+                                    SAVE <span class="discount-price">{{discount}}</span> OFF RRP
                                 </div>
                             {{/hasCustomFinalPrice}}
                             {{#hasNoCustomFinalPrice}}
@@ -227,7 +229,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                 </div>
                             </div>
                             <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
-                            <div class="s19-rental-price-target">
+                            <div class="s19-rental-price-target black-friday">
                                 {{#isDigiPrint}}
                                     <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
                                 {{/isDigiPrint}}
@@ -240,7 +242,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                         <div class="result-sub-content right-content">
                             {{#hasCustomFinalPrice}}
                                 <div class="discount-price-wrapper">
-                                    <span class="discount-price">{{discount}}</span> Off
+                                    SAVE <span class="discount-price">{{discount}}</span> OFF RRP
                                 </div>
                             {{/hasCustomFinalPrice}}
                             {{#hasNoCustomFinalPrice}}
@@ -258,9 +260,10 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             {{/<?php echo $maxVar; ?>}}
                                 <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                                     {{#hasCustomFinalPrice}}
-                                        <div class="price-wrapper"> 
+                                        <div class="price-wrapper black-friday"> 
                                             <div>  
-                                                <span class="after_special custom_final_price">{{customFinalPrice}}</span>
+                                                <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div>
+                                                <span class="after_special custom_final_price black-friday">{{customFinalPrice}}</span>
                                             </div> 
                                             <span class="price-container">
                                                 {{#defaultOriginalPrice}}
@@ -275,7 +278,7 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                         </div>
                                     {{/hasCustomFinalPrice}}
                                     {{#hasNoCustomFinalPrice}}
-                                        <div class="price-wrapper"> 
+                                        <div class="price-wrapper black-friday"> 
                                             <span class="price-container">
                                                 <span class="price"></span>
                                             </span>
@@ -287,10 +290,10 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                         </div>
                                     {{/hasNoCustomFinalPrice}}
                             </div>
-                            <div class="product-info-bottom">
+                            <div class="product-info-bottom black-friday">
                                 {{#hasCustomFinalPrice}}
                                     <div class="discount-price-wrapper">
-                                        <span class="discount-price">{{discount}}</span> Off
+                                        SAVE <span class="discount-price">{{discount}}</span> OFF RRP
                                     </div>
                                 {{/hasCustomFinalPrice}}
                                 {{#hasNoCustomFinalPrice}}
