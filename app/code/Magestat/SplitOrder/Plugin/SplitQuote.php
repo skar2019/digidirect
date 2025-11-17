@@ -35,12 +35,15 @@ class SplitQuote
      * @var QuoteHandlerInterface
      */
     private $quoteHandler;
-    
+
     /**
      * @var Data
      */
     private $helperData;
 
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
     /**
@@ -48,6 +51,8 @@ class SplitQuote
      * @param QuoteFactory $quoteFactory
      * @param ManagerInterface $eventManager
      * @param QuoteHandlerInterface $quoteHandler
+     * @param HelperData $helperData
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         CartRepositoryInterface $quoteRepository,
@@ -60,7 +65,7 @@ class SplitQuote
         $this->quoteRepository = $quoteRepository;
         $this->quoteFactory = $quoteFactory;
         $this->eventManager = $eventManager;
-        $this->quoteHandler = $quoteHandler;       
+        $this->quoteHandler = $quoteHandler;
         $this->helperData = $helperData;
         $this->logger = $logger;
     }
@@ -92,30 +97,35 @@ class SplitQuote
         /** @var \Magento\Sales\Api\Data\OrderInterface[] $orders */
         $orders = [];
         $orderIds = [];
-        
+
         $attributes = $this->helperData->getAttributes();
         if (empty($attributes)) {
-            return false;
+            $result = $proceed($cartId, $payment);
+            return is_array($result) ? $result : [$result];
         }
-        
+
         $excludeSeller = ['LatestBuy'];
         $hasDigi = false;
         $validSellers = [];
-        
+
         foreach ($quotes as $items) {
             foreach ($items as $item) {
-                // Add item by item.
-                $this->logger->info("aroundPlaceOrder(), " . $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes));
-                $seller = $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes);
-                if ($seller == "digiDirect") {
-                    $hasDigi = true;
-                }
-                if ($seller != "digiDirect" && !in_array($seller, $excludeSeller)) {
-                    $validSellers[$seller][] = $item;
+                try {
+                    // Add item by item.
+                    $this->logger->info("aroundPlaceOrder(), " . $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes));
+                    $seller = $this->quoteHandler->getProductAttributes($item->getProduct(), $attributes);
+                    if ($seller == "digiDirect") {
+                        $hasDigi = true;
+                    }
+                    if ($seller != "digiDirect" && !in_array($seller, $excludeSeller)) {
+                        $validSellers[$seller][] = $item;
+                    }
+                } catch (\Throwable $e) {
+                    $this->logger->error('Error reading product attributes: ' . $e->getMessage());
                 }
             }
         }
-        
+
         foreach ($quotes as $items) {
             /** @var \Magento\Quote\Model\Quote $split */
             $split = $this->quoteFactory->create();
@@ -131,32 +141,49 @@ class SplitQuote
                 $split->addItem($item);
             }
             $this->quoteHandler->populateQuote($quotes, $split, $items, $addresses, $payment, $hasDigi, count($validSellers));
+            try {
+                // Dispatch event as Magento standard once per each quote split.
+                $this->eventManager->dispatch(
+                    'checkout_submit_before',
+                    ['quote' => $split]
+                );
 
-            // Dispatch event as Magento standard once per each quote split.
-            $this->eventManager->dispatch(
-                'checkout_submit_before',
-                ['quote' => $split]
-            );
+                $this->toSaveQuote($split);
+                $order = $subject->submit($split);
 
-            $this->toSaveQuote($split);
-            $order = $subject->submit($split);
-
-            $orders[] = $order;
-            $orderIds[$order->getId()] = $order->getIncrementId();
-
-            if (null == $order) {
-                throw new LocalizedException(__('Please try to place the order again.'));
+                $orders[] = $order;
+                $orderIds[$order->getId()] = $order->getIncrementId();
+            } catch (LocalizedException $e) {
+                $this->logger->error('LocalizedException during split place order: ' . $e->getMessage());
+                throw $e;
+            } catch (\Throwable $e) {
+                $this->logger->critical('Error when placing split order: ' . $e->getMessage(), ['exception' => $e]);
+                throw new LocalizedException(__('An error occurred while placing your order. Please try again.'));
             }
         }
-        $currentQuote->setIsActive(false);
-        $this->toSaveQuote($currentQuote);
 
-        $this->quoteHandler->defineSessions($split, $order, $orderIds);
+        try {
+            $currentQuote->setIsActive(false);
+            $this->toSaveQuote($currentQuote);
+        } catch (\Throwable $e) {
+            $this->logger->warning('Unable to deactivate original quote: ' . $e->getMessage());
+        }
+        try {
+            $this->quoteHandler->defineSessions($split ?? null, $order ?? null, $orderIds);
+        } catch (\Throwable $e) {
+            $this->logger->error('Error in defineSessions: ' . $e->getMessage());
+            // do not throw here — keep flow stable
+        }
 
-        $this->eventManager->dispatch(
-            'checkout_submit_all_after',
-            ['orders' => $orders, 'quote' => $currentQuote]
-        );
+        try {
+            $this->eventManager->dispatch(
+                'checkout_submit_all_after',
+                ['orders' => $orders, 'quote' => $currentQuote]
+            );
+        } catch (\Throwable $e) {
+            $this->logger->error('Event dispatch error checkout_submit_all_after: ' . $e->getMessage());
+        }
+
         return $this->getOrderKeys($orderIds);
     }
 

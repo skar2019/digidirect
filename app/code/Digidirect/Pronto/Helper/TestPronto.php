@@ -608,12 +608,22 @@ class TestPronto extends AbstractHelper
 
             $carriercode = "";
 
-            if($orderId == '002559189')
+            if($orderId == '002565993')
             {
                 $carriercode = 'COLL';
             }
 
-            if($orderId == '002559204')
+            if($orderId == '002566005')
+            {
+                $carriercode = 'GO';
+            }
+
+            if($test == 'COLL')
+            {
+                $carriercode = 'COLL';
+            }
+
+            if($test == 'GO')
             {
                 $carriercode = 'GO';
             }
@@ -1728,32 +1738,26 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
-                //if($test)
-                //{
+
                 var_dump($data['sales-order']);
-                //}
-                //create xml of order data here
-                //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-                //TEST
-                //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-
-                //LIVE - port :8084
-                $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-
-
-                if(!$test)
+                if(!$test || $test == 'COLL' || $test == 'GO')
                 {
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
-                    $this->curl->addHeader("compcode", "DIG"); //live
-                    $this->curl->addHeader("user", "ewaveapi");
-                    $this->curl->addHeader("token", "904241bdbf10efa9");
-                    //
-//                    $this->curl->addHeader("compcode", "UA1"); //test
-//                    $this->curl->addHeader("user", "clint.mercado");
-//                    $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                    $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+                    $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+                    $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+                    $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+                    $url = $host.'/rest/abtws/sales?call-type=create_orders';
+
+                    $this->curl->addHeader("compcode", $compcode);
+                    $this->curl->addHeader("user", $user);
+                    $this->curl->addHeader("token", $token);
 
                     $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
                     $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
@@ -2415,13 +2419,17 @@ class TestPronto extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
-                //
-//                $this->curl->addHeader("compcode", "UA1"); //test
-//                $this->curl->addHeader("user", "clint.mercado");
-//                $this->curl->addHeader("token", "849cd5080faff5ce");
+
+                $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+                $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+                $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+                $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+                $url = $host.'/rest/abtws/sales?call-type=create_orders';
+
+                $this->curl->addHeader("compcode", $compcode);
+                $this->curl->addHeader("user", $user);
+                $this->curl->addHeader("token", $token);
 
                 $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
                 $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
@@ -2535,5 +2543,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-//redeploy
+
 }

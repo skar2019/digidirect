@@ -7,10 +7,12 @@
     margin: 20px 0px;
    }
 
-   .contact-page.-cms-page {
-    width: 80% !important;
+   .contact-page.cms-page {
+    width: 100% !important;
     display: block !important;
     margin: 0 auto !important;
+    max-width: 1327px;
+    padding: 35px 0px;
     } 
 
     .cms-bg-block .bg-cms {
@@ -22,7 +24,7 @@
             display: none !important;
     }
 
-    .contact-page.-cms-page {
+    .contact-page.cms-page {
         background: white !important;
     }
 
@@ -33,6 +35,12 @@
 box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
   }
 
+.contact-us-wrapper h2 {
+    text-align: center;
+    font-size: 48px;
+    margin-top: 50px;
+}
+ 
 
 /* 
     .form.contact {
@@ -70,6 +78,7 @@ box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
 
 /* .contact-us.margin {
     margin: 0 150px;
+    margin-top: 10px;
 } */
 
 .contact-form button {
@@ -78,12 +87,10 @@ box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
     border: none !important;
 }
 
-.contact-form h2 {
-    font-size: 48px !important;
-    text-align: center;
-}
-
 @media screen and (max-width: 768px) {
+    .form.contact {
+       padding: 25px 15px;
+    }
     .contact-form .actions-toolbar {
         margin-left: unset;
     }
@@ -93,13 +100,24 @@ box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
         margin-bottom: 10px;
     }
 
+   .contact-page.cms-page {
+    width: 100% !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+.contact-us-wrapper h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 50px;
+}
+
 }
 
 </style>
 
 
-
-<div class="contact-us-wrapper">
+<div class="contact-us-wrapper margin-1">
     
     <h2> Ask us anything</h2>
 

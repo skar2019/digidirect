@@ -5,7 +5,7 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Inventory extends AbstractHelper
 {
@@ -17,26 +17,30 @@ class Inventory extends AbstractHelper
 
     protected $logger;
 
+    protected $scopeConfig;
+
     public function __construct(
-                        Curl $curl,
-                        JsonSerializer $jsonSerializer,
-                        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
-                        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
-                        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
-                        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-                        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
-                        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-                        \Digidirect\CustomInventoryLog\Logger\Logger $logger)
+        Curl $curl,
+        JsonSerializer $jsonSerializer,
+        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
+        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Digidirect\CustomInventoryLog\Logger\Logger $logger,
+        ScopeConfigInterface $scopeConfig)
     {
-                        $this->curl = $curl;
-                        $this->jsonSerializer = $jsonSerializer;
-                        $this->sourceItemsBySku = $sourceItemsBySku;
-                        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
-                        $this->sourceItemFactory = $sourceItemFactory;
-                        $this->productRepository = $productRepository;
-                        $this->productFactory = $productFactory;
-                        $this->stockRegistry = $stockRegistry;
-                        $this->logger = $logger;
+        $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
+        $this->sourceItemsBySku = $sourceItemsBySku;
+        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
+        $this->sourceItemFactory = $sourceItemFactory;
+        $this->productRepository = $productRepository;
+        $this->productFactory = $productFactory;
+        $this->stockRegistry = $stockRegistry;
+        $this->logger = $logger;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function enquireInventory($args = 0) {
@@ -56,26 +60,20 @@ class Inventory extends AbstractHelper
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
 
-        //$prontofilter = '05072021000000';
-        // testing
-
-        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
-        //live - port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
-
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
+
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
@@ -430,26 +428,21 @@ class Inventory extends AbstractHelper
         $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
 
         echo $prontofilter ."<br/>";
-        //$prontofilter = '05072021000000';
-        // testing
-
-        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
-        //live - port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
+
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);

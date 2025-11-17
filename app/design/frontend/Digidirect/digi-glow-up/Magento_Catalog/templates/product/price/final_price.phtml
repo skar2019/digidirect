@@ -36,7 +36,7 @@ if (!is_null($marketPlacePrice) || $marketPlacePrice != 0) {
 
 $quoteHelper = $helper = $this->helper('Digidirect\Digi\Helper\Quote');
 $customerGroupId = $quoteHelper->getCustomerGroupId();
-$customerGroupId = 0;
+$customerGroupId = 0; //bakit naka zero?
 
 ?>
 <?php if ($block->hasSpecialPrice()): ?>

@@ -11,6 +11,7 @@ use Magento\Catalog\Api\Data\CategoryTreeInterface;
 use Magento\Catalog\Api\CategoryManagementInterface;
 use Magento\Catalog\Api\CategoryLinkManagementInterface;
 use Magento\Catalog\Api\CategoryLinkRepositoryInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Product extends AbstractHelper
 {
@@ -27,6 +28,7 @@ class Product extends AbstractHelper
     protected $categoryLinkRepository;
     protected $logger;
     protected $_reportCollectionFactory;
+    protected $scopeConfig;
 
     public function __construct(
         Curl $curl,
@@ -43,7 +45,8 @@ class Product extends AbstractHelper
         CategoryLinkManagementInterface $categoryLinkManagement,
         CategoryLinkRepositoryInterface $categoryLinkRepository,
         CategoryManagementInterface $categoryManagement,
-        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory
+        \Magento\Reports\Model\ResourceModel\Product\Sold\CollectionFactory $reportCollectionFactory,
+        ScopeConfigInterface $scopeConfig
     ){
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -60,6 +63,7 @@ class Product extends AbstractHelper
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryManagement = $categoryManagement;
         $this->_reportCollectionFactory = $reportCollectionFactory;
+        $this->scopeConfig = $scopeConfig;
     }
 
 
@@ -75,24 +79,21 @@ class Product extends AbstractHelper
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
-        //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
+
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
@@ -1295,25 +1296,20 @@ class Product extends AbstractHelper
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
-        //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
@@ -2477,29 +2473,22 @@ class Product extends AbstractHelper
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
-        //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
 
-        if($endItem == '0')
-        {
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
-        }
-
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
+
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
@@ -3546,25 +3535,20 @@ class Product extends AbstractHelper
         //var_dump($getCategoryList);
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
 
-        //connect to Pronto stock-master
-        // call-type=full_enquiry
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
-        //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
-
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-//        $this->curl->addHeader("compcode", "UA1"); //test
-//        $this->curl->addHeader("user", "clint.mercado");
-//        $this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
+        $host = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/url');;
+        $compcode = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/compcode');
+        $user = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/user');
+        $token = $this->scopeConfig->getValue('pronto_settings_section/pronto_group/token');;
+
+        $url = $host.'/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
+
+        $this->curl->addHeader("compcode", $compcode);
+        $this->curl->addHeader("user", $user);
+        $this->curl->addHeader("token", $token);
+
         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST,false);
         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER,false);
         $this->curl->get($url);
