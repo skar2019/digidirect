@@ -126,19 +126,64 @@
             height: unset !important;
             font-weight: 600 !important;
             font-size: 13px !important;
+            padding: 10px 14px !important;
         }
 
-        .current-price-wrapper.has-special-price {
+        /*.current-price-wrapper.has-special-price {
             display: flex !important;;
             flex-direction: column !important;;
-            gap: 5px !important;
+            gap: 10px !important;
             padding: 8px 14px !important;
-        }
+        }*/
 
         .product-middle-column .product-price-section .price-box .price {
             font-size: 26px !important;
             font-weight: 600 !important;
         }
+
+        .product-middle-column .product-price-section .price-box .has-special-price .special-price .price {
+            padding: 5px 25px !important;
+        }
+
+        .black-friday-pdp {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .black-friday-deal {
+            font-size: 18px !important;
+            padding: 3px 10px !important;
+        }
     }
 
+}
+
+.catalog-product-view {
+    .current-price-wrapper.has-special-price {
+        display: flex !important;;
+        flex-direction: column !important;;
+        gap: 10px !important;
+        padding: 8px 14px !important;
+    }
+
+    .black-friday-deal {
+        font-size: 18px !important;
+        padding: 4px 16px !important;
+    }
+
+    .product-middle-column .product-price-section .price-box .discount-price-wrapper.has-sale {
+        display: flex !important;
+        align-items: center !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .catalog-product-view {
+        .product-middle-column .product-price-section .price-box .discount-price-wrapper.has-sale {
+            margin: 50px 5px 0 5px !important;
+        }
+    }
 }
