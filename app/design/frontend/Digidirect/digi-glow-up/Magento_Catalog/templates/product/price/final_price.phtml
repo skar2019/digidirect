@@ -111,7 +111,7 @@ $customerGroupId = 0; //bakit naka zero?
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper has-sale">SAVE $<span class="discount-price"><?= number_format($discountPrice, 2)?> </span> OFF RRP</div>
+        <div class="discount-price-wrapper has-sale">SAVE $<span class="discount-price" style="margin-right: 3px;"><?= number_format($discountPrice, 2)?> </span> OFF RRP</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
