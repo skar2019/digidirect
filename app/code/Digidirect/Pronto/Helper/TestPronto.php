@@ -608,12 +608,22 @@ class TestPronto extends AbstractHelper
 
             $carriercode = "";
 
-            if($orderId == '002559189')
+            if($orderId == '002565993')
             {
                 $carriercode = 'COLL';
             }
 
-            if($orderId == '002559204')
+            if($orderId == '002566005')
+            {
+                $carriercode = 'GO';
+            }
+
+            if($test == 'COLL')
+            {
+                $carriercode = 'COLL';
+            }
+
+            if($test == 'GO')
             {
                 $carriercode = 'GO';
             }
@@ -1055,7 +1065,7 @@ class TestPronto extends AbstractHelper
                         echo "latipay pending";
                         continue;
                     }
-            }
+                }
 
                 if($payment_type == 'VI')
                 {
@@ -1733,7 +1743,7 @@ class TestPronto extends AbstractHelper
 
                 $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-                if(!$test)
+                if(!$test || $test == 'COLL' || $test == 'GO')
                 {
                     $this->curl->addHeader("Content-Type", "application/xml");
                     $this->curl->addHeader("Accept", "application/json");
@@ -2169,9 +2179,9 @@ class TestPronto extends AbstractHelper
 //                }
 //                else
 //                {
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                $sellerdata['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 //}
             }
 
@@ -2533,5 +2543,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-//redeploy
+
 }
