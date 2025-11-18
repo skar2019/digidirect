@@ -32,7 +32,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-image: url("../images/background-img-desktop.png");
+    background-image: url("../images/background-img-mobile.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
@@ -110,7 +110,7 @@ body {
     }
 
     .main-block {
-        background-image: url("../images/background-img-mobile.png");
+        background-image: url("../images/background-img-desktop.png");
     }
 
     .main-block > .title {
