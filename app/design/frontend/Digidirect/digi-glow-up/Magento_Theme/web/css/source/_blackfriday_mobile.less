@@ -43,6 +43,9 @@
     }
 
     .catalog-category-view.list-view {
+        .result-content {
+            gap: 5px !important;
+        }
         .result-container {
             display: flex !important;
             justify-content: space-between;
@@ -109,6 +112,31 @@
         .action.tocart.primary {
             padding: 2px 20px !important;
             font-size: 8px !important;
+            font-weight: 600 !important;
+        }
+    }
+
+    .catalog-product-view {
+        .product-price-section .price-box {
+            flex-direction: column !important;
+        }
+
+        .product-middle-column .product-price-section .price-box .discount-price-wrapper.has-sale {
+            margin: 5px 5px 0 5px !important;
+            height: unset !important;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+        }
+
+        .current-price-wrapper.has-special-price {
+            display: flex !important;;
+            flex-direction: column !important;;
+            gap: 5px !important;
+            padding: 8px 14px !important;
+        }
+
+        .product-middle-column .product-price-section .price-box .price {
+            font-size: 26px !important;
             font-weight: 600 !important;
         }
     }
