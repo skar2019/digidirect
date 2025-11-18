@@ -112,7 +112,8 @@ $collection = $block->getProductCollection();
 
                             <?php if (!$isDigiSeconds): ?>
                                 <?php if ($hasCustomFinalPrice && $isDigiOnly): ?>
-                                    <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                                    <div style="display: none;" class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                                    <div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Deal</div>
                                 <?php endif; ?>
                             <?php endif; ?>
 
@@ -181,7 +182,7 @@ $collection = $block->getProductCollection();
                                                     <?php endif; ?>
                                                 </span>
                                                 <div>
-                                                    <span class="after_special custom_final_price">$<?= $block->escapeHtml($customFinalPrice) ?></span>
+                                                    <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="after_special custom_final_price black-friday">$<?= $block->escapeHtml($customFinalPrice) ?></span>
                                                 </div>
                                             </div>
                                         <?php else: ?>
@@ -196,10 +197,10 @@ $collection = $block->getProductCollection();
                                         <?php endif; ?>
                                     </div>
 
-                                    <div class="product-info-bottom">
+                                    <div class="product-info-bottom black-friday">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="discount-price-wrapper">
-                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> Off
+                                                <span class="discount-price">SAVE <?= $block->escapeHtml($discount) ?></span> OFF RRP
                                             </div>
                                         <?php else: ?>
                                             <div class="discount-price-wrapper-no-price"></div>

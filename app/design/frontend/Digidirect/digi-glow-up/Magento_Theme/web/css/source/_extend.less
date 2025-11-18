@@ -3,6 +3,7 @@
     Author     : rondel
 */
 @import "_digi_print_common.less";
+@import "_blackfriday_mobile.less";
 
 //Redeploy
 //Hide Discount
@@ -11,9 +12,6 @@
     display: none !important;
 }
 
-.discount-price-wrapper {
-    display: none !important;
-}
 
 .product-info-bottom {
     display: flex;
@@ -176,7 +174,8 @@ a:hover {
     padding: 0;
 }
 
-.homepage-row, .plp-row {
+.homepage-row,
+.plp-row {
     overflow: hidden;
 }
 
@@ -205,7 +204,7 @@ a:hover {
 }
 
 span.digi {
-    color: #FE4C25;
+    color: #fe4c25;
 }
 
 .ribbon-online {
@@ -268,7 +267,7 @@ strong.product-item-name {
     display: flex;
     flex-direction: column;
     color: #363638;
-    font-size: 24px;
+    font-size: 18px;
     font-family: Inter;
     font-weight: 500;
     word-wrap: break-word;
@@ -590,19 +589,19 @@ a.action.towishlist {
     width: 12px;
     height: 12px;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, width, height;
 }
 
 //
 
 .pa-digidirect-product-widget
-    .product-tab-mobile-widget-load-more.grid-toggle-more,
+.product-tab-mobile-widget-load-more.grid-toggle-more,
 .pa-digidirect-product-widget
-    .product-tab-mobile-widget-view-less.grid-toggle-more,
+.product-tab-mobile-widget-view-less.grid-toggle-more,
 .pa-digidirect-product-widget
-    .product-tab-mobile-widget-view-all.grid-toggle-more {
+.product-tab-mobile-widget-view-all.grid-toggle-more {
     display: none;
 }
 
@@ -641,7 +640,8 @@ a.action.towishlist {
     margin-top: 5px !important;
 }
 
-.message.error, .message.success {
+.message.error,
+.message.success {
     border-radius: 10px;
 }
 
@@ -866,6 +866,7 @@ a.action.towishlist {
 
 .catalog-category-view #maincontent {
     max-width: 1327px;
+    min-height: 700px;
 }
 
 /*.catalog-category-view .breadcrumbs,
@@ -905,7 +906,7 @@ a.action.towishlist {
 }
 
 .is-widget-container-brand .ais-Panel {
-    border-bottom: 0 !important;
+    padding-bottom: 10px;
 }
 
 .plp-row.pa-widget {
@@ -1034,7 +1035,8 @@ body.blur-active .global-blur-overlay {
     margin: 0;
 }
 
-#upsell-widget-desktop .owl-nav, #pa-minicart-widget-desktop .owl-nav {
+#upsell-widget-desktop .owl-nav,
+#pa-minicart-widget-desktop .owl-nav {
     position: absolute;
     top: 50%;
     left: 0;
@@ -1061,7 +1063,8 @@ body.blur-active .global-blur-overlay {
     top: 0 !important;
 }
 
-#upsell-widget-desktop .owl-nav button.owl-prev, #pa-minicart-widget-desktop .owl-nav button.owl-prev {
+#upsell-widget-desktop .owl-nav button.owl-prev,
+#pa-minicart-widget-desktop .owl-nav button.owl-prev {
     position: fixed;
     border-radius: 50%;
     backdrop-filter: blur(10px);
@@ -1092,7 +1095,8 @@ body.blur-active .global-blur-overlay {
     top: 0 !important;
 }
 
-#upsell-widget-desktop .owl-nav button.owl-next, #pa-minicart-widget-desktop .owl-nav button.owl-next {
+#upsell-widget-desktop .owl-nav button.owl-next,
+#pa-minicart-widget-desktop .owl-nav button.owl-next {
     position: fixed;
     border-radius: 50%;
     backdrop-filter: blur(10px);
@@ -1108,8 +1112,9 @@ body.blur-active .global-blur-overlay {
     opacity: 0.5 !important;
 }
 
-#pa-minicart-widget-desktop .owl-nav button.owl-prev, #pa-minicart-widget-desktop .owl-nav button.owl-next {
-    height: 100% !important
+#pa-minicart-widget-desktop .owl-nav button.owl-prev,
+#pa-minicart-widget-desktop .owl-nav button.owl-next {
+    height: 100% !important;
 }
 
 #welcome-back-widget-desktop .owl-prev:before,
@@ -1191,7 +1196,7 @@ body.blur-active .global-blur-overlay {
     margin: 0 !important;
     transform: translate(-50%, -50%) !important;
     z-index: 2;
-    box-shadow: 0 0 12px 2px rgba(0, 0, 0, .35);
+    box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.35);
     border-radius: 32px;
     background: #f5f5f7;
     border: 1px #d9d9d9 solid;
@@ -1293,7 +1298,7 @@ body.blur-active .global-blur-overlay {
     display: none;
 }
 
-.checkout-cart-index .gift-options-cart-item+.towishlist {
+.checkout-cart-index .gift-options-cart-item + .towishlist {
     display: none !important;
 }
 
@@ -1304,7 +1309,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target {
-    top: 66px !important;
+    top: 98px !important;
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target p {
@@ -1371,6 +1376,10 @@ body.blur-active .global-blur-overlay {
     margin-top: auto;
 }
 
+#instant-search-facets-container .ais-SearchBox {
+    display: block;
+}
+
 .minicart-wrapper .pa-minicart-widget .ribbon-digideals .digi {
     color: #fe4c25 !important;
 }
@@ -1408,20 +1417,20 @@ body.blur-active .global-blur-overlay {
 }
 
 .pa-upsell .product-item .special-price .price {
-font-size: 17px;
+    font-size: 17px;
 }
 
 .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target p {
-font-size: 7px !important;
+    font-size: 7px !important;
 }
 
 .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
-padding-top: 0;
-top: 59px !important;
+    padding-top: 0;
+    top: 110px !important;
 }
 
 .widget-placeholder .product-item-info.product-item {
-overflow: hidden;
+    overflow: hidden;
 }
 
 .widget-placeholder .product-image-photo {
@@ -1439,11 +1448,210 @@ overflow: hidden;
 .product-overlay.-ready {
     position: absolute;
     display: block !important;
-    width: 85px !important;
+}
+
+.ribbon-digideals.black-friday {
+    width: auto;
+    padding: 7px 16px;
+    background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638;
+    color: #FE4C25;
+    font-weight: 700;
+}
+
+.pa-digidirect-product-widget-container .ribbon-digideals.black-friday {
+    width: fit-content;
+}
+
+.ribbon-digideals.black-friday .digi {
+    color: #333;
+    font-weight: 700;
+}
+
+.black-friday-deal {
+    background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638;
+    color: #333;
+    font-weight: 700;
+    border-radius: 18.2px;
+    text-align: left;
+    width: max-content;
+    font-size: 10px;
+    padding: 2px 8px;
+}
+
+.black-friday-deal .digi {
+    color: #FE4C25;
+    font-weight: 700;
+}
+
+.after_special.custom_final_price.black-friday {
+    background: #FEF011;
+    border-radius: 30px;
+    width: max-content;
+    padding: 3px 10px;
+    margin-top: 5px;
+    color: #FE4C25;
+}
+
+.product-info-bottom.black-friday {
+    display: flex !important;
+    margin-top: 11px !important;
+}
+
+.product-info-bottom.black-friday .discount-price-wrapper {
+    display: flex !important;
+    padding: 3px 8px;
+    line-height: 21px;
+    font-weight: 400;
+    font-size: 9px;
+    width: -webkit-fill-available;
+}
+
+.product-info-bottom.black-friday form {
+    margin-left: 0;
+}
+
+.price-wrapper.black-friday {
+    margin-top: -21px;
+    height: 53px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-wrapper.black-friday > div {
+    margin-top: auto;
+}
+
+.s19-rental-price-target.black-friday {
+    top: 100px;
+}
+
+.s19-rental-price-target.black-friday div {
+    font-size: 8px !important;
+}
+
+.product-item .special-price .price.black-friday {
+    background: #FEF011;
+    border-radius: 30px;
+    width: max-content;
+    padding: 3px 10px;
+    margin-top: 5px;
+    color: #FE4C25;
+}
+
+.pa-digidirect-product-widget-container .product-info-bottom {
+    margin-top: 0 !important;
+}
+
+.black-friday .price-wrapper {
+    height: 55px !important;
+    display: flex !important;
+    flex-direction: column;
+}
+
+.black-friday .price-wrapper .price {
+    margin-top: auto;
+}
+
+.black-friday .s19-rental-price-target {
+    top: 93px !important;
+}
+
+.black-friday .price.black-friday {
+    font-size: 18px;
+}
+
+.black-friday .s19-rental-price-target p {
+    font-size: 9px !important;
+}
+
+.aa-Panel .ribbon-digideals.black-friday {
+    width: fit-content;
+    padding: 2px 10px;
+}
+
+.ruby-menu-mega-blog.just-link.black-friday {
+    background: linear-gradient(180deg, #FEF011 0%, #EBB100 100%), linear-gradient(180deg, #F2C94C 0%, #EBB100 100%), linear-gradient(206deg, black 0%, #686868 22%, black 63%, #F2C94C 100%), linear-gradient(197deg, #FF50FF 0%, #EA49FC 11%, #B639F5 33%, #621EEA 65%, #0000DD 100%), #363638;
+    color: #333;
+    font-weight: 700;
+    border-radius: 18.2px;
+    text-align: left;
+    width: max-content;
+    font-size: 10px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+
+li.ruby-menu-mega-blog.just-link.black-friday:hover a {
+    background: initial;
+}
+
+//Black Friday
+
+.product-item .special-price .price-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 63px;
+}
+
+.pa-digidirect-product-widget-container .product-item .special-price .price {
+    margin-top: auto;
+}
+
+.product-info-bottom:has(.discount-price-wrapper-no-price) {
+    display: block!important;
+}
+
+.list-view-col .price-wrapper.black-friday>div {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-view-col .product-info-bottom.black-friday {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-item .special-price .price-wrapper {
+    height: 54px;
+}
+
+.minicart-wrapper .pa-minicart-widget a .black-friday-deal span {
+    color: #fe4c25 !important;
+}
+
+.pa-minicart-widget .product-info-bottom.black-friday .discount-price-wrapper {
+    display: block !important;
+    font-size: 8px;
+}
+
+.minicart-wrapper .pa-minicart-widget .ribbon-digideals.black-friday .digi {
+    color: #333 !important;
+    font-weight: 700;
+}
+
+.pa-minicart-widget .ribbon-digideals.black-friday {
+    font-size: 11px;
+}
+
+.minicart-wrapper .pa-minicart-widget .black-friday .discount-price {
+    color: #333 !important;
+    font-size: 8px;
+}
+
+.cms-home .product-item .special-price .price-wrapper {
+    height: 55px;
 }
 
 @media screen and (max-width: 1512px) {
-
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 10px 0 !important;
     }
@@ -1472,8 +1680,8 @@ overflow: hidden;
     }
 
     .pa-welcome-back
-        .pa-digidirect-product-widget
-        .product.details.product-item-details {
+    .pa-digidirect-product-widget
+    .product.details.product-item-details {
         padding-top: 0;
         gap: 5px;
     }
@@ -1496,8 +1704,8 @@ overflow: hidden;
     }
 
     .pa-upsell
-        .pa-digidirect-product-widget
-        .product.details.product-item-details {
+    .pa-digidirect-product-widget
+    .product.details.product-item-details {
         padding-top: 0;
         gap: 5px;
     }
@@ -1508,7 +1716,6 @@ overflow: hidden;
 }
 
 @media screen and (max-width: 768px) {
-
     //Hide Discount
 
     .result-wrapper .price {
@@ -1799,7 +2006,7 @@ overflow: hidden;
     }
 
     .ais-Hits-item .s19-rental-price-target {
-        top: 69px;
+        top: 98px !important;
     }
 
     .ais-Hits-item .s19-rental-price-target > div > div:first-child {
@@ -1908,8 +2115,8 @@ overflow: hidden;
     }
 
     .catalog-category-view
-        .pa-digidirect-product-widget
-        strong.product-item-name {
+    .pa-digidirect-product-widget
+    strong.product-item-name {
         height: 32px;
     }
 
@@ -1928,9 +2135,9 @@ overflow: hidden;
     }
 
     .catalog-category-view
-        .pa-digidirect-product-widget
-        .product-item
-        .price-box {
+    .pa-digidirect-product-widget
+    .product-item
+    .price-box {
         margin-top: 30px;
     }
 
@@ -2139,7 +2346,7 @@ overflow: hidden;
     }
 
     .brand-group ul {
-        grid-template-columns: repeat(2,1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 
     //CMS Page
@@ -2186,34 +2393,75 @@ overflow: hidden;
     }
 
     .pa-upsell .product-item .special-price .price {
-    font-size: 14px;
+        font-size: 14px;
     }
 
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target p {
-    font-size: 6px !important;
+        font-size: 6px !important;
     }
 
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
-    padding-top: 0;
-    top: 51px !important;
+        padding-top: 0;
+        top: 83px !important;
     }
-
+    
+    .pa-upsell .black-friday .price-wrapper {
+        height: 49px !important;
+    }
+    
+    .cms-home .product-item .special-price .price-wrapper {
+        height: 45px;
+    }
+    
+    .pa-digidirect-product-widget-container .product-item .special-price .price {
+        margin-top: auto !important;
+        text-align: left !important;
+    }
+    
+    .black-friday .price-wrapper {
+        height: 46px !important;
+    }
+    
+    .black-friday .s19-rental-price-target {
+        top: 88px !important;
+    }
+    
+    .minicart-wrapper .pa-minicart-widget a .black-friday-deal span {
+        font-size: 8px;
+    }
+    
+    .pa-digidirect-product-widget.pa-minicart-widget .s19-rental-price-target p {
+        font-size: 7px !important;
+    }
+    
+    .pa-minicart-widget .product-item .special-price .price-wrapper {
+        height: 49px !important;
+    }
+    
+    .pa-minicart-widget .s19-rental-price-target {
+        top: 110px !important;
+    }
+    
+    .product-info-bottom:has(.discount-price-wrapper-no-price) {
+        margin-top: 4px !important;
+    }
 }
 
 @media screen and (max-width: 440px) {
     .ais-Hits-item .s19-rental-price-target div {
-    font-size: 6px !important;
-    line-height: 9px;
+        font-size: 6px !important;
+        line-height: 9px;
     }
 
     .ais-Hits-item .s19-rental-price-target p {
-    font-size: 6px !important;
-    line-height: 10px;
+        font-size: 6px !important;
+        line-height: 10px;
     }
 
     .ais-Hits-item .s19-rental-price-target {
-    top: 75px;
+        top: 75px;
     }
+    
 }
 
 @media screen and (min-width: 768px) {
@@ -2226,8 +2474,6 @@ overflow: hidden;
         width: 100%;
         margin-top: 20px;
     }
-
-
 }
 
 .page-main .page.messages {
@@ -2591,4 +2837,9 @@ select:not([disabled]):focus {
 
 .flatpickr-day.prevMonthDay {
     color: #393939 !important;
+}
+@media screen and (max-width: 768px) {
+    .glow-up-main-hero-banner div.pagebuilder-slide-wrapper {
+        height: 30dvh !important;
+    }
 }

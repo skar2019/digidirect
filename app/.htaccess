@@ -1,17 +1,12 @@
 <IfVersion < 2.4>
     order allow,deny
     deny from all
-<<<<<<< HEAD
-=======
     AddDefaultCharset UTF-8
->>>>>>> origin/staging2
 </IfVersion>
 <IfVersion >= 2.4>
     Require all denied
 </IfVersion>
 
-<<<<<<< HEAD
-=======
 
 ############################################
 ## Prevent character encoding issues from server overrides
@@ -20,4 +15,3 @@
 AddDefaultCharset Off
 AddDefaultCharset UTF-8
 AddType 'text/html; charset=UTF-8' html
->>>>>>> origin/staging2
