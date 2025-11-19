@@ -37,7 +37,7 @@ body {
     background-size: contain;
     background-position: top center;
     color: #fff;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.95);
 }
 
 .main-block > .title {
