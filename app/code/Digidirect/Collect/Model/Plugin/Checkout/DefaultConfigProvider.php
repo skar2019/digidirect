@@ -52,9 +52,9 @@ class DefaultConfigProvider
      * @var \Magento\Framework\Event\ManagerInterface|null
      */
     protected $eventManager;
-    
+
     protected $_cart;
-    
+
     protected $_product;
 
     /**
@@ -128,9 +128,9 @@ class DefaultConfigProvider
                     $result['paymentMethods'] = $paymentMethods;
                 }
             }
-            
+
             $items = $this->_cart->getQuote()->getAllItems();
-            
+
             $totalqty = 1;
             foreach ($items as $item) {
                 $prodId = $item->getProductId();
@@ -141,24 +141,24 @@ class DefaultConfigProvider
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     //comment out clint Apr 3, 2025
                     $store = $sourceItem->getSourceCode();
-                    if ($store != "default" && $store != "3WHS" && $store != "SWHS") {
+                    if ($store != "default" && $store != "SWHS") {
                         if ($sourceItem->getQuantity() < 0) {
                            $sourceQty = 0;
                         } else {
-                           $sourceQty = $sourceItem->getQuantity(); 
+                           $sourceQty = $sourceItem->getQuantity();
                         }
                         $qty = $qty + $sourceQty;
                     }
                 }
                 $totalqty = $totalqty * $qty;
             }
-            
+
             if ($totalqty > 0) {
                 $result['quoteData']['products_available_in_any_store'] = true;
             } else {
                 $result['quoteData']['products_available_in_any_store'] = false;
             }
-            
+
             $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
             $singleVariation = $this->collectHelper->isSingleVariation();
             $singleCartVariation = $this->collectHelper->isSingleCartVariation();
@@ -239,14 +239,14 @@ class DefaultConfigProvider
 
         return $addresses;
     }
-    
-    public function checkIfCanningtonOnly() 
+
+    public function checkIfCanningtonOnly()
     {
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
 
         $cartItems = $this->_cart->getQuote()->getAllItems();
-        
+
         $stores = [];
 
         $sydnQty = 1;
@@ -269,7 +269,7 @@ class DefaultConfigProvider
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                
+
                 $getQty = $sourceItem->getQuantity();
                 $store = $sourceItem->getSourceCode();
 
@@ -312,16 +312,16 @@ class DefaultConfigProvider
                 }
             }
         }
-        
+
         $canningtonOnly = false;
         /*$this->logger->info('$totalCann: ' . $totalCann);
         $this->logger->info('$cannQty: ' . $cannQty);
         $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);*/
-        
+
         if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
-             $canningtonOnly = true;   
+             $canningtonOnly = true;
         }
-        
+
         return $canningtonOnly;
     }
 }
