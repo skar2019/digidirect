@@ -197,7 +197,7 @@ require(['jquery'], function ($) {
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
             if (adSetId || adSetId != null) {
-                sponsoredLabel = '<span class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
+                sponsoredLabel = '<span style="display: none;" class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
             }
 
             if (digiPrintValue == 1) {
@@ -305,8 +305,10 @@ require(['jquery'], function ($) {
             }
             
             let productInfoBottom;
-            
-            if (!discount || isNaN(discount)) {
+
+            let discountValue = parseFloat((discount || '').replace(/[$,]/g, ''));
+
+            if (!discount || isNaN(discountValue)) {
                 productInfoBottom =
                     '<div class="product-info-bottom black-friday">' +
                         '<div class="discount-price-wrapper-no-price"></div>' +
