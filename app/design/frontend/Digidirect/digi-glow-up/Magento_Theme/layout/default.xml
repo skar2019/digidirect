@@ -11,13 +11,6 @@
         <referenceContainer name="page.wrapper">
             <block class="Magento\Framework\View\Element\Template" name="global.pa.minicart" template="Digidirect_ParticularAudienceAPI::pa-global-minicart-widget.phtml"/>
         </referenceContainer>
-        <referenceContainer name="before.body.start">
-            <block class="Magento\Cms\Block\Block" name="site.takeover">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">site-takeover</argument>
-                </arguments>
-            </block>
-        </referenceContainer>
         <referenceContainer name="main.content">
             <container name="blur.overlay.container" as="blur_overlay" htmlTag="div" htmlClass="blur-overlay"/>
         </referenceContainer>
@@ -25,6 +18,11 @@
             <block class="Magento\Framework\View\Element\Template" name="mobile.menu" template="Magento_Theme::mobile-menu.phtml" />
         </referenceContainer>
         <referenceContainer name="header.container">
+            <block class="Magento\Cms\Block\Block" name="site.takeover">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">site-takeover</argument>
+                </arguments>
+            </block>
             <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
                 <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
                     <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>
