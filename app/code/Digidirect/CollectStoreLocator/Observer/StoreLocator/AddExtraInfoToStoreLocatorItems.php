@@ -29,11 +29,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      * @var Data
      */
     protected $collectHelper;
-    
+
     protected $logger;
-    
+
     protected $_cart;
-    
+
     protected $_product;
 
     /**
@@ -84,12 +84,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
 
         $cartItems = $this->_cart->getQuote()->getAllItems();
-        
+
         $stores = [];
-            
+
         $totalCann = 0.0;
         $totalQtyOnOtherSources = 0;
-        
+
         foreach ($items as $key => $storeData) {
 
             $id = $storeData['entity_id'];
@@ -114,7 +114,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $parrQty = 1;
             $stPetersQty = 1;
             $strathfieldQty = 1;
-          
+
             foreach ($cartItems as $cartItem) {
 
                 $prodId = $cartItem->getProductId();
@@ -126,14 +126,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
-                    //$this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
+                    $this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
 
                     $getQty = $sourceItem->getQuantity();
                     $store = $sourceItem->getSourceCode();
-                    
+
                     if ((!in_array($store, $stores)))  {
                         array_push($stores, $store);
                     }
+
+                    $this->logger->info('stores:' , ['store' => $stores]);
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
@@ -153,28 +155,31 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
+                    } elseif ($id == 42 && $sourceItem->getSourceCode() == '3WHS') {
+                        $strathfieldQty = $strathfieldQty * $getQty;
+                        $totalQtyOnOtherSources += $strathfieldQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        
+
                         $wiserPrice = $product->getWiserPrice();
                         $finalPrice = $product->getFinalPrice();
-                        
+
                         $lastPrice = $finalPrice;
-                        
+
                         if ($wiserPrice < $finalPrice) {
                             $lastPrice = $wiserPrice;
                         }
-                        
+
                         $totalCann += $lastPrice;
                         $cannQty = $cannQty * $getQty;
-                        
+
                         $this->logger->info('$wiserPrice, ' . $wiserPrice);
                         $this->logger->info('$finalPrice, ' . $finalPrice);
                         $this->logger->info('$totalCann, ' . $totalCann);
-                        
+
                     }
                 }
             }
-            
+
             if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
                 if ($id == 16) { //CANN
                     $items[$key]['click_and_collect'] = true;
@@ -226,11 +231,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                             }
                         }
                     } elseif ($id == 35) { //SWHS
-                        
+
                         $items[$key]['click_and_collect'] = NULL;
-                        
+
                     } elseif ($id == 32 && $parrQty > 0) {
                         if (in_array('PARR', $stores)) {
+                            $items[$key]['click_and_collect'] = true;
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
+                    } elseif ($id == 41 && $strathfieldQty > 0) { //strathfield on staging, 45 on prod
+                        if (in_array('3WHS', $stores)) {
                             $items[$key]['click_and_collect'] = true;
                         } else {
                             $items[$key]['click_and_collect'] = false;
@@ -239,13 +250,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $items[$key]['click_and_collect'] = false;
                     }
                 }
-            } 
+            }
         }
-        
+
         $this->logger->info('$totalCann: ' . $totalCann);
         $this->logger->info('$cannQty: ' . $cannQty);
         $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
-
+        $this->logger->info('stores:' , ['items' => $items]);
         return $items;
     }
 

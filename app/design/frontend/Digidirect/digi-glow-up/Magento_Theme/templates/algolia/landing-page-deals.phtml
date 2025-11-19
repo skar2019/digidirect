@@ -213,12 +213,12 @@ require(['jquery'], function ($) {
             if (discount === "$NaN") {
                 var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
             } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+                var productInfoBottom = '<div class="product-info-bottom black-friday"><div class="discount-price-wrapper"><span class="discount-price">SAVE ' + discount + '</span> OFF RRP</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Sale</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
@@ -241,7 +241,7 @@ require(['jquery'], function ($) {
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
-                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                                ' <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
                                             '</span>' + 
                                         '</span>' +
                                     '</span>' +
@@ -283,7 +283,7 @@ require(['jquery'], function ($) {
             }
             var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
-            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item black-friday" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
             
             var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
             
@@ -299,7 +299,7 @@ require(['jquery'], function ($) {
                                     '<span title="' + product.name + '" class="product-item-link">' +
                                         product.name +
                                     '</span>' +
-                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                                 priceBlock + productInfoBottom +
                             '</a>' +
                         '</div>' +
@@ -772,10 +772,10 @@ require(['jquery'], function ($) {
 
 <div class="plp-banner-widget">
     <div class="plp-banner" style="height: 265px;">
-        <img class="banner-web" style="height: 100%; object-fit: cover;" src="<?= $block->getViewFileUrl('images/plp-banner-digideals.png') ?>" />
-        <img class="banner-mobile" style="height: 100%; object-fit: cover; display: none;" src="<?= $block->getViewFileUrl('images/plp-banner-digideals.png') ?>" />
+        <img class="banner-web" style="height: 100%; object-fit: cover;" src="<?= $block->getViewFileUrl('images/black-friday-deals.png') ?>" />
+        <img class="banner-mobile" style="height: 100%; object-fit: cover; display: none;" src="<?= $block->getViewFileUrl('images/black-friday-deals.png') ?>" />
         <div class="plp-banner-label">
-            <div class="banner-main-label" style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: #fff; font-size: 128px; font-family: Inter; font-weight: 600;">digiDeals</div>
+            <div class="banner-main-label" style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: #FE4C25; font-size: 128px; font-family: Inter; font-weight: 600;">Black Friday Deals</div>
             <div class="banner-secondary-label" style="text-align: center; color: #fff; font-size: 32px; font-weight: 600;">Unlock Exclusive Savings with Our Unbeatable Deals!</div>
         </div>
     </div>
