@@ -34,9 +34,10 @@ body {
     text-align: center;
     background-image: url("../images/background-img-mobile.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
     background-position: top center;
     color: #fff;
+    background-color: #000;
 }
 
 .main-block > .title {
