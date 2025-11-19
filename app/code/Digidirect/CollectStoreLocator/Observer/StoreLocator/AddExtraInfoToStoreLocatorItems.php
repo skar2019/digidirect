@@ -256,7 +256,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $this->logger->info('$totalCann: ' . $totalCann);
         $this->logger->info('$cannQty: ' . $cannQty);
         $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
-
+        $this->logger->info('stores:' , ['items' => $items]);
         return $items;
     }
 
