@@ -256,7 +256,7 @@ class DefaultConfigProvider
         $miraQty = 1;
         $cannQty = 1;
         $parrQty = 1;
-        $stPetersQty = 1;
+        $digiWrhsQty = 1;
 
         $totalCann = 0.0;
         $totalQtyOnOtherSources = 0;
@@ -295,6 +295,9 @@ class DefaultConfigProvider
                 } elseif ($sourceItem->getSourceCode() == 'PARR') {
                     $parrQty = $parrQty * $getQty;
                     $totalQtyOnOtherSources += $parrQty;
+                } elseif ($sourceItem->getSourceCode() == '3WHS') {
+                    $digiWrhsQty = $digiWrhsQty * $getQty;
+                    $totalQtyOnOtherSources += $digiWrhsQty;
                 } elseif ($sourceItem->getSourceCode() == 'CANN') {
 
                     $wiserPrice = $product->getWiserPrice();
