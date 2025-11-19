@@ -306,9 +306,9 @@ require(['jquery'], function ($) {
             
             let productInfoBottom;
 
-            let discountValue = parseFloat((discount || '').replace(/[$,]/g, ''));
+            let discountNoSpecialChar = parseFloat((discount || '').replace(/[$,]/g, ''));
 
-            if (!discount || isNaN(discountValue)) {
+            if (!discount || isNaN(discountNoSpecialChar)) {
                 productInfoBottom =
                     '<div class="product-info-bottom black-friday">' +
                         '<div class="discount-price-wrapper-no-price"></div>' +
