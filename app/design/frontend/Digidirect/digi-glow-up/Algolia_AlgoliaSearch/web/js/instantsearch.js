@@ -1792,7 +1792,7 @@ define([
     })()
 
     // 🧹 Remove PA products after filter
-    ;(function () {
+    /*;(function () {
       const TARGET_SELECTOR = '#instant-search-results-container'
       const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
 
@@ -1822,5 +1822,5 @@ define([
 
         observer.observe(target, { childList: true, subtree: true })
       }, 300)
-    })()
+    })()*/
   })

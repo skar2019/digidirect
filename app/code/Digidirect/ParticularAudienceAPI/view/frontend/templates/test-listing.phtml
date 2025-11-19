@@ -120,8 +120,10 @@ require(['jquery'], function ($) {
         var productCtr = 0;
         //slice(-2) Limits the products to only 2, Temporay fix only.
         Object.keys(widgetSlots).slice(0, 2).forEach(key => {
-            productCtr++;
             let product = widgetSlots[key].products[0];
+            let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
+            
+            productCtr++;
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
             let tacticId = widgetSlots[key].tacticId;
@@ -133,38 +135,37 @@ require(['jquery'], function ($) {
             let hmacSalt = widgetSlots[key].hmacSalt;
             let hmac = widgetSlots[key].hmac;
             let keywordId = widgetSlots[key].keywordId;
-            
+
             let digiDealsLogo = "";
             let priceBlock = "";
-            let algoliaPriceBlock = "";
             let addToCart = "";
-            
+
             let digiSeconds = "";
             let digiSecondsOverlay = "";
             let sellerName = "";
-            
+
             let categories = product.attributes.find(obj => {
                 return obj.name === 'Categories';
             })
-            
+
             let seller = product.attributes.find(obj => {
                 return obj.name === 'DDR_Seller_Id';
             })
-            
+
             let digiPrint = product.attributes.find(obj => {
                 return obj.name === 'is_digiprint';
             })
-            
+
             let digiPrintLink = product.attributes.find(obj => {
                 return obj.name === 'digiprint_customlink';
             })
-            
+
             let digiSecondsRatingValue = product.attributes.find(obj => {
                 return obj.name === 'item_rating';
             })
-            
+
             let digiSecondsRating = "";            
-            
+
             if (digiSecondsRatingValue.stringValue == "5") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             } else if (digiSecondsRatingValue.stringValue == "4") {
@@ -176,36 +177,40 @@ require(['jquery'], function ($) {
             } else if (digiSecondsRatingValue.stringValue == "1") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             }
-            
+
             sellerName = seller.stringValue;
-            
+
             let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
             let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
-            
-            if (categories.options[0].value == "PRELOVED") {
+
+            const includesString = (str, searchString) =>
+            new RegExp(searchString, 'i').test(str);
+
+            if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (categories.options[0].value == "OPENBOX") {
+            } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (categories.options[0].value == "REFURB") {
+            } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
-            
+
             digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
-            console.log("adSetId", adSetId, product.name);
+            //console.log("adSetId", adSetId, product.name);
 
             let digiPrintValue = digiPrint.stringValue;
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
             if (adSetId || adSetId != null) {
-                sponsoredLabel = '<span class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
+                sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
             }
 
             if (digiPrintValue == 1) {
-                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
-                                '</button>' +
-                            '</a>'
+                addToCart =
+                    '<div class="ordernow-link" onclick="window.open(\'' + digiPrintLinkValue + '\', \'_blank\')">' +
+                      '<button type="button" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" />' +
+                      '</button>' +
+                    '</div>';
+
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
@@ -227,20 +232,28 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
-                                '</button>' +
+                                '</button>' + 
                             '</form>'
             }
-            //console.log(product.name, sellerName);
+            
+            let addToWishList;
+            
+            if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
+                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
+            } else {
+                addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
+            }
+            
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
-                    digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                 } else {
-                    digiDealsLogo = '';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
                 }
             } else {
-                digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
             }
-                
+
             let price = Number(product.prices[0].price);
             let discountPrice = Number(product.prices[0].discountPrice);
 
@@ -250,19 +263,24 @@ require(['jquery'], function ($) {
             let discountValue = price - discountPrice;
             let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
             
+            if (discount === "$NaN") {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom black-friday"><div class="discount-price-wrapper"><span class="discount-price">SAVE ' + discount + '</span> OFF RRP</div>' + addToCart + '</div>'
+            }
+
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Deal</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
-                        digiDealsLogo = '<div class="ribbon-online">Online only</div>';
+                        digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
                 } else {
-                    digiDealsLogo = '<div class="ribbon-digideals digiseconds"><span class="digi">digi</span>Seconds</div>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
                 }
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
                                 '<div class="old-price-wrapper"><span class="old-price">' +
                                     '<span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label">Price Slashed </span>' + 
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
                                             '</span>' + 
@@ -276,19 +294,24 @@ require(['jquery'], function ($) {
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
-                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                                ' <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
                                             '</span>' + 
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
-                                        '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
-                                    '</div>';
             } else {
                 let price = Number(product.prices[0].price);
                 let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
                 priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper" style="visibility: hidden;"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' + 
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
                                         '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
@@ -299,55 +322,41 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"><span class="price-container"> <span class="price"></span></span><div> ' +
-                                        '<span class="after_special">' + priceToDisplay +'</span>' +
-                                    '</div></div> ';
             }
-            
-            if (!discount) {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
-            } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+
+            let hideProductItem = "";
+            if (isMobile && productCtr > 4) {
+                hideProductItem = "hide-product-item";
             }
-            
             var view = "";
             if (isMobile) {
-                view = "-mobile";
+                view = "mobile";
             } else {
-                view = "-desktop";
+                view = "desktop";
             }
-            var tileId = 'product-' + product.refId + view;
+            var tileId = view + '-' + widgetId + '-product-' + product.refId;
+
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item black-friday" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
             
-            var paProductItem = '<li class="ais-Hits-item">' +
-                    digiDealsLogo +
-                    '<div id="'+ tileId +'" class="pa-product product-item-info col-md-4 col-sm-6" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
-                        '<div class="result-wrapper" itemprop="item" itemtype="http://schema.org/Product">' +
-                            '<a class="result" href="' + product.url + '" data-objectid="'+ product.refId +'">' +
-                                '<div class="result-content">' +
-                                    '<div class="result-thumbnail">' +
-                                        '<img itemprop="image" src="' + product.images[0] + '" alt="' + product.name + '">' +
-                                    '</div>' +
-                                    '<div class="result-sub-content">' +
-                                        '<div style="color: #4D4E4E;font-size: 10px;font-weight: 400;word-wrap: break-word;text-align: left;">Sponsored</div>' +
-                                        '<h3 itemprop="name" class="result-title text-ellipsis">' + product.name + '</h3>' +
-                                        '<div class="ratings">' +
-                                            '<div class="result-sub-content"></div>' +
-                                        '</div>' +
-                                        '<div class="result-description text-ellipsis"></div>' +
-                                        '<div class="s19-rental-price-target">' +
-                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later, </p>' +
-                                            '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
-                                        '</div>' + 
-                                        '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
-                                            algoliaPriceBlock +
-                                        '</div>' + productInfoBottom +
-                                    '</div>' + 
-                                '</div>' +
-                                '<div class="algolia-clearfix"></div>' +
+            var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
+            
+            productItem = productItemDiv + digiDealsLogo +
+                        '<a href="' + product.url + '" class="product-image-container">' +
+                            '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                            '</span>' +
+                        '</a>' + 
+                        '<div style="position: relative;">' + sponsoredLabel +
+                            '<a href="' + product.url + '" class="product details product-item-details">' +
+                                 '<strong class="product-item-name">' +
+                                    '<span title="' + product.name + '" class="product-item-link">' +
+                                        product.name +
+                                    '</span>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                priceBlock + productInfoBottom +
                             '</a>' +
                         '</div>' +
-                    '</div>' + sponsoredLabel
-                '</li>';
+                    '</div>'
             
             if (urlPath != "/plp-products-pa") {
                 $(prependTo).prepend(paProductItem);   
