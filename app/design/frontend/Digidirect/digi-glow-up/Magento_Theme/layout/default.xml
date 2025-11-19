@@ -18,12 +18,12 @@
             <block class="Magento\Framework\View\Element\Template" name="mobile.menu" template="Magento_Theme::mobile-menu.phtml" />
         </referenceContainer>
         <referenceContainer name="header.container">
-            <block class="Magento\Cms\Block\Block" name="site.takeover">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">site-takeover</argument>
-                </arguments>
-            </block>
             <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
+                <block class="Magento\Cms\Block\Block" name="site.takeover">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">site-takeover</argument>
+                    </arguments>
+                </block>
                 <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
                     <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>
 <!--                    <block class="Magento\Framework\View\Element\Template" name="mobile-navigation-header" template="Magento_Theme::html/mobile-navigation-header.phtml"/>-->
