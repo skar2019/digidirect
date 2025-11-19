@@ -252,7 +252,7 @@ require(['jquery'], function ($) {
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals black-friday"><span class="digi">Black Friday&nbsp;</span>Sale</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
@@ -283,7 +283,7 @@ require(['jquery'], function ($) {
                                 '</div>' +
                             '</div>';
                 algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
-                                        '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
+                                        '<div><div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div> <span class="after_special custom_final_price black-friday">'+ discountPriceToDisplay +'</span></div>' +
                                     '</div>';
             } else {
                 let price = Number(product.prices[0].price);
@@ -304,10 +304,20 @@ require(['jquery'], function ($) {
                                     '</div></div> ';
             }
             
-            if (!discount) {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            let productInfoBottom;
+            
+            if (!discount || isNaN(discount)) {
+                productInfoBottom =
+                    '<div class="product-info-bottom black-friday">' +
+                        '<div class="discount-price-wrapper-no-price"></div>' +
+                        addToCart +
+                    '</div>';
             } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+                productInfoBottom =
+                    '<div class="product-info-bottom black-friday">' +
+                        '<div class="discount-price-wrapper">SAVE <span class="discount-price">' + discount + '</span> OFF RRP</div>' +
+                        addToCart +
+                    '</div>';
             }
             
             var view = "";
