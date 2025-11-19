@@ -135,6 +135,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         array_push($stores, $store);
                     }
 
+                    $this->logger->info('stores:' , ['store' => $stores]);
+
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
                         $totalQtyOnOtherSources += $sydnQty;
