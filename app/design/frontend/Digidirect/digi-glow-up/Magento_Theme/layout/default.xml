@@ -84,8 +84,9 @@
                    name="minicart_private"
                    as="minicart_private"
                    template="Magento_Checkout::cart/minicart-private.phtml"
+                   cacheable="false"
                    before="-"
-                   >
+                   ttl="0">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Digidirect\Customer\ViewModel\Customer</argument>
                 </arguments>

@@ -4,14 +4,17 @@
 <?php
 /** @var \Digidirect\Customer\ViewModel\Customer $viewModel */
 $viewModel = $block->getData('view_model');
+$isLoggedIn = $viewModel->isLoggedIn();
 $isMobile = $viewModel->isMobile();
 ?>
-
 <!-- 🔹 Wishlist -->
 <a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
     <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
     <span>Wishlist</span>
-    <div class="wishlist-count" data-customer-section="wishlist-count" style="display:none;"></div>
+
+    <?php if ($isLoggedIn) :?>
+        <div class="wishlist-count"><?= $viewModel->getWishlistItemsCount(); ?></div>
+    <?php endif; ?>
 </a>
 
 <!-- 🔹 Cart Trigger -->
@@ -19,93 +22,40 @@ $isMobile = $viewModel->isMobile();
     <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
     <span>Cart</span>
     <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
-    <span class="counter qty empty" data-customer-section="cart-counter"
+    <span class="counter qty empty <?php if (!$isLoggedIn) : echo 'counter-guest'; endif; ?>"
           data-bind="css: { empty: !getCartParam('summary_count') }, blockLoader: isLoading">
-        <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
-    </span>
+            <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
+        </span>
 </a>
 
-<!-- 🔹 Login/Account -->
+<!-- 🔹 Login -->
 <div class="action login-logout">
-    <!-- Logged Out View (default, hidden if logged in) -->
-    <div class="logged-out-view" data-customer-section="logged-out">
-        <a href="<?= $block->getUrl('customer/account/login') ?>">
-            <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
-            <span>Login</span>
+<?php if (!$isLoggedIn) :?>
+    <a href="<?= $block->getUrl('customer/account/login') ?>">
+        <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
+        <span>Login</span>
+    </a>
+<?php else :?>
+    <div class="account-icon">
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
+            </a>
+    </div>
+    <div class="account-text">
+        <?php if ($isMobile) :?>
+            <a href="#" class="account-top-link-mobile">
+        <?php else: ?>
+            <a href="<?= $block->getUrl('customer/account') ?>">
+        <?php endif;?>
+                <span class="username"><?= $viewModel->getFirstName();?></span
+            </a>
+        <a href="<?= $block->getUrl('customer/account/logout') ?>">
+            <span class="logout">Logout</span>
         </a>
     </div>
-
-    <!-- Logged In View (hidden by default) -->
-    <div class="logged-in-view" data-customer-section="logged-in" style="display:none;">
-        <div class="account-icon">
-            <?php if ($isMobile) :?>
-            <a href="#" class="account-top-link-mobile">
-                <?php else: ?>
-                <a href="<?= $block->getUrl('customer/account') ?>">
-                    <?php endif;?>
-                    <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
-                </a>
-        </div>
-        <div class="account-text">
-            <?php if ($isMobile) :?>
-            <a href="#" class="account-top-link-mobile">
-                <?php else: ?>
-                <a href="<?= $block->getUrl('customer/account') ?>">
-                    <?php endif;?>
-                    <span class="username" data-customer-firstname></span>
-                </a>
-                <a href="<?= $block->getUrl('customer/account/logout') ?>">
-                    <span class="logout">Logout</span>
-                </a>
-        </div>
-    </div>
+<?php endif; ?>
 </div>
-
-<script type="text/javascript">
-    require([
-        'jquery',
-        'Magento_Customer/js/customer-data'
-    ], function($, customerData) {
-        'use strict';
-
-        var customer = customerData.get('customer');
-        var wishlist = customerData.get('wishlist');
-
-        // Update UI when customer data changes
-        customer.subscribe(function(data) {
-            var isLoggedIn = data && data.firstname;
-
-            if (isLoggedIn) {
-                // Show logged in view
-                $('[data-customer-section="logged-out"]').hide();
-                $('[data-customer-section="logged-in"]').show();
-                $('[data-customer-firstname]').text(data.firstname);
-
-                // Add counter-guest class if needed
-                $('[data-customer-section="cart-counter"]').removeClass('counter-guest');
-            } else {
-                // Show logged out view
-                $('[data-customer-section="logged-in"]').hide();
-                $('[data-customer-section="logged-out"]').show();
-
-                // Add counter-guest class
-                $('[data-customer-section="cart-counter"]').addClass('counter-guest');
-            }
-        });
-
-        // Update wishlist count
-        wishlist.subscribe(function(data) {
-            if (data && data.counter && data.counter > 0) {
-                $('[data-customer-section="wishlist-count"]')
-                    .text(data.counter)
-                    .show();
-            } else {
-                $('[data-customer-section="wishlist-count"]').hide();
-            }
-        });
-
-        // Initial load
-        customer.reload();
-        wishlist.reload();
-    });
-</script>
