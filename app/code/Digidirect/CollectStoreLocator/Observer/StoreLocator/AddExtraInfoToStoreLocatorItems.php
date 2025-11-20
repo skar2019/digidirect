@@ -135,7 +135,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         array_push($stores, $store);
                     }
 
-                    $this->logger->info('stores:' , ['store' => $stores]);
+                    //$this->logger->info('stores:' , ['store' => $stores]);
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
@@ -156,6 +156,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
                     } elseif ($id == 41 && $sourceItem->getSourceCode() == '3WHS') {
+                        $this->logger->info('$strathfieldQty: ' . $strathfieldQty);
                         $strathfieldQty = $strathfieldQty * $getQty;
                         $totalQtyOnOtherSources += $strathfieldQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
@@ -230,17 +231,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                                 $items[$key]['click_and_collect'] = false;
                             }
                         }
-                    } elseif ($id == 35) { //SWHS
-
-                        $items[$key]['click_and_collect'] = NULL;
-
                     } elseif ($id == 32 && $parrQty > 0) {
                         if (in_array('PARR', $stores)) {
                             $items[$key]['click_and_collect'] = true;
                         } else {
                             $items[$key]['click_and_collect'] = false;
                         }
-                    } elseif ($id == 41 && $strathfieldQty > 0) { //strathfield on staging, 45 on prod
+                    } elseif ($id == 41 && $strathfieldQty > 0) { //strathfield on staging, 42 on prod
+                        $this->logger->info('$strathfieldQty: ');
                         if (in_array('3WHS', $stores)) {
                             $items[$key]['click_and_collect'] = true;
                         } else {
