@@ -187,9 +187,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     $items[$key]['click_and_collect'] = NULL;
                 }
             } else {
-                if (is_null($id)) {
-                    $items[$key]['click_and_collect'] = false;
-                } else {
+                //if (is_null($id)) {
+                //    $items[$key]['click_and_collect'] = false;
+                //} else {
                     if ($id == 1 && $sydnQty > 0) {
                         if (in_array('SYDN', $stores)) {
                             $items[$key]['click_and_collect'] = true;
@@ -240,16 +240,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         } else {
                             $items[$key]['click_and_collect'] = false;
                         }
-                    } elseif ($id == 41) { //strathfield on staging, 42 on prod
-                        //if (in_array('3WHS', $stores)) {
+                    } elseif ($id == 41 && $strathfieldQty > 0) { //strathfield on staging, 42 on prod
+                        if (in_array('3WHS', $stores)) {
                             $items[$key]['click_and_collect'] = true;
-                        //} else {
-                        //    $items[$key]['click_and_collect'] = false;
-                        //}
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
                     } else {
                         $items[$key]['click_and_collect'] = false;
                     }
-                }
+                //}
             }
         }
 
