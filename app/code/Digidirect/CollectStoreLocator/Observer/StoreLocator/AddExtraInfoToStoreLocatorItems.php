@@ -155,7 +155,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $getQty;
                         $totalQtyOnOtherSources += $parrQty;
-                    } elseif ($id == 41 && $sourceItem->getSourceCode() == '3WHS') {
+                    } elseif (($id == 42 || $id == 41) && $sourceItem->getSourceCode() == '3WHS')  { //42 in prod, 41 in staging2
                         $strathfieldQty = $strathfieldQty * $getQty;
                         $totalQtyOnOtherSources += $strathfieldQty;
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
@@ -240,12 +240,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         } else {
                             $items[$key]['click_and_collect'] = false;
                         }
-                    } elseif ($id == 41) { //strathfield on staging, 42 on prod
-                        //if (in_array('3WHS', $stores)) {
+                    } elseif ($id == 42 || $id == 41) { //strathfield on staging, 42 on prod
+                        if (in_array('3WHS', $stores)) {
                             $items[$key]['click_and_collect'] = true;
-                        //} else {
-                        //    $items[$key]['click_and_collect'] = false;
-                        //}
+                        } else {
+                            $items[$key]['click_and_collect'] = false;
+                        }
                     } else {
                         $items[$key]['click_and_collect'] = false;
                     }
