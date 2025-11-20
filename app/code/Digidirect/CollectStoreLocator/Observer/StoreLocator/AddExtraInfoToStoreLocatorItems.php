@@ -88,7 +88,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
 
-                    $this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
+                    //$this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
 
                     $getQty = $sourceItem->getQuantity();
                     $store = $sourceItem->getSourceCode();
@@ -97,7 +97,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $stores[] = $store;
                     }
 
-                    $this->logger->info('stores:', ['store' => $stores]);
+                    //$this->logger->info('stores:', ['store' => $stores]);
 
                     if ($id == 1 && $store == 'SYDN') {
                         $sydnQty *= $getQty;
@@ -137,9 +137,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $totalCann += $lastPrice;
                         $cannQty *= $getQty;
 
-                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
-                        $this->logger->info('$finalPrice, ' . $finalPrice);
-                        $this->logger->info('$totalCann, ' . $totalCann);
+//                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
+//                        $this->logger->info('$finalPrice, ' . $finalPrice);
+//                        $this->logger->info('$totalCann, ' . $totalCann);
                     }
                 }
             }
