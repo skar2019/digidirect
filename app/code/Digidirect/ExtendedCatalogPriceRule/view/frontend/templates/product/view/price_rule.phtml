@@ -11,13 +11,14 @@ use \Digidirect\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
                 <div class="amount"><?= /* @noEscape */ $block->formatDiscountAmount($rule['action_amount']); ?></div>
             <?php endif; ?>
             <?php if (!empty($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION])) : ?>
-                <div class="description"><?= /* @noEscape */ $block->prepareDescription($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION]); ?></div>
-            <?php endif; ?>
-            <?php if(!empty($rule[RuleDisplayMessageInterface::URL_PROMOTION])): ?>
-                <a class="link" href="<?= $block->escapeUrl($rule[RuleDisplayMessageInterface::URL_PROMOTION]); ?>"
-                   title="<?= /* @noEscape */ __('Promotion URL'); ?>">
-                    <?= /* @noEscape */ __('Promotion URL'); ?>
-                </a>
+                <?php if(!empty($rule[RuleDisplayMessageInterface::URL_PROMOTION])): ?>
+                    <a class="link" target="_blank" href="<?= $block->escapeUrl($rule[RuleDisplayMessageInterface::URL_PROMOTION]); ?>"
+                       title="<?= /* @noEscape */ __('Promotion URL'); ?>">
+                        <div class="description"><?= /* @noEscape */ $block->prepareDescription($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION]); ?></div>
+                    </a>
+                <?php else: ?>
+                    <div class="description"><?= /* @noEscape */ $block->prepareDescription($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION]); ?></div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     <?php endforeach; ?>

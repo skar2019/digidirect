@@ -76,16 +76,16 @@ class Shipping {
                 }
             }
         }
-        
+
         $originalRates = $subject->getResult()->getAllRates();
 
-        foreach ($originalRates as $rate) {
-            $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
-            $this->logger->info("fullMethodCode, " . $fullMethodCode);
-        }
+//        foreach ($originalRates as $rate) {
+//            $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
+//            $this->logger->info("fullMethodCode, " . $fullMethodCode);
+//        }
 
         if ($countryId == 'AU') {
-            
+
             $originalRates = $subject->getResult()->getAllRates();
             $filteredResult = clone $subject->getResult(); // Clone to avoid modifying original object
             $reflection = new \ReflectionClass($filteredResult);
@@ -97,7 +97,7 @@ class Shipping {
 
             foreach ($originalRates as $rate) {
                 $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
-                
+
                 if ($rate->getMethod() == 'nextdayship') {
                     /*if (($is3whs == 1 && $s3whsQty <= 0)) {
                         if (!in_array('express_nextdayship', $methodCodeToRemove)) {
@@ -120,8 +120,8 @@ class Shipping {
                         }
                     }
                 }
-                
-                
+
+
 
                 if ($this->helperData->hasMarketplacerSeller()) {
                     if ($rate->getMethod() == 'nextdayship') {
@@ -130,9 +130,9 @@ class Shipping {
                         }
                     }
                 }
-                
+
                 if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                    $this->logger->info("fullMethodCode, " . $fullMethodCode);
+                    //$this->logger->info("fullMethodCode, " . $fullMethodCode);
                     $filteredResult->append($rate);
                 }
             }
@@ -142,18 +142,18 @@ class Shipping {
             $resultProperty = $reflection->getProperty('_result');
             $resultProperty->setAccessible(true);
             $resultProperty->setValue($subject, $filteredResult);
-            
+
         } else {
-            
+
             $originalRates = $subject->getResult()->getAllRates();
             $filteredResult = clone $subject->getResult(); // Clone to avoid modifying original object
             $reflection = new \ReflectionClass($filteredResult);
             $ratesProperty = $reflection->getProperty('_rates');
             $ratesProperty->setAccessible(true);
             $ratesProperty->setValue($filteredResult, []); // Reset rates
-            
+
             $methodCodeToRemove = ['standard_standard', 'express_express', 'express_nextdayship'];
-            
+
             foreach ($originalRates as $rate) {
                 $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
                 if ($countryId == 'NZ') {
@@ -165,13 +165,13 @@ class Shipping {
                         array_push($methodCodeToRemove, 'AP_intlshippingnz');
                     }
                 }
-                
+
                 if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                    $this->logger->info("fullMethodCode, " . $fullMethodCode);
+                    //$this->logger->info("fullMethodCode, " . $fullMethodCode);
                     $filteredResult->append($rate);
                 }
             }
-            
+
             // Replace original result with filtered one
             $reflection = new \ReflectionClass($subject);
             $resultProperty = $reflection->getProperty('_result');
@@ -179,11 +179,11 @@ class Shipping {
             $resultProperty->setValue($subject, $filteredResult);
 
             //return $result;
-            
+
             /*if ($carrierCode == 'standard' || $carrierCode == 'express' || $carrierCode == 'nextdaydelivery') {
                 return false;
             }*/
-            
+
         }
 
         return $proceed($carrierCode, $request);
