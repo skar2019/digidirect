@@ -240,12 +240,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         } else {
                             $items[$key]['click_and_collect'] = false;
                         }
-                    } elseif ($id == 41 && $strathfieldQty > 0) { //strathfield on staging, 45 on prod
-                        if (in_array('3WHS', $stores)) {
+                    } elseif ($id == 41) { //strathfield on staging, 42 on prod
+                        //if (in_array('3WHS', $stores)) {
                             $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
+                        //} else {
+                        //    $items[$key]['click_and_collect'] = false;
+                        //}
                     } else {
                         $items[$key]['click_and_collect'] = false;
                     }
