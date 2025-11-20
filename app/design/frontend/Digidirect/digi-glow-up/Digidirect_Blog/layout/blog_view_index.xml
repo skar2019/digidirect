@@ -12,9 +12,24 @@
                 </arguments>
             </block>
         </referenceContainer>
-        <move element="blog.categorytree.left" destination="sidebar.main" before="-"/>
+
+        <referenceContainer name="page.top">
+            <container name="blog.top.container"
+                    as="blog_top_container"
+                    htmlTag="div"
+                    htmlClass="blog-top-container"
+                    before="-">
+                    <block name="blog.top" class="Magento\Framework\View\Element\Template"
+                    template="Digidirect_Blog::blog_top.phtml" />
+                    <container name="blog.top.search.category.container"
+                                htmlTag="div"
+                                htmlClass="blog-top-search-category-container"
+                                after="blog.top" />
+            </container>
+        </referenceContainer>
         <move element="blog.sidebar.tags.cloud" destination="sidebar.main" after="-"/>
-        <move element="blog.widget.search" destination="main" after="page.main.title"/>
+        <move element="blog.categorytree.left" destination="blog.top.search.category.container" after="-"/>
+        <move element="blog.widget.search" destination="blog.top.search.category.container" after="blog.categorytree.left"/>
         <move element="div.sidebar.main" destination="columns" before="-"/>
         <move element="page.main.title" destination="main" before="-"/>
         <!--<move element="blog.relatedproducts" destination="main" after="-"/>-->
