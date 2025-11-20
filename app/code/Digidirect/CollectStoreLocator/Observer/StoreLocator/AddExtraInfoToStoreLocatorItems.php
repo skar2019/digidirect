@@ -135,7 +135,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         array_push($stores, $store);
                     }
 
-                    $this->logger->info('stores:' , ['store' => $stores]);
+                    //$this->logger->info('stores:' , ['store' => $stores]);
 
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $getQty;
@@ -172,9 +172,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $totalCann += $lastPrice;
                         $cannQty = $cannQty * $getQty;
 
-                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
-                        $this->logger->info('$finalPrice, ' . $finalPrice);
-                        $this->logger->info('$totalCann, ' . $totalCann);
+//                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
+//                        $this->logger->info('$finalPrice, ' . $finalPrice);
+//                        $this->logger->info('$totalCann, ' . $totalCann);
 
                     }
                 }
@@ -253,10 +253,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             }
         }
 
-        $this->logger->info('$totalCann: ' . $totalCann);
-        $this->logger->info('$cannQty: ' . $cannQty);
-        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
-        $this->logger->info('stores:' , ['items' => $items]);
+//        $this->logger->info('$totalCann: ' . $totalCann);
+//        $this->logger->info('$cannQty: ' . $cannQty);
+//        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+//        $this->logger->info('stores:' , ['items' => $items]);
         return $items;
     }
 
