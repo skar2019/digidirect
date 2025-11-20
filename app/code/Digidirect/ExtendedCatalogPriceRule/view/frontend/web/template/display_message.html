@@ -8,14 +8,16 @@
     <% } %>
 
     <% if (data.pdp_description || data.url_promotion) { %>
-        <div class="details-extendedrule">
-            <% if (data.pdp_description) { %>
+    <div class="details-extendedrule">
+        <% if (data.pdp_description) { %>
+            <% if (data.url_promotion) { %>
+                <a class="link" href="<%- data.url_promotion %>" target="_blank" title="<%- label.promotionTitle %>">
+                    <div class="description"><%= data.pdp_description %></div>
+                </a>
+            <% } else { %>
                 <div class="description"><%= data.pdp_description %></div>
             <% } %>
-
-            <% if (data.url_promotion) { %>
-                <a class="link" href="<%- data.url_promotion %>" title="<%- label.promotionTitle %>"><%- label.promotionTitle %></a>
-            <% } %>
-        </div>
+        <% } %>
+    </div>
     <% } %>
 </div>
