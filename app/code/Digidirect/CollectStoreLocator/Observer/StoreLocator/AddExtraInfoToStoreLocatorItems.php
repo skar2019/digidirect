@@ -123,7 +123,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $parrQty *= $getQty;
                         $totalQtyOnOtherSources += $parrQty;
 
-                    } elseif (($id == 42 || $id == 41) && $store == '3WHS') {
+                    } elseif (($id == 35) && $store == '3WHS') {
                         $strathfieldQty *= $getQty;
                         $totalQtyOnOtherSources += $strathfieldQty;
 
@@ -174,15 +174,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $items[$key]['click_and_collect'] = ($totalCann < 1000) ? null : false;
                     }
 
-                } elseif ($id == 35) { // SWHS
-                    $items[$key]['click_and_collect'] = null;
+                } elseif ($id == 35) { // 3WHS
+                    $items[$key]['click_and_collect'] = in_array('3WHS', $stores);
 
                 } elseif ($id == 32 && $parrQty > 0) {
                     $items[$key]['click_and_collect'] = in_array('PARR', $stores);
-
-                } elseif (($id == 42 || $id == 41) && $strathfieldQty > 0) {
-                    // FINAL MERGE-FIXED 3WHS RULE
-                    $items[$key]['click_and_collect'] = in_array('3WHS', $stores);
 
                 } else {
                     $items[$key]['click_and_collect'] = false;
