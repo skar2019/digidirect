@@ -26,7 +26,7 @@ $productRules = $block->getProductRules($product);
                 <div class="details-extendedrule">
                     <?php if(!empty($rule['pdp_description'])): ?>
                         <?php if(!empty($rule['url_promotion'])): ?>
-                            <a class="link" href="<?= $block->escapeUrl($rule['url_promotion']); ?>" title="<?= /* @noEscape */ __('Promotion URL'); ?>">
+                            <a class="link" target="_blank" href="<?= $block->escapeUrl($rule['url_promotion']); ?>" title="<?= /* @noEscape */ __('Promotion URL'); ?>">
                                 <div class="description"><?=  /* @noEscape */ $rule['pdp_description']; ?></div>
                             </a>
                         <?php else: ?>
