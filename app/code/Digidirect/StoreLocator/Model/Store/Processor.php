@@ -343,13 +343,6 @@ class Processor implements ProcessorInterface
         array $attributes = []
     ) {
         $attributeSetName = $this->changeStoreLocatorName($attributeSetName);
-        // ADD LOGGING HERE
-        $tableName = $this->getExistsTableNameByAttributeSetName($attributeSetName);
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $logger = $objectManager->get(\Psr\Log\LoggerInterface::class);
-        $logger->info('====== STORE LOCATOR TABLE QUERY ======');
-        $logger->info('Attribute set: ' . $attributeSetName);
-        $logger->info('Table name: ' . ($tableName ?? 'NULL'));
 
         $sortDistanceField = self::DISTANCE_FIELD;
         if (empty($searchParams['latitude'])
