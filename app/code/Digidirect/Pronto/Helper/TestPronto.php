@@ -59,7 +59,8 @@ class TestPronto extends AbstractHelper
         '13' => 'M6P',
         '16' => 'C3P',
         '32' => 'P4P',
-        '35' => 'C9W'
+        '35' => 'C9W',
+        '42' => 'C9W'
 
     ];
 
