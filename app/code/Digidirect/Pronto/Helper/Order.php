@@ -58,7 +58,8 @@ class Order extends AbstractHelper
         '16' => 'C3P',
         '19' => 'B5P',
         '32' => 'P4P',
-        '35' => 'C9W'
+        '35' => 'C9W',
+        '42' => 'C9W'
 
     ];
 
