@@ -429,7 +429,7 @@ class Order extends AbstractHelper
             $disregardshipping = false;
             $modifygrandtotal = false;
             $surcharge = $order->getPaymentFee();
-
+            $carriercode = "";
 
             if($payment_type == 'BT')
             {
@@ -664,6 +664,8 @@ class Order extends AbstractHelper
                 }
             }
 
+            $data['sales-order']['header']['carrier-code'] = $carriercode;
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -695,6 +697,7 @@ class Order extends AbstractHelper
             {
                 $shipstreet = implode(",", $shipstrt);
             }
+
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
@@ -712,6 +715,10 @@ class Order extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                if($shipcity == 'Strathfield South')
+                {
+                    $data['sales-order']['header']['carrier-code'] = "COLL";
+                }
                 //click and collect goes to picking screen
 
             }
@@ -720,13 +727,19 @@ class Order extends AbstractHelper
                 $shipcompany = 'Click and Collect';
             }
 
-            if($delivery == "Next Day Delivery")
+            if($delivery == "Next Day Delivery" || $delivery == "Express - (Next Day Delivery)")
             {
+                if($wrehs == "3WHS")
+                {
+                    $data['sales-order']['header']['carrier-code'] = "GO";
+                }
+
                 if($payment_type == 'LP' || $payment_type == 'BT')
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
+
             }
 
             $contactname = preg_replace('/[^A-Za-z0-9. -]/', '', $contactname);
