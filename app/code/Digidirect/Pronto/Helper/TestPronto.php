@@ -1156,7 +1156,7 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
-                if($shipcity = 'Strathfield South')
+                if($shipcity == 'Strathfield South')
                 {
                     $data['sales-order']['header']['carrier-code'] = "COLL";
                 }
