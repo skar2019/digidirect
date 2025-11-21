@@ -5,7 +5,7 @@
         <link rel="canonical" src="https://www.digidirect.com.au/blog" src_type="url"/>
     </head>
     <body>
-    <referenceContainer name="main">
+    <referenceContainer name="page.top">
         <container name="blog.top.container"
                 as="blog_top_container"
                 htmlTag="div"
@@ -33,7 +33,6 @@
 
         <move element="div.sidebar.main" destination="main" before="-"/>
         <move element="blog.relatedproducts" destination="page.wrapper" before="page.below.container"/>
-        <!-- <move element="blog.top" destination="main" before="-"/> -->
 
         <referenceBlock name="page.main.title" remove="true"/>
         <referenceBlock name="blog.sidebar.tags.cloud" remove="true"/>
