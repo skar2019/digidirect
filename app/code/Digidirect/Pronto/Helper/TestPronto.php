@@ -1140,6 +1140,7 @@ class TestPronto extends AbstractHelper
             }
 
             $shipcity = $shipaddress->getCity();
+            $shipcity = trim($shipcity);
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
             $shipcountrycode = $shipaddress->getCountryId();
