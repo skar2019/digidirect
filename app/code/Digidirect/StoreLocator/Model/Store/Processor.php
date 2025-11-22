@@ -393,7 +393,7 @@ class Processor implements ProcessorInterface
         $select->where(AbstractEntityInterface::STATUS . '=?', Status::STATUS_ENABLED);
         $select->where(ConfigHelper::ATTRIBUTE_DISPLAY_ON_MAP . '=?', DisplayOnMap::DISPLAY_ON_MAP_ENABLED);
         $this->addAttributeToFilter($select, $attributes, 'longitude', 'NOT ISNULL(longitude)');
-        $this->addAttributeToFilter($select, $attributes, 'longitude', 'NOT ISNULL(latitude)');
+        $this->addAttributeToFilter($select, $attributes, 'latitude', 'NOT ISNULL(latitude)');
         if (!empty($searchParams['specified_ids']) && \is_array($searchParams['specified_ids'])) {
             $select->where('entity_id IN (?)', $searchParams['specified_ids']);
         } else {

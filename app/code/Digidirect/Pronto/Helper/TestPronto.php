@@ -59,7 +59,8 @@ class TestPronto extends AbstractHelper
         '13' => 'M6P',
         '16' => 'C3P',
         '32' => 'P4P',
-        '35' => 'C9W'
+        '35' => 'C9W',
+        '42' => 'C9W'
 
     ];
 
@@ -1139,6 +1140,7 @@ class TestPronto extends AbstractHelper
             }
 
             $shipcity = $shipaddress->getCity();
+            $shipcity = trim($shipcity);
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
             $shipcountrycode = $shipaddress->getCountryId();
@@ -1155,7 +1157,7 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
-                if($shipcity = 'Strathfield South')
+                if($shipcity == 'Strathfield South')
                 {
                     $data['sales-order']['header']['carrier-code'] = "COLL";
                 }
