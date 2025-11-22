@@ -1,21 +1,19 @@
 <?php
 namespace Digidirect\Sales\Plugin;
 
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+
 class OrderEmailTemplatePlugin
 {
-    public function beforeSend(
-        \Magento\Sales\Model\Order\Email\Sender\OrderSender $subject,
-        \Magento\Sales\Model\Order $order,
-        $forceSyncMode = false
-    ) {
-        // get shipping method
+    public function aroundPrepareTemplate(OrderSender $subject, callable $proceed, $order)
+    {
+        // First, call the original method to initialize template container
+        $proceed($order);
+
+        // Now safely override template
         $shippingMethod = $order->getShippingMethod();
-
         if ($shippingMethod === 'collect_collect') {
-            // Override the template before email is prepared
-            $subject->setTemplateId(69);
+            $subject->getTemplateContainer()->setTemplateId(69);
         }
-
-        return [$order, $forceSyncMode];
     }
 }
