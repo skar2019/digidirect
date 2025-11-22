@@ -1,24 +1,21 @@
 <?php
 namespace Digidirect\Sales\Plugin;
 
-use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
-
 class OrderEmailTemplatePlugin
 {
-    public function afterGetTemplateId(OrderIdentity $subject, $result)
-    {
-        $order = $subject->getOrder();
-        if (!$order) {
-            return $result;
-        }
-
-        // Get shipping method from ORDER (not quote)
+    public function beforeSend(
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $subject,
+        \Magento\Sales\Model\Order $order,
+        $forceSyncMode = false
+    ) {
+        // get shipping method
         $shippingMethod = $order->getShippingMethod();
 
         if ($shippingMethod === 'collect_collect') {
-            return 69; // your custom template ID
+            // Override the template before email is prepared
+            $subject->setTemplateId(69);
         }
 
-        return $result;
+        return [$order, $forceSyncMode];
     }
 }
