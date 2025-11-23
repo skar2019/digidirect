@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Sales\Model\Order\Email\Container\OrderIdentity">
-        <plugin name="digidirect_order_email_template"
-                type="Digidirect\Sales\Plugin\OrderIdentityPlugin"/>
+        <plugin name="digidirect_click_collect_email" type="Digidirect\Sales\Plugin\OrderIdentityPlugin" />
     </type>
 </config>

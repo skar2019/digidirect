@@ -7,20 +7,28 @@ use Magento\Sales\Model\Order;
 class OrderIdentityPlugin
 {
     /**
-     * Force a custom template for order emails
+     * Override template for Click & Collect orders
+     *
+     * @param OrderIdentity $subject
+     * @param callable $proceed
+     * @return int|string
      */
     public function aroundGetTemplateId(OrderIdentity $subject, callable $proceed)
     {
-        $order = $subject->getTemplateVars()['order'] ?? null;
+        $templateId = $proceed(); // default template
 
-        if ($order instanceof Order) {
-            // Example: only for banktransfer
-            // $paymentMethod = $order->getPayment()->getMethod();
-            // if ($paymentMethod === 'banktransfer') { return 69; }
+        $vars = $subject->getTemplateVars();
+        $order = $vars['order'] ?? null;
 
-            return 69; // force template 69 for all orders
+        /*if ($order instanceof Order) {
+            $shippingMethod = $order->getShippingMethod(); // e.g., clickandcollect_pickup
+            if (strpos(strtolower($shippingMethod), 'clickandcollect') !== false) {
+                return 69; // Force template ID 69 for C&C
+            }
         }
 
-        return $proceed();
+        return $templateId;*/
+        
+        return 69;
     }
 }
