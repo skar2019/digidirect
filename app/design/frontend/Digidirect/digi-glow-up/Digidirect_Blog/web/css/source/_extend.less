@@ -119,6 +119,7 @@
                 picture img {
                     height: 336px;
                     object-fit: cover;
+                    width: 100%;
                 }
 
                 .posted {
@@ -540,6 +541,60 @@
     .blog-commentform {
         .grouped-inputs {
             flex-direction: column;
+        }
+    }
+
+    .blog-view-index {
+        .blog-search {
+            display: none;
+        }
+        .sidebar-main .blog-tags {
+            padding: 15px;
+        }
+        .columns {
+            flex-direction: column-reverse;
+        }
+        .columns .column.main {
+            padding: 0 15px;
+        }
+
+        .blog-latest {
+            padding: 15px;
+        }
+
+        .post-card .post-container {
+            padding: 15px 20px;
+        }
+    }
+
+    .blog-index-index,
+    .blog-view-index,
+    .blog-tag-index {
+        .blog-top {
+            img {
+                max-width: 249px;
+            }
+        }
+        .blog-top-search-category-container .blog-categories {
+            max-width: 100%;
+            overflow-x: scroll;
+            padding-bottom: 10px;
+            justify-content: flex-start;
+        }
+    }
+    .blog-index-index,
+    .blog-tag-index {
+        .blog-top-search-category-container {
+            flex-direction: column-reverse;
+            padding: 10px;
+            gap: 5px;
+
+            .blog-search {
+                width: 100% !important;
+            }
+        }
+        .blog-list.-grid {
+            padding: 30px 15px;
         }
     }
 }
