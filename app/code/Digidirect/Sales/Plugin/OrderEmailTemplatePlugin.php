@@ -1,8 +1,8 @@
 <?php
 namespace Digidirect\Sales\Plugin;
 
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Psr\Log\LoggerInterface;
 
 class OrderEmailTemplatePlugin
@@ -14,19 +14,19 @@ class OrderEmailTemplatePlugin
         $this->logger = $logger;
     }
 
-    public function beforeSend(
-        OrderSender $subject,
-        Order $order,
-        $forceSyncMode = null
-    ) {
+    public function beforeCheckAndSend(OrderSender $subject, Order $order)
+    {
         $shippingMethod = $order->getShippingMethod();
-        $this->logger->debug('OrderEmailTemplatePlugin: ' . $shippingMethod);
+        $this->logger->debug('OrderEmailTemplatePlugin (checkAndSend): ' . $shippingMethod);
 
         if ($shippingMethod === 'collect_collect') {
+
+            // Template container ALWAYS exists here
             $subject->getTemplateContainer()->setTemplateId(69);
-            $this->logger->debug('Template set to 69');
+
+            $this->logger->debug('Template set to 69 inside checkAndSend');
         }
 
-        return [$order, $forceSyncMode];
+        return [$order];
     }
 }
