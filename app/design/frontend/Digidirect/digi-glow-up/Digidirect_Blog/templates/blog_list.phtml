@@ -95,8 +95,8 @@ $categoriesArrayNames = [];
                 <a class="img-link" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>">
                     <picture>
                         <source media="(min-width: 1280px)" srcset="<?php echo $block->escapeHtml($post->getImageUrl(null, 850)); ?>">
-                        <!-- <img src="<?php echo $block->escapeHtml($post->getImageUrl(null, 325)); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>"> -->
-                        <img src="<?php echo $block->getViewFileUrl('Digidirect_Blog::images/post-image.jpg'); ?>" width="325" alt="<?php //echo $block->escapeHtml($post->getTitle()) ?>">
+                        <img src="<?php echo $block->escapeHtml($post->getImageUrl(null, 325)); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+                        <!-- <img src="<?php //echo $block->getViewFileUrl('Digidirect_Blog::images/post-image.jpg'); ?>" width="325" alt="<?php //echo $block->escapeHtml($post->getTitle()) ?>"> -->
 
                     </picture>
                 </a>

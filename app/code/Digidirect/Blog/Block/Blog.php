@@ -209,6 +209,31 @@ class Blog extends Template
             $this->setChild('blog_toolbar', $toolbar);
         }
 
+
+        /** @var \Magento\Theme\Block\Html\Breadcrumbs $breadcrumbs */
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+        if ($breadcrumbs) {
+
+            // Home link
+            $breadcrumbs->addCrumb(
+                'home',
+                [
+                    'label' => __('Home'),
+                    'title' => __('Home'),
+                    'link'  => $this->getUrl('')
+                ]
+            );
+
+            // Blog list page
+            $breadcrumbs->addCrumb(
+                'blog',
+                [
+                    'label' => __('Blog'),
+                    'title' => __('Blog'),
+                    'link'  => $this->getUrl('blog')
+                ]
+            );
+        }
         return $this;
     }
 
