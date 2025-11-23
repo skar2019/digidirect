@@ -3,7 +3,7 @@ namespace Digidirect\Sales\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
 use Psr\Log\LoggerInterface;
 
 class ChangeOrderEmailTemplateObserver implements ObserverInterface
@@ -17,26 +17,18 @@ class ChangeOrderEmailTemplateObserver implements ObserverInterface
 
     public function execute(Observer $observer)
     {
-        $transport = $observer->getData('transportObject');
-        if (!$transport) {
+        /** @var OrderIdentity $identity */
+        $identity = $observer->getData('identity');
+        if (!$identity) {
             return;
         }
 
-        $order = $transport->getData('order');
-        if (!$order instanceof Order) {
-            return;
-        }
+        // Always override for testing
+        $identity->setTemplateId(69);
 
-        $shippingMethod = $order->getShippingMethod();
-
-        // Override the template ID directly in the transport
-        $transport->setData('template_id', 69);
-
-        // Optional: logging for debugging
-        $this->logger->info('Click & Collect template applied via transport', [
-            'order_id' => $order->getIncrementId(),
-            'shipping_method' => $shippingMethod,
-            'template_id' => 69
+        $this->logger->info('Template override applied', [
+            'template_id' => $identity->getTemplateId(),
+            'store_id'    => $identity->getStore()->getId()
         ]);
     }
 }
