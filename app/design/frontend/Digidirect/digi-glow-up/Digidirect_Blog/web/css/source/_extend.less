@@ -52,7 +52,8 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    .blog-index-index {
+    .blog-index-index,
+    .blog-tag-index {
         .blog-list {
             width: 100%;
             max-width: @blog-post-index-max-width-desktop;
@@ -141,7 +142,8 @@
 
     //common styles for blog list and blog view
     .blog-index-index,
-    .blog-view-index {
+    .blog-view-index,
+    .blog-tag-index {
         background: #f5f5f5;
         .page-bottom {
             display: none;
@@ -382,6 +384,21 @@
             }
         }
     }
+    //blog tags page specific styles
+    .blog-tag-index {
+        .sidebar {
+            padding: 0;
+            .blog-tags {
+                max-width: @blog-post-index-max-width-desktop;
+                margin: 0 auto;
+            }
+        }
+        .page-title-wrapper {
+            max-width: @blog-post-index-max-width-desktop;
+            margin: 0 auto;
+        }
+    }
+    //blog comments section
     .blog-comments {
         margin-top: 45px;
     }
