@@ -10,14 +10,14 @@ class OrderIdentityPlugin
     {
         $order = $subject->getTemplateVars()['order'] ?? null;
 
-        if ($order instanceof Order) {
+        /*if ($order instanceof Order) {
             $shippingMethod = $order->getShippingMethod();
 
             if ($shippingMethod === 'collect_collect') {
                 return 69; // your custom template ID
             }
-        }
+        }*/
 
-        return $proceed();
+        return 69;
     }
 }
