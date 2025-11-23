@@ -13,13 +13,15 @@
                 <legend class="legend"><?php /* @escapeNotVerified */  echo __('Write a Comment') ?></legend><br>
                 <input type="hidden" value="<?php echo $block->escapeHtml($block->getPostId()) ?>" name="post_id">
 
-                <div class="field required name">
-                    <label for="post-sender" class="label"><?php /* @escapeNotVerified */ echo __('Name') ?></label>
-                    <div class="control"><input type="text" name="sender_name" id="post-sender" data-validate="{required:true}"/></div>
-                </div>
-                <div class="field required mail">
-                    <label for="post-email" class="label"><?php /* @escapeNotVerified */ echo __('E-mail') ?></label>
-                    <div class="control"><input type="text" name="sender_email" id="post-email" data-validate="{required:true, 'validate-email':true}"/></div>
+                <div class="grouped-inputs">
+                    <div class="field required name">
+                        <label for="post-sender" class="label"><?php /* @escapeNotVerified */ echo __('Name') ?></label>
+                        <div class="control"><input type="text" name="sender_name" id="post-sender" data-validate="{required:true}"/></div>
+                    </div>
+                    <div class="field required mail">
+                        <label for="post-email" class="label"><?php /* @escapeNotVerified */ echo __('E-mail') ?></label>
+                        <div class="control"><input type="text" name="sender_email" id="post-email" data-validate="{required:true, 'validate-email':true}"/></div>
+                    </div>
                 </div>
                 <div class="field required">
                     <label for="post-comment" class="label"><?php /* @escapeNotVerified */ echo __('Comment') ?></label>

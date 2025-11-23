@@ -11,7 +11,7 @@ $categoriesArrayNames = [];
     <?php if (!$block->isDisplayCategories() && $categories = $block->getCategories()): ?>
         <?php $categoriesTitlesCount = count($categories); ?>
         <?php if ($categoriesTitlesCount) : ?>
-            <div class="categories post-view">
+            <div class="categories">
                 <?php /** @var $category \Digidirect\Blog\Model\Category*/ ?>
                 <?php $i=1; foreach ($categories as $key => $category): ?>
                     <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link" title="<?php echo /* @escapeNotVerified */  $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?>,<?php endif; ?>
@@ -21,73 +21,55 @@ $categoriesArrayNames = [];
             </div>
         <?php endif; ?>
     <?php endif; ?>
-    <h1 class="title"><?php /* @escapeNotVerified */ echo $post->getTitle() ?></h1>
+    <img src="<?php echo $block->escapeHtml($post->getImageUrl(null, null)); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+    <!-- <img src="<?php //echo $block->getViewFileUrl('Digidirect_Blog::images/post-image.jpg'); ?>" alt="<?php //echo $block->escapeHtml($post->getTitle()) ?>"> -->
+    <div class="post-container">
+        <h1 class="title"><?php /* @escapeNotVerified */ echo $post->getTitle() ?></h1>
+        <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
+            <div class="posted">
+                <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
+                <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
+            </div>
+        <?php endif; ?>
 
-    <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
-    <div class="posted">
-        <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
-        <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
-    </div>
-    <?php endif; ?>
+        <div class="content">
+            <?php
+            /* @escapeNotVerified */
 
-    <div class="content">
-        <?php
-        /* @escapeNotVerified */
+            $description = html_entity_decode($block->getDescription());
+            $description = str_replace("ÔÇØ", "'", $description);
+            $description = str_replace("ÔÇ£", "'", $description);
+            $description = str_replace("ÔÇÖ", "'", $description);
 
-        $description = html_entity_decode($block->getDescription());
-        $description = str_replace("ÔÇØ", "'", $description);
-        $description = str_replace("ÔÇ£", "'", $description);
-        $description = str_replace("ÔÇÖ", "'", $description);
-
-        echo $description;
-        ?>
-    </div>
-    <div class="wrapper-top">
-        <div class="container">
-            <?php if ($block->isDisplayTags() && $block->getTags()): ?>
-                <div class="tags">
-                    <span class="label"><?php /* @escapeNotVerified */
-                        echo __('Tags: ') ?></span>
-                    <?php foreach ($block->getTags() as $tag): ?>
-                        <span class="item"><a class="tag-link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>"
-                                              title="<?php echo $block->escapeHtml($tag->getName()) ?>"><?php echo $block->escapeHtml($tag->getName()) ?></a></span>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+            echo $description;
+            ?>
         </div>
         <div class="post-share icons -light">
             <span class="label"><?php echo $block->escapeHtml(__('Share this Article:')); ?></span>
-            <a class="link"
-               target="_blank"
-               href="http://twitter.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -twitter">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-twitter"></use>
-                </svg>
+            <div class="social-icons">
+             <a class="link"
+            target="_blank"
+            href="http://twitter.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
+                <img src="<?php echo $block->getViewFileUrl('Digidirect_Blog::images/x.svg'); ?>" alt="twitter">
+            </a>
+
+            <a href="https://www.threads.net/intent/post?text=<?php echo $block->escapeUrl($post->getViewUrl()) ?>"
+            target="_blank"
+            rel="noopener noreferrer">
+                <img src="<?php echo $block->getViewFileUrl('Digidirect_Blog::images/threads.svg'); ?>" alt="threads">
             </a>
             <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $block->escapeUrl($post->getViewUrl()) ?>" target="_blank" rel="noopener" class="-facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-facebook"></use>
-                </svg>
+                <img src="<?php echo $block->getViewFileUrl('Digidirect_Blog::images/fb.svg'); ?>" alt="facebook">
             </a>
             <a class="link"
-               target="_blank"
-               href="https://plus.google.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -google-plus">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-google-plus"></use>
-                </svg>
+            target="_blank"
+            href="https://plus.google.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
+                <img src="<?php echo $block->getViewFileUrl('Digidirect_Blog::images/google.svg'); ?>" alt="google plus">
             </a>
+            </div>
+           
         </div>
     </div>
-<!--    <div class="init _hidden">
-        <script>
-            if (typeof fbq !== undefined) {
-                fbq('trackCustom', 'ViewArticle', {
-                    blog_category: <?php echo $this->helper("Magento\Framework\Json\Helper\Data")->jsonEncode($categoriesArrayNames)?>,
-                    content_name: '<?php echo $block->escapeHtml($post->getTitle()) ?>'
-                });
-            }
-        </script>
-    </div>-->
 </div>
 <script>
     require([], function () {
