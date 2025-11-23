@@ -792,7 +792,7 @@ return [
         'Impact_Integration' => 1,
         'Itoris_Core' => 1,
         'Itoris_PriceMatch' => 1,
-        'LatitudeNew_Payment' => 1,
+        'LatitudeNew_Payment' => 0,
         'LiveChat_LiveChat' => 0,
         'Lof_Paymentfee' => 1,
         'Magento5_Latipay' => 1,
