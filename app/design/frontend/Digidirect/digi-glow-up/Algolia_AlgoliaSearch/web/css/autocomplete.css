@@ -46,7 +46,6 @@ html {
 
 #algolia-autocomplete-container .aa-dropdown-menu, .aa-Panel {
     position: absolute;
-    margin-top: -9px;
     right: 0;
     width: 100%;
     z-index: 1000 !important;
