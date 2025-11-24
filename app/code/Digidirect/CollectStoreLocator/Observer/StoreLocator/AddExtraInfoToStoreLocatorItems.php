@@ -129,6 +129,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
     /**
      * Calculate inventory quantities and pricing for all cart items
+     * Uses multiplication logic to check if ALL products in cart are available at each source
      *
      * @param array $cartItems
      * @return array
@@ -148,19 +149,20 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     $sourceCode = $sourceItem->getSourceCode();
                     $quantity = $sourceItem->getQuantity();
 
-                    // Track available sources
-                    if (!in_array($sourceCode, $availableSources)) {
+                    // Track available sources (has ANY inventory for ANY product)
+                    if ($quantity > 0 && !in_array($sourceCode, $availableSources)) {
                         $availableSources[] = $sourceCode;
                     }
 
-                    // Calculate quantities by source
+                    // Calculate quantities by source using multiplication
+                    // This ensures ALL products must have stock (0 in any product = 0 total)
                     if (!isset($storeQuantities[$sourceCode])) {
                         $storeQuantities[$sourceCode] = 1;
                     }
                     $storeQuantities[$sourceCode] *= $quantity;
 
-                    // Calculate CANN pricing
-                    if ($sourceCode === 'CANN') {
+                    // Calculate CANN pricing (total cart value for CANN items)
+                    if ($sourceCode === 'CANN' && $quantity > 0) {
                         $totalCannAmount += $this->getEffectivePrice($product);
                     }
                 }
@@ -193,6 +195,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
     /**
      * Calculate total quantity in non-CANN sources
+     * Returns the sum of all positive quantities (not multiplied product)
      *
      * @param array $storeQuantities
      * @return int
@@ -201,7 +204,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $total = 0;
         foreach ($storeQuantities as $source => $qty) {
-            if ($source !== 'CANN') {
+            if ($source !== 'CANN' && $qty > 0) {
                 $total += $qty;
             }
         }
