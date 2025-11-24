@@ -4,40 +4,14 @@ namespace Digidirect\Sales\Model\Email\Sender;
 use Magento\Sales\Model\Order;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
+use Magento\Framework\App\ObjectManager;
 
 class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSender
 {
     /**
-     * @var Filesystem
+     * @var Filesystem|null
      */
     protected $filesystem;
-
-    /**
-     * OrderSender constructor
-     */
-    public function __construct(
-        \Magento\Sales\Model\Order\Email\Container\OrderIdentity $identityContainer,
-        \Magento\Sales\Model\Order\Email\Container\Template $templateContainer,
-        \Magento\Sales\Model\Order\Email\SenderBuilderFactory $senderBuilderFactory,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Sales\Model\Order\Address\Renderer $addressRenderer,
-        \Magento\Payment\Helper\Data $paymentHelper,
-        \Magento\Sales\Model\ResourceModel\Order\Item\CollectionFactory $itemCollectionFactory,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        Filesystem $filesystem
-    ) {
-        $this->filesystem = $filesystem;
-        parent::__construct(
-            $identityContainer,
-            $templateContainer,
-            $senderBuilderFactory,
-            $logger,
-            $addressRenderer,
-            $paymentHelper,
-            $itemCollectionFactory,
-            $eventManager
-        );
-    }
 
     /**
      * Override prepareTemplate to set correct template for collection orders
@@ -94,6 +68,10 @@ class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSen
     protected function writeDebugLog($message)
     {
         try {
+            if ($this->filesystem === null) {
+                $this->filesystem = ObjectManager::getInstance()->get(Filesystem::class);
+            }
+
             $varDir = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
             $logFile = 'log/digidirect_ordersender_debug.log';
             $varDir->writeFile($logFile, date('Y-m-d H:i:s') . ' - ' . $message . PHP_EOL, 'a+');
