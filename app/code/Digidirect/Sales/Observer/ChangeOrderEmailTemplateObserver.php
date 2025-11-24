@@ -23,10 +23,10 @@ class ChangeOrderEmailTemplateObserver implements ObserverInterface
             return;
         }
 
-        // Always override for testing
+        // Force template ID 69 for all orders
         $identity->setTemplateId(69);
 
-        $this->logger->info('Template override applied', [
+        $this->logger->info('Order email template forced to 69', [
             'template_id' => $identity->getTemplateId(),
             'store_id'    => $identity->getStore()->getId()
         ]);
