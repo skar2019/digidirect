@@ -2,9 +2,43 @@
 namespace Digidirect\Sales\Model\Email\Sender;
 
 use Magento\Sales\Model\Order;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSender
 {
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * OrderSender constructor
+     */
+    public function __construct(
+        \Magento\Sales\Model\Order\Email\Container\OrderIdentity $identityContainer,
+        \Magento\Sales\Model\Order\Email\Container\Template $templateContainer,
+        \Magento\Sales\Model\Order\Email\SenderBuilderFactory $senderBuilderFactory,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Sales\Model\Order\Address\Renderer $addressRenderer,
+        \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Sales\Model\ResourceModel\Order\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        Filesystem $filesystem
+    ) {
+        $this->filesystem = $filesystem;
+        parent::__construct(
+            $identityContainer,
+            $templateContainer,
+            $senderBuilderFactory,
+            $logger,
+            $addressRenderer,
+            $paymentHelper,
+            $itemCollectionFactory,
+            $eventManager
+        );
+    }
+
     /**
      * Override prepareTemplate to set correct template for collection orders
      *
@@ -13,6 +47,11 @@ class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSen
      */
     protected function prepareTemplate(Order $order)
     {
+        $this->writeDebugLog('========================================');
+        $this->writeDebugLog('Digidirect prepareTemplate - Start');
+        $this->writeDebugLog('Order ID: ' . $order->getId());
+        $this->writeDebugLog('Order Increment ID: ' . $order->getIncrementId());
+
         // Call parent's prepareTemplate first (includes LatitudeNew logic)
         parent::prepareTemplate($order);
 
@@ -20,19 +59,47 @@ class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSen
             // Get shipping method
             $shippingMethod = $order->getShippingMethod();
 
-            $this->logger->info('Digidirect prepareTemplate - Order: ' . $order->getIncrementId());
-            $this->logger->info('Digidirect prepareTemplate - Shipping: ' . $shippingMethod);
-            $this->logger->info('Digidirect prepareTemplate - Template before: ' . $this->templateContainer->getTemplateId());
+            $this->writeDebugLog('Shipping Method: ' . ($shippingMethod ?: 'NULL'));
+            $this->writeDebugLog('Payment Method: ' . $order->getPayment()->getMethod());
+            $this->writeDebugLog('Template ID (after parent): ' . $this->templateContainer->getTemplateId());
 
             // Override template for collection orders
             // This runs AFTER parent, so it takes precedence
             if ($shippingMethod === 'collect_collect') {
-                $this->logger->info('Digidirect prepareTemplate - Setting template to 69');
+                $this->writeDebugLog('CONDITION MATCHED: Collection order detected');
+                $this->writeDebugLog('Setting template ID to: 69');
+
                 $this->templateContainer->setTemplateId(69);
-                $this->logger->info('Digidirect prepareTemplate - Template after: ' . $this->templateContainer->getTemplateId());
+
+                $this->writeDebugLog('Template ID (after set): ' . $this->templateContainer->getTemplateId());
+            } else {
+                $this->writeDebugLog('Condition NOT matched - using default template');
+                $this->writeDebugLog('Expected shipping method: collect_collect');
+                $this->writeDebugLog('Actual shipping method: ' . $shippingMethod);
             }
+
+            $this->writeDebugLog('========================================');
         } catch (\Exception $e) {
-            $this->logger->error('Digidirect prepareTemplate Error: ' . $e->getMessage());
+            $this->writeDebugLog('ERROR: ' . $e->getMessage());
+            $this->writeDebugLog('Stack trace: ' . $e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Write to dedicated debug file
+     *
+     * @param string $message
+     * @return void
+     */
+    protected function writeDebugLog($message)
+    {
+        try {
+            $varDir = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+            $logFile = 'log/digidirect_ordersender_debug.log';
+            $varDir->writeFile($logFile, date('Y-m-d H:i:s') . ' - ' . $message . PHP_EOL, 'a+');
+        } catch (\Exception $e) {
+            // Fallback to error_log if file writing fails
+            error_log('Digidirect Debug: ' . $message);
         }
     }
 }
