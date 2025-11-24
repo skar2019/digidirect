@@ -1119,78 +1119,68 @@ $(document).on('changed.owl.carousel', function (event) {
 /* ========================
     🩹 Keep aa-Panel perfectly aligned under Sticky Header (Web only)
  ======================== */
-function alignAaPanel() {
-  if (window.innerWidth <= 768) return
+ function alignAaPanel() {
+   if (window.innerWidth <= 768) return // 👈 Skip entirely on mobile
 
-  const $panel = $('.aa-Panel')
-  const $input = $('#autocomplete-0-input')
-  const $header = $('.header.content')
-  const $headerWrapper = $('.panel.header') // optional wrapper header if needed
+   const $panel = $('.aa-Panel')
+   const $input = $('#autocomplete-0-input')
+   const $header = $('.header.content')
 
-  // Measure takeover banner image
-  const takeoverImg = document.querySelector('.takeover-banner img')
-  const takeoverHeight = takeoverImg
-    ? takeoverImg.getBoundingClientRect().height || 0
-    : 0
+   if (!$panel.length || !$input.length || !$header.length) return
 
-  // Measure header content height
-  const headerHeight = $header.outerHeight() || 0
-  const headerWrapperHeight = $headerWrapper.outerHeight() || 0
+   const inputOffset = $input.offset()
+   const headerHeight = $header.outerHeight() || 0
+   const scrollTop = $(window).scrollTop()
+   const inputTop = inputOffset.top - scrollTop
 
-  // Sum header heights + takeover banner
-  const totalTop = takeoverHeight + headerHeight + headerWrapperHeight
+   const newTop = $header.hasClass('is-sticky')
+     ? headerHeight + 1
+     : inputTop + $input.outerHeight() + 1
 
-  if (!$panel.length || !$input.length) return
+   const newLeft = inputOffset.left
+   const newWidth = $input.outerWidth()
 
-  const inputOffset = $input.offset()
-  const scrollTop = $(window).scrollTop()
-  const inputTop = inputOffset.top - scrollTop
-  const newLeft = inputOffset.left
-  const newWidth = $input.outerWidth()
+   if ($header.hasClass('is-sticky')) {
+     $panel.css({
+       position: 'fixed',
+       top: `${newTop}px`,
+       left: `${newLeft}px`,
+       right: 'unset',
+       zIndex: 10000,
+       marginTop: 0,
+       width: `${newWidth}px`,
+     })
+   } else {
+     // When not sticky, revert to Algolia’s normal flow
+     $panel.attr('style', '')
+   }
+ }
 
-  const newTop = $header.hasClass('is-sticky')
-    ? totalTop + 1 // fixed under takeover + header
-    : inputTop + $input.outerHeight() + 1 // default flow
-
-  if ($header.hasClass('is-sticky')) {
-    $panel.css({
-      position: 'fixed',
-      top: `${newTop}px`,
-      left: `${newLeft}px`,
-      right: 'unset',
-      zIndex: 10000,
-      marginTop: 0,
-      width: `${newWidth}px`,
-    })
-  } else {
-    $panel.attr('style', '')
-  }
-}
-
-/* ========================
+ /* ========================
     🧠 Reactive Updates (Desktop only)
  ======================== */
-function initAaPanelAlignment() {
-  if (window.innerWidth > 768) {
-    $(window).on('scroll resize', alignAaPanel)
-    $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+ function initAaPanelAlignment() {
+   if (window.innerWidth > 768) {
+     $(window).on('scroll resize', alignAaPanel)
+     $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
 
-    const aaStickObserver = new MutationObserver(alignAaPanel)
-    aaStickObserver.observe(document.body, { childList: true, subtree: true })
-    window.aaStickObserver = aaStickObserver
-  } else if (window.aaStickObserver) {
-    window.aaStickObserver.disconnect()
-    $(window).off('scroll resize', alignAaPanel)
-    $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
-  }
-}
+     // Observe DOM since Algolia dynamically replaces the panel
+     const aaStickObserver = new MutationObserver(alignAaPanel)
+     aaStickObserver.observe(document.body, { childList: true, subtree: true })
 
-// Re-align after takeover image loads
-$(document).on('load', '.takeover-banner img', alignAaPanel)
+     // Save observer so we can disconnect on mobile if needed
+     window.aaStickObserver = aaStickObserver
+   } else if (window.aaStickObserver) {
+     // 👋 Clean up when switching to mobile
+     window.aaStickObserver.disconnect()
+     $(window).off('scroll resize', alignAaPanel)
+     $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
+   }
+ }
 
-// Initialize and re-check on resize
-initAaPanelAlignment()
-$(window).on('resize', initAaPanelAlignment)
+ // Initialize and re-check on resize
+ initAaPanelAlignment()
+ $(window).on('resize', initAaPanelAlignment)
 
 
 /* ========================
@@ -1910,6 +1900,44 @@ function updateCartAjax($input, newQty) {
 
     // Initial check on load
     $(document).ready(toggleMiniUpsell)
+    
+    //Takeover Banner, Header, AA Panel Fix
+    function setAaPanelTop() {
+        var $panel = $('.aa-Panel');
+        var $wrapper = $('.page-wrapper');
+
+        if ($panel.length && $wrapper.length && window.innerWidth > 768) {
+          var wrapperHeight = $wrapper.outerHeight() || 0;
+          $panel.css('top', wrapperHeight + 'px');
+        } else if ($panel.length) {
+          $panel.css('top', '');
+        }
+      }
+
+      // Call on page load
+      $(document).ready(function() {
+        setAaPanelTop();
+
+        // Observe DOM changes to detect .aa-Panel if it appears later
+        const observer = new MutationObserver((mutations, obs) => {
+          const panelExists = document.querySelector('.aa-Panel');
+          if (panelExists) {
+            setAaPanelTop();
+            obs.disconnect(); // Stop observing once panel is found
+          }
+        });
+
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      });
+
+      // Recalculate on window resize
+      $(window).resize(function() {
+        setAaPanelTop();
+      });
+
     
   })
 })
