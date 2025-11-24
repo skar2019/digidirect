@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Plugin on base Magento class -->
     <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
         <plugin name="digidirect_sales_order_sender_plugin"
                 type="Digidirect\Sales\Plugin\Sales\Model\Order\Email\Sender\OrderSenderPlugin"
                 sortOrder="100" />
     </type>
+
+    <!-- Plugin on LatitudeNew's override (the one actually being used) -->
+    <type name="LatitudeNew\Payment\Model\Order\Email\Sender\OrderSender">
+        <plugin name="digidirect_sales_order_sender_latitude_plugin"
+                type="Digidirect\Sales\Plugin\Sales\Model\Order\Email\Sender\OrderSenderPlugin"
+                sortOrder="100" />
+    </type>
+
 </config>
