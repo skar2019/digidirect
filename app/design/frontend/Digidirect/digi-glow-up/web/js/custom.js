@@ -1120,41 +1120,41 @@ $(document).on('changed.owl.carousel', function (event) {
     🩹 Keep aa-Panel perfectly aligned under Sticky Header (Web only)
  ======================== */
  function alignAaPanel() {
-   if (window.innerWidth <= 768) return // 👈 Skip entirely on mobile
+  if (window.innerWidth <= 768) return
 
-   const $panel = $('.aa-Panel')
-   const $input = $('#autocomplete-0-input')
-   const $header = $('.header.content')
+  const $panel = $('.aa-Panel')
+  const $input = $('#autocomplete-0-input')
+  const $header = $('.header.content')
+  const takeoverHeight = $('.takeover-banner').outerHeight() || 0
 
-   if (!$panel.length || !$input.length || !$header.length) return
+  if (!$panel.length || !$input.length || !$header.length) return
 
-   const inputOffset = $input.offset()
-   const headerHeight = $header.outerHeight() || 0
-   const scrollTop = $(window).scrollTop()
-   const inputTop = inputOffset.top - scrollTop
+  const inputOffset = $input.offset()
+  const headerHeight = $header.outerHeight() || 0
+  const scrollTop = $(window).scrollTop()
+  const inputTop = inputOffset.top - scrollTop
 
-   const newTop = $header.hasClass('is-sticky')
-     ? headerHeight + 1
-     : inputTop + $input.outerHeight() + 1
+  const newTop = $header.hasClass('is-sticky')
+    ? headerHeight + takeoverHeight + 1
+    : inputTop + $input.outerHeight() + 1
 
-   const newLeft = inputOffset.left
-   const newWidth = $input.outerWidth()
+  const newLeft = inputOffset.left
+  const newWidth = $input.outerWidth()
 
-   if ($header.hasClass('is-sticky')) {
-     $panel.css({
-       position: 'fixed',
-       top: `${newTop}px`,
-       left: `${newLeft}px`,
-       right: 'unset',
-       zIndex: 10000,
-       marginTop: 0,
-       width: `${newWidth}px`,
-     })
-   } else {
-     // When not sticky, revert to Algolia’s normal flow
-     $panel.attr('style', '')
-   }
- }
+  if ($header.hasClass('is-sticky')) {
+    $panel.css({
+      position: 'fixed',
+      top: `${newTop}px`,
+      left: `${newLeft}px`,
+      right: 'unset',
+      zIndex: 10000,
+      marginTop: 0,
+      width: `${newWidth}px`,
+    })
+  } else {
+    $panel.attr('style', '')
+  }
+}
 
  /* ========================
     🧠 Reactive Updates (Desktop only)
