@@ -90,8 +90,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $transportObject = $observer->getTransportObject();
         $locatorStores = $transportObject->getData('items');
+        
+        $this->logger->info('=== Store Locator Processing Started ===');
+        $this->logger->info('Total stores to process: ' . count($locatorStores));
+        
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
         $transportObject->setData(['items' => $locatorStores]);
+        
+        $this->logger->info('=== Store Locator Processing Completed ===');
     }
 
     /**
@@ -107,10 +113,15 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         // Pre-calculate inventory and pricing data
         $inventoryData = $this->calculateInventoryData($quoteItems);
         
+        $this->logger->info('Processing ' . count($items) . ' store locations');
+        
         foreach ($items as $key => $storeData) {
             $id = $storeData['entity_id'];
+            
+            $this->logger->info("Processing store entity_id: {$id}");
 
             if (empty($places[$id])) {
+                $this->logger->info("Store {$id} not found in places, skipping");
                 continue;
             }
 
@@ -120,6 +131,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $id,
                 $inventoryData
             );
+            
+            $this->logger->info("Store {$id} click_and_collect set to: " . 
+                               ($items[$key]['click_and_collect'] === null ? 'NULL' : 
+                               ($items[$key]['click_and_collect'] ? 'TRUE' : 'FALSE')));
         }
 
         $this->logInventoryStats($inventoryData);
@@ -237,12 +252,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // Standard store handling
         if (!isset(self::STORE_MAPPINGS[$storeId])) {
+            $this->logger->warning("Store ID {$storeId} not found in mappings");
             return false;
         }
 
         $sourceCode = self::STORE_MAPPINGS[$storeId];
         $hasInventory = isset($quantities[$sourceCode]) && $quantities[$sourceCode] > 0;
         $sourceAvailable = in_array($sourceCode, $sources);
+
+        $this->logger->info("Store ID: {$storeId}, Source: {$sourceCode}, HasInventory: " . ($hasInventory ? 'Yes' : 'No') . 
+                           ", SourceAvailable: " . ($sourceAvailable ? 'Yes' : 'No') . 
+                           ", Quantity: " . ($quantities[$sourceCode] ?? 0));
 
         return $hasInventory && $sourceAvailable;
     }
@@ -291,5 +311,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $this->logger->info('CANN Total Amount: ' . $inventoryData['cann_total']);
         $this->logger->info('CANN Quantity: ' . ($inventoryData['quantities']['CANN'] ?? 0));
         $this->logger->info('Other Sources Quantity: ' . $inventoryData['other_sources_qty']);
+        $this->logger->info('Available Sources: ' . implode(', ', $inventoryData['sources']));
+        $this->logger->info('Store Quantities: ' . json_encode($inventoryData['quantities']));
     }
 }
