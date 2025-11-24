@@ -6,8 +6,9 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Checkout\Model\Session;
 use Digidirect\CollectAbstractEntity\Helper\Places;
 use Digidirect\Collect\Helper\Data;
-use Digidirect\Collect\Api\CollectPlaceRepositoryInterface;
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
+use Psr\Log\LoggerInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 /**
  * Class AddExtraInfoToStoreLocatorItems
@@ -15,49 +16,70 @@ use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
  */
 class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 {
+    private const STORE_MAPPINGS = [
+        1 => 'SYDN',
+        31 => 'BOND',
+        7 => 'MELB',
+        10 => 'BRIS',
+        13 => 'MIRA',
+        16 => 'CANN',
+        32 => 'PARR',
+        35 => 'SWHS',
+        41 => '3WHS',
+        42 => '3WHS',
+    ];
+
+    private const CANN_MINIMUM_AMOUNT = 1000;
+    private const CANN_STORE_ID = 16;
+    private const SWHS_STORE_ID = 35;
+
     /**
      * @var Session
      */
-    protected $checkoutSession;
+    private $checkoutSession;
 
     /**
      * @var Places
      */
-    protected $placesHelper;
+    private $placesHelper;
 
     /**
      * @var Data
      */
-    protected $collectHelper;
+    private $collectHelper;
 
-    protected $logger;
+    /**
+     * @var GetSourceItemsBySku
+     */
+    private $getSourceItemsBySku;
 
-    protected $_cart;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    protected $_product;
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
 
     /**
      * AddExtraInfoToStoreLocatorItems constructor.
-     * @param Session $checkoutSession
-     * @param Places $placesHelper
-     * @param Data $collectHelper
      */
     public function __construct(
         Session $checkoutSession,
         Places $placesHelper,
         Data $collectHelper,
         GetSourceItemsBySku $getSourceItemsBySku,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Checkout\Model\Cart $cart,
-        \Magento\Catalog\Model\Product $product
+        LoggerInterface $logger,
+        ProductRepositoryInterface $productRepository
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->placesHelper = $placesHelper;
         $this->collectHelper = $collectHelper;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->logger = $logger;
-        $this->_cart = $cart;
-        $this->_product = $product;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -70,200 +92,201 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $locatorStores = $transportObject->getData('items');
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
         $transportObject->setData(['items' => $locatorStores]);
-        echo $this->console_log($locatorStores);
     }
 
     /**
      * @param array $items
      * @return array
      */
-    public function addAvailabilityInfoToItems($items)
+    private function addAvailabilityInfoToItems($items)
     {
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
 
-        $cartItems = $this->_cart->getQuote()->getAllItems();
-
-        $stores = [];
-
-        $totalCann = 0.0;
-        $totalQtyOnOtherSources = 0;
-
+        // Pre-calculate inventory and pricing data
+        $inventoryData = $this->calculateInventoryData($quoteItems);
+        
         foreach ($items as $key => $storeData) {
-
             $id = $storeData['entity_id'];
-            $qty = 0;
-            //$items[$key]['click_and_collect'] = true;
 
             if (empty($places[$id])) {
                 continue;
             }
 
-            //$place = $places[$id];
-            //if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
-                $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
-            //}
-
-            $sydnQty = 1;
-            $bondQty = 1;
-            $melbQty = 1;
-            $brisQty = 1;
-            $miraQty = 1;
-            $cannQty = 1;
-            $parrQty = 1;
-            $stPetersQty = 1;
-            $strathfieldQty = 1;
-
-            foreach ($cartItems as $cartItem) {
-
-                $prodId = $cartItem->getProductId();
-                $product = $this->_product->load($prodId);
-
-                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-                foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                    //echo $this->console_log($sourceItem->getQuantity());
-                    //echo $this->console_log($sourceItem->getSourceCode());
-                    //$qty .= $sourceItem->getQuantity();
-                    //$this->logger->info('getSourceCode:' . $sourceItem->getSourceCode() . ', getQuantity:' . $sourceItem->getQuantity());
-
-                    $getQty = $sourceItem->getQuantity();
-                    $store = $sourceItem->getSourceCode();
-
-                    if ((!in_array($store, $stores)))  {
-                        array_push($stores, $store);
-                    }
-
-                    if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sydnQty * $getQty;
-                        $totalQtyOnOtherSources += $sydnQty;
-                    } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $bondQty * $getQty;
-                        $totalQtyOnOtherSources += $bondQty;
-                    } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $melbQty * $getQty;
-                        $totalQtyOnOtherSources += $melbQty;
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $brisQty * $getQty;
-                        $totalQtyOnOtherSources += $brisQty;
-                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $miraQty * $getQty;
-                        $totalQtyOnOtherSources += $miraQty;
-                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $parrQty * $getQty;
-                        $totalQtyOnOtherSources += $parrQty;
-                    } elseif (($id == 41 || $id == 42) && $sourceItem->getSourceCode() == '3WHS') {
-                        $strathfieldQty = $strathfieldQty * $getQty;
-                        $totalQtyOnOtherSources += $strathfieldQty;
-                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-
-                        $wiserPrice = $product->getWiserPrice();
-                        $finalPrice = $product->getFinalPrice();
-
-                        $lastPrice = $finalPrice;
-
-                        if ($wiserPrice < $finalPrice) {
-                            $lastPrice = $wiserPrice;
-                        }
-
-                        $totalCann += $lastPrice;
-                        $cannQty = $cannQty * $getQty;
-
-                        $this->logger->info('$wiserPrice, ' . $wiserPrice);
-                        $this->logger->info('$finalPrice, ' . $finalPrice);
-                        $this->logger->info('$totalCann, ' . $totalCann);
-
-                    }
-                }
-            }
-
-            if ($totalCann < 1000 && $cannQty > 0 && $totalQtyOnOtherSources < 1) {
-                if ($id == 16) { //CANN
-                    $items[$key]['click_and_collect'] = true;
-                } else {
-                    $items[$key]['click_and_collect'] = NULL;
-                }
-            } else {
-                if (is_null($id)) {
-                    $items[$key]['click_and_collect'] = false;
-                } else {
-                    if ($id == 1 && $sydnQty > 0) {
-                        if (in_array('SYDN', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif ($id == 31 && $bondQty > 0) {
-                        if (in_array('BOND', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif ($id == 7 && $melbQty > 0) {
-                        if (in_array('MELB', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif ($id == 10 && $brisQty > 0) {
-                        if (in_array('BRIS', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif ($id == 13 && $miraQty > 0) {
-                        if (in_array('MIRA', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif ($id == 16) {
-                        if (in_array('CANN', $stores) && ($cannQty > 0)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            if ($totalCann < 1000) {
-                                $items[$key]['click_and_collect'] = NULL;
-                            } else {
-                                $items[$key]['click_and_collect'] = false;
-                            }
-                        }
-                    } elseif ($id == 35) { //SWHS
-
-                        $items[$key]['click_and_collect'] = NULL;
-
-                    } elseif ($id == 32 && $parrQty > 0) {
-                        if (in_array('PARR', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } elseif (($id == 41 || $id == 42) && $strathfieldQty > 0) {
-                        if (in_array('3WHS', $stores)) {
-                            $items[$key]['click_and_collect'] = true;
-                        } else {
-                            $items[$key]['click_and_collect'] = false;
-                        }
-                    } else {
-                        $items[$key]['click_and_collect'] = false;
-                    }
-                }
-            }
+            // All stores are selectable per business requirement
+            $items[$key]['available'] = true;
+            $items[$key]['click_and_collect'] = $this->determineClickAndCollect(
+                $id,
+                $inventoryData
+            );
         }
 
-        $this->logger->info('$totalCann: ' . $totalCann);
-        $this->logger->info('$cannQty: ' . $cannQty);
-        $this->logger->info('$totalQtyOnOtherSources: ' . $totalQtyOnOtherSources);
+        $this->logInventoryStats($inventoryData);
 
         return $items;
     }
 
-    function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-            ');';
-        if ($with_script_tags) {
-            $js_code = '<script>' . $js_code . '</script>';
+    /**
+     * Calculate inventory quantities and pricing for all cart items
+     *
+     * @param array $cartItems
+     * @return array
+     */
+    private function calculateInventoryData($cartItems)
+    {
+        $storeQuantities = [];
+        $availableSources = [];
+        $totalCannAmount = 0.0;
+
+        foreach ($cartItems as $cartItem) {
+            try {
+                $product = $this->productRepository->getById($cartItem->getProductId());
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                foreach ($sourceItems as $sourceItem) {
+                    $sourceCode = $sourceItem->getSourceCode();
+                    $quantity = $sourceItem->getQuantity();
+
+                    // Track available sources
+                    if (!in_array($sourceCode, $availableSources)) {
+                        $availableSources[] = $sourceCode;
+                    }
+
+                    // Calculate quantities by source
+                    if (!isset($storeQuantities[$sourceCode])) {
+                        $storeQuantities[$sourceCode] = 1;
+                    }
+                    $storeQuantities[$sourceCode] *= $quantity;
+
+                    // Calculate CANN pricing
+                    if ($sourceCode === 'CANN') {
+                        $totalCannAmount += $this->getEffectivePrice($product);
+                    }
+                }
+            } catch (\Exception $e) {
+                $this->logger->error('Error loading product: ' . $e->getMessage());
+            }
         }
-        echo $js_code;
+
+        return [
+            'quantities' => $storeQuantities,
+            'sources' => $availableSources,
+            'cann_total' => $totalCannAmount,
+            'other_sources_qty' => $this->calculateOtherSourcesQuantity($storeQuantities)
+        ];
+    }
+
+    /**
+     * Get the effective price (lowest of final price or wiser price)
+     *
+     * @param \Magento\Catalog\Api\Data\ProductInterface $product
+     * @return float
+     */
+    private function getEffectivePrice($product)
+    {
+        $finalPrice = (float)$product->getFinalPrice();
+        $wiserPrice = (float)$product->getData('wiser_price');
+
+        return ($wiserPrice > 0 && $wiserPrice < $finalPrice) ? $wiserPrice : $finalPrice;
+    }
+
+    /**
+     * Calculate total quantity in non-CANN sources
+     *
+     * @param array $storeQuantities
+     * @return int
+     */
+    private function calculateOtherSourcesQuantity($storeQuantities)
+    {
+        $total = 0;
+        foreach ($storeQuantities as $source => $qty) {
+            if ($source !== 'CANN') {
+                $total += $qty;
+            }
+        }
+        return $total;
+    }
+
+    /**
+     * Determine if click and collect is available for a store
+     *
+     * @param int $storeId
+     * @param array $inventoryData
+     * @return bool|null
+     */
+    private function determineClickAndCollect($storeId, $inventoryData)
+    {
+        $quantities = $inventoryData['quantities'];
+        $sources = $inventoryData['sources'];
+        $cannTotal = $inventoryData['cann_total'];
+        $otherSourcesQty = $inventoryData['other_sources_qty'];
+
+        // Special handling for SWHS - always null
+        if ($storeId === self::SWHS_STORE_ID) {
+            return null;
+        }
+
+        // Special handling for CANN store with minimum order
+        if ($storeId === self::CANN_STORE_ID) {
+            return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
+        }
+
+        // Standard store handling
+        if (!isset(self::STORE_MAPPINGS[$storeId])) {
+            return false;
+        }
+
+        $sourceCode = self::STORE_MAPPINGS[$storeId];
+        $hasInventory = isset($quantities[$sourceCode]) && $quantities[$sourceCode] > 0;
+        $sourceAvailable = in_array($sourceCode, $sources);
+
+        return $hasInventory && $sourceAvailable;
+    }
+
+    /**
+     * Determine click and collect availability for CANN store
+     *
+     * @param float $cannTotal
+     * @param array $quantities
+     * @param array $sources
+     * @param int $otherSourcesQty
+     * @return bool|null
+     */
+    private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty)
+    {
+        $cannQty = $quantities['CANN'] ?? 0;
+        $hasCannInventory = $cannQty > 0;
+        $cannAvailable = in_array('CANN', $sources);
+
+        // Below minimum and no other sources - return null
+        if ($cannTotal < self::CANN_MINIMUM_AMOUNT && $otherSourcesQty < 1) {
+            return $hasCannInventory ? true : null;
+        }
+
+        // Above minimum or has other sources
+        if ($hasCannInventory && $cannAvailable) {
+            return true;
+        }
+
+        // Below minimum but can't fulfill
+        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            return null;
+        }
+
+        return false;
+    }
+
+    /**
+     * Log inventory statistics for debugging
+     *
+     * @param array $inventoryData
+     * @return void
+     */
+    private function logInventoryStats($inventoryData)
+    {
+        $this->logger->info('CANN Total Amount: ' . $inventoryData['cann_total']);
+        $this->logger->info('CANN Quantity: ' . ($inventoryData['quantities']['CANN'] ?? 0));
+        $this->logger->info('Other Sources Quantity: ' . $inventoryData['other_sources_qty']);
     }
 }
