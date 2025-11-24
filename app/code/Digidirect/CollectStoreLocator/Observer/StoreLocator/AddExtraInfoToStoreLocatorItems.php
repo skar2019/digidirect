@@ -123,7 +123,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $parrQty *= $getQty;
                         $totalQtyOnOtherSources += $parrQty;
 
-                    } elseif (($id == 35) && $store == '3WHS') {
+                    } elseif (($id == 42 || $id == 41) && $store == '3WHS') {
                         $strathfieldQty *= $getQty;
                         $totalQtyOnOtherSources += $strathfieldQty;
 
