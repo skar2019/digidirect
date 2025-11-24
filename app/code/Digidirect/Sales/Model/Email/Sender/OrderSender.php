@@ -3,41 +3,36 @@ namespace Digidirect\Sales\Model\Email\Sender;
 
 use Magento\Sales\Model\Order;
 
-class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
+class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSender
 {
     /**
-     * Prepare email template with custom logic for shipping method
+     * Override prepareTemplate to set correct template for collection orders
      *
      * @param Order $order
      * @return void
      */
     protected function prepareTemplate(Order $order)
     {
-        // Call parent first to set up default template
+        // Call parent's prepareTemplate first (includes LatitudeNew logic)
         parent::prepareTemplate($order);
 
         try {
-            // Get shipping method from order
+            // Get shipping method
             $shippingMethod = $order->getShippingMethod();
 
-            // Use the parent's logger
-            $this->logger->info('Digidirect OrderSender: Processing order email', [
-                'order_id' => $order->getId(),
-                'increment_id' => $order->getIncrementId(),
-                'shipping_method' => $shippingMethod
-            ]);
+            $this->logger->info('Digidirect prepareTemplate - Order: ' . $order->getIncrementId());
+            $this->logger->info('Digidirect prepareTemplate - Shipping: ' . $shippingMethod);
+            $this->logger->info('Digidirect prepareTemplate - Template before: ' . $this->templateContainer->getTemplateId());
 
-            // Check if shipping method is store pickup/collection
+            // Override template for collection orders
+            // This runs AFTER parent, so it takes precedence
             if ($shippingMethod === 'collect_collect') {
-                $this->logger->info('Digidirect OrderSender: Switching to collection template', [
-                    'order_id' => $order->getId(),
-                    'template_id' => 69
-                ]);
-
+                $this->logger->info('Digidirect prepareTemplate - Setting template to 69');
                 $this->templateContainer->setTemplateId(69);
+                $this->logger->info('Digidirect prepareTemplate - Template after: ' . $this->templateContainer->getTemplateId());
             }
         } catch (\Exception $e) {
-            $this->logger->error('Digidirect OrderSender: Error - ' . $e->getMessage());
+            $this->logger->error('Digidirect prepareTemplate Error: ' . $e->getMessage());
         }
     }
 }
