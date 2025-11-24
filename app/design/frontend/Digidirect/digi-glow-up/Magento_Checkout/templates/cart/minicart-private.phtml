@@ -1,61 +1,148 @@
 <?php
-/** @var $block \Digidirect\Customer\Block\CustomerHeaderLinks*/
+/**
+ * Fixed Minicart Private Template - Proper Alignment
+ *
+ * File Location: app/design/frontend/Digidirect/digi-glow-up/Magento_Checkout/templates/cart/minicart-private.phtml
+ *
+ * @var $block \Digidirect\Customer\Block\CustomerHeaderLinks
+ */
 ?>
-<?php
-/** @var \Digidirect\Customer\ViewModel\Customer $viewModel */
-$viewModel = $block->getData('view_model');
-$isLoggedIn = $viewModel->isLoggedIn();
-$isMobile = $viewModel->isMobile();
-?>
-<!-- 🔹 Wishlist -->
-<a class="wishlist-container" href="<?= $block->getUrl('wishlist') ?>">
+
+<!-- Wishlist -->
+<a class="wishlist-container" id="wishlist-link" href="<?= $block->getUrl('wishlist') ?>">
     <img src="<?= $block->getViewFileUrl('images/icons/iconsax-heart.svg') ?>" alt="Wishlist" />
     <span>Wishlist</span>
-
-    <?php if ($isLoggedIn) :?>
-        <div class="wishlist-count"><?= $viewModel->getWishlistItemsCount(); ?></div>
-    <?php endif; ?>
+    <div class="wishlist-count" id="wishlist-count" style="display:none;"></div>
 </a>
 
-<!-- 🔹 Cart Trigger -->
+<!-- Cart Trigger -->
 <a class="action showcart" href="javascript:void(0);" data-bind="scope: 'minicart_content'">
     <img src="<?= $block->getViewFileUrl('images/icons/iconsax-shopping-cart.svg') ?>" alt="Cart" />
     <span>Cart</span>
     <span class="text"><?= $block->escapeHtml(__('My Cart')) ?></span>
-    <span class="counter qty empty <?php if (!$isLoggedIn) : echo 'counter-guest'; endif; ?>"
+    <span class="counter qty empty counter-guest" id="cart-counter"
           data-bind="css: { empty: !getCartParam('summary_count') }, blockLoader: isLoading">
-            <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
-        </span>
+        <span class="counter-number" data-bind="text: getCartParam('summary_count')"></span>
+    </span>
 </a>
 
-<!-- 🔹 Login -->
-<div class="action login-logout">
-<?php if (!$isLoggedIn) :?>
+<!-- Login/Account -->
+<div class="action login-logout" id="login-logout-container">
+    <!-- This will be populated by JavaScript -->
     <a href="<?= $block->getUrl('customer/account/login') ?>">
         <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />
         <span>Login</span>
     </a>
-<?php else :?>
-    <div class="account-icon">
-        <?php if ($isMobile) :?>
-            <a href="#" class="account-top-link-mobile">
-        <?php else: ?>
-            <a href="<?= $block->getUrl('customer/account') ?>">
-        <?php endif;?>
-                <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />
-            </a>
-    </div>
-    <div class="account-text">
-        <?php if ($isMobile) :?>
-            <a href="#" class="account-top-link-mobile">
-        <?php else: ?>
-            <a href="<?= $block->getUrl('customer/account') ?>">
-        <?php endif;?>
-                <span class="username"><?= $viewModel->getFirstName();?></span
-            </a>
-        <a href="<?= $block->getUrl('customer/account/logout') ?>">
-            <span class="logout">Logout</span>
-        </a>
-    </div>
-<?php endif; ?>
 </div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'domReady!'
+    ], function ($, customerData) {
+        'use strict';
+
+        console.log('🔍 DEBUG: Script loaded');
+
+        var customerPrivateData = customerData.get('customer_private_data');
+
+        /**
+         * Update the header with customer data
+         */
+        function updateHeader(data) {
+            console.log('🔍 DEBUG: updateHeader called with data:', data);
+
+            if (!data || typeof data.is_logged_in === 'undefined') {
+                console.warn('⚠️ Data not loaded yet');
+                return;
+            }
+
+            console.log('✅ Valid data received, updating header...');
+
+            var isLoggedIn = data.is_logged_in;
+            var isMobile = data.is_mobile;
+
+            // Update wishlist
+            var $wishlistLink = $('#wishlist-link');
+            $wishlistLink.attr('href', data.wishlist_url);
+
+            var $wishlistCount = $('#wishlist-count');
+            if (isLoggedIn && data.wishlist_count > 0) {
+                $wishlistCount.text(data.wishlist_count).show();
+            } else {
+                $wishlistCount.hide();
+            }
+
+            // Update cart counter class
+            var $cartCounter = $('#cart-counter');
+            if (isLoggedIn) {
+                $cartCounter.removeClass('counter-guest');
+            } else {
+                $cartCounter.addClass('counter-guest');
+            }
+
+            // Update login/logout section
+            var $loginLogout = $('#login-logout-container');
+            var html = '';
+
+            if (!isLoggedIn) {
+                // Guest - Show Login
+                html = '<a href="' + data.login_url + '">';
+                html += '    <img src="<?= $block->getViewFileUrl('images/icons/iconsax-user.svg') ?>" alt="Login" />';
+                html += '    <span>Login</span>';
+                html += '</a>';
+            } else {
+                // Logged In - Show Account
+                html = '<div class="account-icon">';
+
+                if (isMobile) {
+                    html += '    <a href="#" class="account-top-link-mobile">';
+                } else {
+                    html += '    <a href="' + data.account_url + '">';
+                }
+
+                html += '        <img src="<?= $block->getViewFileUrl('images/myaccount/account.svg') ?>" alt="Account" />';
+                html += '    </a>';
+                html += '</div>';
+                html += '<div class="account-text">';
+
+                if (isMobile) {
+                    html += '    <a href="#" class="account-top-link-mobile">';
+                } else {
+                    html += '    <a href="' + data.account_url + '">';
+                }
+
+                html += '        <span class="username">' + $('<div>').text(data.customer_firstname).html() + '</span>';
+                html += '    </a>';
+                html += '    <a href="' + data.logout_url + '">';
+                html += '        <span class="logout">Logout</span>';
+                html += '    </a>';
+                html += '</div>';
+            }
+
+            $loginLogout.html(html);
+            console.log('✅ Header updated successfully!');
+        }
+
+        // Subscribe to customer data changes
+        customerPrivateData.subscribe(function (data) {
+            console.log('🔔 Customer data changed:', data);
+            updateHeader(data);
+        });
+
+        // Initial render
+        var initialData = customerPrivateData();
+        updateHeader(initialData);
+
+        // Force reload if needed
+        if (!initialData || typeof initialData.is_logged_in === 'undefined') {
+            console.log('⚠️ No valid initial data, forcing reload...');
+            customerData.reload(['customer_private_data'], false);
+
+            setTimeout(function() {
+                console.log('🔍 DEBUG: Data after reload:', customerPrivateData());
+            }, 2000);
+        }
+    });
+</script>

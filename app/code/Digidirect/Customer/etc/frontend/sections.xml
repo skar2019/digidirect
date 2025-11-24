@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Register custom customer data section
+ * File Location: app/code/Digidirect/Customer/etc/frontend/sections.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Customer/etc/sections.xsd">
+
+    <!-- Reload on customer login/logout -->
+    <action name="customer/account/login">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="customer/account/loginPost">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="customer/account/logout">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="customer/account/logoutSuccess">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="customer/account/createpost">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="customer/account/editpost">
+        <section name="customer_private_data"/>
+    </action>
+
+    <!-- Reload when wishlist changes -->
+    <action name="wishlist/index/add">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="wishlist/index/remove">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="wishlist/index/updateItemOptions">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="wishlist/index/cart">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="wishlist/index/fromcart">
+        <section name="customer_private_data"/>
+    </action>
+    <action name="wishlist/index/allcart">
+        <section name="customer_private_data"/>
+    </action>
+</config>

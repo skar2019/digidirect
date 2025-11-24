@@ -1,7 +1,11 @@
+<?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Your existing preferences -->
     <preference for="Magento\Customer\Model\Data\Customer" type="Digidirect\Customer\Model\Data\Customer" />
     <preference for="Magento\Customer\Controller\Account\EditPost" type="Digidirect\Customer\Controller\Account\EditPost" />
     <preference for="Magento\Customer\Controller\Account\CreatePost" type="Digidirect\Customer\Controller\Account\CreatePost" />
+
+    <!-- Your existing plugin -->
     <type name="Magento\Customer\Block\Widget\Dob">
         <plugin name="disable_dob_edit" type="Digidirect\Customer\Plugin\DisableDobEdit"/>
     </type>
