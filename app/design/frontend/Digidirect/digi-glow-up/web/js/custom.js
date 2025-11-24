@@ -1901,5 +1901,40 @@ function updateCartAjax($input, newQty) {
     // Initial check on load
     $(document).ready(toggleMiniUpsell)
     
+    //Takeover Banner, Header, AA Panel Fix
+    function setAaPanelTop() {
+    var $panel = $('.aa-Panel');
+    var $header = $('.page-header');
+
+    if ($panel.length && $header.length && window.innerWidth > 768) {
+      var headerHeight = $header.outerHeight() || 0;
+      $panel.css('top', headerHeight + 'px');
+    } else if ($panel.length) {
+      $panel.css('top', '');
+    }
+  }
+
+  $(document).ready(function() {
+    setAaPanelTop();
+
+    // Observe DOM changes to detect .aa-Panel dynamically
+    const observer = new MutationObserver(() => {
+      if ($('.aa-Panel').length) {
+        setAaPanelTop();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+
+  // Recalculate on window resize
+  $(window).resize(function() {
+    setAaPanelTop();
+  });
+
+    
   })
 })

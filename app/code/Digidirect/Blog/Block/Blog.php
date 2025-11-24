@@ -209,6 +209,31 @@ class Blog extends Template
             $this->setChild('blog_toolbar', $toolbar);
         }
 
+
+        /** @var \Magento\Theme\Block\Html\Breadcrumbs $breadcrumbs */
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+        if ($breadcrumbs) {
+
+            // Home link
+            $breadcrumbs->addCrumb(
+                'home',
+                [
+                    'label' => __('Home'),
+                    'title' => __('Home'),
+                    'link'  => $this->getUrl('')
+                ]
+            );
+
+            // Blog list page
+            $breadcrumbs->addCrumb(
+                'blog',
+                [
+                    'label' => __('Blog'),
+                    'title' => __('Blog'),
+                    'link'  => $this->getUrl('blog')
+                ]
+            );
+        }
         return $this;
     }
 
@@ -226,45 +251,65 @@ class Blog extends Template
         return $pager;
     }
 
-    public function getPagerHtml(){
+   public function getPagerHtml()
+    {
         $pager = "";
 
         $collection = $this->getCollection();
         $total_size = $collection->getSize();
         $per_page = $this->dataHelper->getPostPerPage();
+        $total_pages = ceil($total_size / $per_page);
 
-        $total_pages = ceil($total_size/$per_page);
+        // Current page
+        $current_page_number = (int) $this->getRequest()->getParam("p", 1);
 
-        $current_page_number = 1;
-        $page_number_param = $this->getRequest()->getParams("p");
-
-        if(isset($page_number_param["p"])){
-            $current_page_number = $page_number_param["p"];
-        }
-
-        //To do GET Correct URL
-//        $currentUrl = $this->urlModel->getBlogListUrl(true);
-
+        // Base page URL (without query)
         $initialUrl = $this->_urlInterface->getCurrentUrl(false);
-
         $currentUrl = strtok($initialUrl, "?");
 
-        if($total_pages > 1){
-            for ($x = 1; $x <= $total_pages; $x++) {
-                $current_item = "";
-                $page_number = "<a href='".$currentUrl."?p=".$x."'>".$x."</a>";
+        if ($total_pages > 1) {
 
-                if($current_page_number == $x){
+            // ==== LIMIT PAGE NUMBERS TO 5 ====
+            $maxVisible = 5;
+
+            // Determine window range
+            $start = max(1, $current_page_number - 2);
+            $end   = min($total_pages, $start + $maxVisible - 1);
+
+            // Adjust window if near end
+            if ($end - $start + 1 < $maxVisible) {
+                $start = max(1, $end - $maxVisible + 1);
+            }
+
+            // ==== PREVIOUS BUTTON ====
+            if ($current_page_number > 1) {
+                $prevPage = $current_page_number - 1;
+                $pager .= "<li class='item prev'><a href='{$currentUrl}?p={$prevPage}'>Prev</a></li>";
+            }
+
+            // ==== PAGE NUMBERS ====
+            for ($x = $start; $x <= $end; $x++) {
+                $current_item = "";
+                $page_number = "<a href='{$currentUrl}?p={$x}'>{$x}</a>";
+
+                if ($current_page_number == $x) {
                     $current_item = "current";
-                    $page_number = "<span>".$x."</span>";
+                    $page_number = "<span>{$x}</span>";
                 }
 
-                $pager .= "<li class=\"item $current_item\"><strong class=\"page\">". $page_number ."</strong></li>";
+                $pager .= "<li class=\"item $current_item\"><strong class=\"page\">{$page_number}</strong></li>";
+            }
+
+            // ==== NEXT BUTTON ====
+            if ($current_page_number < $total_pages) {
+                $nextPage = $current_page_number + 1;
+                $pager .= "<li class='item next'><a href='{$currentUrl}?p={$nextPage}'>Next</a></li>";
             }
         }
 
         return $pager;
     }
+
 
     /**
      * @return number

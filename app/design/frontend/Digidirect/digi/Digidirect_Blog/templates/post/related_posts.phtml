@@ -48,9 +48,6 @@ $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
                             <?php endif; ?>
                             <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
                                 <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
-                                </svg>
                             </a>
                             <?php if($post->getTags()): ?>
                                 <div class="tags">
