@@ -1903,40 +1903,37 @@ function updateCartAjax($input, newQty) {
     
     //Takeover Banner, Header, AA Panel Fix
     function setAaPanelTop() {
-        var $panel = $('.aa-Panel');
-        var $wrapper = $('.page-wrapper');
+    var $panel = $('.aa-Panel');
+    var $header = $('.page-header');
 
-        if ($panel.length && $wrapper.length && window.innerWidth > 768) {
-          var wrapperHeight = $wrapper.outerHeight() || 0;
-          $panel.css('top', wrapperHeight + 'px');
-        } else if ($panel.length) {
-          $panel.css('top', '');
-        }
+    if ($panel.length && $header.length && window.innerWidth > 768) {
+      var headerHeight = $header.outerHeight() || 0;
+      $panel.css('top', headerHeight + 'px');
+    } else if ($panel.length) {
+      $panel.css('top', '');
+    }
+  }
+
+  $(document).ready(function() {
+    setAaPanelTop();
+
+    // Observe DOM changes to detect .aa-Panel dynamically
+    const observer = new MutationObserver(() => {
+      if ($('.aa-Panel').length) {
+        setAaPanelTop();
       }
+    });
 
-      // Call on page load
-      $(document).ready(function() {
-        setAaPanelTop();
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
 
-        // Observe DOM changes to detect .aa-Panel if it appears later
-        const observer = new MutationObserver((mutations, obs) => {
-          const panelExists = document.querySelector('.aa-Panel');
-          if (panelExists) {
-            setAaPanelTop();
-            obs.disconnect(); // Stop observing once panel is found
-          }
-        });
-
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
-      });
-
-      // Recalculate on window resize
-      $(window).resize(function() {
-        setAaPanelTop();
-      });
+  // Recalculate on window resize
+  $(window).resize(function() {
+    setAaPanelTop();
+  });
 
     
   })
