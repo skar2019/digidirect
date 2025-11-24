@@ -1125,27 +1125,32 @@ function alignAaPanel() {
   const $panel = $('.aa-Panel')
   const $input = $('#autocomplete-0-input')
   const $header = $('.header.content')
+  const $headerWrapper = $('.panel.header') // optional wrapper header if needed
 
-  // --- FIXED: Measure the takeover banner image instead of the wrapper ---
+  // Measure takeover banner image
   const takeoverImg = document.querySelector('.takeover-banner img')
   const takeoverHeight = takeoverImg
     ? takeoverImg.getBoundingClientRect().height || 0
     : 0
-  // -----------------------------------------------------------------------
 
-  if (!$panel.length || !$input.length || !$header.length) return
+  // Measure header content height
+  const headerHeight = $header.outerHeight() || 0
+  const headerWrapperHeight = $headerWrapper.outerHeight() || 0
+
+  // Sum header heights + takeover banner
+  const totalTop = takeoverHeight + headerHeight + headerWrapperHeight
+
+  if (!$panel.length || !$input.length) return
 
   const inputOffset = $input.offset()
-  const headerHeight = $header.outerHeight() || 0
   const scrollTop = $(window).scrollTop()
   const inputTop = inputOffset.top - scrollTop
-
-  const newTop = $header.hasClass('is-sticky')
-    ? headerHeight + takeoverHeight + 1
-    : inputTop + $input.outerHeight() + 1
-
   const newLeft = inputOffset.left
   const newWidth = $input.outerWidth()
+
+  const newTop = $header.hasClass('is-sticky')
+    ? totalTop + 1 // fixed under takeover + header
+    : inputTop + $input.outerHeight() + 1 // default flow
 
   if ($header.hasClass('is-sticky')) {
     $panel.css({
@@ -1170,21 +1175,17 @@ function initAaPanelAlignment() {
     $(window).on('scroll resize', alignAaPanel)
     $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
 
-    // Observe DOM since Algolia dynamically replaces the panel
     const aaStickObserver = new MutationObserver(alignAaPanel)
     aaStickObserver.observe(document.body, { childList: true, subtree: true })
-
-    // Save observer so we can disconnect on mobile if needed
     window.aaStickObserver = aaStickObserver
   } else if (window.aaStickObserver) {
-    // 👋 Clean up when switching to mobile
     window.aaStickObserver.disconnect()
     $(window).off('scroll resize', alignAaPanel)
     $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
   }
 }
 
-// Re-align after takeover image loads (critical fix)
+// Re-align after takeover image loads
 $(document).on('load', '.takeover-banner img', alignAaPanel)
 
 // Initialize and re-check on resize
