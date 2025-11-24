@@ -25,8 +25,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         16 => 'CANN',
         32 => 'PARR',
         35 => 'SWHS',
-        41 => '3WHS',
-        42 => '3WHS',
+        41 => '3WHS',  // Staging
+        42 => '3WHS',  // Production (old)
+        44 => '3WHS',  // Production (current)
+        45 => '3WHS',  // Production (additional)
     ];
 
     private const CANN_MINIMUM_AMOUNT = 1000;
