@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-<!--    <head>-->
-<!--        <link src="Magento_Theme::js/custom-footer.js"/>-->
-<!--        <link src="Digidirect_HelloBar::js/hello-bar.js"/>-->
-<!--    </head>-->
+    <!--    <head>-->
+    <!--        <link src="Magento_Theme::js/custom-footer.js"/>-->
+    <!--        <link src="Digidirect_HelloBar::js/hello-bar.js"/>-->
+    <!--    </head>-->
     <update handle="checkout_cart_sidebar_item_renderers"/>
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
@@ -77,13 +77,12 @@
             <block class="Magento\Framework\View\Element\Template" name="footer-black-gradient" template="Magento_Theme::footer/footer-black-gradient.phtml" after="-"/>
         </referenceContainer>
         <referenceBlock name="minicart">
+            <!-- UPDATED: Removed cacheable="false" and ttl="0" -->
             <block class="Digidirect\Customer\Block\CustomerHeaderLinks"
                    name="minicart_private"
                    as="minicart_private"
                    template="Magento_Checkout::cart/minicart-private.phtml"
-                   cacheable="false"
-                   before="-"
-                   ttl="0">
+                   before="-">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Digidirect\Customer\ViewModel\Customer</argument>
                 </arguments>
