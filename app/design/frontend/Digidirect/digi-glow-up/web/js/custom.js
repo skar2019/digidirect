@@ -1119,13 +1119,19 @@ $(document).on('changed.owl.carousel', function (event) {
 /* ========================
     🩹 Keep aa-Panel perfectly aligned under Sticky Header (Web only)
  ======================== */
- function alignAaPanel() {
+function alignAaPanel() {
   if (window.innerWidth <= 768) return
 
   const $panel = $('.aa-Panel')
   const $input = $('#autocomplete-0-input')
   const $header = $('.header.content')
-  const takeoverHeight = $('.takeover-banner').outerHeight() || 0
+
+  // --- FIXED: Measure the takeover banner image instead of the wrapper ---
+  const takeoverImg = document.querySelector('.takeover-banner img')
+  const takeoverHeight = takeoverImg
+    ? takeoverImg.getBoundingClientRect().height || 0
+    : 0
+  // -----------------------------------------------------------------------
 
   if (!$panel.length || !$input.length || !$header.length) return
 
@@ -1156,31 +1162,34 @@ $(document).on('changed.owl.carousel', function (event) {
   }
 }
 
- /* ========================
+/* ========================
     🧠 Reactive Updates (Desktop only)
  ======================== */
- function initAaPanelAlignment() {
-   if (window.innerWidth > 768) {
-     $(window).on('scroll resize', alignAaPanel)
-     $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
+function initAaPanelAlignment() {
+  if (window.innerWidth > 768) {
+    $(window).on('scroll resize', alignAaPanel)
+    $(document).on('input focus', '#autocomplete-0-input', alignAaPanel)
 
-     // Observe DOM since Algolia dynamically replaces the panel
-     const aaStickObserver = new MutationObserver(alignAaPanel)
-     aaStickObserver.observe(document.body, { childList: true, subtree: true })
+    // Observe DOM since Algolia dynamically replaces the panel
+    const aaStickObserver = new MutationObserver(alignAaPanel)
+    aaStickObserver.observe(document.body, { childList: true, subtree: true })
 
-     // Save observer so we can disconnect on mobile if needed
-     window.aaStickObserver = aaStickObserver
-   } else if (window.aaStickObserver) {
-     // 👋 Clean up when switching to mobile
-     window.aaStickObserver.disconnect()
-     $(window).off('scroll resize', alignAaPanel)
-     $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
-   }
- }
+    // Save observer so we can disconnect on mobile if needed
+    window.aaStickObserver = aaStickObserver
+  } else if (window.aaStickObserver) {
+    // 👋 Clean up when switching to mobile
+    window.aaStickObserver.disconnect()
+    $(window).off('scroll resize', alignAaPanel)
+    $(document).off('input focus', '#autocomplete-0-input', alignAaPanel)
+  }
+}
 
- // Initialize and re-check on resize
- initAaPanelAlignment()
- $(window).on('resize', initAaPanelAlignment)
+// Re-align after takeover image loads (critical fix)
+$(document).on('load', '.takeover-banner img', alignAaPanel)
+
+// Initialize and re-check on resize
+initAaPanelAlignment()
+$(window).on('resize', initAaPanelAlignment)
 
 
 /* ========================
