@@ -1906,13 +1906,13 @@ function updateCartAjax($input, newQty) {
         var $panel = $('.aa-Panel');
         var $header = $('.page-header');
 
-        if ($panel.length && $header.length && window.innerWidth > 768) {
-          var headerHeight = $header.outerHeight() || 0;
-          $panel.css('top', headerHeight + 'px');
-        }
+        if (!$panel.length || !$header.length || window.innerWidth <= 768) return;
+
+        var headerHeight = $header.outerHeight() || 0;
+        $panel.css('top', headerHeight + 'px'); // Always force top
       }
 
-      // Debounce (optional but smooth)
+      // Debounce for resize
       function debounce(fn, wait) {
         var t;
         return function () {
@@ -1920,32 +1920,24 @@ function updateCartAjax($input, newQty) {
           t = setTimeout(fn, wait);
         };
       }
+
       var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
 
       $(document).ready(function () {
-        // Run once
-        setAaPanelTop();
+        // Keep top correct every 30ms while panel exists
+        var aaPanelInterval = setInterval(function () {
+          if ($('.aa-Panel').length) {
+            setAaPanelTop();
+          } else {
+            // Optional: stop interval when panel disappears
+            // clearInterval(aaPanelInterval);
+          }
+        }, 30);
 
-        // When Algolia inserts a new aa-Panel, re-apply inline top IMMEDIATELY
-        const observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (m) {
-            $(m.addedNodes).each(function () {
-              if ($(this).hasClass('aa-Panel') || $(this).find('.aa-Panel').length) {
-                // DO NOT WAIT — apply TOP instantly before Algolia renders
-                setAaPanelTop();
-              }
-            });
-          });
-        });
-
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
+        // Also reposition on resize
+        $(window).on('resize', debouncedSetAaPanelTop);
       });
 
-      // Reposition on resize
-      $(window).on('resize', debouncedSetAaPanelTop);
 
   })
 })
