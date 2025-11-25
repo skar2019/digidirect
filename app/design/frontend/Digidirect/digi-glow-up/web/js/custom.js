@@ -1045,33 +1045,6 @@ $(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
   replaceCarouselArrows()
 })
 
-
-/* ========================
-   🧩 Show aa-Panel only when it has content
-======================== */
-function toggleAaPanelVisibility() {
-  const $panel = $('.aa-Panel')
-  if (!$panel.length) return
-
-  // Check if panel has visible content (items, suggestions, etc.)
-  const hasContent = $panel.find('.aa-Item, .aa-Source, .aa-List').children().length > 0
-
-  // Toggle visibility
-  if (hasContent) {
-    $panel.addClass('is-ready')
-  } else {
-    $panel.removeClass('is-ready')
-  }
-}
-
-/* Observe aa-Panel changes */
-const aaObserver = new MutationObserver(toggleAaPanelVisibility)
-aaObserver.observe(document.body, { childList: true, subtree: true })
-
-/* Initial check (for good measure) */
-toggleAaPanelVisibility()
-
-
 /* ========================
    ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
 ======================== */
