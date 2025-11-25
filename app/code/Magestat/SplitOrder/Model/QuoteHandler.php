@@ -276,14 +276,6 @@ class QuoteHandler implements QuoteHandlerInterface
      */
     public function defineSessions($split, $order, $orderIds)
     {
-        \Magento\Framework\Debugger::getInstance()->log(__METHOD__, [
-            'ticket' => 'ACSD-68962',
-            'file-identifier: ' => 'app/code/Magestat/SplitOrder/Model/QuoteHandler.php',
-            'last-quote-id: ' => $split->getId(),
-            'last-success-quote-id: ' => $split->getId(),
-            'last-order-id: ' => $order->getId(),
-            'last-real-order-id: ' => json_encode($orderIds),
-        ]);
         $this->checkoutSession->setLastQuoteId($split->getId());
         $this->checkoutSession->setLastSuccessQuoteId($split->getId());
         $this->checkoutSession->setLastOrderId($order->getId());

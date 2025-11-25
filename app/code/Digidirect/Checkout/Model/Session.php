@@ -473,11 +473,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function clearQuote()
     {
-        \Magento\Framework\Debugger::getInstance()->log(__METHOD__, [
-            'ticket' => 'ACSD-68962',
-            'identifier'    => 'app/code/Digidirect/Checkout/Model/Session.php:clearQuote()',
-            'getQuoteId'  => $this->getQuoteId(),
-        ]);
         $this->_eventManager->dispatch('checkout_quote_destroy', ['quote' => $this->getQuote()]);
         $this->_quote = null;
         $this->setQuoteId(null);
@@ -492,11 +487,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function clearStorage()
     {
-        \Magento\Framework\Debugger::getInstance()->log(__METHOD__, [
-            'ticket' => 'ACSD-68962',
-            'identifier'    => 'app/code/Digidirect/Checkout/Model/Session.php:clearStorage()',
-            'getQuoteId'  => $this->getQuoteId(),
-        ]);
         parent::clearStorage();
         $this->_quote = null;
         return $this;
@@ -509,11 +499,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function clearHelperData()
     {
-        \Magento\Framework\Debugger::getInstance()->log(__METHOD__, [
-            'ticket' => 'ACSD-68962',
-            'identifier'    => 'app/code/Digidirect/Checkout/Model/Session.php:clearHelperData()',
-            'getQuoteId'  => $this->getQuoteId(),
-        ]);
         $this->setRedirectUrl(null)->setLastOrderId(null)->setLastRealOrderId(null)->setAdditionalMessages(null);
     }
 
