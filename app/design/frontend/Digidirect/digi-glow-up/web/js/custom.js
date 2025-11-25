@@ -1902,72 +1902,68 @@ function updateCartAjax($input, newQty) {
     $(document).ready(toggleMiniUpsell)
     
     //Takeover Banner, Header, AA Panel Fix
-    function setAaPanelTop() {
-        var $panel = $('.aa-Panel');
-        var $header = $('.page-header');
-        if (!$panel.length || !$header.length || window.innerWidth <= 768) return;
+    (function() {
+        var styleId = 'aa-panel-dynamic-style';
 
-        var headerHeight = $header.outerHeight() || 0;
-        $panel.css('top', headerHeight + 'px');
-    }
-
-    // Debounce for resize
-    function debounce(fn, wait) {
-        var t;
-        return function () {
-            clearTimeout(t);
-            t = setTimeout(fn, wait);
-        };
-    }
-
-    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
-
-    $(document).ready(function () {
-        // MutationObserver to instantly position whenever panel appears
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1) {
-                        var $node = $(node);
-                        // Check if the added node is the panel or contains it
-                        if ($node.hasClass('aa-Panel')) {
-                            setAaPanelTop();
-                        } else if ($node.find('.aa-Panel').length) {
-                            setAaPanelTop();
-                        }
-                    }
-                });
-            });
-        });
-
-        // Observe body for any changes
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-
-        // Also listen to input events on search field for immediate response
-        $(document).on('input focus', '.aa-Input, [data-aa-input], input[type="search"]', function() {
-            // Multiple checks to catch Algolia at different render stages
-            setTimeout(setAaPanelTop, 0);
-            requestAnimationFrame(setAaPanelTop);
-            setTimeout(setAaPanelTop, 10);
-        });
-
-        // Keep checking while panel exists (lighter than before)
-        setInterval(function() {
-            if ($('.aa-Panel').length) {
-                setAaPanelTop();
+        function updateAaPanelCSS() {
+            var $header = $('.page-header');
+            if (!$header.length || window.innerWidth <= 768) {
+                // Remove style if conditions aren't met
+                $('#' + styleId).remove();
+                return;
             }
-        }, 100); // Check every 100ms instead of 30ms
 
-        // Reposition on resize and scroll
-        $(window).on('resize', debouncedSetAaPanelTop);
-        $(window).on('scroll', debounce(setAaPanelTop, 50));
+            var headerHeight = $header.outerHeight() || 0;
+            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
 
-        // Initial set
-        setAaPanelTop();
-    });
+            // Check if style tag exists
+            var $style = $('#' + styleId);
+            if ($style.length) {
+                // Update existing style
+                if ($style.text() !== cssRule) {
+                    $style.text(cssRule);
+                }
+            } else {
+                // Create new style tag
+                $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+            }
+        }
+
+        // Debounce for resize
+        function debounce(fn, wait) {
+            var t;
+            return function () {
+                clearTimeout(t);
+                t = setTimeout(fn, wait);
+            };
+        }
+
+        var debouncedUpdate = debounce(updateAaPanelCSS, 20);
+
+        $(document).ready(function () {
+            // Initial CSS creation
+            updateAaPanelCSS();
+
+            // Watch for header height changes with MutationObserver
+            var headerObserver = new MutationObserver(updateAaPanelCSS);
+            var $header = $('.page-header');
+
+            if ($header.length) {
+                headerObserver.observe($header[0], {
+                    attributes: true,
+                    childList: true,
+                    subtree: true
+                });
+            }
+
+            // Update on resize and scroll (in case header is sticky/changes)
+            $(window).on('resize', debouncedUpdate);
+            $(window).on('scroll', debounce(updateAaPanelCSS, 50));
+
+            // Periodic check as fallback (less aggressive)
+            setInterval(updateAaPanelCSS, 200);
+        });
+    })();
 
   })
 })
