@@ -72,8 +72,15 @@ $isMobile = $block->isMobile();
 
         <h1 class="successful-title"><?= /* @escapeNotVerified */__('Successfully Placed') ?></h1>
 
+        <?php
+            if ($order->getShippingMethod() == 'collect_collect') {
+                $img = "checkout-status-bar-click-collect.svg";
+            } else {
+                $img = "checkout-status-bar.png";
+            }
+        ?>
         <div class="order-status-tracker">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/") ?>checkout/checkout-status-bar.png" alt="Digidirect order status"/>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/") ?>checkout/<?= $img;?>" alt="Digidirect order status"/>
         </div>
 
         <div class="order-date">
@@ -642,6 +649,15 @@ $isMobile = $block->isMobile();
         </div>
 
     </div>
+
+    <?php if ($order->getShippingMethod() == 'collect_collect') : ?>
+        <div class="click-collect-box">
+            <h3 class="click-collect-title">What happens next?</h3>
+            <div class="reference-note"><span class="bold-text">Note:</span> You must wait for the email notifying you that your order is ready for pick-up before making your way to your chosen Click & Collect location.</div>
+        </div>
+
+    <?php endif; ?>
+
 
     <?php if ($methodCode === 'banktransfer') : ?>
         <div class="bank-details-box">
