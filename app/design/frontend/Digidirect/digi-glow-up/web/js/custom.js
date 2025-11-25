@@ -1904,32 +1904,36 @@ function updateCartAjax($input, newQty) {
     //Takeover Banner, Header, AA Panel Fix
     (function() {
         var styleId = 'aa-panel-dynamic-style';
+        var lastHeaderHeight = null;
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
+
+            // Always remove style if mobile or no header
             if (!$header.length || window.innerWidth <= 768) {
-                // Remove style if conditions aren't met
                 $('#' + styleId).remove();
+                lastHeaderHeight = null;
                 return;
             }
 
             var headerHeight = $header.outerHeight() || 0;
+
+            // Only update if height changed
+            if (lastHeaderHeight === headerHeight) {
+                return;
+            }
+
+            lastHeaderHeight = headerHeight;
             var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
 
-            // Check if style tag exists
-            var $style = $('#' + styleId);
-            if ($style.length) {
-                // Update existing style
-                if ($style.text() !== cssRule) {
-                    $style.text(cssRule);
-                }
-            } else {
-                // Create new style tag
-                $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
-            }
+            // Remove old style and create new one
+            $('#' + styleId).remove();
+            $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+
+            console.log('AA Panel CSS updated - top:', headerHeight + 'px'); // Debug log
         }
 
-        // Debounce for resize
+        // Debounce helper
         function debounce(fn, wait) {
             var t;
             return function () {
@@ -1938,30 +1942,18 @@ function updateCartAjax($input, newQty) {
             };
         }
 
-        var debouncedUpdate = debounce(updateAaPanelCSS, 20);
-
         $(document).ready(function () {
-            // Initial CSS creation
-            updateAaPanelCSS();
+            // Force initial update
+            setTimeout(updateAaPanelCSS, 0);
+            setTimeout(updateAaPanelCSS, 100);
+            setTimeout(updateAaPanelCSS, 500);
 
-            // Watch for header height changes with MutationObserver
-            var headerObserver = new MutationObserver(updateAaPanelCSS);
-            var $header = $('.page-header');
+            // Continuous monitoring - check every 100ms
+            setInterval(updateAaPanelCSS, 100);
 
-            if ($header.length) {
-                headerObserver.observe($header[0], {
-                    attributes: true,
-                    childList: true,
-                    subtree: true
-                });
-            }
-
-            // Update on resize and scroll (in case header is sticky/changes)
-            $(window).on('resize', debouncedUpdate);
-            $(window).on('scroll', debounce(updateAaPanelCSS, 50));
-
-            // Periodic check as fallback (less aggressive)
-            setInterval(updateAaPanelCSS, 200);
+            // Also on resize and scroll
+            $(window).on('resize', debounce(updateAaPanelCSS, 50));
+            $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
     })();
 
