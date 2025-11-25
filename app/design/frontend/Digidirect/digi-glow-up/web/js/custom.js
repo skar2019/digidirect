@@ -1902,70 +1902,53 @@ function updateCartAjax($input, newQty) {
     $(document).ready(toggleMiniUpsell)
     
     //Takeover Banner, Header, AA Panel Fix
-    function getAaPanelTop() {
-        var $header = $('.page-header');
-        var $banner = $('.takeover-banner'); // optional
+    function setAaPanelTop() {
+      var $panel = $('.aa-Panel');
+      var $header = $('.page-header');
 
+      if ($panel.length && $header.length && window.innerWidth > 768) {
         var headerHeight = $header.outerHeight() || 0;
-        var bannerHeight = $banner.length ? $banner.outerHeight() : 0;
-
-        return headerHeight + bannerHeight;
+        $panel.css('top', headerHeight + 'px');
+      } else if ($panel.length) {
+        $panel.css('top', '');
       }
+    }
 
-      function setAaPanelTop() {
-        var $panel = $('.aa-Panel');
-        if (!$panel.length) return;
+    // Debounce function
+    function debounce(fn, delay) {
+      var timer;
+      return function () {
+        clearTimeout(timer);
+        timer = setTimeout(fn, delay);
+      };
+    }
 
-        if (window.innerWidth <= 768) {
-          $panel.css('top', '');
-          return;
-        }
+    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 60);
 
-        var top = getAaPanelTop();
-        $panel.css('top', top + 'px');
-      }
+    $(document).ready(function() {
+      setAaPanelTop();
 
-      // Debounce helper (jQuery version)
-      function debounce(fn, delay) {
-        var timer;
-        return function () {
-          clearTimeout(timer);
-          timer = setTimeout(fn, delay);
-        };
-      }
-
-      var debouncedSetAaPanelTop = debounce(setAaPanelTop, 50);
-
-      $(document).ready(function () {
-        // Initial position
-        setAaPanelTop();
-
-        // Detect when AA panel is inserted into DOM — but NOT its internal updates
-        var observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (m) {
-            $(m.addedNodes).each(function () {
-              if ($(this).hasClass('aa-Panel') || $(this).find('.aa-Panel').length) {
-                debouncedSetAaPanelTop();
-              }
-            });
+      // MutationObserver FIX:
+      // Only run when .aa-Panel is ADDED, not when its contents change
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((m) => {
+          $(m.addedNodes).each(function () {
+            // run only when aa-Panel element is inserted
+            if ($(this).hasClass('aa-Panel') || $(this).find('.aa-Panel').length) {
+              debouncedSetAaPanelTop();
+            }
           });
         });
-
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
-
-        // Recalculate on resize
-        $(window).on('resize', debouncedSetAaPanelTop);
-
-        // Recalculate on scroll IF header is sticky
-        $(window).on('scroll', debouncedSetAaPanelTop);
-
-        // Watch for header height changes (e.g., sticky shrinks)
-        new ResizeObserver(debouncedSetAaPanelTop)
-          .observe($('.page-header').get(0));
       });
-    
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+
+    // Recalculate on window resize
+    $(window).resize(debouncedSetAaPanelTop);
+
   })
 })
