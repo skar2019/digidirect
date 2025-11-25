@@ -1899,42 +1899,63 @@ function updateCartAjax($input, newQty) {
     }
 
     // Initial check on load
-    $(document).ready(toggleMiniUpsell)
+    $(document).ready(toggleMiniUpsell);
     
     //Takeover Banner, Header, AA Panel Fix
-    function setAaPanelTop() {
-    var $panel = $('.aa-Panel');
-    var $header = $('.page-header');
+    (function() {
+        var styleId = 'aa-panel-dynamic-style';
+        var lastHeaderHeight = null;
 
-    if ($panel.length && $header.length && window.innerWidth > 768) {
-      var headerHeight = $header.outerHeight() || 0;
-      $panel.css('top', headerHeight + 'px');
-    } else if ($panel.length) {
-      $panel.css('top', '');
-    }
-  }
+        function updateAaPanelCSS() {
+            var $header = $('.page-header');
 
-  $(document).ready(function() {
-    setAaPanelTop();
+            // Always remove style if mobile or no header
+            if (!$header.length || window.innerWidth <= 768) {
+                $('#' + styleId).remove();
+                lastHeaderHeight = null;
+                return;
+            }
 
-    // Observe DOM changes to detect .aa-Panel dynamically
-    const observer = new MutationObserver(() => {
-      if ($('.aa-Panel').length) {
-        setAaPanelTop();
-      }
-    });
+            var headerHeight = $header.outerHeight() || 0;
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  });
+            // Only update if height changed
+            if (lastHeaderHeight === headerHeight) {
+                return;
+            }
 
-  // Recalculate on window resize
-  $(window).resize(function() {
-    setAaPanelTop();
-  });
+            lastHeaderHeight = headerHeight;
+            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
 
-    
+            // Remove old style and create new one
+            $('#' + styleId).remove();
+            $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+
+            console.log('AA Panel CSS updated - top:', headerHeight + 'px'); // Debug log
+        }
+
+        // Debounce helper
+        function debounce(fn, wait) {
+            var t;
+            return function () {
+                clearTimeout(t);
+                t = setTimeout(fn, wait);
+            };
+        }
+
+        $(document).ready(function () {
+            // Force initial update
+            setTimeout(updateAaPanelCSS, 0);
+            setTimeout(updateAaPanelCSS, 100);
+            setTimeout(updateAaPanelCSS, 500);
+
+            // Continuous monitoring - check every 100ms
+            setInterval(updateAaPanelCSS, 100);
+
+            // Also on resize and scroll
+            $(window).on('resize', debounce(updateAaPanelCSS, 50));
+            $(window).on('scroll', debounce(updateAaPanelCSS, 100));
+        });
+    })();
+
   })
 })

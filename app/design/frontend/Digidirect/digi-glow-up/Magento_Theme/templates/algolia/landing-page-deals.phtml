@@ -213,7 +213,7 @@ require(['jquery'], function ($) {
             if (discount === "$NaN") {
                 var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
             } else {
-                var productInfoBottom = '<div class="product-info-bottom black-friday"><div class="discount-price-wrapper"><span class="discount-price">SAVE ' + discount + '</span> OFF RRP</div>' + addToCart + '</div>'
+                var productInfoBottom = '<div class="product-info-bottom black-friday"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> OFF RRP</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
