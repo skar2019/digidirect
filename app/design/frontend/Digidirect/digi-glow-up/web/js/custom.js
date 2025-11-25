@@ -1045,6 +1045,33 @@ $(document).on('init reInit afterChange', '.pagebuilder-slider', function () {
   replaceCarouselArrows()
 })
 
+
+/* ========================
+   🧩 Show aa-Panel only when it has content
+======================== */
+function toggleAaPanelVisibility() {
+  const $panel = $('.aa-Panel')
+  if (!$panel.length) return
+
+  // Check if panel has visible content (items, suggestions, etc.)
+  const hasContent = $panel.find('.aa-Item, .aa-Source, .aa-List').children().length > 0
+
+  // Toggle visibility
+  if (hasContent) {
+    $panel.addClass('is-ready')
+  } else {
+    $panel.removeClass('is-ready')
+  }
+}
+
+/* Observe aa-Panel changes */
+const aaObserver = new MutationObserver(toggleAaPanelVisibility)
+aaObserver.observe(document.body, { childList: true, subtree: true })
+
+/* Initial check (for good measure) */
+toggleAaPanelVisibility()
+
+
 /* ========================
    ⚪ Owl Carousel – Sliding Active Dot Indicator (Round)
 ======================== */
@@ -1878,39 +1905,62 @@ function updateCartAjax($input, newQty) {
     function setAaPanelTop() {
         var $panel = $('.aa-Panel');
         var $header = $('.page-header');
-
         if (!$panel.length || !$header.length || window.innerWidth <= 768) return;
 
         var headerHeight = $header.outerHeight() || 0;
-        $panel.css('top', headerHeight + 'px'); // Always force top
-      }
+        var currentTop = parseInt($panel.css('top')) || 0;
 
-      // Debounce for resize
-      function debounce(fn, wait) {
+        // Only update if the value actually changed
+        if (currentTop !== headerHeight) {
+            $panel.css('top', headerHeight + 'px');
+        }
+    }
+
+    // Debounce for resize
+    function debounce(fn, wait) {
         var t;
         return function () {
-          clearTimeout(t);
-          t = setTimeout(fn, wait);
+            clearTimeout(t);
+            t = setTimeout(fn, wait);
         };
-      }
+    }
 
-      var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
+    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
 
-      $(document).ready(function () {
-        // Keep top correct every 30ms while panel exists
-        var aaPanelInterval = setInterval(function () {
-          if ($('.aa-Panel').length) {
-            setAaPanelTop();
-          } else {
-            // Optional: stop interval when panel disappears
-            // clearInterval(aaPanelInterval);
-          }
-        }, 30);
+    $(document).ready(function () {
+        // Set initial position
+        setAaPanelTop();
 
-        // Also reposition on resize
+        // MutationObserver to catch when Algolia reattaches the panel
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                // Check if aa-Panel was added
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { // Element node
+                        if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
+                            // Use requestAnimationFrame to position after Algolia's positioning
+                            requestAnimationFrame(function() {
+                                setAaPanelTop();
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        // Observe the container where Algolia attaches the panel
+        // Adjust selector if your search input has a different parent
+        var searchContainer = document.body; // or more specific: document.querySelector('.search-container')
+
+        observer.observe(searchContainer, {
+            childList: true,
+            subtree: true
+        });
+
+        // Reposition on resize and scroll
         $(window).on('resize', debouncedSetAaPanelTop);
-      });
-
+        $(window).on('scroll', debounce(setAaPanelTop, 50));
+    });
 
   })
 })
