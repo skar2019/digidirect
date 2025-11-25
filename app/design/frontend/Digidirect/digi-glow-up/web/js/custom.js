@@ -1899,7 +1899,7 @@ function updateCartAjax($input, newQty) {
     }
 
     // Initial check on load
-    $(document).ready(toggleMiniUpsell)
+    $(document).ready(toggleMiniUpsell);
     
     //Takeover Banner, Header, AA Panel Fix
     (function() {
