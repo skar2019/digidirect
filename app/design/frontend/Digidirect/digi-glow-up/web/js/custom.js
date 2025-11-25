@@ -1903,38 +1903,71 @@ function updateCartAjax($input, newQty) {
     
     //Takeover Banner, Header, AA Panel Fix
     function setAaPanelTop() {
-    var $panel = $('.aa-Panel');
-    var $header = $('.page-header');
+        var $panel = $('.aa-Panel');
+        var $header = $('.page-header');
+        if (!$panel.length || !$header.length || window.innerWidth <= 768) return;
 
-    if ($panel.length && $header.length && window.innerWidth > 768) {
-      var headerHeight = $header.outerHeight() || 0;
-      $panel.css('top', headerHeight + 'px');
-    } else if ($panel.length) {
-      $panel.css('top', '');
+        var headerHeight = $header.outerHeight() || 0;
+        $panel.css('top', headerHeight + 'px');
     }
-  }
 
-  $(document).ready(function() {
-    setAaPanelTop();
+    // Debounce for resize
+    function debounce(fn, wait) {
+        var t;
+        return function () {
+            clearTimeout(t);
+            t = setTimeout(fn, wait);
+        };
+    }
 
-    // Observe DOM changes to detect .aa-Panel dynamically
-    const observer = new MutationObserver(() => {
-      if ($('.aa-Panel').length) {
+    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
+
+    $(document).ready(function () {
+        // MutationObserver to instantly position whenever panel appears
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) {
+                        var $node = $(node);
+                        // Check if the added node is the panel or contains it
+                        if ($node.hasClass('aa-Panel')) {
+                            setAaPanelTop();
+                        } else if ($node.find('.aa-Panel').length) {
+                            setAaPanelTop();
+                        }
+                    }
+                });
+            });
+        });
+
+        // Observe body for any changes
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        // Also listen to input events on search field for immediate response
+        $(document).on('input focus', '.aa-Input, [data-aa-input], input[type="search"]', function() {
+            // Multiple checks to catch Algolia at different render stages
+            setTimeout(setAaPanelTop, 0);
+            requestAnimationFrame(setAaPanelTop);
+            setTimeout(setAaPanelTop, 10);
+        });
+
+        // Keep checking while panel exists (lighter than before)
+        setInterval(function() {
+            if ($('.aa-Panel').length) {
+                setAaPanelTop();
+            }
+        }, 100); // Check every 100ms instead of 30ms
+
+        // Reposition on resize and scroll
+        $(window).on('resize', debouncedSetAaPanelTop);
+        $(window).on('scroll', debounce(setAaPanelTop, 50));
+
+        // Initial set
         setAaPanelTop();
-      }
     });
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  });
-
-  // Recalculate on window resize
-  $(window).resize(function() {
-    setAaPanelTop();
-  });
-
-    
   })
 })
