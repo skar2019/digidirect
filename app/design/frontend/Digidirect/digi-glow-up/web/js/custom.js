@@ -1903,52 +1903,49 @@ function updateCartAjax($input, newQty) {
     
     //Takeover Banner, Header, AA Panel Fix
     function setAaPanelTop() {
-      var $panel = $('.aa-Panel');
-      var $header = $('.page-header');
+        var $panel = $('.aa-Panel');
+        var $header = $('.page-header');
 
-      if ($panel.length && $header.length && window.innerWidth > 768) {
-        var headerHeight = $header.outerHeight() || 0;
-        $panel.css('top', headerHeight + 'px');
-      } else if ($panel.length) {
-        $panel.css('top', '');
+        if ($panel.length && $header.length && window.innerWidth > 768) {
+          var headerHeight = $header.outerHeight() || 0;
+          $panel.css('top', headerHeight + 'px');
+        }
       }
-    }
 
-    // Debounce function
-    function debounce(fn, delay) {
-      var timer;
-      return function () {
-        clearTimeout(timer);
-        timer = setTimeout(fn, delay);
-      };
-    }
+      // Debounce (optional but smooth)
+      function debounce(fn, wait) {
+        var t;
+        return function () {
+          clearTimeout(t);
+          t = setTimeout(fn, wait);
+        };
+      }
+      var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
 
-    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 60);
+      $(document).ready(function () {
+        // Run once
+        setAaPanelTop();
 
-    $(document).ready(function() {
-      setAaPanelTop();
-
-      // MutationObserver FIX:
-      // Only run when .aa-Panel is ADDED, not when its contents change
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((m) => {
-          $(m.addedNodes).each(function () {
-            // run only when aa-Panel element is inserted
-            if ($(this).hasClass('aa-Panel') || $(this).find('.aa-Panel').length) {
-              debouncedSetAaPanelTop();
-            }
+        // When Algolia inserts a new aa-Panel, re-apply inline top IMMEDIATELY
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) {
+            $(m.addedNodes).each(function () {
+              if ($(this).hasClass('aa-Panel') || $(this).find('.aa-Panel').length) {
+                // DO NOT WAIT — apply TOP instantly before Algolia renders
+                setAaPanelTop();
+              }
+            });
           });
+        });
+
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
         });
       });
 
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-    });
-
-    // Recalculate on window resize
-    $(window).resize(debouncedSetAaPanelTop);
+      // Reposition on resize
+      $(window).on('resize', debouncedSetAaPanelTop);
 
   })
 })
