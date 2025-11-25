@@ -1899,75 +1899,63 @@ function updateCartAjax($input, newQty) {
     }
 
     // Initial check on load
-    $(document).ready(toggleMiniUpsell)
+    $(document).ready(toggleMiniUpsell);
     
     //Takeover Banner, Header, AA Panel Fix
-    function setAaPanelTop() {
-        var $panel = $('.aa-Panel');
-        var $header = $('.page-header');
-        if (!$panel.length || !$header.length || window.innerWidth <= 768) return;
+    (function() {
+        var styleId = 'aa-panel-dynamic-style';
+        var lastHeaderHeight = null;
 
-        var headerHeight = $header.outerHeight() || 0;
-        $panel.css('top', headerHeight + 'px');
-    }
+        function updateAaPanelCSS() {
+            var $header = $('.page-header');
 
-    // Debounce for resize
-    function debounce(fn, wait) {
-        var t;
-        return function () {
-            clearTimeout(t);
-            t = setTimeout(fn, wait);
-        };
-    }
-
-    var debouncedSetAaPanelTop = debounce(setAaPanelTop, 20);
-
-    $(document).ready(function () {
-        // MutationObserver to instantly position whenever panel appears
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1) {
-                        var $node = $(node);
-                        // Check if the added node is the panel or contains it
-                        if ($node.hasClass('aa-Panel')) {
-                            setAaPanelTop();
-                        } else if ($node.find('.aa-Panel').length) {
-                            setAaPanelTop();
-                        }
-                    }
-                });
-            });
-        });
-
-        // Observe body for any changes
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-
-        // Also listen to input events on search field for immediate response
-        $(document).on('input focus', '.aa-Input, [data-aa-input], input[type="search"]', function() {
-            // Multiple checks to catch Algolia at different render stages
-            setTimeout(setAaPanelTop, 0);
-            requestAnimationFrame(setAaPanelTop);
-            setTimeout(setAaPanelTop, 10);
-        });
-
-        // Keep checking while panel exists (lighter than before)
-        setInterval(function() {
-            if ($('.aa-Panel').length) {
-                setAaPanelTop();
+            // Always remove style if mobile or no header
+            if (!$header.length || window.innerWidth <= 768) {
+                $('#' + styleId).remove();
+                lastHeaderHeight = null;
+                return;
             }
-        }, 100); // Check every 100ms instead of 30ms
 
-        // Reposition on resize and scroll
-        $(window).on('resize', debouncedSetAaPanelTop);
-        $(window).on('scroll', debounce(setAaPanelTop, 50));
+            var headerHeight = $header.outerHeight() || 0;
 
-        // Initial set
-        setAaPanelTop();
-    });
+            // Only update if height changed
+            if (lastHeaderHeight === headerHeight) {
+                return;
+            }
+
+            lastHeaderHeight = headerHeight;
+            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
+
+            // Remove old style and create new one
+            $('#' + styleId).remove();
+            $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+
+            console.log('AA Panel CSS updated - top:', headerHeight + 'px'); // Debug log
+        }
+
+        // Debounce helper
+        function debounce(fn, wait) {
+            var t;
+            return function () {
+                clearTimeout(t);
+                t = setTimeout(fn, wait);
+            };
+        }
+
+        $(document).ready(function () {
+            // Force initial update
+            setTimeout(updateAaPanelCSS, 0);
+            setTimeout(updateAaPanelCSS, 100);
+            setTimeout(updateAaPanelCSS, 500);
+
+            // Continuous monitoring - check every 100ms
+            setInterval(updateAaPanelCSS, 100);
+
+            // Also on resize and scroll
+            $(window).on('resize', debounce(updateAaPanelCSS, 50));
+            $(window).on('scroll', debounce(updateAaPanelCSS, 100));
+        });
+    })();
 
   })
 })
