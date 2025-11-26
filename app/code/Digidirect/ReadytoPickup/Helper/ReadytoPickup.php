@@ -27,7 +27,7 @@ class ReadytoPickup extends AbstractHelper
     * @var Curl
     */
     protected $curl;
-    
+
     protected $_orderCollectionFactory;
     /**
      * @var SearchCriteriaBuilder
@@ -110,7 +110,7 @@ class ReadytoPickup extends AbstractHelper
      * @var CustomerInterface[]|array
      */
     protected $customer = [];
-    
+
     private $timezone;
     /**
      * @var Country
@@ -128,7 +128,7 @@ class ReadytoPickup extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -178,12 +178,14 @@ class ReadytoPickup extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
+            $prontoordernumber = $order->getData('pronto_order_number');
             $store = $this->storeManager->getStore();
             $templateParams = ['store' => $store,
                 'order_number' => $orderNumber,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
-                'swhs_store_hours' => $shwhStoreHours
+                'swhs_store_hours' => $shwhStoreHours,
+                'pronto_order_number' => $prontoordernumber
             ];
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
@@ -213,7 +215,7 @@ class ReadytoPickup extends AbstractHelper
         }
         return true;
     }
-    
+
     public function getOrderCollection()
     {
         $collection = $this->_orderCollectionFactory->create()
@@ -225,7 +227,7 @@ class ReadytoPickup extends AbstractHelper
             ->setOrder('created_at', 'asc');
         return $collection;
     }
-    
+
     /**
      * @param OrderInterface $order
      * @return int|null
@@ -238,7 +240,7 @@ class ReadytoPickup extends AbstractHelper
         }
         return null;
     }
-    
+
     public function getStoreSwhsStoreHOurs(OrderInterface $order) {
         $storeHours = "";
         //if (!isset($this->warehouseCode[$order->getEntityId()])) {
