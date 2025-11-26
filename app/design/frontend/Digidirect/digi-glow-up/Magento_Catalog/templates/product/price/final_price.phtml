@@ -67,7 +67,7 @@ $customerGroupId = 0; //bakit naka zero?
                 </span>
             </span>
         </div>
-        <div class="discount-price-wrapper">SAVE $<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> OFF</div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> OFF</div>
     <?php else: ?>
         <div class="current-price-wrapper has-special-price">
             <?php if ($customerGroupId == 10) { ?>
@@ -111,7 +111,7 @@ $customerGroupId = 0; //bakit naka zero?
                 ]); ?>
             </span>
         </div>
-        <div class="discount-price-wrapper has-sale">SAVE $<span class="discount-price" style="margin-right: 3px;"><?= number_format($discountPrice, 2)?> </span> OFF RRP</div>
+        <div class="discount-price-wrapper has-sale">$<span class="discount-price" style="margin-right: 3px;"><?= number_format($discountPrice, 2)?> </span> OFF RRP</div>
     <?php endif; ?>
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
@@ -142,7 +142,7 @@ $customerGroupId = 0; //bakit naka zero?
                 </span>
             </span>
         </div>
-        <div class="discount-price-wrapper">SAVE $<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> OFF RRP</div>
+        <div class="discount-price-wrapper">$<span class="discount-price"><?= number_format($mpDiscountPrice, 2)?></span> OFF RRP</div>
     <?php else: ?>
         <div class="current-price-wrapper no-special-price">
             <?php if ($customerGroupId == 10) { ?>
