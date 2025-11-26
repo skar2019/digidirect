@@ -1908,15 +1908,24 @@ function updateCartAjax($input, newQty) {
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
+            var isMobile = window.innerWidth <= 768;
 
-            // Always remove style if mobile or no header
-            if (!$header.length || window.innerWidth <= 768) {
+            if (!$header.length) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            var headerHeight = $header.outerHeight(true) || 0; // Include margin with true
+            var headerHeight = $header.outerHeight(true) || 0;
+
+            // Subtract banner height on mobile
+            if (isMobile) {
+                var $banner = $('.takeover-banner');
+                if ($banner.length) {
+                    var bannerHeight = $banner.outerHeight(true) || 0;
+                    headerHeight = headerHeight - bannerHeight;
+                }
+            }
 
             // Only update if height changed
             if (lastHeaderHeight === headerHeight) {
@@ -1925,7 +1934,6 @@ function updateCartAjax($input, newQty) {
 
             lastHeaderHeight = headerHeight;
 
-            // Add margin-top: 0 to remove any default spacing
             var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
 
             // Remove old style and create new one
@@ -1956,28 +1964,6 @@ function updateCartAjax($input, newQty) {
             // Also on resize and scroll
             $(window).on('resize', debounce(updateAaPanelCSS, 50));
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
-        });
-    })();
-
-    // Hide takeover banner on mobile when aa-Panel is present
-    (function() {
-        function toggleTakeoverBanner() {
-            var isMobile = window.innerWidth <= 768;
-            var aaPanelExists = $('.aa-Panel').length > 0;
-
-            if (isMobile && aaPanelExists) {
-                $('.takeover-banner').css('display', 'none');
-            } else {
-                $('.takeover-banner').css('display', '');
-            }
-        }
-
-        $(document).ready(function() {
-            // Check continuously
-            setInterval(toggleTakeoverBanner, 100);
-
-            // Also check on resize
-            $(window).on('resize', toggleTakeoverBanner);
         });
     })();
 

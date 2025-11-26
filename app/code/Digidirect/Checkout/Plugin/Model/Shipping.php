@@ -99,11 +99,11 @@ class Shipping {
                 $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
 
                 if ($rate->getMethod() == 'nextdayship') {
-                    /*if (($is3whs == 1 && $s3whsQty <= 0)) {
+                    if (($is3whs == 1 && $s3whsQty <= 0)) {
                         if (!in_array('express_nextdayship', $methodCodeToRemove)) {
                             array_push($methodCodeToRemove, 'express_nextdayship');
                         }
-                    }*/
+                    }
                     if (($is3whs == 1)) {
                         if (!in_array('express_nextdayship', $methodCodeToRemove)) {
                             array_push($methodCodeToRemove, 'express_nextdayship');
