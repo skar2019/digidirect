@@ -2967,7 +2967,7 @@ select:not([disabled]):focus {
     }
     .header.content {
         padding-left: 15px;
-        padding-right: 15px;
+        padding-right: 20px;
         justify-content: space-between;
 
         &::before,
@@ -3074,4 +3074,13 @@ select:not([disabled]):focus {
             }
         }
     }
+}
+
+.product-overlay.-bottom-left.-ready {
+    width: 85px !important;
+    bottom: 90px !important;
+}
+
+.product-overlay.-bottom-left.-ready + .product-overlay.-bottom-left.-ready {
+    top: 255px !important;
 }
