@@ -1912,9 +1912,10 @@ function updateCartAjax($input, newQty) {
             var isMobile = window.innerWidth <= 768;
             var aaPanelExists = $('.aa-Panel').length > 0;
             var $banner = $('.takeover-banner');
+            var bannerVisible = $banner.length && $banner.is(':visible') && $banner.css('display') !== 'none';
 
             // Handle mobile banner offset first
-            if (isMobile && aaPanelExists && $banner.length) {
+            if (isMobile && aaPanelExists && bannerVisible) {
                 var bannerHeight = $banner.outerHeight(true) || 0;
                 var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
                 $('#' + bannerStyleId).remove();
@@ -1931,8 +1932,11 @@ function updateCartAjax($input, newQty) {
                 return;
             }
 
-            // Small delay to let browser recalculate after margin change
+            // Longer delay to let browser fully recalculate after banner/margin changes
             setTimeout(function() {
+                // Force layout recalculation
+                $header[0].offsetHeight;
+
                 var headerHeight = $header.outerHeight(true) || 0;
 
                 // Only update if height changed
@@ -1949,7 +1953,7 @@ function updateCartAjax($input, newQty) {
                 $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
                 console.log('AA Panel CSS updated - top:', headerHeight + 'px');
-            }, 10);
+            }, 50); // Increased from 10ms to 50ms
         }
 
         // Debounce helper
@@ -1970,8 +1974,8 @@ function updateCartAjax($input, newQty) {
                         if (node.nodeType === 1) {
                             if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
                                 updateAaPanelCSS();
-                                setTimeout(updateAaPanelCSS, 50);
                                 setTimeout(updateAaPanelCSS, 100);
+                                setTimeout(updateAaPanelCSS, 200);
                             }
                         }
                     });
@@ -2023,9 +2027,11 @@ function updateCartAjax($input, newQty) {
 
                 if (shouldUpdate) {
                     console.log('Takeover banner changed, recalculating...');
-                    updateAaPanelCSS();
-                    setTimeout(updateAaPanelCSS, 50);
+                    // Multiple delays to catch layout at different stages
+                    setTimeout(updateAaPanelCSS, 0);
                     setTimeout(updateAaPanelCSS, 100);
+                    setTimeout(updateAaPanelCSS, 200);
+                    setTimeout(updateAaPanelCSS, 300);
                 }
             });
 
