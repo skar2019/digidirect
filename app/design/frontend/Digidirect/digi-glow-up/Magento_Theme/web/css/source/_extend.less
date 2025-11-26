@@ -3091,6 +3091,26 @@ select:not([disabled]):focus {
             }
         }
     }
+    .aa-PanelLayout.aa-Panel--scrollable {
+        width: 100%;
+    }
+    .autocomplete-wrapper,
+    .aa-Panel {
+        section[data-autocomplete-source-id="products"] {
+            .aa-List {
+                grid-template-columns: 2fr 1fr !important;
+            }
+        }
+    }
+
+    #glow-up-brands .owl-item {
+        height: 150px;
+        svg,
+        img {
+            max-width: 125px;
+            width: 85%;
+        }
+    }
 }
 
 .product-overlay.-bottom-left.-ready {
