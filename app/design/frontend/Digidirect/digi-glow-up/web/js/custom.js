@@ -1901,7 +1901,7 @@ function updateCartAjax($input, newQty) {
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
 
-    //Takeover Banner, Header, AA Panel Fix
+    // Takeover Banner, Header, AA Panel Fix (Stable)
     (function() {
         var styleId = 'aa-panel-dynamic-style';
         var bannerStyleId = 'mobile-banner-offset-style';
@@ -1913,7 +1913,7 @@ function updateCartAjax($input, newQty) {
             var aaPanelExists = $('.aa-Panel').length > 0;
             var $banner = $('.takeover-banner');
 
-            // Handle mobile banner offset first
+            // Handle mobile banner offset
             if (isMobile && aaPanelExists && $banner.length) {
                 var bannerHeight = $banner.outerHeight(true) || 0;
                 var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
@@ -1924,48 +1924,40 @@ function updateCartAjax($input, newQty) {
                 $('#' + bannerStyleId).remove();
             }
 
-            // Then calculate header height after margin is applied
             if (!$header.length || isMobile) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            // 120ms delay for reflow stabilization
-            setTimeout(function() {
-                var headerHeight = $header.outerHeight(true) || 0;
+            // Use double requestAnimationFrame to wait for full reflow
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    var headerHeight = $header.outerHeight(true) || 0;
 
-                if (lastHeaderHeight === headerHeight) return;
-                lastHeaderHeight = headerHeight;
+                    if (lastHeaderHeight === headerHeight) return;
+                    lastHeaderHeight = headerHeight;
 
-                var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
-                $('#' + styleId).remove();
-                $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+                    var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
+                    $('#' + styleId).remove();
+                    $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
-                console.log('AA Panel CSS updated - top:', headerHeight + 'px');
-            }, 120);
+                    console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+                });
+            });
         }
 
-        // Debounce helper
-        function debounce(fn, wait) {
-            var t;
-            return function () {
-                clearTimeout(t);
-                t = setTimeout(fn, wait);
-            };
-        }
-
-        $(document).ready(function () {
-            // MutationObserver for aa-Panel
+        $(document).ready(function() {
+            // MutationObserver for .aa-Panel addition/removal
             var panelObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).hasClass('aa-Panel') || $(node).querySelector('.aa-Panel'))) {
+                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
                             updateAaPanelCSS();
                         }
                     });
                     mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).hasClass('aa-Panel') || $(node).querySelector('.aa-Panel'))) {
+                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
                             updateAaPanelCSS();
                         }
                     });
@@ -1973,7 +1965,7 @@ function updateCartAjax($input, newQty) {
             });
             panelObserver.observe(document.body, { childList: true, subtree: true });
 
-            // ResizeObserver for header and takeover-banner
+            // ResizeObserver for .page-header and .takeover-banner
             var headerEl = document.querySelector('.page-header');
             var bannerEl = document.querySelector('.takeover-banner');
 
@@ -1984,17 +1976,17 @@ function updateCartAjax($input, newQty) {
                 new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
             }
 
-            // MutationObserver for takeover-banner changes
+            // MutationObserver for .takeover-banner being added/removed or class/style changes
             var bannerMutationObserver = new MutationObserver(function(mutations) {
                 var shouldUpdate = false;
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
+                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
                             shouldUpdate = true;
                         }
                     });
                     mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
+                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
                             shouldUpdate = true;
                         }
                     });
@@ -2013,7 +2005,7 @@ function updateCartAjax($input, newQty) {
                 attributeFilter: ['style', 'class']
             });
 
-            // Force initial update
+            // Initial update
             updateAaPanelCSS();
         });
     })();
