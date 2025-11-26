@@ -1956,6 +1956,28 @@ function updateCartAjax($input, newQty) {
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
     })();
+    
+    // Hide takeover banner on mobile when aa-Panel is present
+    (function() {
+        function toggleTakeoverBanner() {
+            var isMobile = window.innerWidth <= 768;
+            var aaPanelExists = $('.aa-Panel').length > 0;
+
+            if (isMobile && aaPanelExists) {
+                $('.takeover-banner').css('display', 'none');
+            } else {
+                $('.takeover-banner').css('display', '');
+            }
+        }
+
+        $(document).ready(function() {
+            // Check continuously
+            setInterval(toggleTakeoverBanner, 100);
+
+            // Also check on resize
+            $(window).on('resize', toggleTakeoverBanner);
+        });
+    })();
 
   })
 })
