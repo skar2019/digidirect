@@ -1903,108 +1903,42 @@ function updateCartAjax($input, newQty) {
 
     // Takeover Banner, Header, AA Panel Fix (Mobile & Desktop)
     (function() {
-        var styleId = 'aa-panel-dynamic-style';
-        var bannerStyleId = 'mobile-banner-offset-style';
-        var lastHeaderHeight = null;
+        const styleId = 'aa-panel-dynamic-style';
 
         function updateAaPanelCSS() {
-            var $header = $('.page-header');
-            var $banner = $('.takeover-banner');
-            var isMobile = window.innerWidth <= 768;
-            var aaPanelExists = $('.aa-Panel').length > 0;
+          const $header = $('.page-header');
+          const $banner = $('.takeover-banner');
+          const $panels = $('.aa-Panel');
+          const isMobile = window.innerWidth <= 768;
 
-            // Handle mobile banner hiding & header offset
-            if (isMobile && $banner.length) {
-                if (aaPanelExists) {
-                    // Hide the banner when AA panel is present
-                    $banner.css('display', 'none');
-                    console.log('Takeover banner hidden due to AA panel.');
-                } else {
-                    // Restore banner visibility when AA panel is gone
-                    $banner.css('display', '');
-                }
-            }
+          if (!$header.length || !$panels.length) {
+            // No panel or no header: restore banner and remove CSS
+            if ($banner.length) $banner.css('display', '');
+            $('#' + styleId).remove();
+            return;
+          }
 
-            // If header is missing or mobile, remove AA panel style
-            if (!$header.length || isMobile) {
-                $('#' + styleId).remove();
-                lastHeaderHeight = null;
-                return;
-            }
+          const headerHeight = $header.outerHeight(true) || 0;
 
-            // Use double requestAnimationFrame to ensure layout is stable
-            requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                    var headerHeight = $header.outerHeight(true) || 0;
+          // Handle takeover banner visibility
+          if ($banner.length) $banner.css('display', isMobile ? 'none' : 'block');
 
-                    if (lastHeaderHeight === headerHeight) return;
-                    lastHeaderHeight = headerHeight;
-
-                    var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
-                    $('#' + styleId).remove();
-                    $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
-
-                    console.log('AA Panel CSS updated - top:', headerHeight + 'px');
-                });
-            });
+          // Set top for all panels
+          const cssRule = `.aa-Panel { top: ${headerHeight}px !important; margin-top: 0 !important; }`;
+          $('#' + styleId).remove();
+          $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
         }
 
-        $(document).ready(function() {
-            // MutationObserver for .aa-Panel addition/removal
-            var panelObserver = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
-                            updateAaPanelCSS();
-                        }
-                    });
-                    mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
-                            updateAaPanelCSS();
-                        }
-                    });
-                });
-            });
-            panelObserver.observe(document.body, { childList: true, subtree: true });
+        // Watch for .aa-Panel being added/removed anywhere in the body
+        const observer = new MutationObserver(() => updateAaPanelCSS());
+        observer.observe(document.body, { childList: true, subtree: true });
 
-            // ResizeObserver for header and takeover-banner
-            var headerEl = document.querySelector('.page-header');
-            var bannerEl = document.querySelector('.takeover-banner');
+        // Also update on window resize
+        $(window).on('resize', updateAaPanelCSS);
 
-            if (headerEl) new ResizeObserver(updateAaPanelCSS).observe(headerEl);
-            if (bannerEl) new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
-
-            // MutationObserver for takeover-banner being added/removed or attribute changes
-            var bannerMutationObserver = new MutationObserver(function(mutations) {
-                var shouldUpdate = false;
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
-                            shouldUpdate = true;
-                        }
-                    });
-                    mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
-                            shouldUpdate = true;
-                        }
-                    });
-                    if (mutation.type === 'attributes' && mutation.target.classList.contains('takeover-banner')) {
-                        shouldUpdate = true;
-                    }
-                });
-                if (shouldUpdate) updateAaPanelCSS();
-            });
-            bannerMutationObserver.observe(document.body, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['style', 'class']
-            });
-
-            // Initial update
-            updateAaPanelCSS();
-        });
-    })();
+        // Initial call
+        $(document).ready(updateAaPanelCSS);
+      })();
 
   })
 })
