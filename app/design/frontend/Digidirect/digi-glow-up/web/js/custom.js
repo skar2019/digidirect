@@ -1904,43 +1904,52 @@ function updateCartAjax($input, newQty) {
     //Takeover Banner, Header, AA Panel Fix
     (function() {
         var styleId = 'aa-panel-dynamic-style';
+        var bannerStyleId = 'mobile-banner-offset-style';
         var lastHeaderHeight = null;
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
             var isMobile = window.innerWidth <= 768;
+            var aaPanelExists = $('.aa-Panel').length > 0;
+            var $banner = $('.takeover-banner');
 
-            if (!$header.length) {
+            // Handle mobile banner offset first
+            if (isMobile && aaPanelExists && $banner.length) {
+                var bannerHeight = $banner.outerHeight(true) || 0;
+                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
+                $('#' + bannerStyleId).remove();
+                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
+                console.log('Banner offset applied:', bannerHeight + 'px');
+            } else {
+                $('#' + bannerStyleId).remove();
+            }
+
+            // Then calculate header height after margin is applied
+            if (!$header.length || isMobile) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            var headerHeight = $header.outerHeight(true) || 0;
+            // Small delay to let browser recalculate after margin change
+            setTimeout(function() {
+                var headerHeight = $header.outerHeight(true) || 0;
 
-            // Subtract banner height on mobile
-            if (isMobile) {
-                var $banner = $('.takeover-banner');
-                if ($banner.length) {
-                    var bannerHeight = $banner.outerHeight(true) || 0;
-                    headerHeight = headerHeight - bannerHeight;
+                // Only update if height changed
+                if (lastHeaderHeight === headerHeight) {
+                    return;
                 }
-            }
 
-            // Only update if height changed
-            if (lastHeaderHeight === headerHeight) {
-                return;
-            }
+                lastHeaderHeight = headerHeight;
 
-            lastHeaderHeight = headerHeight;
+                var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
 
-            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
+                // Remove old style and create new one
+                $('#' + styleId).remove();
+                $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
-            // Remove old style and create new one
-            $('#' + styleId).remove();
-            $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
-
-            console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+                console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+            }, 10);
         }
 
         // Debounce helper
@@ -1953,6 +1962,37 @@ function updateCartAjax($input, newQty) {
         }
 
         $(document).ready(function () {
+            // MutationObserver to detect when aa-Panel is added/removed
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    // Check added nodes
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
+                                updateAaPanelCSS();
+                                setTimeout(updateAaPanelCSS, 50);
+                                setTimeout(updateAaPanelCSS, 100);
+                            }
+                        }
+                    });
+
+                    // Check removed nodes
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
+                                updateAaPanelCSS();
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Observe the body for aa-Panel changes
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+
             // Force initial update
             setTimeout(updateAaPanelCSS, 0);
             setTimeout(updateAaPanelCSS, 100);
