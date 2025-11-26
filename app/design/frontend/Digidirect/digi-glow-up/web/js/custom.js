@@ -1986,7 +1986,39 @@ function updateCartAjax($input, newQty) {
         }
 
         $(document).ready(function() {
-            // Check continuously
+            // MutationObserver to detect when aa-Panel is added/removed
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    // Check added nodes
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
+                                toggleTakeoverBanner();
+                            }
+                        }
+                    });
+
+                    // Check removed nodes
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
+                                toggleTakeoverBanner();
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Observe the body for aa-Panel changes
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+
+            // Initial check
+            toggleTakeoverBanner();
+
+            // Check continuously as backup
             setInterval(toggleTakeoverBanner, 100);
 
             // Also check on resize
