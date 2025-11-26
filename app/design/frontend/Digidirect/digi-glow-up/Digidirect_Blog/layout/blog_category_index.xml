@@ -4,6 +4,24 @@
         <referenceBlock name="head.additional">
             <block class="Digidirect\Blog\Block\Canonical" name="blog.canonical" template="Digidirect_Blog::canonical.phtml"/>
         </referenceBlock>
+
+        <referenceContainer name="page.top">
+            <container name="blog.top.container"
+                    as="blog_top_container"
+                    htmlTag="div"
+                    htmlClass="blog-top-container"
+                    before="-">
+                    <block name="blog.top" class="Magento\Framework\View\Element\Template"
+                    template="Digidirect_Blog::blog_top.phtml" />
+                    <container name="blog.top.search.category.container"
+                                htmlTag="div"
+                                htmlClass="blog-top-search-category-container"
+                                after="blog.top" />
+            </container>
+        </referenceContainer>
+
+
+
         <move element="blog.categorytree.left" destination="sidebar.main" after="-"/>
         <!-- <move element="blog.sidebar.tags.cloud" destination="sidebar.main" after="-"/> -->
         <move element="blog.widget.search" destination="sidebar.main" after="blog.categorytree.left"/>
@@ -24,7 +42,15 @@
             </container>
         </referenceContainer>
 
-        <referenceBlock name="page.main.title" remove="false"/>
+        <move element="blog.categorytree.left" destination="blog.top.search.category.container" after="-"/>
+        <move element="blog.widget.search" destination="blog.top.search.category.container" after="blog.categorytree.left"/>
+
+        <move element="div.sidebar.main" destination="main" before="-"/>
+        <move element="blog.relatedproducts" destination="page.wrapper" before="page.below.container"/>
+
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="blog.sidebar.tags.cloud" remove="true"/>
         <referenceBlock name="blog.post.arrow" remove="true"/>
+        <move element="breadcrumbs" destination="page.top" before="blog.top.container"/>
     </body>
 </page>
