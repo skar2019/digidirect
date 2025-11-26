@@ -1901,38 +1901,19 @@ function updateCartAjax($input, newQty) {
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
 
-    // Takeover Banner, Header, AA Panel Fix (Mobile & Desktop)
+    // Takeover Banner, Header, AA Panel Fix (Stable & Dynamic)
     (function() {
         var styleId = 'aa-panel-dynamic-style';
-        var bannerStyleId = 'mobile-banner-offset-style';
         var lastHeaderHeight = null;
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
-            var $banner = $('.takeover-banner');
             var isMobile = window.innerWidth <= 768;
             var aaPanelExists = $('.aa-Panel').length > 0;
 
-            // Handle mobile banner hiding & header offset
-            if (isMobile && $banner.length) {
-                if (aaPanelExists) {
-                    // Hide the banner when AA panel is present
-                    $banner.css('display', 'none');
-                    console.log('Takeover banner hidden due to AA panel.');
-                } else {
-                    // Restore banner visibility when AA panel is gone
-                    $banner.css('display', '');
-                }
-            }
+            if (!$header.length) return;
 
-            // If header is missing or mobile, remove AA panel style
-            if (!$header.length || isMobile) {
-                $('#' + styleId).remove();
-                lastHeaderHeight = null;
-                return;
-            }
-
-            // Use double requestAnimationFrame to ensure layout is stable
+            // Double requestAnimationFrame for stable layout
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
                     var headerHeight = $header.outerHeight(true) || 0;
@@ -1947,6 +1928,25 @@ function updateCartAjax($input, newQty) {
                     console.log('AA Panel CSS updated - top:', headerHeight + 'px');
                 });
             });
+
+            // Update banner visibility whenever AA panel or header changes
+            updateBannerVisibility();
+        }
+
+        function updateBannerVisibility() {
+            var $banner = $('.takeover-banner');
+            var aaPanelExists = $('.aa-Panel').length > 0;
+            var isMobile = window.innerWidth <= 768;
+
+            if (!$banner.length) return; // banner not yet in DOM
+
+            if (isMobile && aaPanelExists) {
+                $banner.css('display', 'none');
+                console.log('Takeover banner hidden because AA panel is present.');
+            } else {
+                $banner.css('display', '');
+                console.log('Takeover banner visible.');
+            }
         }
 
         $(document).ready(function() {
@@ -1967,32 +1967,29 @@ function updateCartAjax($input, newQty) {
             });
             panelObserver.observe(document.body, { childList: true, subtree: true });
 
-            // ResizeObserver for header and takeover-banner
-            var headerEl = document.querySelector('.page-header');
-            var bannerEl = document.querySelector('.takeover-banner');
-
-            if (headerEl) new ResizeObserver(updateAaPanelCSS).observe(headerEl);
-            if (bannerEl) new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
-
-            // MutationObserver for takeover-banner being added/removed or attribute changes
+            // MutationObserver for takeover-banner being added/removed or attributes changed
             var bannerMutationObserver = new MutationObserver(function(mutations) {
-                var shouldUpdate = false;
                 mutations.forEach(function(mutation) {
+                    var shouldUpdate = false;
+
                     mutation.addedNodes.forEach(function(node) {
                         if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
                             shouldUpdate = true;
                         }
                     });
+
                     mutation.removedNodes.forEach(function(node) {
                         if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
                             shouldUpdate = true;
                         }
                     });
+
                     if (mutation.type === 'attributes' && mutation.target.classList.contains('takeover-banner')) {
                         shouldUpdate = true;
                     }
+
+                    if (shouldUpdate) updateAaPanelCSS();
                 });
-                if (shouldUpdate) updateAaPanelCSS();
             });
             bannerMutationObserver.observe(document.body, {
                 childList: true,
@@ -2000,6 +1997,16 @@ function updateCartAjax($input, newQty) {
                 attributes: true,
                 attributeFilter: ['style', 'class']
             });
+
+            // ResizeObserver for header and banner to detect layout changes
+            var headerEl = document.querySelector('.page-header');
+            var bannerEl = document.querySelector('.takeover-banner');
+
+            if (headerEl) new ResizeObserver(updateAaPanelCSS).observe(headerEl);
+            if (bannerEl) new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
+
+            // Also update on window resize
+            $(window).on('resize', updateAaPanelCSS);
 
             // Initial update
             updateAaPanelCSS();
