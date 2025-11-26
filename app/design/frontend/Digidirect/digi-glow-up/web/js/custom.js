@@ -1910,14 +1910,22 @@ function updateCartAjax($input, newQty) {
             var $header = $('.page-header');
             var isMobile = window.innerWidth <= 768;
 
-            // Always remove style if mobile or no header
-            if (!$header.length || isMobile) {
+            if (!$header.length) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
             var headerHeight = $header.outerHeight(true) || 0;
+
+            // Subtract banner height on mobile
+            if (isMobile) {
+                var $banner = $('.takeover-banner');
+                if ($banner.length) {
+                    var bannerHeight = $banner.outerHeight(true) || 0;
+                    headerHeight = headerHeight - bannerHeight;
+                }
+            }
 
             // Only update if height changed
             if (lastHeaderHeight === headerHeight) {
@@ -1956,73 +1964,6 @@ function updateCartAjax($input, newQty) {
             // Also on resize and scroll
             $(window).on('resize', debounce(updateAaPanelCSS, 50));
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
-        });
-    })();
-
-    // Hide takeover banner on mobile when aa-Panel is present
-    (function() {
-        var bannerStyleId = 'mobile-banner-offset-style';
-
-        function toggleTakeoverBanner() {
-            var isMobile = window.innerWidth <= 768;
-            var aaPanelExists = $('.aa-Panel').length > 0;
-            var $banner = $('.takeover-banner');
-
-            if (isMobile && aaPanelExists && $banner.length) {
-                var bannerHeight = $banner.outerHeight(true) || 0;
-
-                // Create CSS to offset header by negative banner height
-                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
-
-                // Remove old style and create new one
-                $('#' + bannerStyleId).remove();
-                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
-
-                console.log('Banner offset applied:', bannerHeight + 'px');
-            } else {
-                // Remove the offset style when not needed
-                $('#' + bannerStyleId).remove();
-            }
-        }
-
-        $(document).ready(function() {
-            // MutationObserver to detect when aa-Panel is added/removed
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    // Check added nodes
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1) {
-                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
-                                toggleTakeoverBanner();
-                            }
-                        }
-                    });
-
-                    // Check removed nodes
-                    mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1) {
-                            if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
-                                toggleTakeoverBanner();
-                            }
-                        }
-                    });
-                });
-            });
-
-            // Observe the body for aa-Panel changes
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-
-            // Initial check
-            toggleTakeoverBanner();
-
-            // Check continuously as backup
-            setInterval(toggleTakeoverBanner, 100);
-
-            // Also check on resize
-            $(window).on('resize', toggleTakeoverBanner);
         });
     })();
 
