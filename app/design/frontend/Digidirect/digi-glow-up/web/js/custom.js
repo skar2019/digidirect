@@ -1913,36 +1913,29 @@ function updateCartAjax($input, newQty) {
             var aaPanelExists = $('.aa-Panel').length > 0;
             var $banner = $('.takeover-banner');
 
-            /* =============================
-                REAL HIDE (Option B)
-            ============================== */
+            // Handle mobile banner offset first
             if (isMobile && aaPanelExists && $banner.length) {
-                // Hide takeover banner completely
-                $banner.css('display', 'none');
-
-                // Remove any leftover offset styles
+                var bannerHeight = $banner.outerHeight(true) || 0;
+                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
                 $('#' + bannerStyleId).remove();
-
-                console.log('Takeover banner hidden (display:none)');
+                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
+                console.log('Banner offset applied:', bannerHeight + 'px');
             } else {
-                // Show banner normally
-                $banner.css('display', '');
-
-                // Ensure offset style is removed
                 $('#' + bannerStyleId).remove();
             }
 
-            // Desktop AA panel positioning logic
+            // Then calculate header height after margin is applied
             if (!$header.length || isMobile) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            // Small delay to let browser recalc
+            // ⬇⬇⬇ UPDATE: 120ms reflow stabilization delay ⬇⬇⬇
             setTimeout(function() {
                 var headerHeight = $header.outerHeight(true) || 0;
 
+                // Only update if height changed
                 if (lastHeaderHeight === headerHeight) {
                     return;
                 }
@@ -1955,7 +1948,7 @@ function updateCartAjax($input, newQty) {
                 $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
                 console.log('AA Panel CSS updated - top:', headerHeight + 'px');
-            }, 10);
+            }, 120); // <-- FIXED FROM 10ms TO 120ms
         }
 
         // Debounce helper
@@ -1968,9 +1961,10 @@ function updateCartAjax($input, newQty) {
         }
 
         $(document).ready(function () {
-            // MutationObserver for aa-Panel
+            // MutationObserver to detect when aa-Panel is added/removed
             var panelObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
+                    // Check added nodes
                     mutation.addedNodes.forEach(function(node) {
                         if (node.nodeType === 1) {
                             if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
@@ -1981,6 +1975,7 @@ function updateCartAjax($input, newQty) {
                         }
                     });
 
+                    // Check removed nodes
                     mutation.removedNodes.forEach(function(node) {
                         if (node.nodeType === 1) {
                             if ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length) {
@@ -1991,9 +1986,12 @@ function updateCartAjax($input, newQty) {
                 });
             });
 
-            panelObserver.observe(document.body, { childList: true, subtree: true });
+            panelObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
 
-            // MutationObserver for takeover-banner
+            // MutationObserver to detect takeover-banner changes
             var bannerObserver = new MutationObserver(function(mutations) {
                 var shouldUpdate = false;
 
@@ -2034,15 +2032,15 @@ function updateCartAjax($input, newQty) {
                 attributeFilter: ['style', 'class']
             });
 
-            // Initial updates
+            // Force initial update
             setTimeout(updateAaPanelCSS, 0);
             setTimeout(updateAaPanelCSS, 100);
             setTimeout(updateAaPanelCSS, 500);
 
-            // periodic updates
+            // Continuous monitoring - check every 100ms
             setInterval(updateAaPanelCSS, 100);
 
-            // On resize & scroll
+            // Also on resize and scroll
             $(window).on('resize', debounce(updateAaPanelCSS, 50));
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
