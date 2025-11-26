@@ -1744,7 +1744,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 }
 
 @media screen and (min-width: 1512px) {
-    
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
         padding-top: 0;
         top: 110px !important;
@@ -3023,7 +3022,7 @@ select:not([disabled]):focus {
 
     div#algoliaAutocomplete {
         position: static !important;
-        max-width: 450px;
+        max-width: 48%;
         margin-top: 3px !important;
         .aa-SubmitButton {
             margin: 0 2px !important;
@@ -3039,5 +3038,40 @@ select:not([disabled]):focus {
     }
     .footer-line img {
         max-width: 100%;
+    }
+    .homepage-row {
+        .categories-grid {
+            margin: 0;
+            gap: 5px;
+        }
+    }
+
+    .digiseconds-grid {
+        .digiseconds-tile {
+            width: auto;
+            height: auto;
+            > div {
+                min-height: 327px;
+
+                img.tile-icon {
+                    width: 20px;
+                    margin-bottom: 15px;
+                    position: absolute;
+                    top: 5px;
+                    left: 21px;
+                }
+                span.tile-button {
+                    z-index: 9;
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    padding: 10px;
+                    text-align: center;
+                }
+                .tile-desc {
+                    min-height: 96px;
+                }
+            }
+        }
     }
 }
