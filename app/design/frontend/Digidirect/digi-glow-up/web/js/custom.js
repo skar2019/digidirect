@@ -1908,15 +1908,16 @@ function updateCartAjax($input, newQty) {
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
+            var isMobile = window.innerWidth <= 768;
 
             // Always remove style if mobile or no header
-            if (!$header.length || window.innerWidth <= 768) {
+            if (!$header.length || isMobile) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            var headerHeight = $header.outerHeight(true) || 0; // Include margin with true
+            var headerHeight = $header.outerHeight(true) || 0;
 
             // Only update if height changed
             if (lastHeaderHeight === headerHeight) {
@@ -1925,7 +1926,6 @@ function updateCartAjax($input, newQty) {
 
             lastHeaderHeight = headerHeight;
 
-            // Add margin-top: 0 to remove any default spacing
             var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
 
             // Remove old style and create new one
@@ -1961,14 +1961,27 @@ function updateCartAjax($input, newQty) {
 
     // Hide takeover banner on mobile when aa-Panel is present
     (function() {
+        var bannerStyleId = 'mobile-banner-offset-style';
+
         function toggleTakeoverBanner() {
             var isMobile = window.innerWidth <= 768;
             var aaPanelExists = $('.aa-Panel').length > 0;
+            var $banner = $('.takeover-banner');
 
-            if (isMobile && aaPanelExists) {
-                $('.takeover-banner').css('display', 'none');
+            if (isMobile && aaPanelExists && $banner.length) {
+                var bannerHeight = $banner.outerHeight(true) || 0;
+
+                // Create CSS to offset header by negative banner height
+                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
+
+                // Remove old style and create new one
+                $('#' + bannerStyleId).remove();
+                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
+
+                console.log('Banner offset applied:', bannerHeight + 'px');
             } else {
-                $('.takeover-banner').css('display', '');
+                // Remove the offset style when not needed
+                $('#' + bannerStyleId).remove();
             }
         }
 

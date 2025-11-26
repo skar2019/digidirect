@@ -1518,7 +1518,7 @@ body.blur-active .global-blur-overlay {
     padding: 3px 8px;
     line-height: 21px;
     font-weight: 400;
-    font-size: 7px;
+    font-size: 10px;
     width: -webkit-fill-available;
 }
 
@@ -2536,13 +2536,13 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 
     .pa-welcome-back .product-info-bottom.black-friday .discount-price-wrapper {
         font-size: 5px !important;
-        padding: 5px 0 !important;
+        padding: 2px 0 !important;
     }
 }
 
 @media screen and (max-width: 1512px) {
     .pa-welcome-back .product-info-bottom.black-friday .discount-price-wrapper {
-        font-size: 5px !important;
+        font-size: 7px !important;
     }
 
     .pa-welcome-back .black-friday .price.black-friday {
@@ -2967,7 +2967,7 @@ select:not([disabled]):focus {
     }
     .header.content {
         padding-left: 15px;
-        padding-right: 15px;
+        padding-right: 20px;
         justify-content: space-between;
 
         &::before,
@@ -3074,4 +3074,13 @@ select:not([disabled]):focus {
             }
         }
     }
+}
+
+.product-overlay.-bottom-left.-ready {
+    width: 85px !important;
+    bottom: 90px !important;
+}
+
+.product-overlay.-bottom-left.-ready + .product-overlay.-bottom-left.-ready {
+    top: 255px !important;
 }
