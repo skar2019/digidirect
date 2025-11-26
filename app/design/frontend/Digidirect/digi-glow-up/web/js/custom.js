@@ -1963,7 +1963,7 @@ function updateCartAjax($input, newQty) {
 
         $(document).ready(function () {
             // MutationObserver to detect when aa-Panel is added/removed
-            var observer = new MutationObserver(function(mutations) {
+            var panelObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     // Check added nodes
                     mutation.addedNodes.forEach(function(node) {
@@ -1988,9 +1988,53 @@ function updateCartAjax($input, newQty) {
             });
 
             // Observe the body for aa-Panel changes
-            observer.observe(document.body, {
+            panelObserver.observe(document.body, {
                 childList: true,
                 subtree: true
+            });
+
+            // MutationObserver to detect when takeover-banner is added/removed or changes
+            var bannerObserver = new MutationObserver(function(mutations) {
+                var shouldUpdate = false;
+                mutations.forEach(function(mutation) {
+                    // Check added nodes
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('takeover-banner') || $(node).find('.takeover-banner').length) {
+                                shouldUpdate = true;
+                            }
+                        }
+                    });
+
+                    // Check removed nodes
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            if ($(node).hasClass('takeover-banner') || $(node).find('.takeover-banner').length) {
+                                shouldUpdate = true;
+                            }
+                        }
+                    });
+
+                    // Check for style/class changes on banner
+                    if (mutation.type === 'attributes' && $(mutation.target).hasClass('takeover-banner')) {
+                        shouldUpdate = true;
+                    }
+                });
+
+                if (shouldUpdate) {
+                    console.log('Takeover banner changed, recalculating...');
+                    updateAaPanelCSS();
+                    setTimeout(updateAaPanelCSS, 50);
+                    setTimeout(updateAaPanelCSS, 100);
+                }
+            });
+
+            // Observe the body for takeover-banner changes
+            bannerObserver.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
             });
 
             // Force initial update
