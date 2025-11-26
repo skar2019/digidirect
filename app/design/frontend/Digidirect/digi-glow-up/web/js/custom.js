@@ -1901,53 +1901,110 @@ function updateCartAjax($input, newQty) {
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
 
-    // Takeover Banner, Header, AA Panel Fix (Stable & Dynamic)
+    // Takeover Banner, Header, AA Panel Fix (Mobile & Desktop)
     (function() {
-    const header = document.querySelector('.page-header');
-    const takeover = document.querySelector('.takeover-banner');
+        var styleId = 'aa-panel-dynamic-style';
+        var bannerStyleId = 'mobile-banner-offset-style';
+        var lastHeaderHeight = null;
 
-    if (!header) return;
+        function updateAaPanelCSS() {
+            var $header = $('.page-header');
+            var $banner = $('.takeover-banner');
+            var isMobile = window.innerWidth <= 768;
+            var aaPanelExists = $('.aa-Panel').length > 0;
 
-    function updateAaPanel(panel) {
-      const headerHeight = header.offsetHeight;
-      if (window.innerWidth > 768) {
-        panel.style.top = `${headerHeight}px`;
-        if (takeover) takeover.style.display = 'block';
-      } else {
-        panel.style.top = `${headerHeight}px`;
-        if (takeover) takeover.style.display = 'none';
-      }
-    }
+            // Handle mobile banner hiding & header offset
+            if (isMobile && $banner.length) {
+                if (aaPanelExists) {
+                    // Hide the banner when AA panel is present
+                    $banner.css('display', 'none');
+                    console.log('Takeover banner hidden due to AA panel.');
+                } else {
+                    // Restore banner visibility when AA panel is gone
+                    $banner.css('display', '');
+                }
+            }
 
-    function checkAaPanel(node) {
-      if (node.nodeType === 1 && node.classList.contains('aa-Panel')) {
-        updateAaPanel(node);
-      }
-      // Also check child nodes (in case it's nested)
-      node.querySelectorAll?.('.aa-Panel').forEach(updateAaPanel);
-    }
+            // If header is missing or mobile, remove AA panel style
+            if (!$header.length || isMobile) {
+                $('#' + styleId).remove();
+                lastHeaderHeight = null;
+                return;
+            }
 
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        // Check added nodes
-        mutation.addedNodes.forEach(checkAaPanel);
-        // Optional: handle removed nodes
-        mutation.removedNodes.forEach(node => {
-          if (node.nodeType === 1 && node.classList.contains('aa-Panel') && takeover) {
-            // Reset takeover display when panel removed
-            takeover.style.display = window.innerWidth > 768 ? 'block' : 'block';
-          }
+            // Use double requestAnimationFrame to ensure layout is stable
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    var headerHeight = $header.outerHeight(true) || 0;
+
+                    if (lastHeaderHeight === headerHeight) return;
+                    lastHeaderHeight = headerHeight;
+
+                    var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
+                    $('#' + styleId).remove();
+                    $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
+
+                    console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            // MutationObserver for .aa-Panel addition/removal
+            var panelObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
+                            updateAaPanelCSS();
+                        }
+                    });
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && ($(node).classList.contains('aa-Panel') || node.querySelector('.aa-Panel'))) {
+                            updateAaPanelCSS();
+                        }
+                    });
+                });
+            });
+            panelObserver.observe(document.body, { childList: true, subtree: true });
+
+            // ResizeObserver for header and takeover-banner
+            var headerEl = document.querySelector('.page-header');
+            var bannerEl = document.querySelector('.takeover-banner');
+
+            if (headerEl) new ResizeObserver(updateAaPanelCSS).observe(headerEl);
+            if (bannerEl) new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
+
+            // MutationObserver for takeover-banner being added/removed or attribute changes
+            var bannerMutationObserver = new MutationObserver(function(mutations) {
+                var shouldUpdate = false;
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
+                            shouldUpdate = true;
+                        }
+                    });
+                    mutation.removedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && (node.classList.contains('takeover-banner') || node.querySelector('.takeover-banner'))) {
+                            shouldUpdate = true;
+                        }
+                    });
+                    if (mutation.type === 'attributes' && mutation.target.classList.contains('takeover-banner')) {
+                        shouldUpdate = true;
+                    }
+                });
+                if (shouldUpdate) updateAaPanelCSS();
+            });
+            bannerMutationObserver.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+
+            // Initial update
+            updateAaPanelCSS();
         });
-      });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      document.querySelectorAll('.aa-Panel').forEach(updateAaPanel);
-    });
-  })();
+    })();
 
   })
 })
