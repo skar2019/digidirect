@@ -1901,7 +1901,7 @@ function updateCartAjax($input, newQty) {
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
 
-    // Takeover Banner, Header, AA Panel Fix (Stable)
+    // Takeover Banner, Header, AA Panel Fix (Mobile & Desktop)
     (function() {
         var styleId = 'aa-panel-dynamic-style';
         var bannerStyleId = 'mobile-banner-offset-style';
@@ -1909,28 +1909,30 @@ function updateCartAjax($input, newQty) {
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
+            var $banner = $('.takeover-banner');
             var isMobile = window.innerWidth <= 768;
             var aaPanelExists = $('.aa-Panel').length > 0;
-            var $banner = $('.takeover-banner');
 
-            // Handle mobile banner offset
-            if (isMobile && aaPanelExists && $banner.length) {
-                var bannerHeight = $banner.outerHeight(true) || 0;
-                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
-                $('#' + bannerStyleId).remove();
-                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
-                console.log('Banner offset applied:', bannerHeight + 'px');
-            } else {
-                $('#' + bannerStyleId).remove();
+            // Handle mobile banner hiding & header offset
+            if (isMobile && $banner.length) {
+                if (aaPanelExists) {
+                    // Hide the banner when AA panel is present
+                    $banner.css('display', 'none');
+                    console.log('Takeover banner hidden due to AA panel.');
+                } else {
+                    // Restore banner visibility when AA panel is gone
+                    $banner.css('display', '');
+                }
             }
 
+            // If header is missing or mobile, remove AA panel style
             if (!$header.length || isMobile) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            // Use double requestAnimationFrame to wait for full reflow
+            // Use double requestAnimationFrame to ensure layout is stable
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
                     var headerHeight = $header.outerHeight(true) || 0;
@@ -1965,18 +1967,14 @@ function updateCartAjax($input, newQty) {
             });
             panelObserver.observe(document.body, { childList: true, subtree: true });
 
-            // ResizeObserver for .page-header and .takeover-banner
+            // ResizeObserver for header and takeover-banner
             var headerEl = document.querySelector('.page-header');
             var bannerEl = document.querySelector('.takeover-banner');
 
-            if (headerEl) {
-                new ResizeObserver(updateAaPanelCSS).observe(headerEl);
-            }
-            if (bannerEl) {
-                new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
-            }
+            if (headerEl) new ResizeObserver(updateAaPanelCSS).observe(headerEl);
+            if (bannerEl) new ResizeObserver(updateAaPanelCSS).observe(bannerEl);
 
-            // MutationObserver for .takeover-banner being added/removed or class/style changes
+            // MutationObserver for takeover-banner being added/removed or attribute changes
             var bannerMutationObserver = new MutationObserver(function(mutations) {
                 var shouldUpdate = false;
                 mutations.forEach(function(mutation) {
@@ -1994,9 +1992,7 @@ function updateCartAjax($input, newQty) {
                         shouldUpdate = true;
                     }
                 });
-                if (shouldUpdate) {
-                    updateAaPanelCSS();
-                }
+                if (shouldUpdate) updateAaPanelCSS();
             });
             bannerMutationObserver.observe(document.body, {
                 childList: true,
