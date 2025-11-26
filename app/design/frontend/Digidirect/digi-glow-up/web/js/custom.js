@@ -1902,7 +1902,6 @@ function updateCartAjax($input, newQty) {
     $(document).ready(toggleMiniUpsell);
 
     // Takeover Banner, Header, AA Panel Fix (Mobile & Desktop)
-    // Takeover Banner, Header, AA Panel Fix (Full Stable Version)
     (function() {
         var styleId = 'aa-panel-dynamic-style';
 
@@ -1915,7 +1914,7 @@ function updateCartAjax($input, newQty) {
 
             if (isMobile && aaPanelExists) {
                 $banner.hide();
-                console.log('Banner hidden (AA panel present).');
+                console.log('Banner hidden (mobile + AA panel present).');
             } else {
                 $banner.show();
                 console.log('Banner visible.');
@@ -1929,23 +1928,27 @@ function updateCartAjax($input, newQty) {
 
             if (!$header.length || !$panel.length) return;
 
-            // Temporarily hide banner to measure header without it
-            var bannerWasVisible = $banner.length && $banner.css('display') !== 'none';
-            if (bannerWasVisible) $banner.hide();
+            // Calculate header height based on desktop vs mobile logic
+            var headerHeight;
+            if (window.innerWidth <= 768) {
+                // Mobile: AA panel is below header only, ignore banner
+                headerHeight = $header.outerHeight(true) || 0;
+            } else {
+                // Desktop: include banner if visible
+                if ($banner.length && $banner.css('display') !== 'none') {
+                    headerHeight = $header.outerHeight(true) + $banner.outerHeight(true);
+                } else {
+                    headerHeight = $header.outerHeight(true) || 0;
+                }
+            }
 
-            requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                    var headerHeight = $header.outerHeight(true) || 0;
-                    $panel.css('top', headerHeight + 'px');
+            // Apply top to AA panel
+            $panel.css('top', headerHeight + 'px');
 
-                    // Restore banner if it was visible and desktop
-                    if (bannerWasVisible && window.innerWidth > 768) $banner.show();
-
-                    console.log('AA panel top set (without banner):', headerHeight);
-                });
-            });
-
+            // Update banner visibility (for mobile)
             updateBannerVisibility();
+
+            console.log('AA panel top updated:', headerHeight);
         }
 
         $(document).ready(function() {
