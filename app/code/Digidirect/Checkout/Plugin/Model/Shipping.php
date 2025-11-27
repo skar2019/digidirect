@@ -46,8 +46,13 @@ class Shipping {
 
         // Return cached result if available for this request
         if (isset($this->rateCache[$cacheKey])) {
+            // Optional: Log cache hits (comment out after testing)
+            // $this->logger->info("[CACHE HIT] Carrier: {$carrierCode}, PostCode: {$postCode}");
             return $this->rateCache[$cacheKey];
         }
+
+        // Log only when actually processing (not using cache)
+        $this->logger->info("[PROCESSING] Carrier: {$carrierCode}, PostCode: {$postCode}, Country: {$countryId}");
 
         // Proceed with original rate collection first
         $result = $proceed($carrierCode, $request);
@@ -82,6 +87,8 @@ class Shipping {
             }
 
             if ($needsInventoryCheck) {
+                $this->logger->info("[INVENTORY CHECK] Loading products for nextdayship validation");
+
                 $s3whsQty = 1;
                 $melbQty = 1;
                 $hasBulkyItem = false;
@@ -116,13 +123,18 @@ class Shipping {
                 }
 
                 // Determine if nextdayship should be removed
-                // PRESERVING ORIGINAL LOGIC (even though it has redundancy)
                 $shouldRemoveNextDay = false;
 
-                if (($is3whs == 1 && $s3whsQty <= 0) ||
-                    ($is3whs == 1) ||
-                    ($isMelb == 1 && $melbQty <= 0) ||
-                    ($isMelb == 0 && $is3whs == 0)) {
+                $shouldRemoveNextDay = false;
+
+                if ($is3whs == 1 && $s3whsQty <= 0) {
+                    // Strathfield postcode but no 3WHS stock
+                    $shouldRemoveNextDay = true;
+                } elseif ($isMelb == 1 && $melbQty <= 0) {
+                    // Melbourne postcode but no Melbourne stock
+                    $shouldRemoveNextDay = true;
+                } elseif ($is3whs == 0 && $isMelb == 0) {
+                    // Neither Strathfield nor Melbourne postcode
                     $shouldRemoveNextDay = true;
                 }
 
@@ -136,7 +148,7 @@ class Shipping {
             }
 
             // Filter rates for AU
-            $this->filterShippingRates($subject, $originalRates, $methodCodeToRemove);
+            $this->filterShippingRates($subject, $originalRates, $methodCodeToRemove, false);
 
         } else {
             // For non-AU countries, remove domestic shipping methods
@@ -158,7 +170,7 @@ class Shipping {
             }
 
             // Filter rates for non-AU
-            $this->filterShippingRates($subject, $originalRates, $methodCodeToRemove);
+            $this->filterShippingRates($subject, $originalRates, $methodCodeToRemove, false);
         }
 
         // Cache the result
@@ -169,8 +181,10 @@ class Shipping {
 
     /**
      * Helper method to filter shipping rates
+     *
+     * @param bool $logRates Whether to log individual rates (set to false to reduce logs)
      */
-    protected function filterShippingRates($subject, $originalRates, $methodCodeToRemove)
+    protected function filterShippingRates($subject, $originalRates, $methodCodeToRemove, $logRates = true)
     {
         $filteredResult = clone $subject->getResult();
         $reflection = new \ReflectionClass($filteredResult);
@@ -182,7 +196,10 @@ class Shipping {
             $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
 
             if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                $this->logger->info("fullMethodCode, " . $fullMethodCode);
+                // Only log if explicitly requested (reduces log noise)
+                if ($logRates) {
+                    $this->logger->info("fullMethodCode, " . $fullMethodCode);
+                }
                 $filteredResult->append($rate);
             }
         }
