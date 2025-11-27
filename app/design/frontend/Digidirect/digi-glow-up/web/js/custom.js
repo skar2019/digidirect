@@ -1956,51 +1956,6 @@ function updateCartAjax($input, newQty) {
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
     })();
-    
-    //AA Panel Check
-    (function() {
-        function hideBannerIfPanelExists() {
-            var isMobile = window.innerWidth <= 768;
-            var $panel = $('.aa-Panel');
-            var $banner = $('.takeover-banner');
-
-            if (!$banner.length || !isMobile) return;
-
-            if ($panel.length > 0) {
-                $banner.hide();
-                console.log('Takeover banner hidden (AA panel exists, mobile)');
-            } else {
-                $banner.show();
-                console.log('Takeover banner shown (mobile, no AA panel)');
-            }
-        }
-
-        $(document).ready(function() {
-            // Initial check
-            hideBannerIfPanelExists();
-
-            // MutationObserver for dynamic changes
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length)) {
-                            hideBannerIfPanelExists();
-                        }
-                    });
-                    mutation.removedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && ($(node).hasClass('aa-Panel') || $(node).find('.aa-Panel').length)) {
-                            hideBannerIfPanelExists();
-                        }
-                    });
-                });
-            });
-
-            observer.observe(document.body, { childList: true, subtree: true });
-
-            // Also update on window resize
-            $(window).on('resize', hideBannerIfPanelExists);
-        });
-    })();
 
   })
 })
