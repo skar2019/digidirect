@@ -132,7 +132,7 @@ class Shipping {
                 }
 
                 if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                    //$this->logger->info("fullMethodCode, " . $fullMethodCode);
+                    $this->logger->info("fullMethodCode, " . $fullMethodCode);
                     $filteredResult->append($rate);
                 }
             }
@@ -167,7 +167,7 @@ class Shipping {
                 }
 
                 if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                    //$this->logger->info("fullMethodCode, " . $fullMethodCode);
+                    $this->logger->info("fullMethodCode, " . $fullMethodCode);
                     $filteredResult->append($rate);
                 }
             }
