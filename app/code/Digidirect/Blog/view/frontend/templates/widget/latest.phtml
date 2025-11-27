@@ -8,7 +8,7 @@
 <div class="blog-latest blog-widget widget">
     <h3 class="title"><?php /* @escapeNotVerified */ echo __('Latest Posts'); ?></h3>
     <ul class="list">
-        <?php foreach ($latestPosts as $post): ?>
+        <?php $i = 0; foreach ($latestPosts as $post): $i++;?>
             <?php if ($block->isCategoriesInclude()): ?>
                 <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
                 <?php $categoriesTitlesCount = count($categoriesArray); ?>
@@ -28,6 +28,7 @@
                     <?php echo $block->escapeHtml($post->getTitle()) ?>
                 </a>
             </li>
+        <?php if ($i == 10) break; ?>
         <?php endforeach; ?>
     </ul>
 </div>
