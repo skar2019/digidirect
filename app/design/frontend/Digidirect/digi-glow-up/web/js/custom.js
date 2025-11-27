@@ -1900,7 +1900,7 @@ function updateCartAjax($input, newQty) {
 
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
-
+    
     //Takeover Banner, Header, AA Panel Fix
     (function() {
         var styleId = 'aa-panel-dynamic-style';
@@ -1908,16 +1908,15 @@ function updateCartAjax($input, newQty) {
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
-            var isMobile = window.innerWidth <= 768;
 
             // Always remove style if mobile or no header
-            if (!$header.length || isMobile) {
+            if (!$header.length || window.innerWidth <= 768) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            var headerHeight = $header.outerHeight(true) || 0;
+            var headerHeight = $header.outerHeight() || 0;
 
             // Only update if height changed
             if (lastHeaderHeight === headerHeight) {
@@ -1925,14 +1924,13 @@ function updateCartAjax($input, newQty) {
             }
 
             lastHeaderHeight = headerHeight;
-
-            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
+            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
 
             // Remove old style and create new one
             $('#' + styleId).remove();
             $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
-            console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+            console.log('AA Panel CSS updated - top:', headerHeight + 'px'); // Debug log
         }
 
         // Debounce helper
@@ -1956,41 +1954,6 @@ function updateCartAjax($input, newQty) {
             // Also on resize and scroll
             $(window).on('resize', debounce(updateAaPanelCSS, 50));
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
-        });
-    })();
-
-    // Hide takeover banner on mobile when aa-Panel is present
-    (function() {
-        var bannerStyleId = 'mobile-banner-offset-style';
-
-        function toggleTakeoverBanner() {
-            var isMobile = window.innerWidth <= 768;
-            var aaPanelExists = $('.aa-Panel').length > 0;
-            var $banner = $('.takeover-banner');
-
-            if (isMobile && aaPanelExists && $banner.length) {
-                var bannerHeight = $banner.outerHeight(true) || 0;
-
-                // Create CSS to offset header by negative banner height
-                var cssRule = '.page-header { margin-top: -' + bannerHeight + 'px !important; }';
-
-                // Remove old style and create new one
-                $('#' + bannerStyleId).remove();
-                $('<style id="' + bannerStyleId + '">' + cssRule + '</style>').appendTo('head');
-
-                console.log('Banner offset applied:', bannerHeight + 'px');
-            } else {
-                // Remove the offset style when not needed
-                $('#' + bannerStyleId).remove();
-            }
-        }
-
-        $(document).ready(function() {
-            // Check continuously
-            setInterval(toggleTakeoverBanner, 100);
-
-            // Also check on resize
-            $(window).on('resize', toggleTakeoverBanner);
         });
     })();
 

@@ -2560,6 +2560,14 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .pa-welcome-back .black-friday .s19-rental-price-target p {
         font-size: 6px !important;
     }
+
+    .upsell-widget .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 7px;
+    }
+
+    .upsell-widget .black-friday .s19-rental-price-target {
+        top: 78px !important;
+    }
 }
 
 @media screen and (max-width: 440px) {
@@ -2960,6 +2968,28 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    #pa-welcome-back.pa-welcome-back.active {
+        width: 90%;
+    }
+    .product-info-bottom.black-friday form {
+        min-width: 50%;
+    }
+    ul.ruby-menu > li.ruby-menu-mega-blog {
+        .facelift-dropdown-container {
+            padding-left: 15px;
+            overflow-y: scroll;
+        }
+        > div > ul.ruby-menu-mega-blog-nav {
+            float: left;
+        }
+    }
+
+    div.ruby-grid > div.ruby-row [class^="ruby-col"] {
+        padding: 0 10px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1344px) {
     .page-header .header.panel {
         .header-links {
             padding-right: 10px;
@@ -3074,6 +3104,26 @@ select:not([disabled]):focus {
             }
         }
     }
+    .aa-PanelLayout.aa-Panel--scrollable {
+        width: 100%;
+    }
+    .autocomplete-wrapper,
+    .aa-Panel {
+        section[data-autocomplete-source-id="products"] {
+            .aa-List {
+                grid-template-columns: 2fr 1fr !important;
+            }
+        }
+    }
+
+    #glow-up-brands .owl-item {
+        height: 150px;
+        svg,
+        img {
+            max-width: 125px;
+            width: 85%;
+        }
+    }
 }
 
 .product-overlay.-bottom-left.-ready {
@@ -3084,3 +3134,11 @@ select:not([disabled]):focus {
 .product-overlay.-bottom-left.-ready + .product-overlay.-bottom-left.-ready {
     top: 255px !important;
 }
+
+@media only screen and (max-width: 768px) {
+    .product-overlay.-bottom-left.-ready {
+        width: 65px !important;
+        bottom: 45px !important;
+    }
+}
+
