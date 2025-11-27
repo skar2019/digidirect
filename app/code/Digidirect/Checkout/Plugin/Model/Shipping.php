@@ -3,21 +3,25 @@
 namespace Digidirect\Checkout\Plugin\Model;
 
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
 
 class Shipping {
 
     protected $logger;
-    protected $rateCache = [];
     protected $productCache = [];
+    protected $scopeConfig;
 
     public function __construct(
         GetSourceItemsBySku $getSourceItemsBySku,
         \Digidirect\SellerShipping\Helper\Data $helperData,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->helperData = $helperData;
         $this->logger = $logger;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function aroundCollectCarrierRates(
@@ -26,32 +30,17 @@ class Shipping {
                                          $carrierCode,
                                          $request
     ) {
+        // Check if this carrier is enabled before processing
+        if (!$this->isCarrierEnabled($carrierCode)) {
+            $this->logger->info("[SKIPPED - DISABLED] Carrier: {$carrierCode}");
+            return $proceed($carrierCode, $request);
+        }
+
         $postCode = $request->getDestPostcode();
         $countryId = $request->getDestCountryId();
         $items = $request->getAllItems();
 
-        // Create a cache key based on essential request parameters
-        $itemsKey = [];
-        foreach ($items as $item) {
-            $itemsKey[] = $item->getProductId() . '_' . $item->getQty();
-        }
-
-        $cacheKey = md5(serialize([
-            $carrierCode,
-            $postCode,
-            $countryId,
-            $itemsKey,
-            $this->helperData->hasMarketplacerSeller()
-        ]));
-
-        // Return cached result if available for this request
-        if (isset($this->rateCache[$cacheKey])) {
-            // Optional: Log cache hits (comment out after testing)
-            // $this->logger->info("[CACHE HIT] Carrier: {$carrierCode}, PostCode: {$postCode}");
-            return $this->rateCache[$cacheKey];
-        }
-
-        // Log only when actually processing (not using cache)
+        // Log only when actually processing enabled carriers
         $this->logger->info("[PROCESSING] Carrier: {$carrierCode}, PostCode: {$postCode}, Country: {$countryId}");
 
         // Proceed with original rate collection first
@@ -61,7 +50,6 @@ class Shipping {
         $originalRates = $subject->getResult()->getAllRates();
 
         if (empty($originalRates)) {
-            $this->rateCache[$cacheKey] = $result;
             return $result;
         }
 
@@ -122,22 +110,14 @@ class Shipping {
                     }
                 }
 
-                // Determine if nextdayship should be removed
-                $shouldRemoveNextDay = false;
+                // Determine if nextdayship should be available
+                $hasStrathfieldStock = ($is3whs == 1 && $s3whsQty > 0);
+                $hasMelbourneStock = ($isMelb == 1 && $melbQty > 0);
 
-                $shouldRemoveNextDay = false;
+                // nextdayship available only for Strathfield with stock OR Melbourne with stock
+                $shouldRemoveNextDay = !($hasStrathfieldStock || $hasMelbourneStock);
 
-                if ($is3whs == 1 && $s3whsQty <= 0) {
-                    // Strathfield postcode but no 3WHS stock
-                    $shouldRemoveNextDay = true;
-                } elseif ($isMelb == 1 && $melbQty <= 0) {
-                    // Melbourne postcode but no Melbourne stock
-                    $shouldRemoveNextDay = true;
-                } elseif ($is3whs == 0 && $isMelb == 0) {
-                    // Neither Strathfield nor Melbourne postcode
-                    $shouldRemoveNextDay = true;
-                }
-
+                // Also remove if there's a Marketplacer seller
                 if ($this->helperData->hasMarketplacerSeller()) {
                     $shouldRemoveNextDay = true;
                 }
@@ -173,10 +153,22 @@ class Shipping {
             $this->filterShippingRates($subject, $originalRates, $methodCodeToRemove, false);
         }
 
-        // Cache the result
-        $this->rateCache[$cacheKey] = $result;
-
         return $result;
+    }
+
+    /**
+     * Check if a shipping carrier is enabled
+     *
+     * @param string $carrierCode
+     * @return bool
+     */
+    protected function isCarrierEnabled($carrierCode)
+    {
+        $configPath = 'carriers/' . $carrierCode . '/active';
+        return (bool) $this->scopeConfig->getValue(
+            $configPath,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -196,7 +188,6 @@ class Shipping {
             $fullMethodCode = $rate->getCarrier() . '_' . $rate->getMethod();
 
             if (!in_array($fullMethodCode, $methodCodeToRemove)) {
-                // Only log if explicitly requested (reduces log noise)
                 if ($logRates) {
                     $this->logger->info("fullMethodCode, " . $fullMethodCode);
                 }
