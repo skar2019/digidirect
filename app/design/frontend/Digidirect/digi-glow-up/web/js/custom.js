@@ -1900,7 +1900,7 @@ function updateCartAjax($input, newQty) {
 
     // Initial check on load
     $(document).ready(toggleMiniUpsell);
-
+    
     //Takeover Banner, Header, AA Panel Fix
     (function() {
         var styleId = 'aa-panel-dynamic-style';
@@ -1908,24 +1908,15 @@ function updateCartAjax($input, newQty) {
 
         function updateAaPanelCSS() {
             var $header = $('.page-header');
-            var isMobile = window.innerWidth <= 768;
 
-            if (!$header.length) {
+            // Always remove style if mobile or no header
+            if (!$header.length || window.innerWidth <= 768) {
                 $('#' + styleId).remove();
                 lastHeaderHeight = null;
                 return;
             }
 
-            var headerHeight = $header.outerHeight(true) || 0;
-
-            // Subtract banner height on mobile
-            if (isMobile) {
-                var $banner = $('.takeover-banner');
-                if ($banner.length) {
-                    var bannerHeight = $banner.outerHeight(true) || 0;
-                    headerHeight = headerHeight - bannerHeight;
-                }
-            }
+            var headerHeight = $header.outerHeight() || 0;
 
             // Only update if height changed
             if (lastHeaderHeight === headerHeight) {
@@ -1933,14 +1924,13 @@ function updateCartAjax($input, newQty) {
             }
 
             lastHeaderHeight = headerHeight;
-
-            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; margin-top: 0 !important; }';
+            var cssRule = '.aa-Panel { top: ' + headerHeight + 'px !important; }';
 
             // Remove old style and create new one
             $('#' + styleId).remove();
             $('<style id="' + styleId + '">' + cssRule + '</style>').appendTo('head');
 
-            console.log('AA Panel CSS updated - top:', headerHeight + 'px');
+            console.log('AA Panel CSS updated - top:', headerHeight + 'px'); // Debug log
         }
 
         // Debounce helper
