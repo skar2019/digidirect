@@ -2977,14 +2977,13 @@ select:not([disabled]):focus {
                 line-height: normal !important;
             }
         }
+
         .digiservices-section .digiservices-header h2 {
             display: flex;
             flex-direction: column;
             font-size: 17px !important;
             line-height: normal !important;
             a {
-                display: flex;
-                flex-direction: column;
                 font-size: 17px !important;
                 line-height: normal !important;
                 span {
@@ -2998,6 +2997,10 @@ select:not([disabled]):focus {
                 font-size: 17px !important;
                 line-height: normal !important;
             }
+        }
+        .categories-grid {
+            grid-template-columns: repeat(5, 1fr) !important;
+            row-gap: 20px;
         }
     }
     .footer-menu span.link {
