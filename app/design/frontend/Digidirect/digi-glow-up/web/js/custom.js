@@ -1378,25 +1378,13 @@ $(document).ready(function () {
     // inject backdrop once
     let $backdrop = $dots.find('.slick--animated-backdrop')
     if (!$backdrop.length) {
-      // ✅ Calculate position FIRST
-      const $activeLi = $dots.find('li.slick-active')
-      if (!$activeLi.length) return
-      
-      const liOffset = $activeLi.position()?.left || 0
-      const liWidth = $activeLi.outerWidth() || 0
-      
-      // ✅ Create with correct transform immediately to override CSS default
       $backdrop = $('<div class="slick--animated-backdrop"></div>')
-      $backdrop[0].style.transform = `translateX(${liOffset}px)`
-      $backdrop[0].style.width = `${liWidth}px`
-      $backdrop[0].style.transition = 'none'
-      
+      // ✅ Start hidden
+      $backdrop.css({
+        opacity: '0',
+        transition: 'none'
+      })
       $dots.append($backdrop)
-      
-      // ✅ Enable transitions after a moment
-      setTimeout(() => {
-        $backdrop[0].style.transition = ''
-      }, 50)
     }
     
     function moveBackdrop(animate = true) {
@@ -1407,18 +1395,26 @@ $(document).ready(function () {
       const liWidth = $activeLi.outerWidth() || 0
       
       // temporarily disable transition for instant placement
-      if (!animate) $backdrop[0].style.transition = 'none'
+      if (!animate) $backdrop.css('transition', 'none')
       
-      $backdrop[0].style.transform = `translateX(${liOffset}px)`
-      $backdrop[0].style.width = `${liWidth}px`
+      $backdrop.css({
+        transform: `translateX(${liOffset}px)`,
+        width: liWidth + 'px',
+        opacity: '1'
+      })
       
       // restore transition after instant placement
       if (!animate) {
         setTimeout(() => {
-          $backdrop[0].style.transition = ''
+          $backdrop.css('transition', '')
         }, 50)
       }
     }
+    
+    // ✅ Wait for layout to fully settle, then position backdrop
+    setTimeout(() => {
+      moveBackdrop(false)
+    }, 300) // Increased delay
     
     // then re-enable smooth motion for future changes
     $slider.on('afterChange', () => moveBackdrop(true))
@@ -1440,8 +1436,33 @@ $(document).ready(function () {
       })
     }
   }, 200)
+  
+  // ✅ CRITICAL FIX: Recalculate on window load (after all resources loaded)
+  $(window).on('load', function() {
+    $('.pagebuilder-slider.slick-initialized').each(function() {
+      const $slider = $(this)
+      const $dots = $slider.find('.slick-dots')
+      const $backdrop = $dots.find('.slick--animated-backdrop')
+      const $activeLi = $dots.find('li.slick-active')
+      
+      if ($backdrop.length && $activeLi.length) {
+        const liOffset = $activeLi.position()?.left || 0
+        const liWidth = $activeLi.outerWidth() || 0
+        
+        $backdrop.css({
+          transform: `translateX(${liOffset}px)`,
+          width: liWidth + 'px',
+          opacity: '1',
+          transition: 'none'
+        })
+        
+        setTimeout(() => {
+          $backdrop.css('transition', '')
+        }, 50)
+      }
+    })
+  })
 })
-
 
 /* ========================
  🎯 Owl Dots Tesla-Style Backdrop (Rounded Highlight)
