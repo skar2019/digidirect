@@ -1680,41 +1680,50 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     height: 55px;
 }
 
+/* AGGRESSIVE FIX for all black borders */
+
+/* Remove black borders from video thumbnails - zoom and crop */
 #glow-up-featured-videos .owl-video-tn {
-    background-size: cover !important;
+    background-size: 94% !important; /* Zoom to crop black bars */
     background-position: center !important;
     height: 100% !important;
     width: 100% !important;
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
+    transform: scale(1.1) !important; /* Extra zoom */
 }
 
+/* Ensure video wrapper fills the container */
 #glow-up-featured-videos .owl-video-wrapper {
     height: 100% !important;
     width: 100% !important;
-    overflow: hidden;
+    overflow: hidden !important;
     position: relative;
     background: transparent !important;
 }
 
+/* Set proper height for items */
 #glow-up-featured-videos .item-video {
     height: 100%;
     position: relative;
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 #glow-up-featured-videos .owl-item {
     height: auto;
     aspect-ratio: 16/9;
+    overflow: hidden !important;
 }
 
+/* Fix video frame when playing - also zoom */
 #glow-up-featured-videos .owl-video-frame {
-    width: 100% !important;
-    height: 100% !important;
+    width: 120% !important;
+    height: 120% !important;
     position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 @media screen and (max-width: 1512px) {
@@ -3292,7 +3301,7 @@ select:not([disabled]):focus {
     }
 }
 
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 439px) {
     .pa-digidirect-product-widget strong.product-item-name {
         height: 34px;
     }
@@ -3337,7 +3346,7 @@ select:not([disabled]):focus {
     }
 
     .after_special.custom_final_price.black-friday {
-        font-size: 12px !important;
+        font-size: 10px !important;
         width: fit-content !important;
         padding: 2px 6px !important;
     }
@@ -3382,5 +3391,13 @@ select:not([disabled]):focus {
         width: fit-content;
         font-size: 9px;
         padding: 5px 14px;
+    }
+
+    .block-minicart .action.viewcart span {
+        font-size: 10px;
+    }
+
+    button#top-cart-btn-checkout {
+        font-size: 10px;
     }
 }
