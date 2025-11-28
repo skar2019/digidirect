@@ -53,7 +53,8 @@
 
 & when (@media-common = true) {
     .blog-index-index,
-    .blog-tag-index {
+    .blog-tag-index,
+    .blog-category-index {
         .blog-list {
             width: 100%;
             max-width: @blog-post-index-max-width-desktop;
@@ -144,7 +145,8 @@
     //common styles for blog list and blog view
     .blog-index-index,
     .blog-view-index,
-    .blog-tag-index {
+    .blog-tag-index,
+    .blog-category-index {
         background: #f5f5f5;
         .page-bottom {
             display: none;
@@ -597,4 +599,8 @@
             padding: 30px 15px;
         }
     }
+}
+
+.blog-category-index .columns.algolia-instant-replaced-content {
+    display: block !important;
 }

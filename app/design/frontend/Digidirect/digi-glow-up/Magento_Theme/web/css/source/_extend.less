@@ -1518,7 +1518,7 @@ body.blur-active .global-blur-overlay {
     padding: 3px 8px;
     line-height: 21px;
     font-weight: 400;
-    font-size: 7px;
+    font-size: 10px;
     width: -webkit-fill-available;
 }
 
@@ -1744,7 +1744,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 }
 
 @media screen and (min-width: 1512px) {
-    
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
         padding-top: 0;
         top: 110px !important;
@@ -2537,13 +2536,13 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 
     .pa-welcome-back .product-info-bottom.black-friday .discount-price-wrapper {
         font-size: 5px !important;
-        padding: 5px 0 !important;
+        padding: 2px 0 !important;
     }
 }
 
 @media screen and (max-width: 1512px) {
     .pa-welcome-back .product-info-bottom.black-friday .discount-price-wrapper {
-        font-size: 5px !important;
+        font-size: 7px !important;
     }
 
     .pa-welcome-back .black-friday .price.black-friday {
@@ -2560,6 +2559,14 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 
     .pa-welcome-back .black-friday .s19-rental-price-target p {
         font-size: 6px !important;
+    }
+
+    .upsell-widget .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 7px;
+    }
+
+    .upsell-widget .black-friday .s19-rental-price-target {
+        top: 78px !important;
     }
 }
 
@@ -2961,6 +2968,28 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    #pa-welcome-back.pa-welcome-back.active {
+        width: 90%;
+    }
+    .product-info-bottom.black-friday form {
+        min-width: 50%;
+    }
+    ul.ruby-menu > li.ruby-menu-mega-blog {
+        .facelift-dropdown-container {
+            padding-left: 15px;
+            overflow-y: scroll;
+        }
+        > div > ul.ruby-menu-mega-blog-nav {
+            float: left;
+        }
+    }
+
+    div.ruby-grid > div.ruby-row [class^="ruby-col"] {
+        padding: 0 10px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1344px) {
     .page-header .header.panel {
         .header-links {
             padding-right: 10px;
@@ -2968,7 +2997,7 @@ select:not([disabled]):focus {
     }
     .header.content {
         padding-left: 15px;
-        padding-right: 15px;
+        padding-right: 20px;
         justify-content: space-between;
 
         &::before,
@@ -3023,7 +3052,7 @@ select:not([disabled]):focus {
 
     div#algoliaAutocomplete {
         position: static !important;
-        max-width: 450px;
+        max-width: 48%;
         margin-top: 3px !important;
         .aa-SubmitButton {
             margin: 0 2px !important;
@@ -3039,5 +3068,105 @@ select:not([disabled]):focus {
     }
     .footer-line img {
         max-width: 100%;
+    }
+    .homepage-row {
+        .categories-grid {
+            margin: 0;
+            gap: 5px;
+        }
+    }
+
+    .digiseconds-grid {
+        .digiseconds-tile {
+            width: auto;
+            height: auto;
+            > div {
+                min-height: 327px;
+
+                img.tile-icon {
+                    width: 20px;
+                    margin-bottom: 15px;
+                    position: absolute;
+                    top: 5px;
+                    left: 21px;
+                }
+                span.tile-button {
+                    z-index: 9;
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    padding: 10px;
+                    text-align: center;
+                }
+                .tile-desc {
+                    min-height: 96px;
+                }
+            }
+        }
+    }
+    .aa-PanelLayout.aa-Panel--scrollable {
+        width: 100%;
+    }
+
+    .autocomplete-wrapper,
+    .aa-Panel {
+        section {
+            &[data-autocomplete-source-id="products"] {
+                .aa-List {
+                    grid-template-columns: 1fr 1fr !important;
+                }
+            }
+            &[data-autocomplete-source-id="categories"] {
+                display: none !important;
+            }
+            &[data-autocomplete-source-id="pages"] {
+                display: none !important;
+            }
+        }
+    }
+
+    .aa-Panel {
+        .algoliasearch-autocomplete-hit .thumb img {
+            width: 70px !important;
+        }
+        .aa-PanelLayout {
+            display: flex;
+            gap: 20px;
+            section:nth-child(1) {
+                width: 30%;
+                padding-left: 15px;
+            }
+            section:nth-child(2) {
+                padding-left: 0;
+            }
+        }
+        .algoliasearch-autocomplete-price {
+            margin-top: 4px;
+        }
+    }
+
+    #glow-up-brands .owl-item {
+        height: 150px;
+        svg,
+        img {
+            max-width: 125px;
+            width: 85%;
+        }
+    }
+}
+
+.product-overlay.-bottom-left.-ready {
+    width: 85px !important;
+    bottom: 90px !important;
+}
+
+.product-overlay.-bottom-left.-ready + .product-overlay.-bottom-left.-ready {
+    top: 255px !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .product-overlay.-bottom-left.-ready {
+        width: 65px !important;
+        bottom: 45px !important;
     }
 }
