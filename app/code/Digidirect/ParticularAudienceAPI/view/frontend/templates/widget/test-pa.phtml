@@ -1596,7 +1596,11 @@ require(['jquery'], function ($) {
 
 <div class="homepage-row full-width">
     <div class="glow-up-banner-row">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
+        <?php if ($isDigiClub) :?>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
+        <?php else : ?> 
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class="homepage-row">
@@ -1897,19 +1901,28 @@ require(['jquery'], function ($) {
         </div>
         <div id="glow-up-featured-videos" class="owl-carousel featured-videos">
             <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=vv8gSMlH4v0" data-thumb="https://img.youtube.com/vi/vv8gSMlH4v0/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=bzoZNRSH2Zg" data-thumb="https://img.youtube.com/vi/bzoZNRSH2Zg/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=RlTjfKd9DWU" data-thumb="https://img.youtube.com/vi/RlTjfKd9DWU/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=XGnyuRmLlsM" data-thumb="https://img.youtube.com/vi/XGnyuRmLlsM/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=0kOiANMDQTk" data-thumb="https://img.youtube.com/vi/0kOiANMDQTk/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=D6sCFT7OOqg" data-thumb="https://img.youtube.com/vi/D6sCFT7OOqg/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
                 <a class="owl-video" href="https://www.youtube.com/watch?v=IQhsWc3IbtQ" data-thumb="https://img.youtube.com/vi/IQhsWc3IbtQ/hqdefault.jpg"></a>
             </div>
             <div class="item-video" data-merge="1">
                 <a class="owl-video" href="https://www.youtube.com/watch?v=qRqEEBvcMMo" data-thumb="https://img.youtube.com/vi/qRqEEBvcMMo/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=5uqhvFd5d_A" data-thumb="https://img.youtube.com/vi/5uqhvFd5d_A/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=Ioe8Eweg2ds" data-thumb="https://img.youtube.com/vi/Ioe8Eweg2ds/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=yIoChkfxDTQ" data-thumb="https://img.youtube.com/vi/yIoChkfxDTQ/hqdefault.jpg"></a>
             </div>
         </div>
     </div>
