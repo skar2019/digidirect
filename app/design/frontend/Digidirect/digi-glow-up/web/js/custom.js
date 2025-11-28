@@ -1378,13 +1378,27 @@ $(document).ready(function () {
     // inject backdrop once
     let $backdrop = $dots.find('.slick--animated-backdrop')
     if (!$backdrop.length) {
+      // ✅ Calculate position BEFORE creating backdrop
+      const $activeLi = $dots.find('li.slick-active')
+      if (!$activeLi.length) return
+      
+      const liOffset = $activeLi.position()?.left || 0
+      const liWidth = $activeLi.outerWidth() || 0
+      
+      // ✅ Create backdrop with correct position immediately
       $backdrop = $('<div class="slick--animated-backdrop"></div>')
-      // ✅ Start hidden off-screen
       $backdrop.css({
-        opacity: '0',
-        transform: 'translateX(-9999px)'
+        transform: `translateX(${liOffset}px)`,
+        width: liWidth + 'px',
+        transition: 'none' // no transition on first render
       })
+      
       $dots.append($backdrop)
+      
+      // ✅ Enable transitions after a brief moment
+      setTimeout(() => {
+        $backdrop.css('transition', '')
+      }, 50)
     }
     
     function moveBackdrop(animate = true) {
@@ -1399,11 +1413,10 @@ $(document).ready(function () {
       
       $backdrop.css({
         transform: `translateX(${liOffset}px)`,
-        width: liWidth + 'px',
-        opacity: '1' // ✅ Fade in when positioned
+        width: liWidth + 'px'
       })
       
-      // restore transition after first placement
+      // restore transition after instant placement
       if (!animate) {
         setTimeout(() => {
           $backdrop.css('transition', '')
@@ -1411,10 +1424,7 @@ $(document).ready(function () {
       }
     }
     
-    // ✅ Place backdrop instantly on first render
-    setTimeout(() => moveBackdrop(false), 50)
-    
-    // then re-enable smooth motion for future changes
+    // then enable smooth motion for future changes
     $slider.on('afterChange', () => moveBackdrop(true))
     $(window).on('resize', () => moveBackdrop(true))
     
