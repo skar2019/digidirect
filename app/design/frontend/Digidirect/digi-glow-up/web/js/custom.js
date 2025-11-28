@@ -1367,68 +1367,95 @@ $(document).on('wheel', '.pagebuilder-slider.slick-slider', function (e) {
 /* ========================
    🎯 Slick Dots Animated Backdrop 
 ======================== */
-  $(document).ready(function () {
-    function initBackdrop($slider) {
-      const $dots = $slider.find('.slick-dots')
-      if (!$dots.length) return
-
-      // ensure container positioning
-      $dots.css('position', 'relative')
-
-      // inject backdrop once
-      let $backdrop = $dots.find('.slick--animated-backdrop')
-      if (!$backdrop.length) {
-        $backdrop = $('<div class="slick--animated-backdrop"></div>')
-        $dots.append($backdrop)
-      }
-
-      function moveBackdrop(animate = true) {
+$(document).ready(function () {
+  function initBackdrop($slider) {
+    const $dots = $slider.find('.slick-dots')
+    if (!$dots.length) return
+    
+    // ensure container positioning
+    $dots.css('position', 'relative')
+    
+    // inject backdrop once
+    let $backdrop = $dots.find('.slick--animated-backdrop')
+    if (!$backdrop.length) {
+      // ✅ Create backdrop HIDDEN first
+      $backdrop = $('<div class="slick--animated-backdrop"></div>')
+      $backdrop.css({
+        opacity: '0',
+        transition: 'none'
+      })
+      
+      $dots.append($backdrop)
+      
+      // ✅ Wait for layout to fully settle before calculating position
+      setTimeout(() => {
         const $activeLi = $dots.find('li.slick-active')
         if (!$activeLi.length) return
-
+        
         const liOffset = $activeLi.position()?.left || 0
         const liWidth = $activeLi.outerWidth() || 0
-
-        // temporarily disable transition for instant placement
-        if (!animate) $backdrop.css('transition', 'none')
-
+        
+        // ✅ Now set the correct position and show
         $backdrop.css({
           transform: `translateX(${liOffset}px)`,
           width: liWidth + 'px',
+          opacity: '1'
         })
-
-        // restore transition after first placement
-        if (!animate) {
-          setTimeout(() => {
-            $backdrop.css('transition', '')
-          }, 50)
-        }
-      }
-
-      // ✅ Place backdrop instantly on first render
-      setTimeout(() => moveBackdrop(false), 50)
-
-      // then re-enable smooth motion for future changes
-      $slider.on('afterChange', () => moveBackdrop(true))
-      $(window).on('resize', () => moveBackdrop(true))
-
-      // dot click updates backdrop visually even before slide change
-      $dots.on('click', 'button', function () {
-        setTimeout(() => moveBackdrop(true), 150)
-      })
+        
+        // Enable transitions after positioned
+        setTimeout(() => {
+          $backdrop.css('transition', '')
+        }, 50)
+      }, 100) // ✅ Increased delay for layout stability
     }
-
-    // Wait for Slick to initialize and dots to appear
-    const checkSlick = setInterval(function () {
-      const $sliders = $('.pagebuilder-slider.slick-initialized')
-      if ($sliders.length && $sliders.find('.slick-dots').length) {
-        clearInterval(checkSlick)
+    
+    function moveBackdrop(animate = true) {
+      const $activeLi = $dots.find('li.slick-active')
+      if (!$activeLi.length) return
+      
+      const liOffset = $activeLi.position()?.left || 0
+      const liWidth = $activeLi.outerWidth() || 0
+      
+      // temporarily disable transition for instant placement
+      if (!animate) $backdrop.css('transition', 'none')
+      
+      $backdrop.css({
+        transform: `translateX(${liOffset}px)`,
+        width: liWidth + 'px'
+      })
+      
+      // restore transition after instant placement
+      if (!animate) {
+        setTimeout(() => {
+          $backdrop.css('transition', '')
+        }, 50)
+      }
+    }
+    
+    // then enable smooth motion for future changes
+    $slider.on('afterChange', () => moveBackdrop(true))
+    $(window).on('resize', () => moveBackdrop(true))
+    
+    // dot click updates backdrop visually even before slide change
+    $dots.on('click', 'button', function () {
+      setTimeout(() => moveBackdrop(true), 150)
+    })
+  }
+  
+  // ✅ Increased polling interval and wait time
+  const checkSlick = setInterval(function () {
+    const $sliders = $('.pagebuilder-slider.slick-initialized')
+    if ($sliders.length && $sliders.find('.slick-dots').length) {
+      clearInterval(checkSlick)
+      // ✅ Add extra delay after dots are found
+      setTimeout(() => {
         $sliders.each(function () {
           initBackdrop($(this))
         })
-      }
-    }, 200)
-  })
+      }, 100)
+    }
+  }, 200)
+})
 
 
 /* ========================
