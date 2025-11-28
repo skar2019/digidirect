@@ -29,7 +29,7 @@
     </type>
     <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
         <plugin name="Digidirect_FreeGift::Magento\Quote\Model\Quote\Item\ToOrderItem"
-                type="Digidirect\FreeGift\Plugin\Magento\Quote\Model\Quote\Item\ToOrderItem"/>
+                type="Digidirect\FreeGift\Plugin\Magento\Quote\Model\Quote\Item\ToOrderItem" sortOrder="20"/>
     </type>
 
 
