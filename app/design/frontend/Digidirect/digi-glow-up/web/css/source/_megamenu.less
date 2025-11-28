@@ -8,7 +8,7 @@ div.ruby-menu-demo-header {
     margin: 0;
     z-index: 55;
     background: #fff;
-    outline: 1px #E5E5EA solid;
+    outline: 1px #e5e5ea solid;
 }
 
 div.ruby-menu-demo-header-bg {
@@ -2734,7 +2734,7 @@ span.ruby-c-content {
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1024px) {
     .ruby-wrapper .hidden-md {
         visibility: hidden;
         display: none;
@@ -2747,6 +2747,15 @@ span.ruby-c-content {
     ul.ruby-menu > li.ruby-menu-mega-blog > div > ul.ruby-menu-mega-blog-nav {
         width: 170px;
     }
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li
+        > a {
+        font-size: 12px;
+        width: 193px;
+    }
 
     ul.ruby-menu
         > li.ruby-menu-mega-blog
@@ -2754,7 +2763,7 @@ span.ruby-c-content {
         > ul.ruby-menu-mega-blog-nav
         > li
         > div {
-        width: 590px;
+        width: 745px;
         left: 170px;
     }
 
@@ -2851,6 +2860,8 @@ ul.facelift-mega-menu-items {
 
 ul.ruby-menu > li:hover .facelift-dropdown-container {
     max-height: 1000px;
+    padding-left: 15px;
+    padding-right: 15px;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
@@ -2944,10 +2955,11 @@ li.facelift-mega-menu-item a.item-link:hover:after {
     border-radius: 20px;
     border: 0.2px #e5e5e5 solid;
     position: relative;
-    transition: all .3s cubic-bezier(0, 0, .5, 1);
+    transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
 }
 
-.megamenu-brands-list .brand img, .megamenu-brands-list .brand svg {
+.megamenu-brands-list .brand img,
+.megamenu-brands-list .brand svg {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -2974,7 +2986,7 @@ li.facelift-mega-menu-item a.item-link:hover:after {
 }
 
 .digiseconds-container .digiseconds {
-    transition: all .3s cubic-bezier(0, 0, .5, 1);
+    transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
 }
 
 .digiseconds-container .digiseconds:hover {
