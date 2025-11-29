@@ -1727,7 +1727,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 }
 
 @media screen and (max-width: 1512px) {
-    
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 5px 0 !important;
     }
@@ -2532,12 +2531,12 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .pa-minicart-widget .s19-rental-price-target {
         top: 82px !important;
     }
-    
+
     .pa-minicart-widget strong.product-item-name {
         height: 32px;
         margin: 0;
     }
-    
+
     .pa-minicart-widget .product-item .price-box .price-label {
         display: none;
     }
@@ -3025,6 +3024,46 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .megamenu-brands-container {
+        width: 100%;
+        .megamenu-brands-image {
+            display: none;
+        }
+        .megamenu-brands {
+            display: flex;
+            gap: 0;
+            margin-top: 5px;
+            width: 100%;
+            margin: 0;
+            align-items: center;
+            padding: 0;
+
+            .megamenu-brands-list {
+                display: grid;
+                grid-template-columns: repeat(10, 1fr);
+                gap: 5px;
+                height: max-content;
+                position: relative;
+
+                .brand {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 74px;
+                    height: 74px;
+                    padding: 4px;
+                    border-radius: 10px;
+
+                    img,
+                    svg {
+                        max-width: 90%;
+                        transform: none;
+                        position: static;
+                    }
+                }
+            }
+        }
+    }
     .homepage-row {
         .widget-label {
             display: flex;
@@ -3088,13 +3127,51 @@ select:not([disabled]):focus {
     div.ruby-grid > div.ruby-row [class^="ruby-col"] {
         padding: 0 10px;
     }
+    #algolia_instant_selector {
+        .col-md-9 {
+            width: 100% !important;
+        }
+        .algolia-infos {
+            .sort-by-label {
+                display: none;
+            }
+            #algolia-stats {
+                max-width: 45%;
+            }
+            .ais-ViewToggle {
+                gap: 8px;
+                height: 40px;
+            }
+        }
+    }
+    .pa-upsell.active {
+        width: 90%;
+    }
+}
+@media screen and (min-width: 1024px) and (max-width: 1244px) {
+    .megamenu-brands {
+        grid-template-columns: 65% 20%;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1344px) {
+    .megamenu-brands {
+        grid-template-columns: 65% 20%;
+    }
+    .page-wrapper > .breadcrumbs {
+        padding-left: 15px;
+    }
+    .catalog-category-view .page-title-wrapper,
+    .catalogsearch-result-index .page-title-wrapper {
+        padding-left: 15px;
+    }
     .page-header .header.panel {
         .header-links {
             padding-right: 10px;
         }
+    }
+    .algolia-instant-selector-results {
+        width: 100%;
     }
     .header.content {
         padding-left: 15px;
@@ -3254,6 +3331,14 @@ select:not([disabled]):focus {
             width: 85%;
         }
     }
+    .cart-row {
+        max-width: 100%;
+        overflow: hidden;
+        .pa-digidirect-product-widget {
+            max-width: 100%;
+            padding: 0 15px;
+        }
+    }
 }
 
 .product-overlay.-bottom-left.-ready {
@@ -3273,12 +3358,15 @@ select:not([disabled]):focus {
 }
 
 @media only screen and (max-width: 439px) {
-    
     .pa-digidirect-product-widget strong.product-item-name {
         height: 34px;
     }
 
-    .pa-welcome-back .pa-digidirect-product-widget .product-item .special-price .price {
+    .pa-welcome-back
+        .pa-digidirect-product-widget
+        .product-item
+        .special-price
+        .price {
         font-size: 9px !important;
         width: fit-content !important;
     }
@@ -3312,14 +3400,15 @@ select:not([disabled]):focus {
     .black-friday .s19-rental-price-target {
         top: 90px !important;
     }
-    
+
     .after_special.custom_final_price.black-friday {
         font-size: 10px !important;
         width: fit-content !important;
         padding: 2px 6px !important;
     }
 
-    .ais-Hits-item .action.tocart.primary, .pa-digidirect-product-widget .action.tocart.primary {
+    .ais-Hits-item .action.tocart.primary,
+    .pa-digidirect-product-widget .action.tocart.primary {
         font-size: 7px !important;
         padding: 1px 6px !important;
     }
@@ -3327,43 +3416,44 @@ select:not([disabled]):focus {
     .product-info-bottom.black-friday .discount-price-wrapper {
         font-size: 6px !important;
     }
-    
+
     .block-minicart .pa-digidirect-product-widget .action.tocart.primary {
         padding: 1px 5px !important;
     }
-    
+
     .minicart-wrapper .pa-minicart-widget .action.tocart.primary span {
         font-size: 7px;
     }
-    
-    .pa-minicart-widget .product-info-bottom.black-friday .discount-price-wrapper {
+
+    .pa-minicart-widget
+        .product-info-bottom.black-friday
+        .discount-price-wrapper {
         font-size: 7px !important;
     }
-    
+
     .minicart-wrapper .pa-minicart-widget .black-friday .discount-price {
         font-size: 7px;
     }
-    
+
     .pa-minicart-widget .product-item .special-price .price-wrapper {
         height: 44px !important;
     }
-    
+
     .pa-minicart-widget .black-friday .s19-rental-price-target {
         top: 82px !important;
     }
-    
+
     .pa-digidirect-product-widget-container .ribbon-digideals.black-friday {
         width: fit-content;
         font-size: 9px;
         padding: 5px 14px;
     }
-    
+
     .block-minicart .action.viewcart span {
         font-size: 10px;
     }
-    
+
     button#top-cart-btn-checkout {
         font-size: 10px;
     }
-    
 }
