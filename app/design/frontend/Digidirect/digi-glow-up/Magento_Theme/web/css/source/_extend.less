@@ -3024,6 +3024,19 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .glow-up-main-hero-banner div.pagebuilder-slide-wrapper {
+        height: 19dvh !important;
+        min-height: 100px !important;
+    }
+    .checkout-index-index {
+        .opc-wrapper {
+            width: 100% !important;
+        }
+        .sticky-order-summary {
+            position: static !important;
+        }
+    }
+
     .megamenu-brands-container {
         width: 100%;
         .megamenu-brands-image {
@@ -3155,6 +3168,31 @@ select:not([disabled]):focus {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1344px) {
+    .checkout-index-index,
+    .checkout-onepage-success {
+        .column.main {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .page-header {
+            .secure-text-header {
+                padding-right: 0;
+            }
+            .checkout-logo {
+                max-width: 175px;
+            }
+            .header-content {
+                padding-left: 15px;
+                padding-right: 15px;
+                max-width: 100%;
+            }
+        }
+
+        .help-bar-content {
+            padding: 0 15px;
+            max-width: 100%;
+        }
+    }
     .megamenu-brands {
         grid-template-columns: 65% 20%;
     }
@@ -3337,6 +3375,27 @@ select:not([disabled]):focus {
         .pa-digidirect-product-widget {
             max-width: 100%;
             padding: 0 15px;
+        }
+    }
+    div.pa-welcome-back.active {
+        width: 80%;
+    }
+    .cms-terms-and-conditions {
+        .pagebuilder-banner-wrapper
+            .pagebuilder-overlay.pagebuilder-poster-overlay {
+            min-height: 400px !important;
+        }
+        .terms-section {
+            padding: 0 15px;
+        }
+    }
+    .cms-page-view {
+        .digi-print-top {
+            text-align: center !important;
+            justify-content: center !important;
+            .text {
+                text-align: center !important;
+            }
         }
     }
 }
