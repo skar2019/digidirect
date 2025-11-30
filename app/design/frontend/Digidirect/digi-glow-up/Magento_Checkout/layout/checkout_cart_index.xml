@@ -5,7 +5,8 @@
         <referenceBlock name="page.main.title" remove="true"/>
         <referenceBlock name="checkout.cart.methods.multishipping" remove="true"/>
         <referenceBlock name="collect_places_cart_single" remove="true"/>
-         <referenceBlock name="global.newsletter" remove="true"/>
+        <referenceBlock name="global.newsletter" remove="true"/>
+        <referenceBlock name="checkout.cart.crosssell" remove="true" />
 
         <move element="checkout.cart.giftcardaccount" destination="checkout.cart.coupon"/>
         <move element="checkout.cart.totals.container" destination="cart.summary" after="checkout.cart.coupon"/>
