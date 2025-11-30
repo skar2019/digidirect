@@ -1378,35 +1378,13 @@ $(document).ready(function () {
     // inject backdrop once
     let $backdrop = $dots.find('.slick--animated-backdrop')
     if (!$backdrop.length) {
-      // ✅ Create backdrop HIDDEN first
       $backdrop = $('<div class="slick--animated-backdrop"></div>')
+      // ✅ Start hidden
       $backdrop.css({
         opacity: '0',
         transition: 'none'
       })
-      
       $dots.append($backdrop)
-      
-      // ✅ Wait for layout to fully settle before calculating position
-      setTimeout(() => {
-        const $activeLi = $dots.find('li.slick-active')
-        if (!$activeLi.length) return
-        
-        const liOffset = $activeLi.position()?.left || 0
-        const liWidth = $activeLi.outerWidth() || 0
-        
-        // ✅ Now set the correct position and show
-        $backdrop.css({
-          transform: `translateX(${liOffset}px)`,
-          width: liWidth + 'px',
-          opacity: '1'
-        })
-        
-        // Enable transitions after positioned
-        setTimeout(() => {
-          $backdrop.css('transition', '')
-        }, 50)
-      }, 100) // ✅ Increased delay for layout stability
     }
     
     function moveBackdrop(animate = true) {
@@ -1421,7 +1399,8 @@ $(document).ready(function () {
       
       $backdrop.css({
         transform: `translateX(${liOffset}px)`,
-        width: liWidth + 'px'
+        width: liWidth + 'px',
+        opacity: '1'
       })
       
       // restore transition after instant placement
@@ -1432,7 +1411,12 @@ $(document).ready(function () {
       }
     }
     
-    // then enable smooth motion for future changes
+    // ✅ Wait for layout to fully settle, then position backdrop
+    setTimeout(() => {
+      moveBackdrop(false)
+    }, 300) // Increased delay
+    
+    // then re-enable smooth motion for future changes
     $slider.on('afterChange', () => moveBackdrop(true))
     $(window).on('resize', () => moveBackdrop(true))
     
@@ -1442,21 +1426,43 @@ $(document).ready(function () {
     })
   }
   
-  // ✅ Increased polling interval and wait time
+  // Wait for Slick to initialize and dots to appear
   const checkSlick = setInterval(function () {
     const $sliders = $('.pagebuilder-slider.slick-initialized')
     if ($sliders.length && $sliders.find('.slick-dots').length) {
       clearInterval(checkSlick)
-      // ✅ Add extra delay after dots are found
-      setTimeout(() => {
-        $sliders.each(function () {
-          initBackdrop($(this))
-        })
-      }, 100)
+      $sliders.each(function () {
+        initBackdrop($(this))
+      })
     }
   }, 200)
+  
+  // ✅ CRITICAL FIX: Recalculate on window load (after all resources loaded)
+  $(window).on('load', function() {
+    $('.pagebuilder-slider.slick-initialized').each(function() {
+      const $slider = $(this)
+      const $dots = $slider.find('.slick-dots')
+      const $backdrop = $dots.find('.slick--animated-backdrop')
+      const $activeLi = $dots.find('li.slick-active')
+      
+      if ($backdrop.length && $activeLi.length) {
+        const liOffset = $activeLi.position()?.left || 0
+        const liWidth = $activeLi.outerWidth() || 0
+        
+        $backdrop.css({
+          transform: `translateX(${liOffset}px)`,
+          width: liWidth + 'px',
+          opacity: '1',
+          transition: 'none'
+        })
+        
+        setTimeout(() => {
+          $backdrop.css('transition', '')
+        }, 50)
+      }
+    })
+  })
 })
-
 
 /* ========================
  🎯 Owl Dots Tesla-Style Backdrop (Rounded Highlight)
@@ -1770,7 +1776,7 @@ $(document).on('click', '#custom-alert-close', function () {
 
   
     // Close PA Upsell Widget
-    $('#upsell-close').on('click', function () {
+    $('#upsell-close, #upsell-widget-desktop .action.tocart.primary').on('click', function () {
       $('#pa-upsell').removeClass('active')
     })
     
