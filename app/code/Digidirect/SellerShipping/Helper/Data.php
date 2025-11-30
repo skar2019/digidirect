@@ -40,6 +40,12 @@ class Data extends AbstractHelper
         $quote   = $this->quoteRepository->get($quoteId);
         $items   = $quote->getAllItems();
 
+        // Check if cart total is $99 or above for free shipping
+        $cartTotal = $quote->getSubtotal();
+        if ($cartTotal >= 99) {
+            return 0;
+        }
+
         $sellers = [];
         $zeroShipping = ["LPX Trading Pty Ltd","LatestBuy","Wilson Trading Import Pty Ltd","eMega"];
 
@@ -180,6 +186,15 @@ class Data extends AbstractHelper
 
     public function getDigiShipping()
     {
+        $quoteId = $this->session->getQuoteId();
+        $quote   = $this->quoteRepository->get($quoteId);
+        
+        // Check if cart total is $99 or above for free shipping
+        $cartTotal = $quote->getSubtotal();
+        if ($cartTotal >= 99) {
+            return 0;
+        }
+
         $standardShipping = 8.95;
         $bulkItemSurcharge = 0;
         if ($this->checkForBulkyItems()) {
