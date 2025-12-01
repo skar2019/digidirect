@@ -2016,8 +2016,8 @@ function updateCartAjax($input, newQty) {
         }
     }
     
-    $('.page-wrapper').on('click', function(e) {
-        e.stopPropagation();
+    $('.panel.wrapper, .mobile-menu-icon, .header.content .logo, .minicart-wrapper').on('click', function(e) {
+        //e.stopPropagation();
         closeAlgolia();
         console.log('closeAlgolia()');
     });
