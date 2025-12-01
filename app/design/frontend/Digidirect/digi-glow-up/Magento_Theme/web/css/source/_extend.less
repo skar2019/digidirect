@@ -2318,12 +2318,18 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .block-minicart .action.viewcart span {
         font-size: 11px;
     }
+    
+    //Fix mobile search issue
+    header.page-header {
+        pointer-events: unset !important;
+    }
 
     //Algolia Search
 
     .aa-Panel.is-ready {
         margin-top: 11px;
         height: 100vh;
+        z-index: 9 !important;
     }
 
     .aa-Source[data-autocomplete-source-id="querySuggestionsPlugin"] {
