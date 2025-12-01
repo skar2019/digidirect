@@ -2016,11 +2016,11 @@ function updateCartAjax($input, newQty) {
         }
     }
     
-    $('.page-wrapper').on('click', function(e) {
+    /*$('.page-wrapper').on('click', function(e) {
         e.stopPropagation();
         closeAlgolia();
         console.log('closeAlgolia()');
-    });
+    });*/
     
     
 
