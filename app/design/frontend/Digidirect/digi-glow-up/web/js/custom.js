@@ -1989,7 +1989,7 @@ function updateCartAjax($input, newQty) {
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
     })();
-    
+
     function closeAlgolia() {
         // Close autocomplete cleanly - works on mobile and desktop
         if (window.algoliaAutocompleteInstance && typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
@@ -2016,11 +2016,11 @@ function updateCartAjax($input, newQty) {
         }
     }
     
-    /*$('.page-wrapper').on('click', function(e) {
+    $('.page-wrapper').on('click', function(e) {
         e.stopPropagation();
         closeAlgolia();
         console.log('closeAlgolia()');
-    });*/
+    });
     
     
 
