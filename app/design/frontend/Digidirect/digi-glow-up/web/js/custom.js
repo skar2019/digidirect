@@ -1989,6 +1989,40 @@ function updateCartAjax($input, newQty) {
             $(window).on('scroll', debounce(updateAaPanelCSS, 100));
         });
     })();
+    
+    function closeAlgolia() {
+        // Close autocomplete cleanly - works on mobile and desktop
+        if (window.algoliaAutocompleteInstance && typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+            // Use Algolia's built-in method to close properly
+            window.algoliaAutocompleteInstance.setIsOpen(false);
+            console.log('[Algolia] Autocomplete closed via setIsOpen ✅');
+
+            // Blur the search input
+            const input = document.querySelector('input[type="search"], .aa-Input');
+            if (input) {
+                input.blur();
+
+                // Mobile keyboard dismissal
+                if (document.activeElement === input) {
+                    input.setAttribute('readonly', 'readonly');
+                    setTimeout(function() {
+                        input.removeAttribute('readonly');
+                        input.blur();
+                    }, 100);
+                }
+            }
+        } else {
+            console.warn('[Algolia] Autocomplete instance not available');
+        }
+    }
+    
+    $('.page-wrapper').on('click', function(e) {
+        e.stopPropagation();
+        closeAlgolia();
+        console.log('closeAlgolia()');
+    });
+    
+    
 
   })
 })
