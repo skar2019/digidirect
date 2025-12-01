@@ -1,4 +1,4 @@
-.digiservices-section{
+.digiservices-section {
     max-width: 1325px;
     margin: 0 auto;
 
@@ -92,7 +92,7 @@
                             &.small {
                                 font-size: 24px;
                                 font-weight: 400 !important;
-                                padding-left: 10px !important;;
+                                padding-left: 10px !important;
                             }
                         }
 
@@ -187,7 +187,6 @@
                 .digi-black-text.small {
                     font-size: 23px !important;
                 }
-
             }
         }
     }
@@ -205,7 +204,6 @@
         font-size: 24px;
     }
 }
-
 
 @media only screen and (max-width: 768px) {
     .digiservices-section-mobile {
@@ -248,7 +246,6 @@
                 border-radius: 25px;
                 overflow: hidden;
                 margin-bottom: 25px;
-
 
                 img {
                     width: 100%;
@@ -377,10 +374,10 @@
     }
 
     .digiservice-row {
-        [data-content-type='slide'] {
+        [data-content-type="slide"] {
             line-height: unset !important;
         }
-        .pagebuilder-overlay.pagebuilder-poster-overlay{
+        .pagebuilder-overlay.pagebuilder-poster-overlay {
             height: unset !important;
             padding-top: unset !important;
         }
@@ -399,6 +396,28 @@
 
         .slick-dots {
             margin-top: -30px !important;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .digiservices-section {
+        .digiservices-grid {
+            .digiservice-card {
+                .digicard-header {
+                    flex-direction: column;
+                    align-items: flex-start !important;
+                    h1 {
+                        font-size: 23px !important;
+                        .digi-black-text.small {
+                            font-size: 22px !important;
+                        }
+                    }
+                    a.btn {
+                        width: 100% !important;
+                    }
+                }
+            }
         }
     }
 }
