@@ -1726,6 +1726,11 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     transform: translate(-50%, -50%) !important;
 }
 
+//Fix Double Nav Button From Minicart
+.pa-minicart-widget .owl-carousel .owl-nav button svg {
+    display: none;
+}
+
 @media screen and (max-width: 1512px) {
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 5px 0 !important;
@@ -2290,7 +2295,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .message.message div {
         max-width: 100%;
         padding: 0 !important;
-        line-height: 15px;
+        line-height: 3px;
     }
 
     .message > *::before {
@@ -3024,6 +3029,11 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    #glow-up-featured-videos .owl-video-tn {
+        background-position: 100% 90% !important;
+        transform: scale(1) !important;
+        min-height: 234px;
+    }
     .ais-Hits-list {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -3178,10 +3188,27 @@ select:not([disabled]):focus {
         > a {
         width: 185px;
     }
+    .pagebuilder-poster-overlay {
+    }
 }
 @media screen and (min-width: 1024px) and (max-width: 1244px) {
     .megamenu-brands {
         grid-template-columns: 65% 20%;
+    }
+    .megamenu-brands-container .megamenu-brands-image {
+        display: none;
+    }
+    .megamenu-brands-container .megamenu-brands .megamenu-brands-list {
+        grid-template-columns: repeat(10, 1fr);
+        .brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            padding: 4px;
+            border-radius: 10px;
+        }
     }
 }
 @media screen and (min-width: 768px) and (max-width: 1200px) {
@@ -3432,7 +3459,7 @@ select:not([disabled]):focus {
     div.pa-welcome-back.active {
         width: 80%;
     }
-    .cms-terms-and-conditions {
+    .cms-page-view {
         .pagebuilder-banner-wrapper
             .pagebuilder-overlay.pagebuilder-poster-overlay {
             min-height: 400px !important;
