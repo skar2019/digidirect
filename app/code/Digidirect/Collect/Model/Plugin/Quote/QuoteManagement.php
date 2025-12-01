@@ -71,6 +71,7 @@ class QuoteManagement
         if ($this->collectHelper->isCollectEnable()) {
             $this->validateShippingMethod($quote);
             $this->validateProductsQty($quote);
+            $this->validateCollectStoreIds($quote);
             $this->setCollectAddress($quote);
         }
 
@@ -208,6 +209,36 @@ class QuoteManagement
             throw new CollectPlaceQtyException(
                 $message
             );
+        }
+    }
+
+    /**
+     * Validate that all collect items have store IDs
+     *
+     * @param QuoteEntity $quote
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function validateCollectStoreIds(QuoteEntity $quote)
+    {
+        if (!$this->collectHelper->isCollectItems($quote->getId())) {
+            return; // Not a collect order, skip validation
+        }
+
+        $itemsWithoutStore = [];
+        foreach ($quote->getAllVisibleItems() as $item) {
+            if (!$item->getCollectPlaceId() || !$item->getCollectPlaceStorageName()) {
+                $itemsWithoutStore[] = $item->getSku();
+            }
+        }
+
+        if (!empty($itemsWithoutStore)) {
+            $message = __(
+                'Unable to place order. Please select a collection store. Items without store: %1',
+                implode(', ', $itemsWithoutStore)
+            );
+            $this->collectHelper->logError($message);
+            throw new \Magento\Framework\Exception\LocalizedException($message);
         }
     }
 
