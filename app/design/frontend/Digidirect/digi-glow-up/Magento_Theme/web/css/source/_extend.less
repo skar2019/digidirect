@@ -2295,7 +2295,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .message.message div {
         max-width: 100%;
         padding: 0 !important;
-        line-height: 20px;
+        line-height: 3px;
     }
 
     .message > *::before {
@@ -3029,6 +3029,14 @@ select:not([disabled]):focus {
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+    #glow-up-featured-videos .owl-video-tn {
+        background-position: 100% 90% !important;
+        transform: scale(1) !important;
+        min-height: 234px;
+    }
+    .ais-Hits-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
     .glow-up-main-hero-banner div.pagebuilder-slide-wrapper {
         height: 19dvh !important;
         min-height: 100px !important;
@@ -3154,7 +3162,8 @@ select:not([disabled]):focus {
                 display: none;
             }
             #algolia-stats {
-                max-width: 45%;
+                width: 54%;
+                max-width: 100%;
             }
             .ais-ViewToggle {
                 gap: 8px;
@@ -3165,10 +3174,75 @@ select:not([disabled]):focus {
     .pa-upsell.active {
         width: 90%;
     }
+
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog.products
+        > div.facelift-dropdown-container {
+        height: 48vh !important;
+    }
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li:hover
+        > a {
+        width: 185px;
+    }
+    .pagebuilder-poster-overlay {
+    }
 }
 @media screen and (min-width: 1024px) and (max-width: 1244px) {
     .megamenu-brands {
         grid-template-columns: 65% 20%;
+    }
+    .megamenu-brands-container .megamenu-brands-image {
+        display: none;
+    }
+    .megamenu-brands-container .megamenu-brands .megamenu-brands-list {
+        grid-template-columns: repeat(10, 1fr);
+        .brand {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            padding: 4px;
+            border-radius: 10px;
+        }
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+    .ruby-menu-mega-blog-nav .ruby-col-3.image-col {
+        display: none;
+    }
+    .megamenu-brands .view-all-link {
+        margin-top: -38px;
+    }
+
+    a.digiseconds {
+        img {
+            border-radius: 28px;
+        }
+        span {
+            left: 24px;
+
+            &.digiseconds-title {
+                font-size: 14px;
+                top: 10px;
+                line-height: 16px;
+            }
+            &.digiseconds-desc {
+                top: 33px;
+                font-size: 11px;
+                line-height: 15px;
+                word-wrap: break-word;
+                padding-right: 5px;
+            }
+            &.digiseconds-explore {
+                bottom: 17px;
+                padding: 5px 15px;
+            }
+        }
     }
 }
 
@@ -3385,7 +3459,7 @@ select:not([disabled]):focus {
     div.pa-welcome-back.active {
         width: 80%;
     }
-    .cms-terms-and-conditions {
+    .cms-page-view {
         .pagebuilder-banner-wrapper
             .pagebuilder-overlay.pagebuilder-poster-overlay {
             min-height: 400px !important;

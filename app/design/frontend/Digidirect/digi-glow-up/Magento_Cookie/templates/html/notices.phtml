@@ -25,8 +25,9 @@ if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
                 <span><?= $block->escapeHtml(__(
                         ' consent to set the cookies.'
                     )) ?>
+                    <?= $block->escapeHtml(__('<a href="%1">Learn more</a>', $block->getPrivacyPolicyLink()), ['a']) ?>
                 </span>
-                <?= $block->escapeHtml(__('<a href="%1">Learn more</a>', $block->getPrivacyPolicyLink()), ['a']) ?>
+                
             </p>
             <div class="actions">
                 <button id="btn-cookie-reject" class="action reject secondary">
