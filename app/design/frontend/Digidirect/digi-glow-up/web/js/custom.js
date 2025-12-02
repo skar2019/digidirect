@@ -2041,55 +2041,109 @@ function updateCartAjax($input, newQty) {
             return;
         }
 
-        // Method 1: Check for success message on page load
-        if ($('.message.success').length > 0) {
-            console.log('Success message found on page load, reloading page...');
+        var reloadTriggered = false;
+
+        function triggerReload() {
+            if (reloadTriggered) {
+                return;
+            }
+            reloadTriggered = true;
+            console.log('Triggering reload...');
             sessionStorage.setItem('cart_success_reload', 'true');
+            
             setTimeout(function() {
                 location.reload();
             }, 500);
+        }
+
+        // Check for success message with multiple selectors
+        function checkForSuccessMessage() {
+            var hasSuccess = $('.message-success').length > 0 || 
+                           $('.success.message').length > 0 ||
+                           $('[data-ui-id="message-success"]').length > 0 ||
+                           $('.page.messages .message-success').length > 0;
+            
+            if (hasSuccess) {
+                console.log('Success message found!');
+            }
+            return hasSuccess;
+        }
+
+        // Check immediately on page load
+        if (checkForSuccessMessage()) {
+            console.log('Success message found on page load, reloading...');
+            triggerReload();
             return;
         }
 
-        // Method 2: Watch for success messages being added dynamically
-        var successMessageObserver = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.addedNodes.length) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1) { // Element node
-                            var $node = $(node);
-                            // Check if the added node or its children contain success message
-                            if ($node.hasClass('message') && $node.hasClass('success') || 
-                                $node.find('.message.success').length > 0) {
-                                
-                                console.log('Success message detected, reloading...');
-                                successMessageObserver.disconnect();
-                                sessionStorage.setItem('cart_success_reload', 'true');
-                                
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 500);
-                            }
-                        }
-                    });
-                }
-            });
+        // Watch the specific messages container that Knockout binds to
+        var messagesContainer = document.querySelector('.page.messages');
+        
+        if (!messagesContainer) {
+            console.error('Messages container not found');
+            return;
+        }
+
+        console.log('Watching .page.messages for changes...');
+
+        // MutationObserver to watch for message additions
+        var observer = new MutationObserver(function(mutations) {
+            if (reloadTriggered) {
+                observer.disconnect();
+                return;
+            }
+
+            // Check if success message was added
+            if (checkForSuccessMessage()) {
+                console.log('Success message detected via MutationObserver');
+                observer.disconnect();
+                triggerReload();
+            }
         });
 
-        // Observe the messages container or body for new success messages
-        var messagesContainer = document.querySelector('.page.messages') || 
-                               document.querySelector('.messages') || 
-                               document.body;
+        // Observe with comprehensive settings to catch Knockout changes
+        observer.observe(messagesContainer, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            characterData: true,
+            attributeFilter: ['class', 'data-ui-id']
+        });
+
+        // Additional polling as backup (in case observer misses it)
+        var pollCount = 0;
+        var maxPolls = 50; // 5 seconds
         
-        if (messagesContainer) {
-            successMessageObserver.observe(messagesContainer, {
-                childList: true,
-                subtree: true
-            });
-            console.log('Watching for success messages...');
-        } else {
-            console.error('Messages container not found');
-        }
+        var pollInterval = setInterval(function() {
+            pollCount++;
+            
+            if (checkForSuccessMessage()) {
+                console.log('Success message detected via polling at', pollCount * 100, 'ms');
+                clearInterval(pollInterval);
+                observer.disconnect();
+                triggerReload();
+                return;
+            }
+            
+            if (pollCount >= maxPolls) {
+                console.log('Polling stopped after 5 seconds');
+                clearInterval(pollInterval);
+            }
+        }, 100);
+
+        // Detect add to cart button clicks to extend watch time
+        $(document).on('click', 'form[data-role="tocart-form"] button[type="submit"]', function() {
+            console.log('Add to cart button clicked');
+            // Reset and extend polling
+            pollCount = 0;
+            maxPolls = 100; // Extend to 10 seconds after button click
+        });
+
+        // Cleanup on page unload
+        $(window).on('beforeunload', function() {
+            observer.disconnect();
+            clearInterval(pollInterval);
+        });
     });
 
   })
