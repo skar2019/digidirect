@@ -2023,19 +2023,49 @@ function updateCartAjax($input, newQty) {
     });
     
     //Force reload on cart page when product is added to cart.
-    // Method 3: Monitor cart section changes and reload
-    var cartSection = customerData.get('cart');
-    var initialItemCount = cartSection().items ? cartSection().items.length : 0;
-
-    cartSection.subscribe(function(updatedCart) {
-        var newItemCount = updatedCart.items ? updatedCart.items.length : 0;
-
-        // If item count increased, reload the page
-        if (newItemCount > initialItemCount) {
-            setTimeout(function() {
-                location.reload();
-            }, 500);
+    $(document).ready(function() {
+        // Only run on cart page
+        if (!$('body').hasClass('checkout-cart-index')) {
+            return;
         }
+
+        console.log('Cart reload script initialized');
+
+        // Get the current cart count from the counter in DOM
+        var initialItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
+        console.log('Initial cart count:', initialItemCount);
+
+        // Monitor the cart counter for changes
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                    var newItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
+                    console.log('Cart count changed to:', newItemCount);
+
+                    // If count increased, reload the page
+                    if (newItemCount > initialItemCount) {
+                        console.log('Item added, reloading page...');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 300);
+                    }
+                }
+            });
+        });
+
+        // Observe the cart counter element
+        var cartCounter = document.querySelector('#cart-counter .counter-number');
+        if (cartCounter) {
+            observer.observe(cartCounter, {
+                characterData: true,
+                childList: true,
+                subtree: true
+            });
+            console.log('Observer attached to cart counter');
+        } else {
+            console.error('Cart counter not found');
+        }
+
     });
 
   })
