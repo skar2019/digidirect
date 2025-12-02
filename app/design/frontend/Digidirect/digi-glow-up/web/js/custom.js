@@ -2023,31 +2023,62 @@ function updateCartAjax($input, newQty) {
     });
     
     //Force reload on cart page when product is added to cart.
-    $(document).ready(function() {
-        // Only run on cart page
-        if (!$('body').hasClass('checkout-cart-index')) {
-            return;
-        }
+    // Only run on cart page
+    if (!$('body').hasClass('checkout-cart-index')) {
+        return;
+    }
 
-        console.log('Cart reload script initialized');
+    console.log('Cart reload script initialized');
 
+    // Check if we just reloaded due to add to cart
+    var justReloaded = sessionStorage.getItem('cart_just_reloaded');
+    if (justReloaded === 'true') {
+        console.log('Just reloaded, skipping observer for 3 seconds');
+        sessionStorage.removeItem('cart_just_reloaded');
+
+        // Don't activate observer for 3 seconds after reload
+        setTimeout(function() {
+            initializeObserver();
+        }, 3000);
+
+        return;
+    }
+
+    // Initialize immediately if not just reloaded
+    initializeObserver();
+
+    function initializeObserver() {
         // Get the current cart count from the counter in DOM
         var initialItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
         console.log('Initial cart count:', initialItemCount);
 
+        var reloadTriggered = false; // Flag to prevent multiple reloads
+
         // Monitor the cart counter for changes
         var observer = new MutationObserver(function(mutations) {
+            if (reloadTriggered) {
+                return; // Prevent multiple reload triggers
+            }
+
             mutations.forEach(function(mutation) {
                 if (mutation.type === 'childList' || mutation.type === 'characterData') {
                     var newItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
                     console.log('Cart count changed to:', newItemCount);
 
                     // If count increased, reload the page
-                    if (newItemCount > initialItemCount) {
+                    if (newItemCount > initialItemCount && !reloadTriggered) {
+                        reloadTriggered = true;
                         console.log('Item added, reloading page...');
+
+                        // Disconnect observer to prevent further triggers
+                        observer.disconnect();
+
+                        // Set flag in sessionStorage
+                        sessionStorage.setItem('cart_just_reloaded', 'true');
+
                         setTimeout(function() {
                             location.reload();
-                        }, 300);
+                        }, 500);
                     }
                 }
             });
@@ -2065,8 +2096,7 @@ function updateCartAjax($input, newQty) {
         } else {
             console.error('Cart counter not found');
         }
-
-    });
+    }
 
   })
 })
