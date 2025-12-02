@@ -2023,80 +2023,74 @@ function updateCartAjax($input, newQty) {
     });
     
     //Force reload on cart page when product is added to cart.
-    // Only run on cart page
-    if (!$('body').hasClass('checkout-cart-index')) {
-        return;
-    }
+    $(document).ready(function() {
+        
+        // Only run on cart page
+        if (!$('body').hasClass('checkout-cart-index')) {
+            return;
+        }
 
-    console.log('Cart reload script initialized');
+        console.log('Cart reload script initialized');
 
-    // Check if we just reloaded due to add to cart
-    var justReloaded = sessionStorage.getItem('cart_just_reloaded');
-    if (justReloaded === 'true') {
-        console.log('Just reloaded, skipping observer for 3 seconds');
-        sessionStorage.removeItem('cart_just_reloaded');
+        // Check if we just reloaded - prevent infinite loop
+        var hasReloaded = sessionStorage.getItem('cart_success_reload');
+        
+        if (hasReloaded === 'true') {
+            console.log('Already reloaded once, skipping');
+            sessionStorage.removeItem('cart_success_reload');
+            return;
+        }
 
-        // Don't activate observer for 3 seconds after reload
-        setTimeout(function() {
-            initializeObserver();
-        }, 3000);
+        // Method 1: Check for success message on page load
+        if ($('.message.success').length > 0) {
+            console.log('Success message found on page load, reloading page...');
+            sessionStorage.setItem('cart_success_reload', 'true');
+            setTimeout(function() {
+                location.reload();
+            }, 500);
+            return;
+        }
 
-        return;
-    }
-
-    // Initialize immediately if not just reloaded
-    initializeObserver();
-
-    function initializeObserver() {
-        // Get the current cart count from the counter in DOM
-        var initialItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
-        console.log('Initial cart count:', initialItemCount);
-
-        var reloadTriggered = false; // Flag to prevent multiple reloads
-
-        // Monitor the cart counter for changes
-        var observer = new MutationObserver(function(mutations) {
-            if (reloadTriggered) {
-                return; // Prevent multiple reload triggers
-            }
-
+        // Method 2: Watch for success messages being added dynamically
+        var successMessageObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList' || mutation.type === 'characterData') {
-                    var newItemCount = parseInt($('#cart-counter .counter-number').text()) || 0;
-                    console.log('Cart count changed to:', newItemCount);
-
-                    // If count increased, reload the page
-                    if (newItemCount > initialItemCount && !reloadTriggered) {
-                        reloadTriggered = true;
-                        console.log('Item added, reloading page...');
-
-                        // Disconnect observer to prevent further triggers
-                        observer.disconnect();
-
-                        // Set flag in sessionStorage
-                        sessionStorage.setItem('cart_just_reloaded', 'true');
-
-                        setTimeout(function() {
-                            location.reload();
-                        }, 500);
-                    }
+                if (mutation.addedNodes.length) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // Element node
+                            var $node = $(node);
+                            // Check if the added node or its children contain success message
+                            if ($node.hasClass('message') && $node.hasClass('success') || 
+                                $node.find('.message.success').length > 0) {
+                                
+                                console.log('Success message detected, reloading...');
+                                successMessageObserver.disconnect();
+                                sessionStorage.setItem('cart_success_reload', 'true');
+                                
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 500);
+                            }
+                        }
+                    });
                 }
             });
         });
 
-        // Observe the cart counter element
-        var cartCounter = document.querySelector('#cart-counter .counter-number');
-        if (cartCounter) {
-            observer.observe(cartCounter, {
-                characterData: true,
+        // Observe the messages container or body for new success messages
+        var messagesContainer = document.querySelector('.page.messages') || 
+                               document.querySelector('.messages') || 
+                               document.body;
+        
+        if (messagesContainer) {
+            successMessageObserver.observe(messagesContainer, {
                 childList: true,
                 subtree: true
             });
-            console.log('Observer attached to cart counter');
+            console.log('Watching for success messages...');
         } else {
-            console.error('Cart counter not found');
+            console.error('Messages container not found');
         }
-    }
+    });
 
   })
 })
