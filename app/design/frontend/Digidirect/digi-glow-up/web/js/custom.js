@@ -2022,7 +2022,28 @@ function updateCartAjax($input, newQty) {
         console.log('closeAlgolia()');
     });
     
-    
+    //Force reload on cart page when product is added to cart.
+    $(document).ready(function() {
+        // Only run on cart page
+        if (!$('body').hasClass('checkout-cart-index')) {
+            return;
+        }
+
+        // Method 1: Listen for successful add to cart events
+        $(document).on('ajax:addToCart', function(event, data) {
+            if (data && data.success) {
+                // Invalidate cart sections
+                var sections = ['cart'];
+                customerData.invalidate(sections);
+                customerData.reload(sections, true);
+
+                // Reload page after short delay
+                setTimeout(function() {
+                    location.reload();
+                }, 300);
+            }
+        });
+    });
 
   })
 })
