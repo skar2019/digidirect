@@ -2032,12 +2032,13 @@ function updateCartAjax($input, newQty) {
 
         console.log('Cart reload script initialized');
 
-        // Check if we just reloaded - prevent infinite loop
-        var hasReloaded = sessionStorage.getItem('cart_success_reload');
+        // Use a timestamp-based approach to prevent false positives
+        var lastReloadTime = sessionStorage.getItem('cart_last_reload_time');
+        var currentTime = new Date().getTime();
         
-        if (hasReloaded === 'true') {
-            console.log('Already reloaded once, skipping');
-            sessionStorage.removeItem('cart_success_reload');
+        // If we reloaded within the last 2 seconds, skip checking for messages
+        if (lastReloadTime && (currentTime - parseInt(lastReloadTime)) < 2000) {
+            console.log('Just reloaded', (currentTime - parseInt(lastReloadTime)), 'ms ago, skipping message check');
             return;
         }
 
@@ -2045,11 +2046,14 @@ function updateCartAjax($input, newQty) {
 
         function triggerReload() {
             if (reloadTriggered) {
+                console.log('Reload already triggered, skipping');
                 return;
             }
             reloadTriggered = true;
             console.log('Triggering reload...');
-            sessionStorage.setItem('cart_success_reload', 'true');
+            
+            // Store timestamp instead of boolean
+            sessionStorage.setItem('cart_last_reload_time', new Date().getTime().toString());
             
             setTimeout(function() {
                 location.reload();
@@ -2097,6 +2101,7 @@ function updateCartAjax($input, newQty) {
             if (checkForSuccessMessage()) {
                 console.log('Success message detected via MutationObserver');
                 observer.disconnect();
+                clearInterval(pollInterval);
                 triggerReload();
             }
         });
@@ -2115,6 +2120,11 @@ function updateCartAjax($input, newQty) {
         var maxPolls = 50; // 5 seconds
         
         var pollInterval = setInterval(function() {
+            if (reloadTriggered) {
+                clearInterval(pollInterval);
+                return;
+            }
+
             pollCount++;
             
             if (checkForSuccessMessage()) {
@@ -2126,7 +2136,7 @@ function updateCartAjax($input, newQty) {
             }
             
             if (pollCount >= maxPolls) {
-                console.log('Polling stopped after 5 seconds');
+                console.log('Polling stopped after', maxPolls * 100, 'ms');
                 clearInterval(pollInterval);
             }
         }, 100);
@@ -2141,8 +2151,12 @@ function updateCartAjax($input, newQty) {
 
         // Cleanup on page unload
         $(window).on('beforeunload', function() {
-            observer.disconnect();
-            clearInterval(pollInterval);
+            if (observer) {
+                observer.disconnect();
+            }
+            if (pollInterval) {
+                clearInterval(pollInterval);
+            }
         });
     });
 
