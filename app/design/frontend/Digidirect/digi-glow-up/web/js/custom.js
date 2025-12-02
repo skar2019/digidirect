@@ -2023,27 +2023,17 @@ function updateCartAjax($input, newQty) {
     });
     
     //Force reload on cart page when product is added to cart.
-    $(document).ready(function() {
-        // Only run on cart page
-        if (!$('body').hasClass('checkout-cart-index')) {
-            return;
+    // This catches cases where Magento's default add to cart completed
+    var checkForMessages = setInterval(function() {
+        if ($('.message.success').length > 0) {
+            clearInterval(checkForMessages);
+
+            // Reload after showing message briefly
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
         }
-
-        // Method 1: Listen for successful add to cart events
-        $(document).on('ajax:addToCart', function(event, data) {
-            if (data && data.success) {
-                // Invalidate cart sections
-                var sections = ['cart'];
-                customerData.invalidate(sections);
-                customerData.reload(sections, true);
-
-                // Reload page after short delay
-                setTimeout(function() {
-                    location.reload();
-                }, 300);
-            }
-        });
-    });
+    }, 100);
 
   })
 })
