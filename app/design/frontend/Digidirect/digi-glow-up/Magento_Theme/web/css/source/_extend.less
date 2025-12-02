@@ -2295,7 +2295,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .message.message div {
         max-width: 100%;
         padding: 0 !important;
-        line-height: 3px;
+        line-height: 20px;
     }
 
     .message > *::before {
@@ -2319,11 +2319,17 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         font-size: 11px;
     }
 
+    //Fix mobile search issue
+    header.page-header {
+        pointer-events: unset !important;
+    }
+
     //Algolia Search
 
     .aa-Panel.is-ready {
         margin-top: 11px;
         height: 100vh;
+        z-index: 9 !important;
     }
 
     .aa-Source[data-autocomplete-source-id="querySuggestionsPlugin"] {
@@ -2599,7 +2605,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         font-size: 5px !important;
         padding: 2px 0 !important;
     }
-    
+
     .pa-minicart-widget .sponsored-label {
         font-size: 7px !important;
         margin-top: -2px !important;
