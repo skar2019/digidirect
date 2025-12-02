@@ -2023,17 +2023,20 @@ function updateCartAjax($input, newQty) {
     });
     
     //Force reload on cart page when product is added to cart.
-    // This catches cases where Magento's default add to cart completed
-    var checkForMessages = setInterval(function() {
-        if ($('.message.success').length > 0) {
-            clearInterval(checkForMessages);
+    // Method 3: Monitor cart section changes and reload
+    var cartSection = customerData.get('cart');
+    var initialItemCount = cartSection().items ? cartSection().items.length : 0;
 
-            // Reload after showing message briefly
+    cartSection.subscribe(function(updatedCart) {
+        var newItemCount = updatedCart.items ? updatedCart.items.length : 0;
+
+        // If item count increased, reload the page
+        if (newItemCount > initialItemCount) {
             setTimeout(function() {
                 location.reload();
-            }, 1000);
+            }, 500);
         }
-    }, 100);
+    });
 
   })
 })
