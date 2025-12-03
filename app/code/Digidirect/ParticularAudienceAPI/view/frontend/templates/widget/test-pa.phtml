@@ -1890,7 +1890,13 @@ require(['jquery'], function ($) {
             $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
             $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
         ?>
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
+        <div class="mobile-digisevices-widget">
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up-mobile')->toHtml(); ?>
+        </div>
+         <div class="desktop-digisevices-widget">
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('digi-services-glow-up')->toHtml(); ?>
+        </div>
+       
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">
