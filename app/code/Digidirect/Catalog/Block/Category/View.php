@@ -20,7 +20,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
      * @var UrlInterface
      */
     private $url;
-    
+
     /**
      * Core registry
      *
@@ -39,7 +39,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
      * @var \Magento\Catalog\Helper\Category
      */
     protected $_categoryHelper;
-    
+
     protected $logger;
 
     /**
@@ -92,14 +92,14 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 $this->pageConfig->setKeywords($keywords);
             }
             if ($this->_categoryHelper->canUseCanonicalTag()) {
-                
+
                 $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
                 $this->logger->info('Current URL: ' . $currentUrl);
 
                 $urlComponents = parse_url($currentUrl);
 
                 $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
-                
+
                 if (str_contains($currentUrl, 'catalog/category/view')) {
                     $canonical = $category->getUrl();
                     $this->logger->info('catalog/category/view: ' . $category->getUrl());
@@ -108,9 +108,9 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                 if (!empty($urlComponents['query'])) {
 
                     $this->pageConfig->setRobots("NOINDEX,NOFOLLOW");
-                    
+
                     $params = [];
-                    
+
                     parse_str($urlComponents['query'], $params);
 
                     if (!empty($params['p']) || !empty($params['page'])) {
@@ -120,19 +120,22 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                         }
 
                         if ($params['p'] == 1) {
-                            $page = ''; 
+                            $page = '';
                         } else {
-                            $page = '?p=' . $params['p']; 
+                            $page = '?p=' . $params['p'];
                         }
 
-                        if ($params['page'] == 1) {
-                            $page = ''; 
-                        } else {
-                            $page = '?page=' . $params['page']; 
+                        if (isset($params['page'])) {
+                            if ($params['page'] == 1) {
+                                $page = '';
+                            } else {
+                                $page = '?page=' . $params['page'];
+                            }
                         }
+
 
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
-                      
+
                     } else {
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'];
                     }
@@ -151,12 +154,12 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($pageMainTitle) {
                 $pageMainTitle->setPageTitle($this->getCurrentCategory()->getName());
             }
-            
+
         } else { //Fix canonical for non seo friendly category pages
-            
+
             $currentUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
             $this->logger->info('Current URL: ' . $currentUrl);
-            
+
             if (str_contains($currentUrl, 'catalog/category/view')) {
                 //$this->logger->info('catalog/category/view: ' . $url);
 
