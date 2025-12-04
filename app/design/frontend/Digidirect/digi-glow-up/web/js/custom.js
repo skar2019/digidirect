@@ -2161,42 +2161,42 @@ function updateCartAjax($input, newQty) {
     });
     
     //Disable Add To Cart Button Immediately On Click
-    $('form[data-role="tocart-form"]').on('submit', function(e) {
-        var $form = $(this);
-        var $button = $form.find('button[type="submit"].tocart');
+    $(document).on('click', 'button[type="submit"].tocart', function(e) {
+        var $button = $(this);
 
-        // Check if already disabled (prevent double submission)
-        if ($button.prop('disabled')) {
-            e.preventDefault();
-            return false;
-        }
-
-        // Disable button immediately
-        $button.prop('disabled', true)
-               .css({
+        // Visual feedback immediately - but don't actually disable
+        $button.css({
                    'opacity': '0.6',
-                   'cursor': 'not-allowed'
-               });
+                   'cursor': 'not-allowed',
+                   'pointer-events': 'none'
+               })
+               .addClass('loading');
 
-        // Optional: Change text to show loading
+        // Change text immediately
         var $span = $button.find('span');
-        var originalText = $span.text();
+        $span.data('original-text', $span.text());
         $span.text('Adding...');
 
-        // Re-enable if submission fails (optional safety)
-        setTimeout(function() {
-            if ($button.prop('disabled')) {
-                $button.prop('disabled', false)
-                       .css({
-                           'opacity': '1',
-                           'cursor': 'pointer'
-                       });
-                $span.text(originalText);
-            }
-        }, 5000);
+        // Don't prevent default or disable - let the form submit
+    });
 
-        // Allow form to submit normally
-        return true;
+    // Re-enable after AJAX completes
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        if (settings.url && settings.url.indexOf('checkout/cart/add') !== -1) {
+            $('button.tocart.loading').each(function() {
+                var $button = $(this);
+                var $span = $button.find('span');
+
+                $button.css({
+                           'opacity': '1',
+                           'cursor': 'pointer',
+                           'pointer-events': 'auto'
+                       })
+                       .removeClass('loading');
+
+                $span.text($span.data('original-text') || 'Add to Cart');
+            });
+        }
     });
 
   })
