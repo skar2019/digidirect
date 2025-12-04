@@ -2159,6 +2159,35 @@ function updateCartAjax($input, newQty) {
             }
         });
     });
+    
+    //Disable Add To Cart Button Imeediately On Click
+    $('button[type="submit"].tocart').on('click', function(e) {
+        var $button = $(this);
+
+        // Disable button immediately
+        $button.prop('disabled', true)
+               .css({
+                   'opacity': '0.6',
+                   'cursor': 'not-allowed'
+               });
+
+        // Optional: Change text to show loading
+        var $span = $button.find('span');
+        var originalText = $span.text();
+        $span.text('Adding...');
+
+        // Re-enable if submission fails (optional safety)
+        setTimeout(function() {
+            if ($button.prop('disabled')) {
+                $button.prop('disabled', false)
+                       .css({
+                           'opacity': '1',
+                           'cursor': 'pointer'
+                       });
+                $span.text(originalText);
+            }
+        }, 5000);
+    });
 
   })
 })
