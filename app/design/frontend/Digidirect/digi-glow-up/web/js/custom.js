@@ -2169,11 +2169,10 @@ function updateCartAjax($input, newQty) {
             return;
         }
 
-        // Visual feedback IMMEDIATELY on mousedown
+        // Visual feedback IMMEDIATELY - but WITHOUT pointer-events: none
         $button.css({
                    'opacity': '0.6',
-                   'cursor': 'not-allowed',
-                   'pointer-events': 'none'
+                   'cursor': 'not-allowed'
                })
                .addClass('loading');
 
@@ -2181,6 +2180,18 @@ function updateCartAjax($input, newQty) {
         var $span = $button.find('span');
         $span.data('original-text', $span.text());
         $span.text('Adding...');
+    });
+
+    // Prevent double clicks while loading
+    $(document).on('click', 'button[type="submit"].tocart.loading', function(e) {
+        // If already loading, prevent additional clicks but allow the first one through
+        if ($(this).data('first-click-done')) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        // Mark first click as done
+        $(this).data('first-click-done', true);
     });
 
     // Re-enable after AJAX completes
@@ -2192,10 +2203,10 @@ function updateCartAjax($input, newQty) {
 
                 $button.css({
                            'opacity': '1',
-                           'cursor': 'pointer',
-                           'pointer-events': 'auto'
+                           'cursor': 'pointer'
                        })
-                       .removeClass('loading');
+                       .removeClass('loading')
+                       .removeData('first-click-done');
 
                 $span.text($span.data('original-text') || 'Add to Cart');
             });
