@@ -2161,28 +2161,42 @@ function updateCartAjax($input, newQty) {
     });
     
     //Disable Add To Cart Button Immediately On Click
+    $(document).on('mousedown', 'button[type="submit"].tocart', function(e) {
+        var $button = $(this);
+
+        // Don't do anything if already loading
+        if ($button.hasClass('loading')) {
+            return;
+        }
+
+        // Visual feedback IMMEDIATELY - but WITHOUT pointer-events: none
+        $button.css({
+                   'opacity': '0.6',
+                   'cursor': 'not-allowed'
+               })
+               .addClass('loading');
+
+        // Change text immediately
+        var $span = $button.find('span');
+        $span.data('original-text', $span.text());
+        $span.text('Adding...');
+    });
+
+    // Prevent double clicks while loading
     $(document).on('click', 'button[type="submit"].tocart', function(e) {
         var $button = $(this);
 
-        // Don't interfere if already loading
-        if ($button.hasClass('loading')) {
+        // If loading and first click already done, prevent it
+        if ($button.hasClass('loading') && $button.data('first-click-done')) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             return false;
         }
 
-        // Let the click go through first, then add visual feedback immediately
-        setTimeout(function() {
-            $button.css({
-                       'opacity': '0.6',
-                       'cursor': 'not-allowed'
-                   })
-                   .addClass('loading')
-                   .prop('disabled', true);
-
-            var $span = $button.find('span');
-            $span.data('original-text', $span.text());
-            $span.text('Adding...');
-        }, 0);
+        // If loading but first click not done yet, mark it as done and allow it
+        if ($button.hasClass('loading') && !$button.data('first-click-done')) {
+            $button.data('first-click-done', true);
+        }
     });
 
     // Re-enable after AJAX completes
@@ -2197,7 +2211,7 @@ function updateCartAjax($input, newQty) {
                            'cursor': 'pointer'
                        })
                        .removeClass('loading')
-                       .prop('disabled', false);
+                       .removeData('first-click-done');
 
                 $span.text($span.data('original-text') || 'Add to Cart');
             });
