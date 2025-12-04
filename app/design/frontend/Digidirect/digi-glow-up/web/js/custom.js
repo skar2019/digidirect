@@ -2160,9 +2160,16 @@ function updateCartAjax($input, newQty) {
         });
     });
     
-    //Disable Add To Cart Button Imeediately On Click
-    $('button[type="submit"].tocart').on('click', function(e) {
-        var $button = $(this);
+    //Disable Add To Cart Button Immediately On Click
+    $('form[data-role="tocart-form"]').on('submit', function(e) {
+        var $form = $(this);
+        var $button = $form.find('button[type="submit"].tocart');
+
+        // Check if already disabled (prevent double submission)
+        if ($button.prop('disabled')) {
+            e.preventDefault();
+            return false;
+        }
 
         // Disable button immediately
         $button.prop('disabled', true)
@@ -2187,6 +2194,9 @@ function updateCartAjax($input, newQty) {
                 $span.text(originalText);
             }
         }, 5000);
+
+        // Allow form to submit normally
+        return true;
     });
 
   })
