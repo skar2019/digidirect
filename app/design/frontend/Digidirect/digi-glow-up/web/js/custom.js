@@ -2161,10 +2161,15 @@ function updateCartAjax($input, newQty) {
     });
     
     //Disable Add To Cart Button Immediately On Click
-    $(document).on('click', 'button[type="submit"].tocart', function(e) {
+    $(document).on('mousedown', 'button[type="submit"].tocart', function(e) {
         var $button = $(this);
 
-        // Visual feedback immediately - but don't actually disable
+        // Don't do anything if already loading
+        if ($button.hasClass('loading')) {
+            return;
+        }
+
+        // Visual feedback IMMEDIATELY on mousedown
         $button.css({
                    'opacity': '0.6',
                    'cursor': 'not-allowed',
@@ -2176,8 +2181,6 @@ function updateCartAjax($input, newQty) {
         var $span = $button.find('span');
         $span.data('original-text', $span.text());
         $span.text('Adding...');
-
-        // Don't prevent default or disable - let the form submit
     });
 
     // Re-enable after AJAX completes
