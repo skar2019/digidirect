@@ -2614,11 +2614,12 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .pa-digidirect-product-widget.upsell-widget strong.product-item-name {
         height: 34px;
     }
-    
-    .pa-digidirect-product-widget.pdp-frequently-bought-with strong.product-item-name {
+
+    .pa-digidirect-product-widget.pdp-frequently-bought-with
+        strong.product-item-name {
         height: 34px;
     }
-    
+
     .pa-digidirect-product-widget.welcome-back-widget strong.product-item-name {
         height: 34px;
     }
@@ -3684,5 +3685,41 @@ select:not([disabled]):focus {
         > li
         > div {
         left: 200px;
+    }
+    .plp-banner-widget {
+        .plp-row.pa-widget {
+            padding: 30px 15px !important;
+        }
+    }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    .cms-page-view .digidirect-custom-widget .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 9px;
+    }
+    .ais-Hits-item .after_special.black-friday {
+        font-size: 14px;
+    }
+    .product-right-column
+        .payment-gateways-container
+        .row-second
+        .zip-container {
+        gap: 4px;
+        line-height: 9px;
+    }
+    .product-right-column #zip-product-widget span {
+        font-size: 10px;
+    }
+    .product-right-column
+        .payment-gateways-container
+        .row-second
+        .zip-container
+        .zip-logo {
+        width: 35px !important;
+    }
+    .product-right-column .product-info-main {
+        padding: 10px !important;
     }
 }
