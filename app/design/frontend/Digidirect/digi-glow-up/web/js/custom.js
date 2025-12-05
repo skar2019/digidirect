@@ -2022,7 +2022,143 @@ function updateCartAjax($input, newQty) {
         console.log('closeAlgolia()');
     });
     
-    
+    //Force reload on cart page when product is added to cart.
+    $(document).ready(function() {
+        
+        // Only run on cart page
+        if (!$('body').hasClass('checkout-cart-index')) {
+            return;
+        }
+
+        console.log('Cart reload script initialized');
+
+        // Use a timestamp-based approach to prevent false positives
+        var lastReloadTime = sessionStorage.getItem('cart_last_reload_time');
+        var currentTime = new Date().getTime();
+        
+        // If we reloaded within the last 2 seconds, skip checking for messages
+        if (lastReloadTime && (currentTime - parseInt(lastReloadTime)) < 2000) {
+            console.log('Just reloaded', (currentTime - parseInt(lastReloadTime)), 'ms ago, skipping message check');
+            return;
+        }
+
+        var reloadTriggered = false;
+
+        function triggerReload() {
+            if (reloadTriggered) {
+                console.log('Reload already triggered, skipping');
+                return;
+            }
+            reloadTriggered = true;
+            console.log('Triggering reload...');
+            
+            // Store timestamp instead of boolean
+            sessionStorage.setItem('cart_last_reload_time', new Date().getTime().toString());
+            
+            setTimeout(function() {
+                location.reload();
+            }, 500);
+        }
+
+        // Check for success message with multiple selectors
+        function checkForSuccessMessage() {
+            var hasSuccess = $('.message-success').length > 0 || 
+                           $('.success.message').length > 0 ||
+                           $('[data-ui-id="message-success"]').length > 0 ||
+                           $('.page.messages .message-success').length > 0;
+            
+            if (hasSuccess) {
+                console.log('Success message found!');
+            }
+            return hasSuccess;
+        }
+
+        // Check immediately on page load
+        if (checkForSuccessMessage()) {
+            console.log('Success message found on page load, reloading...');
+            triggerReload();
+            return;
+        }
+
+        // Watch the specific messages container that Knockout binds to
+        var messagesContainer = document.querySelector('.page.messages');
+        
+        if (!messagesContainer) {
+            console.error('Messages container not found');
+            return;
+        }
+
+        console.log('Watching .page.messages for changes...');
+
+        // MutationObserver to watch for message additions
+        var observer = new MutationObserver(function(mutations) {
+            if (reloadTriggered) {
+                observer.disconnect();
+                return;
+            }
+
+            // Check if success message was added
+            if (checkForSuccessMessage()) {
+                console.log('Success message detected via MutationObserver');
+                observer.disconnect();
+                clearInterval(pollInterval);
+                triggerReload();
+            }
+        });
+
+        // Observe with comprehensive settings to catch Knockout changes
+        observer.observe(messagesContainer, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            characterData: true,
+            attributeFilter: ['class', 'data-ui-id']
+        });
+
+        // Additional polling as backup (in case observer misses it)
+        var pollCount = 0;
+        var maxPolls = 50; // 5 seconds
+        
+        var pollInterval = setInterval(function() {
+            if (reloadTriggered) {
+                clearInterval(pollInterval);
+                return;
+            }
+
+            pollCount++;
+            
+            if (checkForSuccessMessage()) {
+                console.log('Success message detected via polling at', pollCount * 100, 'ms');
+                clearInterval(pollInterval);
+                observer.disconnect();
+                triggerReload();
+                return;
+            }
+            
+            if (pollCount >= maxPolls) {
+                console.log('Polling stopped after', maxPolls * 100, 'ms');
+                clearInterval(pollInterval);
+            }
+        }, 100);
+
+        // Detect add to cart button clicks to extend watch time
+        $(document).on('click', 'form[data-role="tocart-form"] button[type="submit"]', function() {
+            console.log('Add to cart button clicked');
+            // Reset and extend polling
+            pollCount = 0;
+            maxPolls = 100; // Extend to 10 seconds after button click
+        });
+
+        // Cleanup on page unload
+        $(window).on('beforeunload', function() {
+            if (observer) {
+                observer.disconnect();
+            }
+            if (pollInterval) {
+                clearInterval(pollInterval);
+            }
+        });
+    });
 
   })
 })

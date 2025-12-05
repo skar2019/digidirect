@@ -759,7 +759,7 @@ require(['jquery'], function ($) {
             productItem = productItemDiv + digiDealsLogo +
                         '<a href="' + product.url + '" class="product-image-container">' +
                             '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '?optimize=medium&bg-color=255,255,255&fit=bounds&height=150&width=150&format=jpeg' + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                             '</span>' +
                         '</a>' + 
                         '<div style="position: relative;">' + sponsoredLabel +
@@ -1891,6 +1891,7 @@ require(['jquery'], function ($) {
             $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
         ?>
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
+
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">
@@ -2012,7 +2013,7 @@ require(['jquery'], function ($) {
             function masonryLayout() {
                 var gridWidth = $grid.width();
                 var columnCount = 3;
-                if ($(window).width() <= 1024) columnCount = 2;
+                if ($(window).width() <= 1024) columnCount = 3;
                 if ($(window).width() <= 767) {
                     //$grid.hide();
                     columnCount = 1;
