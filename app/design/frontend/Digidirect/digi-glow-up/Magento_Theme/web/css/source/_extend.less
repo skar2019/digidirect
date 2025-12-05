@@ -3088,7 +3088,7 @@ select:not([disabled]):focus {
 
             .megamenu-brands-list {
                 display: grid;
-                grid-template-columns: repeat(10, 1fr);
+                grid-template-columns: repeat(8, 1fr);
                 gap: 5px;
                 height: max-content;
                 position: relative;
@@ -3097,8 +3097,8 @@ select:not([disabled]):focus {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    width: 74px;
-                    height: 74px;
+                    width: 95px;
+                    height: 95px;
                     padding: 4px;
                     border-radius: 10px;
 
@@ -3233,22 +3233,27 @@ select:not([disabled]):focus {
         > a {
         width: 246px;
     }
-    .megamenu-brands {
-        grid-template-columns: 65% 20%;
-    }
     .megamenu-brands-container .megamenu-brands-image {
         display: none;
     }
-    .megamenu-brands-container .megamenu-brands .megamenu-brands-list {
-        grid-template-columns: repeat(10, 1fr);
-        .brand {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100px;
-            height: 100px;
-            padding: 4px;
-            border-radius: 10px;
+    .megamenu-brands {
+        width: 100%;
+        gap: 4px;
+        display: flex;
+
+        .megamenu-brands-list {
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4px;
+
+            .brand {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 92px;
+                height: 92px;
+                padding: 4px;
+                border-radius: 10px;
+            }
         }
     }
 }
@@ -3256,14 +3261,7 @@ select:not([disabled]):focus {
     .ruby-menu-mega-blog-nav .ruby-col-3.image-col {
         display: none;
     }
-    ul.ruby-menu
-        > li.ruby-menu-mega-blog
-        > div
-        > ul.ruby-menu-mega-blog-nav
-        > li
-        > div {
-        left: 248px;
-    }
+
     .megamenu-brands .view-all-link {
         margin-top: -38px;
     }
@@ -3668,5 +3666,15 @@ select:not([disabled]):focus {
 
     button#top-cart-btn-checkout {
         font-size: 10px;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li
+        > div {
+        left: 200px;
     }
 }
