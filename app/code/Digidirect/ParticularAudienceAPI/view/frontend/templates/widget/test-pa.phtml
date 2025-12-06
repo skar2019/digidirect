@@ -421,7 +421,7 @@ require(['jquery'], function ($) {
                                 '<span>Add to Cart</span><i class="fas fa-cart-plus" style="float: right;color: #fff;"></i>' +
                                 '</button>' + sponsoredLabel
                             '</form>'
-                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
+                s19Label = '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>'
             }
             //console.log(product.name, sellerName);
             if (!isDigiSeconds) {
@@ -621,11 +621,12 @@ require(['jquery'], function ($) {
             }
 
             if (digiPrintValue == 1) {
-                addToCart = '<a class="ordernow-link" href="' + digiPrintLinkValue + '" target="_blank">' +
-                                '<button type="button" title="Order Now" class="action tocart primary">' +
-                                    'Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
-                                '</button>' +
-                            '</a>'
+                addToCart =
+                    '<div class="ordernow-link" onclick="window.open(\'' + digiPrintLinkValue + '\', \'_blank\')">' +
+                      '<button type="button" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" />' +
+                      '</button>' +
+                    '</div>';
+
             } else {
                 addToCart = '<form data-role="tocart-form"' +
                                 'data-product-sku="' + product.sku + '"' +
@@ -651,7 +652,13 @@ require(['jquery'], function ($) {
                             '</form>'
             }
             
-            let addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none"> <g clip-path="url(#clip0_7978_37674)"> <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13"> <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"></path></mask> <g mask="url(#mask0_7978_37674)"> <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"></path></g></g> <defs> <clipPath id="clip0_7978_37674"> <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"></rect></clipPath></defs></svg></a>`;
+            let addToWishList;
+            
+            if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
+                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
+            } else {
+                addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
+            }
             
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
@@ -752,7 +759,7 @@ require(['jquery'], function ($) {
             productItem = productItemDiv + digiDealsLogo +
                         '<a href="' + product.url + '" class="product-image-container">' +
                             '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '?optimize=medium&bg-color=255,255,255&fit=bounds&height=150&width=150&format=jpeg' + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                             '</span>' +
                         '</a>' + 
                         '<div style="position: relative;">' + sponsoredLabel +
@@ -761,7 +768,7 @@ require(['jquery'], function ($) {
                                     '<span title="' + product.name + '" class="product-item-link">' +
                                         product.name +
                                     '</span>' +
-                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                                 priceBlock + productInfoBottom +
                             '</a>' +
                         '</div>' +
@@ -769,18 +776,18 @@ require(['jquery'], function ($) {
             $(appendTo).append(productItem);
             //slots(product.refId, recommenderId, campaignId, tacticId);
         });
-        //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
+        $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
 
-    productTile('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
-    productTile('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
-    productTile('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-desktop', false);
-    productTile('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-desktop', false);
-    productTile('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-desktop', false);
-    productTile('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
-    productTile('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
-    productTile('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
-    productTile('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
+    productTileForWidget('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
+    productTileForWidget('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
+    productTileForWidget('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-desktop', false);
+    productTileForWidget('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-desktop', false);
+    productTileForWidget('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-desktop', false);
+    productTileForWidget('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
+    productTileForWidget('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
+    productTileForWidget('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
+    productTileForWidget('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
     //Minicart PA Widget
     (function () {
         const config = { childList: true, subtree: true }
@@ -807,7 +814,8 @@ require(['jquery'], function ($) {
                             responsive: {
                                 0: { items: 2 },
                                 600: { items: 2 },
-                                992: { items: 2 },
+                                768: {items:3},
+                                992: { items: 3 },
                                 1024: { items: 4 },
                                 1310: { items: 4 },
                                 1366: { items: 4 },
@@ -1282,9 +1290,8 @@ require(['jquery'], function ($) {
                 600: {
                     items: 2
                 },
-                992: {
-                    items: 2
-                },
+                768: {items:3},
+                992: { items: 3 },
                 1024: {
                     items: 5
                 },
@@ -1320,10 +1327,8 @@ require(['jquery'], function ($) {
                     items: 2,
                     nav: true
                 },
-                992: {
-                    items: 2,
-                    nav: true
-                },
+                768: {items:3},
+                992: { items: 3 },
                 1024: {
                     items: 4
                 },
@@ -1407,15 +1412,15 @@ require(['jquery'], function ($) {
                     margin: 10
                 },
                 600: {
-                    items: 4,
+                    items: 5,
                     margin: 10
                 },
                 992: {
-                    items: 4,
+                    items: 5,
                     margin: 10
                 },
                 1024: {
-                    items: 5
+                    items: 6
                 },
                 1310: {
                     items: 6
@@ -1448,7 +1453,8 @@ require(['jquery'], function ($) {
             responsive: {
                 0: { items: 1 },
                 600: { items: 1 },
-                992: { items: 2 }
+                768: { items: 2 },
+                1024: { items: 3 }
             },
             dots: false,
             autoplay: false
@@ -1590,7 +1596,11 @@ require(['jquery'], function ($) {
 
 <div class="homepage-row full-width">
     <div class="glow-up-banner-row">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
+        <?php if ($isDigiClub) :?>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
+        <?php else : ?> 
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class="homepage-row">
@@ -1603,7 +1613,7 @@ require(['jquery'], function ($) {
         <div class="product-widget-header">
             <div class="widget-label">
                 <span class="widget-main-label">Recommended for you.</span>
-                <span class="widget-secondary-label">Our AI believes ‘You’re going to love this’</span>
+                <span class="widget-secondary-label">We think you're going to love this</span>
             </div>
         </div>
         <div id="recommended-for-you-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
@@ -1881,6 +1891,7 @@ require(['jquery'], function ($) {
             $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
         ?>
         <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
+
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">
@@ -1891,19 +1902,28 @@ require(['jquery'], function ($) {
         </div>
         <div id="glow-up-featured-videos" class="owl-carousel featured-videos">
             <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=vv8gSMlH4v0" data-thumb="https://img.youtube.com/vi/vv8gSMlH4v0/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=bzoZNRSH2Zg" data-thumb="https://img.youtube.com/vi/bzoZNRSH2Zg/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=RlTjfKd9DWU" data-thumb="https://img.youtube.com/vi/RlTjfKd9DWU/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=XGnyuRmLlsM" data-thumb="https://img.youtube.com/vi/XGnyuRmLlsM/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=0kOiANMDQTk" data-thumb="https://img.youtube.com/vi/0kOiANMDQTk/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
+                <a class="owl-video" href="https://www.youtube.com/watch?v=D6sCFT7OOqg" data-thumb="https://img.youtube.com/vi/D6sCFT7OOqg/hqdefault.jpg"></a>
+            </div>
+            <div class="item-video" data-merge="1">
                 <a class="owl-video" href="https://www.youtube.com/watch?v=IQhsWc3IbtQ" data-thumb="https://img.youtube.com/vi/IQhsWc3IbtQ/hqdefault.jpg"></a>
             </div>
             <div class="item-video" data-merge="1">
                 <a class="owl-video" href="https://www.youtube.com/watch?v=qRqEEBvcMMo" data-thumb="https://img.youtube.com/vi/qRqEEBvcMMo/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=5uqhvFd5d_A" data-thumb="https://img.youtube.com/vi/5uqhvFd5d_A/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=Ioe8Eweg2ds" data-thumb="https://img.youtube.com/vi/Ioe8Eweg2ds/hqdefault.jpg"></a>
-            </div>
-            <div class="item-video" data-merge="1">
-                <a class="owl-video" href="https://www.youtube.com/watch?v=yIoChkfxDTQ" data-thumb="https://img.youtube.com/vi/yIoChkfxDTQ/hqdefault.jpg"></a>
             </div>
         </div>
     </div>
@@ -1993,7 +2013,7 @@ require(['jquery'], function ($) {
             function masonryLayout() {
                 var gridWidth = $grid.width();
                 var columnCount = 3;
-                if ($(window).width() <= 1024) columnCount = 2;
+                if ($(window).width() <= 1024) columnCount = 3;
                 if ($(window).width() <= 767) {
                     //$grid.hide();
                     columnCount = 1;
