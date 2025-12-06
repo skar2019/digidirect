@@ -197,7 +197,7 @@ require(['jquery'], function ($) {
             let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
             if (adSetId || adSetId != null) {
-                sponsoredLabel = '<span class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
+                sponsoredLabel = '<span style="display: none;" class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip"><span>This product has been promoted by one of our partners using </span><a class="pa-link" href="https://particularaudience.com/"> Particular Audience</a>.</span></span>';
             }
 
             if (digiPrintValue == 1) {
@@ -252,7 +252,7 @@ require(['jquery'], function ($) {
             
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>';
+                    digiDealsLogo = '<div class="ribbon-digideals black-friday"><span class="digi">Black Friday&nbsp;</span>Sale</div>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<div class="ribbon-online">Online only</div>';
                     }
@@ -282,8 +282,8 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
-                                        '<div> <span class="after_special custom_final_price">'+ discountPriceToDisplay +'</span></div>' +
+                algoliaPriceBlock = '<div class="price-wrapper black-friday"> <span class="price-container"><span class="price">'+ priceToDisplay +'</span></span>' +
+                                        '<div><div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div> <span class="after_special custom_final_price black-friday">'+ discountPriceToDisplay +'</span></div>' +
                                     '</div>';
             } else {
                 let price = Number(product.prices[0].price);
@@ -299,15 +299,27 @@ require(['jquery'], function ($) {
                                     '</span>' +
                                 '</div>' +
                             '</div>';
-                algoliaPriceBlock = '<div class="price-wrapper"><span class="price-container"> <span class="price"></span></span><div> ' +
+                algoliaPriceBlock = '<div class="price-wrapper black-friday"><span class="price-container"> <span class="price"></span></span><div> ' +
                                         '<span class="after_special">' + priceToDisplay +'</span>' +
                                     '</div></div> ';
             }
             
-            if (!discount) {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            let productInfoBottom;
+
+            let discountNoSpecialChar = parseFloat((discount || '').replace(/[$,]/g, ''));
+
+            if (!discount || isNaN(discountNoSpecialChar)) {
+                productInfoBottom =
+                    '<div class="product-info-bottom black-friday">' +
+                        '<div class="discount-price-wrapper-no-price"></div>' +
+                        addToCart +
+                    '</div>';
             } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+                productInfoBottom =
+                    '<div class="product-info-bottom black-friday">' +
+                        '<div class="discount-price-wrapper">SAVE <span class="discount-price">' + discount + '</span> OFF RRP</div>' +
+                        addToCart +
+                    '</div>';
             }
             
             var view = "";
@@ -334,8 +346,8 @@ require(['jquery'], function ($) {
                                             '<div class="result-sub-content"></div>' +
                                         '</div>' +
                                         '<div class="result-description text-ellipsis"></div>' +
-                                        '<div class="s19-rental-price-target">' +
-                                            '<p style="font-size: 13px; font-weight: 500;">Buy now pay later, </p>' +
+                                        '<div class="s19-rental-price-target black-friday">' +
+                                            '<p style="font-size: 13px; font-weight: 500;">Buy now Pay later, </p>' +
                                             '<p style="font-size: 13px; font-weight: 500;">Options Available</p>' +
                                         '</div>' + 
                                         '<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="price">' +
@@ -512,12 +524,12 @@ require(['jquery'], function ($) {
             if (discount === "$NaN") {
                 var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
             } else {
-                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+                var productInfoBottom = '<div class="product-info-bottom black-friday"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> OFF RRP</div>' + addToCart + '</div>'
             }
 
             if (product.prices[0].discountPrice) {
                 if (!isDigiSeconds) {
-                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Sale</div>'+ addToWishList +'</a>';
                     if (sellerName != "20329" && sellerName !== undefined) {
                         digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
                     }
@@ -540,7 +552,7 @@ require(['jquery'], function ($) {
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
                                         '<span class="price-label"></span>' + 
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
-                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                                ' <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
                                             '</span>' + 
                                         '</span>' +
                                     '</span>' +
@@ -582,7 +594,7 @@ require(['jquery'], function ($) {
             }
             var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
-            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item black-friday" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
             
             var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
             
@@ -598,7 +610,7 @@ require(['jquery'], function ($) {
                                     '<span title="' + product.name + '" class="product-item-link">' +
                                         product.name +
                                     '</span>' +
-                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                                 priceBlock + productInfoBottom +
                             '</a>' +
                         '</div>' +
@@ -707,14 +719,12 @@ require(['jquery'], function ($) {
                 0: {
                     items:2
                 },
-                600: {
-                    items: 2
+                768: {
+                    items: 3
                 },
-                992: {
-                    items: 2
-                },
+
                 1024: {
-                    items: 5
+                    items: 4
                 },
                 1310: {
                     items: 5
