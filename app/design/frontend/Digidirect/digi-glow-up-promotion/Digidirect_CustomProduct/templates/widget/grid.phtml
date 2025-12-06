@@ -2,12 +2,12 @@
 /** @var $block \Digidirect\CustomProduct\Block\Widget\ProductList */
 $collection = $block->getProductCollection();
 ?>
-<div class="digidirect-custom-widget digidirect-custom-carousel">
+<div class="digidirect-custom-widget digidirect-custom-grid">
     <?php if ($block->getData('title')): ?>
         <h2 class="widget-title"><?= $block->escapeHtml($block->getData('title')) ?></h2>
     <?php endif; ?>
 
-    <div class="products-carousel owl-carousel custom">
+    <div class="products-grid">
         <?php if ($collection->getSize()): ?>
             <?php foreach ($collection as $_product): ?>
                 <?php
@@ -112,7 +112,8 @@ $collection = $block->getProductCollection();
 
                             <?php if (!$isDigiSeconds): ?>
                                 <?php if ($hasCustomFinalPrice && $isDigiOnly): ?>
-                                    <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                                    <div style="display: none;" class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
+                                    <div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Sale</div>
                                 <?php endif; ?>
                             <?php endif; ?>
 
@@ -154,7 +155,7 @@ $collection = $block->getProductCollection();
                                         <?php if ($isDigiPrint): ?>
                                             <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
                                         <?php else: ?>
-                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p>
                                             <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                                         <?php endif; ?>
                                     </div>
@@ -181,7 +182,7 @@ $collection = $block->getProductCollection();
                                                     <?php endif; ?>
                                                 </span>
                                                 <div>
-                                                    <span class="after_special custom_final_price">$<?= $block->escapeHtml($customFinalPrice) ?></span>
+                                                    <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="after_special custom_final_price black-friday">$<?= $block->escapeHtml($customFinalPrice) ?></span>
                                                 </div>
                                             </div>
                                         <?php else: ?>
@@ -190,16 +191,16 @@ $collection = $block->getProductCollection();
                                                     <span class="price"></span>
                                                 </span>
                                                 <div>
-                                                    <span class="after_special"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
+                                                    <span class="after_special">$<?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
                                                 </div>
                                             </div>
                                         <?php endif; ?>
                                     </div>
 
-                                    <div class="product-info-bottom">
+                                    <div class="product-info-bottom black-friday">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="discount-price-wrapper">
-                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> Off
+                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> OFF RRP
                                             </div>
                                         <?php else: ?>
                                             <div class="discount-price-wrapper-no-price"></div>
@@ -240,48 +241,4 @@ $collection = $block->getProductCollection();
             <p class="no-products"><?= __('No products found') ?></p>
         <?php endif; ?>
     </div>
-
-    <script>
-        require(['jquery'], function ($) {
-            'use strict'
-            $(document).ready(function () {
-                $(".owl-carousel.custom").owlCarousel({
-                    loop: false,
-                    nav: true,
-                    margin: 15,
-                    touchDrag: true,
-                    mouseDrag: true,
-                    smartSpeed: 800,
-                    slideBy: 1,
-                    responsive: {
-                        0: {
-                            items:2
-                        },
-                        600: {
-                            items: 2
-                        },
-                        992: {
-                            items: 2
-                        },
-                        1024: {
-                            items: 5
-                        },
-                        1310: {
-                            items: 5
-                        },
-                        1366: {
-                            items: 5
-                        },
-                        1550: {
-                            items: 5
-                        }
-                    },
-                    dots: false,
-                    autoplay: false,
-                    autoplayTimeout: 3000
-                });
-            })
-        })
-    </script>
-
 </div>
