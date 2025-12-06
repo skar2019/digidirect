@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="plp.recommended.for.you" remove="true" />
+        <move element="breadcrumbs" destination="page.top" before="-" />
+        <referenceContainer name="page.top">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="custom.category2573.block"
+                   template="Magento_Theme::product-listing/category-2573.phtml"
+                   after="breadcrumbs" />
+        </referenceContainer>
+    </body>
+</page>

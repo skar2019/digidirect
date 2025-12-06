@@ -1,0 +1,222 @@
+.checkout-onepage-success .registration {
+    display: none !important;
+}
+
+/*.checkout-onepage-success .page-wrapper {
+    position: relative;
+    color: white;
+}
+
+.checkout-onepage-success .page-wrapper:before {
+    background: url('@{baseDir}images/checkout/lak-confetti.gif') center center / cover repeat fixed;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 2;
+    opacity: 1;
+}
+
+.checkout-onepage-success .page-wrapper * {
+    position: relative;
+    z-index: 3;
+}*/
+
+.checkout-onepage-success .columns .column.main {
+    padding-bottom: 20px !important;
+}
+
+.thank-you-wrapper {
+    padding: 40px 20px 20px 20px;
+    text-align: center;
+}
+
+.thank-you-wrapper .actions-toolbar {
+    padding-top : 20px;
+    .action.primary {
+        background-color: #000000;
+        border: none !important;
+        color: #FFFFFF !important;
+        &:hover {
+            background-color: #000000;
+            text-decoration: none !important;
+        }
+    }
+}
+
+.thank-you-title {
+    font-size: 64px;
+    color: #242426;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.order-status-title {
+    font-size: 24px;
+    font-weight: 450;
+    margin-bottom: 10px;
+    color: #AEAEB2;
+    margin-top: 40px;
+}
+
+.successful-title {
+    font-size: 32px;
+    color: #28A95A;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.thank-you-message {
+    font-size: 15px;
+    color: #242426;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+.order-status-tracker {
+    margin: 50px 0;
+}
+
+.order-date {
+    color: #AEAEB2;
+    font-weight: 420;
+    font-size: 14px;
+    padding-bottom: 15px;
+}
+
+.checkout-onepage-success .help-bar-white .cart-id {
+    display: none !important;
+}
+
+.bank-details-box,
+.click-collect-box {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow:  0 0 1px 1px rgba(0, 0, 0, 0.02);
+    text-align: center;
+}
+
+
+.click-collect-box {
+    margin-bottom: 15px;
+}
+
+.bank-title,
+.click-collect-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    line-height: normal;
+    color: #242426;
+}
+
+.bank-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px 40px;
+    align-items: start;
+    justify-items: center;
+    padding-bottom: 15px;
+}
+
+//.bank-item.reference {
+//    grid-row: span 2;
+//    align-self: center;
+//}
+
+
+.bank-item {
+    text-align: center;
+}
+
+.bank-item label {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #242426;
+    margin-bottom: 6px;
+    line-height: normal;
+}
+
+.bank-item span {
+    font-size: 16px;
+    color: #AEAEB2;
+}
+
+//.info-icon {
+//    font-size: 11px;
+//    font-weight: bold;
+//    margin-left: 4px;
+//    cursor: pointer;
+//    color: #888;
+//    border-radius: 50%;
+//    padding: 1px 4px;
+//    transition: all 0.2s ease;
+//}
+
+//.info-icon:hover {
+//    color: #242426;
+//}
+
+.ref-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+//.info-icon {
+//    position: relative;
+//}
+
+//.info-icon:hover::after {
+//    content: "Use your Order Number as the payment reference";
+//    position: absolute;
+//    bottom: 125%;
+//    left: 0;
+//    font-size: 11px;
+//    background: #000;
+//    color: #fff;
+//    padding: 4px 8px;
+//    border-radius: 4px;
+//    white-space: nowrap;
+//}
+
+.reference-note {
+    margin-top: 30px;
+    padding: 0 77px 15px;
+    text-align: left !important;
+    color: #242426;
+    display: flex;
+    gap: 12px;
+
+    .bold-text {
+        font-weight: 700;
+    }
+}
+@media (max-width: 768px) {
+    .reference-note {
+        padding: 0 20px 15px !important;
+    }
+    /*.bank-details-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .bank-item.reference {
+        grid-row: auto;
+    }*/
+
+    .bank-detail-account-name {
+        width: 40%;
+    }
+
+    .bank-detail-second-row {
+        display: flex;
+        justify-content: space-around;
+    }
+}

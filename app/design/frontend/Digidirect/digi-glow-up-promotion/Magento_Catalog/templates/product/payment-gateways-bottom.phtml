@@ -1,0 +1,73 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+$addToCartUrl = $listBlock->getAddToCartUrl($_product);
+$seller = $_product->getData('marketplacer_seller');
+?>
+
+<div class="payment-gateways-bottom">
+    <?php if ($seller == 20329) { ?>
+        <div class="row-bottom">
+            <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+                <?php echo $block->getBlockHtml('formkey')?>
+                <button type="submit"
+                    class="action tocart btn_cart tocart-pdp-btn"
+                    id="product-addtocart-button"
+                    data-action="add-to-cart-action"
+                    >
+                    <div id="union-alipay-wechat">
+                        <img src="<?= $block->getViewFileUrl('images/pdp/unipay.svg'); ?>"/>
+                         <img src="<?= $block->getViewFileUrl('images/pdp/alipay.svg'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/wechat.svg'); ?>"/>
+                    </div>
+                </button>
+            </form>
+            <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+                <?php echo $block->getBlockHtml('formkey')?>
+                <button type="submit"
+                    class="action tocart btn_cart tocart-pdp-btn latitude-pay-custom"
+                    id="product-addtocart-button"
+                    data-action="add-to-cart-action"
+                    >
+                        <img src="<?= $block->getViewFileUrl('images/pdp/latitude-white.svg'); ?>"/>
+                </button>
+            </form>
+        </div>
+    <?php } else { ?>
+        <div class="row-bottom" style="display: block !important;">
+            <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+                <?php echo $block->getBlockHtml('formkey')?>
+                <button type="submit"
+                    class="action tocart btn_cart tocart-pdp-btn"
+                    id="product-addtocart-button"
+                    data-action="add-to-cart-action"
+                    >
+                    <div id="union-alipay-wechat">
+                        <img src="<?= $block->getViewFileUrl('images/pdp/unipay.svg'); ?>"/>
+                         <img src="<?= $block->getViewFileUrl('images/pdp/alipay.svg'); ?>"/>
+                        <img src="<?= $block->getViewFileUrl('images/pdp/wechat.svg'); ?>"/>
+                    </div>
+                </button>
+            </form>
+        </div>
+    <?php } ?>
+    <div class="last-row">
+
+        <button type="submit"
+            class="bank-transfer-btn bank-transfer add-to-cart-trigger">
+                    <span class="icon-bank"></span><span><?= __('Bank Transfer (EFT)') ?></span>
+        </button>
+    </div>
+</div>
+
+<script>
+    require([
+            'jquery'
+        ],
+        function ($) {
+            $('button.add-to-cart-trigger').on('click', function () {
+                $("#product_addtocart_form").submit();
+            });
+    });
+</script>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Add breadcrumbs to all Algolia landing pages -->
+        <referenceContainer name="page.top">
+            <block class="Magento\Theme\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-"/>
+        </referenceContainer>
+
+        <!-- Optional: Add breadcrumb items -->
+        <referenceBlock name="breadcrumbs">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="custom.algolia.breadcrumbs"
+                   template="Magento_Theme::algolia/custom-breadcrumbs.phtml"
+                   after="-"/>
+        </referenceBlock>
+    </body>
+</page>

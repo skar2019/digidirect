@@ -1,0 +1,129 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<if args="getCartParam('summary_count')">
+    <div class="block-title" style="margin-bottom: 15px">
+        <strong style="font-size: 20px; font-weight: 400">
+            <span
+                class="qty empty"
+                text="getCartParam('summary_count')"
+                data-bind="css: { empty: !!getCartParam('summary_count') == false },
+                           attr: { title: $t('Items in Cart') }"
+            >
+            </span>
+            <span class="text" translate="'Item added to your Cart'"></span>
+        </strong>
+    </div>
+</if>
+
+<div class="block-content">
+    <if args="getCartParam('summary_count')">
+        <div data-action="scroll" class="minicart-items-wrapper">
+            <ol
+                id="mini-cart"
+                class="minicart-items"
+                data-bind="foreach: { data: getCartItems(), as: 'item' }"
+            >
+                <each
+                    args="$parent.getRegion($parent.getItemRenderer(item.product_type))"
+                    render="{name: getTemplate(), data: item, afterRender: function() {$parents[1].initSidebar()}}"
+                ></each>
+            </ol>
+        </div>
+    </if>
+
+    <if args="getCartParam('summary_count')">
+        <each args="getRegion('extraInfo')" render=""></each>
+
+        <div class="actions" if="getCartParam('possible_onepage_checkout')">
+            
+            <div class="secondary">
+                <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
+                    <span translate="'View Cart'"></span>
+                </a>
+            </div>
+            <div class="primary">
+                <button
+                    id="top-cart-btn-checkout"
+                    type="button"
+                    class="action primary checkout"
+                    data-action="close"
+                    data-bind="
+                      attr: { title: $t('Proceed to Checkout') },
+                      click: function() {
+                        closeMinicart();
+                        setTimeout(function() {
+                          window.location.href = '/checkout';
+                        }, 300);
+                      }
+                    "
+                    translate="'Proceed to Checkout'"
+                ></button>
+                <div
+                    data-bind="html: getCartParamUnsanitizedHtml('extra_actions')"
+                ></div>
+            </div>
+        </div>
+    </if>
+
+    <ifnot args="getCartParam('summary_count')">
+        <div style="display: flex; flex-direction: row-reverse; gap: 35px;">
+            <span class='empty-cart'>
+                <img style="height: 207px;" data-bind="attr: { src: require.toUrl('images/checkout/empty-cart.png') }">
+            </span>
+            <strong
+                class="subtitle empty"
+                translate="'Ready to fill this cart with awesome finds?'"
+            ></strong>
+        </div>
+        <!-- 🟢 Continue Shopping Button -->
+        <div class="secondary continue-shopping">
+            <button
+                type="button"
+                class="action continue"
+                data-bind="
+                  click: function() {
+                    closeMinicart();
+                  }
+                "
+                translate="'Continue Shopping'"
+            ></button>
+        </div>
+        <if args="getCartParam('cart_empty_message')">
+            <p
+                class="minicart empty text"
+                text="getCartParam('cart_empty_message')"
+            ></p>
+            <div class="actions">
+                <div class="secondary">
+                    <a
+                        class="action viewcart"
+                        data-bind="attr: {href: shoppingCartUrl}"
+                    >
+                        <span translate="'View and Edit Cart'"></span>
+                    </a>
+                </div>
+            </div>
+        </if>
+    </ifnot>
+    
+    <div
+        id="minicart-widgets"
+        class="minicart-widgets"
+        if="regionHasElements('promotion')"
+    >
+        <each args="getRegion('promotion')" render=""></each>
+    </div>
+</div>
+
+<div class="pa-digidirect-product-widget pa-minicart-widget">
+    <div class="product-widget-header" style="display: block;">
+        <div class="widget-main-label" style="color: #242426; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 33px; word-wrap: break-word">You may also like</div>
+    </div>
+    <div id="pa-minicart-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel pa-minicart"></div>
+</div>
+
+<each args="getRegion('sign-in-popup')" render=""></each>
