@@ -1,0 +1,22 @@
+<!--<button type="button" class="action -select" data-bind="click: $parents[4].submitLocatorStore.bind($parents[4], $parent), attr: {'title': 'Select Store'}, i18n: 'Select Store'"></button>-->
+<!--<input-->
+<!--    type="radio"-->
+<!--    name="storeSelection"-->
+<!--    class="action -select"-->
+<!--    data-bind="checked: $parents[4].submitLocatorStore.bind($parents[4], $parent)"-->
+<!--/>-->
+
+<input
+    type="radio"
+    name="storeSelection"
+    class="action -select"
+    data-bind="checked: $parents[4].selectedStore, checkedValue: $parent"
+/>
+
+<!--<input-->
+<!--    type="radio"-->
+<!--    name="storeSelection"-->
+<!--    class="action -select"-->
+<!--    data-bind="checked: $parents[2].selectedStore, checkedValue: $data"-->
+<!--    style="position: absolute; opacity: 0; pointer-events: none;"-->
+<!--/>-->

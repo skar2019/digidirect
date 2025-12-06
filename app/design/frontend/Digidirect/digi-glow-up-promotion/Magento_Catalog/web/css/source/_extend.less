@@ -1,0 +1,498 @@
+.product-accordion-mobile {
+    display: none;
+}
+
+.product-help-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 12px;
+    text-align: center;
+    background: #fff;
+
+    .product-help-icon {
+        margin-bottom: 10px;
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .product-help-content {
+        font-size: 16px;
+        color: #545456;
+        font-weight: 500;
+    }
+
+    .product-help-links {
+        margin-top: 10px;
+        font-size: 10px;
+        line-height: 12px;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+
+        a {
+            color: #0171e3;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+#paypal-smart-button {
+    z-index: 0 !important;
+}
+.paypal-buttons-layout-horizontal {
+    height: 25px !important;
+}
+
+.paypal-button-tagline {
+    display: none !important;
+}
+
+.paypal-button-text.true {
+    display: none !important;
+}
+
+.product-main-container {
+    a.action.towishlist {
+        //background: url("@{baseDir}images/heart.png") no-repeat center center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid #eeeeee;
+        box-shadow: 0px 1px 1px 0px rgba(150, 150, 150, 0.09);
+        border-radius: 16px;
+        text-align: center;
+
+        &::after {
+            width: 32px;
+            height: 32px;
+            content: "\e601";
+            line-height: 21px;
+            font-size: 16px;
+            font-family: "icomoon";
+            color: #fe947c;
+        }
+
+        span {
+            display: none;
+        }
+    }
+}
+/* Accordion container */
+.product-accordion,
+.product-accordion-mobile {
+    margin-top: 10px;
+
+    [data-role="trigger"] {
+        padding: 13px 0;
+        color: #242426;
+        font-size: 16px;
+        font-weight: 600;
+        border-top: 1px solid #e6e6e6;
+        position: relative;
+        cursor: pointer;
+        &:after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            color: #010202;
+            right: 5px;
+            top: 16px;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            transform: rotate(135deg);
+            border-top: 1px solid #010202;
+            border-right: 1px solid #010202;
+            box-sizing: border-box;
+            border-radius: 1px;
+        }
+    }
+    [role="tab"] {
+        &[aria-selected="true"],
+        &[aria-expanded="true"] {
+            [data-role="trigger"] {
+                padding-bottom: 10px;
+                &:after {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+
+    .short-desc-container {
+        ul {
+            padding-left: 3px;
+            list-style: none;
+            li {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    [data-role="content"] {
+        color: #545456;
+        font-size: 14px;
+        line-height: 20px;
+        p {
+            color: #545456;
+        }
+
+        .short-desc {
+            max-height: 100px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+}
+
+.product-accordion [data-role="content"] a,
+.short-desc-read-more {
+    color: #fe4c25;
+    text-decoration: underline;
+    font-weight: 600;
+    padding: 20px 0;
+    display: block;
+    cursor: pointer;
+}
+
+.itoris-pm-modal {
+    .modal-header h1,
+    .itoris-custom-image {
+        display: none;
+    }
+    .modal-title {
+        border: none;
+    }
+    .itoris-pm-admin-comment {
+        text-align: center;
+    }
+
+    .modal-inner-wrap {
+        width: 95% !important;
+        max-width: 940px !important;
+        height: 90vh;
+        max-height: 95vh !important;
+        top: 5%;
+        .modal-content {
+            padding: 0 50px;
+            h2 {
+                margin-top: 0;
+            }
+        }
+        .modal-footer {
+            display: flex !important;
+            justify-content: center !important;
+
+            button {
+                background-color: #fe4c25;
+                color: #ffffff;
+                border: none;
+                height: 37px;
+                min-width: 157px;
+                border-radius: 25px;
+            }
+        }
+    }
+    .itoris-pm-field {
+        textarea {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 15px;
+        }
+        textarea::placeholder {
+            color: #626262;
+            font-style: normal;
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Inter";
+            font-weight: 400;
+            text-transform: capitalize;
+        }
+    }
+
+    .itoris-custom-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 15px;
+
+        .itoris-pm-field {
+            width: 100%;
+
+            input {
+                &[type="text"] {
+                    padding: 10px 15px;
+                    font-size: 14px;
+                    border: 1px solid #d9d9d9;
+                    border-radius: 5px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    font-size: 14px;
+                    line-height: 15px;
+                }
+            }
+        }
+    }
+    .price-match-middle-content {
+        text-align: center;
+        font-size: 20px;
+        line-height: 26px;
+        background-color: #ffffff;
+        border-radius: 32px;
+        margin-bottom: 20px;
+        padding: 20px 40px;
+        .digi-tag {
+            font-size: 44px;
+            line-height: 49px;
+        }
+        .control.price {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            gap: 4px;
+        }
+
+        label {
+            &[for="itoris_pm_modal_product_name"] {
+                margin-bottom: 15px;
+            }
+        }
+    }
+}
+
+.action.tocart.btn_cart {
+    line-height: 14px;
+    .tooltip-wrapper {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .addtocart-tooltip {
+        border-radius: 10px;
+        visibility: hidden;
+        opacity: 0;
+        width: 316px;
+        background-color: #f2f2f7;
+        color: #242426;
+        text-align: center;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.3s ease;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 400;
+        text-transform: none;
+    }
+
+    .tooltip-wrapper:hover .addtocart-tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .addtocart-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #f2f2f7 transparent transparent transparent;
+    }
+    &.pre-order-btn {
+        background: @color-blue !important;
+        line-height: 14px;
+        box-shadow: none;
+
+        .addcart_words {
+            position: relative;
+
+            .icon-info {
+                margin-left: 5px;
+            }
+        }
+    }
+    &.special-order-btn {
+        background-color: @color-yellow !important;
+        border-color: @color-yellow !important;
+        color: #242426 !important;
+        line-height: 14px;
+        box-shadow: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .modals-wrapper .modal-popup.itoris-pm-modal {
+        .modal-inner-wrap {
+            margin-left: -343px !important;
+            left: 50% !important;
+        }
+        .modal-footer {
+            margin-top: 0px;
+        }
+    }
+
+    .itoris-pm-modal .price-match-middle-content {
+        padding: 14px 10px;
+        border-radius: 20px;
+
+        .itoris_pm_modal_product_name {
+            max-height: 55px;
+            overflow: hidden;
+            font-size: 18px;
+        }
+    }
+}
+
+.fotorama-item {
+    .fotorama__thumb-border {
+        border-radius: 8px;
+    }
+
+    .fotorama__nav-wrap {
+        .fotorama__nav {
+            text-align: center;
+        }
+    }
+}
+
+.fotorama__fullscreen-icon {
+    right: 20px !important;
+    top: 20px !important;
+    border-radius: 50%;
+    &:after {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px !important;
+    }
+    &:focus,
+    &:hover {
+        outline: none;
+        &:after {
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 10px !important;
+        }
+    }
+}
+.fotorama__wrap--slide .fotorama__stage__frame {
+    cursor: pointer;
+}
+.fotorama__arr--prev {
+    left: 20px !important;
+}
+.fotorama__fullscreen {
+    .fotorama__zoom-in,
+    .fotorama__zoom-out {
+        left: 20px !important;
+    }
+}
+.fotorama__arr--next {
+    right: 10px !important;
+}
+
+@media (max-width: 768px) {
+    .product-accordion-mobile {
+        display: block !important;
+    }
+
+    .product-accordion {
+        display: none !important;
+    }
+}
+span.h2Lit,
+.h1Lit {
+    color: #fe4c25 !important;
+}
+div.mage-error.qty-error-message {
+    display: none;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 0;
+    padding-left: 0 !important;
+}
+.product-right-column .product-info-main .product-add-form .box-tocart.error {
+    margin-bottom: 15px !important;
+}
+
+//Hide Tabs On digiPrint
+.digiprint-product {
+    .product-accordion .delivery,
+    .product-accordion .returns,
+    .whatinthebox,
+    .reviews,
+    .qa {
+        display: none !important;
+    }
+
+    .create-now-btn {
+        text-decoration: none;
+    }
+
+    .create-now-btn:hover {
+        text-decoration: none;
+    }
+
+    a.action.create-now-btn {
+        background: #fe4c25;
+        border: none;
+        border-radius: 25px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 0.5px;
+        padding: 11px 35px;
+        height: 37px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        min-width: 0 !important;
+        border-radius: 25px;
+    }
+
+    .create-now-btn svg {
+        margin-left: 10px;
+        margin-right: 10px;
+        float: right;
+    }
+
+    .create-now-btn:hover {
+        opacity: 0.8;
+    }
+
+    .digiprint-note {
+        height: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        padding: 12px;
+        background: #fff;
+
+        ul {
+            margin-bottom: 0;
+            li {
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

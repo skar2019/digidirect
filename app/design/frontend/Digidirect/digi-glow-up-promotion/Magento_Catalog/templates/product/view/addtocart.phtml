@@ -1,0 +1,170 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+$pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_preOrderattributeValue = $block->getProduct()->getResource()->getAttribute('pre_order_status')->getFrontend()->getValue($block->getProduct());
+$_specialOrderValue = $block->getProduct()->getSpecialOrder();
+$_orderLimit =  $block->getProduct()->getData('order_limit');
+if (empty($_orderLimit) || $_orderLimit == 0)
+{
+    $_orderLimit = 10;
+}
+
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+    <div class="box-tocart">
+        <div class="fieldset qty-fieldset">
+            <?php if ($block->shouldRenderQuantity()): ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></label>
+                    <div class="control qty-group-control" data-bind="scope: 'qty-change'">
+                        <div class="qty-buttons">
+                            <div role="button" class="qty-decrease" data-bind="click: decreaseQty">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M4 8h8v1H4V8z"/>
+                                </svg>
+                            </div>
+                            <input data-bind="value: qty()"
+                                   type="number"
+                                   name="qty"
+                                   id="qty"
+                                   value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
+                                   title="<?= /* @escapeNotVerified */ __('Qty') ?>"
+                                   class="input-text qty qty-pdp ttt"
+                                   data-maxQty="<?= $_orderLimit ?>"
+                                   data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" readonly/>
+                            <div role="button" class="qty-increase" data-bind="click: increaseQty">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="20" height="20" rx="10" fill="#242426"/>
+                                <mask id="mask0_5002_7627" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="2" width="17" height="16">
+                                <path d="M18.4655 2H2V18H18.4655V2Z" fill="white"/>
+                                </mask>
+                                <g mask="url(#mask0_5002_7627)">
+                                <path d="M14.3488 10.5H6.11611C5.83482 10.5 5.60156 10.2733 5.60156 10C5.60156 9.72667 5.83482 9.5 6.11611 9.5H14.3488C14.6301 9.5 14.8634 9.72667 14.8634 10C14.8634 10.2733 14.6301 10.5 14.3488 10.5Z" fill="#F2F2F7"/>
+                                <path d="M10.2294 14.5C9.9481 14.5 9.71484 14.2733 9.71484 14V6C9.71484 5.72667 9.9481 5.5 10.2294 5.5C10.5107 5.5 10.7439 5.72667 10.7439 6V14C10.7439 14.2733 10.5107 14.5 10.2294 14.5Z" fill="#F2F2F7"/>
+                                </g>
+                                </svg>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qty-error-message mage-error"><?= /* @escapeNotVerified */ __('The maximum you may purchase is') . ' ' . $_orderLimit ?></div>
+                </div>
+            <?php endif; ?>
+            <div class="actions">
+                   <?php if ($_preOrderattributeValue == "Yes"): ?>
+                        <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn pre-order-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                        >
+                            <span class="addcart_words">
+                                <?= /* @escapeNotVerified */ 'Pre-Order' ?>
+                                <span class="icon-info tooltip-wrapper">
+                                    <span class="addtocart-tooltip">
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product.
+                                        For the latest ETA, please click
+                                        <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                                    </span>
+                                </span>
+                            </span>
+                        </button>
+                    <?php elseif ($_specialOrderValue): ?>
+                        <button type="submit"
+                                class="action tocart btn_cart tocart-pdp-btn special-order-btn"
+                                id="product-addtocart-button"
+                                data-action="add-to-cart-action"
+                        >
+                            <span class="addcart_words">
+                                <?= /* @escapeNotVerified */ 'Special Order' ?>
+                                <span class="icon-info tooltip-wrapper">
+                                    <span class="addtocart-tooltip">
+                                        Clicking this button and moving through to purchase means you reserve your allocation for this awesome product.
+                                        For the latest ETA, please click
+                                        <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                                    </span>
+                                </span>
+                            </span>
+                        </button>
+                    <?php else : ?>
+                        <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                            >
+                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                        </button>
+                    <?php endif; ?>
+
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
+    </div>
+
+    <?php if (!empty($_orderLimit) && $_orderLimit > 0): ?>
+    <div class="order-limit">
+        <div class="order-limit-tooltip">
+            <span class="order-limit-text">
+                <span class="icon-box-remove"></span>
+                <span>order limits apply</span>
+                <i class="tooltip-toggle"><span class="icon-info"></span></i>
+                <span class="tooltip-content">Orders of units more than <?= $_orderLimit ?> may be cancelled due to availability constraints.</span>
+            </span>
+        </div>
+    </div>
+    <?php endif; ?>
+
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "qty-change": {
+                        "component": "Magento_Catalog/js/qty-change",
+                        "defaultQty": <?php echo (int)$block->getProductDefaultQty() ?: 1 ?>
+                    }
+                 }
+            }
+        }
+    }
+</script>
+
+<!-- FeedOps - Dynamic Remarketing - Version 1 START -->
+<script>
+    function addToCartClick() {
+        dataLayer.push({
+            'event': 'DynamicRemarketing',
+            'ecomm_pagetype': 'cart',
+            'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
+            'currency': 'AUD',
+            'ecomm_prodid': [
+                <?php echo $_product->getId() ?>
+            ]
+        });
+    }
+    var form = document.getElementById("product_addtocart_form");
+    if(form.addEventListener){
+        form.addEventListener("submit", addToCartClick, false);
+    }else if(form.attachEvent){
+        form.attachEvent("onsubmit", addToCartClick);
+    }
+</script>

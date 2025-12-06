@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!--    <head>-->
+    <!--        <link src="Magento_Theme::js/custom-footer.js"/>-->
+    <!--        <link src="Digidirect_HelloBar::js/hello-bar.js"/>-->
+    <!--    </head>-->
+    <update handle="checkout_cart_sidebar_item_renderers"/>
+    <update handle="checkout_cart_sidebar_item_price_renderers"/>
+    <update handle="checkout_cart_sidebar_total_renderers"/>
+    <body>
+        <referenceContainer name="page.wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="global.pa.minicart" template="Digidirect_ParticularAudienceAPI::pa-global-minicart-widget.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="main.content">
+            <container name="blur.overlay.container" as="blur_overlay" htmlTag="div" htmlClass="blur-overlay"/>
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Template" name="mobile.menu" template="Magento_Theme::mobile-menu.phtml" />
+        </referenceContainer>
+        <referenceContainer name="header.container">
+            <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-">
+                <block class="Magento\Cms\Block\Block" name="site.takeover" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">site-takeover</argument>
+                    </arguments>
+                </block>
+                <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
+                    <block class="Magento\Framework\View\Element\Template" name="glow.up.top.bar" template="Magento_Theme::glow-up-top-bar.phtml"/>
+                </container>
+                <container name="header.panel.hellobar" htmlClass="hellobar wrapper" htmlTag="div" before="navigation.menu">
+                    <block class="Magento\Cms\Block\Block" name="hellobar.slider" >
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">hello-bar</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="custom.head" template="Magento_Theme::html/head.phtml"/>
+        </referenceContainer>
+
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/digi-logo.svg</argument>
+                <argument name="logo_height" xsi:type="string">49</argument>
+                <argument name="logo_width" xsi:type="string">210</argument>
+            </arguments>
+        </referenceBlock>
+
+        <move element="minicart" destination="header-wrapper" after="top.search"/>
+        <referenceBlock name="catalog.topnav" remove="true" />
+
+        <referenceContainer name="header.container">
+            <block class="Magento\Framework\View\Element\Template" name="megamenu" template="Magento_Theme::megamenu.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="page.bottom">
+            <block class="Magento\Newsletter\Block\Subscribe" name="global.newsletter" template="subscribe.phtml" before="footer"/>
+        </referenceContainer>
+
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="form.subscribe" remove="true" />
+        <referenceBlock name="report.bugs" remove="true" />
+        <referenceContainer name="footer">
+            <container name="footer-links-wrapper" htmlTag="div" htmlClass="footer-content-block" after="footer_links">
+                <block class="Magento\Framework\View\Element\Template" name="footer-links" template="Magento_Theme::footer/footer-links.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Digidirect\Customer\ViewModel\Customer</argument>
+                    </arguments>
+                </block>
+            </container>
+            <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="Magento_Theme::footer/footer-copyright.phtml" />
+        </referenceContainer>
+        <referenceContainer name="footer-container">
+            <block class="Magento\Framework\View\Element\Template" name="footer-black-gradient" template="Magento_Theme::footer/footer-black-gradient.phtml" after="-"/>
+        </referenceContainer>
+        <referenceBlock name="minicart">
+            <!-- UPDATED: Removed cacheable="false" and ttl="0" -->
+            <block class="Digidirect\Customer\Block\CustomerHeaderLinks"
+                   name="minicart_private"
+                   as="minicart_private"
+                   template="Magento_Checkout::cart/minicart-private.phtml"
+                   before="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Digidirect\Customer\ViewModel\Customer</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
