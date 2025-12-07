@@ -1,0 +1,63 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+?>
+
+    <meta property="og:type" content="product" />
+    <meta property="og:title"
+          content="<?= $block->escapeHtmlAttr($block->stripTags($product->getName())) ?>" />
+    <meta property="og:image"
+          content="<?= $block->escapeUrl($block->getImage($product, 'product_base_image')->getImageUrl()) ?>" />
+    <meta property="og:description"
+          content="<?= $block->escapeHtmlAttr($block->stripTags($product->getShortDescription())) ?>" />
+    <meta property="og:url" content="<?= $block->escapeUrl($product->getProductUrl()) ?>" />
+
+<?php
+// Debug output - REMOVE after testing
+echo "<!-- DEBUG START -->\n";
+echo "<!-- Product ID: " . $product->getId() . " -->\n";
+echo "<!-- Product Type: " . $product->getTypeId() . " -->\n";
+echo "<!-- Product Price: " . $product->getPrice() . " -->\n";
+echo "<!-- Product Final Price: " . $product->getFinalPrice() . " -->\n";
+
+try {
+    $priceInfo = $product->getPriceInfo();
+    echo "<!-- Has PriceInfo: " . ($priceInfo ? 'Yes' : 'No') . " -->\n";
+
+    if ($priceInfo) {
+        $finalPriceObj = $priceInfo->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+        echo "<!-- Has Final Price Object: " . ($finalPriceObj ? 'Yes' : 'No') . " -->\n";
+
+        if ($finalPriceObj) {
+            $amountObj = $finalPriceObj->getAmount();
+            echo "<!-- Has Amount Object: " . ($amountObj ? 'Yes' : 'No') . " -->\n";
+
+            if ($amountObj) {
+                $value = $amountObj->getValue();
+                echo "<!-- Amount Value: " . $value . " -->\n";
+                echo "<!-- Amount Value Type: " . gettype($value) . " -->\n";
+            }
+        }
+    }
+} catch (\Exception $e) {
+    echo "<!-- Error: " . $e->getMessage() . " -->\n";
+}
+echo "<!-- DEBUG END -->\n";
+?>
+
+<?php if ($priceAmount = $product
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getAmount()):?>
+    <?php $priceValue = $priceAmount->getValue(); ?>
+    <!-- Price Value in condition: <?= $priceValue ?> -->
+    <meta property="product:price:amount" content="<?= $block->escapeHtmlAttr($priceValue) ?>"/>
+    <?= $block->getChildHtml('meta.currency') ?>
+<?php else: ?>
+    <!-- Price condition failed -->
+<?php endif;?>

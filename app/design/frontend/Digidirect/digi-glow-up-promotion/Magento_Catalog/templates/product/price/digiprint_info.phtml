@@ -1,0 +1,85 @@
+<?php
+    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+    $currentProduct = $productBlock->getCurrentProduct();
+
+    $digiprintItemCondition = ($currentProduct->getItemCondition() ? $currentProduct->getItemCondition() : '');
+    $digiprintItemDescription = ($currentProduct->getData('whats_in_the_box') ? $currentProduct->getData('whats_in_the_box') : '');
+    $digiprintCustomLinkProductSKU = ($currentProduct->getData('digiprint_customlink') ? $currentProduct->getData('digiprint_customlink') : '');
+    $is_digiPrint = ($currentProduct->getData('is_digiprint') ? $currentProduct->getData('is_digiprint') : '');
+?>
+
+
+<?php if ($is_digiPrint == 1): ?>
+        <div class="digi-print-create">
+            <a class="create-now-btn pa-digiprintproduct action primary" href="<?php echo $digiprintCustomLinkProductSKU;?>" target="_blank">
+                    <span>Create Now </span>
+            </a>
+        </div>
+
+    <div class="digiprint-note">
+        <span class="digiprint-span">
+            <?= /* @escapeNotVerified */ $digiprintItemDescription ?>
+        </span>
+    </div>
+
+
+   <?php echo '<style>
+   .qantas-pts-wrapper, .box-tocart, .payment-gateways-container, .payment-gateways-container-bottom, .product-info-main-bottom, .studio19-wrapper, .awaiting, .widget-product, .zip-container, .ribbon-wrapper, .product-info-main
+   {display:none !important;}</style>';
+   ?>
+<?php endif; ?>
+
+
+<style>
+    .create-now-btn {
+        text-decoration: none;
+    }
+
+    .create-now-btn:hover {
+        text-decoration: none;
+    }
+
+    /* .product-info-main:not(.create-now-btn) {
+        display: none;
+
+    } */
+
+    .create-now-btn {
+        background: #fe4c25;
+        border: none;
+        border-radius: 25px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: uppercase;
+        text-align:center;
+        letter-spacing: 0.5px;
+        padding: 11px 35px;
+        height: 37px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        min-width: 0 !important;
+        
+    }
+
+    .create-now-btn svg {
+        margin-left: 10px;
+        margin-right: 10px;
+        float: right;
+    }
+
+    .create-now-btn:hover {
+        opacity: 0.8;
+    }
+
+    .digiprint-note {
+        height: 150px;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        padding: 12px;
+        background: #fff;
+    }
+
+</style>

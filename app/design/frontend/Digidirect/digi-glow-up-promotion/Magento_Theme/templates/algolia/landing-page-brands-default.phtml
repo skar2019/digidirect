@@ -1,0 +1,46 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+
+// Get current friendly URL
+$request = $block->getRequest();
+$path = trim($request->getOriginalPathInfo(), '/'); // e.g. "brands/apple"
+
+// Extract the part after "brands/"
+$brand = '';
+if (strpos($path, 'brands/') === 0) {
+    $brand = substr($path, strlen('brands/')); // "apple"
+}
+
+// Sanitize brand name (lowercase, no spaces/special chars)
+$brand = preg_replace('/[^a-z0-9\-]/i', '', strtolower($brand));
+
+// Paths relative to your theme’s `web/` folder
+$webPath    = "images/brands-pages/web/{$brand}.png";
+$mobilePath = "images/brands-pages/mobile/{$brand}.png";
+
+// Build URLs
+$webImageUrl    = $block->getViewFileUrl($webPath);
+$mobileImageUrl = $block->getViewFileUrl($mobilePath);
+
+// Test if files actually exist (via @getimagesize to avoid exceptions)
+if (!@getimagesize($webImageUrl)) {
+    $webImageUrl = $block->getViewFileUrl('images/brands-pages/web/default.png');
+}
+if (!@getimagesize($mobileImageUrl)) {
+    $mobileImageUrl = $block->getViewFileUrl('images/brands-pages/mobile/default.png');
+}
+?>
+
+<div class="plp-banner-widget">
+    <div class="plp-banner" style="height: 265px;">
+        <img class="banner-web"
+             style="height: 100%; object-fit: cover;"
+             src="<?= $block->escapeUrl($webImageUrl) ?>"
+             alt="<?= $block->escapeHtml($brand ?: 'default') ?>" />
+
+        <img class="banner-mobile"
+             style="height: 100%; object-fit: cover; display: none;"
+             src="<?= $block->escapeUrl($mobileImageUrl) ?>"
+             alt="<?= $block->escapeHtml($brand ?: 'default') ?>" />
+    </div>
+</div>

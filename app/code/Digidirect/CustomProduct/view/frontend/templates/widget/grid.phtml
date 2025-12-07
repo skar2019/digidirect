@@ -112,8 +112,7 @@ $collection = $block->getProductCollection();
 
                             <?php if (!$isDigiSeconds): ?>
                                 <?php if ($hasCustomFinalPrice && $isDigiOnly): ?>
-                                    <div style="display: none;" class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
-                                    <div class="ribbon-digideals black-friday"><span class="digi">Black Friday</span> Sale</div>
+                                    <div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>
                                 <?php endif; ?>
                             <?php endif; ?>
 
@@ -155,7 +154,7 @@ $collection = $block->getProductCollection();
                                         <?php if ($isDigiPrint): ?>
                                             <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
                                         <?php else: ?>
-                                            <p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now pay later</p>
                                             <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                                         <?php endif; ?>
                                     </div>
@@ -182,7 +181,7 @@ $collection = $block->getProductCollection();
                                                     <?php endif; ?>
                                                 </span>
                                                 <div>
-                                                    <div class="black-friday-deal">Black Friday <span class="digi">Deal</span></div><span class="after_special custom_final_price black-friday">$<?= $block->escapeHtml($customFinalPrice) ?></span>
+                                                    <span class="after_special custom_final_price">$<?= $block->escapeHtml($customFinalPrice) ?></span>
                                                 </div>
                                             </div>
                                         <?php else: ?>
@@ -191,16 +190,16 @@ $collection = $block->getProductCollection();
                                                     <span class="price"></span>
                                                 </span>
                                                 <div>
-                                                    <span class="after_special">$<?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
+                                                    <span class="after_special"><?= $block->escapeHtml(number_format($regularPrice, 2)) ?></span>
                                                 </div>
                                             </div>
                                         <?php endif; ?>
                                     </div>
 
-                                    <div class="product-info-bottom black-friday">
+                                    <div class="product-info-bottom">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="discount-price-wrapper">
-                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> OFF RRP
+                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> Off
                                             </div>
                                         <?php else: ?>
                                             <div class="discount-price-wrapper-no-price"></div>

@@ -1,0 +1,32 @@
+<div id="pa-upsell" class="pa-widget pa-upsell">
+  <div class="shop-by-widget-container">
+    <div id="upsell-select-all" style="display: none;">Select all</div>
+
+    <button style="z-index: 1;" id="upsell-close" type="button" class="upsell-close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <path d="M15 0.5C23.0081 0.5 29.5 6.992 29.5 15C29.4999 23.0079 23.0081 29.5 15 29.5C6.99194 29.5 0.50012 23.0079 0.5 15C0.5 6.992 6.99186 0.500001 15 0.5Z" fill="white" stroke="#D9D9D9"></path>
+        <line y1="-0.5" x2="16.9701" y2="-0.5" transform="matrix(0.707117 -0.707096 0.707117 0.707096 9.59961 21.5991)" stroke="#262628"></line>
+        <line y1="-0.5" x2="16.9701" y2="-0.5" transform="matrix(-0.707117 -0.707096 -0.707117 0.707096 21.5996 21.5991)" stroke="#262628"></line>
+      </svg>
+    </button>
+
+    <div class="pa-digidirect-product-widget upsell-widget">
+      <div class="product-widget-header" style="display: block;">
+        <div class="continue-shopping" style="text-align: center; color: #242426; font-size: 64px; font-weight: 600;">How about these?</div>
+      </div>
+
+      <div id="upsell-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel upsell"></div>
+
+      <button id="upsell-add-to-cart-all">Add All to Cart</button>
+    </div>
+
+    <!-- ✅ Custom alert box (hidden by default) -->
+    <div id="custom-alert" style="display:none;">
+        <div class="custom-alert-box">
+          <p>Please select at least one product.</p>
+          <button id="custom-alert-close">Close</button>
+        </div>
+    </div>
+    <!-- ✅ End custom alert -->
+  </div>
+</div>
