@@ -1477,7 +1477,19 @@ require(['jquery'], function ($) {
             mouseDrag: false,
             slideBy: 1,
             responsive: {
-                0: { items: 1 }
+                0: { items: 1 },
+                768: {          
+                    lazyLoad: true,
+                    touchDrag: true,
+                    mouseDrag: true,
+                    pullDrag: true
+                },
+                1240: { 
+                    lazyLoad: true,
+                    freeDrag: true,
+                    touchDrag: false,
+                    mouseDrag: false
+                }
             },
             autoplay: false
         });
