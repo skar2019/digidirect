@@ -205,7 +205,24 @@
     }
 }
 
+@media only screen and (min-width: 768px) {
+    .digiservices-home-grid-webview {
+        display: block !important;
+    }
+
+    .digiservices-home-grid-mobileview {
+        display: none !important;
+    }
+}
+
 @media only screen and (max-width: 768px) {
+    .digiservices-home-grid-webview {
+        display: none !important;
+    }
+
+    .digiservices-home-grid-mobileview {
+        display: block !important;
+    }
     .digiservices-section-mobile {
         max-width: 1347px;
         margin: 0 auto;
