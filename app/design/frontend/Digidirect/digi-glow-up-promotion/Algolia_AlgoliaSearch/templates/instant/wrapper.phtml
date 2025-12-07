@@ -1,0 +1,99 @@
+<?php /** @var \Algolia\AlgoliaSearch\Block\Instant\Wrapper $block */ ?>
+
+<!-- Wrapping template -->
+<script type="text/template" id="instant_wrapper_template">
+    {{#findAutocomplete}}
+        <div id="algolia-autocomplete-container"></div>
+    {{/findAutocomplete}}
+
+    <div id="algolia_instant_selector"
+         class="<?php echo $block->escapeHtml($block->hasFacets() ? ' with-facets' : ''); ?>">
+        <div class="row">
+            <div class="col-md-3" id="algolia-left-container">
+                <div id="refine-toggle" class="visible-xs visible-sm" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+<path d="M18.0272 3.58789V5.51289C18.0272 6.21289 17.5897 7.08789 17.1522 7.52539L13.3897 10.8504C12.8647 11.2879 12.5147 12.1629 12.5147 12.8629V16.6254C12.5147 17.1504 12.1647 17.8504 11.7272 18.1129L10.5022 18.9004C9.36472 19.6004 7.78972 18.8129 7.78972 17.4129V12.7754C7.78972 12.1629 7.43972 11.3754 7.08972 10.9379L6.67847 10.5091C6.40722 10.2204 6.35472 9.78289 6.57347 9.44164L11.0535 2.24914C11.211 1.99539 11.491 1.83789 11.7972 1.83789H16.2772C17.2397 1.83789 18.0272 2.62539 18.0272 3.58789Z" fill="white"/>
+<path d="M9.05781 3.17664L5.95156 8.15539C5.65406 8.63664 4.97156 8.70664 4.57781 8.29539L3.76406 7.43789C3.32656 7.00039 2.97656 6.21289 2.97656 5.68789V3.67539C2.97656 2.62539 3.76406 1.83789 4.72656 1.83789H8.31406C8.99656 1.83789 9.41656 2.59039 9.05781 3.17664Z" fill="white"/>
+</svg> <?php echo $block->escapeHtml(__('Filter')); ?>
+                </div>
+                <div class="hidden-xs hidden-sm" id="instant-search-facets-container">
+                </div>
+            </div>
+            <div class="col-md-9" id="algolia-right-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            {{#second_bar}}
+                               <div id="instant-search-bar"></div>
+                            {{/second_bar}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div itemscope itemtype="http://schema.org/ItemList" class="hits">
+                            <div class="algolia-infos">
+                                <div class="pull-left" id="algolia-stats" style="display: none;"></div>
+                                <div class="pull-right">
+                                    <div class="sort-by-label pull-left">
+                                        <?php echo $block->escapeHtml(__('Sort By :')); ?> &nbsp;
+                                    </div>
+                                    <div class="pull-left" id="algolia-sorts" style="display: none;"></div>
+                                </div>
+                                <div class="algolia-clearfix"></div>
+                                <div class="hits-per-page-container" style="display: none;">
+                                    <div class="sort-by-label pull-left">
+                                        <?php echo $block->escapeHtml(__('Show Items Per Page :')); ?> &nbsp;
+                                    </div>
+                                    <div id="hits-per-page"></div>
+                                </div>
+                                <div class="ais-ViewToggle" style="display: none;">
+                                    <button class="ais-ViewToggle-button" data-view="grid">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <mask id="mask0_8784_75355" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                                        <path d="M16 0H0V16H16V0Z" fill="white"/>
+                                        </mask>
+                                        <g mask="url(#mask0_8784_75355)">
+                                        <path d="M14.6686 5.68016V2.6535C14.6686 1.7135 14.242 1.3335 13.182 1.3335H10.4886C9.42862 1.3335 9.00195 1.7135 9.00195 2.6535V5.6735C9.00195 6.62016 9.42862 6.9935 10.4886 6.9935H13.182C14.242 7.00016 14.6686 6.62016 14.6686 5.68016Z" fill="currentColor"/>
+                                        <path d="M14.6686 13.1802V10.4869C14.6686 9.42691 14.242 9.00024 13.182 9.00024H10.4886C9.42862 9.00024 9.00195 9.42691 9.00195 10.4869V13.1802C9.00195 14.2402 9.42862 14.6669 10.4886 14.6669H13.182C14.242 14.6669 14.6686 14.2402 14.6686 13.1802Z" fill="currentColor"/>
+                                        <path d="M7.0026 5.68016V2.6535C7.0026 1.7135 6.57594 1.3335 5.51594 1.3335H2.8226C1.7626 1.3335 1.33594 1.7135 1.33594 2.6535V5.6735C1.33594 6.62016 1.7626 6.9935 2.8226 6.9935H5.51594C6.57594 7.00016 7.0026 6.62016 7.0026 5.68016Z" fill="currentColor"/>
+                                        <path d="M7.0026 13.1802V10.4869C7.0026 9.42691 6.57594 9.00024 5.51594 9.00024H2.8226C1.7626 9.00024 1.33594 9.42691 1.33594 10.4869V13.1802C1.33594 14.2402 1.7626 14.6669 2.8226 14.6669H5.51594C6.57594 14.6669 7.0026 14.2402 7.0026 13.1802Z" fill="currentColor"/>
+                                        </g>
+                                        </svg>
+                                    </button>
+                                    <button class="ais-ViewToggle-button" data-view="list">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <mask id="mask0_7978_37650" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                                        <path d="M16 0H0V16H16V0Z" fill="white"/>
+                                        </mask>
+                                        <g mask="url(#mask0_7978_37650)">
+                                        <path d="M13.9967 13.5002H7.33008C7.05674 13.5002 6.83008 13.2736 6.83008 13.0002C6.83008 12.7269 7.05674 12.5002 7.33008 12.5002H13.9967C14.2701 12.5002 14.4967 12.7269 14.4967 13.0002C14.4967 13.2736 14.2701 13.5002 13.9967 13.5002Z" fill="currentColor"/>
+                                        <path d="M13.9967 8.83496H7.33008C7.05674 8.83496 6.83008 8.60829 6.83008 8.33496C6.83008 8.06163 7.05674 7.83496 7.33008 7.83496H13.9967C14.2701 7.83496 14.4967 8.06163 14.4967 8.33496C14.4967 8.60829 14.2701 8.83496 13.9967 8.83496Z" fill="currentColor"/>
+                                        <path d="M13.9967 4.16748H7.33008C7.05674 4.16748 6.83008 3.94081 6.83008 3.66748C6.83008 3.39415 7.05674 3.16748 7.33008 3.16748H13.9967C14.2701 3.16748 14.4967 3.39415 14.4967 3.66748C14.4967 3.94081 14.2701 4.16748 13.9967 4.16748Z" fill="currentColor"/>
+                                        <path d="M2.665 4.83378C2.53833 4.83378 2.41167 4.78712 2.31167 4.68712L1.645 4.02045C1.45167 3.82712 1.45167 3.50712 1.645 3.31378C1.83833 3.12045 2.15833 3.12045 2.35167 3.31378L2.665 3.62712L4.31167 1.98045C4.505 1.78712 4.825 1.78712 5.01833 1.98045C5.21167 2.17378 5.21167 2.49378 5.01833 2.68712L3.01833 4.68712C2.91833 4.78712 2.79167 4.83378 2.665 4.83378Z" fill="currentColor"/>
+                                        <path d="M2.665 9.49983C2.53833 9.49983 2.41167 9.45317 2.31167 9.35317L1.645 8.6865C1.45167 8.49316 1.45167 8.17316 1.645 7.97983C1.83833 7.7865 2.15833 7.7865 2.35167 7.97983L2.665 8.29316L4.31167 6.64646C4.505 6.45313 4.825 6.45313 5.01833 6.64646C5.21167 6.83983 5.21167 7.15983 5.01833 7.35316L3.01833 9.35317C2.91833 9.45317 2.79167 9.49983 2.665 9.49983Z" fill="currentColor"/>
+                                        <path d="M2.665 14.1665C2.53833 14.1665 2.41167 14.1199 2.31167 14.0199L1.645 13.3532C1.45167 13.1599 1.45167 12.8399 1.645 12.6465C1.83833 12.4532 2.15833 12.4532 2.35167 12.6465L2.665 12.9599L4.31167 11.3132C4.505 11.1199 4.825 11.1199 5.01833 11.3132C5.21167 11.5065 5.21167 11.8265 5.01833 12.0199L3.01833 14.0199C2.91833 14.1199 2.79167 14.1665 2.665 14.1665Z" fill="currentColor"/>
+                                        </g>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="algolia-custom-refinement">
+                                <div id="current-refinements"></div>
+                                <div id="clear-refinements"></div>
+                            </div>
+                            <div id="algolia-banner"></div>
+                            <div id="instant-empty-results-container"></div>
+                            <div id="instant-search-results-container"></div>
+                        </div>
+                    </div>
+                    <div class="algolia-clearfix"></div>
+                </div>
+
+                <div class="text-center">
+                    <div id="instant-search-pagination-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

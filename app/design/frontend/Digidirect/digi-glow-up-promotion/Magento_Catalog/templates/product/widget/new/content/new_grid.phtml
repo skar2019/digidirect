@@ -1,0 +1,117 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Template for displaying new products widget
+ *
+ * @var $block \Magento\Catalog\Block\Product\Widget\NewWidget
+ */
+
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) {
+    $type = 'widget-new-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $title = __('New Products');
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+}
+?>
+
+<?php if ($exist) :?>
+    <div class="block widget block-new-products <?= /* @noEscape */ $mode ?>">
+        <div class="block-title">
+            <strong role="heading" aria-level="2"><?= $block->escapeHtml($title) ?></strong>
+        </div>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <ol class="product-items <?= /* @noEscape */ $type ?>">
+                    <?php foreach ($items as $_item) :?>
+                    <li class="product-item">
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+                            <div class="product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?= $block->getProductPriceHtml($_item, $type); ?>
+
+                                <?php if ($templateType) :?>
+                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                <?php endif; ?>
+
+                                <?php if ($showWishlist || $showCompare || $showCart) :?>
+                                    <div class="product-item-actions">
+                                        <?php if ($showCart) :?>
+                                            <div class="actions-primary">
+                                                <?php if (!$_item->getTypeInstance()->isPossibleBuyFromList($_item)) :?>
+                                                    <button class="action tocart primary"
+                                                            data-mage-init='{"redirectUrl":{"url":"<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}'
+                                                            type="button"
+                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                <?php else :?>
+                                                    <?php
+                                                        $postDataHelper = $this->helper(Magento\Framework\Data\Helper\PostHelper::class);
+                                                        $postData = $postDataHelper->getPostData(
+                                                            $block->escapeUrl($block->getAddToCartUrl($_item)),
+                                                            ['product' => (int) $_item->getEntityId()]
+                                                        )
+                                                    ?>
+                                                    <button class="action tocart primary"
+                                                            data-post='<?= /* @noEscape */ $postData ?>'
+                                                            type="button"
+                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if ($showWishlist) :?>
+                                            <div class="actions-secondary" data-role="add-to-links">
+                                                <?php if ($this->helper(Magento\Wishlist\Helper\Data::class)->isAllow() && $showWishlist) :?>
+                                                    <a href="#"
+                                                       data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>'
+                                                       class="action towishlist"
+                                                       data-action="add-to-wishlist"
+                                                       title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none"> <g clip-path="url(#clip0_7978_37674)"> <mask id="mask0_7978_37674" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="13" height="13"> <path d="M12.75 0.25H0.25V12.75H12.75V0.25Z" fill="white"></path></mask> <g mask="url(#mask0_7978_37674)"> <path d="M6.4974 11.5247C6.33594 11.5247 6.17969 11.5039 6.04948 11.457C4.0599 10.7747 0.898438 8.35286 0.898438 4.77474C0.898438 2.95182 2.3724 1.47266 4.1849 1.47266C5.0651 1.47266 5.88802 1.81641 6.4974 2.43099C7.10677 1.81641 7.92969 1.47266 8.8099 1.47266C10.6224 1.47266 12.0964 2.95703 12.0964 4.77474C12.0964 8.35807 8.9349 10.7747 6.94531 11.457C6.8151 11.5039 6.65885 11.5247 6.4974 11.5247ZM4.1849 2.25391C2.80469 2.25391 1.67969 3.38411 1.67969 4.77474C1.67969 8.33203 5.10156 10.3112 6.30469 10.7227C6.39844 10.7539 6.60156 10.7539 6.69531 10.7227C7.89323 10.3112 11.3203 8.33723 11.3203 4.77474C11.3203 3.38411 10.1953 2.25391 8.8151 2.25391C8.02344 2.25391 7.28906 2.6237 6.8151 3.26432C6.66927 3.46224 6.33594 3.46224 6.1901 3.26432C5.70573 2.61849 4.97656 2.25391 4.1849 2.25391Z" fill="#FE947C"></path></g></g> <defs> <clipPath id="clip0_7978_37674"> <rect width="12.5" height="12.5" fill="white" transform="translate(0.25 0.25)"></rect></clipPath></defs></svg>
+                                                        <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                     </li>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>

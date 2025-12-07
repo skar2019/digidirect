@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+        <referenceBlock name="global.pa.minicart" remove="true" />
+        <!-- Remove unwanted blocks -->
+        <referenceBlock name="view.addto.compare" remove="true"/>
+        <referenceBlock name="product.info.mailto" remove="true"/>
+        <referenceBlock name="product.info.overview" remove="true"/>
+        <referenceBlock name="product.attributes" remove="true"/>
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="product.info.attachment" remove="true"/>
+        <referenceBlock name="collect_places_detail" remove="true"/>
+        <referenceBlock name="product-social-links" remove="true"/>
+        <referenceBlock name="reviews.tab" remove="true"/>
+        <referenceBlock name="product.review.form" remove="true"/>
+        <referenceBlock name="product.store.availability" remove="true"/>
+        <referenceBlock name="product.store.availability.js" remove="true"/>
+
+        <!-- Breadcrumbs wrapper -->
+        <referenceContainer name="content">
+            <container name="product.breadcrumbs.wrapper" htmlTag="div" htmlClass="breadcrumbs-wrapper" before="-"/>
+
+            <!-- Main 3-Column Product Layout -->
+            <container name="product.main.container" htmlTag="div" htmlClass="product-main-container" after="product.breadcrumbs.wrapper">
+
+                <!-- mobile sku and shipped by Layout -->
+                <container name="product.top.row.mobile" htmlTag="div" htmlClass="product-top-mobile">
+                    <container name="product.sku.section.mobile" htmlTag="div" htmlClass="product-sku-section mobile-only">
+
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.sku.mobile"
+                               template="Magento_Catalog::product/view/attribute.phtml" after="-">
+                            <arguments>
+                                <argument name="at_call" xsi:type="string">getSku</argument>
+                                <argument name="at_code" xsi:type="string">sku</argument>
+                                <argument name="css_class" xsi:type="string">sku</argument>
+                                <argument name="title" xsi:type="string" translate="true">SKU</argument>
+                                <argument name="at_label" xsi:type="string">default</argument>
+                            </arguments>
+                        </block>
+
+                    </container>
+
+                    <container name="product.info.marketplacer.mobile" htmlTag="div" htmlClass="product-info-marketplacer mobile-only">
+                        <block class="Magento\Catalog\Block\Product\View"
+                               name="product.info.marketplacer.seller.mobile"
+                               template="Marketplacer_Seller::product/view/seller-info.phtml"/>
+
+                    </container>
+                </container>
+
+                <!-- LEFT COLUMN -->
+                <container name="product.left.column" htmlTag="div" htmlClass="product-left-column product-media-column">
+                    <container name="product.additional.actions" htmlTag="div" htmlClass="product-additional-actions">
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addto"
+                               as="addto" template="Magento_Catalog::product/view/addto.phtml"/>
+                    </container>
+                </container>
+
+                <!-- MIDDLE COLUMN -->
+                <container name="product.middle.column" htmlTag="div" htmlClass="product-middle-column product-info-column">
+                    <container name="product.title.section" htmlTag="div" htmlClass="product-title-section">
+                        <block class="Magento\Cms\Block\Block" name="digimarket.side.banner.ads">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">digimarket-side-banner-ads</argument>
+                            </arguments>
+                        </block>
+                    </container>
+
+
+
+                    <container name="product.sku.section" htmlTag="div" htmlClass="product-sku-section"/>
+
+                    <container name="product.price.section" htmlTag="div" htmlClass="product-price-section">
+                        <block class="Magento\Framework\View\Element\Template"
+                               template="Magento_Catalog::product/price/digiseconds_info.phtml"
+                               name="pdp-digiseconds-info"/>
+
+                    </container>
+
+                    <container name="product.description.section" htmlTag="div" htmlClass="product-description-section"/>
+
+                    <container name="not.eligible" htmlTag="div" htmlClass="not-eligible-container">
+                        <block class="Magento\Catalog\Block\Product\View"
+                               template="Magento_Catalog::product/noteligiblefordiscount.phtml"
+                               name="pdp-not-eligible"/>
+                    </container>
+                    <container name="product.additional.info" htmlTag="div" htmlClass="product-additional-info">
+                        <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm"
+                               template="Itoris_PriceMatch::product/form.phtml"/>
+
+                    </container>
+
+                    <block class="Magento\Framework\View\Element\Template" name="custom.pdp.accordion" template="Magento_Catalog::product/view/product-details-accordian.phtml" after="-">
+                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>
+                    </block>
+
+                </container>
+
+                <!-- RIGHT COLUMN -->
+                <container name="product.right.column" htmlTag="div" htmlClass="product-right-column product-actions-column">
+                    <referenceContainer name="product.info.main">
+                        <container name="product.purchase.section" htmlTag="div" htmlClass="product-purchase-section">
+                            <container name="product.options.section" htmlTag="div" htmlClass="product-options-section"/>
+                            <container name="payment.gateways" htmlTag="div" htmlClass="payment-gateways-container">
+                                <block class="Magento\Framework\View\Element\Template"
+                                    name="payment.gateways.block"
+                                    template="Magento_Catalog::product/payment-gateways-main.phtml"/>
+                            </container>
+                            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper"/>
+                        </container>
+                    </referenceContainer>
+
+                <block class="Magento\Framework\View\Element\Template"
+                    template="Magento_Catalog::product/price/digiprint_info.phtml"
+                    name="pdp-digiprint-info" before="custom.help.block"/>
+
+
+                <block class="Magento\Framework\View\Element\Template"
+                   name="custom.help.block"
+                   template="Magento_Catalog::product/help.phtml"
+                   after="product.info.main"/>
+
+                    <block class="Magento\Framework\View\Element\Template"
+                           name="custom.pdp.accordion.mobile"
+                           template="Magento_Catalog::product/view/product-details-accordian-mobile.phtml" after="-">
+                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description-mobile" after="-"/>
+                    </block>
+
+                </container>
+            </container>
+
+            <!-- Full Width Sections -->
+            <container name="product.full.width.sections" htmlTag="div" htmlClass="product-full-width-sections">
+                <block class="Magento\Cms\Block\Block" name="digimarket.product.page">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">digimarket-product-page</argument>
+                    </arguments>
+                </block>
+
+                <block class="Magento\Cms\Block\Block" name="frequently.bought.with" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
+                    </arguments>
+                </block>
+
+                <container name="product.details.tabs" htmlTag="div" htmlClass="product-details-tabs" after="frequently.bought.with">
+                    <referenceBlock name="product.info.details">
+                        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec"
+                               as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info">
+                            <arguments>
+                                <argument name="title" xsi:type="string" translate="true">Specs</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox"
+                               as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info">
+                            <arguments>
+                                <argument name="title" xsi:type="string" translate="true">What's In The Box</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.faq"
+                               as="faq" template="Magento_Catalog::product/view/faq.phtml" group="detailed_info">
+                            <arguments>
+                                <argument name="title" xsi:type="string" translate="true">FAQs</argument>
+                            </arguments>
+                        </block>
+                    </referenceBlock>
+                </container>
+
+
+                <container name="product.recommendations" htmlTag="div" htmlClass="product-recommendations">
+                    <block class="Magento\Cms\Block\Block" name="also.viewed">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">also-viewed</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <!-- Moves -->
+        <move element="breadcrumbs" destination="product.breadcrumbs.wrapper" before="-"/>
+        <move element="page.main.title" destination="product.breadcrumbs.wrapper" after="breadcrumbs"/>
+        <move element="digimarket.side.banner.ads" destination="product.title.section" before="page.main.title"/>
+
+        <move element="product.info.sku" destination="product.sku.section" before="-"/>
+        <move element="product.info.marketplacer" destination="product.sku.section" after="product.info.sku"/>
+        <move element="product.info.stock.sku" destination="product.sku.section" after="product.info.sku"/>
+
+        <move element="product.info.media" destination="product.left.column" before="-"/>
+        <move element="product.info.main" destination="product.right.column" before="-"/>
+        <move element="product.info.details" destination="product.details.tabs" before="-"/>
+        <move element="pdp.prod.overview.rules" destination="product.additional.info" after="-"/>
+
+        <move element="product.store.availability" destination="product.price.section" before="product.info.price"/>
+        <move element="product.info.price" destination="product.price.section" after="product.store.availability"/>
+        <move element="product.info.short_description" destination="product.price.section" after="product.info.price"/>
+        <move element="product.info.price.zipmoney.productwidget" destination="payment.gateways" after="-"/>
+        <move element="product.additional.info" destination="product.price.section" after="product.info.price"/>
+        <move element="product.description.section" destination="product.middle.column" after="product.additional.info"/>
+
+    </body>
+</page>

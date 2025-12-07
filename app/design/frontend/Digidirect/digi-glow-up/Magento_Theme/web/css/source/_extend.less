@@ -63,7 +63,11 @@
 }
 
 .pa-digidirect-product-widget .s19-rental-price-target {
-    top: 63px !important;
+    top: 88px !important;
+}
+
+.discount-price-wrapper {
+    display: none !important;
 }
 
 //End
@@ -909,7 +913,7 @@ a.action.towishlist {
 }
 
 .plp-row.pa-widget {
-    padding: 30px 0;
+    padding: 30px 15px;
     background: #f2f2f7;
     margin: 10px 0 40px;
 }
@@ -1308,7 +1312,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target {
-    top: 98px !important;
+    top: 68px !important;
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target p {
@@ -2096,7 +2100,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .ais-Hits-item .s19-rental-price-target {
-        top: 98px !important;
+        top: 82px !important;
     }
 
     .ais-Hits-item .s19-rental-price-target > div > div:first-child {
@@ -2201,7 +2205,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         font-size: 12px;
         line-height: normal;
         font-weight: 100;
-        height: 38px;
+        height: 34px;
     }
 
     .catalog-category-view
@@ -2221,7 +2225,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .pa-digidirect-product-widget .s19-rental-price-target {
-        top: 48px;
+        top: 95px !important;
     }
 
     .catalog-category-view
@@ -2614,14 +2618,32 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .pa-digidirect-product-widget.upsell-widget strong.product-item-name {
         height: 34px;
     }
-    
-    .pa-digidirect-product-widget.pdp-frequently-bought-with strong.product-item-name {
+
+    .pa-digidirect-product-widget.pdp-frequently-bought-with
+        strong.product-item-name {
         height: 34px;
     }
-    
+
     .pa-digidirect-product-widget.welcome-back-widget strong.product-item-name {
         height: 34px;
     }
+    
+    .pa-digidirect-product-widget.welcome-back-widget .s19-rental-price-target {
+        top: 73px !important;
+    }
+    
+    .cms-home .pa-digidirect-product-widget .s19-rental-price-target {
+        top: 90px !important;
+    }
+    
+    .cms-home .pa-digidirect-product-widget.welcome-back-widget .s19-rental-price-target {
+        top: 73px !important;
+    }
+    
+    .list-view .result-wrapper .result-content .result-sub-content .price {
+        margin-top: 0 !important;
+    }
+
 }
 
 @media screen and (max-width: 1512px) {
@@ -3096,7 +3118,7 @@ select:not([disabled]):focus {
 
             .megamenu-brands-list {
                 display: grid;
-                grid-template-columns: repeat(10, 1fr);
+                grid-template-columns: repeat(8, 1fr);
                 gap: 5px;
                 height: max-content;
                 position: relative;
@@ -3105,8 +3127,8 @@ select:not([disabled]):focus {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    width: 74px;
-                    height: 74px;
+                    width: 95px;
+                    height: 95px;
                     padding: 4px;
                     border-radius: 10px;
 
@@ -3241,37 +3263,50 @@ select:not([disabled]):focus {
         > a {
         width: 246px;
     }
-    .megamenu-brands {
-        grid-template-columns: 65% 20%;
-    }
     .megamenu-brands-container .megamenu-brands-image {
         display: none;
     }
-    .megamenu-brands-container .megamenu-brands .megamenu-brands-list {
-        grid-template-columns: repeat(10, 1fr);
-        .brand {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100px;
-            height: 100px;
-            padding: 4px;
-            border-radius: 10px;
+    .megamenu-brands {
+        width: 100%;
+        gap: 4px;
+        display: flex;
+
+        .megamenu-brands-list {
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4px;
+
+            .brand {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 92px;
+                height: 92px;
+                padding: 4px;
+                border-radius: 10px;
+            }
         }
+    }
+
+    .pa-upsell.active {
+        width: 72% !important;
+    }
+    .pa-digidirect-product-widget {
+        .s19-rental-price-target {
+            padding-top: 5px !important;
+        }
+    }
+    .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 8px !important;
+    }
+    .algolia-infos .ais-Stats {
+        margin-right: 8px;
     }
 }
 @media screen and (min-width: 768px) and (max-width: 1200px) {
     .ruby-menu-mega-blog-nav .ruby-col-3.image-col {
         display: none;
     }
-    ul.ruby-menu
-        > li.ruby-menu-mega-blog
-        > div
-        > ul.ruby-menu-mega-blog-nav
-        > li
-        > div {
-        left: 248px;
-    }
+
     .megamenu-brands .view-all-link {
         margin-top: -38px;
     }
@@ -3676,5 +3711,51 @@ select:not([disabled]):focus {
 
     button#top-cart-btn-checkout {
         font-size: 10px;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li
+        > div {
+        left: 200px;
+    }
+    .plp-banner-widget {
+        .plp-row.pa-widget {
+            padding: 30px 15px !important;
+        }
+    }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+    .cms-page-view .digidirect-custom-widget .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 9px;
+    }
+    .ais-Hits-item .after_special.black-friday {
+        font-size: 14px;
+    }
+    .product-right-column
+        .payment-gateways-container
+        .row-second
+        .zip-container {
+        gap: 4px;
+        line-height: 9px;
+    }
+    .product-right-column #zip-product-widget span {
+        font-size: 10px;
+    }
+    .product-right-column
+        .payment-gateways-container
+        .row-second
+        .zip-container
+        .zip-logo {
+        width: 35px !important;
+    }
+    .product-right-column .product-info-main {
+        padding: 10px !important;
     }
 }

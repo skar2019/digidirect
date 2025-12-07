@@ -1,0 +1,35 @@
+<?php
+    $getDescription = $block->getProduct()->getShortDescription();
+?>
+<div class="short-desc-container">
+    <div class="short-desc">
+        <?php
+            if (!is_null($getDescription)) {
+                echo html_entity_decode($getDescription);
+            }
+        ?>
+    </div>
+    <span onclick="scrollToProductOverview();" class="short-desc-read-more">View full item details</span>
+</div>
+<script>
+    function scrollToProductOverview() {
+        const element = document.getElementById("tab-label-productoverview") ||
+            document.getElementById("tab-label-description-title");
+
+        if(element) {
+            // Click the tab to open it
+            element.click();
+
+            // Small delay to allow tab content to render before scrolling
+            setTimeout(() => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - 100;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
+</script>
