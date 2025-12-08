@@ -9,35 +9,36 @@
 <!--        <link src="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"-->
 <!--              src_type="url"-->
 <!--              rel="stylesheet"/>-->
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Cyber-Monday-Hero-Desktop-Banner.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/BlackFriday-V2-Desktop-Web-Banner-110525.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_8_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/01_Hero_Banner_1920x380px_Tech_the_Halls.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Canon-Bonus-Retailer-Gift-Card-Hero-Desktop-Banner.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/OM-System-Summer-Cashback-Hero-Desktop-Banner.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_7_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Sony-Hero-Desktop-111725.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_1_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_4_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Fujifilm-Hero-Desktop-103025.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Nikon-Summer-Savings-Hero-Desktop-Banner-111725.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/11_Hero_Banner_1920x380px_Lumix_Bonus_1.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Hero_Banner_1920x380px_iPhone_17_Pro_Max.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Hero_Banner_1920x380px_Tech_the_Halls_4.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Tamron-25-200mm-Sony-Mount-Promo-Bonus-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/EOS-C50-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Sony-500_-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_1.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Sony-A7V-200_-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_8_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Hero-Desktop-BannerOptimized.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Sony-Hero-Desktop-111725.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_4_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Fujifilm-Hero-Desktop-103025.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Hero_Banner_1920x380px_Lumix_Bonus_1.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Nikon-Summer-Savings-Hero-Desktop-Banner-111725-optimized.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Hero_Banner_1920x380px_iPhone_17_Pro_Max_1.png" />
 
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Cyber-Monday-Hero-MOB-Banner.jpg" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/BlackFriday-V2-Desktop-MOB-Banner-110525_1_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Mobile_UI_402x217px_-_Tech_The_Halls.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_5_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Canon-Bonus-Retailer-Gift-Card-Hero-Desktop-Banner.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/OM-System-Summer-Cashback-Hero-MOB-Banner.jpg" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_4_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Sony-Hero-MOB-111725_1_1_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_2_.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Fujifilm-Hero-MOB-103025.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Nikon-Summer-Savings-Hero-MOB-Banner-111725.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/11_Hero_Banner_1920x380px_Lumix_Bonus_1.png" />
-        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Mobile_UI_402x217px_-_iPhone_17_Pro.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Mobile_UI_402x217px_-_Tech_The_Halls_1.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Tamron-25-200mm-Sony-Mount-Promo-Bonus-Hero-MOB-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/EOS-C50-Hero-MOB-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Sony-500_-Hero-MOB-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Sony-A7V-200_-Hero-MOB-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_5_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Canon-Bonus-Retailer-Gift-Card-Hero-MOB-Banner.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/OM-System-Summer-Cashback-Hero-MOB-Banner.jpg" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_4_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Sony-Hero-MOB-111725_1_1_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Mobile_UI_402x217px_2_.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/glow-up-main-banner-mobile/Fujifilm-Hero-MOB-103025.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Nikon-Summer-Savings-Hero-MOB-Banner-111725.png" />
+        <link rel="preload" as="image" href="https://www.digidirect.com.au/media/wysiwyg/Mobile_UI_402x217px_-_iPhone_17_Pro_1.png" />
 
     </head>
 </page>
