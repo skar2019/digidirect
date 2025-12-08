@@ -45,7 +45,7 @@ class AddHelloBarBlock implements DataPatchInterface
      <div class="hellobar-slide">For a limited time, shop <b>tax-free</b> on selected products in certain states -- online and in-store. <a href="#">Learn More ></a></div>
      <div class="hellobar-slide">Free shipping on orders over $99!</div>
      <div class="hellobar-slide">Shop tax-free on select items — limited time only!</div>
-     <div class="hellobar-slide">Join digiClub for exclusive deals and early access.</div>
+     <div class="hellobar-slide">Join digiClub for exclusive deals and early access...</div>
   </div>
 </div>',
             'is_active' => 1,

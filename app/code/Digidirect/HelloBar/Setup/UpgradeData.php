@@ -51,7 +51,7 @@ class UpgradeData implements UpgradeDataInterface
             <div class="tcl-banner__slide">
               <div class="tcl-banner__container">
                 <div class="tcl-banner__heading">
-                  Shop tax-free on select items — limited time only!
+                  Shop tax-free on select items —- limited time only!!!
                 </div>
               </div>
             </div>
