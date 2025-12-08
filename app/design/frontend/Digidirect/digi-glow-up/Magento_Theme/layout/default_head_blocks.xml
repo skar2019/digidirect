@@ -9,5 +9,20 @@
 <!--        <link src="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"-->
 <!--              src_type="url"-->
 <!--              rel="stylesheet"/>-->
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Cyber-Monday-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/BlackFriday-V2-Desktop-Web-Banner-110525.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_8_.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/01_Hero_Banner_1920x380px_Tech_the_Halls.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Canon-Bonus-Retailer-Gift-Card-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/OM-System-Summer-Cashback-Hero-Desktop-Banner.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_7_.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Sony-Hero-Desktop-111725.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_1_.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Hero_Banner_1920x380px_4_.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Fujifilm-Hero-Desktop-103025.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up-main-banner/Nikon-Summer-Savings-Hero-Desktop-Banner-111725.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/11_Hero_Banner_1920x380px_Lumix_Bonus_1.png" />
+        <link rel="preload" as="image" href="https://mcstaging2.digidirect.com.au/media/wysiwyg/Hero_Banner_1920x380px_iPhone_17_Pro_Max.png" />
+
     </head>
 </page>
