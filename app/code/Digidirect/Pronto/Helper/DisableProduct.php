@@ -50,7 +50,7 @@ class DisableProduct extends AbstractHelper
                 $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 1);
                 $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 5);
             }
-            
+
 
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -71,7 +71,7 @@ class DisableProduct extends AbstractHelper
                 {
                     echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
                 }
-                
+
                 $ids[$i] = $item->getEntityId();
                 $i++;
             }
@@ -89,7 +89,7 @@ class DisableProduct extends AbstractHelper
         }
 
     }
-    
+
     public function getProductCollection()
     {
         //if there's still issue on some products not being disabled, adjust the date close to most recent date. e,g. date yesterday or -2 day
@@ -102,7 +102,7 @@ class DisableProduct extends AbstractHelper
 
         return $collection;
     }
-    
+
     public function getProductCollectionToEnable()
     {
 
@@ -117,7 +117,6 @@ class DisableProduct extends AbstractHelper
 
         return $collection;
     }
-    
-    //redeploy
-    
+
+
 }
