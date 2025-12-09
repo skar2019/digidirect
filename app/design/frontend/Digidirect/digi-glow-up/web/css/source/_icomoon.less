@@ -3,12 +3,15 @@
     src: url("@{baseDir}fonts/icomoon/icomoon.eot");
     src: url("@{baseDir}fonts/icomoon/icomoon.eot?#iefix")
             format("embedded-opentype"),
-        url("@{baseDir}fonts/icomoon/icomoon.woff2") format("woff2"),
         url("@{baseDir}fonts/icomoon/icomoon.woff") format("woff"),
         url("@{baseDir}fonts/icomoon/icomoon.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
+    /* Optional CLS optimisation for icon fonts */
+    ascent-override: 100%;
+    descent-override: 0%;
+    line-gap-override: 0%;
 }
 .icomoon {
     font-family: "icomoon" !important;

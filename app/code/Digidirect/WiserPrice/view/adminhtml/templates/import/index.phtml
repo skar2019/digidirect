@@ -1,0 +1,128 @@
+<?php
+/**
+ * Copyright © Digidirect. All rights reserved.
+ *
+ * @var \Digidirect\WiserPrice\Block\Adminhtml\Import\Index $block
+ */
+?>
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Wiser Price Import')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="messages">
+            <div class="message message-notice">
+                <div>
+                    <strong><?= $block->escapeHtml(__('CSV File Format Instructions:')) ?></strong>
+                    <ul>
+                        <li><?= $block->escapeHtml(__('The CSV file must contain two columns: "sku" and "wiser_price"')) ?></li>
+                        <li><?= $block->escapeHtml(__('The first row must be the header row with column names')) ?></li>
+                        <li><?= $block->escapeHtml(__('SKU column should contain the product SKU')) ?></li>
+                        <li><?= $block->escapeHtml(__('wiser_price column should contain the price value')) ?></li>
+                        <li><?= $block->escapeHtml(__('Example:')) ?></li>
+                    </ul>
+                    <pre style="background: #f5f5f5; padding: 10px; margin-top: 10px;">
+sku,wiser_price
+PROD001,99.99
+PROD002,149.50
+PROD003,199.00</pre>
+                </div>
+            </div>
+        </div>
+
+        <form action="<?= $block->escapeUrl($block->getFormAction()) ?>" 
+              method="post" 
+              id="wiserprice_import_form" 
+              enctype="multipart/form-data"
+              class="admin__scope-old">
+            <?= $block->getBlockHtml('formkey') ?>
+            
+            <fieldset class="fieldset" id="base_fieldset">
+                <legend class="legend">
+                    <span><?= $block->escapeHtml(__('Upload CSV File')) ?></span>
+                </legend>
+                
+                <div class="admin__field field">
+                    <label class="label" for="csv_file">
+                        <span><?= $block->escapeHtml(__('CSV File')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="file" 
+                               name="csv_file" 
+                               id="csv_file" 
+                               class="input-file required-entry" 
+                               accept=".csv"
+                               data-validate="{required:true}" />
+                        <p class="note">
+                            <span><?= $block->escapeHtml(__('Allowed file types: CSV')) ?></span>
+                        </p>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="page-actions">
+                <button type="submit" 
+                        class="action-default scalable save primary" 
+                        title="<?= $block->escapeHtmlAttr(__('Import')) ?>">
+                    <span><?= $block->escapeHtml(__('Import')) ?></span>
+                </button>
+                <button type="button" 
+                        class="action-default scalable back" 
+                        title="<?= $block->escapeHtmlAttr(__('Back')) ?>"
+                        onclick="window.location.href='<?= $block->escapeUrl($block->getUrl('adminhtml/dashboard')) ?>'">
+                    <span><?= $block->escapeHtml(__('Back')) ?></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+require([
+    'jquery',
+    'mage/mage',
+    'mage/validation'
+], function($) {
+    $('#wiserprice_import_form').mage('validation', {});
+    
+    $('#csv_file').on('change', function() {
+        var fileName = $(this).val().split('\\').pop();
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+        
+        if (fileExtension !== 'csv') {
+            alert('<?= $block->escapeJs(__('Please select a CSV file.')) ?>');
+            $(this).val('');
+        }
+    });
+});
+</script>
+
+<style>
+.admin__page-section {
+    margin-bottom: 30px;
+}
+
+.admin__page-section-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.admin__page-section-title .title {
+    font-size: 1.7rem;
+    font-weight: 300;
+}
+
+pre {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+
+.page-actions {
+    margin-top: 20px;
+}
+
+.page-actions button {
+    margin-right: 10px;
+}
+</style>

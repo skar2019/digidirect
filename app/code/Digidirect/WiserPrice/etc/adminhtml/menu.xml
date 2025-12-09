@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Digidirect. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Digidirect_WiserPrice::wiser_price_import" 
+             title="Wiser Price Import" 
+             translate="title"
+             module="Digidirect_WiserPrice" 
+             parent="Digidirect_Utilities::Digidirect" 
+             sortOrder="60" 
+             dependsOnModule="Digidirect_WiserPrice" 
+             action="wiserprice/import/index" 
+             resource="Digidirect_WiserPrice::wiser_price_import"/>
+    </menu>
+</config>

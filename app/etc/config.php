@@ -785,6 +785,7 @@ return [
         'Digidirect_TradeUp' => 1,
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 1,
+        'Digidirect_WiserPrice' => 1,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'EthanYehuda_CronjobManager' => 1,
         'Experius_WysiwygDownloads' => 1,
