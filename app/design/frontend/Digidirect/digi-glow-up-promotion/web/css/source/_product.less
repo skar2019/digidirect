@@ -1553,8 +1553,9 @@
 @media screen and (min-width: 768px) {
     .modals-wrapper .modal-popup.itoris-pm-modal {
         div.modal-inner-wrap {
-            margin-left: -25% !important;
+            margin-left: 0 !important;
             margin-top: 2% !important;
+            transform: translate(-50%, -50%);
         }
     }
 }
@@ -1581,5 +1582,11 @@
         .product-price-section
         .price-box {
         flex-direction: row !important;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .modals-wrapper .modal-popup.itoris-pm-modal div.modal-inner-wrap {
+        height: auto !important;
     }
 }

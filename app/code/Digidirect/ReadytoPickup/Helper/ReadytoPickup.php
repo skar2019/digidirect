@@ -528,6 +528,41 @@ class ReadytoPickup extends AbstractHelper
                         </tbody>
                     </table>
                     <span>Address: Shop 1098/600 Kingsway Miranda New South Wales 2228</span>";
+                }elseif ($whse == "3WHS") {
+                    $storeHours = "<span>digiDirect Warehouse</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>CLOSED</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>CLOSED</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span>Address: Building 2 34-48 Cosgrove Rd Strathfield South NSW 2136</span>";
                 }
             }
         }
