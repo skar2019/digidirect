@@ -54,7 +54,6 @@ body {
 }
 
 .main-foot {
-    display: none !important;
     height: 54px;
     flex-shrink: 0;
     display: flex;
@@ -64,6 +63,7 @@ body {
 }
 
 .main-foot > .copy {
+    display: none !important;
     margin: 0;
     color: #9b9b9b;
     font-family: 'Roboto', sans-serif;
