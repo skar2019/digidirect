@@ -20,6 +20,7 @@ class Inventory extends AbstractHelper
     // Sync settings
     const CHANGE_LOOKBACK_MINUTES = 20;
     const TIMEZONE = 'UTC';
+    const EXCLUDED_WAREHOUSES = ['MWAV', 'XWEB'];
 
     protected $curl;
     protected $jsonSerializer;
@@ -430,7 +431,7 @@ class Inventory extends AbstractHelper
     }
 
     /**
-     * Update warehouse inventory
+     * Update warehouse inventory (excluding MWAV and XWEB)
      */
     protected function updateWarehouseInventory($product, array $prodData, &$forLogs, $verbose = false)
     {
@@ -440,13 +441,42 @@ class Inventory extends AbstractHelper
 
         $warehouses = $prodData['warehouse']['whse'];
 
-        // Handle single warehouse vs multiple warehouses
-        if (!$this->isArrayOfArrays($warehouses)) {
-            $warehouses = [$warehouses];
-        }
+        // Check if it's a single warehouse (has 'code' key directly) or multiple warehouses (array of warehouses)
+        if (isset($warehouses['code'])) {
+            // Single warehouse case
+            $sourceCode = $warehouses['code'];
 
-        foreach ($warehouses as $warehouse) {
-            $this->updateSingleWarehouse($prodData['code'], $warehouse, $forLogs, $verbose);
+            // Skip if excluded warehouse
+            if (in_array($sourceCode, self::EXCLUDED_WAREHOUSES, true)) {
+                if ($verbose) {
+                    echo "Skipping excluded warehouse: $sourceCode<br/>";
+                }
+                $forLogs .= "Skipped excluded warehouse: $sourceCode\n";
+                return;
+            }
+
+            $this->updateSingleWarehouse($prodData['code'], $warehouses, $forLogs, $verbose);
+        } else {
+            // Multiple warehouses case - array of warehouse objects
+            foreach ($warehouses as $warehouse) {
+                // Skip if not a proper warehouse object
+                if (!isset($warehouse['code'])) {
+                    continue;
+                }
+
+                $sourceCode = $warehouse['code'];
+
+                // Skip excluded warehouses
+                if (in_array($sourceCode, self::EXCLUDED_WAREHOUSES, true)) {
+                    if ($verbose) {
+                        echo "Skipping excluded warehouse: $sourceCode<br/>";
+                    }
+                    $forLogs .= "Skipped excluded warehouse: $sourceCode\n";
+                    continue;
+                }
+
+                $this->updateSingleWarehouse($prodData['code'], $warehouse, $forLogs, $verbose);
+            }
         }
     }
 
@@ -510,10 +540,19 @@ class Inventory extends AbstractHelper
     }
 
     /**
-     * Get source items by SKU
+     * Get source items by SKU (excluding MWAV and XWEB warehouses)
      */
     public function getSourceItemBySku($sku)
     {
-        return $this->sourceItemsBySku->execute($sku);
+        $sourceItems = $this->sourceItemsBySku->execute($sku);
+        $filteredItems = [];
+
+        foreach ($sourceItems as $sourceItem) {
+            if (!in_array($sourceItem->getSourceCode(), self::EXCLUDED_WAREHOUSES, true)) {
+                $filteredItems[] = $sourceItem;
+            }
+        }
+
+        return $filteredItems;
     }
 }
