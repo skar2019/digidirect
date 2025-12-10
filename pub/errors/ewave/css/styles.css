@@ -54,6 +54,7 @@ body {
 }
 
 .main-foot {
+    display: none !important;
     height: 54px;
     flex-shrink: 0;
     display: flex;
