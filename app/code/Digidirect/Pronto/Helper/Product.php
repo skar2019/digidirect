@@ -19,7 +19,6 @@ class Product extends AbstractHelper
     const BRAND_ATTRIBUTE_CODE = 'brand';
     const DEFAULT_CATEGORY_PARENT_ID = 2;
     const MARKETPLACER_SELLER_ID = 20329;
-    const EXCLUDED_WAREHOUSES = ['MWAV', 'XWEB'];
 
     // Pronto API configuration paths
     const CONFIG_PATH_URL = 'pronto_settings_section/pronto_group/url';
@@ -281,17 +280,25 @@ class Product extends AbstractHelper
     {
         $forLogs = "SKU " . $prodData['code'] . "\n";
 
+        if ($verbose) {
+            echo "SKU " . $prodData['code'] . "<br/>\n";
+        }
+
         $product = $this->productRepository->get($prodData['code']);
 
         // Update basic product data
-        $price = $this->updateProductPricing($product, $prodData, $forLogs);
-        $this->updateProductStatus($product, $prodData, $forLogs);
-        $this->updateProductBrand($product, $prodData, $forLogs);
-        $this->updateProductAttributes($product, $prodData, $forLogs);
+        $price = $this->updateProductPricing($product, $prodData, $forLogs, $verbose);
+        $this->updateProductStatus($product, $prodData, $forLogs, $verbose);
+        $this->updateProductBrand($product, $prodData, $forLogs, $verbose);
+        $this->updateProductAttributes($product, $prodData, $forLogs, $verbose);
 
         // Calculate and set bestseller metric
         $productSales = $this->getProductSales($product->getId(), $price);
         $product->setCustomAttribute('nb_sales', $productSales);
+
+        if ($verbose) {
+            echo "Product Sales: $productSales<br/>\n";
+        }
 
         // Set update date
         $product->setCustomAttribute('date_update', date('Y-m-d'));
@@ -299,8 +306,12 @@ class Product extends AbstractHelper
         // Save product first (Magento requirement before category assignment)
         $this->productRepository->save($product);
 
+        if ($verbose) {
+            echo "Product saved<br/>\n";
+        }
+
         // Update categories
-        $this->updateProductCategories($product, $prodData, $forLogs);
+        $this->updateProductCategories($product, $prodData, $forLogs, $verbose);
 
         $this->logger->info($forLogs);
     }
@@ -308,7 +319,7 @@ class Product extends AbstractHelper
     /**
      * Update product pricing
      */
-    protected function updateProductPricing($product, array $prodData, &$forLogs)
+    protected function updateProductPricing($product, array $prodData, &$forLogs, $verbose = false)
     {
         $price = 0;
 
@@ -330,21 +341,35 @@ class Product extends AbstractHelper
         $product->setCustomAttribute('marketplaces_price', $marketplacesPrice ?: 0);
         $forLogs .= "Marketplaces Price: $marketplacesPrice\n";
 
+        if ($verbose) {
+            echo "Price: $price<br/>\n";
+            echo "Marketplaces Price: $marketplacesPrice<br/>\n";
+        }
+
         return $price;
     }
 
     /**
      * Update product status based on conditions
      */
-    protected function updateProductStatus($product, array $prodData, &$forLogs)
+    protected function updateProductStatus($product, array $prodData, &$forLogs, $verbose = false)
     {
         $statusFlag = $prodData['stk-user-only-alpha4-1'] ?? '';
         $conditionCode = $prodData['stk-condition-code'] ?? '';
+
+        if ($verbose) {
+            echo "Status Flag: " . ($statusFlag ?: '(empty)') . "<br/>\n";
+            echo "Condition Code: $conditionCode<br/>\n";
+        }
 
         // Obsolete products are always disabled
         if ($conditionCode === 'O') {
             $product->setStatus(Status::STATUS_DISABLED);
             $forLogs .= "Status: Disabled (Obsolete)\n";
+
+            if ($verbose) {
+                echo "Status: Disabled (Obsolete)<br/>\n";
+            }
             return;
         }
 
@@ -352,14 +377,26 @@ class Product extends AbstractHelper
         if (empty($statusFlag) || $statusFlag === 'N') {
             $product->setStatus(Status::STATUS_DISABLED);
             $forLogs .= "Status: Disabled (No web flag)\n";
+
+            if ($verbose) {
+                echo "Status: Disabled (No web flag)<br/>\n";
+            }
         } elseif ($statusFlag === 'W') {
             // Web enabled, but check NDA status
             if ($product->getIsNda()) {
                 $product->setStatus(Status::STATUS_DISABLED);
                 $forLogs .= "Status: Disabled (NDA)\n";
+
+                if ($verbose) {
+                    echo "Status: Disabled (NDA)<br/>\n";
+                }
             } else {
                 $product->setStatus(Status::STATUS_ENABLED);
                 $forLogs .= "Status: Enabled\n";
+
+                if ($verbose) {
+                    echo "Status: Enabled<br/>\n";
+                }
             }
         }
 
@@ -367,12 +404,20 @@ class Product extends AbstractHelper
         if ($statusFlag === 'P') {
             $product->setCustomAttribute('pre_order_status', '1');
             $forLogs .= "Pre-order: Yes\n";
+
+            if ($verbose) {
+                echo "Pre-order: Yes<br/>\n";
+            }
         }
 
         // Set awaiting product status
         if ($statusFlag === 'A') {
             $product->setCustomAttribute('awaiting_product', '1');
             $forLogs .= "Awaiting Product: Yes\n";
+
+            if ($verbose) {
+                echo "Awaiting Product: Yes<br/>\n";
+            }
         } else {
             $product->setCustomAttribute('awaiting_product', '0');
         }
@@ -381,7 +426,7 @@ class Product extends AbstractHelper
     /**
      * Update product brand
      */
-    protected function updateProductBrand($product, array $prodData, &$forLogs)
+    protected function updateProductBrand($product, array $prodData, &$forLogs, $verbose = false)
     {
         // Determine brand name
         if (($prodData['stk-brand-desc'] ?? '') === 'digiSeconds') {
@@ -397,13 +442,17 @@ class Product extends AbstractHelper
         if (isset($this->attributeOptions[$brandName])) {
             $product->setBrand($this->attributeOptions[$brandName]);
             $forLogs .= "Brand: $brandName\n";
+
+            if ($verbose) {
+                echo "Brand: $brandName<br/>\n";
+            }
         }
     }
 
     /**
      * Update various product attributes
      */
-    protected function updateProductAttributes($product, array $prodData, &$forLogs)
+    protected function updateProductAttributes($product, array $prodData, &$forLogs, $verbose = false)
     {
         // Stock division attributes
         $this->setAttributeIfExists($product, 'stock_division', $prodData, 'stock-division');
@@ -429,6 +478,15 @@ class Product extends AbstractHelper
         $product->setCustomAttribute('dangerous_goods', $storageFlag === 'H' ? '1' : '0');
         $product->setCustomAttribute('bulky_item', $storageFlag === 'B' ? 1 : 0);
 
+        if ($verbose && $storageFlag) {
+            if ($storageFlag === 'H') {
+                echo "Dangerous Goods: Yes<br/>\n";
+            }
+            if ($storageFlag === 'B') {
+                echo "Bulky Item: Yes<br/>\n";
+            }
+        }
+
         // Qantas product flag
         if (isset($prodData['stk-user-only-alpha4-3'])) {
             $isQantas = $prodData['stk-user-only-alpha4-3'] === 'Q' ? '1' : '0';
@@ -452,7 +510,7 @@ class Product extends AbstractHelper
     /**
      * Update product categories
      */
-    protected function updateProductCategories($product, array $prodData, &$forLogs)
+    protected function updateProductCategories($product, array $prodData, &$forLogs, $verbose = false)
     {
         $categoryIds = [];
         $catList = "";
@@ -474,10 +532,18 @@ class Product extends AbstractHelper
 
         $forLogs .= "Categories: $catList\n";
 
+        if ($verbose) {
+            echo "Categories: $catList<br/>\n";
+        }
+
         // Assign categories
         if (count($categoryIds)) {
             try {
                 $this->categoryLinkManagement->assignProductToCategories($prodData['code'], $categoryIds);
+
+                if ($verbose) {
+                    echo "Categories assigned successfully<br/>\n";
+                }
             } catch (\Exception $e) {
                 $this->logger->error('Failed to assign categories for ' . $prodData['code'] . ': ' . $e->getMessage());
             }
@@ -604,20 +670,11 @@ class Product extends AbstractHelper
     }
 
     /**
-     * Get source items by SKU (excluding MWAV and XWEB warehouses)
+     * Get source items by SKU
      */
     public function getSourceItemBySku($sku)
     {
-        $sourceItems = $this->sourceItemsBySku->execute($sku);
-        $filteredItems = [];
-
-        foreach ($sourceItems as $sourceItem) {
-            if (!in_array($sourceItem->getSourceCode(), self::EXCLUDED_WAREHOUSES, true)) {
-                $filteredItems[] = $sourceItem;
-            }
-        }
-
-        return $filteredItems;
+        return $this->sourceItemsBySku->execute($sku);
     }
 
     /**

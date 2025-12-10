@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceBlock name="global.pa.minicart" remove="true" />
         <referenceContainer name="page.wrapper">
             <block class="Magento\Framework\View\Element\Template" name="algolia.brands.custom.block" template="Magento_Theme::algolia/landing-page-brands-default.phtml" before="main.content"/>
         </referenceContainer>
