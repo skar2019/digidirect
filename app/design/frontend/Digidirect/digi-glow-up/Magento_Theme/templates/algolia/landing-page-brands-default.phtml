@@ -29,6 +29,42 @@ if (!@getimagesize($webImageUrl)) {
 if (!@getimagesize($mobileImageUrl)) {
     $mobileImageUrl = $block->getViewFileUrl('images/brands-pages/mobile/default.png');
 }
+
+$featuredBrands = [
+    'fujifilm',
+    'canon',
+    'sony',
+    'nikon',
+    'apple',
+    'sigma',
+    'om-system',
+    'logitech',
+    'leica',
+    'panasonic',
+    'dji',
+    'tamron',
+    'kodak',
+    'godox',
+    'røde',
+    'ricoh',
+    'sandisk',
+    'smallrig',
+    'samsung',
+    'pd',
+    'lacie',
+    'lexar',
+    'manfrotto',
+    'hoya',
+    'rakuten-kobo',
+    'insta360',
+    'pelican',
+    'aputure',
+    'western-digital',
+    'belkin',
+    'microsoft',
+    'nintendo',
+];
+
 ?>
 
 <?php
@@ -759,12 +795,14 @@ require(['jquery'], function ($) {
              src="<?= $block->escapeUrl($mobileImageUrl) ?>"
              alt="<?= $block->escapeHtml($brand ?: 'default') ?>" />
     </div>
-    <div class="plp-row pa-widget" style="margin: -4px 0 0 0;">
-        <div class="pa-digidirect-product-widget">
-            <div class="product-widget-header">
-                <div style="color: #242426; font-size: 32px; font-family: Inter; font-weight: 500; line-height: 33px; word-wrap: break-word">Here’s our top deals</div>
+    <?php if (in_array($brand, $featuredBrands, true)) { ?>
+        <div class="plp-row pa-widget" style="margin: -4px 0 0 0;">
+            <div class="pa-digidirect-product-widget">
+                <div class="product-widget-header">
+                    <div style="color: #242426; font-size: 32px; font-family: Inter; font-weight: 500; line-height: 33px; word-wrap: break-word">Here’s our top deals</div>
+                </div>
+                <div id="brands-recommended-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
             </div>
-            <div id="brands-recommended-widget-desktop" class="pa-digidirect-product-widget-container desktop-widget real-container owl-carousel custom"></div>
         </div>
-    </div>
+    <?php } ?>
 </div>

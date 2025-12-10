@@ -920,42 +920,28 @@ if ($mobileMenuClose.length) {
    🎯 Owl Nav Fixed to Screen Edges (Global)
 ======================== */
 (function () {
-  function moveAllNavsToBody() {
-    $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function (index) {
-      const $carousel = $(this)
-      const $nav = $carousel.find('.owl-nav')
-      if (!$nav.length || $nav.data('moved')) return
+  function moveNavs($carousel) {
+    const $nav = $carousel.find('.owl-nav')
+    if (!$nav.length || $nav.data('moved')) return
 
-      $nav.data('moved', true)
-      $('body').append($nav)
+    $nav.data('moved', true)
+    $('body').append($nav)
 
-      $nav.css({
-        position: 'fixed',
-        inset: 0, // shorthand for top/right/bottom/left = 0
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none', // ✅ let swipe/touch go through
-        zIndex: 999,
-      })
-
-      $nav.find('button').css({
-        pointerEvents: 'auto !important', // ✅ only buttons receive clicks
-        position: 'fixed',
-        borderRadius: '50%',
-        backdropFilter: 'blur(10px)',
-        background: 'rgba(255,255,255,0.7)',
-        border: 'none',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        zIndex: 10000,
-        padding: 0,
-      })
+    $nav.find('button').css({
+      pointerEvents: 'auto',
+      position: 'fixed',
+      borderRadius: '50%',
+      backdropFilter: 'blur(10px)',
+      background: 'rgba(255,255,255,0.7)',
+      border: 'none',
+      boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      zIndex: 10000,
+      padding: 0,
     })
-
-    updateNavPositions()
   }
 
   function updateNavPositions() {
@@ -967,24 +953,10 @@ if ($mobileMenuClose.length) {
       const $prev = $nav.find('.owl-prev')
       const $next = $nav.find('.owl-next')
       const offset = 16
-
       const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
 
-      if ($prev.length) {
-        $prev.css({
-          left: `${offset}px`,
-          top: `${topValue}px`,
-          transform: 'translateY(-50%)',
-        })
-      }
-
-      if ($next.length) {
-        $next.css({
-          right: `${offset}px`,
-          top: `${topValue}px`,
-          transform: 'translateY(-50%)',
-        })
-      }
+      $prev.css({ left: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' })
+      $next.css({ right: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' })
 
       const visible = rect.bottom > 0 && rect.top < window.innerHeight
       $prev.css('opacity', visible ? 0.5 : 0)
@@ -994,10 +966,29 @@ if ($mobileMenuClose.length) {
 
   $(window).on('scroll resize', updateNavPositions)
 
-  const observer = new MutationObserver(() => moveAllNavsToBody())
+  // Wait for each carousel to initialize
+  $('.owl-carousel').each(function () {
+    const $carousel = $(this)
+    $carousel.on('initialized.owl.carousel', function () {
+      moveNavs($carousel)
+      updateNavPositions()
+    })
+  })
+
+  // MutationObserver for dynamically added carousels
+  const observer = new MutationObserver(() => {
+    $('.owl-carousel').each(function () {
+      moveNavs($(this))
+    })
+  })
   observer.observe(document.body, { childList: true, subtree: true })
 
-  $(window).on('load', () => setTimeout(moveAllNavsToBody, 600))
+  $(window).on('load', () => setTimeout(() => {
+    $('.owl-carousel').each(function () {
+      moveNavs($(this))
+      updateNavPositions()
+    })
+  }, 600))
 })()
 
 /* ========================
