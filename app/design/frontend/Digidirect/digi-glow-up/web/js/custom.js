@@ -917,15 +917,26 @@ if ($mobileMenuClose.length) {
 }
 
 /* ========================
-   🎯 Owl Nav Fixed to Screen Edges (Global)
+   🎯 General Owl Nav Fixed to Screen Edges
 ======================== */
 (function () {
-  function moveNavs($carousel) {
-    const $nav = $carousel.find('.owl-nav')
-    if (!$nav.length || $nav.data('moved')) return
 
-    $nav.data('moved', true)
-    $('body').append($nav)
+  // Move nav of a single carousel to body and style it
+  function moveNav($carousel) {
+    const $nav = $carousel.find('.owl-nav');
+    if (!$nav.length || $nav.data('moved')) return;
+
+    $nav.data('moved', true);
+    $('body').append($nav);
+
+    $nav.css({
+      position: 'fixed',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      zIndex: 999,
+    });
 
     $nav.find('button').css({
       pointerEvents: 'auto',
@@ -941,55 +952,62 @@ if ($mobileMenuClose.length) {
       cursor: 'pointer',
       zIndex: 10000,
       padding: 0,
-    })
+    });
+
+    updateNavPositions();
   }
 
+  // Update the position of nav buttons for all moved navs
   function updateNavPositions() {
-    $('.owl-carousel').each(function (i) {
-      const $carousel = $(this)
-      const rect = this.getBoundingClientRect()
-      const centerY = rect.top + rect.height / 2
-      const $nav = $('.owl-nav').eq(i)
-      const $prev = $nav.find('.owl-prev')
-      const $next = $nav.find('.owl-next')
-      const offset = 16
-      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
+    $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function (i) {
+      const $carousel = $(this);
+      const rect = this.getBoundingClientRect();
+      const centerY = rect.top + rect.height / 2;
+      const $nav = $('body').find('.owl-nav').filter(function () {
+        return $(this).data('moved');
+      }).eq(i);
+      const $prev = $nav.find('.owl-prev');
+      const $next = $nav.find('.owl-next');
+      const offset = 16;
 
-      $prev.css({ left: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' })
-      $next.css({ right: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' })
+      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY));
 
-      const visible = rect.bottom > 0 && rect.top < window.innerHeight
-      $prev.css('opacity', visible ? 0.5 : 0)
-      $next.css('opacity', visible ? 0.5 : 0)
-    })
+      $prev.css({ left: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' });
+      $next.css({ right: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)' });
+
+      const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+      $prev.css('opacity', visible ? 0.5 : 0);
+      $next.css('opacity', visible ? 0.5 : 0);
+    });
   }
 
-  $(window).on('scroll resize', updateNavPositions)
+  $(window).on('scroll resize', updateNavPositions);
 
-  // Wait for each carousel to initialize
-  $('.owl-carousel').each(function () {
-    const $carousel = $(this)
+  // Initialize navs for existing carousels
+  $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function () {
+    const $carousel = $(this);
+
+    // Hook into Owl Carousel initialization
     $carousel.on('initialized.owl.carousel', function () {
-      moveNavs($carousel)
-      updateNavPositions()
-    })
-  })
+      moveNav($carousel);
+    });
 
-  // MutationObserver for dynamically added carousels
+    // If already initialized, move nav immediately
+    if ($carousel.hasClass('owl-loaded')) {
+      moveNav($carousel);
+    }
+  });
+
+  // Observe dynamically added carousels
   const observer = new MutationObserver(() => {
-    $('.owl-carousel').each(function () {
-      moveNavs($(this))
-    })
-  })
-  observer.observe(document.body, { childList: true, subtree: true })
+    $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function () {
+      const $carousel = $(this);
+      moveNav($carousel);
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 
-  $(window).on('load', () => setTimeout(() => {
-    $('.owl-carousel').each(function () {
-      moveNavs($(this))
-      updateNavPositions()
-    })
-  }, 600))
-})()
+})();
 
 /* ========================
    🎯 Replace Carousel Nav Arrows (Owl + Slick) with SVGs
