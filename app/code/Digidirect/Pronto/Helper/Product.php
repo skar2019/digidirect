@@ -19,6 +19,7 @@ class Product extends AbstractHelper
     const BRAND_ATTRIBUTE_CODE = 'brand';
     const DEFAULT_CATEGORY_PARENT_ID = 2;
     const MARKETPLACER_SELLER_ID = 20329;
+    const EXCLUDED_WAREHOUSES = ['MWAV', 'XWEB'];
 
     // Pronto API configuration paths
     const CONFIG_PATH_URL = 'pronto_settings_section/pronto_group/url';
@@ -603,11 +604,20 @@ class Product extends AbstractHelper
     }
 
     /**
-     * Get source items by SKU
+     * Get source items by SKU (excluding MWAV and XWEB warehouses)
      */
     public function getSourceItemBySku($sku)
     {
-        return $this->sourceItemsBySku->execute($sku);
+        $sourceItems = $this->sourceItemsBySku->execute($sku);
+        $filteredItems = [];
+
+        foreach ($sourceItems as $sourceItem) {
+            if (!in_array($sourceItem->getSourceCode(), self::EXCLUDED_WAREHOUSES, true)) {
+                $filteredItems[] = $sourceItem;
+            }
+        }
+
+        return $filteredItems;
     }
 
     /**
