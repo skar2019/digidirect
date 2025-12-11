@@ -63,6 +63,7 @@ body {
 }
 
 .main-foot > .copy {
+    display: none !important;
     margin: 0;
     color: #9b9b9b;
     font-family: 'Roboto', sans-serif;
