@@ -262,6 +262,16 @@ class Product extends AbstractHelper
                 $this->updateProduct($prod, $verbose);
             } catch (NoSuchEntityException $e) {
                 if ($verbose) {
+                    // In manual mode, create the product if it doesn't exist
+                    $this->logger->info('Product not found, creating new: ' . $prod['code']);
+                    echo "Product not found, creating new: " . $prod['code'] . "<br/>\n";
+                    try {
+                        $this->createProduct($prod, $verbose);
+                    } catch (\Exception $createError) {
+                        $this->logger->error('Error creating product ' . $prod['code'] . ': ' . $createError->getMessage());
+                        echo "Error creating product: " . $createError->getMessage() . "<br/>\n";
+                    }
+                } else {
                     $this->logger->info('Product not found, skipping: ' . $prod['code']);
                 }
                 continue;
@@ -737,6 +747,293 @@ class Product extends AbstractHelper
                 }
             }
         }
+    }
+
+    /**
+     * Create new product from Pronto data
+     */
+    protected function createProduct(array $prodData, $verbose = false)
+    {
+        $forLogs = "Creating new product\n";
+        $forLogs .= "SKU: " . $prodData['code'] . "\n";
+
+        if ($verbose) {
+            echo "Creating new product<br/>\n";
+            echo "SKU: " . $prodData['code'] . "<br/>\n";
+        }
+
+        // Create product name
+        $prodname = trim($prodData['desc1'] . " " . $prodData['desc2'] . " " . $prodData['desc3']);
+        $forLogs .= "Product Name: $prodname\n";
+
+        if ($verbose) {
+            echo "Product Name: $prodname<br/>\n";
+        }
+
+        // Create new product
+        $product = $this->productFactory->create();
+        $product->setSku($prodData['code']);
+        $product->setName($prodname);
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+        $product->setVisibility(4);
+        $product->setAttributeSetId(4);
+        $product->setMetaTitle($prodname);
+        $product->setStatus(Status::STATUS_DISABLED); // New products start disabled
+
+        // Create URL key
+        $urlKey = preg_replace('/[+]/', 'plus', $prodname);
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $urlKey);
+        $urlKey = strtolower($urlKey);
+        $product->setUrlKey($urlKey);
+
+        // Set pricing
+        $price = 0;
+        $tax = 10;
+        if (isset($prodData['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'])) {
+            $price = $prodData['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
+            $tax = $prodData['pricing']['price-region'][0]['prc-tax-rate'] ?? 10;
+        } elseif (isset($prodData['pricing']['price-region']['prc-recommend-retail-inc-tax'])) {
+            $price = $prodData['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+            $tax = $prodData['pricing']['price-region']['prc-tax-rate'] ?? 10;
+        }
+
+        $product->setPrice($price);
+        $forLogs .= "Price: $price\n";
+
+        if ($verbose) {
+            echo "Price: $price<br/>\n";
+        }
+
+        // Calculate cost
+        $cost = $this->calculateProductCost($prodData, $price, $tax);
+        $product->setCustomAttribute('cost', $cost);
+
+        // Marketplace price
+        $marketplacesPrice = 0;
+        if (isset($prodData['pricing']['price-region'][0]['prc-break-price-4-inc'])) {
+            $marketplacesPrice = $prodData['pricing']['price-region'][0]['prc-break-price-4-inc'] ?: 0;
+        } elseif (isset($prodData['pricing']['price-region']['prc-break-price-4-inc'])) {
+            $marketplacesPrice = $prodData['pricing']['price-region']['prc-break-price-4-inc'] ?: 0;
+        }
+
+        $product->setCustomAttribute('marketplaces_price', $marketplacesPrice);
+        $forLogs .= "Marketplaces Price: $marketplacesPrice\n";
+
+        if ($verbose) {
+            echo "Marketplaces Price: $marketplacesPrice<br/>\n";
+        }
+
+        // Set brand
+        $this->setProductBrand($product, $prodData, $forLogs, $verbose);
+
+        // Set barcodes/GTINs
+        $this->setProductBarcodes($product, $prodData, $forLogs, $verbose);
+
+        // Set warehouse inventory
+        $this->setWarehouseInventory($product, $prodData, $forLogs, $verbose);
+
+        // Set Qantas attributes
+        $product->setCustomAttribute('apn', $prodData['stk-apn-number'] ?? '');
+        $product->setCustomAttribute('qff_base', $prodData['qff-base-points-per-dollar'] ?? 0);
+        $product->setCustomAttribute('qff_bonus_points', $prodData['qff-bonus-points-per-dollar'] ?? 0);
+
+        if (isset($prodData['qff-store-product-name'])) {
+            $product->setCustomAttribute('qff_store_product_name', $prodData['qff-store-product-name']);
+        }
+        if (isset($prodData['qff-store-price'])) {
+            $product->setCustomAttribute('qff_store_price', $prodData['qff-store-price']);
+        }
+
+        // DigiSeconds attributes
+        $this->setDigiSecondsAttributes($product, $prodData);
+
+        // Storage flags
+        $storageFlag = $prodData['stk-storage-type-flag'] ?? '';
+        $product->setCustomAttribute('dangerous_goods', $storageFlag === 'H' ? '1' : '0');
+        $product->setCustomAttribute('bulky_item', $storageFlag === 'B' ? 1 : 0);
+
+        // Stock division attributes
+        $this->setAttributeIfExists($product, 'stock_division', $prodData, 'stock-division');
+        $this->setAttributeIfExists($product, 'stock_department', $prodData, 'stock-department');
+        $this->setAttributeIfExists($product, 'stock_category', $prodData, 'stock-category');
+        $this->setAttributeIfExists($product, 'stock_class', $prodData, 'stock-class');
+
+        // Set other attributes
+        $product->setCustomAttribute('marketplacer_seller', self::MARKETPLACER_SELLER_ID);
+        $product->setCustomAttribute('date_update', date('Y-m-d'));
+        $product->setCustomAttribute('is_nda', 1); // New products start as NDA
+
+        // Save product
+        $this->productRepository->save($product);
+
+        if ($verbose) {
+            echo "Product created and saved<br/>\n";
+        }
+
+        // Set categories
+        $this->updateProductCategories($product, $prodData, $forLogs, $verbose);
+
+        $this->logger->info($forLogs);
+    }
+
+    /**
+     * Calculate product cost from various sources
+     */
+    protected function calculateProductCost(array $prodData, $price, $tax)
+    {
+        $priceToCost = floatval($price);
+        $taxRate = floatval($tax);
+        $cost = $priceToCost / ((1 + $taxRate) / 100);
+
+        // Try stk-replacement-cost first
+        if (isset($prodData['stk-replacement-cost']) && $prodData['stk-replacement-cost'] > 0) {
+            $cost = $prodData['stk-replacement-cost'];
+        }
+        // Try stk-current-buy if replacement cost is 0
+        elseif (isset($prodData['stk-current-buy']) && $prodData['stk-current-buy'] > 0) {
+            $cost = $prodData['stk-current-buy'];
+        }
+        // Try warehouse average cost
+        elseif (isset($prodData['whse-avg-cost-swhs']) && $prodData['whse-avg-cost-swhs'] > 0) {
+            $cost = $prodData['whse-avg-cost-swhs'];
+        }
+
+        return $cost;
+    }
+
+    /**
+     * Set product brand during creation
+     */
+    protected function setProductBrand($product, array $prodData, &$forLogs, $verbose = false)
+    {
+        if (($prodData['stk-brand-desc'] ?? '') === 'digiSeconds') {
+            $brandName = strtolower($prodData['d2brand'] ?? $prodData['stk-brand'] ?? '');
+        } else {
+            $brandName = strtolower($prodData['stk-brand'] ?? '');
+        }
+
+        $brandName = self::BRAND_MAPPINGS[$brandName] ?? $brandName;
+
+        if (isset($this->attributeOptions[$brandName])) {
+            $product->setBrand($this->attributeOptions[$brandName]);
+            $forLogs .= "Brand: $brandName\n";
+
+            if ($verbose) {
+                echo "Brand: $brandName<br/>\n";
+            }
+        }
+    }
+
+    /**
+     * Set product barcodes/GTINs
+     */
+    protected function setProductBarcodes($product, array $prodData, &$forLogs, $verbose = false)
+    {
+        $barcode1 = $barcode2 = $barcode3 = $barcode4 = "";
+
+        if (isset($prodData['gtins']['gtin'])) {
+            // Check if single GTIN or array
+            if (count($prodData['gtins']['gtin']) == count($prodData['gtins']['gtin'], COUNT_RECURSIVE)) {
+                $barcode1 = $prodData['gtins']['gtin']['id'] ?? '';
+            } else {
+                $x = 1;
+                foreach ($prodData['gtins']['gtin'] as $gtin) {
+                    switch ($x) {
+                        case 1:
+                            $barcode1 = $gtin['id'] ?? '';
+                            break;
+                        case 2:
+                            $barcode2 = $gtin['id'] ?? '';
+                            break;
+                        case 3:
+                            $barcode3 = $gtin['id'] ?? '';
+                            break;
+                        case 4:
+                            $barcode4 = $gtin['id'] ?? '';
+                            break;
+                    }
+                    $x++;
+                }
+            }
+        }
+
+        $product->setCustomAttribute('barcode1', $barcode1);
+        $product->setCustomAttribute('barcode2', $barcode2);
+        $product->setCustomAttribute('barcode3', $barcode3);
+        $product->setCustomAttribute('barcode4', $barcode4);
+
+        $forLogs .= "Barcodes: $barcode1, $barcode2, $barcode3, $barcode4\n";
+    }
+
+    /**
+     * Set warehouse inventory during product creation
+     */
+    protected function setWarehouseInventory($product, array $prodData, &$forLogs, $verbose = false)
+    {
+        if (!isset($prodData['warehouse']['whse'])) {
+            return;
+        }
+
+        $warehouses = $prodData['warehouse']['whse'];
+
+        // Handle single warehouse vs multiple
+        if (!is_array(reset($warehouses))) {
+            $warehouses = [$warehouses];
+        }
+
+        foreach ($warehouses as $warehouse) {
+            if (!is_array($warehouse)) {
+                continue;
+            }
+
+            $sourceCode = $warehouse['code'] ?? null;
+            $quantity = $warehouse['qty_available'] ?? 0;
+
+            if (!$sourceCode) {
+                continue;
+            }
+
+            try {
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode($sourceCode);
+                $sourceItem->setSku($prodData['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity($quantity);
+
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
+                $forLogs .= "$sourceCode: $quantity\n";
+
+                if ($verbose) {
+                    echo "$sourceCode: $quantity<br/>\n";
+                }
+            } catch (\Exception $e) {
+                $this->logger->error("Error setting warehouse inventory for " . $sourceCode . ": " . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Set digiSeconds specific attributes
+     */
+    protected function setDigiSecondsAttributes($product, array $prodData)
+    {
+        $itemCondition = ' ';
+        if (isset($prodData['stk-sort-analysis-code']) && !empty($prodData['stk-sort-analysis-code'])) {
+            $itemCondition = $prodData['stk-sort-analysis-code'];
+        } elseif (isset($prodData['d2lvl1']) && !empty($prodData['d2lvl1'])) {
+            $itemCondition = $prodData['d2lvl1'];
+        }
+        $product->setCustomAttribute('item_condition', $itemCondition);
+
+        $itemRating = $prodData['d2lvl2'] ?? ' ';
+        $product->setCustomAttribute('item_rating', $itemRating);
+
+        $d2Desc = $prodData['d2desc'] ?? ' ';
+        $product->setCustomAttribute('d2desc', $d2Desc);
+
+        $d2NewSku = $prodData['d2newsku'] ?? ' ';
+        $product->setCustomAttribute('d2newsku', $d2NewSku);
     }
 
     /**
