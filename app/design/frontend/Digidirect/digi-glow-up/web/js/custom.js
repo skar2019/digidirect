@@ -959,38 +959,32 @@ if ($mobileMenuClose.length) {
   }
 
   function updateNavPositions() {
-    $('.owl-carousel').each(function (i) {
-      const $carousel = $(this)
-      const rect = this.getBoundingClientRect()
-      const centerY = rect.top + rect.height / 2
-      const $nav = $('.owl-nav').eq(i)
-      const $prev = $nav.find('.owl-prev')
-      const $next = $nav.find('.owl-next')
-      const offset = 16
+  $('.owl-carousel').not('.welcome, .upsell, .pa-minicart').each(function (i) {
+    const $carousel = $(this);
+    const rect = this.getBoundingClientRect();
+    const $nav = $('body').find('.owl-nav').filter(function () {
+      return $(this).data('moved');
+    }).eq(i);
+    const $prev = $nav.find('.owl-prev');
+    const $next = $nav.find('.owl-next');
+    const offset = 16;
 
-      const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY))
+    // Only calculate top if carousel is visible
+    const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+    if (!visible) {
+      $prev.css('opacity', 0);
+      $next.css('opacity', 0);
+      return;
+    }
 
-      if ($prev.length) {
-        $prev.css({
-          left: `${offset}px`,
-          top: `${topValue}px`,
-          transform: 'translateY(-50%)',
-        })
-      }
+    // Center vertically relative to viewport
+    const centerY = rect.top + rect.height / 2;
+    const topValue = Math.max(44, Math.min(window.innerHeight - 44, centerY));
 
-      if ($next.length) {
-        $next.css({
-          right: `${offset}px`,
-          top: `${topValue}px`,
-          transform: 'translateY(-50%)',
-        })
-      }
-
-      const visible = rect.bottom > 0 && rect.top < window.innerHeight
-      $prev.css('opacity', visible ? 0.5 : 0)
-      $next.css('opacity', visible ? 0.5 : 0)
-    })
-  }
+    $prev.css({ left: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)', opacity: 0.5 });
+    $next.css({ right: `${offset}px`, top: `${topValue}px`, transform: 'translateY(-50%)', opacity: 0.5 });
+  });
+}
 
   $(window).on('scroll resize', updateNavPositions)
 
