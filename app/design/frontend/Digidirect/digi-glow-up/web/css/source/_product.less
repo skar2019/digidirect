@@ -1435,10 +1435,13 @@
     .breadcrumbs-wrapper {
         width: 100%;
     }
-    .modals-wrapper .modal-popup div.modal-inner-wrap {
-        max-width: 90vw !important;
-        left: 0 !important;
-        margin: 0 auto !important;
+    .modals-wrapper .modal-popup {
+        div.modal-inner-wrap {
+            max-width: 90vw !important;
+            left: 50% !important;
+            margin: 0 auto !important;
+            top: 50% !important;
+        }
     }
 
     .product-middle-column .product-sku-section {
@@ -1579,5 +1582,6 @@
 @media screen and (max-width: 1200px) {
     .modals-wrapper .modal-popup.itoris-pm-modal div.modal-inner-wrap {
         height: auto !important;
+        transform: translate(-50%, -50%);
     }
 }
