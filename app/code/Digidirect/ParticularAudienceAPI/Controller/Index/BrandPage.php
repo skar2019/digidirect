@@ -58,7 +58,7 @@ class BrandPage extends Action implements HttpPostActionInterface
             $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
         
-        $indexFilterValue = '&indexFilterValue=' . $brand;
+        $indexFilterValue = '&indexFilterValue=' . str_replace('-', '%20', $brand);
 
         // Build recommendation URL
         $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-brand" . $indexFilterValue ."&expandProductDetails=true";
