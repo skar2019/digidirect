@@ -23,30 +23,33 @@ class Sftpwisersender extends AbstractHelper
 
     public function sendFile()
     {
-
         $destinationPath = '/uploads/wiserdata.csv';
+        $tempDestinationPath = '/uploads/wiserdata.csv.tmp'; // Critical for 38MB file
         $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/wiserdata.csv';
 
-        $host = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/host');
-        $compcode = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/port');
-        $user = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/username');
-        $token = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/password');
-
-        $sftpConfig = [
-            'host' => 'sftp.360pi.com',
-            'port' => '22',
-            'username' => 'digidirect',
-            'password' => '#uIHOZNk3&e9677c'
-        ];
+        // ... your config code ...
 
         try {
             $this->sftp->open($sftpConfig);
-            $this->sftp->write($destinationPath, $this->file->read($filePath));
+
+            // Takes 5+ minutes to upload to .tmp (their system ignores it)
+            $this->sftp->write($tempDestinationPath, $this->file->read($filePath));
+
+            // Instant rename - file appears complete immediately
+            $this->sftp->mv($tempDestinationPath, $destinationPath);
+
             $this->sftp->close();
-            echo "send it";
+            echo "File uploaded successfully";
             return true;
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during the file transfer
+            // Cleanup and error handling
+            try {
+                $this->sftp->rm($tempDestinationPath);
+                $this->sftp->close();
+            } catch (\Exception $cleanupException) {
+                // Ignore
+            }
+
             echo "Error: " . $e->getMessage();
             return false;
         }
