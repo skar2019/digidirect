@@ -117,23 +117,42 @@ class Product extends AbstractHelper
     public function productSync()
     {
         $startItem = 0;
+
+        $this->logger->info('========================================');
+        $this->logger->info('Starting Pronto Product Sync');
+        $this->logger->info('Start item: ' . $startItem);
+        $this->logger->info('========================================');
+
         $this->initializeSync();
+        $this->logger->info('Initialization complete - brands and categories loaded');
 
-        $this->logger->info('Pronto Product Sync - start item: ' . $startItem);
-
+        $this->logger->info('Fetching data from Pronto API...');
         $json = $this->fetchProntoData($startItem);
+
+        // Log response structure
+        $this->logger->info('API Response keys: ' . implode(', ', array_keys($json)));
 
         if (!isset($json['stockmaster']['stockcode'])) {
             $this->logger->error('Invalid response structure from Pronto API');
+            if (isset($json['response'])) {
+                $this->logger->error('Response message: ' . print_r($json['response'], true));
+            }
+            $this->logger->error('Full response structure: ' . print_r($json, true));
             return false;
         }
 
+        $productCount = is_array($json['stockmaster']['stockcode']) ? count($json['stockmaster']['stockcode']) : 1;
+        $this->logger->info('Found ' . $productCount . ' products to process');
+
         $lastCode = $this->processProducts($json['stockmaster']['stockcode']);
 
+        $this->logger->info('Batch processing complete. Last code processed: ' . $lastCode);
+
         if (isset($json['response']['status']) && $json['response']['status'] == 'FAIL') {
-            $this->logger->info($json['response']['message']);
+            $this->logger->error('API returned FAIL status: ' . $json['response']['message']);
         }
 
+        $this->logger->info('Continuing to next batch...');
         $this->productSyncContinue($lastCode);
     }
 
@@ -143,26 +162,50 @@ class Product extends AbstractHelper
     public function productSyncContinue($startItem)
     {
         if (empty($startItem)) {
+            $this->logger->info('========================================');
+            $this->logger->info('Product sync complete - no more items to process');
+            $this->logger->info('========================================');
             return true;
         }
+
+        $this->logger->info('----------------------------------------');
+        $this->logger->info('Continuing sync from item: ' . $startItem);
 
         $this->initializeSync();
-        $this->logger->info('Pronto Product Sync - continue from: ' . $startItem);
 
+        $this->logger->info('Fetching next batch from Pronto API...');
         $json = $this->fetchProntoData($startItem);
 
+        // Log response structure
+        if (isset($json['stockmaster'])) {
+            $this->logger->info('Received stockmaster data');
+        } else {
+            $this->logger->warning('No stockmaster in response');
+        }
+
         if (!isset($json['stockmaster']['stockcode'])) {
+            $this->logger->info('No more products found - sync complete');
+            $this->logger->info('========================================');
             return true;
         }
+
+        $productCount = is_array($json['stockmaster']['stockcode']) ? count($json['stockmaster']['stockcode']) : 1;
+        $this->logger->info('Found ' . $productCount . ' products in this batch');
 
         $lastCode = $this->processProducts($json['stockmaster']['stockcode']);
 
+        $this->logger->info('Batch complete. Last code: ' . $lastCode);
+
         if (isset($json['response']['status']) && $json['response']['status'] == 'FAIL') {
-            $this->logger->info($json['response']['message']);
+            $this->logger->error('API returned FAIL status: ' . $json['response']['message']);
         }
 
         // Check if we've reached the end
         if ($startItem == $lastCode) {
+            $this->logger->info('========================================');
+            $this->logger->info('Sync complete - reached end of products');
+            $this->logger->info('Final item: ' . $lastCode);
+            $this->logger->info('========================================');
             return true;
         }
 
@@ -179,14 +222,79 @@ class Product extends AbstractHelper
         $this->initializeSync();
         $this->logger->info('Manual Pronto Product Sync - SKU: ' . $sku);
 
+        echo "Starting sync for SKU: $sku<br/>\n";
+        echo "Fetching data from Pronto API...<br/>\n";
+
         $json = $this->fetchProntoData($sku, $sku);
 
+        // Log the response structure for debugging
+        $this->logger->info('API Response structure: ' . print_r(array_keys($json), true));
+        echo "API Response Keys: " . implode(', ', array_keys($json)) . "<br/>\n";
+
         if (!isset($json['stockmaster'])) {
-            $this->logger->error('Product not found: ' . $sku);
+            $this->logger->error('No stockmaster in response for SKU: ' . $sku);
+            $this->logger->error('Full response: ' . print_r($json, true));
+            echo "ERROR: No stockmaster in response<br/>\n";
+            echo "Full response: <pre>" . print_r($json, true) . "</pre><br/>\n";
             return false;
         }
 
-        $this->processProducts([$json['stockmaster']], true);
+        // Log stockmaster structure
+        if (is_array($json['stockmaster'])) {
+            $this->logger->info('Stockmaster keys: ' . print_r(array_keys($json['stockmaster']), true));
+            echo "Stockmaster Keys: " . implode(', ', array_keys($json['stockmaster'])) . "<br/>\n";
+        }
+
+        // Handle different response structures
+        $products = [];
+
+        if (isset($json['stockmaster']['stockcode'])) {
+            $this->logger->info('Found stockcode in response');
+            echo "Response type: stockcode format<br/>\n";
+
+            // Check if it's an array of products or single product
+            if (is_array($json['stockmaster']['stockcode'])) {
+                // Check if it's associative (single product) or indexed (multiple)
+                if (isset($json['stockmaster']['stockcode']['code'])) {
+                    // Single product in stockcode
+                    $this->logger->info('Single product in stockcode array');
+                    echo "Single product detected<br/>\n";
+                    $products = [$json['stockmaster']['stockcode']];
+                } elseif (isset($json['stockmaster']['stockcode'][0])) {
+                    // Array of products
+                    $this->logger->info('Multiple products in stockcode array');
+                    echo "Multiple products detected<br/>\n";
+                    $products = $json['stockmaster']['stockcode'];
+                } else {
+                    $this->logger->warning('Unexpected stockcode structure');
+                    echo "WARNING: Unexpected stockcode structure<br/>\n";
+                }
+            }
+        } elseif (isset($json['stockmaster']['code'])) {
+            // Direct format (single product)
+            $this->logger->info('Single product in direct format');
+            echo "Response type: direct format<br/>\n";
+            $products = [$json['stockmaster']];
+        }
+
+        if (empty($products)) {
+            $this->logger->error('No valid product data found for SKU: ' . $sku);
+            echo "ERROR: No valid product data found<br/>\n";
+            return false;
+        }
+
+        $this->logger->info('Found ' . count($products) . ' product(s) to process');
+        echo "Found " . count($products) . " product(s) to process<br/>\n";
+
+        // Log first product structure for debugging
+        if (isset($products[0])) {
+            $this->logger->info('First product keys: ' . print_r(array_keys($products[0]), true));
+            echo "Product data keys: " . implode(', ', array_keys($products[0])) . "<br/>\n";
+        }
+
+        $this->processProducts($products, true);
+
+        echo "Sync completed<br/>\n";
 
         return true;
     }
@@ -250,9 +358,20 @@ class Product extends AbstractHelper
     protected function processProducts(array $products, $verbose = false)
     {
         $lastCode = 0;
+        $processedCount = 0;
+        $skippedCount = 0;
+        $errorCount = 0;
+
+        if ($verbose) {
+            $this->logger->info('Processing ' . count($products) . ' products in verbose mode');
+        } else {
+            $this->logger->info('Processing batch of ' . count($products) . ' products');
+        }
 
         foreach ($products as $prod) {
             if (!isset($prod['code'])) {
+                $skippedCount++;
+                $this->logger->warning('Product missing code field, skipping');
                 continue;
             }
 
@@ -260,6 +379,11 @@ class Product extends AbstractHelper
 
             try {
                 $this->updateProduct($prod, $verbose);
+                $processedCount++;
+
+                if ($verbose) {
+                    $this->logger->info('✓ Successfully processed: ' . $prod['code']);
+                }
             } catch (NoSuchEntityException $e) {
                 if ($verbose) {
                     // In manual mode, create the product if it doesn't exist
@@ -267,18 +391,26 @@ class Product extends AbstractHelper
                     echo "Product not found, creating new: " . $prod['code'] . "<br/>\n";
                     try {
                         $this->createProduct($prod, $verbose);
+                        $processedCount++;
                     } catch (\Exception $createError) {
+                        $errorCount++;
                         $this->logger->error('Error creating product ' . $prod['code'] . ': ' . $createError->getMessage());
                         echo "Error creating product: " . $createError->getMessage() . "<br/>\n";
                     }
                 } else {
-                    $this->logger->info('Product not found, skipping: ' . $prod['code']);
+                    $skippedCount++;
+                    $this->logger->info('Product not found in Magento, skipping: ' . $prod['code']);
                 }
                 continue;
             } catch (\Exception $e) {
+                $errorCount++;
                 $this->logger->error('Error processing product ' . $prod['code'] . ': ' . $e->getMessage());
+                $this->logger->error('Stack trace: ' . $e->getTraceAsString());
             }
         }
+
+        // Log summary
+        $this->logger->info('Batch summary: Processed=' . $processedCount . ', Skipped=' . $skippedCount . ', Errors=' . $errorCount);
 
         return $lastCode;
     }
