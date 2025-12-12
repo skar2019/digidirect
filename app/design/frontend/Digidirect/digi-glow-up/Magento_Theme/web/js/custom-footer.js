@@ -14,7 +14,7 @@ require(['jquery'], function($) {
               $(this).find('.footer-black-gradient').css('opacity', '0');
             },
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '1');
+              $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
             }
         );
 
