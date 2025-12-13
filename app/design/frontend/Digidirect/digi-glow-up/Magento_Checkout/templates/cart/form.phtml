@@ -84,6 +84,7 @@
                 confirm({
                     content: '<?= /* @escapeNotVerified */ __('Are you sure you would like to remove this item?') ?>',
                     title: 'Attention',
+                    modalClass: 'remove-item-modal',
                     actions: {
                         confirm: function () {
                             dataPost().postData(params);
