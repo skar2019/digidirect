@@ -69,20 +69,21 @@ require(['jquery'], function($) {
 
         });
 
-        $('.footer-search').on('click', function(){
+        $('.footer-search').on('click', function () {
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
 
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            const input = document.querySelector('.aa-Input');
+            if (!input) return;
+
+            input.removeAttribute('readonly');
+            input.focus();
+
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Wait for smooth scroll to complete before focusing
-            setTimeout(function() {
-                document.querySelector('.aa-Input').focus();
-            }, 500); // Adjust timing as needed (300-800ms typical)
         });
 
         $('.showcart-footer').on('click', function(){
