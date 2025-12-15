@@ -44,14 +44,14 @@ if (empty($_orderLimit) || $_orderLimit == 0)
                                    data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" readonly/>
                             <div role="button" class="qty-increase" data-bind="click: increaseQty">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="20" height="20" rx="10" fill="#242426"/>
-                                <mask id="mask0_5002_7627" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="2" width="17" height="16">
-                                <path d="M18.4655 2H2V18H18.4655V2Z" fill="white"/>
-                                </mask>
-                                <g mask="url(#mask0_5002_7627)">
-                                <path d="M14.3488 10.5H6.11611C5.83482 10.5 5.60156 10.2733 5.60156 10C5.60156 9.72667 5.83482 9.5 6.11611 9.5H14.3488C14.6301 9.5 14.8634 9.72667 14.8634 10C14.8634 10.2733 14.6301 10.5 14.3488 10.5Z" fill="#F2F2F7"/>
-                                <path d="M10.2294 14.5C9.9481 14.5 9.71484 14.2733 9.71484 14V6C9.71484 5.72667 9.9481 5.5 10.2294 5.5C10.5107 5.5 10.7439 5.72667 10.7439 6V14C10.7439 14.2733 10.5107 14.5 10.2294 14.5Z" fill="#F2F2F7"/>
-                                </g>
+                                    <rect width="20" height="20" rx="10" fill="#242426"/>
+                                    <mask id="mask0_5002_7627" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="2" width="17" height="16">
+                                        <path d="M18.4655 2H2V18H18.4655V2Z" fill="white"/>
+                                    </mask>
+                                    <g mask="url(#mask0_5002_7627)">
+                                        <path d="M14.3488 10.5H6.11611C5.83482 10.5 5.60156 10.2733 5.60156 10C5.60156 9.72667 5.83482 9.5 6.11611 9.5H14.3488C14.6301 9.5 14.8634 9.72667 14.8634 10C14.8634 10.2733 14.6301 10.5 14.3488 10.5Z" fill="#F2F2F7"/>
+                                        <path d="M10.2294 14.5C9.9481 14.5 9.71484 14.2733 9.71484 14V6C9.71484 5.72667 9.9481 5.5 10.2294 5.5C10.5107 5.5 10.7439 5.72667 10.7439 6V14C10.7439 14.2733 10.5107 14.5 10.2294 14.5Z" fill="#F2F2F7"/>
+                                    </g>
                                 </svg>
 
                             </div>
@@ -61,12 +61,12 @@ if (empty($_orderLimit) || $_orderLimit == 0)
                 </div>
             <?php endif; ?>
             <div class="actions">
-                   <?php if ($_preOrderattributeValue == "Yes"): ?>
-                        <button type="submit"
+                <?php if ($_preOrderattributeValue == "Yes"): ?>
+                    <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn pre-order-btn"
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
-                        >
+                    >
                             <span class="addcart_words">
                                 <?= /* @escapeNotVerified */ 'Pre-Order' ?>
                                 <span class="icon-info tooltip-wrapper">
@@ -77,13 +77,13 @@ if (empty($_orderLimit) || $_orderLimit == 0)
                                     </span>
                                 </span>
                             </span>
-                        </button>
-                    <?php elseif ($_specialOrderValue): ?>
-                        <button type="submit"
-                                class="action tocart btn_cart tocart-pdp-btn special-order-btn"
-                                id="product-addtocart-button"
-                                data-action="add-to-cart-action"
-                        >
+                    </button>
+                <?php elseif ($_specialOrderValue): ?>
+                    <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn special-order-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                    >
                             <span class="addcart_words">
                                 <?= /* @escapeNotVerified */ 'Special Order' ?>
                                 <span class="icon-info tooltip-wrapper">
@@ -94,16 +94,16 @@ if (empty($_orderLimit) || $_orderLimit == 0)
                                     </span>
                                 </span>
                             </span>
-                        </button>
-                    <?php else : ?>
-                        <button type="submit"
+                    </button>
+                <?php else : ?>
+                    <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn"
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
-                            >
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-                        </button>
-                    <?php endif; ?>
+                    >
+                        <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    </button>
+                <?php endif; ?>
 
                 <?= $block->getChildHtml('', true) ?>
             </div>
@@ -111,16 +111,16 @@ if (empty($_orderLimit) || $_orderLimit == 0)
     </div>
 
     <?php if (!empty($_orderLimit) && $_orderLimit > 0): ?>
-    <div class="order-limit">
-        <div class="order-limit-tooltip">
+        <div class="order-limit">
+            <div class="order-limit-tooltip">
             <span class="order-limit-text">
                 <span class="icon-box-remove"></span>
                 <span>order limits apply</span>
                 <i class="tooltip-toggle"><span class="icon-info"></span></i>
                 <span class="tooltip-content">Orders of units more than <?= $_orderLimit ?> may be cancelled due to availability constraints.</span>
             </span>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
 <?php endif; ?>
@@ -141,20 +141,38 @@ if (empty($_orderLimit) || $_orderLimit == 0)
                     "qty-change": {
                         "component": "Magento_Catalog/js/qty-change",
                         "defaultQty": <?php echo (int)$block->getProductDefaultQty() ?: 1 ?>
-                    }
-                 }
-            }
-        }
     }
+ }
+}
+}
+}
 </script>
 
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
 <script>
     function addToCartClick() {
+        <?php
+        // Get correct price using PriceInfo instead of getFinalPrice()
+        $correctPrice = $_product->getPrice();
+        try {
+            $priceInfo = $_product->getPriceInfo();
+            if ($priceInfo) {
+                $finalPriceObj = $priceInfo->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+                if ($finalPriceObj) {
+                    $amountObj = $finalPriceObj->getAmount();
+                    if ($amountObj) {
+                        $correctPrice = $amountObj->getValue();
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Fallback to getPrice() if there's an error
+        }
+        ?>
         dataLayer.push({
             'event': 'DynamicRemarketing',
             'ecomm_pagetype': 'cart',
-            'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
+            'ecomm_totalvalue': <?php echo $correctPrice ?>,
             'currency': 'AUD',
             'ecomm_prodid': [
                 <?php echo $_product->getId() ?>

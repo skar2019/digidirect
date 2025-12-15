@@ -13,7 +13,7 @@ class Sftpwisersender extends AbstractHelper
     protected $directoryList;
     protected $scopeConfig;
 
-    public function __construct(Sftp $sftp,File $file, \Magento\Framework\Filesystem\DirectoryList $directoryList, ScopeConfigInterface $scopeConfig)
+    public function __construct(Sftp $sftp, File $file, \Magento\Framework\Filesystem\DirectoryList $directoryList, ScopeConfigInterface $scopeConfig)
     {
         $this->sftp = $sftp;
         $this->file = $file;
@@ -24,15 +24,25 @@ class Sftpwisersender extends AbstractHelper
     public function sendFile()
     {
         $destinationPath = '/uploads/wiserdata.csv';
-        $tempDestinationPath = '/uploads/wiserdata.csv.tmp'; // Critical for 38MB file
+        $tempDestinationPath = '/uploads/wiserdata.csv.tmp';
         $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/wiserdata.csv';
 
-        // ... your config code ...
+        $host = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/host');
+        $port = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/port');
+        $user = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/username');
+        $password = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/password');
+
+        $sftpConfig = [
+            'host' => $host,
+            'port' => $port,
+            'username' => $user,
+            'password' => $password
+        ];
 
         try {
             $this->sftp->open($sftpConfig);
 
-            // Takes 5+ minutes to upload to .tmp (their system ignores it)
+            // Upload to .tmp file first (takes 5+ minutes but their system ignores it)
             $this->sftp->write($tempDestinationPath, $this->file->read($filePath));
 
             // Instant rename - file appears complete immediately
@@ -47,7 +57,7 @@ class Sftpwisersender extends AbstractHelper
                 $this->sftp->rm($tempDestinationPath);
                 $this->sftp->close();
             } catch (\Exception $cleanupException) {
-                // Ignore
+                // Ignore cleanup errors
             }
 
             echo "Error: " . $e->getMessage();

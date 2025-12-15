@@ -17,9 +17,26 @@
 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $currencysymbol = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
 $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
-$points = $_product->getFinalPrice();
-$finalQffPoints = $_product->getPoints();
+
+// Get correct price using PriceInfo instead of getFinalPrice()
 $finalProductPrice = $_product->getFinalPrice();
+try {
+    $priceInfo = $_product->getPriceInfo();
+    if ($priceInfo) {
+        $finalPriceObj = $priceInfo->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+        if ($finalPriceObj) {
+            $amountObj = $finalPriceObj->getAmount();
+            if ($amountObj) {
+                $finalProductPrice = $amountObj->getValue();
+            }
+        }
+    }
+} catch (\Exception $e) {
+    // Fallback to getFinalPrice() if there's an error
+}
+
+$points = $finalProductPrice;
+$finalQffPoints = $_product->getPoints();
 $qff_bonus_points = 0;
 $brand = $_product->getAttributeText('brand');
 $brand = strtolower($brand);
@@ -45,22 +62,22 @@ $awaiting = $_product->getAwaitingProduct();
 ?>
 
 <?php
-    $productData = $sourceDataBySku->execute($_product->getSku());
-    $productQuantity = 0;
+$productData = $sourceDataBySku->execute($_product->getSku());
+$productQuantity = 0;
 
-    foreach($productData as $key => $value){
-        if($value["source_status"] == true){
-            $productQuantity += $value["quantity"];
-        }
+foreach($productData as $key => $value){
+    if($value["source_status"] == true){
+        $productQuantity += $value["quantity"];
     }
+}
 ?>
 
 <?php if ($productQuantity > 0):?>
-<!--    <div class="shipping-notice stock available">
+    <!--    <div class="shipping-notice stock available">
         <span class="stock-availability"><?= $escaper->escapeHtml(__('Leaves warehouse in 3-5 business days.')) ?></span>
     </div>-->
 <?php else:?>
-<!--    <div class="shipping-notice stock unavailable">
+    <!--    <div class="shipping-notice stock unavailable">
         <span class="stock-availability"><?= $escaper->escapeHtml(__('Temporarily out of stock. Order today and we\'ll deliver in 9-12 business days.')) ?></span>
     </div>-->
 <?php endif; ?>
@@ -68,11 +85,11 @@ $awaiting = $_product->getAwaitingProduct();
     <div class="box-tocart" style="margin-bottom: 0 !important;">
         <div class="fieldset qty-fieldset">
             <button type="submit"
-                onclick="openChat()"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-request-assistance"
-                data-action="add-to-cart-action"
-                style="background: #00C3FF !important; margin-right: 8px;">
+                    onclick="openChat()"
+                    class="action tocart btn_cart tocart-pdp-btn"
+                    id="product-request-assistance"
+                    data-action="add-to-cart-action"
+                    style="background: #00C3FF !important; margin-right: 8px;">
                 <span class="addcart_words"><?= /* @escapeNotVerified */ 'Request Assistance' ?></span>
             </button>
             <div class="product-addto-wishlist" data-role="add-to-wishlist">
@@ -147,15 +164,32 @@ $awaiting = $_product->getAwaitingProduct();
 </script>
 
 <?php if ($_product): ?>
-    <?php $price = $_product->getData('final_price'); ?>
+    <?php
+    // Get correct price using PriceInfo instead of getData('final_price')
+    $price = $_product->getData('final_price');
+    try {
+        $priceInfo = $_product->getPriceInfo();
+        if ($priceInfo) {
+            $finalPriceObj = $priceInfo->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
+            if ($finalPriceObj) {
+                $amountObj = $finalPriceObj->getAmount();
+                if ($amountObj) {
+                    $price = $amountObj->getValue();
+                }
+            }
+        }
+    } catch (\Exception $e) {
+        // Fallback to getData('final_price') if there's an error
+    }
+    ?>
     <script>
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
             'value': <?= $price ?>,
             'items': [{
                 'id':  '<?= $_product->getSku(); ?>',
-                    'google_business_vertical': 'retail'
-                }]
+                'google_business_vertical': 'retail'
+            }]
         });
     </script>
 <?php endif ?>
