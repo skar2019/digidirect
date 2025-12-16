@@ -4,6 +4,14 @@
     <!--        <link src="Magento_Theme::js/custom-footer.js"/>-->
     <!--        <link src="Digidirect_HelloBar::js/hello-bar.js"/>-->
     <!--    </head>-->
+    <head>
+<!--        <remove src="Algolia_AlgoliaSearch::css/autocomplete.css"/>-->
+        <remove src="Algolia_AlgoliaSearch::css/grid.css"/>
+        <remove src="Algolia_AlgoliaSearch::css/algolia-reset.css"/>
+        <remove src="Algolia_AlgoliaSearch::css/instantsearch.v3.css"/>
+        <remove src="Algolia_AlgoliaSearch::css/recommend.css"/>
+
+    </head>
     <update handle="checkout_cart_sidebar_item_renderers"/>
     <update handle="checkout_cart_sidebar_item_price_renderers"/>
     <update handle="checkout_cart_sidebar_total_renderers"/>
@@ -39,6 +47,12 @@
 
         <referenceContainer name="head.additional">
             <block class="Magento\Framework\View\Element\Template" name="custom.head" template="Magento_Theme::html/head.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="head.additional">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="algolia.nonblocking.css"
+                   template="Magento_Theme::algolia/algolia_css.phtml"/>
         </referenceContainer>
 
         <referenceBlock name="logo">
