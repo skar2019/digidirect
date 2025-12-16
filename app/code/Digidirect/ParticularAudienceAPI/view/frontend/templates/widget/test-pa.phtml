@@ -528,62 +528,29 @@ require(['jquery'], function ($) {
     }
 
     function productTileForWidget(widgetId, appendTo, isMobile) {
-        // ===== Guards =====
-        if (!widgetId) {
-            console.warn('productTileForWidget: widgetId is null or undefined');
-            $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
-            return;
-        }
-
-        if (!Array.isArray(widgets)) {
-            console.warn('productTileForWidget: widgets is not available');
-            return;
-        }
-
-        const widget = widgets.find(obj => obj.id === widgetId);
-
-        if (!widget || !widget.slots) {
-            console.warn(`productTileForWidget: widget not found for id ${widgetId}`);
-            $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
-            return;
-        }
-
-        // ==================
-
         let productItem = "";
-        const widgetSlots = widget.slots;
-        let productCtr = 0;
-
+        let widget = widgets.find(obj => {
+            return obj.id === widgetId;
+        })
+        let widgetSlots = widget.slots;
+        var productCtr = 0;
         Object.keys(widgetSlots).forEach(key => {
 
-            const slot = widgetSlots[key];
-
-            // Guard: missing products
-            if (!slot?.products?.length) {
-                return;
-            }
-
-            let product = slot.products[0];
-
-            let discountTotal = Number(
-                product?.prices?.[0]?.price - product?.prices?.[0]?.discountPrice
-            ).toFixed(2);
+            let product = widgetSlots[key].products[0];
+            let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
 
             productCtr++;
-
-            let {
-                campaignId,
-                recommenderId,
-                tacticId,
-                retailBoostCollectionCampaignId,
-                adSetId,
-                adSetVersion,
-                costPerClick,
-                timeStamp,
-                hmacSalt,
-                hmac,
-                keywordId
-            } = slot;
+            let campaignId = widgetSlots[key].campaignId;
+            let recommenderId = widgetSlots[key].recommenderId;
+            let tacticId = widgetSlots[key].tacticId;
+            let retailBoostCollectionCampaignId = widgetSlots[key].retailBoostCollectionCampaignId;
+            let adSetId = widgetSlots[key].adSetId;
+            let adSetVersion = widgetSlots[key].adSetVersion;
+            let costPerClick = widgetSlots[key].costPerClick;
+            let timeStamp = widgetSlots[key].timeStamp;
+            let hmacSalt = widgetSlots[key].hmacSalt;
+            let hmac = widgetSlots[key].hmac;
+            let keywordId = widgetSlots[key].keywordId;
 
             let digiDealsLogo = "";
             let priceBlock = "";
@@ -593,79 +560,226 @@ require(['jquery'], function ($) {
             let digiSecondsOverlay = "";
             let sellerName = "";
 
-            const getAttr = name =>
-                product.attributes?.find(obj => obj.name === name);
+            let categories = product.attributes.find(obj => {
+                return obj.name === 'Categories';
+            })
 
-            let categories = getAttr('Categories');
-            let seller = getAttr('DDR_Seller_Id');
-            let digiPrint = getAttr('is_digiprint');
-            let digiPrintLink = getAttr('digiprint_customlink');
-            let digiSecondsRatingValue = getAttr('item_rating');
+            let seller = product.attributes.find(obj => {
+                return obj.name === 'DDR_Seller_Id';
+            })
+
+            let digiPrint = product.attributes.find(obj => {
+                return obj.name === 'is_digiprint';
+            })
+
+            let digiPrintLink = product.attributes.find(obj => {
+                return obj.name === 'digiprint_customlink';
+            })
+
+            let digiSecondsRatingValue = product.attributes.find(obj => {
+                return obj.name === 'item_rating';
+            })
 
             let digiSecondsRating = "";
 
-            if (digiSecondsRatingValue?.stringValue) {
-                const rating = digiSecondsRatingValue.stringValue;
-                const stars = Number(rating);
-                if (!isNaN(stars)) {
-                    digiSecondsRating =
-                        '<i class="fas fa-star"></i>'.repeat(stars) +
-                        '<i class="far fa-star"></i>'.repeat(5 - stars);
-                }
+            if (digiSecondsRatingValue.stringValue == "5") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "4") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "3") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "2") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+            } else if (digiSecondsRatingValue.stringValue == "1") {
+                digiSecondsRating = '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             }
 
-            sellerName = seller?.stringValue;
+            sellerName = seller.stringValue;
 
-            let digiSecondsCategories = ["PRELOVED", "OPENBOX", "REFURB"];
-            let categoryValue = categories?.options?.[0]?.value;
-            let isDigiSeconds = digiSecondsCategories.includes(categoryValue);
+            let digiSecondsCategories = ["PRELOVED","OPENBOX","REFURB"];
+            let isDigiSeconds = digiSecondsCategories.includes(categories.options[0].value);
 
-            const includesString = (str = "", searchString) =>
-                new RegExp(searchString, 'i').test(str);
+            const includesString = (str, searchString) =>
+            new RegExp(searchString, 'i').test(str);
 
-            if (categoryValue === "PRELOVED" || includesString(product.name, 'used')) {
+            if (categories.options[0].value == "PRELOVED" || includesString(product.name, 'used')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-pre-loved.png"/>';
-            } else if (categoryValue === "OPENBOX" || includesString(product.name, 'open box')) {
+            } else if (categories.options[0].value == "OPENBOX" || includesString(product.name, 'open box')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-demo.png"/>';
-            } else if (categoryValue === "REFURB" || includesString(product.name, 'refurb')) {
+            } else if (categories.options[0].value == "REFURB" || includesString(product.name, 'refurb')) {
                 digiSecondsOverlay = '<img src="<?= $block->getBaseUrl(); ?>media/wysiwyg/digiseconds/overlays/badge-refurbished.png"/>';
             }
 
-            digiSeconds =
-                '<div class="digiseconds-overlay">' +
-                digiSecondsOverlay +
-                '<div class="digiseconds-rating">' +
-                digiSecondsRating +
-                '</div></div>';
+            digiSeconds = '<div class="digiseconds-overlay">' + digiSecondsOverlay + '<div class="digiseconds-rating">' + digiSecondsRating + '</div></div>';
+            //console.log("adSetId", adSetId, product.name);
 
-            let digiPrintValue = digiPrint?.stringValue;
-            let digiPrintLinkValue = digiPrintLink?.stringValue;
+            let digiPrintValue = digiPrint.stringValue;
+            let digiPrintLinkValue = digiPrintLink.stringValue;
             let sponsoredLabel = "";
-
-            if (adSetId) {
-                sponsoredLabel =
-                    '<div class="sponsored-container">' +
-                    '<div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div>' +
-                    '<span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span>' +
-                    '</div>';
+            if (adSetId || adSetId != null) {
+                sponsoredLabel = '<div class="sponsored-container"><div class="sponsored-label"><i class="fas fa-info-circle"></i>Sponsored</div><span class="label-tooltip">This product has been promoted by one of our partners using <a href="https://particularaudience.com/">Particular Audience</a>.</span></div>';
             }
 
-            // ---- Rest of your existing rendering logic continues unchanged ----
-            // (Add to cart, wishlist, price block, product HTML, append)
+            if (digiPrintValue == 1) {
+                addToCart =
+                    '<div class="ordernow-link" onclick="window.open(\'' + digiPrintLinkValue + '\', \'_blank\')">' +
+                      '<button type="button" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" />' +
+                      '</button>' +
+                    '</div>';
 
-            // ...
+            } else {
+                addToCart = '<form data-role="tocart-form"' +
+                                'data-product-sku="' + product.sku + '"' +
+                                'action="<?= $block->getBaseUrl(); ?>checkout/cart/add/product/'+ product.refId +'" method="post"><?php echo $block->getBlockHtml("formkey"); ?>' +
+                                '<input type="text" name="ref_id" value="'+ product.refId +'" hidden/>' +
+                                '<input type="text" name="qty" value="1" hidden/>' +
+                                '<input type="text" name="widget_id" value="'+ widgetId +'" hidden/>' +
+                                '<input type="text" name="route_id" value="'+ routeId +'" hidden/>' +
+                                '<input type="text" name="recommender_id" value="'+ recommenderId +'" hidden/>' +
+                                '<input type="text" name="campaign_id" value="'+ campaignId +'" hidden/>' +
+                                '<input type="text" name="tactic_id" value="'+ tacticId +'" hidden/>' +
+                                '<input type="text" name="retail_boost_collection_campaign_id" value="'+ retailBoostCollectionCampaignId +'" hidden/>' +
+                                '<input type="text" name="adset_id" value="'+ adSetId +'" hidden/>' +
+                                '<input type="text" name="adset_version" value="'+ adSetVersion +'" hidden/>' +
+                                '<input type="text" name="cost_per_click" value="'+ costPerClick +'" hidden/>' +
+                                '<input type="text" name="timestamp" value="'+ timeStamp +'" hidden/>' +
+                                '<input type="text" name="hmac_salt" value="'+ hmacSalt +'" hidden/>' +
+                                '<input type="text" name="hmac" value="'+ hmac +'" hidden/>' +
+                                '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
+                                '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
+                                '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
+                                '</button>' +
+                            '</form>'
+            }
+
+            let addToWishList;
+
+            if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
+                addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
+            } else {
+                addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
+            }
+
+            if (!isDigiSeconds) {
+                if (sellerName != "20329" && sellerName !== undefined) {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
+                } else {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container">'+ addToWishList +'</a>';
+                }
+            } else {
+                digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+            }
+
+            let price = Number(product.prices[0].price);
+            let discountPrice = Number(product.prices[0].discountPrice);
+
+            let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+            let discountPriceToDisplay = '$' + discountPrice.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            let discountValue = price - discountPrice;
+            let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+
+            if (discount === "$NaN") {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
+            } else {
+                var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper"><span class="discount-price">' + discount + '</span> Off</div>' + addToCart + '</div>'
+            }
+
+            if (product.prices[0].discountPrice) {
+                if (!isDigiSeconds) {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals"><span class="digi">digi</span>Deals</div>'+ addToWishList +'</a>';
+                    if (sellerName != "20329" && sellerName !== undefined) {
+                        digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
+                    }
+                } else {
+                    digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-digideals digiseconds"><span style="color: #fe4c25;">digi</span>Seconds</div>'+ addToWishList +'</a>';
+                }
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' +
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="current-price-wrapper has-special-price">' +
+                                    '<div class="digidirectprice">' +
+                                        '<span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
+                                    '</div>' +
+                                    '<span class="special-price"><span class="price-container price-final_price tax weee">' +
+                                        '<span class="price-label"></span>' +
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ discountPriceToDisplay +'</span>' +
+                                            '</span>' +
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>';
+            } else {
+                let price = Number(product.prices[0].price);
+                let priceToDisplay = '$' + price.toLocaleString('en-AU', { minimumFractionDigits: 2 });
+                priceBlock = '<div class="price-box price-final_price" data-role="priceBox" data-product-id="'+ product.refId +'" data-price-box="product-id-'+ product.refId +'">' +
+                                '<div class="old-price-wrapper" style="visibility: hidden;"><span class="old-price">' +
+                                    '<span class="price-container price-final_price tax weee">' +
+                                            '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
+                                                '<span class="price">'+ priceToDisplay +'</span>' +
+                                            '</span>' +
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                                '<div class="current-price-wrapper no-special-price">' +
+                                    '<div class="digidirectprice"><span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' +
+                                            '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
+                                                '<span class="price">' + priceToDisplay +'</span>' +
+                                            '</span>' +
+                                        '</span>' +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>';
+            }
+
+            let hideProductItem = "";
+            if (isMobile && productCtr > 4) {
+                hideProductItem = "hide-product-item";
+            }
+            var view = "";
+            if (isMobile) {
+                view = "mobile";
+            } else {
+                view = "desktop";
+            }
+            var tileId = view + '-' + widgetId + '-product-' + product.refId;
+
+            var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
+
+            var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
+
+            productItem = productItemDiv + digiDealsLogo +
+                        '<a href="' + product.url + '" class="product-image-container">' +
+                            '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '?optimize=medium&bg-color=255,255,255&fit=bounds&height=150&width=150&format=jpeg' + '" loading="lazy" alt="Product Image">' +
+                            '</span>' +
+                        '</a>' +
+                        '<div style="position: relative;">' + sponsoredLabel +
+                            '<a href="' + product.url + '" class="product details product-item-details">' +
+                                 '<strong class="product-item-name">' +
+                                    '<span title="' + product.name + '" class="product-item-link">' +
+                                        product.name +
+                                    '</span>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                priceBlock + productInfoBottom +
+                            '</a>' +
+                        '</div>' +
+                    '</div>'
+            $(appendTo).append(productItem);
+            //slots(product.refId, recommenderId, campaignId, tacticId);
         });
-
         $('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
 
     productTileForWidget('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
-    productTileForWidget('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
-    productTileForWidget('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-desktop', false);
-    productTileForWidget('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-desktop', false);
-    productTileForWidget('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-desktop', false);
-    productTileForWidget('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
-    productTileForWidget('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
     productTileForWidget('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTileForWidget('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
 
