@@ -1,0 +1,31 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+
+<link rel="preload"
+      href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/grid.css') ?>"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload"
+      href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/algolia-reset.css') ?>"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload"
+      href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/instantsearch.v3.css') ?>"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload"
+      href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/recommend.css') ?>"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+
+<noscript>
+    <link rel="stylesheet"
+          href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/grid.css') ?>">
+    <link rel="stylesheet"
+          href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/algolia-reset.css') ?>">
+    <link rel="stylesheet"
+          href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/instantsearch.css') ?>">
+    <link rel="stylesheet"
+          href="<?= $block->getViewFileUrl('Algolia_AlgoliaSearch::css/recommend.css') ?>">
+</noscript>
