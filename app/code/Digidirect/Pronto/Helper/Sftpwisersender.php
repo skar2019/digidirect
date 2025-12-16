@@ -5,6 +5,7 @@ use Magento\Framework\Filesystem\Io\Sftp;
 use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Psr\Log\LoggerInterface;
 
 class Sftpwisersender extends AbstractHelper
 {
@@ -12,13 +13,20 @@ class Sftpwisersender extends AbstractHelper
     protected $file;
     protected $directoryList;
     protected $scopeConfig;
+    protected $logger;
 
-    public function __construct(Sftp $sftp, File $file, \Magento\Framework\Filesystem\DirectoryList $directoryList, ScopeConfigInterface $scopeConfig)
-    {
+    public function __construct(
+        Sftp $sftp,
+        File $file,
+        \Magento\Framework\Filesystem\DirectoryList $directoryList,
+        ScopeConfigInterface $scopeConfig,
+        LoggerInterface $logger
+    ) {
         $this->sftp = $sftp;
         $this->file = $file;
         $this->directoryList = $directoryList;
         $this->scopeConfig = $scopeConfig;
+        $this->logger = $logger;
     }
 
     public function sendFile()
@@ -41,23 +49,39 @@ class Sftpwisersender extends AbstractHelper
 
         try {
             $this->sftp->open($sftpConfig);
+            $this->logger->info('SFTP connection opened');
 
-            // Upload to .tmp file first (takes 5+ minutes but their system ignores it)
-            $this->sftp->write($tempDestinationPath, $this->file->read($filePath));
+            // Upload to .tmp file first
+            $writeResult = $this->sftp->write($tempDestinationPath, $this->file->read($filePath));
+            $this->logger->info('Temp file write result: ' . ($writeResult ? 'SUCCESS' : 'FAILED'));
 
-            // Instant rename - file appears complete immediately
-            $this->sftp->mv($tempDestinationPath, $destinationPath);
+            if (!$writeResult) {
+                throw new \Exception('Failed to write temporary file');
+            }
+
+            // Try to rename
+            $this->logger->info('Attempting to rename from ' . $tempDestinationPath . ' to ' . $destinationPath);
+            $mvResult = $this->sftp->mv($tempDestinationPath, $destinationPath);
+            $this->logger->info('Rename result: ' . ($mvResult ? 'SUCCESS' : 'FAILED'));
+
+            if (!$mvResult) {
+                throw new \Exception('Failed to rename file from .tmp to final destination');
+            }
 
             $this->sftp->close();
+            $this->logger->info('File uploaded and renamed successfully');
             echo "File uploaded successfully";
             return true;
         } catch (\Exception $e) {
+            $this->logger->error('SFTP Error: ' . $e->getMessage());
+
             // Cleanup and error handling
             try {
                 $this->sftp->rm($tempDestinationPath);
+                $this->logger->info('Cleaned up temp file');
                 $this->sftp->close();
             } catch (\Exception $cleanupException) {
-                // Ignore cleanup errors
+                $this->logger->error('Cleanup error: ' . $cleanupException->getMessage());
             }
 
             echo "Error: " . $e->getMessage();
