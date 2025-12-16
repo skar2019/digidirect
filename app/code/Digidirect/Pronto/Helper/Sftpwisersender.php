@@ -32,7 +32,6 @@ class Sftpwisersender extends AbstractHelper
     public function sendFile()
     {
         $destinationPath = '/uploads/wiserdata.csv';
-        $tempDestinationPath = '/uploads/wiserdata.csv.tmp';
         $filePath = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR) . '/export/wiserdata.csv';
 
         $host = $this->scopeConfig->getValue('wiser_settings_section/pronto_group/host');
@@ -49,41 +48,18 @@ class Sftpwisersender extends AbstractHelper
 
         try {
             $this->sftp->open($sftpConfig);
-            $this->logger->info('SFTP connection opened');
-
-            // Upload to .tmp file first
-            $writeResult = $this->sftp->write($tempDestinationPath, $this->file->read($filePath));
-            $this->logger->info('Temp file write result: ' . ($writeResult ? 'SUCCESS' : 'FAILED'));
-
-            if (!$writeResult) {
-                throw new \Exception('Failed to write temporary file');
-            }
-
-            // Try to rename
-            $this->logger->info('Attempting to rename from ' . $tempDestinationPath . ' to ' . $destinationPath);
-            $mvResult = $this->sftp->mv($tempDestinationPath, $destinationPath);
-            $this->logger->info('Rename result: ' . ($mvResult ? 'SUCCESS' : 'FAILED'));
-
-            if (!$mvResult) {
-                throw new \Exception('Failed to rename file from .tmp to final destination');
-            }
-
+            $this->sftp->write($destinationPath, $this->file->read($filePath));
             $this->sftp->close();
-            $this->logger->info('File uploaded and renamed successfully');
-            echo "File uploaded successfully";
+            $this->logger->info('Wiser SFTP: File uploaded successfully to ' . $destinationPath);
+            echo "send it";
             return true;
         } catch (\Exception $e) {
-            $this->logger->error('SFTP Error: ' . $e->getMessage());
-
-            // Cleanup and error handling
-            try {
-                $this->sftp->rm($tempDestinationPath);
-                $this->logger->info('Cleaned up temp file');
-                $this->sftp->close();
-            } catch (\Exception $cleanupException) {
-                $this->logger->error('Cleanup error: ' . $cleanupException->getMessage());
-            }
-
+            // Handle any exceptions that occur during the file transfer
+            $this->logger->error('Wiser SFTP Error: ' . $e->getMessage(), [
+                'destination' => $destinationPath,
+                'source' => $filePath,
+                'host' => $host
+            ]);
             echo "Error: " . $e->getMessage();
             return false;
         }
