@@ -1729,29 +1729,39 @@ define([
         }
       };
 
-      const executeCleanup = () => {
-        // Clear inline styles for these elements
-        const elementsToClear = [
-          ...document.querySelectorAll('.algolia-instant-selector-results'),
-          ...document.querySelectorAll('.hits-per-page-container'),
-          ...document.querySelectorAll('.ais-ViewToggle')
-        ];
-        const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
+    const executeCleanup = () => {
+        try {
+          // Clear inline styles
+          const elementsToClear = [
+            ...document.querySelectorAll('.algolia-instant-selector-results'),
+            ...document.querySelectorAll('.hits-per-page-container'),
+            ...document.querySelectorAll('.ais-ViewToggle')
+          ];
 
-        elementsToClear.forEach(el => el.removeAttribute('style'));
-        idsToClear.forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.removeAttribute('style');
-        });
+          const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
-        // Ensure search box is visible
-        ensureSearchBoxVisible();
+          elementsToClear.forEach(el => {
+            if (el) el.removeAttribute('style');
+          });
 
-        console.log('✅ Removed style attributes and showed search box.');
+          idsToClear.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.removeAttribute('style');
+          });
 
-        // Hide loader
-        if (loader) loader.style.display = 'none';
-      };
+          // Ensure search box is visible
+          ensureSearchBoxVisible();
+
+          console.log('✅ Cleanup completed successfully');
+        } catch (error) {
+          console.error('❌ executeCleanup error:', error);
+        } finally {
+          // ALWAYS hide loader
+          if (loader) {
+            loader.style.display = 'none';
+          }
+        }
+    };
 
       // Mobile: wait until hits are loaded
       const checkMobileHits = () => {
