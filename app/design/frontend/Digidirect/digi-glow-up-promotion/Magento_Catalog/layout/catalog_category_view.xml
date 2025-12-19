@@ -2,9 +2,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="after.body.start">
-            <block class="Algolia\AlgoliaSearch\Block\Instant\Wrapper" name="plp.custom.loader" template="Magento_Catalog::listing-loader.phtml"/>
-        </referenceContainer>
         <referenceBlock name="global.pa.minicart" remove="true" />
         <referenceBlock name="category.description" remove="true"/>
         <referenceContainer name="page.bottom">
