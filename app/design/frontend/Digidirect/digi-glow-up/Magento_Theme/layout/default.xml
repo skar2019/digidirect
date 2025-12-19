@@ -37,9 +37,9 @@
             </container>
         </referenceContainer>
 
-<!--        <referenceContainer name="head.additional">-->
-<!--            <block class="Magento\Framework\View\Element\Template" name="custom.head" template="Magento_Theme::html/head.phtml"/>-->
-<!--        </referenceContainer>-->
+        <referenceContainer name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="custom.head" template="Magento_Theme::html/head.phtml"/>
+        </referenceContainer>
 
         <referenceContainer name="head.additional">
             <block class="Magento\Framework\View\Element\Template"
