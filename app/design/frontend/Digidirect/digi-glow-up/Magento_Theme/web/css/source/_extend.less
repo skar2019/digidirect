@@ -172,7 +172,6 @@ a:hover {
 
 #maincontent {
     max-width: 100%;
-    padding: 0;
 }
 
 .homepage-row,
@@ -2414,43 +2413,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         height: 32px;
     }
 
-    //Brands Page
-
-    .brands-index-index #maincontent {
-        margin: 0;
-    }
-
-    .brands-index-index
-        .page-wrapper
-        > :not(.page-header):not(.page-bottom):not(.page-footer) {
-        padding: 0 20px !important;
-    }
-
-    .brand-alphabet {
-        display: none !important;
-    }
-
-    .brand-filter {
-        width: 100%;
-        position: relative;
-    }
-
-    #brand-search {
-        width: 100% !important;
-        height: 41px;
-    }
-
-    .brand-filter svg {
-        position: absolute;
-        right: 4px;
-        top: 12px;
-        display: block !important;
-    }
-
-    .brand-group ul {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-
     //CMS Page
     .cms-page-view .breadcrumbs {
         margin: 12px;
@@ -3837,5 +3799,47 @@ select:not([disabled]):focus {
     }
     .product-right-column .product-info-main {
         padding: 10px !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    //Brands Page
+
+    .brands-index-index #maincontent {
+        margin: 0;
+    }
+    .brand-header {
+        padding: 20px;
+    }
+
+    .brands-index-index
+        .page-wrapper
+        > :not(.page-header):not(.page-bottom):not(.page-footer) {
+        padding: 0 20px !important;
+    }
+
+    .brand-alphabet {
+        display: none !important;
+    }
+
+    .brand-filter {
+        width: 100%;
+        position: relative;
+    }
+
+    #brand-search {
+        width: 100% !important;
+        height: 41px;
+    }
+
+    .brand-filter svg {
+        position: absolute;
+        right: 4px;
+        top: 12px;
+        display: block !important;
+    }
+
+    .brand-group ul {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
