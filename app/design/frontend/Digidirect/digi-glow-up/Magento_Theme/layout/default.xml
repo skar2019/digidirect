@@ -83,7 +83,6 @@
             <block class="Magento\Framework\View\Element\Template" name="footer-black-gradient" template="Magento_Theme::footer/footer-black-gradient.phtml" after="-"/>
         </referenceContainer>
         <referenceBlock name="minicart">
-            <!-- UPDATED: Removed cacheable="false" and ttl="0" -->
             <block class="Digidirect\Customer\Block\CustomerHeaderLinks"
                    name="minicart_private"
                    as="minicart_private"
