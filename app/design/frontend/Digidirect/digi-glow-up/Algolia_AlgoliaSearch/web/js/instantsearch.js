@@ -1712,24 +1712,47 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
+      const loader = document.querySelector('.plp-custom-loader'); // adjust if needed
+      let cleanupDone = false;
+
+      /* ------------------------------
+       * Helpers
+       * ------------------------------ */
+
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
+
         if (searchBox) {
           searchBox.style.display = 'block';
-        } else {
-          // Observe DOM for search box creation
-          const observer = new MutationObserver((mutations, obs) => {
-            const sb = document.querySelector('.ais-SearchBox');
-            if (sb) {
-              sb.style.display = 'block';
-              obs.disconnect();
-            }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
+          return;
         }
+
+        const observer = new MutationObserver((_, obs) => {
+          const sb = document.querySelector('.ais-SearchBox');
+          if (sb) {
+            sb.style.display = 'block';
+            obs.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
       };
 
-    const executeCleanup = () => {
+      const isSearchFinished = () => {
+        return (
+          document.querySelector('.ais-Hits-list') ||
+          document.getElementById('instant-empty-results-container')
+        );
+      };
+
+      /* ------------------------------
+       * Cleanup
+       * ------------------------------ */
+
+      const executeCleanup = () => {
+        if (cleanupDone) return;
+        cleanupDone = true;
+
         try {
           // Clear inline styles
           const elementsToClear = [
@@ -1738,65 +1761,53 @@ define([
             ...document.querySelectorAll('.ais-ViewToggle')
           ];
 
-          const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
+          const idsToClear = [
+            'refine-toggle',
+            'algolia-stats',
+            'algolia-sorts'
+          ];
 
-          elementsToClear.forEach(el => {
-            if (el) el.removeAttribute('style');
-          });
-
+          elementsToClear.forEach(el => el?.removeAttribute('style'));
           idsToClear.forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.removeAttribute('style');
+            el?.removeAttribute('style');
           });
 
-          // Ensure search box is visible
           ensureSearchBoxVisible();
-
-          console.log('✅ Cleanup completed successfully');
-        } catch (error) {
-          console.error('❌ executeCleanup error:', error);
+          console.log('✅ Algolia cleanup completed');
+        } catch (err) {
+          console.error('❌ Algolia cleanup error:', err);
         } finally {
-          // ALWAYS hide loader
-          if (loader) {
-            loader.style.display = 'none';
-          }
+          if (loader) loader.style.display = 'none';
         }
-    };
+      };
 
-      // Mobile: wait until hits are loaded
-      const checkMobileHits = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) return;
+      /* ------------------------------
+       * Observe Algolia render state
+       * ------------------------------ */
 
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
-        if (hits.length > 0) {
+      const observer = new MutationObserver(() => {
+        if (isSearchFinished()) {
           executeCleanup();
-        } else {
-          setTimeout(checkMobileHits, 200);
+          observer.disconnect();
         }
-      };
+      });
 
-      // Desktop: execute as soon as .ais-Hits-list exists
-      const observeDesktopHits = () => {
-        const observer = new MutationObserver(() => {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return; // Skip on mobile
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
 
-          const hitsList = document.querySelector('.ais-Hits-list');
-          if (hitsList) {
-            executeCleanup();
-            observer.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-      };
+      /* ------------------------------
+       * Absolute failsafe (never hang)
+       * ------------------------------ */
 
-      // Start logic
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        checkMobileHits();
-      } else {
-        observeDesktopHits();
-      }
+      setTimeout(() => {
+        if (!cleanupDone) {
+          console.warn('⚠️ Algolia cleanup timeout fallback triggered');
+          executeCleanup();
+        }
+      }, 8000); // 8s max loader
     }
 
     })()
