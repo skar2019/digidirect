@@ -78,11 +78,15 @@ require(['jquery'], function($) {
             if (!input) return;
 
             input.removeAttribute('readonly');
-            input.focus();
 
-            requestAnimationFrame(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            // Instant scroll
+            window.scrollTo({ top: 0 });
+
+            // Focus immediately after instant scroll
+            setTimeout(() => {
+                input.focus();
+                input.click();
+            }, 100);
 
         });
 
