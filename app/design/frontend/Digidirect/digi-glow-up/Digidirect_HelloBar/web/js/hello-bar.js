@@ -64,18 +64,36 @@ require(['jquery'], function ($) {
       // ---- Swipe detection ----
       let touchStartX = 0
       let touchEndX = 0
+      let touchStartY = 0
+      let touchEndY = 0
+      let isSwiping = false
 
       slidesContainer.addEventListener('touchstart', function (e) {
+          if (e.target.closest('a')) return
+
           touchStartX = e.touches[0].clientX
-      })
+          touchStartY = e.touches[0].clientY
+          isSwiping = false
+      }, { passive: true })
 
       slidesContainer.addEventListener('touchmove', function (e) {
+          if (e.target.closest('a')) return
+
           touchEndX = e.touches[0].clientX
-      })
+          touchEndY = e.touches[0].clientY
 
-      slidesContainer.addEventListener('touchend', function () {
+          const deltaX = Math.abs(touchEndX - touchStartX)
+          const deltaY = Math.abs(touchEndY - touchStartY)
+
+          if (deltaX > deltaY && deltaX > 10) {
+              isSwiping = true
+          }
+      }, { passive: true })
+
+      slidesContainer.addEventListener('touchend', function (e) {
+          if (!isSwiping) return
+
           const swipeDistance = touchEndX - touchStartX
-
           const threshold = 50
 
           if (Math.abs(swipeDistance) > threshold) {
@@ -89,7 +107,7 @@ require(['jquery'], function ($) {
           }
       })
 
-    // ---- Observer: detect external changes ----
+      // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
       const newIndex = Array.from(slides).findIndex((s) =>
         s.classList.contains('tcl-banner__slide--active')
