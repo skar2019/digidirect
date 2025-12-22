@@ -62,34 +62,48 @@ require(['jquery'], function ($) {
     })
 
       // ---- Swipe detection ----
-      let touchStartX = 0
-      let touchEndX = 0
+      let startX = 0
+      let isDragging = false
+      let swipeEnabled = false
 
-      slidesContainer.addEventListener('touchstart', function (e) {
-          touchStartX = e.touches[0].clientX
+      slidesContainer.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('a')) {
+              swipeEnabled = false
+              return
+          }
+
+          swipeEnabled = true
+          startX = e.clientX
+          isDragging = false
       })
 
-      slidesContainer.addEventListener('touchmove', function (e) {
-          touchEndX = e.touches[0].clientX
+      slidesContainer.addEventListener('pointermove', function (e) {
+          if (!swipeEnabled) return
+
+          const diffX = e.clientX - startX
+          if (Math.abs(diffX) > 10) {
+              isDragging = true
+          }
       })
 
-      slidesContainer.addEventListener('touchend', function () {
-          const swipeDistance = touchEndX - touchStartX
+      slidesContainer.addEventListener('pointerup', function (e) {
+          if (!swipeEnabled || !isDragging) return
 
+          const diffX = e.clientX - startX
           const threshold = 50
 
-          if (Math.abs(swipeDistance) > threshold) {
-              if (swipeDistance < 0) {
-                  currentIndex = (currentIndex + 1) % slides.length
-              } else {
-                  currentIndex = (currentIndex - 1 + slides.length) % slides.length
-              }
-              switchSlide(currentIndex)
+          if (Math.abs(diffX) > threshold) {
+              switchSlide(
+                  diffX < 0
+                      ? (currentIndex + 1) % slides.length
+                      : (currentIndex - 1 + slides.length) % slides.length
+              )
               stopAutoMoveTemporarily()
           }
       })
 
-    // ---- Observer: detect external changes ----
+
+      // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
       const newIndex = Array.from(slides).findIndex((s) =>
         s.classList.contains('tcl-banner__slide--active')

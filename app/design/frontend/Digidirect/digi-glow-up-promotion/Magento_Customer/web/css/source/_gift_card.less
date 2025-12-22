@@ -1,0 +1,82 @@
+.giftcard-account {
+    .fieldset {
+        margin: unset !important;
+    }
+    .fieldset > .field:not(.choice) > .label {
+        text-align: left !important;
+        padding-bottom: 15px;
+    }
+
+    .fieldset > .field:not(.choice) > .label {
+        width: 100% !important
+    }
+
+    .wrap-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+
+    .field.giftcard {
+        display: flex;
+        flex-direction: column;
+        //padding-top: 20px;
+    }
+
+    .field.giftcard .label {
+        margin-bottom: 5px;
+    }
+
+    .control {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .giftcard-balance-lookup {
+        padding-top: 20px;
+    }
+
+    .input-text {
+        width: 500px !important;
+        padding: 8px 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .actions-toolbar {
+        display: flex;
+        padding-left: 20px;
+        padding-top: 47px;
+        justify-content: flex-start;
+    }
+
+    .giftcard-account.title {
+        padding-top: 20px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding-bottom: 10px;
+    }
+}
+
+.giftcard-account.abstract-giftcards {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .giftcard-account {
+        .fieldset {
+            margin: 0 15px 0 0 !important;
+            width: 100% !important;
+        }
+
+        .actions-toolbar {
+            padding: 15px 15px 0 0 !important;
+            width: 100%;
+        }
+    }
+}

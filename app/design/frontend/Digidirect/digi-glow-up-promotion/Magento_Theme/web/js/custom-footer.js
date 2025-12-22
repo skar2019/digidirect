@@ -11,10 +11,10 @@ require(['jquery'], function($) {
     $(document).ready(function() {
         $('.page-footer').hover(
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '0');
+                $(this).find('.footer-black-gradient').css('opacity', '0');
             },
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
+                $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
             }
         );
 
@@ -77,11 +77,32 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
+            // Scroll to top first
+            window.scrollTo({ top: 0 });
+
+            // Remove readonly and focus with multiple attempts
             input.removeAttribute('readonly');
-            input.focus();
 
             requestAnimationFrame(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                requestAnimationFrame(() => {
+                    input.focus();
+
+                    // Force focus if needed
+                    if (document.activeElement !== input) {
+                        input.focus();
+                    }
+
+                    // Trigger click to open autocomplete
+                    input.click();
+
+                    // If still not focused, try one more time
+                    setTimeout(() => {
+                        if (document.activeElement !== input) {
+                            input.focus();
+                            input.click();
+                        }
+                    }, 100);
+                });
             });
 
         });
@@ -166,9 +187,9 @@ require(['jquery'], function($) {
 
         if (window.matchMedia("(max-width: 768px)").matches) {
             if ((window.location.pathname === '/customer/account'
-                || window.location.pathname === '/customer/account/'
-                || window.location.pathname === '/customer/account/index'
-                || window.location.pathname === '/customer/account/index/'
+                    || window.location.pathname === '/customer/account/'
+                    || window.location.pathname === '/customer/account/index'
+                    || window.location.pathname === '/customer/account/index/'
                 )
                 && window.showLoginOverlay) {
                 $('#open-account-popup').trigger('click');

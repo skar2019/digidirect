@@ -1,0 +1,71 @@
+.account {
+    .page-title-wrapper span.base {
+        color: #242426;
+        font-size: 40px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+    }
+
+    .block-content {
+        a {
+            //color: @color-link-blue !important;
+        }
+
+        .box-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #242426;
+            margin: 0 !important;
+        }
+        .box-content {
+            font-size: 14px;
+            font-weight: 400;
+            color: #545456;
+            margin-top: 15px;
+        }
+        .box-actions {
+            margin-top: 15px;
+
+            a span {
+                font-size: 15px;
+                font-weight: 600;
+                //color: @color-link-blue;
+                //text-decoration: underline;
+            }
+        }
+
+        .action.change-password {
+            margin-left: 20px;
+            //text-decoration: underline;
+            font-weight: 600;
+        }
+    }
+
+    .block-dashboard-addresses {
+        .block-title {
+            display: none;
+        }
+    }
+
+    .block-reviews-dashboard {
+        display: none;
+    }
+
+    .block.block-dashboard-orders {
+        margin-bottom: 15px !important;
+    }
+
+    .column.main .block:not(.widget) .block-content .box {
+        margin-bottom: 15px !important;
+    }
+}
+@media screen and (min-width: 767px) and (max-width: 1240px) {
+    .account .page-main .columns {
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .block.block-addresses-list {
+            overflow-x: auto;
+        }
+    }
+}
