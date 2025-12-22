@@ -85,7 +85,10 @@ $(window).on('scroll resize', () => {
 })
 
 
-
+$(".ul.ruby-menu li.ruby-menu-mega-blog").click(function(e){
+   $('body').removeClass("blur-active");
+   $(".aa-Panel.is-ready").removeClass("is-ready");
+});
 
     /* ========================
        🧊 Global Blur Overlay
