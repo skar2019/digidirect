@@ -1712,12 +1712,7 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
-      const loader = document.querySelector('.plp-custom-loader'); // adjust if needed
       let cleanupDone = false;
-
-      /* ------------------------------
-       * Helpers
-       * ------------------------------ */
 
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
@@ -1738,34 +1733,23 @@ define([
         observer.observe(document.body, { childList: true, subtree: true });
       };
 
-      const isSearchFinished = () => {
-        return (
-          document.querySelector('.ais-Hits-list') ||
-          document.getElementById('instant-empty-results-container')
-        );
+      const hasEmptyResults = () => {
+        const container = document.querySelector('.instant-search-results-container');
+        return container && container.querySelector('.ais-Hits--empty');
       };
-
-      /* ------------------------------
-       * Cleanup
-       * ------------------------------ */
 
       const executeCleanup = () => {
         if (cleanupDone) return;
         cleanupDone = true;
 
         try {
-          // Clear inline styles
           const elementsToClear = [
             ...document.querySelectorAll('.algolia-instant-selector-results'),
             ...document.querySelectorAll('.hits-per-page-container'),
             ...document.querySelectorAll('.ais-ViewToggle')
           ];
 
-          const idsToClear = [
-            'refine-toggle',
-            'algolia-stats',
-            'algolia-sorts'
-          ];
+          const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
           elementsToClear.forEach(el => el?.removeAttribute('style'));
           idsToClear.forEach(id => {
@@ -1774,20 +1758,23 @@ define([
           });
 
           ensureSearchBoxVisible();
-          console.log('✅ Algolia cleanup completed');
-        } catch (err) {
-          console.error('❌ Algolia cleanup error:', err);
+          console.log('✅ Cleanup completed successfully');
+        } catch (error) {
+          console.error('❌ executeCleanup error:', error);
         } finally {
           if (loader) loader.style.display = 'none';
         }
       };
 
-      /* ------------------------------
+      /* --------------------------------
        * Observe Algolia render state
-       * ------------------------------ */
+       * -------------------------------- */
 
       const observer = new MutationObserver(() => {
-        if (isSearchFinished()) {
+        const hitsExist = document.querySelector('.ais-Hits-list');
+        const emptyResultsExist = hasEmptyResults();
+
+        if (hitsExist || emptyResultsExist) {
           executeCleanup();
           observer.disconnect();
         }
@@ -1798,16 +1785,16 @@ define([
         subtree: true
       });
 
-      /* ------------------------------
-       * Absolute failsafe (never hang)
-       * ------------------------------ */
+      /* --------------------------------
+       * Absolute failsafe
+       * -------------------------------- */
 
       setTimeout(() => {
         if (!cleanupDone) {
-          console.warn('⚠️ Algolia cleanup timeout fallback triggered');
+          console.warn('⚠️ Cleanup timeout fallback triggered');
           executeCleanup();
         }
-      }, 8000); // 8s max loader
+      }, 8000);
     }
 
     })()
