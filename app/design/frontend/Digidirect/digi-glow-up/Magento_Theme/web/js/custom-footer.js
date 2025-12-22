@@ -77,16 +77,33 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            input.removeAttribute('readonly');
-
-            // Instant scroll
+            // Scroll to top first
             window.scrollTo({ top: 0 });
 
-            // Focus immediately after instant scroll
-            setTimeout(() => {
-                input.focus();
-                input.click();
-            }, 100);
+            // Remove readonly and focus with multiple attempts
+            input.removeAttribute('readonly');
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    input.focus();
+
+                    // Force focus if needed
+                    if (document.activeElement !== input) {
+                        input.focus();
+                    }
+
+                    // Trigger click to open autocomplete
+                    input.click();
+
+                    // If still not focused, try one more time
+                    setTimeout(() => {
+                        if (document.activeElement !== input) {
+                            input.focus();
+                            input.click();
+                        }
+                    }, 100);
+                });
+            });
 
         });
 
