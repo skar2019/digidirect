@@ -48,6 +48,7 @@
                 <value id="gstaticscript" type="host">*.gstatic.com</value>
                 <value id="googlepayscript" type="host">*.google.com</value>
                 <value id="cardinalscript" type="host">*.cardinalcommerce.com</value>
+                <value id="cardinalnewscript" type="host">static.client.cardinaltrusted.com</value>
                 <value id="braintreegatewayscript" type="host">*.braintreegateway.com</value>
                 <value id="braintreescript" type="host">*.braintree-api.com</value>
                 <value id="paypalscript" type="host">*.paypal.com</value>
@@ -66,7 +67,6 @@
                 <value id="gtmscriptsrc" type="host">gtm.js</value>
                 <value id="studentbeansconnect" type="host">*.connect.studentbeans.com</value>
                 <value id="studentbeanscdn" type="host">*.studentbeans.com</value>
-                <!-- <value id="studentbeansId" type="host">*.beansid.com</value> -->
                  <value id="ig" type="host">*.instagram.com</value>
                 <value id="jqueryscr" type="host">*.jquery.com</value>
                 <value id="adobetmsrc" type="host">*.adobedtm.com</value>
@@ -104,7 +104,6 @@
                 <value id="cloudfrontstylesrc" type="host">*.cloudfront.net</value>
                 <value id="zipstylesrc" type="host">*.zip.co</value>
                 <value id="digidirectprodstyle" type="host">*.digidirect.com</value>
-                <!--<value id="qantasstyle" type="host">*.services.qantasloyalty.com</value>-->
             </values>
         </policy>
         <policy id="img-src">
@@ -189,6 +188,7 @@
                 <value id="googlepayconnect" type="host">*.google.com</value>
                 <value id="klarnaconnect" type="host">*.klarnacdn.net</value>
                 <value id="cardinalconnect" type="host">*.cardinalcommerce.com</value>
+                <value id="cardinalnewconnect" type="host">*.cardinaltrusted.com</value>
                 <value id="demdexconnect" type="host">*.demdex.net</value>
                 <value id="braintree" type="host">*.braintree-api.com</value>
                 <value id="braintreegateway" type="host">*.braintreegateway.com</value>
