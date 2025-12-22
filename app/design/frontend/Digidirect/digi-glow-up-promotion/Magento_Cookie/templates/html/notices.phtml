@@ -1,0 +1,95 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Cookie\Block\Html\Notices $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+<?php
+/** @var \Magento\Cookie\Helper\Cookie $cookieHelper */
+$cookieHelper = $block->getData('cookieHelper');
+if ($cookieHelper->isCookieRestrictionModeEnabled()): ?>
+    <div role="alertdialog"
+         tabindex="-1"
+         class="message global cookie"
+         id="notice-cookie-block">
+        <div role="document" class="content" tabindex="0">
+            <p>
+                <strong><?= $block->escapeHtml(__('We use cookies to make your experience better.')) ?></strong>
+                <span><?= $block->escapeHtml(__(
+                        'To comply with the new e-Privacy directive, we need to ask for your '
+                    )) ?>
+                </span>
+                <span><?= $block->escapeHtml(__(
+                        ' consent to set the cookies.'
+                    )) ?>
+                    <?= $block->escapeHtml(__('<a href="%1">Learn more</a>', $block->getPrivacyPolicyLink()), ['a']) ?>
+                </span>
+                
+            </p>
+            <div class="actions">
+                <button id="btn-cookie-reject" class="action reject secondary">
+                    <span><?= $block->escapeHtml(__('Reject All')) ?></span>
+                </button>
+                <button id="btn-cookie-allow" class="action allow primary">
+                    <span><?= $block->escapeHtml(__('Allow Cookies')) ?></span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display: none;", 'div#notice-cookie-block') ?>
+    <script type="text/x-magento-init">
+        {
+            "#notice-cookie-block": {
+                "cookieNotices": {
+                    "cookieAllowButtonSelector": "#btn-cookie-allow",
+                    "cookieRejectButtonSelector": "#btn-cookie-reject",
+                    "cookieName": "<?= /* @noEscape */ \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>",
+                    "cookieValue": <?= /* @noEscape */ $cookieHelper->getAcceptedSaveCookiesWebsiteIds() ?>,
+                    "cookieLifetime": <?= /* @noEscape */ $cookieHelper->getCookieRestrictionLifetime() ?>,
+                    "noCookiesUrl": "<?= $block->escapeJs($block->getUrl('cookie/index/noCookies')) ?>"
+                }
+            }
+        }
+    </script>
+    <script>
+        require([
+            'jquery',
+            'mage/cookies'
+        ], function ($) {
+            'use strict';
+
+            $(document).ready(function() {
+                $('#btn-cookie-reject').on('click', function() {
+                    // Set cookie to deny consent
+                    $.mage.cookies.set(
+                        '<?= /* @noEscape */ \Magento\Cookie\Helper\Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',
+                        '0',
+                        {
+                            expires: new Date(new Date().getTime() + <?= /* @noEscape */ $cookieHelper->getCookieRestrictionLifetime() ?> * 1000),
+                            path: '/'
+                        }
+                    );
+
+                    // Clear tracking cookies
+                    var trackingCookies = ['_ga', '_gid', '_gat', '__utma', '__utmb', '__utmc', '__utmt', '__utmz', '_fbp', '_fbc'];
+                    trackingCookies.forEach(function(cookieName) {
+                        $.mage.cookies.clear(cookieName, {path: '/'});
+                        $.mage.cookies.clear(cookieName, {path: '/', domain: '.' + window.location.hostname});
+                    });
+
+                    // Disable Google Analytics
+                    if (window.ga) {
+                        window['ga-disable-UA-XXXXX-Y'] = true;
+                    }
+
+                    // Hide the notice
+                    $('#notice-cookie-block').hide();
+                });
+            });
+        });
+    </script>
+<?php endif; ?>
