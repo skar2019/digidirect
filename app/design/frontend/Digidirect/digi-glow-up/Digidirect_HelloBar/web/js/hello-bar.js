@@ -62,50 +62,46 @@ require(['jquery'], function ($) {
     })
 
       // ---- Swipe detection ----
-      let touchStartX = 0
-      let touchEndX = 0
-      let touchStartY = 0
-      let touchEndY = 0
-      let isSwiping = false
+      let startX = 0
+      let isDragging = false
+      let swipeEnabled = false
 
-      slidesContainer.addEventListener('touchstart', function (e) {
-          if (e.target.closest('a')) return
-
-          touchStartX = e.touches[0].clientX
-          touchStartY = e.touches[0].clientY
-          isSwiping = false
-      }, { passive: true })
-
-      slidesContainer.addEventListener('touchmove', function (e) {
-          if (e.target.closest('a')) return
-
-          touchEndX = e.touches[0].clientX
-          touchEndY = e.touches[0].clientY
-
-          const deltaX = Math.abs(touchEndX - touchStartX)
-          const deltaY = Math.abs(touchEndY - touchStartY)
-
-          if (deltaX > deltaY && deltaX > 10) {
-              isSwiping = true
+      slidesContainer.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('a')) {
+              swipeEnabled = false
+              return
           }
-      }, { passive: true })
 
-      slidesContainer.addEventListener('touchend', function (e) {
-          if (!isSwiping) return
+          swipeEnabled = true
+          startX = e.clientX
+          isDragging = false
+      })
 
-          const swipeDistance = touchEndX - touchStartX
+      slidesContainer.addEventListener('pointermove', function (e) {
+          if (!swipeEnabled) return
+
+          const diffX = e.clientX - startX
+          if (Math.abs(diffX) > 10) {
+              isDragging = true
+          }
+      })
+
+      slidesContainer.addEventListener('pointerup', function (e) {
+          if (!swipeEnabled || !isDragging) return
+
+          const diffX = e.clientX - startX
           const threshold = 50
 
-          if (Math.abs(swipeDistance) > threshold) {
-              if (swipeDistance < 0) {
-                  currentIndex = (currentIndex + 1) % slides.length
-              } else {
-                  currentIndex = (currentIndex - 1 + slides.length) % slides.length
-              }
-              switchSlide(currentIndex)
+          if (Math.abs(diffX) > threshold) {
+              switchSlide(
+                  diffX < 0
+                      ? (currentIndex + 1) % slides.length
+                      : (currentIndex - 1 + slides.length) % slides.length
+              )
               stopAutoMoveTemporarily()
           }
       })
+
 
       // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
