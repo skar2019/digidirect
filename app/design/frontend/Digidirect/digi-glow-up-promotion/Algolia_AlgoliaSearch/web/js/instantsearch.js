@@ -1714,9 +1714,10 @@ define([
     function callbackAfterAll() {
       let cleanupDone = false;
 
+      const resultsContainer = document.querySelector('.instant-search-results-container');
+
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
-
         if (searchBox) {
           searchBox.style.display = 'block';
           return;
@@ -1731,11 +1732,6 @@ define([
         });
 
         observer.observe(document.body, { childList: true, subtree: true });
-      };
-
-      const hasEmptyResults = () => {
-        const container = document.querySelector('.instant-search-results-container');
-        return container && container.querySelector('.ais-Hits--empty');
       };
 
       const executeCleanup = () => {
@@ -1758,42 +1754,40 @@ define([
           });
 
           ensureSearchBoxVisible();
-          console.log('✅ Cleanup completed successfully');
-        } catch (error) {
-          console.error('❌ executeCleanup error:', error);
         } finally {
           if (loader) loader.style.display = 'none';
         }
       };
 
       /* --------------------------------
-       * Observe Algolia render state
+       * INSTANT EMPTY-RESULTS DETECTION
        * -------------------------------- */
 
-      const observer = new MutationObserver(() => {
-        const hitsExist = document.querySelector('.ais-Hits-list');
-        const emptyResultsExist = hasEmptyResults();
+      if (resultsContainer?.querySelector('.ais-Hits--empty')) {
+        executeCleanup();
+        return;
+      }
 
-        if (hitsExist || emptyResultsExist) {
+      const observer = new MutationObserver(() => {
+        if (resultsContainer.querySelector('.ais-Hits--empty')) {
           executeCleanup();
           observer.disconnect();
         }
       });
 
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
+      if (resultsContainer) {
+        observer.observe(resultsContainer, {
+          childList: true,
+          subtree: true
+        });
+      }
 
       /* --------------------------------
-       * Absolute failsafe
+       * Absolute failsafe (safety net)
        * -------------------------------- */
 
       setTimeout(() => {
-        if (!cleanupDone) {
-          console.warn('⚠️ Cleanup timeout fallback triggered');
-          executeCleanup();
-        }
+        if (!cleanupDone) executeCleanup();
       }, 8000);
     }
 
