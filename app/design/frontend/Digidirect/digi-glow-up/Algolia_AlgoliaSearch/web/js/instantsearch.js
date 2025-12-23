@@ -1714,15 +1714,12 @@ define([
     function callbackAfterAll() {
       let cleanupDone = false;
 
-      const resultsContainer = document.querySelector('.instant-search-results-container');
-
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
         if (searchBox) {
           searchBox.style.display = 'block';
           return;
         }
-
         const observer = new MutationObserver((_, obs) => {
           const sb = document.querySelector('.ais-SearchBox');
           if (sb) {
@@ -1730,7 +1727,6 @@ define([
             obs.disconnect();
           }
         });
-
         observer.observe(document.body, { childList: true, subtree: true });
       };
 
@@ -1759,36 +1755,30 @@ define([
         }
       };
 
-      /* --------------------------------
-       * INSTANT EMPTY-RESULTS DETECTION
-       * -------------------------------- */
-
-      if (resultsContainer?.querySelector('.ais-Hits--empty')) {
-        executeCleanup();
-        return;
-      }
-
+      // -----------------------------
+      // Observe for .ais-Hits--empty anywhere in the DOM
+      // -----------------------------
       const observer = new MutationObserver(() => {
-        if (resultsContainer.querySelector('.ais-Hits--empty')) {
+        const emptyResults = document.querySelector(
+          '.instant-search-results-container .ais-Hits--empty'
+        );
+        if (emptyResults) {
           executeCleanup();
           observer.disconnect();
         }
       });
 
-      if (resultsContainer) {
-        observer.observe(resultsContainer, {
-          childList: true,
-          subtree: true
-        });
-      }
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
 
-      /* --------------------------------
-       * Absolute failsafe (safety net)
-       * -------------------------------- */
-
+      // -----------------------------
+      // Absolute failsafe
+      // -----------------------------
       setTimeout(() => {
         if (!cleanupDone) executeCleanup();
-      }, 8000);
+      }, 3000);
     }
 
     })()
