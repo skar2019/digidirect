@@ -1778,7 +1778,7 @@ define([
       // -----------------------------
       setTimeout(() => {
         if (!cleanupDone) executeCleanup();
-      }, 3000);
+      }, 1500);
     }
 
     })()
