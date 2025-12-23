@@ -1579,11 +1579,14 @@ require(['jquery'], function ($) {
 </script>
 
 <?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
+
     $isDigiClub = false;
-    $customer = $block->checkCustomer();
-    if ($customer->isLoggedIn()) {
-        $customerGroupId = $customer->getCustomer()->getGroupId();
-        if ($customerGroupId == 10) {
+
+    if ($customerSession->isLoggedIn()) {
+        $groupId = (int) $customerSession->getCustomerGroupId();
+        if ($groupId === 10) {
             $isDigiClub = true;
         }
     }
@@ -1591,12 +1594,8 @@ require(['jquery'], function ($) {
 ?>
 
 <div class="homepage-row full-width">
-    <div class="glow-up-banner-row">
-        <?php if ($isDigiClub) :?>
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
-        <?php else : ?>
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
-        <?php endif; ?>
+    <div class="glow-up-banner-row test-promo">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
     </div>
 </div>
 <div class="homepage-row">
