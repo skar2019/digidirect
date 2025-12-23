@@ -104,8 +104,8 @@ return [
                 'js' => [
                     'merge_files' => '0',
                     'enable_js_bundling' => '0',
-                    'minify_files' => '0',
-                    'move_script_to_bottom' => '0',
+                    'minify_files' => '1',
+                    'move_script_to_bottom' => '1',
                     'translate_strategy' => 'dictionary',
                     'session_storage_logging' => '0',
                     'minify_exclude' => [
@@ -829,6 +829,7 @@ return [
         'Webkul_MyCustomCollection' => 1,
         'WeltPixel_Backend' => 1,
         'WeltPixel_GA4' => 1,
+        'WompMobile_AmpProductExample' => 1,
         'ZV_SeoCompatible' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
