@@ -1591,7 +1591,7 @@ require(['jquery'], function ($) {
 ?>
 
 <div class="homepage-row full-width">
-    <div class="glow-up-banner-row" <?= $customerGroupId; ?> <?= $isDigiClub; ?>>
+    <div class="glow-up-banner-row">
         <?php if ($isDigiClub) :?>
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
         <?php else : ?>
