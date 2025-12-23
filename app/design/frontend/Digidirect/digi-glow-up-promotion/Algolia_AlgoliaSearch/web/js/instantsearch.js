@@ -1712,26 +1712,29 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
+      let cleanupDone = false;
+
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
         if (searchBox) {
           searchBox.style.display = 'block';
-        } else {
-          // Observe DOM for search box creation
-          const observer = new MutationObserver((mutations, obs) => {
-            const sb = document.querySelector('.ais-SearchBox');
-            if (sb) {
-              sb.style.display = 'block';
-              obs.disconnect();
-            }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
+          return;
         }
+        const observer = new MutationObserver((_, obs) => {
+          const sb = document.querySelector('.ais-SearchBox');
+          if (sb) {
+            sb.style.display = 'block';
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
       };
 
-    const executeCleanup = () => {
+      const executeCleanup = () => {
+        if (cleanupDone) return;
+        cleanupDone = true;
+
         try {
-          // Clear inline styles
           const elementsToClear = [
             ...document.querySelectorAll('.algolia-instant-selector-results'),
             ...document.querySelectorAll('.hits-per-page-container'),
@@ -1740,63 +1743,42 @@ define([
 
           const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
 
-          elementsToClear.forEach(el => {
-            if (el) el.removeAttribute('style');
-          });
-
+          elementsToClear.forEach(el => el?.removeAttribute('style'));
           idsToClear.forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.removeAttribute('style');
+            el?.removeAttribute('style');
           });
 
-          // Ensure search box is visible
           ensureSearchBoxVisible();
-
-          console.log('✅ Cleanup completed successfully');
-        } catch (error) {
-          console.error('❌ executeCleanup error:', error);
         } finally {
-          // ALWAYS hide loader
-          if (loader) {
-            loader.style.display = 'none';
-          }
+          if (loader) loader.style.display = 'none';
         }
-    };
+      };
 
-      // Mobile: wait until hits are loaded
-      const checkMobileHits = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) return;
-
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
-        if (hits.length > 0) {
+      // -----------------------------
+      // Observe for .ais-Hits--empty anywhere in the DOM
+      // -----------------------------
+      const observer = new MutationObserver(() => {
+        const emptyResults = document.querySelector(
+          '.instant-search-results-container .ais-Hits--empty'
+        );
+        if (emptyResults) {
           executeCleanup();
-        } else {
-          setTimeout(checkMobileHits, 200);
+          observer.disconnect();
         }
-      };
+      });
 
-      // Desktop: execute as soon as .ais-Hits-list exists
-      const observeDesktopHits = () => {
-        const observer = new MutationObserver(() => {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return; // Skip on mobile
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
 
-          const hitsList = document.querySelector('.ais-Hits-list');
-          if (hitsList) {
-            executeCleanup();
-            observer.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-      };
-
-      // Start logic
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        checkMobileHits();
-      } else {
-        observeDesktopHits();
-      }
+      // -----------------------------
+      // Absolute failsafe
+      // -----------------------------
+      setTimeout(() => {
+        if (!cleanupDone) executeCleanup();
+      }, 1500);
     }
 
     })()

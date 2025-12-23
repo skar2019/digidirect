@@ -172,6 +172,7 @@ a:hover {
 
 #maincontent {
     max-width: 100%;
+    padding: 0;
 }
 
 .homepage-row,
@@ -267,7 +268,7 @@ strong.product-item-name {
     display: flex;
     flex-direction: column;
     color: #363638;
-    font-size: 18px;
+    font-size: 14px;
     font-family: Inter;
     font-weight: 500;
     word-wrap: break-word;
@@ -3842,4 +3843,24 @@ select:not([disabled]):focus {
     .brand-group ul {
         grid-template-columns: repeat(2, 1fr) !important;
     }
+
+    .account.page-layout-2columns-left .column.main {
+        width: 70% !important;
+    }
+
+    .account.page-layout-2columns-left .sidebar-main {
+        width: 30% !important;
+    }
+    .account .block-collapsible-nav .nav.item a {
+        font-size: 14px;
+    }
+
+    .block-extendedrule.-pdp {
+        figure {
+            img {
+                width: 100% !important;
+            }
+        }
+    }
 }
+//redeployment
