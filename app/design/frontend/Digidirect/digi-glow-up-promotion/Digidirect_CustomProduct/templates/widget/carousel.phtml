@@ -200,7 +200,7 @@ $collection = $block->getProductCollection();
                                     <div class="product-info-bottom black-friday">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="discount-price-wrapper">
-                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> OFF RRP
+                                                <span class="discount-price">$<?= $block->escapeHtml($discount) ?></span> OFF RRP
                                             </div>
                                         <?php else: ?>
                                             <div class="discount-price-wrapper-no-price"></div>

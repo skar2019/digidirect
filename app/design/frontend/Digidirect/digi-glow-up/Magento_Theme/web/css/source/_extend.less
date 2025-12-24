@@ -268,7 +268,7 @@ strong.product-item-name {
     display: flex;
     flex-direction: column;
     color: #363638;
-    font-size: 18px;
+    font-size: 14px;
     font-family: Inter;
     font-weight: 500;
     word-wrap: break-word;
@@ -2414,43 +2414,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         height: 32px;
     }
 
-    //Brands Page
-
-    .brands-index-index #maincontent {
-        margin: 0;
-    }
-
-    .brands-index-index
-        .page-wrapper
-        > :not(.page-header):not(.page-bottom):not(.page-footer) {
-        padding: 0 20px !important;
-    }
-
-    .brand-alphabet {
-        display: none !important;
-    }
-
-    .brand-filter {
-        width: 100%;
-        position: relative;
-    }
-
-    #brand-search {
-        width: 100% !important;
-        height: 41px;
-    }
-
-    .brand-filter svg {
-        position: absolute;
-        right: 4px;
-        top: 12px;
-        display: block !important;
-    }
-
-    .brand-group ul {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-
     //CMS Page
     .cms-page-view .breadcrumbs {
         margin: 12px;
@@ -2459,6 +2422,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     //Brand Page
     .banner-mobile {
         display: block !important;
+        width: 100%;
     }
 
     .banner-web {
@@ -2643,11 +2607,10 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .list-view .result-wrapper .result-content .result-sub-content .price {
         margin-top: 0 !important;
     }
-    
+
     .footer-black-gradient-div {
         display: none;
     }
-    
 }
 
 @media screen and (max-width: 1512px) {
@@ -3781,6 +3744,32 @@ select:not([disabled]):focus {
             padding: 30px 15px !important;
         }
     }
+    .cms-digi-print {
+        .filmprocess-card {
+            flex: 1 !important;
+        }
+    }
+    #refine-toggle {
+        margin: 0 !important;
+        border-radius: 999px;
+        background: #fe4c25;
+        color: #fff;
+        border: 0 !important;
+        padding: 8px 16px;
+        line-height: 21px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 6px 0 9px !important;
+        font-weight: 400;
+        width: 100px;
+    }
+
+    #refine-toggle svg {
+        float: left;
+        width: 18px;
+    }
 }
 @media only screen and (min-width: 1024px) and (max-width: 1200px) {
     .cms-page-view .digidirect-custom-widget .products-grid {
@@ -3811,5 +3800,66 @@ select:not([disabled]):focus {
     }
     .product-right-column .product-info-main {
         padding: 10px !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    //Brands Page
+
+    .brands-index-index #maincontent {
+        margin: 0;
+    }
+    .brand-header {
+        padding: 20px;
+    }
+
+    .brands-index-index
+        .page-wrapper
+        > :not(.page-header):not(.page-bottom):not(.page-footer) {
+        padding: 0 20px !important;
+    }
+
+    .brand-alphabet {
+        display: none !important;
+    }
+
+    .brand-filter {
+        width: 100%;
+        position: relative;
+    }
+
+    #brand-search {
+        width: 100% !important;
+        height: 41px;
+    }
+
+    .brand-filter svg {
+        position: absolute;
+        right: 4px;
+        top: 12px;
+        display: block !important;
+    }
+
+    .brand-group ul {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .account.page-layout-2columns-left .column.main {
+        width: 70% !important;
+    }
+
+    .account.page-layout-2columns-left .sidebar-main {
+        width: 30% !important;
+    }
+    .account .block-collapsible-nav .nav.item a {
+        font-size: 14px;
+    }
+
+    .block-extendedrule.-pdp {
+        figure {
+            img {
+                width: 100% !important;
+            }
+        }
     }
 }

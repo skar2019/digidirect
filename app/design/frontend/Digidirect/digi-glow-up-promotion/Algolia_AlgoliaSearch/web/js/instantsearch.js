@@ -1712,81 +1712,73 @@ define([
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
     function callbackAfterAll() {
+      let cleanupDone = false;
+
       const ensureSearchBoxVisible = () => {
         const searchBox = document.querySelector('.ais-SearchBox');
         if (searchBox) {
           searchBox.style.display = 'block';
-        } else {
-          // Observe DOM for search box creation
-          const observer = new MutationObserver((mutations, obs) => {
-            const sb = document.querySelector('.ais-SearchBox');
-            if (sb) {
-              sb.style.display = 'block';
-              obs.disconnect();
-            }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
+          return;
         }
-      };
-
-      const executeCleanup = () => {
-        // Clear inline styles for these elements
-        const elementsToClear = [
-          ...document.querySelectorAll('.algolia-instant-selector-results'),
-          ...document.querySelectorAll('.hits-per-page-container'),
-          ...document.querySelectorAll('.ais-ViewToggle')
-        ];
-        const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
-
-        elementsToClear.forEach(el => el.removeAttribute('style'));
-        idsToClear.forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.removeAttribute('style');
-        });
-
-        // Ensure search box is visible
-        ensureSearchBoxVisible();
-
-        console.log('✅ Removed style attributes and showed search box.');
-
-        // Hide loader
-        if (loader) loader.style.display = 'none';
-      };
-
-      // Mobile: wait until hits are loaded
-      const checkMobileHits = () => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) return;
-
-        const hits = document.querySelectorAll('.ais-Hits-list .ais-Hits-item');
-        if (hits.length > 0) {
-          executeCleanup();
-        } else {
-          setTimeout(checkMobileHits, 200);
-        }
-      };
-
-      // Desktop: execute as soon as .ais-Hits-list exists
-      const observeDesktopHits = () => {
-        const observer = new MutationObserver(() => {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
-          if (isMobile) return; // Skip on mobile
-
-          const hitsList = document.querySelector('.ais-Hits-list');
-          if (hitsList) {
-            executeCleanup();
-            observer.disconnect();
+        const observer = new MutationObserver((_, obs) => {
+          const sb = document.querySelector('.ais-SearchBox');
+          if (sb) {
+            sb.style.display = 'block';
+            obs.disconnect();
           }
         });
         observer.observe(document.body, { childList: true, subtree: true });
       };
 
-      // Start logic
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        checkMobileHits();
-      } else {
-        observeDesktopHits();
-      }
+      const executeCleanup = () => {
+        if (cleanupDone) return;
+        cleanupDone = true;
+
+        try {
+          const elementsToClear = [
+            ...document.querySelectorAll('.algolia-instant-selector-results'),
+            ...document.querySelectorAll('.hits-per-page-container'),
+            ...document.querySelectorAll('.ais-ViewToggle')
+          ];
+
+          const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
+
+          elementsToClear.forEach(el => el?.removeAttribute('style'));
+          idsToClear.forEach(id => {
+            const el = document.getElementById(id);
+            el?.removeAttribute('style');
+          });
+
+          ensureSearchBoxVisible();
+        } finally {
+          if (loader) loader.style.display = 'none';
+        }
+      };
+
+      // -----------------------------
+      // Observe for .ais-Hits--empty anywhere in the DOM
+      // -----------------------------
+      const observer = new MutationObserver(() => {
+        const emptyResults = document.querySelector(
+          '.instant-search-results-container .ais-Hits--empty'
+        );
+        if (emptyResults) {
+          executeCleanup();
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      // -----------------------------
+      // Absolute failsafe
+      // -----------------------------
+      setTimeout(() => {
+        if (!cleanupDone) executeCleanup();
+      }, 1500);
     }
 
     })()

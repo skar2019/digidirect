@@ -526,7 +526,7 @@ require(['jquery'], function ($) {
         });
         //$('.pa-digidirect-product-widget-container.widget-placeholder').remove();
     }
-    
+
     function productTileForWidget(widgetId, appendTo, isMobile) {
         let productItem = "";
         let widget = widgets.find(obj => {
@@ -535,10 +535,10 @@ require(['jquery'], function ($) {
         let widgetSlots = widget.slots;
         var productCtr = 0;
         Object.keys(widgetSlots).forEach(key => {
-            
+
             let product = widgetSlots[key].products[0];
             let discountTotal = Number(product.prices[0].price - product.prices[0].discountPrice).toFixed(2);
-            
+
             productCtr++;
             let campaignId = widgetSlots[key].campaignId;
             let recommenderId = widgetSlots[key].recommenderId;
@@ -580,7 +580,7 @@ require(['jquery'], function ($) {
                 return obj.name === 'item_rating';
             })
 
-            let digiSecondsRating = "";            
+            let digiSecondsRating = "";
 
             if (digiSecondsRatingValue.stringValue == "5") {
                 digiSecondsRating = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
@@ -648,18 +648,18 @@ require(['jquery'], function ($) {
                                 '<input type="text" name="keyword_id" value="'+ keywordId +'" hidden/>' +
                                 '<button type="submit" title="Add to Cart" class="action tocart primary" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">' +
                                 '<span>Add to Cart</span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>' +
-                                '</button>' + 
+                                '</button>' +
                             '</form>'
             }
-            
+
             let addToWishList;
-            
+
             if (widgetId == '02ed2d33-ee8e-ec11-aae9-02dca44cceec') {
                 addToWishList = `<div class="pa-checkbox-container"><label class="pa-checkbox-label"><input type="checkbox" data-product-sku="${product.sku}" class="pa-checkbox-input pa-bundle-product"><i class="fas fa-check" style="display: none;"></i></label></div>`;
             } else {
                 addToWishList = `<a href="javascript:void(0);" class="action towishlist" title="<?php echo __('Add to Wishlist') ?>" data-post='{"action":"/wishlist/index/add/","data":{"product":"${product.refId}","uenc":"${product.url}"}}' style="padding:6px;box-shadow:0px .78125px .78125px rgba(150,150,150,.09);border-radius:14px;position:absolute;height:25px;width:25px;right:0;margin:12px;border:none;"></a>`;
             }
-            
+
             if (!isDigiSeconds) {
                 if (sellerName != "20329" && sellerName !== undefined) {
                     digiDealsLogo = '<a href="' + product.url + '" class="ribbon-container"><div class="ribbon-online">Online Only</div>'+ addToWishList +'</a>';
@@ -678,7 +678,7 @@ require(['jquery'], function ($) {
 
             let discountValue = price - discountPrice;
             let discount = '$' + discountValue.toLocaleString('en-AU', { minimumFractionDigits: 2 });
-            
+
             if (discount === "$NaN") {
                 var productInfoBottom = '<div class="product-info-bottom"><div class="discount-price-wrapper-no-price"></div>' + addToCart + '</div>'
             } else {
@@ -699,7 +699,7 @@ require(['jquery'], function ($) {
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -708,10 +708,10 @@ require(['jquery'], function ($) {
                                         '<span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span>' +
                                     '</div>' +
                                     '<span class="special-price"><span class="price-container price-final_price tax weee">' +
-                                        '<span class="price-label"></span>' + 
+                                        '<span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ discountPriceToDisplay +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 ' <div class="black-friday-deal">Boxing Day <span class="digi">Deal</span></div><span class="price black-friday">'+ discountPriceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -724,16 +724,16 @@ require(['jquery'], function ($) {
                                     '<span class="price-container price-final_price tax weee">' +
                                             '<span id="old-price-'+ product.refId +'" data-price-amount="'+ priceToDisplay +'" data-price-type="oldPrice" class="price-wrapper ">' +
                                                 '<span class="price">'+ priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
                                 '<div class="current-price-wrapper no-special-price">' +
                                     '<div class="digidirectprice"><span class="digi">digi</span><span style="color: #000;">Direct <span style="font-weight: 400;">Price</span></span></div>' +
-                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' + 
+                                        '<span class="special-price"><span class="price-container price-final_price tax weee"><span class="price-label"></span>' +
                                             '<span id="product-price-'+ product.refId +'" data-price-amount="'+ product.prices[0].price +'" data-price-type="basePrice" class="price-wrapper ">' +
                                                 '<span class="price">' + priceToDisplay +'</span>' +
-                                            '</span>' + 
+                                            '</span>' +
                                         '</span>' +
                                     '</span>' +
                                 '</div>' +
@@ -753,22 +753,22 @@ require(['jquery'], function ($) {
             var tileId = view + '-' + widgetId + '-product-' + product.refId;
 
             var productItemDiv = '<div id="'+ tileId +'" class="product-item-info product-item black-friday" product-id="'+ product.refId +'" widget-id="' + widgetId + '" campaign-id="' + campaignId + '" recommender-id="' + recommenderId + '" tactic-id="' + tacticId + '" retail-boost-collection-campaign-id="' + retailBoostCollectionCampaignId + '" adset-id="' + adSetId + '" adset-version="' + adSetVersion + '" cost-per-click="' + costPerClick + '" timestamp="' + timeStamp + '" hmac-salt="' + hmacSalt + '" hmac="' + hmac + '" keyword-id="' + keywordId + '">';
-            
+
             var zip = '<div style="width:100%;height:100%;line-height:13px;font-size:10px;color:#4D4E4E;"><span>Zip Money is only available up to $10,000. <br>Fees apply*. </span><a href="/zip-money" style="color:#FE4C25;"> Learn how.</a></div>';
-            
+
             productItem = productItemDiv + digiDealsLogo +
                         '<a href="' + product.url + '" class="product-image-container">' +
                             '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
-                                '<img class="product-image-photo" src="' + product.images[0] + '?optimize=medium&bg-color=255,255,255&fit=bounds&height=150&width=150&format=jpeg' + '" loading="lazy" width="240" height="300" alt="Product Image">' +
+                                '<img class="product-image-photo" src="' + product.images[0] + '?optimize=medium&bg-color=255,255,255&fit=bounds&height=150&width=150&format=jpeg' + '" loading="lazy" alt="Product Image">' +
                             '</span>' +
-                        '</a>' + 
+                        '</a>' +
                         '<div style="position: relative;">' + sponsoredLabel +
                             '<a href="' + product.url + '" class="product details product-item-details">' +
                                  '<strong class="product-item-name">' +
                                     '<span title="' + product.name + '" class="product-item-link">' +
                                         product.name +
                                     '</span>' +
-                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
                                 priceBlock + productInfoBottom +
                             '</a>' +
                         '</div>' +
@@ -780,14 +780,9 @@ require(['jquery'], function ($) {
     }
 
     productTileForWidget('94e9300c-023e-ec11-aae9-02dca44cceec', '#recommended-for-you-widget-desktop', false);
-    productTileForWidget('886fc4e3-a9f0-ee11-abf3-02bf4bf6447c', '#trending-digimarket-products-widget-desktop', false);
-    productTileForWidget('0bfcb498-893d-ef11-abf3-02bf4bf6447c', '#shop-tech-and-more-widget-desktop', false);
-    productTileForWidget('6631ff51-60f5-ee11-abf3-02bf4bf6447c', '#trending-technology-products-for-you-widget-desktop', false);
-    productTileForWidget('4dd9e335-bef7-ee11-abf3-02bf4bf6447c', '#trending-photography-products-for-you-widget-desktop', false);
-    productTileForWidget('a24cb666-8a3d-ef11-abf3-02bf4bf6447c', '#trending-digimarket-products-for-you-widget-desktop', false);
-    productTileForWidget('f61e5e9b-4500-ef11-abf3-02bf4bf6447c', '#trending-digiseconds-products-for-you-widget-desktop', false);
     productTileForWidget('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTileForWidget('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
+
     //Minicart PA Widget
     (function () {
         const config = { childList: true, subtree: true }
@@ -1293,7 +1288,7 @@ require(['jquery'], function ($) {
                 768: {items:3},
                 992: { items: 3 },
                 1024: {
-                    items: 5
+                    items: 4
                 },
                 1310: {
                     items: 5
@@ -1584,11 +1579,14 @@ require(['jquery'], function ($) {
 </script>
 
 <?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->get(\Magento\Customer\Model\Session::class);
+
     $isDigiClub = false;
-    $customer = $block->checkCustomer();
-    if ($customer->isLoggedIn()) {
-        $customerGroupId = $customer->getCustomer()->getGroupId();
-        if ($customerGroupId == 10) {
+
+    if ($customerSession->isLoggedIn()) {
+        $groupId = (int) $customerSession->getCustomerGroupId();
+        if ($groupId === 10) {
             $isDigiClub = true;
         }
     }
@@ -1596,12 +1594,8 @@ require(['jquery'], function ($) {
 ?>
 
 <div class="homepage-row full-width">
-    <div class="glow-up-banner-row">
-        <?php if ($isDigiClub) :?>
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
-        <?php else : ?> 
-            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
-        <?php endif; ?>
+    <div class="glow-up-banner-row test-promo">
+        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
     </div>
 </div>
 <div class="homepage-row">
@@ -1891,8 +1885,13 @@ require(['jquery'], function ($) {
             $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
             $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
         ?>
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml(); ?>
+        <div class="digiservices-home-grid-webview">
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId("digi-services-glow-up")->toHtml(); ?>
+        </div>
 
+        <div class="digiservices-home-grid-mobileview">
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId("digi-services-glow-up-mobile")->toHtml(); ?>
+        </div>
     </div>
 </div>
 <div class="homepage-row pa-widget" style="padding: 30px 0;">

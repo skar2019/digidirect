@@ -199,7 +199,7 @@ $collection = $block->getProductCollection();
                                     <div class="product-info-bottom">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <div class="discount-price-wrapper">
-                                                <span class="discount-price"><?= $block->escapeHtml($discount) ?></span> Off
+                                                <span class="discount-price">$<?= $block->escapeHtml($discount) ?></span> Off
                                             </div>
                                         <?php else: ?>
                                             <div class="discount-price-wrapper-no-price"></div>
@@ -264,7 +264,7 @@ $collection = $block->getProductCollection();
                             items: 2
                         },
                         1024: {
-                            items: 5
+                            items: 4
                         },
                         1310: {
                             items: 5
