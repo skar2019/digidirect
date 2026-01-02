@@ -69,7 +69,8 @@ require(['jquery'], function($) {
 
         });
 
-        $('.footer-search').on('click', function () {
+        $('.footer-search').on('click', function (e) {
+            e.preventDefault(); // Prevent any default behavior
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
@@ -77,34 +78,21 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Scroll to top first
+            // Scroll to top
             window.scrollTo({ top: 0 });
 
-            // Remove readonly and focus with multiple attempts
+            // Remove readonly IMMEDIATELY
             input.removeAttribute('readonly');
 
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    input.focus();
+            // Focus IMMEDIATELY - this is critical for mobile keyboard
+            input.focus();
+            input.click();
 
-                    // Force focus if needed
-                    if (document.activeElement !== input) {
-                        input.focus();
-                    }
-
-                    // Trigger click to open autocomplete
-                    input.click();
-
-                    // If still not focused, try one more time
-                    setTimeout(() => {
-                        if (document.activeElement !== input) {
-                            input.focus();
-                            input.click();
-                        }
-                    }, 100);
-                });
-            });
-
+            // Force cursor to end of input if there's existing text
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
         });
 
         $('.showcart-footer').on('click', function(){
