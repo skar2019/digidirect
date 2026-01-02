@@ -69,38 +69,37 @@ require(['jquery'], function($) {
 
         });
 
-        $('.footer-search').on('click', function (e) {
+        // Use touchstart for immediate response on mobile
+        $('.footer-search').on('touchstart click', function (e) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Close menus but NOT Algolia
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-
-            // Close account popup without redirecting
-            if (window.location.href.indexOf('/customer/') === -1) {
-                $('#mobile-account-popup').removeClass('active');
-                $('body').css('overflow', '');
+            // Only handle once if both events fire
+            if (e.type === 'touchstart') {
+                $(this).one('click', function(e) { e.preventDefault(); });
             }
 
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Instant scroll to top
+            // Close other menus
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
+
+            // Instant scroll
             window.scrollTo(0, 0);
 
-            // Remove readonly and focus
+            // Remove readonly
             input.removeAttribute('readonly');
 
-            // Small delay to ensure scroll completes and DOM is stable
-            setTimeout(() => {
-                input.focus();
-                input.click();
+            // Focus immediately in the touch event
+            input.focus();
+            input.click();
 
-                // Open Algolia autocomplete
-                if (window.algoliaAutocompleteInstance?.setIsOpen) {
-                    window.algoliaAutocompleteInstance.setIsOpen(true);
-                }
-            }, 50);
         });
 
         $('.showcart-footer').on('click', function(){
