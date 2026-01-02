@@ -11,10 +11,10 @@ require(['jquery'], function($) {
     $(document).ready(function() {
         $('.page-footer').hover(
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '0');
+                $(this).find('.footer-black-gradient').css('opacity', '0');
             },
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
+                $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
             }
         );
 
@@ -71,20 +71,36 @@ require(['jquery'], function($) {
 
         $('.footer-search').on('click', function (e) {
             e.preventDefault();
+            e.stopPropagation();
 
+            // Close menus but NOT Algolia
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            closeAccountPopup();
+
+            // Close account popup without redirecting
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
 
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Instant scroll - no animation
-            window.scrollTo(0, 0); // or just: window.scrollTo({ top: 0 });
+            // Instant scroll to top
+            window.scrollTo(0, 0);
 
-            // Focus immediately after instant scroll
+            // Remove readonly and focus
             input.removeAttribute('readonly');
-            input.focus();
-            input.click();
+
+            // Small delay to ensure scroll completes and DOM is stable
+            setTimeout(() => {
+                input.focus();
+                input.click();
+
+                // Open Algolia autocomplete
+                if (window.algoliaAutocompleteInstance?.setIsOpen) {
+                    window.algoliaAutocompleteInstance.setIsOpen(true);
+                }
+            }, 50);
         });
 
         $('.showcart-footer').on('click', function(){
@@ -167,9 +183,9 @@ require(['jquery'], function($) {
 
         if (window.matchMedia("(max-width: 768px)").matches) {
             if ((window.location.pathname === '/customer/account'
-                || window.location.pathname === '/customer/account/'
-                || window.location.pathname === '/customer/account/index'
-                || window.location.pathname === '/customer/account/index/'
+                    || window.location.pathname === '/customer/account/'
+                    || window.location.pathname === '/customer/account/index'
+                    || window.location.pathname === '/customer/account/index/'
                 )
                 && window.showLoginOverlay) {
                 $('#open-account-popup').trigger('click');
