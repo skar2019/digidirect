@@ -70,7 +70,7 @@ require(['jquery'], function($) {
         });
 
         $('.footer-search').on('click', function (e) {
-            e.preventDefault(); // Prevent any default behavior
+            e.preventDefault();
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
@@ -78,21 +78,13 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Scroll to top
-            window.scrollTo({ top: 0 });
+            // Instant scroll - no animation
+            window.scrollTo(0, 0); // or just: window.scrollTo({ top: 0 });
 
-            // Remove readonly IMMEDIATELY
+            // Focus immediately after instant scroll
             input.removeAttribute('readonly');
-
-            // Focus IMMEDIATELY - this is critical for mobile keyboard
             input.focus();
             input.click();
-
-            // Force cursor to end of input if there's existing text
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
-            }
         });
 
         $('.showcart-footer').on('click', function(){
