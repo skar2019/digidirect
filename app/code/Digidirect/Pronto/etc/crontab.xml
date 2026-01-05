@@ -35,7 +35,7 @@
         <job name="pronto_sftpwiser2" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
             <schedule>45 11 * * *</schedule>
         </job>
-        <job name="pronto_sftpwiser2" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
+        <job name="pronto_sftpwiser3" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
             <schedule>45 14 * * *</schedule>
         </job>
         <job name="pronto_customfinalp" instance="Digidirect\Pronto\Cron\WiserData" method="customfinalp">

@@ -258,7 +258,7 @@ svg.aa-SubmitIcon {
 }
 
 .pagebuilder-overlay.pagebuilder-poster-overlay {
-    height: 506px;
+    //height: 506px;
 }
 
 ul.slick-dots {
@@ -268,12 +268,16 @@ ul.slick-dots {
 
 .pagebuilder-slide-wrapper {
     //width: 100vw;
-    height: 22vw;
+    //height: 22vw;
     //max-height: 388px;
-    background-size: cover !important;
+    //background-size: cover !important;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+}
+
+.pagebuilder-slide-wrapper .pagebuilder-overlay.pagebuilder-poster-overlay {
+    min-height: unset !important;
 }
 
 @media (max-width: 768px) {
@@ -615,6 +619,34 @@ ul.slick-dots {
     .header.content.is-sticky {
         display: none !important;
     }
+    
+    .pagebuilder-slide-wrapper {
+        min-height: 240px !important;
+    }
+    
+    /*.glow-up-main-hero-banner .pagebuilder-slide-wrapper {
+        background-size: cover !important;
+        height: 100% !important
+    }*/
+}
+
+@media (min-width: 768px) {
+    
+    .glow-up-main-hero-banner .pagebuilder-slide-wrapper {
+	background-size: cover !important;
+	height: 100% !important;
+        aspect-ratio: 5.05 !important;
+        min-height: unset !important;
+    }
+    
+}
+
+@media (min-width: 1800px) {
+    
+    .pagebuilder-slide-wrapper {
+        min-height: 377px !important;
+    }
+    
 }
 
 .minicart-wrapper {
