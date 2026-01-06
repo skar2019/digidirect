@@ -6,4 +6,7 @@
     <?php endif; ?>
 <?php endif; ?>
 
-<div><?= /* @noEscape */ $block->getCategory() ?></div>
+<div>
+    ID: <?= $block->getCategory()->getId() ?><br>
+    Name: <?= /* @noEscape */ $block->getCategory()->getName() ?>
+</div>
