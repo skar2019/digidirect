@@ -532,6 +532,13 @@ class Product extends AbstractHelper
                 if ($verbose) {
                     echo "Status: Disabled (NDA)<br/>\n";
                 }
+            } elseif ($conditionCode === 'O') {
+                $product->setStatus(Status::STATUS_DISABLED);
+                $forLogs .= "Status: Disabled (Obselete)\n";
+
+                if ($verbose) {
+                    echo "Status: Disabled (Obselete)<br/>\n";
+                }
             } else {
                 $product->setStatus(Status::STATUS_ENABLED);
                 $forLogs .= "Status: Enabled\n";
