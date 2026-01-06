@@ -4,11 +4,11 @@
     <body>
         <referenceContainer name="after.body.start">
             <block class="Algolia\AlgoliaSearch\Block\Instant\Wrapper" name="plp.custom.loader" template="Magento_Catalog::listing-loader.phtml"/>
+            <block class="Digidirect\Catalog\Block\Category\View" name="digidirect.category.description" template="Digidirect_Catalog::category/description.phtml"/>
         </referenceContainer>
         <referenceBlock name="global.pa.minicart" remove="true" />
         <referenceBlock name="category.description" remove="true"/>
         <referenceContainer name="page.bottom">
-            <block class="Digidirect\Catalog\Block\Category\View" name="digidirect.category.description" template="Digidirect_Catalog::category/description.phtml"/>
             <block class="Magento\Framework\View\Element\Template"
                    name="plp.recommended.for.you"
                    template="Magento_Theme::product-listing/recommended-for-you.phtml"
