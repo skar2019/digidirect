@@ -1,0 +1,7 @@
+<?php if ($category = $block->getCurrentCategory()): ?>
+    <?php if ($description = $category->getDescription()): ?>
+        <div class="category-description">
+            <?= /* @noEscape */ $description ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
