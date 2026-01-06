@@ -104,8 +104,8 @@ return [
                 'js' => [
                     'merge_files' => '0',
                     'enable_js_bundling' => '0',
-                    'minify_files' => '1',
-                    'move_script_to_bottom' => '1',
+                    'minify_files' => '0',
+                    'move_script_to_bottom' => '0',
                     'translate_strategy' => 'dictionary',
                     'session_storage_logging' => '0',
                     'minify_exclude' => [
