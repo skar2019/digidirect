@@ -1,7 +1,12 @@
-<?php if ($category = $block->getCurrentCategory()): ?>
+<?php if ($category = $block->getCategory()): ?>
     <?php if ($description = $category->getDescription()): ?>
         <div class="category-description">
             <?= /* @noEscape */ $description ?>
         </div>
     <?php endif; ?>
 <?php endif; ?>
+
+<div>
+    ID: <?= $block->getCategory()->getId() ?><br>
+    Name: <?= /* @noEscape */ $block->getCategory()->getName() ?>
+</div>
