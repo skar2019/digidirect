@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\YourModule\Block;
+namespace Digidirect\Catalog\Block\Category;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
