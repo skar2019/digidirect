@@ -4,10 +4,9 @@
     <body>
         <referenceContainer name="after.body.start">
             <block class="Algolia\AlgoliaSearch\Block\Instant\Wrapper" name="plp.custom.loader" template="Magento_Catalog::listing-loader.phtml"/>
-            <block class="Digidirect\Catalog\Block\Category\CategoryDescription" name="digidirect.category.description" template="Digidirect_Catalog::category/description.phtml"/>
         </referenceContainer>
         <referenceBlock name="global.pa.minicart" remove="true" />
-        <referenceBlock name="category.description" remove="true"/>
+        <move element="category.description" destination="main.content" after="-" />
         <referenceContainer name="page.bottom">
             <block class="Magento\Framework\View\Element\Template"
                    name="plp.recommended.for.you"
