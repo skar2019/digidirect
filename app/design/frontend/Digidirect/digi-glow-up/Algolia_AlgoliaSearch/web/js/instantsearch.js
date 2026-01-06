@@ -1222,7 +1222,7 @@ define([
                                 data-from="${from}" data-to="${to}"
                                 style="height:${(c / maxCount) * 100}%"></div>`
                             }).join('')}
-                        </div>`
+                        </div>`;
 
                         // Optional: make bars clickable
                         container.querySelectorAll('.bar').forEach(bar => {
