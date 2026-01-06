@@ -276,6 +276,10 @@ ul.slick-dots {
     overflow: hidden;
 }
 
+.pagebuilder-slide-wrapper .pagebuilder-overlay.pagebuilder-poster-overlay {
+    min-height: unset !important;
+}
+
 @media (max-width: 768px) {
     .header.content {
         padding: 15px 12px 55px !important;
@@ -616,6 +620,10 @@ ul.slick-dots {
         display: none !important;
     }
     
+    .pagebuilder-slide-wrapper {
+        min-height: 240px !important;
+    }
+    
     /*.glow-up-main-hero-banner .pagebuilder-slide-wrapper {
         background-size: cover !important;
         height: 100% !important
@@ -627,6 +635,16 @@ ul.slick-dots {
     .glow-up-main-hero-banner .pagebuilder-slide-wrapper {
 	background-size: cover !important;
 	height: 100% !important;
+        aspect-ratio: 5.05 !important;
+        min-height: unset !important;
+    }
+    
+}
+
+@media (min-width: 1800px) {
+    
+    .pagebuilder-slide-wrapper {
+        min-height: 377px !important;
     }
     
 }
