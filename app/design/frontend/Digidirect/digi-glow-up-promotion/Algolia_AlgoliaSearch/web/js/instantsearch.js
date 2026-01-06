@@ -470,16 +470,16 @@ define([
                             //console.log("hasMatch", hasMatch);
 
                             function decodeHtmlEntities(str) {
-                                const txt = document.createElement('textarea')
-                                txt.innerHTML = str
-                                return txt.value
+                                const txt = document.createElement('textarea');
+                                txt.innerHTML = str;
+                                return txt.value;
                             }
 
-                            let categoriesWithoutPath = item.categories_without_path || ''
-                            let firstCategory = categoriesWithoutPath.split(',')[0].trim()
-                            firstCategory = decodeHtmlEntities(firstCategory) // ✅ decode &lt;mark&gt; → <mark>
+                            let categoriesWithoutPath = item.categories_without_path || '';
+                            let firstCategory = categoriesWithoutPath.split(',')[0].trim();
+                            firstCategory = decodeHtmlEntities(firstCategory) ;// ✅ decode &lt;mark&gt; → <mark>
 
-                            item.firstCategory = firstCategory
+                            item.firstCategory = firstCategory;
 
                             if (!hasMatch) {
                                 item.isDigiSeconds = false;
@@ -1179,32 +1179,32 @@ define([
 
             function histogramWidget({ container, attribute, buckets = 20 }) {
                 if (typeof container === 'string') {
-                    container = document.querySelector(container)
+                    container = document.querySelector(container);
                 }
                 if (!container) {
-                    console.warn(`Histogram container not found.`)
+                    console.warn(`Histogram container not found.`);
                     return { render() {} }
                 }
 
                 return {
                     render({ results, helper }) {
-                        const stats = results.getFacetStats(attribute)
-                        if (!stats) return
+                        const stats = results.getFacetStats(attribute);
+                        if (!stats) return;
 
-                        const min = stats.min
-                        const max = stats.max
+                        const min = stats.min;
+                        const max = stats.max;
 
                         console.log("min", min);
                         console.log("max", max);
 
-                        if (min === max) return
+                        if (min === max) return;
 
-                        const step = (max - min) / buckets
-                        const counts = Array(buckets).fill(0)
+                        const step = (max - min) / buckets;
+                        const counts = Array(buckets).fill(0);
 
                         // ⚠️ Don’t loop through all hits (slow on large catalogs).
                         // Instead, use facet counts from Algolia:
-                        const facetValues = results.getFacetValues(attribute, { sortBy: ['name:asc'] })
+                        const facetValues = results.getFacetValues(attribute, { sortBy: ['name:asc'] });
                         facetValues.forEach(fv => {
                             const price = parseFloat(fv.name)
                             const index = Math.min(Math.floor((price - min) / step), buckets - 1)
@@ -1267,17 +1267,17 @@ define([
                 }
 
                 search.on('render', () => {
-                    const helper = search.helper
-                    const attribute = 'price.AUD.default'
-                    const slider = document.querySelector('.ais-RangeSlider .rheostat')
+                    const helper = search.helper;
+                    const attribute = 'price.AUD.default';
+                    const slider = document.querySelector('.ais-RangeSlider .rheostat');
 
                     function setSliderValues(min, max) {
-                        if (!slider) return
-                        console.log("setSliderValues", min, max)
-                        helper.removeNumericRefinement(attribute)
-                        helper.addNumericRefinement(attribute, '>=', min)
-                        helper.addNumericRefinement(attribute, '<=', max)
-                        helper.search()
+                        if (!slider) return;
+                        console.log("setSliderValues", min, max);
+                        helper.removeNumericRefinement(attribute);
+                        helper.addNumericRefinement(attribute, '>=', min);
+                        helper.addNumericRefinement(attribute, '<=', max);
+                        helper.search();
                     }
 
                     function getSliderValues() {
@@ -1289,14 +1289,14 @@ define([
                         }
                     }
 
-                    const priceSlider = document.querySelector('.is-widget-container-price_AUD_default')
-                    const aisSlider = document.querySelector('.ais-RangeSlider')
+                    const priceSlider = document.querySelector('.is-widget-container-price_AUD_default');
+                    const aisSlider = document.querySelector('.ais-RangeSlider');
 
                     // Insert histogram container before slider (only once)
                     if (priceSlider && aisSlider && !document.querySelector('#price-histogram')) {
-                        const histo = document.createElement('div')
-                        histo.id = 'price-histogram'
-                        aisSlider.before(histo)
+                        const histo = document.createElement('div');
+                        histo.id = 'price-histogram';
+                        aisSlider.before(histo);
                     }
 
                     if (document.querySelector('#price-histogram') && !search.__histogramAdded) {
@@ -1307,7 +1307,7 @@ define([
                                 buckets: 20,
                             }),
                         ])
-                        search.__histogramAdded = true
+                        search.__histogramAdded = true;
                     }
 
                     // Insert price input boxes above slider (only once)
@@ -1323,13 +1323,13 @@ define([
                             <span class="currency">$</span>
                             <input type="text" id="max-price" placeholder="Max" inputmode="numeric" />
                           </div>
-                        `
-                        aisSlider.after(inputWrapper)
+                        `;
+                        aisSlider.after(inputWrapper);
 
                         const formatNumber = (val) => {
-                            if (!val) return ''
-                            const num = parseInt(val.replace(/,/g, ''), 10)
-                            return isNaN(num) ? '' : num.toLocaleString()
+                            if (!val) return '';
+                            const num = parseInt(val.replace(/,/g, ''), 10);
+                            return isNaN(num) ? '' : num.toLocaleString();
                         }
 
                         const getNumericValue = (el) => {
@@ -1337,48 +1337,48 @@ define([
                             return Number(raw) || 0
                         }
 
-                        const minInput = document.getElementById('min-price')
-                        const maxInput = document.getElementById('max-price')
+                        const minInput = document.getElementById('min-price');
+                        const maxInput = document.getElementById('max-price');
 
                         const handleInput = (inputEl, isMin) => {
                             // Reformat as user types
-                            const caretPos = inputEl.selectionStart
-                            const formatted = formatNumber(inputEl.value)
-                            inputEl.value = formatted
+                            const caretPos = inputEl.selectionStart;
+                            const formatted = formatNumber(inputEl.value);
+                            inputEl.value = formatted;
 
                             // Update slider
-                            const { min, max } = getSliderValues()
-                            const newVal = getNumericValue(inputEl)
+                            const { min, max } = getSliderValues();
+                            const newVal = getNumericValue(inputEl);
                             if (isMin) {
-                                setSliderValues(newVal, max)
+                                setSliderValues(newVal, max);
                             } else {
-                                setSliderValues(min, newVal)
+                                setSliderValues(min, newVal);
                             }
                         }
 
-                        minInput.addEventListener('input', () => handleInput(minInput, true))
-                        maxInput.addEventListener('input', () => handleInput(maxInput, false))
+                        minInput.addEventListener('input', () => handleInput(minInput, true));
+                        maxInput.addEventListener('input', () => handleInput(maxInput, false));
                     }
 
                     // Grab your input boxes
-                    const minInput = document.querySelector('#min-price')
-                    const maxInput = document.querySelector('#max-price')
+                    const minInput = document.querySelector('#min-price');
+                    const maxInput = document.querySelector('#max-price');
 
                     function syncInputs() {
-                        const { min, max } = getSliderValues()
+                        const { min, max } = getSliderValues();
                         if (min && max) {
-                            if (minInput) minInput.value = min
-                            if (maxInput) maxInput.value = max
-                            updateHistogramColors(min, max)
+                            if (minInput) minInput.value = min;
+                            if (maxInput) maxInput.value = max;
+                            updateHistogramColors(min, max);
                         }
                     }
 
                     // Sync inputs now + whenever slider changes
-                    syncInputs()
+                    syncInputs();
                     if (slider && !slider.dataset.synced) {
-                        slider.addEventListener('mouseup', syncInputs)
-                        slider.addEventListener('keyup', syncInputs)
-                        slider.dataset.synced = "true"
+                        slider.addEventListener('mouseup', syncInputs);
+                        slider.addEventListener('keyup', syncInputs);
+                        slider.dataset.synced = "true";
                     }
                 })
 
@@ -1488,57 +1488,57 @@ define([
 });
 
   const loader = document.getElementById('plp-custom-loader')
-  if (loader) loader.style.display = 'block' // Show immediately
+  if (loader) loader.style.display = 'block'; // Show immediately
 
   window.addEventListener('load', () => {
-    const body = document.body
-    const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button')
+    const body = document.body;
+    const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button');
 
     // Helper: update .pa-product classes based on view mode
     const updateProductClasses = () => {
-      const products = document.querySelectorAll('.pa-product')
-      if (!products.length) return
+      const products = document.querySelectorAll('.pa-product');
+      if (!products.length) return;
       if (body.classList.contains('list-view')) {
-        products.forEach(p => p.classList.add('list-view-col'))
+        products.forEach(p => p.classList.add('list-view-col'));
       } else {
-        products.forEach(p => p.classList.remove('list-view-col'))
+        products.forEach(p => p.classList.remove('list-view-col'));
       }
     }
 
     // Wait until .pa-product elements exist
     const waitForProducts = () => {
-      const products = document.querySelectorAll('.pa-product')
+      const products = document.querySelectorAll('.pa-product');
       if (products.length) {
-        updateProductClasses()
+        updateProductClasses();
       } else {
-        setTimeout(waitForProducts, 200)
+        setTimeout(waitForProducts, 200);
       }
     }
 
     // Load saved view mode
-    const savedView = localStorage.getItem('viewMode')
+    const savedView = localStorage.getItem('viewMode');
     if (savedView === 'list') {
-      body.classList.add('list-view')
-      document.querySelector('[data-view="list"]')?.classList.add('is-active')
+      body.classList.add('list-view');
+      document.querySelector('[data-view="list"]')?.classList.add('is-active');
     } else {
-      body.classList.remove('list-view')
-      document.querySelector('[data-view="grid"]')?.classList.add('is-active')
+      body.classList.remove('list-view');
+      document.querySelector('[data-view="grid"]')?.classList.add('is-active');
     }
 
-    waitForProducts()
+    waitForProducts();
 
     // Handle button clicks
     toggleButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const view = button.getAttribute('data-view')
-        toggleButtons.forEach(btn => btn.classList.remove('is-active'))
-        button.classList.add('is-active')
+        const view = button.getAttribute('data-view');
+        toggleButtons.forEach(btn => btn.classList.remove('is-active'));
+        button.classList.add('is-active');
 
-        if (view === 'list') body.classList.add('list-view')
-        else body.classList.remove('list-view')
+        if (view === 'list') body.classList.add('list-view');
+        else body.classList.remove('list-view');
 
-        localStorage.setItem('viewMode', view)
-        updateProductClasses()
+        localStorage.setItem('viewMode', view);
+        updateProductClasses();
       })
     })
 
@@ -1546,67 +1546,67 @@ define([
     // Search bar reposition + layout adjustments
     // ---------------------------------------------------------------------
     ;(function () {
-      const SEARCH_BAR_ID = '#instant-search-bar'
-      const FACETS_CONTAINER_ID = '#instant-search-facets-container'
-      const RECHECK_DELAY = 200
-      const DESKTOP_ONLY = false
-      const MAX_RETRIES = 300
+      const SEARCH_BAR_ID = '#instant-search-bar';
+      const FACETS_CONTAINER_ID = '#instant-search-facets-container';
+      const RECHECK_DELAY = 200;
+      const DESKTOP_ONLY = false;
+      const MAX_RETRIES = 300;
 
-      const isMobile = () => window.innerWidth <= 768
-      const isDesktop = () => window.matchMedia('(min-width: 769px)').matches
+      const isMobile = () => window.innerWidth <= 768;
+      const isDesktop = () => window.matchMedia('(min-width: 769px)').matches;
 
       function hideSearchBar() {
-        const sb = document.querySelector(SEARCH_BAR_ID)
-        if (sb) sb.style.display = 'none'
+        const sb = document.querySelector(SEARCH_BAR_ID);
+        if (sb) sb.style.display = 'none';
       }
       function showSearchBar() {
-        const sb = document.querySelector(SEARCH_BAR_ID)
-        if (sb) sb.style.display = ''
+        const sb = document.querySelector(SEARCH_BAR_ID);
+        if (sb) sb.style.display = '';
       }
 
       function moveAndInsertSearchBar() {
-        const searchBar = document.querySelector(SEARCH_BAR_ID)
-        const facetsContainer = document.querySelector(FACETS_CONTAINER_ID)
+        const searchBar = document.querySelector(SEARCH_BAR_ID);
+        const facetsContainer = document.querySelector(FACETS_CONTAINER_ID);
         if (!searchBar || !facetsContainer) return false
 
         if (searchBar.parentElement !== facetsContainer) {
-          facetsContainer.appendChild(searchBar)
-          console.log('✅ instant-search-bar moved inside instant-search-facets-container')
+          facetsContainer.appendChild(searchBar);
+          console.log('✅ instant-search-bar moved inside instant-search-facets-container');
         }
 
         if (!searchBar.querySelector('.search-within-label')) {
-          const label = document.createElement('span')
-          label.className = 'search-within-label'
-          label.textContent = 'Search Within Results'
-          searchBar.insertBefore(label, searchBar.firstChild)
-          console.log('✅ Added "Search Within Results" label')
+          const label = document.createElement('span');
+          label.className = 'search-within-label';
+          label.textContent = 'Search Within Results';
+          searchBar.insertBefore(label, searchBar.firstChild);
+          console.log('✅ Added "Search Within Results" label');
         }
 
-        return searchBar.parentElement === facetsContainer
+        return searchBar.parentElement === facetsContainer;
       }
 
       function moveElements() {
-        const infos = document.querySelector('.algolia-infos')
-        const refineToggle = document.querySelector('#refine-toggle')
-        const customRefinement = document.querySelector('.algolia-custom-refinement')
-        const hitsPerPage = document.querySelector('.hits-per-page-container')
-        const pagination = document.querySelector('#instant-search-pagination-container')
-        const viewToggle = document.querySelector('.ais-ViewToggle')
-        const stats = document.querySelector('#algolia-stats')
-        const facets = document.querySelector(FACETS_CONTAINER_ID)
-        const leftContainer = document.querySelector('#algolia-left-container')
+        const infos = document.querySelector('.algolia-infos');
+        const refineToggle = document.querySelector('#refine-toggle');
+        const customRefinement = document.querySelector('.algolia-custom-refinement');
+        const hitsPerPage = document.querySelector('.hits-per-page-container');
+        const pagination = document.querySelector('#instant-search-pagination-container');
+        const viewToggle = document.querySelector('.ais-ViewToggle');
+        const stats = document.querySelector('#algolia-stats');
+        const facets = document.querySelector(FACETS_CONTAINER_ID);
+        const leftContainer = document.querySelector('#algolia-left-container');
 
-        if (!facets || !leftContainer) return
-        const mobile = isMobile()
+        if (!facets || !leftContainer) return;
+        const mobile = isMobile();
 
         if (stats) {
           if (mobile) {
             if (stats.nextElementSibling !== leftContainer) {
-              leftContainer.parentNode.insertBefore(stats, leftContainer)
+              leftContainer.parentNode.insertBefore(stats, leftContainer);
             }
           } else {
             if (stats.parentElement !== infos && infos) {
-              infos.insertBefore(stats, infos.firstChild)
+              infos.insertBefore(stats, infos.firstChild);
             }
           }
         }
@@ -1614,11 +1614,11 @@ define([
         if (infos && refineToggle && customRefinement) {
           if (mobile) {
             if (infos.parentElement !== refineToggle.parentElement) {
-              refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling)
+              refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling);
             }
           } else {
             if (infos.nextElementSibling !== customRefinement) {
-              customRefinement.parentNode.insertBefore(infos, customRefinement)
+              customRefinement.parentNode.insertBefore(infos, customRefinement);
             }
           }
         }
@@ -1626,11 +1626,11 @@ define([
         if (hitsPerPage && pagination && viewToggle) {
           if (mobile) {
             if (hitsPerPage.nextElementSibling !== pagination) {
-              pagination.parentNode.insertBefore(hitsPerPage, pagination)
+              pagination.parentNode.insertBefore(hitsPerPage, pagination);
             }
           } else {
             if (hitsPerPage.nextElementSibling !== viewToggle) {
-              viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle)
+              viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle);
             }
           }
         }
@@ -1638,76 +1638,76 @@ define([
         if (facets && leftContainer) {
           if (mobile) {
             if (facets.previousElementSibling !== leftContainer) {
-              leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling)
+              leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling);
             }
           } else {
             if (facets.parentElement !== leftContainer) {
-              leftContainer.appendChild(facets)
+              leftContainer.appendChild(facets);
             }
           }
         }
       }
 
       function startRepositionWatcher(callback) {
-        if (DESKTOP_ONLY && !isDesktop()) return
-        hideSearchBar()
+        if (DESKTOP_ONLY && !isDesktop()) return;
+        hideSearchBar();
 
-        let observerStarted = false
-        let retries = 0
+        let observerStarted = false;
+        let retries = 0;
 
         function ensurePositioned() {
           try {
-            moveElements()
+            moveElements();
           } catch (e) {
-            console.warn('moveElements error', e)
+            console.warn('moveElements error', e);
           }
 
-          const placed = moveAndInsertSearchBar()
-          retries++
+          const placed = moveAndInsertSearchBar();
+          retries++;
 
           if (placed) {
-            showSearchBar()
+            showSearchBar();
 
             if (!observerStarted) {
-              observerStarted = true
+              observerStarted = true;
               const observer = new MutationObserver(() => {
-                moveElements()
-                const stillInPlace = moveAndInsertSearchBar()
-                if (stillInPlace) showSearchBar()
-                else hideSearchBar()
+                moveElements();
+                const stillInPlace = moveAndInsertSearchBar();
+                if (stillInPlace) showSearchBar();
+                else hideSearchBar();
               })
-              observer.observe(document.body, { childList: true, subtree: true })
+              observer.observe(document.body, { childList: true, subtree: true });
 
               // ✅ Call callback once layout is ready
-              if (typeof callback === 'function') callback()
+              if (typeof callback === 'function') callback();
             }
           } else {
-            hideSearchBar()
+            hideSearchBar();
             if (retries < MAX_RETRIES) {
-              setTimeout(ensurePositioned, RECHECK_DELAY)
+              setTimeout(ensurePositioned, RECHECK_DELAY);
             } else {
-              console.warn('instant-search-bar repositioning retries exceeded.')
+              console.warn('instant-search-bar repositioning retries exceeded.');
             }
           }
         }
 
-        ensurePositioned()
+        ensurePositioned();
       }
 
       function boot(callback) {
-        moveElements()
-        startRepositionWatcher(callback)
-        let resizeTimer = null
+        moveElements();
+        startRepositionWatcher(callback);
+        let resizeTimer = null;
         window.addEventListener('resize', function () {
-          if (resizeTimer) clearTimeout(resizeTimer)
-          resizeTimer = setTimeout(() => moveElements(), 120)
+          if (resizeTimer) clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => moveElements(), 120);
         })
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll))
+        document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll));
       } else {
-        boot(callbackAfterAll)
+        boot(callbackAfterAll);
       }
 
     // ✅ Callback after everything is done (layout, search bar, and hits)
