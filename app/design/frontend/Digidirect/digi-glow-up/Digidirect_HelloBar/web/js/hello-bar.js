@@ -13,9 +13,9 @@ require(['jquery'], function ($) {
     function moveBackdrop() {
       const activeTab = document.querySelector('.tds-tab[aria-selected="true"]')
       if (!activeTab || !backdrop) return
-      backdrop.style.transition = 'left 0.3s ease'
-      backdrop.style.left = `${activeTab.offsetLeft}px`
-      backdrop.style.width = `${activeTab.offsetWidth}px`
+      backdrop.style.transition = 'left 0.3s ease';
+      backdrop.style.left = `${activeTab.offsetLeft}px`;
+      backdrop.style.width = `${activeTab.offsetWidth}px`;
     }
 
     // ---- Helper: Switch active slide + dots ----
