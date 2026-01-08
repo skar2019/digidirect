@@ -1,291 +1,167 @@
-<!--
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
-<!--@subject {{trans "Footer"}} @-->
-<!--@vars {
-"var store.getFrontendName()":"Store Name"
-} @-->
+<!-- Responsive 3-column Footer (Support | More Services | Support widget + Social) -->
+<style type="text/css">
+    /* Reset for some email clients */
+    .footer-td { font-family: Arial, Helvetica, sans-serif; color: #333333; }
+    @media only screen and (max-width:600px) {
+        .footer-container { width:100% !important; max-width:100% !important; }
+        .col { display:block !important; width:100% !important; max-width:100% !important; box-sizing:border-box; padding:12px 20px !important; text-align:left !important; }
+        .support-widget { text-align:left !important; }
+        .social-row img { width:30px !important; height:auto !important; margin:0 8px !important; }
+        .mob-center { text-align:center !important; }
+    }
+</style>
 
-                                    <!-- End Content -->
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                            <tbody>
-                                <tr>
-                                    <td class="footer">
-                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff">
-                                            <tr>
-                                                <td>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f6f8; padding:30px 0;">
+    <tr>
+        <td align="center">
 
-                                                    <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                        <tr>
-                                                            <td style="width:600px; padding:0px 0px 54px">
+            <!-- Outer container -->
+            <table class="footer-container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:100%; background:transparent;">
+                <tr>
+                    <td style="padding:0 25px; ">
 
-                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                    <tr>
-                                                                        <td style="padding: 0 10px;">
+                        <!-- 3-column row -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
 
-                                                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                                <tr>
-                                                                                    <th align="left" style="width:64%;" width="64%" valign="top" class="mobileStack">
-                                                                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" align="left" class="mobiletable">
-                                                                                                        <tr>
-                                                                                                            <td align="left" valign="top">
-                                                                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" align="left" class="mobiletable">
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 25px;">
-                                                                                                                            <p style="color:#222222;font-size:16px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:bold;">
-                                                                                                                                Support
-                                                                                                                            </p>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="custmer-service" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Customer Service</a>' account_url=$this.getUrl($store,'customer-service',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="track-order" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Track Your Order</a>' account_url=$this.getUrl($store,'track-order',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="shipping-returns" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Shipping & Returns</a>' account_url=$this.getUrl($store,'shipping-returns',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="FAQS" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">FAQ</a>' account_url=$this.getUrl($store,'faq',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="In-Store Pickup" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">In-Store Pickup</a>' account_url=$this.getUrl($store,'in-store-pickup',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            {{trans '<a href="%account_url" title="Contact Us" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Contact Us</a>' account_url=$this.getUrl($store,'contact',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0;">
-                                                                                                                            {{trans '<a href="%account_url" title="Warranties" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Warranties</a>' account_url=$this.getUrl($store,'warranties',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                </table>
-                                                                                                            </td>
-                                                                                                            <td align="left" valign="top">
-                                                                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" align="left" class="mobiletable">
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 25px;">
-                                                                                                                            <p style="color:#222222;font-size:16px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:bold;">
-                                                                                                                                More Services
-                                                                                                                            </p>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            <a href="https://photolab.me/" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                                                Photo Lab
-                                                                                                                            </a>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0px 0px 12px;">
-                                                                                                                            <a href="https://www.studio19.com.au/" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                                                Camera Rentals
-                                                                                                                            </a>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td align="left" style="padding:0;">
-                                                                                                                            {{trans '<a href="%finder_url" title="Warranties" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">Product Finder</a>' finder_url=$this.getUrl($store,'product-finder',[_nosid:1]) |raw}}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                </table>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-                                                                                    </th>
-                                                                                    <th align="left" style="width:36%;" width="36%" valign="top" class="mobileStack social-wrapper">
-                                                                                        <table width="230px" cellpadding="0" cellspacing="0" border="0" align="right" class="mobiletable contacts">
-                                                                                            <tr>
-                                                                                                <td align="right" style="padding:0px 0px 25px;">
-                                                                                                    <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                        Thank you for purchasing<br/>from digiDirect.
-                                                                                                    </p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr valign="top">
-                                                                                                <td align="right" style="padding:0px 0px 25px;">
-                                                                                                    <p style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                        <strong style="color:#222222; font-size:16px;font-weight:bold;padding-right: 5px;">Call us:</strong>
-                                                                                                        {{trans '%store_phone' store_phone=$store_phone |raw}}
-                                                                                                    </p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr valign="bottom">
-                                                                                                <td align="right" style="padding:0px 0px 30px;">
-                                                                                                    <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                        <strong style="color:#222222; font-size:16px;font-weight:bold;padding-right: 5px;">Email us:</strong>
-                                                                                                        {{trans '<a href="mailto:%store_email" style="color:#666666;text-decoration:none;font-weight:normal">%store_email</a>' store_email=$store_email |raw}}
-                                                                                                    </p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-
-                                                                                        <!--[if !mso 9]><!-->
-                                                                                        <div class="mobile-only" style="font-size: 0; max-height: 0; overflow: hidden; display: none; mso-hide: all;">
-                                                                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                                                <tr>
-                                                                                                    <td style="padding: 20px 0;">
-                                                                                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable" bgcolor="#f5f5f5">
-
-                                                                                                            <tr>
-                                                                                                                <td align="center" style="padding:0px 0px 5px;">
-                                                                                                                    <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                                        <strong style="color:#222222; font-size:14px;font-weight:bold;padding-right: 5px;">Call us:</strong>{{trans '%store_phone' store_phone=$store_phone |raw}}
-                                                                                                                    </p>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td align="center" style="padding:0px 0px 30px;">
-                                                                                                                    <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
-                                                                                                                        <strong style="color:#222222; font-size:14px;font-weight:bold;padding-right: 5px;">Email us:</strong>{{trans '<a href="mailto:%store_email" style="color:#666666;text-decoration:none;font-weight:normal">%store_email</a>' store_email=$store_email |raw}}
-                                                                                                                    </p>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </table>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-
-                                                                                        </div>
-                                                                                        <!--<![endif]-->
-
-
-                                                                                        <table width="200px" cellpadding="0" cellspacing="0" border="0" align="right" class="mobiletable social">
-                                                                                            <tr>
-                                                                                                <td>
-                                                                                                    <table width="200px" cellpadding="0" cellspacing="0" border="0" align="center">
-                                                                                                        <tr>
-                                                                                                            <td align="left" style="width:35px;padding:0px 20px 0px 0px">
-                                                                                                                <a href="https://www.facebook.com/digidirect/" title="facebook">
-                                                                                                                    <img src="{{view url='Magento_Email::images/facebook.png'}}" style="display:block; max-width:35px; color:#060e9f;" alt="facebook" border="0" width="35" class="image-resize">
-                                                                                                                </a>
-                                                                                                            </td>
-                                                                                                            <td align="left" style="width:35px;padding:0px 20px 0px 0px">
-                                                                                                                <a href="https://www.youtube.com/channel/UC2U81WY87pyzcYYdBHpWWlg" title="youtube">
-                                                                                                                    <img src="{{view url='Magento_Email::images/youtube.png'}}" style="display:block; max-width:35px; color:#060e9f;" alt="youtube" border="0" width="35" class="image-resize">
-                                                                                                                </a>
-                                                                                                            </td>
-                                                                                                            <td align="left" style="width:35px;padding:0px 20px 0px 0px">
-                                                                                                                <a href="https://www.instagram.com/digidirect/" title="instagram">
-                                                                                                                    <img src="{{view url='Magento_Email::images/instagram.png'}}" style="display:block; max-width:35px; color:#060e9f;" alt="instagram" border="0" width="35" class="image-resize">
-                                                                                                                </a>
-                                                                                                            </td>
-                                                                                                            <td align="left" style="width:35px;padding:0px">
-                                                                                                                <a href="https://twitter.com/DigiDirect_AU" title="twitter">
-                                                                                                                    <img src="{{view url='Magento_Email::images/twitter.png'}}" style="display:block; max-width:35px; color:#060e9f;" alt="twitter" border="0" width="35" class="image-resize">
-                                                                                                                </a>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </table>
-
-
-                                                                                    </th>
-                                                                                </tr>
-                                                                            </table>
-
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable" style="width:100%;">
-                            <tbody>
-                            <tr class="copyright-table">
-                                <!--Copyright-->
-
-                                <td>
-
-                                    <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable copyright">
+                                <!-- COLUMN 1: SUPPORT -->
+                                <td class="col" width="25%" valign="top" style="vertical-align:top; padding:25px 10px 10px 0; border-top:1px solid #D9D9D9">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="footer-td">
                                         <tr>
-                                            <td style="width:600px;">
+                                            <td style="font-size:16px; font-weight:bold; color:#222222; padding-bottom:10px;">Support</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/faqs" style="color:#A2A2A2; text-decoration:none;">FAQ</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/digiprotect" style="color:#A2A2A2; text-decoration:none;">digiProtect</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/click-and-collect" style="color:#A2A2A2; text-decoration:none;">In-Store Pickup</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/returns-and-refund" style="color:#A2A2A2; text-decoration:none;">Returns & Refunds</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/terms-and-conditions" style="color:#A2A2A2; text-decoration:none;">Terms & Conditions</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/contact" style="color:#A2A2A2; text-decoration:none;">Contact Us</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
 
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
+                                <!-- COLUMN 2: MORE SERVICES -->
+                                <td class="col" width="25%" valign="top" style="vertical-align:top; padding:25px; border-top:1px solid #D9D9D9">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="footer-td">
+                                        <tr>
+                                            <td style="font-size:16px; font-weight:bold; color:#222222; padding-bottom:10px;">More Services</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.digidirect.com.au/digi-print" style="color:#A2A2A2; text-decoration:none;">digiPrint</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:8px; font-size:14px;">
+                                                <a href="https://www.studio19.com.au" style="color:#A2A2A2; text-decoration:none;">Camera Rentals</a>
+                                            </td>
+                                        </tr>
+                                        <!-- add more links as needed -->
+                                    </table>
+                                </td>
+
+                                <!-- COLUMN 3: SUPPORT WIDGET + SOCIAL -->
+                                <td class="col" width="50%" valign="top" style="vertical-align:top; padding:25px 0 10px 10px; border-top:1px solid #D9D9D9">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" align="right" class="footer-td support-widget" style="text-align:right;">
+                                        <!-- Support widget -->
+                                        <tr>
+                                            <td style="padding-bottom:12px;">
+                                                <table cellpadding="0" cellspacing="0" border="0" align="right" style="display:inline-block; background:#ffffff; border-radius:28px; padding:10px 30px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
                                                     <tr>
-                                                        <td style="padding: 0px">
-
-                                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                <tr>
-                                                                    <th valign="center" class="mobileStack">
-                                                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                            <tr>
-                                                                                <td align="left" class="calign" style="padding: 16px 10px 15px;">
-                                                                                    <p class="copyright text">
-                                                                                        {{trans '<a href="%policy_url" class="copy-link"  title="policy" style="padding-right:10px;">Privacy Policy</a>' policy_url=$this.getUrl($store,'privacy-policy-cookie-restriction-mode',[_nosid:1]) |raw}}|
-                                                                                        {{trans '<a href="%account_url" class="copy-link"  title="terms-of-use" style="padding-left:6px;">Terms of Use</a>' account_url=$this.getUrl($store,'terms-of-use',[_nosid:1]) |raw}}
-                                                                                    </p>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </th>
-                                                                    <th valign="top" class="mobileStack">
-                                                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                                                                            <tr>
-                                                                                <td align="right" class="calign" style="padding: 16px 10px 15px;">
-                                                                                    <p class="copyright text">
-                                                                                        (c)digiDirect 2025. All rights reserved.
-                                                                                    </p>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </th>
-                                                                </tr>
-                                                            </table>
+                                                        <td valign="middle" style="padding-right:10px;">
+                                                            <img src="{{view url='Magento_Email::images/help_icon.png'}}" width="26" height="26" alt="help" style="display:block;">
+                                                        </td>
+                                                        <td valign="left" style="font-size:14px; color:#222222; text-align:left">
+                                                            <div style="font-weight:bold; line-height:1.1;">Support is here to help</div>
+                                                            <div style="margin-top:4px;">
+                                                                <a href="https://www.digidirect.com.au/support" style="font-size:13px; color:#007bff; text-decoration:none;">Chat With Us</a>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </td>
                                         </tr>
-                                    </table>
 
+                                        <!-- Contact lines (desktop-right, mobile-left) -->
+                                        <tr>
+                                            <td style="padding-bottom:14px; font-size:14px;">
+                                                <strong style="color:#222222; font-weight:bold;">Email us:</strong>
+                                                 <a href="mailto:{{var store_email}}" style="color:#A2A2A2; text-decoration:none;">{{var store_email}}</a>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Social icons -->
+                                        <tr>
+                                            <td align="right">
+                                                <table cellpadding="0" cellspacing="0" border="0" align="right" class="social-row">
+                                                    <tr>
+                                                        <td style="padding-left:8px;"><a href="https://www.facebook.com/digidirect/"><img src="{{view url='Magento_Email::images/email-fb.png'}}" width="18" height="18" alt="facebook" style="display:block; border:0;"></a></td>
+                                                        <td style="padding-left:8px;"><a href="https://www.instagram.com/digidirect/"><img src="{{view url='Magento_Email::images/email-instagram.png'}}" width="18" height="18" alt="instagram" style="display:block; border:0;"></a></td>
+                                                        <td style="padding-left:8px;"><a href="https://www.youtube.com/channel/UC2U81WY87pyzcYYdBHpWWlg"><img src="{{view url='Magento_Email::images/emial-youtube.png'}}" width="18" height="18" alt="youtube" style="display:block; border:0;"></a></td>
+                                                        <td style="padding-left:8px;"><a href="https://www.tiktok.com/@digidirect"><img src="{{view url='Magento_Email::images/email-tiktok.png'}}" width="18" height="18" alt="twitter" style="display:block; border:0;"></a></td>
+                                                        <td style="padding-left:8px;"><a href="https://www.linkedin.com/company/digidirectau/?originalSubdomain=au"><img src="{{view url='Magento_Email::images/emial-linkedin.png}}" width="18" height="18" alt="twitter" style="display:block; border:0;"></a></td>
+                                                        <!-- add linkedin if needed -->
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                    </table>
                                 </td>
 
                             </tr>
-                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+
+                <!-- Divider / spacer -->
+                <tr><td style="padding-top:18px;"></td></tr>
+
+                <!-- COPYRIGHT row -->
+                <tr>
+                    <td style="padding:30px 10px;">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="footer-td">
+                            <tr>
+                                <td align="left" style="font-size:13px; color:#7a7a7a; padding-top:6px;">
+                                    <a href="https://www.digidirect.com.au/privacy" style="color:#2F80ED; text-decoration:none;">Privacy Policy</a>
+                                     | 
+                                    <a href="https://www.digidirect.com.au/terms-and-conditions" style="color:#2F80ED; text-decoration:none;">Terms of Use</a>
+                                </td>
+                                <td align="right" style="font-size:13px; color:#7a7a7a; padding-top:6px;">
+                                    © digiDirect {{var year}}. All rights reserved.
+                                </td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
+
             </table>
+
         </td>
     </tr>
 </table>
-<!-- End wrapper table -->
-</body>
+<!-- End footer -->
