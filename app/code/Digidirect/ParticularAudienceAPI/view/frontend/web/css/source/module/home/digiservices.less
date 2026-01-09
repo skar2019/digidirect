@@ -1,6 +1,23 @@
-.digiservices-section {
-    max-width: 1325px;
-    margin: 0 auto;
+.digiservices-section,
+.digiservices-section-mobile {
+
+    .digi-title:before {
+        content: attr(data-highlight);
+        color: #fe4c25;
+        font-weight: 600;
+
+    }
+    .digi-title {
+        color: #000000;
+        position: relative;
+        display: inline-block;
+        font-weight: 400;
+    }
+
+    .digiservice-card-trade .digi-title:before,
+    .digiservice-card-price .digi-title:before {
+        color: #333333 !important;
+    }
 
     .digiservices-header {
         padding-bottom: 10px;
@@ -13,23 +30,133 @@
             font-style: normal;
             margin: 0;
 
-            .digi-orange-text {
-                color: #fe4c25;
-                font-weight: 600;
-            }
-
-            .digi-black-text {
-                color: #000000;
-                padding-right: 3px;
-                font-weight: 410;
-            }
-
             .registered {
                 font-weight: 500;
                 font-size: 45px;
             }
         }
     }
+
+    .digiservice-card {
+        background-color: #f2f2f7;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 25px;
+
+        img {
+            transform-origin: center;
+        }
+
+        &.digiservice-card-print img {
+            height: 140px;
+        }
+
+        &.digiservice-card-seconds img {
+            height: 135px;
+        }
+
+        &.digiservice-card-click-collect img {
+            height: 160px;
+        }
+
+        &.digiservice-card-direct img {
+            height: 135px;
+        }
+
+        &.digiservice-card-trade img {
+            height: 162px;
+        }
+
+        &.digiservice-card-protect img {
+            height: 140px;
+            object-fit: none;
+            transform: scaleX(1);
+        }
+
+        &.digiservice-card-events img {
+            height: 149px;
+        }
+
+        &.digiservice-card-price img {
+            height: 190px;
+        }
+
+        &.digiservice-card-life img {
+            height: 128px;
+        }
+    }
+
+    img {
+        width: 100%;
+        height: 107px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .digicard-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 18px 15px 15px 20px;
+        background-color: #f2f2f7;
+    }
+
+    .digicard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 5px;
+
+        h1 {
+            margin: 0 0 4px 0;
+            line-height: 1.2;
+
+            .digi-title {
+                padding-right: 3px;
+                font-weight: 410;
+            }
+
+            .small {
+                font-size: 24px;
+                padding-left: 10px !important;
+            }
+        }
+    }
+
+    a.btn {
+        background-color: #ff4b2b;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500.25;
+        font-size: 12px;
+        white-space: nowrap;
+        letter-spacing: 0.1px;
+        width: 104px;
+        text-align: center;
+
+        &:hover {
+            background-color: #e63e20;
+        }
+    }
+
+    p {
+        font-size: 13px;
+        color: #242426;
+        margin: 0;
+        letter-spacing: 0.8px;
+        font-weight: lighter;
+        max-width: 380px;
+        padding-top: 3px;
+    }
+
+}
+
+.digiservices-section {
+    max-width: 1325px;
+    margin: 0 auto;
 
     .digiservices-grid {
         position: relative;
@@ -50,158 +177,23 @@
         }
 
         .digiservice-card {
-            // width: 100%;
-            background-color: #f2f2f7;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
-
             position: absolute;
             width: 31%;
-
-            img {
-                width: 100%;
-                height: 107px;
-                object-fit: cover;
-                display: block;
-            }
-
-            .digicard-body {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 18px 15px 15px 20px;
-                background-color: #f2f2f7;
-
-                .digicard-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding-bottom: 5px;
-
-                    h1 {
-                        font-size: 40px;
-                        margin: 0 0 4px 0;
-                        line-height: 1.2;
-
-                        .digi-black-text {
-                            font-style: normal;
-                            font-weight: 400;
-
-                            &.small {
-                                font-size: 24px;
-                                font-weight: 400 !important;
-                                padding-left: 10px !important;
-                            }
-                        }
-
-                        .digi-orange-text {
-                            color: #fe4c25;
-                            font-weight: 600;
-                        }
-                    }
-
-                    a.btn {
-                        background-color: #ff4b2b;
-                        color: #fff;
-                        padding: 8px 16px;
-                        border-radius: 20px;
-                        text-decoration: none;
-                        font-weight: 500.25;
-                        font-size: 12px;
-                        white-space: nowrap;
-                        //text-transform: uppercase;
-                        letter-spacing: 0.1px;
-                        width: 104px;
-                        text-align: center;
-
-                        &:hover {
-                            background-color: #e63e20;
-                        }
-                    }
-                }
-
-                p {
-                    font-size: 13px;
-                    color: #242426;
-                    margin: 0;
-                    letter-spacing: 0.8px;
-                    font-weight: lighter;
-                    max-width: 380px;
-                    padding-top: 3px;
-                }
-            }
-
-            img {
-                //transform: scaleX(-1) scale(1.1);
-                transform-origin: center;
-            }
-
-            &.digiservice-card-print img {
-                height: 140px;
-            }
-
-            &.digiservice-card-seconds img {
-                height: 135px;
-            }
-
-            &.digiservice-card-click-collect img {
-                height: 160px;
-            }
-
-            &.digiservice-card-direct img {
-                height: 135px;
-            }
-
-            &.digiservice-card-trade img {
-                height: 162px;
-            }
-
-            &.digiservice-card-protect img {
-                height: 140px;
-                object-fit: none;
-                transform: scaleX(1);
-            }
-
-            &.digiservice-card-events img {
-                height: 149px;
-            }
-
-            &.digiservice-card-price img {
-                height: 190px;
-            }
-
-            &.digiservice-card-life img {
-                height: 128px;
-            }
-
-            &.digiservice-card-trade .digi-orange-text,
-            &.digiservice-card-price .digi-orange-text {
-                color: #333333 !important;
-            }
 
             &.digiservice-card-direct h1 {
                 font-size: 38px !important;
 
-                .digi-black-text.small {
+                .small {
                     font-size: 23px !important;
                 }
             }
         }
-    }
-}
 
-@media only screen and (max-width: 768px) {
-    .digiservices-header h2 {
-        font-size: 14px !important;
-        a {
-            // font-weight: 600;
-            font-size: 17px;
+        .digicard-header {
+            h1 {
+                font-size: 40px;
+            }
         }
-    }
-    .digicard-header h1 {
-        font-size: 24px;
     }
 }
 
@@ -223,33 +215,15 @@
     .digiservices-home-grid-mobileview {
         display: block !important;
     }
+
     .digiservices-section-mobile {
         max-width: 1347px;
         margin: 0 auto;
-        font-family: "Inter", sans-serif;
 
-        .digiservices-header {
-            margin-top: -25px;
-
-            h2 {
-                line-height: 136%;
-                letter-spacing: normal;
-                color: #9e9e9e;
-                font-style: normal;
-
-                .digi-orange-text {
-                    color: #fe4c25;
-                }
-
-                .digi-black-text {
-                    color: #000000;
-                    padding-right: 3px;
-                }
-
-                .registered {
-                    font-weight: 500;
-                    font-size: 45px;
-                }
+        .digiservices-header h2 {
+            font-size: 14px !important;
+            a {
+                font-size: 17px;
             }
         }
 
@@ -259,114 +233,30 @@
             .digiservice-card {
                 display: inline-block;
                 width: 100%;
-                background-color: #f2f2f7;
-                border-radius: 25px;
-                overflow: hidden;
-                margin-bottom: 25px;
-
-                img {
-                    width: 100%;
-                    height: 107px;
-                    object-fit: cover;
-                    display: block;
-                }
 
                 .digicard-body {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    padding: 18px 15px 15px 20px;
-                    background-color: #f2f2f7;
-
                     .digicard-header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        padding-bottom: 5px;
-
                         h1 {
-                            margin: 0 0 4px 0;
-                            line-height: 1.2;
-
-                            .digi-black-text {
-                                font-style: normal;
-                                font-weight: 400;
-
-                                &.small {
-                                    font-size: 18px;
-                                    padding-left: 10px !important;
-                                }
+                            font-size: 24px;
+                            .digi-title:before {
+                                font-weight: 700;
                             }
 
-                            .digi-orange-text {
-                                color: #fe4c25;
-                                font-weight: 700;
+                            .small {
+                                font-size: 18px;
                             }
                         }
 
                         a.btn {
-                            background-color: #ff4b2b;
-                            color: #fff;
-                            border-radius: 20px;
-                            text-decoration: none;
-                            font-weight: 500.25;
-                            font-size: 12px;
-                            white-space: nowrap;
-                            letter-spacing: 0.1px;
-                            width: 104px;
-                            text-align: center;
                             padding: 20px 16px;
-
-                            &:hover {
-                                background-color: #e63e20;
-                            }
                         }
                     }
 
                     p {
                         font-size: 10px;
-                        color: #242426;
-                        margin: 0;
-                        letter-spacing: 0.8px;
-                        font-weight: lighter;
                         max-width: 310px;
-                        padding-top: 3px;
                         line-height: 1.4 !important;
                     }
-                }
-
-                img {
-                    transform-origin: center;
-                }
-
-                &.digiservice-card-print img {
-                    height: 140px;
-                }
-
-                &.digiservice-card-seconds img {
-                    height: 135px;
-                }
-
-                &.digiservice-card-click-collect img {
-                    height: 160px;
-                }
-
-                &.digiservice-card-direct img {
-                    height: 135px;
-                }
-
-                &.digiservice-card-trade img {
-                    height: 162px;
-                }
-
-                &.digiservice-card-protect img {
-                    height: 140px;
-                    object-fit: none;
-                    transform: scaleX(1);
-                }
-
-                &.digiservice-card-events img {
-                    height: 149px;
                 }
 
                 &.digiservice-card-price img {
@@ -375,16 +265,6 @@
 
                 &.digiservice-card-life img {
                     height: 133px;
-                }
-
-                &.digiservice-card-protect img {
-                    object-fit: none;
-                    transform: scaleX(1);
-                }
-
-                &.digiservice-card-trade .digi-orange-text,
-                &.digiservice-card-price .digi-orange-text {
-                    color: #333333 !important;
                 }
             }
         }
@@ -426,7 +306,7 @@
                     align-items: flex-start !important;
                     h1 {
                         font-size: 23px !important;
-                        .digi-black-text.small {
+                        .digi-title .small {
                             font-size: 22px !important;
                         }
                     }
@@ -436,6 +316,20 @@
                 }
             }
         }
+
+        .digiservices-header h2 {
+            display: flex;
+            flex-direction: column;
+            font-size: 17px !important;
+            line-height: normal !important;
+            a {
+                font-size: 17px !important;
+                line-height: normal !important;
+                span {
+                    font-size: 17px !important;
+                    line-height: normal !important;
+                }
+            }
+        }
     }
 }
-//redeployment.....
