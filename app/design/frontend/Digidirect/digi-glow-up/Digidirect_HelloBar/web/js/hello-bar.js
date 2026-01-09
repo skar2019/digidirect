@@ -102,6 +102,10 @@ require(['jquery'], function ($) {
           }
       })
 
+      slidesContainer.addEventListener('pointercancel', function () {
+          swipeEnabled = false
+          isDragging = false
+      })
 
       // ---- Observer: detect external changes ----
     const observer = new MutationObserver(() => {
