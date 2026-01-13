@@ -108,7 +108,6 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customerEmail = $this->getRequest()->getParam('digiclub-email');
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
                 $customerDob = $this->getRequest()->getParam('digiclub-dob');
-                $this->logger->info('digiclub customer dob: ' . $customerDob.' for customer ID: ' . $customerId);
                 //$this->logger->info('$customerFirstName: ' . $customerFirstName);
                 //$this->logger->info('$customerLastName: ' . $customerLastName);
                 //$this->logger->info('$customerEmail: ' . $customerEmail);
@@ -128,7 +127,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customer->setData('email', $customerEmail);
                 $customer->setCustomAttribute('contact_number', $customerContactNumber);
                 if ($customerDob) {
-                    $customer->setData('dob', $customerDob);
+                    $date = \DateTime::createFromFormat('d/m/Y', $customerDob);
+                    $formattedDobDate = $date->format('m/d/Y');
+                    $customer->setData('dob', $formattedDobDate);
                 }
                 //$customer->setData('contact_number', $customerContactNumber);
 
@@ -144,9 +145,8 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 }
 
             } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'.$e->getMessage()));
-                $this->logger->error('Error saving digiClub subscription for customer ID ' . $customerId . ': ' . $e->getMessage());
-
+                $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
+                $this->logger->error('Error saving digiClub subscription DOB for customer ID ' . $customerId . ': ' . $e->getMessage());
         }
     }
         return $this->_redirect('digiclubmember/customer/index');
