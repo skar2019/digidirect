@@ -196,6 +196,14 @@ require(['jquery'], function($) {
         $('.goback').on('click', function() {
             $('#open-account-popup').trigger('click');
         });
+
+        //Open chat from email footer link
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('openChat') === '1') {
+            console.log('open chat from email link');
+            zE('messenger', 'open');
+        }
+
     });
 
     function closeAlgolia() {
