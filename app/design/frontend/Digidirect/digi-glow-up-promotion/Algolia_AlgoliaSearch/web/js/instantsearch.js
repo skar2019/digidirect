@@ -48,55 +48,8 @@ define([
                 'beforeInstantsearchInit',
                 {
                     searchClient: algoliasearch(algoliaConfig.applicationId, algoliaConfig.apiKey),
-                    indexName: indexName,
-                    routing: {
-                        stateMapping: {
-                            stateToRoute(uiState) {
-                                const indexUiState = uiState[indexName] || {};
-                                return {
-                                    query: indexUiState.query,
-                                    page: indexUiState.page,
-                                    categories: indexUiState.hierarchicalMenu?.['categories.level0'],
-                                    refinements: indexUiState.refinementList,
-                                    range: indexUiState.range,
-                                    sortBy: indexUiState.sortBy
-                                };
-                            },
-                            routeToState(routeState) {
-                                const state = {
-                                    [indexName]: {}
-                                };
-
-                                if (routeState.query) {
-                                    state[indexName].query = routeState.query;
-                                }
-
-                                if (routeState.page) {
-                                    state[indexName].page = routeState.page;
-                                }
-
-                                if (routeState.categories) {
-                                    state[indexName].hierarchicalMenu = {
-                                        'categories.level0': routeState.categories
-                                    };
-                                }
-
-                                if (routeState.refinements) {
-                                    state[indexName].refinementList = routeState.refinements;
-                                }
-
-                                if (routeState.range) {
-                                    state[indexName].range = routeState.range;
-                                }
-
-                                if (routeState.sortBy) {
-                                    state[indexName].sortBy = routeState.sortBy;
-                                }
-
-                                return state;
-                            }
-                        }
-                    }
+                    indexName   : indexName,
+                    routing     : algoliaCommon.routing,
                 },
                 mockAlgoliaBundle
             );
