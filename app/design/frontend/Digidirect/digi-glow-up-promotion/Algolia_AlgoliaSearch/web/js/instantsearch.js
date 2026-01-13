@@ -49,7 +49,7 @@ define([
                 {
                     searchClient: algoliasearch(algoliaConfig.applicationId, algoliaConfig.apiKey),
                     indexName   : indexName,
-                    routing     : algoliaCommon.routing,
+                    routing     : true,
                 },
                 mockAlgoliaBundle
             );

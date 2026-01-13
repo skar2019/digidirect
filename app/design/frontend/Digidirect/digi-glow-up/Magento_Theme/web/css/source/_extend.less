@@ -1755,12 +1755,28 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     padding: 40px;
 }
 
-.category-description > [data-content-type=row][data-appearance=contained] {
+.category-description > [data-content-type=row][data-appearance=contained], .category-description > div {
     max-width: 1327px !important;
     background: #fff;
     margin: 0 auto !important;
     padding: 20px !important;
     border-radius: 30px;
+}
+
+.trigger.allow .show-more {
+	display: block;
+}
+
+.trigger.allow .show-less {
+	display: none;
+}
+
+.trigger.allow.active .show-more {
+	display: none;
+}
+
+.trigger.allow.active .show-less {
+	display: block;
 }
 
 @media screen and (max-width: 1512px) {
