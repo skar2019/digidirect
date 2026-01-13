@@ -44,12 +44,201 @@ define([
 
             const indexName = algoliaConfig.indexName + '_products';
 
+            const categoryRoutingConfig = {
+                router: instantsearch.routers.history({
+                    windowTitle(routeState) {
+                        const indexState = routeState[indexName] || {};
+                        const query = indexState.query;
+
+                        if (query) {
+                            return `Search: ${query} - Your Store`;
+                        }
+                        return 'Product Search - Your Store';
+                    },
+
+                    createURL({ qsModule, routeState, location }) {
+                        const baseUrl = location.href.split('?')[0];
+                        const categoryPath = getCategoryPathFromState(routeState);
+                        const queryParameters = {};
+
+                        const indexState = routeState[indexName] || {};
+
+                        // Handle search query
+                        if (indexState.query) {
+                            queryParameters.q = indexState.query;
+                        }
+
+                        // Handle category hierarchical menu
+                        if (indexState.hierarchicalMenu && indexState.hierarchicalMenu['categories.level0']) {
+                            const categories = indexState.hierarchicalMenu['categories.level0'];
+                            queryParameters.categories = categories.join(' > ');
+                        }
+
+                        // Handle refinement lists (other facets)
+                        if (indexState.refinementList) {
+                            Object.keys(indexState.refinementList).forEach(attr => {
+                                queryParameters[attr] = indexState.refinementList[attr];
+                            });
+                        }
+
+                        // Handle range filters (price, etc)
+                        if (indexState.range) {
+                            Object.keys(indexState.range).forEach(attr => {
+                                queryParameters[`${attr}_min`] = indexState.range[attr].min;
+                                queryParameters[`${attr}_max`] = indexState.range[attr].max;
+                            });
+                        }
+
+                        // Handle numeric filters
+                        if (indexState.numericMenu) {
+                            Object.keys(indexState.numericMenu).forEach(attr => {
+                                queryParameters[attr] = indexState.numericMenu[attr];
+                            });
+                        }
+
+                        // Handle page
+                        if (indexState.page && indexState.page > 1) {
+                            queryParameters.page = indexState.page;
+                        }
+
+                        // Handle sorting
+                        if (indexState.sortBy && indexState.sortBy !== indexName) {
+                            queryParameters.sortBy = indexState.sortBy;
+                        }
+
+                        const queryString = qsModule.stringify(queryParameters, {
+                            addQueryPrefix: true,
+                            arrayFormat: 'repeat'
+                        });
+
+                        return `${baseUrl}${queryString}`;
+                    },
+
+                    parseURL({ qsModule, location }) {
+                        const queryParameters = qsModule.parse(location.search.slice(1));
+                        const routeState = {};
+                        const indexState = {};
+
+                        // Parse search query
+                        if (queryParameters.q) {
+                            indexState.query = queryParameters.q;
+                        }
+
+                        // Parse category hierarchy
+                        if (queryParameters.categories) {
+                            const categories = Array.isArray(queryParameters.categories) 
+                                ? queryParameters.categories 
+                                : [queryParameters.categories];
+
+                            indexState.hierarchicalMenu = {
+                                'categories.level0': categories
+                            };
+                        }
+
+                        // Parse refinement lists
+                        indexState.refinementList = {};
+                        Object.keys(queryParameters).forEach(key => {
+                            if (!['q', 'categories', 'page', 'sortBy'].includes(key) && 
+                                !key.includes('_min') && !key.includes('_max')) {
+                                const values = Array.isArray(queryParameters[key]) 
+                                    ? queryParameters[key] 
+                                    : [queryParameters[key]];
+                                indexState.refinementList[key] = values;
+                            }
+                        });
+
+                        // Parse range filters
+                        indexState.range = {};
+                        Object.keys(queryParameters).forEach(key => {
+                            if (key.endsWith('_min')) {
+                                const attr = key.replace('_min', '');
+                                indexState.range[attr] = indexState.range[attr] || {};
+                                indexState.range[attr].min = parseFloat(queryParameters[key]);
+                            }
+                            if (key.endsWith('_max')) {
+                                const attr = key.replace('_max', '');
+                                indexState.range[attr] = indexState.range[attr] || {};
+                                indexState.range[attr].max = parseFloat(queryParameters[key]);
+                            }
+                        });
+
+                        // Parse page
+                        if (queryParameters.page) {
+                            indexState.page = parseInt(queryParameters.page, 10);
+                        }
+
+                        // Parse sorting
+                        if (queryParameters.sortBy) {
+                            indexState.sortBy = queryParameters.sortBy;
+                        }
+
+                        routeState[indexName] = indexState;
+                        return routeState;
+                    }
+                }),
+
+                stateMapping: {
+                    stateToRoute(uiState) {
+                        const indexState = uiState[indexName] || {};
+                        const routeState = {
+                            [indexName]: {}
+                        };
+
+                        if (indexState.query) {
+                            routeState[indexName].query = indexState.query;
+                        }
+
+                        if (indexState.hierarchicalMenu) {
+                            routeState[indexName].hierarchicalMenu = indexState.hierarchicalMenu;
+                        }
+
+                        if (indexState.refinementList) {
+                            routeState[indexName].refinementList = indexState.refinementList;
+                        }
+
+                        if (indexState.range) {
+                            routeState[indexName].range = indexState.range;
+                        }
+
+                        if (indexState.numericMenu) {
+                            routeState[indexName].numericMenu = indexState.numericMenu;
+                        }
+
+                        if (indexState.page) {
+                            routeState[indexName].page = indexState.page;
+                        }
+
+                        if (indexState.sortBy) {
+                            routeState[indexName].sortBy = indexState.sortBy;
+                        }
+
+                        return routeState;
+                    },
+
+                    routeToState(routeState) {
+                        const indexState = routeState[indexName] || {};
+                        return {
+                            [indexName]: indexState
+                        };
+                    }
+                }
+            };
+
+            // Helper function to extract category path
+            function getCategoryPathFromState(routeState) {
+                const indexState = routeState[indexName] || {};
+                if (indexState.hierarchicalMenu && indexState.hierarchicalMenu['categories.level0']) {
+                    return indexState.hierarchicalMenu['categories.level0'].join(' > ');
+                }
+                return '';
+            }
+            
             const instantsearchOptions = algoliaCommon.triggerHooks(
                 'beforeInstantsearchInit',
                 {
                     searchClient: algoliasearch(algoliaConfig.applicationId, algoliaConfig.apiKey),
-                    indexName   : indexName,
-                    routing     : algoliaCommon.routing,
+                    indexName: indexName,
+                    routing: categoryRoutingConfig, // Use this instead of algoliaCommon.routing
                 },
                 mockAlgoliaBundle
             );
