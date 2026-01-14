@@ -243,11 +243,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // Special handling for SWHS - always null
         if ($storeId === self::SWHS_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (SWHS) - returning NULL (special case)");
             return null;
         }
 
         // Special handling for CANN store with minimum order
         if ($storeId === self::CANN_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (CANN) - Cart Total: {$cartTotal}, Minimum: " . self::CANN_MINIMUM_AMOUNT);
             return $this->determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty);
         }
 
@@ -271,20 +273,20 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     /**
      * Determine click and collect availability for CANN store
      *
-     * @param float $cannTotal
+     * @param float $cartTotal
      * @param array $quantities
      * @param array $sources
      * @param int $otherSourcesQty
      * @return bool|null
      */
-    private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty)
+    private function determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty)
     {
         $cannQty = $quantities['CANN'] ?? 0;
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
         // Cart meets $1000 minimum - CANN must be available for C&C
-        if ($cannTotal >= self::CANN_MINIMUM_AMOUNT) {
+        if ($cartTotal >= self::CANN_MINIMUM_AMOUNT) {
             return true;
         }
 
@@ -305,7 +307,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     private function logInventoryStats($inventoryData)
     {
-        $this->logger->info('CANN Total Amount: ' . $inventoryData['cann_total']);
+        $this->logger->info('Cart Total Amount: ' . $inventoryData['cart_total']);
         $this->logger->info('CANN Quantity: ' . ($inventoryData['quantities']['CANN'] ?? 0));
         $this->logger->info('Other Sources Quantity: ' . $inventoryData['other_sources_qty']);
         $this->logger->info('Available Sources: ' . implode(', ', $inventoryData['sources']));
