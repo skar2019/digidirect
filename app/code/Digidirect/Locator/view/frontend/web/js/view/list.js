@@ -191,8 +191,8 @@ define([
                 var pickUpAvailable;
                 var pickUpUnavailable;
 
-                pickUpAvailable = $('.pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpAvailable = $('.pickup-available .locator-item').length;
+                pickUpUnavailable = $('.pickup-unavailable .locator-item').length;
 
                 console.log("pickUpAvailable " +pickUpAvailable);
                 console.log("pickUpUnavailable " +pickUpUnavailable);

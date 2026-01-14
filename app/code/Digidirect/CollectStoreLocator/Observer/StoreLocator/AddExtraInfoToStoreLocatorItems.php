@@ -155,16 +155,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $storeQuantities = [];
         $availableSources = [];
-        $totalCartAmount = 0.0;
+        $totalCannAmount = 0.0;
 
         foreach ($cartItems as $cartItem) {
             try {
                 $product = $this->productRepository->getById($cartItem->getProductId());
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-                // Calculate total cart value (for CANN minimum check)
-                $itemQty = $cartItem->getQty();
-                $totalCartAmount += ($this->getEffectivePrice($product) * $itemQty);
 
                 foreach ($sourceItems as $sourceItem) {
                     $sourceCode = $sourceItem->getSourceCode();
@@ -181,6 +177,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $storeQuantities[$sourceCode] = 1;
                     }
                     $storeQuantities[$sourceCode] *= $quantity;
+
+                    // Calculate CANN pricing (total cart value for CANN items)
+                    if ($sourceCode === 'CANN' && $quantity > 0) {
+                        $totalCannAmount += $this->getEffectivePrice($product);
+                    }
                 }
             } catch (\Exception $e) {
                 $this->logger->error('Error loading product: ' . $e->getMessage());
@@ -190,7 +191,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return [
             'quantities' => $storeQuantities,
             'sources' => $availableSources,
-            'cart_total' => $totalCartAmount,
+            'cann_total' => $totalCannAmount,
             'other_sources_qty' => $this->calculateOtherSourcesQuantity($storeQuantities)
         ];
     }
@@ -238,17 +239,19 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
-        $cartTotal = $inventoryData['cart_total'];
+        $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         // Special handling for SWHS - always null
         if ($storeId === self::SWHS_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (SWHS) - Returning NULL");
             return null;
         }
 
         // Special handling for CANN store with minimum order
         if ($storeId === self::CANN_STORE_ID) {
-            return $this->determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty);
+            $this->logger->info("Store ID: {$storeId} (CANN) - Using CANN-specific logic");
+            return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
         }
 
         // Standard store handling
@@ -283,18 +286,25 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Cart meets $1000 minimum - CANN must be available for C&C
-        if ($cannTotal >= self::CANN_MINIMUM_AMOUNT) {
+        $this->logger->info("CANN Decision - Total: {$cannTotal}, Min: " . self::CANN_MINIMUM_AMOUNT . 
+                           ", HasInventory: " . ($hasCannInventory ? 'Yes' : 'No') . 
+                           ", Available: " . ($cannAvailable ? 'Yes' : 'No') .
+                           ", OtherSourcesQty: {$otherSourcesQty}");
+
+        // If cart total is below minimum for CANN-only products, return NULL
+        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("CANN: Returning NULL - below minimum");
+            return null;
+        }
+
+        // If CANN has inventory and is available and meets minimum, return true
+        if ($hasCannInventory && $cannAvailable) {
+            $this->logger->info("CANN: Returning TRUE - has inventory and available");
             return true;
         }
 
-        // Below minimum and no other sources
-        if ($otherSourcesQty < 1) {
-            return $hasCannInventory ? true : null;
-        }
-
-        // Below minimum with other sources - check CANN inventory
-        return $hasCannInventory && $cannAvailable;
+        $this->logger->info("CANN: Returning FALSE - default case");
+        return false;
     }
 
     /**
