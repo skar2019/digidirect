@@ -284,22 +284,18 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Below minimum and no other sources - return null
-        if ($cannTotal < self::CANN_MINIMUM_AMOUNT && $otherSourcesQty < 1) {
-            return $hasCannInventory ? true : null;
-        }
-
-        // Above minimum or has other sources
-        if ($hasCannInventory && $cannAvailable) {
+        // Cart meets $1000 minimum - CANN must be available for C&C
+        if ($cannTotal >= self::CANN_MINIMUM_AMOUNT) {
             return true;
         }
 
-        // Below minimum but can't fulfill
-        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
-            return null;
+        // Below minimum and no other sources
+        if ($otherSourcesQty < 1) {
+            return $hasCannInventory ? true : null;
         }
 
-        return false;
+        // Below minimum with other sources - check CANN inventory
+        return $hasCannInventory && $cannAvailable;
     }
 
     /**
