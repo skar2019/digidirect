@@ -25,10 +25,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         16 => 'CANN',
         32 => 'PARR',
         35 => 'SWHS',
-        41 => '3WHS',  // Staging
-        42 => '3WHS',  // Production (old)
-        44 => '3WHS',  // Production (current)
-        45 => '3WHS',  // Production (additional)
+        41 => '3WHS',
+        42 => '3WHS',
+        44 => '3WHS',
+        45 => '3WHS',
     ];
 
     private const CANN_MINIMUM_AMOUNT = 1000;
@@ -117,6 +117,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         
         $this->logger->info('Processing ' . count($items) . ' store locations');
         
+        // Check if we're in the special "below minimum with CANN only" scenario
+        $isSpecialCase = $this->isSpecialCannOnlyCase($inventoryData);
+        
         foreach ($items as $key => $storeData) {
             $id = $storeData['entity_id'];
             
@@ -129,10 +132,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
             // All stores are selectable per business requirement
             $items[$key]['available'] = true;
-            $items[$key]['click_and_collect'] = $this->determineClickAndCollect(
-                $id,
-                $inventoryData
-            );
+            
+            // Determine click and collect based on scenario
+            if ($isSpecialCase) {
+                $items[$key]['click_and_collect'] = $this->determineClickAndCollectSpecialCase($id, $inventoryData);
+            } else {
+                $items[$key]['click_and_collect'] = $this->determineClickAndCollectNormal($id, $inventoryData);
+            }
             
             $this->logger->info("Store {$id} click_and_collect set to: " . 
                                ($items[$key]['click_and_collect'] === null ? 'NULL' : 
@@ -146,7 +152,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
     /**
      * Calculate inventory quantities and pricing for all cart items
-     * Uses multiplication logic to check if ALL products in cart are available at each source
      *
      * @param array $cartItems
      * @return array
@@ -162,7 +167,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $product = $this->productRepository->getById($cartItem->getProductId());
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
-                // Calculate total cart value (for CANN minimum check)
+                // Calculate total cart value
                 $itemQty = $cartItem->getQty();
                 $totalCartAmount += ($this->getEffectivePrice($product) * $itemQty);
 
@@ -211,7 +216,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
     /**
      * Calculate total quantity in non-CANN sources
-     * Returns the sum of all positive quantities (not multiplied product)
      *
      * @param array $storeQuantities
      * @return int
@@ -228,29 +232,58 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     }
 
     /**
-     * Determine if click and collect is available for a store
+     * Check if we're in the special case: below minimum, CANN has inventory, no other sources
+     *
+     * @param array $inventoryData
+     * @return bool
+     */
+    private function isSpecialCannOnlyCase($inventoryData)
+    {
+        $cartTotal = $inventoryData['cart_total'];
+        $cannQty = $inventoryData['quantities']['CANN'] ?? 0;
+        $otherSourcesQty = $inventoryData['other_sources_qty'];
+
+        return ($cartTotal < self::CANN_MINIMUM_AMOUNT && $cannQty > 0 && $otherSourcesQty < 1);
+    }
+
+    /**
+     * Determine click and collect for special case (below minimum, CANN only)
      *
      * @param int $storeId
      * @param array $inventoryData
      * @return bool|null
      */
-    private function determineClickAndCollect($storeId, $inventoryData)
+    private function determineClickAndCollectSpecialCase($storeId, $inventoryData)
+    {
+        // In special case: CANN = true, all others = NULL
+        if ($storeId === self::CANN_STORE_ID) {
+            return true;
+        }
+        return null;
+    }
+
+    /**
+     * Determine click and collect for normal case
+     *
+     * @param int $storeId
+     * @param array $inventoryData
+     * @return bool|null
+     */
+    private function determineClickAndCollectNormal($storeId, $inventoryData)
     {
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
         $cartTotal = $inventoryData['cart_total'];
-        $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         // Special handling for SWHS - always null
         if ($storeId === self::SWHS_STORE_ID) {
-            $this->logger->info("Store ID: {$storeId} (SWHS) - returning NULL (special case)");
+            $this->logger->info("Store ID: {$storeId} (SWHS) - returning NULL");
             return null;
         }
 
-        // Special handling for CANN store with minimum order
+        // Special handling for CANN store
         if ($storeId === self::CANN_STORE_ID) {
-            $this->logger->info("Store ID: {$storeId} (CANN) - Cart Total: {$cartTotal}, Minimum: " . self::CANN_MINIMUM_AMOUNT);
-            return $this->determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty);
+            return $this->determineCannClickAndCollect($cartTotal, $quantities, $sources);
         }
 
         // Standard store handling
@@ -263,40 +296,44 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $hasInventory = isset($quantities[$sourceCode]) && $quantities[$sourceCode] > 0;
         $sourceAvailable = in_array($sourceCode, $sources);
 
-        $this->logger->info("Store ID: {$storeId}, Source: {$sourceCode}, HasInventory: " . ($hasInventory ? 'Yes' : 'No') . 
-                           ", SourceAvailable: " . ($sourceAvailable ? 'Yes' : 'No') . 
-                           ", Quantity: " . ($quantities[$sourceCode] ?? 0));
+        $this->logger->info("Store ID: {$storeId}, Source: {$sourceCode}, HasInventory: " . 
+                           ($hasInventory ? 'Yes' : 'No') . ", SourceAvailable: " . 
+                           ($sourceAvailable ? 'Yes' : 'No') . ", Quantity: " . 
+                           ($quantities[$sourceCode] ?? 0));
 
         return $hasInventory && $sourceAvailable;
     }
 
     /**
-     * Determine click and collect availability for CANN store
+     * Determine click and collect availability for CANN store in normal case
      *
      * @param float $cartTotal
      * @param array $quantities
      * @param array $sources
-     * @param int $otherSourcesQty
      * @return bool|null
      */
-    private function determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty)
+    private function determineCannClickAndCollect($cartTotal, $quantities, $sources)
     {
         $cannQty = $quantities['CANN'] ?? 0;
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Cart meets $1000 minimum - CANN must be available for C&C
+        $this->logger->info("CANN Store - Cart Total: {$cartTotal}, Has Inventory: " . 
+                           ($hasCannInventory ? 'Yes' : 'No') . ", Quantity: {$cannQty}");
+
+        // NEW REQUIREMENT: If cart total >= $1000, CANN must be available
         if ($cartTotal >= self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("CANN - Cart meets minimum ($1000+), returning TRUE");
             return true;
         }
 
-        // Below minimum and no other sources
-        if ($otherSourcesQty < 1) {
-            return $hasCannInventory ? true : null;
+        // Below minimum - check inventory
+        if ($hasCannInventory && $cannAvailable) {
+            return true;
         }
 
-        // Below minimum with other sources - check CANN inventory
-        return $hasCannInventory && $cannAvailable;
+        // Below minimum with no inventory - return NULL
+        return null;
     }
 
     /**
