@@ -244,11 +244,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // Special handling for SWHS - always null
         if ($storeId === self::SWHS_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (SWHS) - Returning NULL");
             return null;
         }
 
         // Special handling for CANN store with minimum order
         if ($storeId === self::CANN_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (CANN) - Using CANN-specific logic");
             return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
         }
 
