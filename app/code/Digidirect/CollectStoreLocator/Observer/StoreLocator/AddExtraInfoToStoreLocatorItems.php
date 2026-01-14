@@ -100,7 +100,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $transportObject->setData(['items' => $locatorStores]);
         
         $this->logger->info('=== Store Locator Processing Completed ===');
-        
     }
 
     /**
