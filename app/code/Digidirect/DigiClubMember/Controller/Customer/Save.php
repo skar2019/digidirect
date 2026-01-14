@@ -16,7 +16,7 @@ use Magento\Framework\Controller\ResultFactory;
 class Save extends \Magento\Framework\App\Action\Action implements HttpPostActionInterface, HttpGetActionInterface
 {
     const DIGICLUB_GROUP_ID = 10;
-    
+
     const GENERAL_GROUP_ID = 1;
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -32,19 +32,19 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
      * @var CustomerRepository
      */
     protected $customerRepository;
-    
+
     protected $customerSession;
-    
+
     protected $logger;
-    
+
     protected $cacheTypeList;
-    
+
     protected $cacheFrontendPool;
 
     protected $urlInterface;
-    
+
     protected $redirect;
-    
+
     /**
      * Initialize dependencies.
      *
@@ -96,44 +96,45 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $customer->setStoreId($storeId);
                 $customerGroupId = $customer->getGroupId();
                 $currentUrl = rtrim($this->urlInterface->getCurrentUrl(), '/');
-                
+
                 $this->logger->info('$currentUrl: ' . $currentUrl);
-                
+
                 $refererUrl = $this->redirect->getRefererUrl();
                 $this->logger->info('$refererUrl: ' . $refererUrl);
-                
+
                 $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
                 $customerFirstName = $this->getRequest()->getParam('digiclub-firstname');
                 $customerLastName = $this->getRequest()->getParam('digiclub-lastname');
                 $customerEmail = $this->getRequest()->getParam('digiclub-email');
                 $customerContactNumber = $this->getRequest()->getParam('digiclub-contact-number');
                 $customerDob = $this->getRequest()->getParam('digiclub-dob');
-                
                 //$this->logger->info('$customerFirstName: ' . $customerFirstName);
                 //$this->logger->info('$customerLastName: ' . $customerLastName);
                 //$this->logger->info('$customerEmail: ' . $customerEmail);
                 //$this->logger->info('$customerContactNumber: ' . $customerContactNumber);
                 //$this->logger->info('$customerDob: ' . $customerDob);
-                
+
                 $this->setIgnoreValidationFlag($customer);
-                
+
                 if ($isDigiClubParam) {
                     $customer->setGroupId(self::DIGICLUB_GROUP_ID);
                 } else {
                     $customer->setGroupId(self::GENERAL_GROUP_ID);
                 }
-                
+
                 $customer->setData('firstname', $customerFirstName);
                 $customer->setData('lastname', $customerLastName);
                 $customer->setData('email', $customerEmail);
                 $customer->setCustomAttribute('contact_number', $customerContactNumber);
                 if ($customerDob) {
-                    $customer->setData('dob', $customerDob);
+                    $date = \DateTime::createFromFormat('d/m/Y', $customerDob);
+                    $formattedDobDate = $date->format('m/d/Y');
+                    $customer->setData('dob', $formattedDobDate);
                 }
                 //$customer->setData('contact_number', $customerContactNumber);
-                
+
                 $this->customerRepository->save($customer);
-                
+
                 if ($isDigiClubParam) {
                     /*if ($refererUrl == "https://www.digidirect.com.au/digiclubmember/customer/index/digiclub/competition") {
                         return $this->_redirect('digiclubcompetition');
@@ -142,9 +143,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 } else {
                     $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
                 }
-                
+
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
+                $this->logger->error('Error saving digiClub subscription DOB for customer ID ' . $customerId . ': ' . $e->getMessage());
         }
     }
         return $this->_redirect('digiclubmember/customer/index');

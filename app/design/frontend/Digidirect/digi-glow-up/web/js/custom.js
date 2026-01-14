@@ -130,6 +130,7 @@ define([
                 childList: true,
                 subtree: true,
             });
+            blurObserver.disconnect();
         }
 
         const blurStyle = `
@@ -204,6 +205,7 @@ define([
                     childList: true,
                     subtree: true,
                 });
+                aaPanelObserver.disconnect();
             }
 
             // --- Apply lock CSS if aa-Panel exists ---
@@ -429,6 +431,7 @@ define([
                 attributes: true,
                 attributeFilter: ["style", "class"],
             });
+            miniObserver.disconnect();
         }
 
         const miniInterval = setInterval(updateMinicartOverlay, 400);
@@ -501,6 +504,7 @@ define([
                     subtree: true,
                     characterData: true,
                 });
+                observer.disconnect();
             };
 
             // 🧩 Observe counters injected later
@@ -523,6 +527,7 @@ define([
                 childList: true,
                 subtree: true,
             });
+            bodyObserver.disconnect();
 
             // Attach to existing counters
             $('.counter-number[data-bind*="summary_count"]').each(function () {
@@ -549,6 +554,7 @@ define([
                     attributes: true,
                     attributeFilter: ["class"],
                 });
+                upsellObserver.disconnect();
             }
         }
 
@@ -748,11 +754,20 @@ define([
             });
         }
 
+        function runWhenIdle(fn, timeout = 2000) {
+            if ("requestIdleCallback" in window) {
+                requestIdleCallback(fn, { timeout });
+            } else {
+                setTimeout(fn, timeout);
+            }
+        }
         /* ================================
    🧠 Observe only the minicart dialog
 ================================ */
         $(document).ready(function () {
-            initTwoFingerSwipe();
+            runWhenIdle(function () {
+                initTwoFingerSwipe();
+            }, 2000);
 
             const dialogs = document.querySelectorAll(".mage-dropdown-dialog");
             dialogs.forEach((dialog) => {
@@ -772,7 +787,11 @@ define([
                                 const checkOwl = setInterval(() => {
                                     if ($this.data("owl.carousel")) {
                                         clearInterval(checkOwl);
-                                        initTwoFingerSwipe($this.parent());
+                                        runWhenIdle(function () {
+                                            initTwoFingerSwipe($this.parent());
+                                        }, 2000);
+
+
                                     }
                                 }, 200);
                                 setTimeout(() => clearInterval(checkOwl), 3000);
@@ -785,6 +804,7 @@ define([
                     attributes: true,
                     attributeFilter: ["style"],
                 });
+                observer.disconnect();
             });
         });
 
@@ -822,6 +842,7 @@ define([
             }
         });
         observer2.observe(document.body, { childList: true, subtree: true });
+        observer2.disconnect();
 
         /* ========================
        👁️ Hide Facelift Dropdown when AA Panel active
@@ -887,6 +908,7 @@ define([
                         attributes: true,
                         attributeFilter: ["style"],
                     });
+                    observer.disconnect();
                 });
                 $(document).on(
                     "pointermove mousemove touchmove",
@@ -925,6 +947,7 @@ define([
             childList: true,
             subtree: true,
         });
+        ribbonObserver.disconnect();
         const checkInterval = setInterval(toggleRibbonVisibility, 500);
         setTimeout(() => clearInterval(checkInterval), 15000);
 
@@ -1141,6 +1164,7 @@ define([
 
             const observer = new MutationObserver(() => moveAllNavsToBody());
             observer.observe(document.body, { childList: true, subtree: true });
+            observer.disconnect();
 
             $(window).on("load", () => setTimeout(moveAllNavsToBody, 600));
         })();
@@ -1188,7 +1212,9 @@ define([
 
         /* Run once on DOM ready and again after sliders initialize */
         $(document).ready(function () {
-            replaceCarouselArrows();
+            runWhenIdle(function () {
+                replaceCarouselArrows();
+            }, 1500);
         });
 
         // Optional: If some sliders initialize dynamically later (Magento does this)
@@ -1196,7 +1222,9 @@ define([
             "init reInit afterChange",
             ".pagebuilder-slider",
             function () {
-                replaceCarouselArrows();
+                runWhenIdle(function () {
+                    replaceCarouselArrows();
+                }, 1500);
             }
         );
 
@@ -1221,8 +1249,11 @@ define([
         }
 
         /* Observe aa-Panel changes */
-        const aaObserver = new MutationObserver(toggleAaPanelVisibility);
-        aaObserver.observe(document.body, { childList: true, subtree: true });
+        runWhenIdle(function () {
+            const aaObserver = new MutationObserver(toggleAaPanelVisibility);
+            aaObserver.observe(document.body, { childList: true, subtree: true });
+            aaObserver.disconnect();
+        }, 2000);
 
         /* Initial check (for good measure) */
         toggleAaPanelVisibility();
@@ -1330,6 +1361,7 @@ define([
                     childList: true,
                     subtree: true,
                 });
+                aaStickObserver.disconnect();
 
                 // Save observer so we can disconnect on mobile if needed
                 window.aaStickObserver = aaStickObserver;
@@ -1374,7 +1406,7 @@ define([
 
         /* ========================
    🌀 TCL Banner – Two-Finger Swipe Only (No CSS / No Click)
-      ======================== 
+      ========================
 */
         $(function () {
             // Settings
@@ -1579,11 +1611,12 @@ define([
                     }
                 });
                 mo.observe(document.body, { childList: true, subtree: true });
+                mo.disconnect();
             }
         });
 
         /* ========================
-   🎯 Slick Dots Animated Backdrop 
+   🎯 Slick Dots Animated Backdrop
 ======================== */
         $(document).ready(function () {
             function initBackdrop($slider) {
@@ -1801,6 +1834,7 @@ define([
 
             // Observe the whole body for new modal popups
             observer.observe(document.body, { childList: true, subtree: true });
+            observer.disconnect();
         });
 
         //Change Proceed To Checkout Text
@@ -1905,6 +1939,7 @@ define([
                 attributes: true,
                 attributeFilter: ["class"],
             });
+            paUpsellObserver.disconnect();
         }
 
         //PA Upsell Widget Checked Default
@@ -2193,6 +2228,7 @@ define([
                 childList: true,
                 subtree: true,
             });
+            upsellObserver.disconnect();
         }
 
         // Initial check on load
@@ -2403,6 +2439,7 @@ define([
                 characterData: true,
                 attributeFilter: ["class", "data-ui-id"],
             });
+            observer.disconnect();
 
             // Additional polling as backup (in case observer misses it)
             var pollCount = 0;
