@@ -155,12 +155,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $storeQuantities = [];
         $availableSources = [];
-        $totalCannAmount = 0.0;
+        $totalCartAmount = 0.0;
 
         foreach ($cartItems as $cartItem) {
             try {
                 $product = $this->productRepository->getById($cartItem->getProductId());
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                // Calculate total cart value (for CANN minimum check)
+                $itemQty = $cartItem->getQty();
+                $totalCartAmount += ($this->getEffectivePrice($product) * $itemQty);
 
                 foreach ($sourceItems as $sourceItem) {
                     $sourceCode = $sourceItem->getSourceCode();
@@ -177,11 +181,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $storeQuantities[$sourceCode] = 1;
                     }
                     $storeQuantities[$sourceCode] *= $quantity;
-
-                    // Calculate CANN pricing (total cart value for CANN items)
-                    if ($sourceCode === 'CANN' && $quantity > 0) {
-                        $totalCannAmount += $this->getEffectivePrice($product);
-                    }
                 }
             } catch (\Exception $e) {
                 $this->logger->error('Error loading product: ' . $e->getMessage());
@@ -191,7 +190,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return [
             'quantities' => $storeQuantities,
             'sources' => $availableSources,
-            'cann_total' => $totalCannAmount,
+            'cart_total' => $totalCartAmount,
             'other_sources_qty' => $this->calculateOtherSourcesQuantity($storeQuantities)
         ];
     }
@@ -239,7 +238,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
-        $cannTotal = $inventoryData['cann_total'];
+        $cartTotal = $inventoryData['cart_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         // Special handling for SWHS - always null
@@ -249,7 +248,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // Special handling for CANN store with minimum order
         if ($storeId === self::CANN_STORE_ID) {
-            return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
+            return $this->determineCannClickAndCollect($cartTotal, $quantities, $sources, $otherSourcesQty);
         }
 
         // Standard store handling
