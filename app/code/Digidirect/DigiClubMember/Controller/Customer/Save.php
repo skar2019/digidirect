@@ -146,7 +146,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
 
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
-                $this->logger->error('Error saving digiClub subscription DOB for customer ID ' . $customerId . ': ' . $e->getMessage());
+                $this->logger->error('Error saving digiClub subscription for customer ID ' . $customerId . ': ' . $e->getMessage());
         }
     }
         return $this->_redirect('digiclubmember/customer/index');
