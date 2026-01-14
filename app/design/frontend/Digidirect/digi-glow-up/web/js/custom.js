@@ -431,7 +431,7 @@ define([
                 attributes: true,
                 attributeFilter: ["style", "class"],
             });
-            miniObserver.disconnect();
+            //miniObserver.disconnect();
         }
 
         const miniInterval = setInterval(updateMinicartOverlay, 400);
