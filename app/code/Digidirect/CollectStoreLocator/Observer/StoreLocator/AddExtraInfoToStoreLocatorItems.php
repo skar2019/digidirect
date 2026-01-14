@@ -93,7 +93,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $transportObject = $observer->getTransportObject();
         $locatorStores = $transportObject->getData('items');
         
-        $this->logger->info('=== Store Locator Processing Started ===');
+        $this->logger->info('=== Store Locator Processing Started - CODE VERSION 3.0 ===');
         $this->logger->info('Total stores to process: ' . count($locatorStores));
         
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
