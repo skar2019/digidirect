@@ -120,6 +120,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         // Check if we're in the special "below minimum with CANN only" scenario
         $isSpecialCase = $this->isSpecialCannOnlyCase($inventoryData);
         
+        $this->logger->info('Is Special Case: ' . ($isSpecialCase ? 'YES' : 'NO'));
+        
         foreach ($items as $key => $storeData) {
             $id = $storeData['entity_id'];
             
@@ -169,7 +171,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                 // Calculate total cart value
                 $itemQty = $cartItem->getQty();
-                $totalCartAmount += ($this->getEffectivePrice($product) * $itemQty);
+                $itemPrice = $this->getEffectivePrice($product);
+                $itemTotal = $itemPrice * $itemQty;
+                $totalCartAmount += $itemTotal;
+                
+                $this->logger->info("Product: " . $product->getSku() . ", Price: {$itemPrice}, Qty: {$itemQty}, Item Total: {$itemTotal}");
 
                 foreach ($sourceItems as $sourceItem) {
                     $sourceCode = $sourceItem->getSourceCode();
@@ -255,11 +261,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     private function determineClickAndCollectSpecialCase($storeId, $inventoryData)
     {
-        // In special case: CANN = true, all others = NULL
-        if ($storeId === self::CANN_STORE_ID) {
-            return true;
-        }
-        return null;
+        // In special case: CANN = false, all others = false
+        return false;
     }
 
     /**
