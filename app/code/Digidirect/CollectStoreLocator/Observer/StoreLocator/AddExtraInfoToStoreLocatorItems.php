@@ -244,11 +244,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // Special handling for SWHS - always null
         if ($storeId === self::SWHS_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (SWHS) - Returning NULL");
             return null;
         }
 
         // Special handling for CANN store with minimum order
         if ($storeId === self::CANN_STORE_ID) {
+            $this->logger->info("Store ID: {$storeId} (CANN) - Using CANN-specific logic");
             return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
         }
 
@@ -284,21 +286,24 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Below minimum and no other sources - return null
-        if ($cannTotal < self::CANN_MINIMUM_AMOUNT && $otherSourcesQty < 1) {
-            return $hasCannInventory ? true : null;
-        }
+        $this->logger->info("CANN Decision - Total: {$cannTotal}, Min: " . self::CANN_MINIMUM_AMOUNT . 
+                           ", HasInventory: " . ($hasCannInventory ? 'Yes' : 'No') . 
+                           ", Available: " . ($cannAvailable ? 'Yes' : 'No') .
+                           ", OtherSourcesQty: {$otherSourcesQty}");
 
-        // Above minimum or has other sources
-        if ($hasCannInventory && $cannAvailable) {
-            return true;
-        }
-
-        // Below minimum but can't fulfill
+        // If cart total is below minimum for CANN-only products, return NULL
         if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("CANN: Returning NULL - below minimum");
             return null;
         }
 
+        // If CANN has inventory and is available and meets minimum, return true
+        if ($hasCannInventory && $cannAvailable) {
+            $this->logger->info("CANN: Returning TRUE - has inventory and available");
+            return true;
+        }
+
+        $this->logger->info("CANN: Returning FALSE - default case");
         return false;
     }
 
