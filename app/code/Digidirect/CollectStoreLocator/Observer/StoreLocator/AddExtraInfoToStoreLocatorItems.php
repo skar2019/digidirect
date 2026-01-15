@@ -277,7 +277,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             return null;
         }
 
-        // Special handling for CANN store with minimum order (when not CANN-only)
+        // NEW LOGIC: If products available in other stores AND CANN total < 1000, CANN = NULL
+        if ($storeId === self::CANN_STORE_ID && !$cannOnly && $cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("Products in other stores + CANN total < 1000: Returning NULL for CANN store");
+            return null;
+        }
+
+        // Special handling for CANN store with minimum order (when not CANN-only and meets minimum)
         if ($storeId === self::CANN_STORE_ID) {
             $this->logger->info("!!!! CANN SPECIFIC LOGIC TRIGGERED for Store ID: {$storeId} !!!!");
             return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
