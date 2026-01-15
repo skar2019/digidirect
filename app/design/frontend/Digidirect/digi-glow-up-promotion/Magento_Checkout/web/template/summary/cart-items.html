@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 -->
-<span class="item-count">(<translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate><translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate><span data-bind="text: getCartLineItemsCount()"></span><translate args="'Item'" if="getCartLineItemsCount() === 1"></translate><translate args="'Items'" if="getCartLineItemsCount() > 1"></translate>)</span>
+<span class="item-count">(<translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate><translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate><span data-bind="text: getCartLineItemsCount()"></span><translate args="' Item'" if="getCartLineItemsCount() === 1"></translate><translate args="' Items'" if="getCartLineItemsCount() > 1"></translate>)</span>
 
 <a class="action viewcart" data-bind="attr: {href: cartUrl}">
     <span data-bind="i18n: 'Edit Cart'"></span>
