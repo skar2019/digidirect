@@ -23,7 +23,7 @@
         "algolia/algoliasearch-inventory-magento-2": "^1.1",
         "algolia/algoliasearch-magento-2": "~3.15.0",
         "classyllama/module-zendesk": "^1.1",
-        "composer/composer": "^2.2",
+        "composer/composer": "^2.9",
         "impact_tech/module-magento-integration": "^2.6",
         "laminas/laminas-zendframework-bridge": "^1.8",
         "livechat/module-magento-livechat": "dev-master",
