@@ -244,16 +244,18 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     private function determineClickAndCollect($storeId, $inventoryData, $cannOnly)
     {
+        // Convert storeId to integer for consistent comparison
+        $storeId = (int)$storeId;
+        
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         $this->logger->info("=== DETERMINE CLICK AND COLLECT START ===");
-        $this->logger->info("StoreId: {$storeId}, Type: " . gettype($storeId));
-        $this->logger->info("CANN_STORE_ID: " . self::CANN_STORE_ID . ", Type: " . gettype(self::CANN_STORE_ID));
-        $this->logger->info("Match (===): " . (($storeId === self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
-        $this->logger->info("Match (==): " . (($storeId == self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
+        $this->logger->info("StoreId: {$storeId} (converted to int)");
+        $this->logger->info("CANN_STORE_ID: " . self::CANN_STORE_ID);
+        $this->logger->info("Match: " . (($storeId === self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
         $this->logger->info("CANN Only: " . ($cannOnly ? 'YES' : 'NO'));
         $this->logger->info("CANN Total: {$cannTotal}");
         $this->logger->info("CANN Minimum: " . self::CANN_MINIMUM_AMOUNT);
