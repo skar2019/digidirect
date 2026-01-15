@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <block class="Magento\Sales\Block\Order\Email\Items" name="items" template="Magento_Sales::email/items.phtml">
+            <action method="setCustomCss">
+                <argument name="css" xsi:type="string">
+                    <![CDATA[
+                        .email-items {border: 1px solid #ffffff !important;}
+                    ]]>
+                </argument>
+            </action>
+        </block>
+    </body>
+</page>
