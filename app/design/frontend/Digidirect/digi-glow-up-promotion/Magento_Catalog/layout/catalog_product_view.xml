@@ -42,13 +42,6 @@
 
                     </container>
 
-                    <container name="product.info.marketplacer.mobile" htmlTag="div" htmlClass="product-info-marketplacer mobile-only">
-                        <block class="Magento\Catalog\Block\Product\View"
-                               name="product.info.marketplacer.seller.mobile"
-                               template="Marketplacer_Seller::product/view/seller-info.phtml"/>
-
-                    </container>
-                    
                 </container>
 
                 <!-- LEFT COLUMN -->
