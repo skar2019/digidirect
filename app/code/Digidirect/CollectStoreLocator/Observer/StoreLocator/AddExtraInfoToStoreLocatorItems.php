@@ -93,7 +93,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $transportObject = $observer->getTransportObject();
         $locatorStores = $transportObject->getData('items');
         
-        $this->logger->info('=== Store Locator Processing Started - CODE VERSION 3.0 ===');
+        $this->logger->info('=== Store Locator Processing Started - CODE VERSION 4.0 ===');
         $this->logger->info('Total stores to process: ' . count($locatorStores));
         
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
@@ -249,7 +249,15 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
-        $this->logger->info("determineClickAndCollect - StoreId: {$storeId}, CANN Only: " . ($cannOnly ? 'YES' : 'NO') . ", CANN Total: {$cannTotal}");
+        $this->logger->info("=== DETERMINE CLICK AND COLLECT START ===");
+        $this->logger->info("StoreId: {$storeId}, Type: " . gettype($storeId));
+        $this->logger->info("CANN_STORE_ID: " . self::CANN_STORE_ID . ", Type: " . gettype(self::CANN_STORE_ID));
+        $this->logger->info("Match (===): " . (($storeId === self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
+        $this->logger->info("Match (==): " . (($storeId == self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
+        $this->logger->info("CANN Only: " . ($cannOnly ? 'YES' : 'NO'));
+        $this->logger->info("CANN Total: {$cannTotal}");
+        $this->logger->info("CANN Minimum: " . self::CANN_MINIMUM_AMOUNT);
+        $this->logger->info("=== END DIAGNOSTICS ===");
 
         // NEW LOGIC: If items are ONLY available in CANN
         if ($cannOnly) {
