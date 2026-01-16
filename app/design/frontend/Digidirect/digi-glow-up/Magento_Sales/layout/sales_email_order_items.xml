@@ -5,7 +5,7 @@
             <action method="setCustomCss">
                 <argument name="css" xsi:type="string">
                     <![CDATA[
-                        .email-items {border: 1px solid #ffffff !important;}
+                        .email-items {background: red !important;}
                     ]]>
                 </argument>
             </action>
