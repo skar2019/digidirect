@@ -646,7 +646,7 @@ return [
         'Magento_AdobeStockImageAdminUi' => 1,
         'Magento_ThemeGraphQl' => 1,
         'Magento_Translation' => 1,
-        'Magento_AdminAdobeImsTwoFactorAuth' => 0,
+        'Magento_AdminAdobeImsTwoFactorAuth' => 1,
         'Magento_GiftCardSharedCatalog' => 1,
         'Magento_Ups' => 0,
         'Magento_CatalogUrlRewriteDataExporter' => 1,
