@@ -1835,6 +1835,211 @@ HTML;
             }
         }
 
+        if (version_compare($context->getVersion(), '1.0.13', '<')) {
+
+            $contentDesktop = <<<HTML
+<section class="digiservices-section">
+    <div class="digiservices-header">
+        <h2><a href="#digiservices"><span class="digi-title" data-highlight="digi">Services.</span></a> Do even more with digi products and services.</h2>
+    </div>
+
+    <div class="digiservices-grid">
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-rent">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}digirent"><img src="{{media url='wysiwyg/glowup-digiservices/digi-rent.png'}}" alt="digiRent" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Rent</h1>
+                            <a href="{{config path='web/secure/base_url'}}digirent" class="btn">Learn More</a>
+                        </div>
+                        <p>Your ultimate flexible rental solution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-print">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}digi-print"><img src="{{media url='wysiwyg/glowup-digiservices/digi-print.png'}}" alt="digiPrint" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Print</h1>
+                            <a href="{{config path='web/secure/base_url'}}digi-print" class="btn">Shop Now</a>
+                        </div>
+                        <p>A world of options for printing & preserving your photographs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-market">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}deals"><img src="{{media url='wysiwyg/glowup-digiservices/digi-deals.png'}}" alt="digiDeals" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Deals</h1>
+                            <a href="{{config path='web/secure/base_url'}}deals" class="btn">Explore</a>
+                        </div>
+                        <p>Endless aisles of products & categories.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-seconds">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}digiseconds"><img src="{{media url='wysiwyg/glowup-digiservices/digi-seconds.png'}}" alt="digiSeconds" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Seconds</h1>
+                            <a href="{{config path='web/secure/base_url'}}digiseconds" class="btn">Shop Now</a>
+                        </div>
+                        <p>Save money on pre-loved, open-box, and refurbished gear.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-direct">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}b2b"><img src="{{media url='wysiwyg/glowup-digiservices/digidirect-business.png'}}" alt="digiDirect Business" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Direct<span class="small">Business</span></h1>
+                            <a href="{{config path='web/secure/base_url'}}b2b" class="btn">Enter Now</a>
+                        </div>
+                        <p>Specially designed to meet each customer's needs as our team goes beyond a one-size-fits-all approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-click-collect">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}click-and-collect"><img src="{{media url='wysiwyg/glowup-digiservices/click-and-collect.png'}}" alt="Click & Collect" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title">Click &amp; Collect</h1>
+                            <a href="{{config path='web/secure/base_url'}}click-and-collect" class="btn">Learn More</a>
+                        </div>
+                        <p>digiDirect offers a Click & Collect service which allows you to shop and pay for your order online then pick it up at a time and place that may be more convenient to you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-protect">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}digiprotect"><img src="{{media url='wysiwyg/glowup-digiservices/digiprotects.png'}}" alt="digiProtect" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Protect</h1>
+                            <a href="{{config path='web/secure/base_url'}}digiprotect" class="btn">Learn More</a>
+                        </div>
+                        <p>Will add up to 3 years beyond the manufacturer's warranty.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-trade">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}trade-up"><img src="{{media url='wysiwyg/glowup-digiservices/trade-up-program.png'}}" alt="Trade Up Program" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="Trade">Up<span class="small">Program</span></h1>
+                            <a href="{{config path='web/secure/base_url'}}trade-up" class="btn">Trade Now</a>
+                        </div>
+                        <p>Are you looking to upgrade your tech equipment and take your creative skills to the next level? Look no further than digiDirect's Trade-Up Program!.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-club">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}digiclub"><img src="{{media url='wysiwyg/glowup-digiservices/digi-club.png'}}" alt="digiClub" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Club<span class="registered">®</span></h1>
+                            <a href="{{config path='web/secure/base_url'}}digiclub" class="btn">Join</a>
+                        </div>
+                        <p>And unlock ultimate benefits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-price">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}price-match"><img src="{{media url='wysiwyg/glowup-digiservices/price-match.png'}}" alt="Price Match" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="Price">Match</h1>
+                            <a href="{{config path='web/secure/base_url'}}price-match" class="btn">Learn More</a>
+                        </div>
+                        <p>digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers..</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-events">
+                <div class="digiservice-card-inner">
+                    <a href="{{config path='web/secure/base_url'}}events"><img src="{{media url='wysiwyg/glowup-digiservices/digi-events.png'}}" alt="Events" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title">Events</h1>
+                            <a href="{{config path='web/secure/base_url'}}events" class="btn">Explore</a>
+                        </div>
+                        <p>Join exclusive photography events, workshops, and in-store sessions across Australia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="digiservice-wrapper">
+            <div class="digiservice-card digiservice-card-life">
+                <div class="digiservice-card-inner">
+                    <a href="#"><img src="{{media url='wysiwyg/glowup-digiservices/digi-life.png'}}" alt="digiLife" loading="lazy"></a>
+                    <div class="digicard-body">
+                        <div class="digicard-header">
+                            <h1 class="digi-title" data-highlight="digi">Life</h1>
+                            <a href="#" class="btn">Join</a>
+                        </div>
+                        <p>A photography community built to educate people on how to use their camera equipment and master their settings!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+HTML;
+
+            $blockIdentifierDesktop = 'digi-services-glow-up';
+            $blockDesktop = $this->blockFactory->create()->load($blockIdentifierDesktop, 'identifier');
+
+            if ($blockDesktop->getId()) {
+                $blockDesktop->setContent($contentDesktop)
+                    ->save();
+            } else {
+                $blockDesktop->setTitle('Digi Services Glow Up')
+                    ->setIdentifier($blockIdentifierDesktop)
+                    ->setContent($contentDesktop)
+                    ->setIsActive(true)
+                    ->setStores([0])
+                    ->save();
+            }
+        }
+
         $setup->endSetup();
     }
 }
