@@ -252,12 +252,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
+        $cannQty = $quantities['CANN'] ?? 0;
+        
         $this->logger->info("=== DETERMINE CLICK AND COLLECT START ===");
         $this->logger->info("StoreId: {$storeId} (converted to int)");
         $this->logger->info("CANN_STORE_ID: " . self::CANN_STORE_ID);
         $this->logger->info("Match: " . (($storeId === self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
         $this->logger->info("CANN Only: " . ($cannOnly ? 'YES' : 'NO'));
         $this->logger->info("CANN Total: {$cannTotal}");
+        $this->logger->info("CANN Qty: {$cannQty}");
+        $this->logger->info("Other Sources Qty: {$otherSourcesQty}");
         $this->logger->info("CANN Minimum: " . self::CANN_MINIMUM_AMOUNT);
         $this->logger->info("=== END DIAGNOSTICS ===");
 
@@ -289,15 +293,18 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         // NEW LOGIC: If products available in other stores AND CANN store handling
         if ($storeId === self::CANN_STORE_ID && !$cannOnly) {
-            $this->logger->info("CANN store check: cannOnly={$cannOnly}, cannTotal={$cannTotal}, minimum=" . self::CANN_MINIMUM_AMOUNT);
-            
-            $cannQty = $quantities['CANN'] ?? 0;
-            $this->logger->info("CANN Qty: {$cannQty}, Other Sources Qty: {$otherSourcesQty}");
+            $this->logger->info(">>> ENTERING CANN STORE LOGIC (not CANN-only) <<<");
+            $this->logger->info("Checking conditions: cannQty={$cannQty}, otherSourcesQty={$otherSourcesQty}, cannTotal={$cannTotal}");
             
             // NEW LOGIC: If CANN has 0 quantity but other stores have stock and cart >= $1000
             if ($cannQty === 0 && $otherSourcesQty > 0 && $cannTotal >= self::CANN_MINIMUM_AMOUNT) {
-                $this->logger->info("CANN has 0 quantity, other stores have stock, cart >= $1000: Returning FALSE");
+                $this->logger->info(">>> CONDITION MET: CANN=0, Others>0, Total>=$1000 - Returning FALSE <<<");
                 return false;
+            } else {
+                $this->logger->info(">>> CONDITION NOT MET for FALSE return <<<");
+                $this->logger->info("cannQty === 0? " . ($cannQty === 0 ? 'YES' : 'NO'));
+                $this->logger->info("otherSourcesQty > 0? " . ($otherSourcesQty > 0 ? 'YES' : 'NO'));
+                $this->logger->info("cannTotal >= " . self::CANN_MINIMUM_AMOUNT . "? " . ($cannTotal >= self::CANN_MINIMUM_AMOUNT ? 'YES' : 'NO'));
             }
             
             if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
