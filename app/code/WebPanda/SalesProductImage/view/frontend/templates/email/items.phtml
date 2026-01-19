@@ -11,17 +11,16 @@
 <?php $_order = $block->getOrder() ?>
 <?php if ($_order) : ?>
     <?php $_items = $_order->getAllItems(); ?>
-    <table class="email-items">
+    <table class="email-items digi-theme" style="border: none;">
         <thead>
             <tr>
-                <th class="item-image"> </th>
-                <th class="item-info">
-                    <?= $block->escapeHtml(__('Items')) ?>
+                <th class="item-image" style="background-color: unset;"> </th>
+                <th class="item-info" style="background-color: unset;">
                 </th>
-                <th class="item-qty">
+                <th class="item-qty" style="background-color: unset;">
                     <?= $block->escapeHtml(__('Qty')) ?>
                 </th>
-                <th class="item-price">
+                <th class="item-price" style="background-color: unset;">
                     <?= $block->escapeHtml(__('Price')) ?>
                 </th>
             </tr>
@@ -33,9 +32,6 @@
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tfoot class="order-totals">
-            <?= $block->getChildHtml('order_totals') ?>
-        </tfoot>
     </table>
     <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)
             ->isMessagesAllowed('order', $_order, $_order->getStore())
