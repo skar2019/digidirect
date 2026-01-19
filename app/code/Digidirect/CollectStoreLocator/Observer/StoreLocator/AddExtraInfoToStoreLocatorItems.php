@@ -303,6 +303,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         // Special handling for CANN store with minimum order (when not CANN-only and meets minimum)
         if ($storeId === self::CANN_STORE_ID) {
             $this->logger->info("!!!! CANN SPECIFIC LOGIC TRIGGERED for Store ID: {$storeId} !!!!");
+            
+            // NEW LOGIC ADDED: If CANN has 0 quantity but other stores have stock and cart > $1000
+            $cannQty = $quantities['CANN'] ?? 0;
+            if ($cannQty === 0 && $otherSourcesQty > 0 && $cannTotal >= self::CANN_MINIMUM_AMOUNT) {
+                $this->logger->info("CANN has 0 quantity, other stores have stock, cart >= $1000: Returning FALSE");
+                return false;
+            }
+            
             return $this->determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty);
         }
 
