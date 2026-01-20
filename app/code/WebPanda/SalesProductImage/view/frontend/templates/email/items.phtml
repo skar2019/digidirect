@@ -8,15 +8,6 @@
 
 /** @var $block \Magento\Sales\Block\Order\Email\Items */
 ?>
-<style>
-    .order-totals.order-confirm-email {
-        th,
-        td {
-            border-top: 0 !important;
-            background-color: #F2F2F7 !important;
-        }
-    }
-</style>
 <?php $_order = $block->getOrder() ?>
 <?php if ($_order) : ?>
     <?php $_items = $_order->getAllItems(); ?>
@@ -36,14 +27,11 @@
         </thead>
         <?php foreach ($_items as $_item) : ?>
             <?php if (!$_item->getParentItem()) : ?>
-                <tbody style="border: none;">
+                <tbody>
                     <?= $block->getItemHtml($_item) ?>
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tfoot class="order-totals order-confirm-email" style="border: none;">
-        <?= $block->getChildHtml('order_totals') ?>
-        </tfoot>
     </table>
     <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)
             ->isMessagesAllowed('order', $_order, $_order->getStore())
