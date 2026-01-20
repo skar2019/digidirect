@@ -163,6 +163,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $availableSources = [];
         $totalCannAmount = 0.0;
 
+        // ✅ NEW: real cart total (NOT source-based)
+        $cartTotal = (float) $this->checkoutSession->getQuote()->getSubtotal();
+
         foreach ($cartItems as $cartItem) {
             try {
                 $product = $this->productRepository->getById($cartItem->getProductId());
@@ -172,19 +175,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     $sourceCode = $sourceItem->getSourceCode();
                     $quantity = $sourceItem->getQuantity();
 
-                    // Track available sources (has ANY inventory for ANY product)
                     if ($quantity > 0 && !in_array($sourceCode, $availableSources)) {
                         $availableSources[] = $sourceCode;
                     }
 
-                    // Calculate quantities by source using multiplication
-                    // This ensures ALL products must have stock (0 in any product = 0 total)
                     if (!isset($storeQuantities[$sourceCode])) {
                         $storeQuantities[$sourceCode] = 1;
                     }
                     $storeQuantities[$sourceCode] *= $quantity;
 
-                    // Calculate CANN pricing (total cart value for CANN items)
+                    // Legacy CANN pricing logic (UNCHANGED)
                     if ($sourceCode === 'CANN' && $quantity > 0) {
                         $totalCannAmount += $this->getEffectivePrice($product);
                     }
@@ -197,7 +197,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return [
             'quantities' => $storeQuantities,
             'sources' => $availableSources,
-            'cann_total' => $totalCannAmount,
+            'cann_total' => $totalCannAmount, // legacy meaning preserved
+            'cart_total' => $cartTotal,        // ✅ NEW
             'other_sources_qty' => $this->calculateOtherSourcesQuantity($storeQuantities)
         ];
     }
@@ -249,6 +250,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
+        $cartTotal = $inventoryData['cart_total'] ?? 0;
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
@@ -266,21 +268,18 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $this->logger->info("=== END DIAGNOSTICS ===");
 
         /**
-         * ============================================================
-         * ADD-ON RULE (NEW, DOES NOT MODIFY OLD LOGIC)
-         *
-         * If CANN has 0 qty, other stores have stock,
-         * and cart total >= minimum → MUST return FALSE (not NULL)
-         * ============================================================
-         */
+        * ADD-ON RULE (NEW)
+        * If CANN has 0 qty, other stores have stock,
+        * and CART TOTAL >= minimum → CANN must be FALSE
+        */
         if (
             $storeId === self::CANN_STORE_ID &&
             $cannQty === 0 &&
             $otherSourcesQty > 0 &&
-            $cannTotal >= self::CANN_MINIMUM_AMOUNT
+            $cartTotal >= self::CANN_MINIMUM_AMOUNT
         ) {
             $this->logger->info(
-                'ADD-ON RULE: CANN=0, others>0, total>=minimum → Returning FALSE'
+                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → FALSE"
             );
             return false;
         }
