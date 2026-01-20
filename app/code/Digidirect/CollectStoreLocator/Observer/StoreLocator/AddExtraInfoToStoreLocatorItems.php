@@ -260,7 +260,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             return null;
         }
 
-        // Add-on rule for CANN: return TRUE when conditions met
+        // Add-on rule for CANN: return FALSE when conditions met (not available as add-on)
         if (
             $storeId === self::CANN_STORE_ID &&
             $cannQty === 0 &&
@@ -268,9 +268,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cartTotal >= self::CANN_MINIMUM_AMOUNT
         ) {
             $this->logger->info(
-                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → TRUE"
+                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → FALSE"
             );
-            return true; // Changed from false to true
+            return false; // CANN not available as add-on location
         }
 
         // Special handling for CANN store (legacy logic)
@@ -294,26 +294,26 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return $hasInventory && $sourceAvailable;
     }
 
-   /**
-    * Determine click and collect availability for CANN store
-    *
-    * @param float $cannTotal
-    * @param array $quantities
-    * @param array $sources
-    * @param int $otherSourcesQty
-    * @param float $cartTotal
-    * @return bool|null
-    */
+    /**
+     * Determine click and collect availability for CANN store
+     *
+     * @param float $cannTotal
+     * @param array $quantities
+     * @param array $sources
+     * @param int $otherSourcesQty
+     * @param float $cartTotal
+     * @return bool|null
+     */
     private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
     {
         $cannQty = $quantities['CANN'] ?? 0;
 
-        // ADD-ON RULE: return TRUE when conditions met
+        // ADD-ON RULE: return FALSE when conditions met (CANN not available as add-on)
         if ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT) {
             $this->logger->info(
-                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning TRUE"
+                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning FALSE"
             );
-            return true; // Changed from false to true
+            return false; // CANN not available as add-on location
         }
 
         $hasCannInventory = $cannQty > 0;
