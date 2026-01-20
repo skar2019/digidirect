@@ -28,7 +28,8 @@ define([
     'uiRegistry',
     'mage/translate',
     'Magento_Checkout/js/model/shipping-rate-service',
-    'Magento_Checkout/js/view/checkout-toggle'
+    'Magento_Checkout/js/view/checkout-toggle',
+    'Magento_Checkout/js/action/get-totals'
 ], function (
     $,
     _,
@@ -54,7 +55,8 @@ define([
     registry,
     $t,
     shippingRateService,
-    checkoutToggle
+    checkoutToggle,
+    getTotalsAction
 ) {
     'use strict';
 
@@ -80,9 +82,8 @@ define([
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
         marketplacerSellers: ko.observable(marketplacer_sellers),
-        selectMethodTimeout: null,
-        isSelectingMethod: ko.observable(false),
         shippingMethodRequest: null,
+        pendingShippingMethod: null,
 
         /**
          * @return {exports}
@@ -136,6 +137,7 @@ define([
                 shippingRatesValidator.initFields(fieldsetName);
             });
 
+            // Add click handler for immediate loader
             $(document).on('click', 'input[name="delivery_type"]', function() {
                 // Show loader immediately on click
                 $('body').trigger('processStart');
@@ -266,10 +268,20 @@ define([
         selectShippingMethod: function (shippingMethod) {
             var self = this;
 
-            // If there's already a request in progress, abort it
-            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.abort)) {
-                this.shippingMethodRequest.abort();
+            // If there's already a request in progress, queue this one
+            if (this.shippingMethodRequest && this.shippingMethodRequest.state && this.shippingMethodRequest.state() === 'pending') {
+                // Store the pending method to process after current request completes
+                this.pendingShippingMethod = shippingMethod;
+                return false;
             }
+
+            // Set the shipping rate FIRST before calling the action
+            checkoutData.setSelectedShippingRate(
+                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
+            );
+
+            // Call the action which updates quote.shippingMethod
+            selectShippingMethodAction(shippingMethod);
 
             // Update UI
             if (customer.isLoggedIn()) {
@@ -294,23 +306,35 @@ define([
                 }
             }
 
-            // Store the deferred object
-            this.shippingMethodRequest = selectShippingMethodAction(shippingMethod);
-            checkoutData.setSelectedShippingRate(
-                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
-            );
+            // Now make the API call to update totals
+            this.shippingMethodRequest = getTotalsAction([], $.Deferred());
 
             // Re-enable after request completes
             if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
                 this.shippingMethodRequest.always(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
                     $('body').trigger('processStop');
+
+                    // If there's a pending method queued, process it now
+                    if (self.pendingShippingMethod) {
+                        var pending = self.pendingShippingMethod;
+                        self.pendingShippingMethod = null;
+                        self.shippingMethodRequest = null;
+
+                        // Re-trigger the click for the pending method
+                        setTimeout(function() {
+                            self.selectShippingMethod(pending);
+                        }, 100);
+                    } else {
+                        self.shippingMethodRequest = null;
+                    }
                 });
             } else {
                 // Fallback
                 setTimeout(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
                     $('body').trigger('processStop');
+                    self.shippingMethodRequest = null;
                 }, 1000);
             }
 
