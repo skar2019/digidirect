@@ -82,6 +82,7 @@ define([
         marketplacerSellers: ko.observable(marketplacer_sellers),
         selectMethodTimeout: null,
         isSelectingMethod: ko.observable(false),
+        shippingMethodRequest: null,
 
         /**
          * @return {exports}
@@ -259,17 +260,16 @@ define([
         selectShippingMethod: function (shippingMethod) {
             var self = this;
 
-            // Clear any pending timeout
-            if (this.selectMethodTimeout) {
-                clearTimeout(this.selectMethodTimeout);
+            // If there's already a request in progress, abort it
+            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.abort)) {
+                this.shippingMethodRequest.abort();
             }
 
-            // If already processing, ignore this click
-            if (this.isSelectingMethod()) {
-                return false;
-            }
+            // Show loader - disable the radio buttons
+            $('input[name="delivery_type"]').prop('disabled', true);
+            $('body').trigger('processStart'); // Magento's full page loader
 
-            // Update UI immediately for better UX
+            // Update UI immediately
             if (customer.isLoggedIn()) {
                 if ($('input[name="delivery_type"]:checked').val() == 'collect') {
                     $('#payment .step-title.accordion-step').text('2. Payment');
@@ -292,20 +292,25 @@ define([
                 }
             }
 
-            // Debounce the AJAX call
-            this.selectMethodTimeout = setTimeout(function() {
-                self.isSelectingMethod(true);
+            // Store the deferred object returned by selectShippingMethodAction
+            this.shippingMethodRequest = selectShippingMethodAction(shippingMethod);
+            checkoutData.setSelectedShippingRate(
+                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
+            );
 
-                selectShippingMethodAction(shippingMethod);
-                checkoutData.setSelectedShippingRate(
-                    shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
-                );
-
-                // Reset flag after a short delay to allow the request to complete
+            // Re-enable after request completes (success or failure)
+            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
+                this.shippingMethodRequest.always(function() {
+                    $('input[name="delivery_type"]').prop('disabled', false);
+                    $('body').trigger('processStop'); // Hide Magento's full page loader
+                });
+            } else {
+                // Fallback if no deferred object returned
                 setTimeout(function() {
-                    self.isSelectingMethod(false);
-                }, 500);
-            }, 300); // 300ms debounce
+                    $('input[name="delivery_type"]').prop('disabled', false);
+                    $('body').trigger('processStop');
+                }, 1000);
+            }
 
             return true;
         },
