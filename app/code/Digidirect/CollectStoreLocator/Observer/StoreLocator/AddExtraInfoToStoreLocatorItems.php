@@ -236,25 +236,31 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     }
 
     /**
-     * Determine if click and collect is available for a store
-     *
-     * @param int $storeId
-     * @param array $inventoryData
-     * @param bool $cannOnly
-     * @return bool|null
-     */
+    * Determine if click and collect is available for a store
+    *
+    * @param int $storeId
+    * @param array $inventoryData
+    * @param bool $cannOnly
+    * @return bool|null
+    */
     private function determineClickAndCollect($storeId, $inventoryData, $cannOnly)
     {
         $storeId = (int)$storeId;
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
-        $cartTotal = $inventoryData['cart_total'] ?? 0; // real cart total
-        $cannTotal = $inventoryData['cann_total'];     // legacy CANN-total
+        $cartTotal = $inventoryData['cart_total'] ?? 0;
+        $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         $cannQty = $quantities['CANN'] ?? 0;
 
-        // Add-on rule: use real cart total
+        // SWHS must always return null
+        if ($storeId === self::SWHS_STORE_ID) {
+            $this->logger->info("SWHS store detected - returning NULL");
+            return null;
+        }
+
+        // Add-on rule for CANN: return TRUE when conditions met
         if (
             $storeId === self::CANN_STORE_ID &&
             $cannQty === 0 &&
@@ -262,9 +268,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $cartTotal >= self::CANN_MINIMUM_AMOUNT
         ) {
             $this->logger->info(
-                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → FALSE"
+                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → TRUE"
             );
-            return false;
+            return true; // Changed from false to true
         }
 
         // Special handling for CANN store (legacy logic)
@@ -274,7 +280,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $quantities,
                 $sources,
                 $otherSourcesQty,
-                $cartTotal // pass real cart total for add-on rules
+                $cartTotal
             );
         }
 
@@ -288,32 +294,32 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return $hasInventory && $sourceAvailable;
     }
 
-    /**
-     * Determine click and collect availability for CANN store
-     *
-     * @param float $cannTotal
-     * @param array $quantities
-     * @param array $sources
-     * @param int $otherSourcesQty
-     * @param float $cartTotal
-     * @return bool|null
-     */
+   /**
+    * Determine click and collect availability for CANN store
+    *
+    * @param float $cannTotal
+    * @param array $quantities
+    * @param array $sources
+    * @param int $otherSourcesQty
+    * @param float $cartTotal
+    * @return bool|null
+    */
     private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
     {
         $cannQty = $quantities['CANN'] ?? 0;
 
-        // ADD-ON RULE: use real cart total
+        // ADD-ON RULE: return TRUE when conditions met
         if ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT) {
             $this->logger->info(
-                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning FALSE"
+                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning TRUE"
             );
-            return false;
+            return true; // Changed from false to true
         }
 
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Legacy behavior
+        // Legacy behavior: return null if below minimum
         if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
             return null;
         }
