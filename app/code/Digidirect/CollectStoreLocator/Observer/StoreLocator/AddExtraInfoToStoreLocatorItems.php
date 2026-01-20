@@ -245,33 +245,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     private function determineClickAndCollect($storeId, $inventoryData, $cannOnly)
     {
-        // Convert storeId to integer for consistent comparison
         $storeId = (int)$storeId;
-
         $quantities = $inventoryData['quantities'];
         $sources = $inventoryData['sources'];
-        $cartTotal = $inventoryData['cart_total'] ?? 0;
-        $cannTotal = $inventoryData['cann_total'];
+        $cartTotal = $inventoryData['cart_total'] ?? 0; // real cart total
+        $cannTotal = $inventoryData['cann_total'];     // legacy CANN-total
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
         $cannQty = $quantities['CANN'] ?? 0;
 
-        $this->logger->info("=== DETERMINE CLICK AND COLLECT START ===");
-        $this->logger->info("StoreId: {$storeId} (converted to int)");
-        $this->logger->info("CANN_STORE_ID: " . self::CANN_STORE_ID);
-        $this->logger->info("Match: " . (($storeId === self::CANN_STORE_ID) ? 'TRUE' : 'FALSE'));
-        $this->logger->info("CANN Only: " . ($cannOnly ? 'YES' : 'NO'));
-        $this->logger->info("CANN Total: {$cannTotal}");
-        $this->logger->info("CANN Qty: {$cannQty}");
-        $this->logger->info("Other Sources Qty: {$otherSourcesQty}");
-        $this->logger->info("CANN Minimum: " . self::CANN_MINIMUM_AMOUNT);
-        $this->logger->info("=== END DIAGNOSTICS ===");
-
-        /**
-        * ADD-ON RULE (NEW)
-        * If CANN has 0 qty, other stores have stock,
-        * and CART TOTAL >= minimum → CANN must be FALSE
-        */
+        // Add-on rule: use real cart total
         if (
             $storeId === self::CANN_STORE_ID &&
             $cannQty === 0 &&
@@ -284,58 +267,21 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             return false;
         }
 
-        // ================= EXISTING LOGIC BELOW (UNCHANGED) =================
-
-        // NEW LOGIC: If items are ONLY available in CANN
-        if ($cannOnly) {
-            if ($storeId === self::CANN_STORE_ID) {
-                $this->logger->info("CANN Only: Returning TRUE for CANN store (total: {$cannTotal})");
-                return true;
-            } else {
-                if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
-                    $this->logger->info("CANN Only + Below Minimum ({$cannTotal}): Returning NULL for non-CANN store {$storeId}");
-                    return null;
-                } else {
-                    $this->logger->info("CANN Only + Above Minimum ({$cannTotal}): Returning FALSE for non-CANN store {$storeId}");
-                    return false;
-                }
-            }
-        }
-
-        // Special handling for SWHS - always null
-        if ($storeId === self::SWHS_STORE_ID) {
-            $this->logger->info("Store ID: {$storeId} (SWHS) - Returning NULL");
-            return null;
-        }
-
-        // NEW LOGIC: If products available in other stores AND CANN store handling
-        if ($storeId === self::CANN_STORE_ID && !$cannOnly) {
-            $this->logger->info(">>> ENTERING CANN STORE LOGIC (not CANN-only) <<<");
-
-            if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
-                $this->logger->info("Products in other stores + CANN total < 1000: Returning NULL for CANN store");
-                return null;
-            }
-        }
-
-        // Special handling for CANN store with minimum order
+        // Special handling for CANN store (legacy logic)
         if ($storeId === self::CANN_STORE_ID) {
-            $this->logger->info("!!!! CANN SPECIFIC LOGIC TRIGGERED for Store ID: {$storeId} !!!!");
             return $this->determineCannClickAndCollect(
                 $cannTotal,
                 $quantities,
                 $sources,
-                $otherSourcesQty
+                $otherSourcesQty,
+                $cartTotal // pass real cart total for add-on rules
             );
         }
 
         // Standard store handling
-        if (!isset(self::STORE_MAPPINGS[$storeId])) {
-            $this->logger->warning("Store ID {$storeId} not found in mappings");
-            return false;
-        }
+        $sourceCode = self::STORE_MAPPINGS[$storeId] ?? null;
+        if (!$sourceCode) return false;
 
-        $sourceCode = self::STORE_MAPPINGS[$storeId];
         $hasInventory = isset($quantities[$sourceCode]) && $quantities[$sourceCode] > 0;
         $sourceAvailable = in_array($sourceCode, $sources);
 
@@ -343,64 +289,41 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     }
 
     /**
-    * Determine click and collect availability for CANN store
-    *
-    * @param float $cannTotal
-    * @param array $quantities
-    * @param array $sources
-    * @param int $otherSourcesQty
-    * @return bool|null
-    */
-   private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty)
-   {
-       /**
-        * ============================================================
-        * ADD-ON RULE (NEW – DOES NOT MODIFY EXISTING LOGIC)
-        *
-        * If CANN has NO inventory, other stores DO have inventory,
-        * and cart total >= minimum → MUST return FALSE (never NULL)
-        * ============================================================
-        */
-       $cannQty = $quantities['CANN'] ?? 0;
+     * Determine click and collect availability for CANN store
+     *
+     * @param float $cannTotal
+     * @param array $quantities
+     * @param array $sources
+     * @param int $otherSourcesQty
+     * @param float $cartTotal
+     * @return bool|null
+     */
+    private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
+    {
+        $cannQty = $quantities['CANN'] ?? 0;
 
-       if (
-           $cannQty === 0 &&
-           $otherSourcesQty > 0 &&
-           $cannTotal >= self::CANN_MINIMUM_AMOUNT
-       ) {
-           $this->logger->info(
-               'ADD-ON RULE (CANN): qty=0, others>0, total>=minimum → Returning FALSE'
-           );
-           return false;
-       }
+        // ADD-ON RULE: use real cart total
+        if ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info(
+                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning FALSE"
+            );
+            return false;
+        }
 
-       // ================= EXISTING LOGIC BELOW (UNCHANGED) =================
+        $hasCannInventory = $cannQty > 0;
+        $cannAvailable = in_array('CANN', $sources);
 
-       $hasCannInventory = $cannQty > 0;
-       $cannAvailable = in_array('CANN', $sources);
+        // Legacy behavior
+        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            return null;
+        }
 
-       $this->logger->info(
-           "CANN Decision - Total: {$cannTotal}, Min: " . self::CANN_MINIMUM_AMOUNT .
-           ", HasInventory: " . ($hasCannInventory ? 'Yes' : 'No') .
-           ", Available: " . ($cannAvailable ? 'Yes' : 'No') .
-           ", OtherSourcesQty: {$otherSourcesQty}"
-       );
+        if ($hasCannInventory && $cannAvailable) {
+            return true;
+        }
 
-       // If cart total is below minimum for CANN-only products, return NULL
-       if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
-           $this->logger->info("CANN: Returning NULL - below minimum");
-           return null;
-       }
-
-       // If CANN has inventory and is available and meets minimum, return TRUE
-       if ($hasCannInventory && $cannAvailable) {
-           $this->logger->info("CANN: Returning TRUE - has inventory and available");
-           return true;
-       }
-
-       $this->logger->info("CANN: Returning FALSE - default case");
-       return false;
-   }
+        return false;
+    }
 
     /**
      * Log inventory statistics for debugging
