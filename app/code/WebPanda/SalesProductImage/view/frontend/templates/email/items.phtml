@@ -26,10 +26,10 @@
                 <th class="item-image" style="background-color: unset;"> </th>
                 <th class="item-info" style="background-color: unset;">
                 </th>
-                <th class="item-qty" style="background-color: unset;">
+                <th class="item-qty" style="background-color: unset; border-top: none;">
                     <?= $block->escapeHtml(__('Qty')) ?>
                 </th>
-                <th class="item-price" style="background-color: unset;">
+                <th class="item-price" style="background-color: unset; border-top: none;">
                     <?= $block->escapeHtml(__('Price')) ?>
                 </th>
             </tr>
@@ -41,7 +41,7 @@
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tfoot class="order-totals order-confirm-email" style="border: none;">
+        <tfoot class="order-totals order-confirm-email" style="border-top: none;">
             <?= $block->getChildHtml('order_totals') ?>
         </tfoot>
     </table>
