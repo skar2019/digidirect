@@ -80,6 +80,8 @@ define([
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
         marketplacerSellers: ko.observable(marketplacer_sellers),
+        selectMethodTimeout: null,
+        isSelectingMethod: ko.observable(false),
 
         /**
          * @return {exports}
@@ -255,6 +257,19 @@ define([
          * @return {Boolean}
          */
         selectShippingMethod: function (shippingMethod) {
+            var self = this;
+
+            // Clear any pending timeout
+            if (this.selectMethodTimeout) {
+                clearTimeout(this.selectMethodTimeout);
+            }
+
+            // If already processing, ignore this click
+            if (this.isSelectingMethod()) {
+                return false;
+            }
+
+            // Update UI immediately for better UX
             if (customer.isLoggedIn()) {
                 if ($('input[name="delivery_type"]:checked').val() == 'collect') {
                     $('#payment .step-title.accordion-step').text('2. Payment');
@@ -277,10 +292,20 @@ define([
                 }
             }
 
+            // Debounce the AJAX call
+            this.selectMethodTimeout = setTimeout(function() {
+                self.isSelectingMethod(true);
 
+                selectShippingMethodAction(shippingMethod);
+                checkoutData.setSelectedShippingRate(
+                    shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
+                );
 
-            selectShippingMethodAction(shippingMethod);
-            checkoutData.setSelectedShippingRate(shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']);
+                // Reset flag after a short delay to allow the request to complete
+                setTimeout(function() {
+                    self.isSelectingMethod(false);
+                }, 500);
+            }, 300); // 300ms debounce
 
             return true;
         },
