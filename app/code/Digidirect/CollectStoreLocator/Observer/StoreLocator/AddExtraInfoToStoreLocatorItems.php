@@ -254,27 +254,27 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
         $cannQty = $quantities['CANN'] ?? 0;
 
+        $this->logger->info("Store {$storeId} evaluation - cartTotal: {$cartTotal}, cannTotal: {$cannTotal}, cannQty: {$cannQty}, otherSourcesQty: {$otherSourcesQty}");
+
         // SWHS must always return null
         if ($storeId === self::SWHS_STORE_ID) {
             $this->logger->info("SWHS store detected - returning NULL");
             return null;
         }
 
-        // Add-on rule for CANN: return FALSE when conditions met (not available as add-on)
-        if (
-            $storeId === self::CANN_STORE_ID &&
-            $cannQty === 0 &&
-            $otherSourcesQty > 0 &&
-            $cartTotal >= self::CANN_MINIMUM_AMOUNT
-        ) {
-            $this->logger->info(
-                "ADD-ON RULE HIT: cartTotal={$cartTotal}, CANN=0, others>0 → FALSE"
-            );
-            return false; // CANN not available as add-on location
-        }
-
-        // Special handling for CANN store (legacy logic)
+        // Special handling for CANN store
         if ($storeId === self::CANN_STORE_ID) {
+            $this->logger->info("CANN store detected - entering CANN logic");
+
+            // Add-on rule FIRST: if no CANN inventory but other sources have stock and cart >= $1000
+            if ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT) {
+                $this->logger->info(
+                    "ADD-ON RULE TRIGGERED: cartTotal={$cartTotal} >= 1000, CANN qty=0, others>0 → Returning FALSE"
+                );
+                return false;
+            }
+
+            // Then check legacy CANN total logic
             return $this->determineCannClickAndCollect(
                 $cannTotal,
                 $quantities,
@@ -294,40 +294,38 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         return $hasInventory && $sourceAvailable;
     }
 
-    /**
-     * Determine click and collect availability for CANN store
-     *
-     * @param float $cannTotal
-     * @param array $quantities
-     * @param array $sources
-     * @param int $otherSourcesQty
-     * @param float $cartTotal
-     * @return bool|null
-     */
+   /**
+    * Determine click and collect availability for CANN store
+    * This is only called if the add-on rule didn't trigger
+    *
+    * @param float $cannTotal
+    * @param array $quantities
+    * @param array $sources
+    * @param int $otherSourcesQty
+    * @param float $cartTotal
+    * @return bool|null
+    */
     private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
     {
         $cannQty = $quantities['CANN'] ?? 0;
 
-        // ADD-ON RULE: return FALSE when conditions met (CANN not available as add-on)
-        if ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT) {
-            $this->logger->info(
-                "ADD-ON RULE (CANN): qty=0, others>0, cartTotal={$cartTotal} → Returning FALSE"
-            );
-            return false; // CANN not available as add-on location
+        $this->logger->info("determineCannClickAndCollect - cannTotal: {$cannTotal}, cannQty: {$cannQty}");
+
+        // If below minimum amount, return null
+        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("CANN total {$cannTotal} < 1000 → Returning NULL");
+            return null;
         }
 
         $hasCannInventory = $cannQty > 0;
         $cannAvailable = in_array('CANN', $sources);
 
-        // Legacy behavior: return null if below minimum
-        if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
-            return null;
-        }
-
         if ($hasCannInventory && $cannAvailable) {
+            $this->logger->info("CANN has inventory and is available → Returning TRUE");
             return true;
         }
 
+        $this->logger->info("CANN fallthrough → Returning FALSE");
         return false;
     }
 
