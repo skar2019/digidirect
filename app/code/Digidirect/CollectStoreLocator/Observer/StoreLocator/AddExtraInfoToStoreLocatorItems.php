@@ -252,7 +252,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
-        $cannQty = $quantities['CANN'] ?? 0;
+        $cannQty = (int)($quantities['CANN'] ?? 0); // Cast to int for strict comparison
 
         // Debug logging for CANN
         if ($storeId === self::CANN_STORE_ID) {
@@ -329,7 +329,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     */
     private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
     {
-        $cannQty = $quantities['CANN'] ?? 0;
+        $cannQty = (int)($quantities['CANN'] ?? 0); // Cast to int for strict comparison
 
         $this->logger->info(">>> determineCannClickAndCollect called");
         $this->logger->info("    cannTotal (legacy): {$cannTotal}");
