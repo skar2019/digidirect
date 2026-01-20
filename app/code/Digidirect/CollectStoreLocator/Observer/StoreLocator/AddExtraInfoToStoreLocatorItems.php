@@ -396,4 +396,5 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $this->logger->info('Available Sources: ' . implode(', ', $inventoryData['sources']));
         $this->logger->info('Store Quantities: ' . json_encode($inventoryData['quantities']));
     }
+    
 }
