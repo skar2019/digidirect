@@ -136,6 +136,12 @@ define([
                 shippingRatesValidator.initFields(fieldsetName);
             });
 
+            $(document).on('click', 'input[name="delivery_type"]', function() {
+                // Show loader immediately on click
+                $('body').trigger('processStart');
+                $('input[name="delivery_type"]').prop('disabled', true);
+            });
+
             this.afterRender = this.afterRenderHandler.bind(this);
             return this;
         },
@@ -265,11 +271,7 @@ define([
                 this.shippingMethodRequest.abort();
             }
 
-            // Show loader - disable the radio buttons
-            $('input[name="delivery_type"]').prop('disabled', true);
-            $('body').trigger('processStart'); // Magento's full page loader
-
-            // Update UI immediately
+            // Update UI
             if (customer.isLoggedIn()) {
                 if ($('input[name="delivery_type"]:checked').val() == 'collect') {
                     $('#payment .step-title.accordion-step').text('2. Payment');
@@ -292,20 +294,20 @@ define([
                 }
             }
 
-            // Store the deferred object returned by selectShippingMethodAction
+            // Store the deferred object
             this.shippingMethodRequest = selectShippingMethodAction(shippingMethod);
             checkoutData.setSelectedShippingRate(
                 shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
             );
 
-            // Re-enable after request completes (success or failure)
+            // Re-enable after request completes
             if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
                 this.shippingMethodRequest.always(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
-                    $('body').trigger('processStop'); // Hide Magento's full page loader
+                    $('body').trigger('processStop');
                 });
             } else {
-                // Fallback if no deferred object returned
+                // Fallback
                 setTimeout(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
                     $('body').trigger('processStop');
