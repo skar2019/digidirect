@@ -20,20 +20,26 @@
         <job name="pronto_productmedia" instance="Digidirect\Pronto\Cron\ProductMedia" method="execute">
             <schedule>22 0 * * *</schedule>
         </job>
-        <job name="pronto_wiserdata1" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
-            <schedule>* 6 * * *</schedule>
+        <job name="pronto_newwiserdata1" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>0 5 * * *</schedule>
         </job>
-        <job name="pronto_wiserdata2" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
-            <schedule>* 12 * * *</schedule>
+        <job name="pronto_newwiserdata2" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>0 11 * * *</schedule>
+        </job>
+        <job name="pronto_newwiserdata3" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
+            <schedule>0 14 * * *</schedule>
         </job>
         <job name="pronto_sftp" instance="Digidirect\Pronto\Cron\Sendfile" method="execute">
             <schedule>45 0 * * *</schedule>
         </job>
         <job name="pronto_sftpwiser1" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
-            <schedule>29 6 * * *</schedule>
+            <schedule>45 5 * * *</schedule>
         </job>
         <job name="pronto_sftpwiser2" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
-            <schedule>29 12 * * *</schedule>
+            <schedule>45 11 * * *</schedule>
+        </job>
+        <job name="pronto_sftpwiser3" instance="Digidirect\Pronto\Cron\Sendwiserfile" method="execute">
+            <schedule>45 14 * * *</schedule>
         </job>
         <job name="pronto_customfinalp" instance="Digidirect\Pronto\Cron\WiserData" method="customfinalp">
             <schedule>3 7 * * *</schedule>

@@ -1518,7 +1518,7 @@ body.blur-active .global-blur-overlay {
     padding: 3px 8px;
     line-height: 21px;
     font-weight: 400;
-    font-size: 10px;
+    font-size: 9px;
     width: -webkit-fill-available;
 }
 
@@ -1548,7 +1548,7 @@ body.blur-active .global-blur-overlay {
 .product-item .special-price .price.black-friday {
     background: #fef011;
     border-radius: 30px;
-    width: max-content;
+    width: max-content !important;
     padding: 3px 10px;
     margin-top: 5px;
     color: #fe4c25;
@@ -1729,6 +1729,36 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 //Fix Double Nav Button From Minicart
 .pa-minicart-widget .owl-carousel .owl-nav button svg {
     display: none;
+}
+
+.block-extendedrule.-pdp {
+    .link {
+        .description {
+            img {
+                width: 100% !important;
+                border-radius: 25px !important;
+            }
+        }
+
+    }
+}
+
+.category-promotion {
+    background-image: none !important;
+}
+
+.category-description {
+    background: #f2f2f7;
+    margin-bottom: 40px;
+    padding: 40px;
+}
+
+.category-description > [data-content-type=row][data-appearance=contained] {
+    max-width: 1327px !important;
+    background: #fff;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    border-radius: 30px;
 }
 
 @media screen and (max-width: 1512px) {
@@ -1917,13 +1947,6 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         top: unset;
         left: unset;
         transform: unset;
-    }
-
-    //Main Banner
-
-    .pagebuilder-slide-wrapper {
-        min-height: unset !important;
-        height: 26vh !important;
     }
 
     //*Categories
@@ -2558,7 +2581,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .pa-welcome-back .black-friday .price-wrapper {
-        height: 43px !important;
+        height: 50px !important;
     }
 
     .pa-welcome-back .black-friday .s19-rental-price-target {
@@ -2602,6 +2625,10 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 
     .footer-black-gradient-div {
         display: none;
+    }
+
+    .category-description {
+        margin: 0 15px;
     }
 }
 
@@ -3032,11 +3059,26 @@ select:not([disabled]):focus {
 .desktop-digisevices-widget {
     display: block;
 }
+
 @media screen and (max-width: 768px) {
+    .block-extendedrule.-pdp {
+        .link {
+            .description {
+                img {
+                    width: 100% !important;
+                    border-radius: 25px !important;
+                }
+            }
+
+        }
+    }
+}
+
+/*@media screen and (max-width: 768px) {
     .glow-up-main-hero-banner div.pagebuilder-slide-wrapper {
         height: 30dvh !important;
     }
-}
+}*/
 
 //tablet/ipad view
 @media screen and (min-width: 768px) and (max-width: 1024px) {
@@ -3120,20 +3162,6 @@ select:not([disabled]):focus {
             }
         }
 
-        .digiservices-section .digiservices-header h2 {
-            display: flex;
-            flex-direction: column;
-            font-size: 17px !important;
-            line-height: normal !important;
-            a {
-                font-size: 17px !important;
-                line-height: normal !important;
-                span {
-                    font-size: 17px !important;
-                    line-height: normal !important;
-                }
-            }
-        }
         .glow-up-featured-videos-label {
             span {
                 font-size: 17px !important;
@@ -3791,7 +3819,20 @@ select:not([disabled]):focus {
         figure {
             img {
                 width: 100% !important;
+                border-radius: 25px !important;
             }
+        }
+    }
+
+    .block-extendedrule.-pdp {
+        .link {
+            .description {
+                img {
+                    width: 100% !important;
+                    border-radius: 25px !important;
+                }
+            }
+
         }
     }
 }

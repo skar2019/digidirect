@@ -119,12 +119,16 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                             $this->pageConfig->setRobots("INDEX,FOLLOW");
                         }
 
-                        if ($params['p'] == 1) {
-                            $page = '';
-                        } else {
-                            $page = '?p=' . $params['p'];
+                        // Check if 'p' exists before accessing it
+                        if (isset($params['p'])) {
+                            if ($params['p'] == 1) {
+                                $page = '';
+                            } else {
+                                $page = '?p=' . $params['p'];
+                            }
                         }
 
+                        // This will override the above if 'page' exists
                         if (isset($params['page'])) {
                             if ($params['page'] == 1) {
                                 $page = '';
@@ -132,7 +136,6 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
                                 $page = '?page=' . $params['page'];
                             }
                         }
-
 
                         $canonical = $urlComponents['scheme'] . '://' . $urlComponents['host'] . $urlComponents['path'] . $page;
 

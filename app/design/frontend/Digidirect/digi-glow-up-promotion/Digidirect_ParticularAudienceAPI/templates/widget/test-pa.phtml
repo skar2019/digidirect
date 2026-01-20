@@ -783,6 +783,7 @@ require(['jquery'], function ($) {
     productTileForWidget('d659416a-40f6-ee11-abf3-02bf4bf6447c', '#trending-digiprint-products-for-you-widget-desktop', false);
     productTileForWidget('458d80ed-033e-ec11-aae9-02dca44cceec', '#welcome-back-widget-desktop', false);
 
+
     //Minicart PA Widget
     (function () {
         const config = { childList: true, subtree: true }
@@ -1594,8 +1595,12 @@ require(['jquery'], function ($) {
 ?>
 
 <div class="homepage-row full-width">
-    <div class="glow-up-banner-row test-promo">
-        <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
+    <div class="glow-up-banner-row test-default">
+        <?php if ($isDigiClub) :?>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up-digiclub')->toHtml(); ?>
+        <?php else : ?>
+            <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('main-banner-glow-up')->toHtml(); ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class="homepage-row">
@@ -1880,11 +1885,6 @@ require(['jquery'], function ($) {
 </div>
 <div class="homepage-row" style="padding: 30px 0 10px;">
     <div class="digiservice-row" id="digiservices">
-        <?php
-            $httpUserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
-            $isMobile = preg_match('/(android|iphone|ipad|ipod|blackberry|webos|windows phone)/', $httpUserAgent);
-            $blockId = $isMobile ? 'digi-services-glow-up-mobile' : 'digi-services-glow-up';
-        ?>
         <div class="digiservices-home-grid-webview">
             <?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId("digi-services-glow-up")->toHtml(); ?>
         </div>

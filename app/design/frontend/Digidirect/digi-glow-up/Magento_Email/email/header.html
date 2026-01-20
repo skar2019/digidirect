@@ -1,16 +1,3 @@
-<!--
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
-<!--@subject {{trans "Header"}} @-->
-<!--@vars {
-"var logo_height":"Email Logo Image Height",
-"var logo_width":"Email Logo Image Width",
-"var template_styles|raw":"Template CSS"
-} @-->
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -104,48 +91,12 @@
 {{inlinecss file="css/email-inline.css"}}
 
 <!-- Begin wrapper table -->
-<table class="wrapper" width="100%">
+<table class="wrapper" width="100%" style="max-width:720px;background:#f5f6f8;">
     <tr>
-        <td class="wrapper-inner" align="center">
-            <table class="main" align="center">
-                <tr>
-                    <td>
-                        <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable" style="margin-bottom: 50px;">
-                            <tbody>
-                                <tr>
-                                    <td class="header">
-                                        <a class="logo" href="{{store url=""}}">
-                                        <img
-                                                {{if logo_width}}
-                                                width="{{var logo_width}}"
-                                                {{else}}
-                                                width="180"
-                                                {{/if}}
-
-                                        {{if logo_height}}
-                                        height="{{var logo_height}}"
-                                        {{/if}}
-
-                                        src="{{var logo_url}}"
-                                        alt="{{var logo_alt}}"
-                                        border="0"
-                                        />
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable" style="display: none;">
-                            <tbody>
-                            <tr>
-                                <td class="header-image">
-                                    <img class="image" src="{{view url='Magento_Email::images/email-bg.png'}}" alt="background-image">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
-                            <tbody>
-                                <tr>
-                                    <td class="main-content">
-                                    <!-- Begin Content -->
+        <td class="header-image" style="background:#f5f6f8;">
+            <img class="image" style="max-width:720px;" src="{{view url='Magento_Email::images/email-bg_head.png'}}" alt="background-image">
+        </td>
+    </tr>
+    <tr>
+        <td class="main-content"  style="background:#f5f6f8 !important;">
+            <!-- Begin Content -->

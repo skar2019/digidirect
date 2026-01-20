@@ -11,10 +11,10 @@ require(['jquery'], function($) {
     $(document).ready(function() {
         $('.page-footer').hover(
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '0');
+                $(this).find('.footer-black-gradient').css('opacity', '0');
             },
             function () {
-              $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
+                $(this).find('.footer-black-gradient').css('opacity', '1').css('z-index', '1');
             }
         );
 
@@ -69,41 +69,36 @@ require(['jquery'], function($) {
 
         });
 
-        $('.footer-search').on('click', function () {
+        // Use touchstart for immediate response on mobile
+        $('.footer-search').on('touchstart click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            closeAccountPopup();
+            // Only handle once if both events fire
+            if (e.type === 'touchstart') {
+                $(this).one('click', function(e) { e.preventDefault(); });
+            }
 
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Scroll to top first
-            window.scrollTo({ top: 0 });
+            // Close other menus
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
 
-            // Remove readonly and focus with multiple attempts
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
+
+            // Instant scroll
+            window.scrollTo(0, 0);
+
+            // Remove readonly
             input.removeAttribute('readonly');
 
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    input.focus();
-
-                    // Force focus if needed
-                    if (document.activeElement !== input) {
-                        input.focus();
-                    }
-
-                    // Trigger click to open autocomplete
-                    input.click();
-
-                    // If still not focused, try one more time
-                    setTimeout(() => {
-                        if (document.activeElement !== input) {
-                            input.focus();
-                            input.click();
-                        }
-                    }, 100);
-                });
-            });
+            // Focus immediately in the touch event
+            input.focus();
+            input.click();
 
         });
 
@@ -187,9 +182,9 @@ require(['jquery'], function($) {
 
         if (window.matchMedia("(max-width: 768px)").matches) {
             if ((window.location.pathname === '/customer/account'
-                || window.location.pathname === '/customer/account/'
-                || window.location.pathname === '/customer/account/index'
-                || window.location.pathname === '/customer/account/index/'
+                    || window.location.pathname === '/customer/account/'
+                    || window.location.pathname === '/customer/account/index'
+                    || window.location.pathname === '/customer/account/index/'
                 )
                 && window.showLoginOverlay) {
                 $('#open-account-popup').trigger('click');
