@@ -237,6 +237,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
     /**
     * Determine if click and collect is available for a store
+    * 
+    * Logic Summary:
+    * 1. CANN only, cannTotal < 1000: CANN=TRUE, Others=NULL
+    * 2. CANN only, cannTotal ≥ 1000: CANN=TRUE, Others=FALSE
+    * 3. Others have stock, CANN=0, cartTotal ≥ 1000: CANN=FALSE (add-on rule), Others=TRUE
+    * 4. Others have stock, CANN=0, cartTotal < 1000: CANN=NULL, Others=TRUE
+    * 5. SWHS: Always NULL
     *
     * @param int $storeId
     * @param array $inventoryData
@@ -282,9 +289,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         }
 
         // SPECIAL CASE: If CANN is the only source with inventory and cannTotal < 1000
-        // Then ALL stores (including non-CANN stores) should return NULL
-        if ($cannOnly && $cannTotal < self::CANN_MINIMUM_AMOUNT) {
-            $this->logger->info("CANN-ONLY scenario with cannTotal < 1000 - returning NULL for store {$storeId}");
+        // Non-CANN stores should return NULL (not selectable)
+        // But CANN itself should return TRUE (selectable as the only option)
+        if ($cannOnly && $cannTotal < self::CANN_MINIMUM_AMOUNT && $storeId !== self::CANN_STORE_ID) {
+            $this->logger->info("CANN-ONLY scenario with cannTotal < 1000 - returning NULL for non-CANN store {$storeId}");
             return null;
         }
 
@@ -342,10 +350,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $this->logger->info(">>> determineCannClickAndCollect called");
         $this->logger->info("    cannTotal (legacy): {$cannTotal}");
         $this->logger->info("    cannQty: {$cannQty}");
+        $this->logger->info("    otherSourcesQty: {$otherSourcesQty}");
         $this->logger->info("    Checking: cannTotal < 1000?");
 
-        // If below minimum amount, return null
+        // If below minimum amount BUT CANN is the only source with inventory, return TRUE
         if ($cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            // Check if CANN is the only source (no other sources have inventory)
+            if ($otherSourcesQty === 0 && $cannQty > 0) {
+                $this->logger->info("    YES - cannTotal ({$cannTotal}) < 1000 BUT CANN is only source → RETURNING TRUE");
+                return true;
+            }
+
             $this->logger->info("    YES - cannTotal ({$cannTotal}) < 1000 → RETURNING NULL");
             return null;
         }
