@@ -80,6 +80,9 @@ define([
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
         marketplacerSellers: ko.observable(marketplacer_sellers),
+        selectMethodTimeout: null,
+        isSelectingMethod: ko.observable(false),
+        shippingMethodRequest: null,
 
         /**
          * @return {exports}
@@ -255,6 +258,18 @@ define([
          * @return {Boolean}
          */
         selectShippingMethod: function (shippingMethod) {
+            var self = this;
+
+            // If there's already a request in progress, abort it
+            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.abort)) {
+                this.shippingMethodRequest.abort();
+            }
+
+            // Show loader - disable the radio buttons
+            $('input[name="delivery_type"]').prop('disabled', true);
+            $('body').trigger('processStart'); // Magento's full page loader
+
+            // Update UI immediately
             if (customer.isLoggedIn()) {
                 if ($('input[name="delivery_type"]:checked').val() == 'collect') {
                     $('#payment .step-title.accordion-step').text('2. Payment');
@@ -277,10 +292,25 @@ define([
                 }
             }
 
+            // Store the deferred object returned by selectShippingMethodAction
+            this.shippingMethodRequest = selectShippingMethodAction(shippingMethod);
+            checkoutData.setSelectedShippingRate(
+                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
+            );
 
-
-            selectShippingMethodAction(shippingMethod);
-            checkoutData.setSelectedShippingRate(shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']);
+            // Re-enable after request completes (success or failure)
+            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
+                this.shippingMethodRequest.always(function() {
+                    $('input[name="delivery_type"]').prop('disabled', false);
+                    $('body').trigger('processStop'); // Hide Magento's full page loader
+                });
+            } else {
+                // Fallback if no deferred object returned
+                setTimeout(function() {
+                    $('input[name="delivery_type"]').prop('disabled', false);
+                    $('body').trigger('processStop');
+                }, 1000);
+            }
 
             return true;
         },
@@ -441,7 +471,7 @@ define([
                 checkoutToggle.toggleDownAllSections();
 
                 $('#collect_type_delivery').prop('checked', true).trigger('change');
-               // $('.collect-block').css('display', 'none !important');
+                // $('.collect-block').css('display', 'none !important');
 
                 if ($('#collect_type_collect').length === 0) {
                     $('<style>')
