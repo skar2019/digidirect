@@ -47,7 +47,7 @@ define([], function () {
                 //console.log(item['name'], priceDiscount, wiserDiscount);
 
                 if (priceDiscount > 0 || wiserDiscount > 0) {
-                    badge = html`<div class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Boxing Day</span> Sale</div></div>`;
+                    badge = html`<div class="ribbon-container"><div class="ribbon-digideals black-friday"><span class="digi">Flash</span> Deal</div></div>`;
                 } else {
                     badge = html`<div class="ribbon-digideals always-hidden"><span class="digi">digi</span>Deals</div>`;
                 }
