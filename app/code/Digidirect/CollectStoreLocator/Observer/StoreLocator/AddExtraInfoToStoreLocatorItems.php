@@ -252,7 +252,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $cannTotal = $inventoryData['cann_total'];
         $otherSourcesQty = $inventoryData['other_sources_qty'];
 
-        $cannQty = (int)($quantities['CANN'] ?? 0); // Cast to int for strict comparison
+        $cannQty = (int)($quantities['CANN'] ?? 0);
 
         // Debug logging for CANN
         if ($storeId === self::CANN_STORE_ID) {
@@ -262,6 +262,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $this->logger->info("CANN Total (legacy): {$cannTotal}");
             $this->logger->info("CANN Qty: {$cannQty}");
             $this->logger->info("Other Sources Qty: {$otherSourcesQty}");
+            $this->logger->info("CANN Only: " . ($cannOnly ? 'YES' : 'NO'));
             $this->logger->info("CANN Minimum Amount: " . self::CANN_MINIMUM_AMOUNT);
 
             // Check each condition individually
@@ -271,12 +272,19 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $this->logger->info("  - cartTotal >= 1000? " . ($cartTotal >= self::CANN_MINIMUM_AMOUNT ? 'YES' : 'NO') . " (value: {$cartTotal})");
 
             $addOnRuleShouldTrigger = ($cannQty === 0 && $otherSourcesQty > 0 && $cartTotal >= self::CANN_MINIMUM_AMOUNT);
-            $this->logger->info("  - ALL conditions met? " . ($addOnRuleShouldTrigger ? 'YES - SHOULD RETURN FALSE' : 'NO'));
+            $this->logger->info("  - ADD-ON rule should trigger? " . ($addOnRuleShouldTrigger ? 'YES - SHOULD RETURN FALSE' : 'NO'));
         }
 
         // SWHS must always return null
         if ($storeId === self::SWHS_STORE_ID) {
             $this->logger->info("SWHS store detected - returning NULL");
+            return null;
+        }
+
+        // SPECIAL CASE: If CANN is the only source with inventory and cannTotal < 1000
+        // Then ALL stores (including non-CANN stores) should return NULL
+        if ($cannOnly && $cannTotal < self::CANN_MINIMUM_AMOUNT) {
+            $this->logger->info("CANN-ONLY scenario with cannTotal < 1000 - returning NULL for store {$storeId}");
             return null;
         }
 
@@ -329,7 +337,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     */
     private function determineCannClickAndCollect($cannTotal, $quantities, $sources, $otherSourcesQty, $cartTotal)
     {
-        $cannQty = (int)($quantities['CANN'] ?? 0); // Cast to int for strict comparison
+        $cannQty = (int)($quantities['CANN'] ?? 0);
 
         $this->logger->info(">>> determineCannClickAndCollect called");
         $this->logger->info("    cannTotal (legacy): {$cannTotal}");
