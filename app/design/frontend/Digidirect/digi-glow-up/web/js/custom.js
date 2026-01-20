@@ -1017,7 +1017,7 @@ define([
                     const parentTarget = $prevLevel.data("parent") || "Menu";
                     $menuTitle.text(
                         parentTarget.charAt(0).toUpperCase() +
-                            parentTarget.slice(1)
+                        parentTarget.slice(1)
                     );
                 }
             }
@@ -1374,7 +1374,7 @@ define([
 
         /* ========================
    🌀 TCL Banner – Two-Finger Swipe Only (No CSS / No Click)
-      ======================== 
+      ========================
 */
         $(function () {
             // Settings
@@ -1476,7 +1476,7 @@ define([
                             // right -> prev
                             setActive(
                                 (activeIndex - 1 + slides.length) %
-                                    slides.length
+                                slides.length
                             );
                         }
                         twoFinger = false;
@@ -1522,7 +1522,7 @@ define([
                             // scrolled right -> prev
                             setActive(
                                 (activeIndex - 1 + slides.length) %
-                                    slides.length
+                                slides.length
                             );
                         }
                         lockTemporary();
@@ -1583,7 +1583,7 @@ define([
         });
 
         /* ========================
-   🎯 Slick Dots Animated Backdrop 
+   🎯 Slick Dots Animated Backdrop
 ======================== */
         $(document).ready(function () {
             function initBackdrop($slider) {
@@ -2088,7 +2088,7 @@ define([
                             const rowId = $row.attr("id");
                             $(`#${rowId} .col.subtotal`).load(
                                 window.location.href +
-                                    ` #${rowId} .col.subtotal > *`
+                                ` #${rowId} .col.subtotal > *`
                             );
                         }
                     },
@@ -2262,7 +2262,7 @@ define([
             if (
                 window.algoliaAutocompleteInstance &&
                 typeof window.algoliaAutocompleteInstance.setIsOpen ===
-                    "function"
+                "function"
             ) {
                 // Use Algolia's built-in method to close properly
                 window.algoliaAutocompleteInstance.setIsOpen(false);
@@ -2458,3 +2458,4 @@ define([
         });
     });
 });
+//redeployment

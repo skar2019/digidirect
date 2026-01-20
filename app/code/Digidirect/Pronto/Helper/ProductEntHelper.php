@@ -171,7 +171,6 @@ class ProductEntHelper extends AbstractHelper
 
     public function productData()
     {
-
         $this->attributeOptions = $this->getOptionHash('brand');
 
         $parentID = 2; // default category
@@ -187,235 +186,332 @@ class ProductEntHelper extends AbstractHelper
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
-        $id = "";
-        foreach ($collection as $product) {
-            $data = [];
-            $description = "";
 
+        $errorCount = 0;
+        $successCount = 0;
+        $noPriceCount = 0;
+
+        foreach ($collection as $product) {
             $seller = $product->getData('marketplacer_seller');
+
             if($seller == '20329')
             {
-                if(!empty($product->getDescription()))
-                {
-                    $description = strip_tags($product->getDescription());
-                    $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
-                }
+                try {
+                    $data = [];
 
-                if(isset($this->attributeOptions[$product->getBrand()]))
-                {
-                    $brandname = $this->attributeOptions[$product->getBrand()];
+                    // Description handling
+                    $description = "";
+                    if(!empty($product->getDescription()))
+                    {
+                        $description = strip_tags($product->getDescription());
+                        $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
+                    }
 
-                }
-                else
-                {
+                    // Brand handling
                     $brandname = "";
-                }
-
-                $category1 = "";
-                $category2 = "";
-                $category3 = "";
-                $category4 = "";
-                //echo $product->getId() ."<br/>";
-                $productCategoryIds = $product->getCategoryIds();
-                if((count($productCategoryIds)))
-                {
-                    foreach ($getCategoryList as $id => $category)
+                    if($product->getBrand() && isset($this->attributeOptions[$product->getBrand()]))
                     {
+                        $brandname = $this->attributeOptions[$product->getBrand()];
+                    }
 
-                        if($category['id'] == $productCategoryIds[0])
-                        {
-                            $category1 =$category['name'];
-                        }
+                    // Category handling
+                    $category1 = "";
+                    $category2 = "";
+                    $category3 = "";
+                    $category4 = "";
 
-                        if(isset($productCategoryIds[1]))
+                    $productCategoryIds = $product->getCategoryIds();
+                    if(count($productCategoryIds) > 0)
+                    {
+                        foreach ($getCategoryList as $id => $category)
                         {
-                            if($category['id'] == $productCategoryIds[1])
+                            if(isset($productCategoryIds[0]) && $category['id'] == $productCategoryIds[0])
                             {
-                                $category2 =$category['name'];
+                                $category1 = $category['name'];
+                            }
+
+                            if(isset($productCategoryIds[1]) && $category['id'] == $productCategoryIds[1])
+                            {
+                                $category2 = $category['name'];
+                            }
+
+                            if(isset($productCategoryIds[2]) && $category['id'] == $productCategoryIds[2])
+                            {
+                                $category3 = $category['name'];
+                            }
+
+                            if(isset($productCategoryIds[3]) && $category['id'] == $productCategoryIds[3])
+                            {
+                                $category4 = $category['name'];
                             }
                         }
+                    }
 
-                        if(isset($productCategoryIds[2]))
+                    // GTIN/Barcode handling
+                    $gtin = "";
+                    $barcode1 = $product->getCustomAttribute('barcode1');
+                    if(!is_null($barcode1))
+                    {
+                        $bc = $barcode1->getValue();
+                        if(is_numeric($bc) && $bc > 0)
                         {
-                            if($category['id'] == $productCategoryIds[2])
+                            $gtin = $bc;
+                        }
+                    }
+
+                    // Fallback to barcode2 if barcode1 is empty or non-numeric
+                    if(empty($gtin))
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');
+                        if(!is_null($barcode2))
+                        {
+                            $bc2 = $barcode2->getValue();
+                            if(is_numeric($bc2) && $bc2 > 0)
                             {
-                                $category3 =$category['name'];
+                                $gtin = $bc2;
                             }
                         }
+                    }
 
-                        if(isset($productCategoryIds[3]))
+                    // Title handling
+                    $title = strip_tags($product->getName());
+                    $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+
+                    // ===== PRICE CALCULATION USING addFinalPrice() =====
+
+                    // 1. Get Regular Price
+                    $regular_price = 0;
+                    try {
+                        $regular_price = (float) $product->getPrice();
+
+                        // Fallback if getPrice() returns 0
+                        if($regular_price == 0)
                         {
-                            if($category['id'] == $productCategoryIds[3])
-                            {
-                                $category4 =$category['name'];
-                            }
+                            $priceData = $product->getData('price');
+                            $regular_price = $priceData ? (float) $priceData : 0;
                         }
-
+                    } catch (\Exception $e) {
+                        $regular_price = 0;
+                        $this->logger->warning('Regular price error for SKU ' . $product->getSku() . ': ' . $e->getMessage());
                     }
-                }
 
-                //echo $product->getBarcode1()."b1 <br/>";
-                $gtin = "";
-                $barcode1 = $product->getCustomAttribute('barcode1');
-                if(is_null($barcode1))
-                {
-                    $barcode2 = $product->getCustomAttribute('barcode2');
-                    if(is_null($barcode2))
+                    // 2. Get Cost with fallback calculation
+                    $actualcost = 0;
+                    $cost = $product->getCustomAttribute('cost');
+                    if(!is_null($cost))
                     {
-
+                        $actualcost = (float) $cost->getValue();
                     }
 
-                }
-                else
-                {
-                    $bc = $barcode1->getValue();
-                    if(is_numeric($bc))
-                    {
-                        $gtin = $bc;
-                    }
-                    else
-                    {
-                        $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
-                        if(is_null($barcode2))
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
-
-                    }
-                }
-
-                $title = $product->getName();
-                $title = strip_tags($title);
-                $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
-                $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
-                $actualcost = 0;
-                $cost = $product->getCustomAttribute('cost');
-                if(is_null($cost))
-                {
-                    $actualcost = $regular_price / 1.1;
-                }
-                else
-                {
-                    $actualcost = $cost->getValue();
-                    if($actualcost == 0)
+                    // Fallback: calculate cost from regular price if cost is 0 or empty
+                    if($actualcost == 0 && $regular_price > 0)
                     {
                         $actualcost = $regular_price / 1.1;
                     }
-                }
 
-                $final_price3 = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+                    // 3. Get Final Price (pre-calculated by addFinalPrice())
+                    $final_price = 0;
+                    try {
+                        // Primary method: Use data from addFinalPrice()
+                        $final_price = $product->getData('final_price');
 
-                $stockC = "Other";
-                $stockcondition = $product->getCustomAttribute('stock_condition');
+                        // Fallback 1: Use getFinalPrice() method
+                        if(is_null($final_price) || $final_price == 0)
+                        {
+                            $final_price = $product->getFinalPrice();
+                        }
 
-                if(is_null($stockcondition))
-                {
-                    $stockC = "Other";
-                }
-                else {
-                    $stockC = $stockcondition->getValue();
+                        // Fallback 2: Use PriceInfo as last resort
+                        if(is_null($final_price) || $final_price == 0)
+                        {
+                            $priceInfo = $product->getPriceInfo();
+                            if($priceInfo)
+                            {
+                                $finalPriceInfo = $priceInfo->getPrice('final_price');
+                                if($finalPriceInfo)
+                                {
+                                    $amount = $finalPriceInfo->getAmount();
+                                    if($amount)
+                                    {
+                                        $final_price = $amount->getValue();
+                                    }
+                                }
+                            }
+                        }
 
-                    if ($stockC == 179) {
-                        $stockC = "0";
-                    } elseif ($stockC == 181) {
-                        $stockC = "T";
-                    } else {
-                        $stockC = "Other";
+                        // Final fallback: Use regular price
+                        if(is_null($final_price) || $final_price == 0)
+                        {
+                            $final_price = $regular_price;
+                            if($regular_price > 0)
+                            {
+                                $this->logger->info('No final price for SKU ' . $product->getSku() . ', using regular price: ' . $regular_price);
+                            }
+                        }
+
+                        // Convert to float
+                        $final_price = (float) $final_price;
+
+                    } catch (\Exception $e) {
+                        $final_price = $regular_price;
+                        $this->logger->warning('Final price error for SKU ' . $product->getSku() . ': ' . $e->getMessage());
                     }
-                }
 
-                $sckGrp = "";
-                $stockgroup = $product->getCustomAttribute('stock_group');
-                if(!is_null($stockgroup))
-                {
-                    $sckGrp = $stockgroup->getValue();
-                }
-                //echo $sckGrp."<br/>";
-
-                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-                $stockonhand = 0;
-                foreach ($sourceItems as $sourceItemId => $sourceItem) {
-
-                    $stockonhand += $sourceItem->getQuantity();
-                }
-
-                $stockDivision = $product->getCustomAttribute('stock_division');
-                if(!is_null($stockDivision))
-                {
-                    $stockDivision = $stockDivision->getValue();
-                }
-                $stockDepartment = $product->getCustomAttribute('stock_department');
-                if(!is_null($stockDepartment))
-                {
-                    $stockDepartment = $stockDepartment->getValue();
-                }
-                $stockCategory = $product->getCustomAttribute('stock_category');
-                if(!is_null($stockCategory))
-                {
-                    $stockCategory = $stockCategory->getValue();
-                }
-                $stockClass = $product->getCustomAttribute('stock_class');
-                if(!is_null($stockClass))
-                {
-                    $stockClass = $stockClass->getValue();
-                }
-
-                $isPreOrder = $product->getCustomAttribute('pre_order_status');
-                if(!is_null($isPreOrder))
-                {
-                    $isPreOrder = $isPreOrder->getValue();
-                    if($isPreOrder == 1 || $isPreOrder == 2)
+                    // Validation: Log suspicious prices
+                    if($final_price > $regular_price * 1.5 && $regular_price > 0)
                     {
-                        $isPreOrder = 1;
+                        $this->logger->warning('Final price unusually high for SKU ' . $product->getSku() . ' (Regular: ' . $regular_price . ', Final: ' . $final_price . ')');
                     }
-                }
 
-                $noteligiblefordiscount = $product->getCustomAttribute('not_eligible_for_discount');
-                if(!is_null($noteligiblefordiscount))
-                {
-                    $noteligiblefordiscount = $noteligiblefordiscount->getValue();
-                }
-                else
-                {
+                    // Track products with no price
+                    if($final_price == 0 && $regular_price == 0)
+                    {
+                        $noPriceCount++;
+                        $this->logger->error('No price data for SKU ' . $product->getSku());
+                        // Optionally skip products with no price
+                        // continue;
+                    }
+
+                    // ===== END PRICE CALCULATION =====
+
+                    // Stock Condition
+                    $stockC = "Other";
+                    $stockcondition = $product->getCustomAttribute('stock_condition');
+                    if(!is_null($stockcondition))
+                    {
+                        $stockConditionValue = $stockcondition->getValue();
+                        if ($stockConditionValue == 179) {
+                            $stockC = "0";
+                        } elseif ($stockConditionValue == 181) {
+                            $stockC = "T";
+                        } else {
+                            $stockC = "Other";
+                        }
+                    }
+
+                    // Stock Group
+                    $sckGrp = "";
+                    $stockgroup = $product->getCustomAttribute('stock_group');
+                    if(!is_null($stockgroup))
+                    {
+                        $sckGrp = $stockgroup->getValue();
+                    }
+
+                    // Stock on Hand
+                    $stockonhand = 0;
+                    try {
+                        $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+                        foreach ($sourceItems as $sourceItem) {
+                            $stockonhand += $sourceItem->getQuantity();
+                        }
+                    } catch (\Exception $e) {
+                        $stockonhand = 0;
+                        $this->logger->warning('Stock retrieval error for SKU ' . $product->getSku() . ': ' . $e->getMessage());
+                    }
+
+                    // Stock Division
+                    $stockDivision = "";
+                    $stockDivisionAttr = $product->getCustomAttribute('stock_division');
+                    if(!is_null($stockDivisionAttr))
+                    {
+                        $stockDivision = $stockDivisionAttr->getValue();
+                    }
+
+                    // Stock Department
+                    $stockDepartment = "";
+                    $stockDepartmentAttr = $product->getCustomAttribute('stock_department');
+                    if(!is_null($stockDepartmentAttr))
+                    {
+                        $stockDepartment = $stockDepartmentAttr->getValue();
+                    }
+
+                    // Stock Category
+                    $stockCategory = "";
+                    $stockCategoryAttr = $product->getCustomAttribute('stock_category');
+                    if(!is_null($stockCategoryAttr))
+                    {
+                        $stockCategory = $stockCategoryAttr->getValue();
+                    }
+
+                    // Stock Class
+                    $stockClass = "";
+                    $stockClassAttr = $product->getCustomAttribute('stock_class');
+                    if(!is_null($stockClassAttr))
+                    {
+                        $stockClass = $stockClassAttr->getValue();
+                    }
+
+                    // Pre-order status
+                    $isPreOrder = 0;
+                    $isPreOrderAttr = $product->getCustomAttribute('pre_order_status');
+                    if(!is_null($isPreOrderAttr))
+                    {
+                        $preOrderValue = $isPreOrderAttr->getValue();
+                        if($preOrderValue == 1 || $preOrderValue == 2)
+                        {
+                            $isPreOrder = 1;
+                        }
+                    }
+
+                    // Discount eligibility
                     $noteligiblefordiscount = 0;
+                    $noteligiblefordiscountAttr = $product->getCustomAttribute('not_eligible_for_discount');
+                    if(!is_null($noteligiblefordiscountAttr))
+                    {
+                        $noteligiblefordiscount = $noteligiblefordiscountAttr->getValue();
+                    }
+
+                    // Build CSV row
+                    $data[] = $brandname;
+                    $data[] = $description;
+                    $data[] = $gtin;
+                    $data[] = $product->getSku();
+                    $data[] = $product->getApn();
+                    $data[] = $title;
+                    $data[] = $category1;
+                    $data[] = $category2;
+                    $data[] = $category3;
+                    $data[] = $category4;
+                    $data[] = number_format($regular_price, 2, '.', ''); // Format price to 2 decimals
+                    $data[] = number_format($actualcost, 2, '.', '');
+                    $data[] = number_format($final_price, 2, '.', '');
+                    $data[] = $stockC;
+                    $data[] = $sckGrp;
+                    $data[] = $stockonhand;
+                    $data[] = $stockDivision;
+                    $data[] = $stockDepartment;
+                    $data[] = $stockCategory;
+                    $data[] = $stockClass;
+                    $data[] = $seller;
+                    $data[] = $isPreOrder;
+                    $data[] = $noteligiblefordiscount;
+
+                    $stream->writeCsv($data);
+                    $successCount++;
+
+                } catch (\Exception $e) {
+                    $errorCount++;
+                    $this->logger->error('Error processing product SKU ' . $product->getSku() . ': ' . $e->getMessage());
+                    // Continue to next product instead of failing entire export
+                    continue;
                 }
-
-                //echo $stockonhand."<br/>";
-                $data[] = $brandname;
-                $data[] = $description;
-                $data[] = $gtin;
-                $data[] = $product->getSku();
-                $data[] = $product->getApn();
-                $data[] = $title;
-                $data[] = $category1;
-                $data[] = $category2;
-                $data[] = $category3;
-                $data[] = $category4;
-                $data[] = $regular_price;
-                $data[] = $actualcost;
-                $data[] = $final_price3;
-                $data[] = $stockC;
-                $data[] = $sckGrp;
-                $data[] = $stockonhand;
-                $data[] = $stockDivision;
-                $data[] = $stockDepartment;
-                $data[] = $stockCategory;
-                $data[] = $stockClass;
-                $data[] = $seller;
-                $data[] = $isPreOrder;
-                $data[] = $noteligiblefordiscount;
-
-                $stream->writeCsv($data);
             }
-
         }
 
+        $stream->unlock();
+        $stream->close();
+
+        // Log summary
+        $this->logger->info("Export completed. Success: {$successCount}, Errors: {$errorCount}, No Price: {$noPriceCount}");
+
+        return [
+            'success' => $successCount,
+            'errors' => $errorCount,
+            'no_price' => $noPriceCount,
+            'filepath' => $filepath
+        ];
     }
+
 
     public function categorySalesForce()
     {
@@ -580,17 +676,9 @@ class ProductEntHelper extends AbstractHelper
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
         ->addStoreFilter(1)
+        ->addFinalPrice()
         ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         return $collection;
-
-        //redeploy
-
-//        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//            ->addStoreFilter(1)
-//            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//        $collection->setPageSize(500); // fetching only 5000 products
-//        return $collection;
 
     }
 

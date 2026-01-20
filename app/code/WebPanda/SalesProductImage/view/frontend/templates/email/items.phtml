@@ -8,20 +8,28 @@
 
 /** @var $block \Magento\Sales\Block\Order\Email\Items */
 ?>
+<style>
+    .order-totals.order-confirm-email {
+        th,
+        td {
+            border-top: 0 !important;
+            background-color: #F2F2F7 !important;
+        }
+    }
+</style>
 <?php $_order = $block->getOrder() ?>
 <?php if ($_order) : ?>
     <?php $_items = $_order->getAllItems(); ?>
-    <table class="email-items">
+    <table class="email-items digi-theme-glowup" style="border: none;">
         <thead>
             <tr>
-                <th class="item-image"> </th>
-                <th class="item-info">
-                    <?= $block->escapeHtml(__('Items')) ?>
+                <th class="item-image" style="background-color: unset;"> </th>
+                <th class="item-info" style="background-color: unset;">
                 </th>
-                <th class="item-qty">
+                <th class="item-qty" style="background-color: unset; border-top: none;">
                     <?= $block->escapeHtml(__('Qty')) ?>
                 </th>
-                <th class="item-price">
+                <th class="item-price" style="background-color: unset; border-top: none;">
                     <?= $block->escapeHtml(__('Price')) ?>
                 </th>
             </tr>
@@ -33,7 +41,7 @@
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tfoot class="order-totals">
+        <tfoot class="order-totals order-confirm-email" style="border-top: none;">
             <?= $block->getChildHtml('order_totals') ?>
         </tfoot>
     </table>

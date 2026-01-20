@@ -42,12 +42,9 @@ define([
 
             target = $('#checkoutSteps li#opc-shipping_method');
 
-            //additional fixes for shipping method section
-            //$('#s_method_standard_standard').prop('checked', false);
-            //$('#s_method_express_express').prop('checked', false);
             $('input[type="radio"][name^="ko_unique_"]').removeAttr('disabled');
 
-            //toggle down payment section (additional fix) as shipping method section is active now
+            //toggle down payment section as shipping method section is active now
             $('#checkoutSteps li#payment')
                 .removeClass('active')
                 .addClass('inactive')
@@ -111,31 +108,50 @@ define([
 
 
     $(document).on("click", "#delivery-info-button-extension", function () {
-        // TODO:: ADD VALIDATION OR SETTIMEOUT HERE TO NOT TRIGGERING SELECTED STORE
-        if ($('input[name="delivery_type"]:checked').val() == 'collect' && !$('a.link.-collect.action.primary').length) {
-            $('input[name="storeSelection"]').prop('checked', false);
-            return ;
-        }
-
-        //shipping address error fix
+        // Validate Click & Collect store selection
         if ($('input[name="delivery_type"]:checked').val() == 'collect') {
+            // Check if store is selected - look for checked radio OR confirm button
+            var storeSelected = $('input[name="storeSelection"]:checked').length > 0 ||
+                $('a.link.-collect.action.primary').length > 0;
 
+            if (!storeSelected) {
+                alert($t('Please select a store for Click & Collect.'));
+                return false;
+            }
+
+            // Validate required fields for Click & Collect
             const $form = $('#shipping-new-address-form');
             const requiredFields = ['firstname', 'lastname', 'telephone'];
-            const isEmpty = requiredFields.some(name => !$.trim($form.find(`input[name="${name}"]`).val()));
-            if (isEmpty) return;
+            const missingFields = [];
 
+            requiredFields.forEach(function(name) {
+                if (!$.trim($form.find(`input[name="${name}"]`).val())) {
+                    missingFields.push(name);
+                }
+            });
+
+            if (missingFields.length > 0) {
+                alert($t('Please fill in: ') + missingFields.join(', '));
+                return false;
+            }
+
+            // Get customer details from form
+            var firstname = $.trim($form.find('input[name="firstname"]').val());
+            var lastname = $.trim($form.find('input[name="lastname"]').val());
+            var telephone = $.trim($form.find('input[name="telephone"]').val());
+
+            // Use proper Click & Collect address with customer details
             var dummyAddress = {
-                firstname: 'Store',
-                lastname: 'Pickup',
+                firstname: firstname,
+                lastname: lastname,
                 street: ['Click & Collect'],
-                city: 'N/A',
-                region: 'N/A',
-                regionId: 0,
-                regionCode: null,
+                city: 'Store Pickup',
+                region: 'NSW',
+                regionId: 569, // NSW - adjust if needed
+                regionCode: 'NSW',
                 countryId: 'AU',
-                postcode: '0000',
-                telephone: '0000000000',
+                postcode: '2000',
+                telephone: telephone,
                 save_in_address_book: 0
             };
 
@@ -149,11 +165,7 @@ define([
             toggleShippingMethod();
             $("#shipping-method-buttons-container .continue").trigger("click");
         } else {
-            $('input[name="street[0]"]').attr({
-                'placeholder': 'Street *',
-                'digidirect-autocomplete': 'on'
-            });
-            console.warn("Shipping view not available or validation failed.");
+            console.warn("Shipping validation failed");
         }
     });
 });
