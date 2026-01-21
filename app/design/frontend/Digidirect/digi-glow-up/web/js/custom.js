@@ -1353,35 +1353,38 @@ define([
             🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
          ======================== */
          (function() {
-             let isThrottled = false;
-             const throttleDelay = 500; // milliseconds between slides
+             let swipeTimeout = null;
+             let hasSwiped = false;
 
              $(document).on(
                  "wheel",
                  ".pagebuilder-slider.slick-slider",
                  function (e) {
-                     if (isThrottled) return; // prevent multiple triggers
-
                      const event = e.originalEvent;
-                     // detect horizontal gesture
+
+                     // Detect horizontal gesture
                      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
                          e.preventDefault();
+
                          const $slider = $(this);
                          if (!$slider.hasClass("slick-initialized")) return;
 
-                         // Set throttle flag
-                         isThrottled = true;
+                         // Only advance once per swipe gesture
+                         if (!hasSwiped) {
+                             hasSwiped = true;
 
-                         if (event.deltaX > 0) {
-                             $slider.slick("slickNext");
-                         } else {
-                             $slider.slick("slickPrev");
+                             if (event.deltaX > 0) {
+                                 $slider.slick("slickNext");
+                             } else {
+                                 $slider.slick("slickPrev");
+                             }
                          }
 
-                         // Reset throttle after delay
-                         setTimeout(() => {
-                             isThrottled = false;
-                         }, throttleDelay);
+                         // Reset after user stops swiping (no wheel events for 150ms)
+                         clearTimeout(swipeTimeout);
+                         swipeTimeout = setTimeout(() => {
+                             hasSwiped = false;
+                         }, 150);
                      }
                  }
              );
