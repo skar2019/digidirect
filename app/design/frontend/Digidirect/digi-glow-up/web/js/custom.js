@@ -1350,27 +1350,42 @@ define([
         $(window).on("resize", initAaPanelAlignment);
 
         /* ========================
-   🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
-======================== */
-        $(document).on(
-            "wheel",
-            ".pagebuilder-slider.slick-slider",
-            function (e) {
-                const event = e.originalEvent;
-                // detect horizontal gesture
-                if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-                    e.preventDefault();
-                    const $slider = $(this);
-                    if (!$slider.hasClass("slick-initialized")) return;
+            🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
+         ======================== */
+         (function() {
+             let isThrottled = false;
+             const throttleDelay = 500; // milliseconds between slides
 
-                    if (event.deltaX > 0) {
-                        $slider.slick("slickNext");
-                    } else {
-                        $slider.slick("slickPrev");
-                    }
-                }
-            }
-        );
+             $(document).on(
+                 "wheel",
+                 ".pagebuilder-slider.slick-slider",
+                 function (e) {
+                     if (isThrottled) return; // prevent multiple triggers
+
+                     const event = e.originalEvent;
+                     // detect horizontal gesture
+                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                         e.preventDefault();
+                         const $slider = $(this);
+                         if (!$slider.hasClass("slick-initialized")) return;
+
+                         // Set throttle flag
+                         isThrottled = true;
+
+                         if (event.deltaX > 0) {
+                             $slider.slick("slickNext");
+                         } else {
+                             $slider.slick("slickPrev");
+                         }
+
+                         // Reset throttle after delay
+                         setTimeout(() => {
+                             isThrottled = false;
+                         }, throttleDelay);
+                     }
+                 }
+             );
+         })();
 
         /* ========================
    🌀 TCL Banner – Two-Finger Swipe Only (No CSS / No Click)
