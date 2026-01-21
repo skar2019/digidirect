@@ -723,35 +723,42 @@ define([
                      { capture: true }
                  );
 
-                 // ✅ FIXED: Trackpad swipe with debouncing (100ms)
-                 let wheelTimeout = null;
-                 let hasWheelSwiped = false;
-
+                 // ✅ FIXED: Trackpad swipe with accumulative approach (Ultra Stable)
                  $carousel.on("wheel", function (e) {
                      const event = e.originalEvent;
                      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
                          e.preventDefault();
 
-                         // Only advance once per swipe gesture
-                         if (!hasWheelSwiped) {
-                             hasWheelSwiped = true;
-
-                             if (event.deltaX > 0) {
-                                 $carousel.trigger("next.owl.carousel", [
-                                     transitionSpeed,
-                                 ]);
-                             } else {
-                                 $carousel.trigger("prev.owl.carousel", [
-                                     transitionSpeed,
-                                 ]);
-                             }
+                         // Initialize accumulator
+                         if (!$carousel.data('deltaAccumulator')) {
+                             $carousel.data('deltaAccumulator', 0);
                          }
 
-                         // Reset after user stops swiping
-                         clearTimeout(wheelTimeout);
-                         wheelTimeout = setTimeout(() => {
-                             hasWheelSwiped = false;
+                         // Accumulate delta
+                         let accumulated = $carousel.data('deltaAccumulator') + event.deltaX;
+                         $carousel.data('deltaAccumulator', accumulated);
+
+                         // Trigger when threshold reached
+                         const wheelThreshold = 30;
+                         if (!$carousel.data('wheelSwiping') && Math.abs(accumulated) > wheelThreshold) {
+                             $carousel.data('wheelSwiping', true);
+
+                             if (accumulated > 0) {
+                                 $carousel.trigger("next.owl.carousel", [transitionSpeed]);
+                             } else {
+                                 $carousel.trigger("prev.owl.carousel", [transitionSpeed]);
+                             }
+
+                             $carousel.data('deltaAccumulator', 0); // Reset accumulator
+                         }
+
+                         // Reset after gesture ends
+                         clearTimeout($carousel.data('wheelTimeout'));
+                         const timeout = setTimeout(() => {
+                             $carousel.data('wheelSwiping', false);
+                             $carousel.data('deltaAccumulator', 0);
                          }, 100);
+                         $carousel.data('wheelTimeout', timeout);
                      }
                  });
              });
