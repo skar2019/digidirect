@@ -723,7 +723,7 @@ define([
                      { capture: true }
                  );
 
-                 // ✅ FIXED: Trackpad swipe with debouncing (80ms)
+                 // ✅ FIXED: Trackpad swipe with debouncing (100ms)
                  let wheelTimeout = null;
                  let hasWheelSwiped = false;
 
@@ -751,7 +751,7 @@ define([
                          clearTimeout(wheelTimeout);
                          wheelTimeout = setTimeout(() => {
                              hasWheelSwiped = false;
-                         }, 80);
+                         }, 100);
                      }
                  });
              });
@@ -1393,7 +1393,7 @@ define([
                          clearTimeout(swipeTimeout);
                          swipeTimeout = setTimeout(() => {
                              hasSwiped = false;
-                         }, 80);
+                         }, 100);
                      }
                  }
              );
