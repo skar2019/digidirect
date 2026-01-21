@@ -723,10 +723,12 @@ define([
                      { capture: true }
                  );
 
-                 // ✅ FIXED: Trackpad swipe with accumulative approach (Ultra Stable)
+                 // ✅ FIXED: Exact same logic as Slick slider
                  $carousel.on("wheel", function (e) {
                      const event = e.originalEvent;
-                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+
+                     // Detect horizontal gesture with minimum threshold
+                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 3) {
                          e.preventDefault();
 
                          // Initialize accumulator
@@ -740,8 +742,8 @@ define([
 
                          // Trigger when threshold reached
                          const wheelThreshold = 30;
-                         if (!$carousel.data('wheelSwiping') && Math.abs(accumulated) > wheelThreshold) {
-                             $carousel.data('wheelSwiping', true);
+                         if (!$carousel.data('swiping') && Math.abs(accumulated) > wheelThreshold) {
+                             $carousel.data('swiping', true);
 
                              if (accumulated > 0) {
                                  $carousel.trigger("next.owl.carousel", [transitionSpeed]);
@@ -753,12 +755,12 @@ define([
                          }
 
                          // Reset after gesture ends
-                         clearTimeout($carousel.data('wheelTimeout'));
+                         clearTimeout($carousel.data('swipeTimeout'));
                          const timeout = setTimeout(() => {
-                             $carousel.data('wheelSwiping', false);
+                             $carousel.data('swiping', false);
                              $carousel.data('deltaAccumulator', 0);
                          }, 100);
-                         $carousel.data('wheelTimeout', timeout);
+                         $carousel.data('swipeTimeout', timeout);
                      }
                  });
              });
