@@ -589,182 +589,164 @@ define([
         }
 
         /* ========================
-            🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
-            ✅ Works together with Owl's 1-Finger native swipe
-         ======================== */
-         function initTwoFingerSwipe($scope = $(document)) {
-             $scope.find(".owl-carousel").each(function () {
-                 const $carousel = $(this);
-                 if ($carousel.data("twoFingerBound")) return;
-                 $carousel.data("twoFingerBound", true);
+   🌀 Owl Carousel 2-Finger Swipe (Smooth Apple-like)
+   ✅ Works together with Owl's 1-Finger native swipe
+======================== */
+        function initTwoFingerSwipe($scope = $(document)) {
+            $scope.find(".owl-carousel").each(function () {
+                const $carousel = $(this);
+                if ($carousel.data("twoFingerBound")) return;
+                $carousel.data("twoFingerBound", true);
 
-                 let startX = 0;
-                 let isTwoFinger = false;
-                 let hasSwiped = false;
-                 let isAtEdge = false;
-                 const threshold = 50;
-                 const lockDuration = 250;
-                 const transitionSpeed = 600;
-                 const edgeElastic = 40;
-                 const node = $carousel[0];
+                let startX = 0;
+                let isTwoFinger = false;
+                let hasSwiped = false;
+                let isAtEdge = false;
+                const threshold = 50;
+                const lockDuration = 250;
+                const transitionSpeed = 600;
+                const edgeElastic = 40;
+                const node = $carousel[0];
 
-                 node.addEventListener(
-                     "touchstart",
-                     function (e) {
-                         const touches = e.touches;
-                         if (touches.length === 2) {
-                             isTwoFinger = true;
-                             startX =
-                                 (touches[0].clientX + touches[1].clientX) / 2;
-                             hasSwiped = false;
-                             isAtEdge = false;
-                             e.stopImmediatePropagation();
-                         } else {
-                             isTwoFinger = false;
-                         }
-                     },
-                     { capture: true }
-                 );
+                node.addEventListener(
+                    "touchstart",
+                    function (e) {
+                        const touches = e.touches;
+                        if (touches.length === 2) {
+                            isTwoFinger = true;
+                            startX =
+                                (touches[0].clientX + touches[1].clientX) / 2;
+                            hasSwiped = false;
+                            isAtEdge = false;
+                            e.stopImmediatePropagation();
+                        } else {
+                            isTwoFinger = false;
+                        }
+                    },
+                    { capture: true }
+                );
 
-                 node.addEventListener(
-                     "touchmove",
-                     function (e) {
-                         if (!isTwoFinger || hasSwiped) return;
-                         const touches = e.touches;
-                         if (touches.length !== 2) return;
+                node.addEventListener(
+                    "touchmove",
+                    function (e) {
+                        if (!isTwoFinger || hasSwiped) return;
+                        const touches = e.touches;
+                        if (touches.length !== 2) return;
 
-                         const currentX =
-                             (touches[0].clientX + touches[1].clientX) / 2;
-                         const deltaX = currentX - startX;
+                        const currentX =
+                            (touches[0].clientX + touches[1].clientX) / 2;
+                        const deltaX = currentX - startX;
 
-                         const carouselData = $carousel.data("owl.carousel");
-                         if (!carouselData) return;
+                        const carouselData = $carousel.data("owl.carousel");
+                        if (!carouselData) return;
 
-                         const atFirst = carouselData.current() === 0;
-                         const atLast =
-                             carouselData.current() === carouselData.maximum();
+                        const atFirst = carouselData.current() === 0;
+                        const atLast =
+                            carouselData.current() === carouselData.maximum();
 
-                         if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
-                             const elastic = Math.min(
-                                 Math.abs(deltaX) / 4,
-                                 edgeElastic
-                             );
-                             $carousel.css(
-                                 "transform",
-                                 `translateX(${
-                                     deltaX > 0 ? elastic : -elastic
-                                 }px)`
-                             );
-                             isAtEdge = true;
-                             return;
-                         }
+                        if ((atFirst && deltaX > 0) || (atLast && deltaX < 0)) {
+                            const elastic = Math.min(
+                                Math.abs(deltaX) / 4,
+                                edgeElastic
+                            );
+                            $carousel.css(
+                                "transform",
+                                `translateX(${
+                                    deltaX > 0 ? elastic : -elastic
+                                }px)`
+                            );
+                            isAtEdge = true;
+                            return;
+                        }
 
-                         if (Math.abs(deltaX) > threshold) {
-                             if (deltaX > 0) {
-                                 $carousel.trigger("prev.owl.carousel", [
-                                     transitionSpeed,
-                                 ]);
-                             } else {
-                                 $carousel.trigger("next.owl.carousel", [
-                                     transitionSpeed,
-                                 ]);
-                             }
+                        if (Math.abs(deltaX) > threshold) {
+                            if (deltaX > 0) {
+                                $carousel.trigger("prev.owl.carousel", [
+                                    transitionSpeed,
+                                ]);
+                            } else {
+                                $carousel.trigger("next.owl.carousel", [
+                                    transitionSpeed,
+                                ]);
+                            }
 
-                             hasSwiped = true;
-                             e.preventDefault();
-                             e.stopImmediatePropagation();
+                            hasSwiped = true;
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
 
-                             setTimeout(() => {
-                                 hasSwiped = false;
-                                 isTwoFinger = false;
-                             }, lockDuration);
-                         }
-                     },
-                     { capture: true }
-                 );
+                            setTimeout(() => {
+                                hasSwiped = false;
+                                isTwoFinger = false;
+                            }, lockDuration);
+                        }
+                    },
+                    { capture: true }
+                );
 
-                 node.addEventListener(
-                     "touchend",
-                     function () {
-                         if (isAtEdge) {
-                             $carousel.css({
-                                 transition:
-                                     "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
-                                 transform: "translateX(0)",
-                             });
-                             setTimeout(
-                                 () => $carousel.css("transition", ""),
-                                 300
-                             );
-                             isAtEdge = false;
-                         }
-                         isTwoFinger = false;
-                     },
-                     { capture: true }
-                 );
+                node.addEventListener(
+                    "touchend",
+                    function () {
+                        if (isAtEdge) {
+                            $carousel.css({
+                                transition:
+                                    "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
+                                transform: "translateX(0)",
+                            });
+                            setTimeout(
+                                () => $carousel.css("transition", ""),
+                                300
+                            );
+                            isAtEdge = false;
+                        }
+                        isTwoFinger = false;
+                    },
+                    { capture: true }
+                );
 
-                 node.addEventListener(
-                     "touchcancel",
-                     function () {
-                         isTwoFinger = false;
-                         if (isAtEdge) {
-                             $carousel.css({
-                                 transition:
-                                     "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
-                                 transform: "translateX(0)",
-                             });
-                             setTimeout(
-                                 () => $carousel.css("transition", ""),
-                                 300
-                             );
-                             isAtEdge = false;
-                         }
-                     },
-                     { capture: true }
-                 );
+                node.addEventListener(
+                    "touchcancel",
+                    function () {
+                        isTwoFinger = false;
+                        if (isAtEdge) {
+                            $carousel.css({
+                                transition:
+                                    "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
+                                transform: "translateX(0)",
+                            });
+                            setTimeout(
+                                () => $carousel.css("transition", ""),
+                                300
+                            );
+                            isAtEdge = false;
+                        }
+                    },
+                    { capture: true }
+                );
 
-                 // ✅ FIXED: Exact same logic as Slick slider
-                 $carousel.on("wheel", function (e) {
-                     const event = e.originalEvent;
+                $carousel.on("wheel", function (e) {
+                    const event = e.originalEvent;
+                    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                        e.preventDefault();
+                        if (hasSwiped) return;
+                        hasSwiped = true;
 
-                     // Detect horizontal gesture with minimum threshold
-                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 3) {
-                         e.preventDefault();
+                        if (event.deltaX > 0) {
+                            $carousel.trigger("next.owl.carousel", [
+                                transitionSpeed,
+                            ]);
+                        } else {
+                            $carousel.trigger("prev.owl.carousel", [
+                                transitionSpeed,
+                            ]);
+                        }
 
-                         // Initialize accumulator
-                         if (!$carousel.data('deltaAccumulator')) {
-                             $carousel.data('deltaAccumulator', 0);
-                         }
-
-                         // Accumulate delta
-                         let accumulated = $carousel.data('deltaAccumulator') + event.deltaX;
-                         $carousel.data('deltaAccumulator', accumulated);
-
-                         // Trigger when threshold reached
-                         const wheelThreshold = 30;
-                         if (!$carousel.data('swiping') && Math.abs(accumulated) > wheelThreshold) {
-                             $carousel.data('swiping', true);
-
-                             if (accumulated > 0) {
-                                 $carousel.trigger("next.owl.carousel", [transitionSpeed]);
-                             } else {
-                                 $carousel.trigger("prev.owl.carousel", [transitionSpeed]);
-                             }
-
-                             $carousel.data('deltaAccumulator', 0); // Reset accumulator
-                         }
-
-                         // Reset after gesture ends
-                         clearTimeout($carousel.data('swipeTimeout'));
-                         const timeout = setTimeout(() => {
-                             $carousel.data('swiping', false);
-                             $carousel.data('deltaAccumulator', 0);
-                         }, 100);
-                         $carousel.data('swipeTimeout', timeout);
-                     }
-                 });
-             });
-         }
+                        setTimeout(() => {
+                            hasSwiped = false;
+                        }, lockDuration);
+                    }
+                });
+            });
+        }
 
         /* ================================
    🧠 Observe only the minicart dialog
@@ -1368,42 +1350,27 @@ define([
         $(window).on("resize", initAaPanelAlignment);
 
         /* ========================
-            🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
-         ======================== */
-         (function() {
-             $(document).on(
-                 "wheel",
-                 ".pagebuilder-slider.slick-slider",
-                 function (e) {
-                     const event = e.originalEvent;
-                     const $slider = $(this);
+   🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
+======================== */
+        $(document).on(
+            "wheel",
+            ".pagebuilder-slider.slick-slider",
+            function (e) {
+                const event = e.originalEvent;
+                // detect horizontal gesture
+                if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                    e.preventDefault();
+                    const $slider = $(this);
+                    if (!$slider.hasClass("slick-initialized")) return;
 
-                     // Detect horizontal gesture with minimum threshold
-                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 3) {
-                         e.preventDefault();
-                         if (!$slider.hasClass("slick-initialized")) return;
-
-                         // Per-slider tracking
-                         if (!$slider.data('swiping')) {
-                             $slider.data('swiping', true);
-
-                             if (event.deltaX > 0) {
-                                 $slider.slick("slickNext");
-                             } else {
-                                 $slider.slick("slickPrev");
-                             }
-                         }
-
-                         // Reset with optimized timing
-                         clearTimeout($slider.data('swipeTimeout'));
-                         const timeout = setTimeout(() => {
-                             $slider.data('swiping', false);
-                         }, 120); // Sweet spot: fast enough for consecutive swipes, slow enough to prevent jumps
-                         $slider.data('swipeTimeout', timeout);
-                     }
-                 }
-             );
-         })();
+                    if (event.deltaX > 0) {
+                        $slider.slick("slickNext");
+                    } else {
+                        $slider.slick("slickPrev");
+                    }
+                }
+            }
+        );
 
         /* ========================
    🌀 TCL Banner – Two-Finger Swipe Only (No CSS / No Click)
@@ -2491,3 +2458,4 @@ define([
         });
     });
 });
+//redeployment
