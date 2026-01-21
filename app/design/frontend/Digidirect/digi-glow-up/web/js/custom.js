@@ -1362,25 +1362,21 @@ define([
             🖐️ Slick Slider – 2-Finger Swipe (Trackpad)
          ======================== */
          (function() {
-             let swipeTimeout = null;
-             let hasSwiped = false;
-
              $(document).on(
                  "wheel",
                  ".pagebuilder-slider.slick-slider",
                  function (e) {
                      const event = e.originalEvent;
+                     const $slider = $(this);
 
-                     // Detect horizontal gesture
-                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                     // Detect horizontal gesture with minimum threshold
+                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 3) {
                          e.preventDefault();
-
-                         const $slider = $(this);
                          if (!$slider.hasClass("slick-initialized")) return;
 
-                         // Only advance once per swipe gesture
-                         if (!hasSwiped) {
-                             hasSwiped = true;
+                         // Per-slider tracking
+                         if (!$slider.data('swiping')) {
+                             $slider.data('swiping', true);
 
                              if (event.deltaX > 0) {
                                  $slider.slick("slickNext");
@@ -1389,11 +1385,12 @@ define([
                              }
                          }
 
-                         // Reset after user stops swiping (no wheel events for 150ms)
-                         clearTimeout(swipeTimeout);
-                         swipeTimeout = setTimeout(() => {
-                             hasSwiped = false;
-                         }, 100);
+                         // Reset with optimized timing
+                         clearTimeout($slider.data('swipeTimeout'));
+                         const timeout = setTimeout(() => {
+                             $slider.data('swiping', false);
+                         }, 120); // Sweet spot: fast enough for consecutive swipes, slow enough to prevent jumps
+                         $slider.data('swipeTimeout', timeout);
                      }
                  }
              );
