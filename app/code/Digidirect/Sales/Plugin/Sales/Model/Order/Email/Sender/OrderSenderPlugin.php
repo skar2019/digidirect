@@ -80,10 +80,10 @@ class OrderSenderPlugin
             $this->logger->info('Digidirect - Shipping: ' . ($shippingMethod ?: 'NULL') . ', Template: ' . $currentTemplate);
 
             if ($shippingMethod === 'collect_collect') {
-                $this->writeDebugLog('CONDITION MATCHED! Switching from template ' . $currentTemplate . ' to 69');
-                $this->logger->info('Digidirect - SWITCHING TO TEMPLATE 69');
+                $this->writeDebugLog('CONDITION MATCHED! Switching from template ' . $currentTemplate . ' to 92');
+                $this->logger->info('Digidirect - SWITCHING TO TEMPLATE 92');
 
-                $this->templateContainer->setTemplateId(69);
+                $this->templateContainer->setTemplateId(92);
 
                 $newTemplate = $this->templateContainer->getTemplateId();
                 $this->writeDebugLog('New Template ID after set: ' . $newTemplate);
