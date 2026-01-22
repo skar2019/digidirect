@@ -1,0 +1,17 @@
+<?php
+/** @var \Magento\Sales\Model\Order\Shipment $shipment */
+$tracks = $shipment->getAllTracks();
+if (count($tracks)):
+?>
+<p><strong>Tracking Information:</strong></p>
+<ul>
+    <?php foreach ($tracks as $track): ?>
+        <li>
+            <?php echo htmlspecialchars($track->getTitle()); ?>:
+            <a href="<?php echo htmlspecialchars($track->getUrl()); ?>" target="_blank">
+                <?php echo htmlspecialchars($track->getTrackNumber()); ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
