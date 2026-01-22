@@ -86,6 +86,15 @@ hooks:
     composer install
     php ./vendor/bin/ece-tools run scenario/build/generate.xml
     php ./vendor/bin/ece-tools run scenario/build/transfer.xml
+    if [ "$MAGENTO_CLOUD_ENVIRONMENT_TYPE" != "production" ]; then
+          echo "Disabling 2FA for non-production environment"
+          bin/magento module:disable \
+            Magento_TwoFactorAuth \
+            Magento_AdminAdobeImsTwoFactorAuth \
+            Magento_TwoFactorAuthGraphQl
+        else
+          echo "Production environment detected – 2FA remains enabled"
+        fi
   # We run deploy hook after your application has been deployed and started.
   deploy: |
     php ./vendor/bin/ece-tools run scenario/deploy.xml
