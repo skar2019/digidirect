@@ -11,7 +11,6 @@
 /* @var \Magento\Framework\Pricing\Helper\Data $priceHelper */
 $priceHelper = \Magento\Framework\App\ObjectManager::getInstance()
     ->get(\Magento\Framework\Pricing\Helper\Data::class);
-//$priceHelper = $block->getLayout()->getHelper('Magento\Framework\Pricing\Helper\Data');
 ?>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -42,7 +41,7 @@ $priceHelper = \Magento\Framework\App\ObjectManager::getInstance()
                         <!-- Product details -->
                         <td valign="middle" style="padding-left:15px; padding-right: 15px;">
                             <p style="margin:0 0 5px 0; font-weight:600; font-size: 14px; color: #000000">
-                                <a href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>">
+                                <a style="color: #000000;" href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>">
                                     <?= $block->escapeHtml($_product->getName()) ?>
                                 </a>
                             </p>

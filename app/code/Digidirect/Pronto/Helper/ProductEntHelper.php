@@ -190,6 +190,7 @@ class ProductEntHelper extends AbstractHelper
         $errorCount = 0;
         $successCount = 0;
         $noPriceCount = 0;
+        $customPriceUsedCount = 0;
 
         foreach ($collection as $product) {
             $seller = $product->getData('marketplacer_seller');
@@ -277,7 +278,7 @@ class ProductEntHelper extends AbstractHelper
                     $title = strip_tags($product->getName());
                     $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
 
-                    // ===== PRICE CALCULATION USING addFinalPrice() =====
+                    // ===== PRICE CALCULATION WITH CATALOG RULES AND CUSTOM_FINAL_PRICE =====
 
                     // 1. Get Regular Price
                     $regular_price = 0;
@@ -309,38 +310,45 @@ class ProductEntHelper extends AbstractHelper
                         $actualcost = $regular_price / 1.1;
                     }
 
-                    // 3. Get Final Price (pre-calculated by addFinalPrice())
+                    // 3. Get Final Price with Catalog Price Rules
                     $final_price = 0;
                     try {
-                        // Primary method: Use data from addFinalPrice()
-                        $final_price = $product->getData('final_price');
+                        // Ensure we're in the correct store context for catalog rules
+                        $product->setStoreId(1); // Set your store ID
 
-                        // Fallback 1: Use getFinalPrice() method
-                        if(is_null($final_price) || $final_price == 0)
+                        // Method 1: Use PriceInfo (most reliable for catalog rules)
+                        $priceInfo = $product->getPriceInfo();
+                        if($priceInfo)
                         {
-                            $final_price = $product->getFinalPrice();
-                        }
-
-                        // Fallback 2: Use PriceInfo as last resort
-                        if(is_null($final_price) || $final_price == 0)
-                        {
-                            $priceInfo = $product->getPriceInfo();
-                            if($priceInfo)
+                            $finalPriceModel = $priceInfo->getPrice('final_price');
+                            if($finalPriceModel)
                             {
-                                $finalPriceInfo = $priceInfo->getPrice('final_price');
-                                if($finalPriceInfo)
+                                $amount = $finalPriceModel->getAmount();
+                                if($amount)
                                 {
-                                    $amount = $finalPriceInfo->getAmount();
-                                    if($amount)
-                                    {
-                                        $final_price = $amount->getValue();
-                                    }
+                                    $final_price = (float) $amount->getValue();
                                 }
                             }
                         }
 
+                        // Fallback 1: Use data from addFinalPrice()
+                        if($final_price == 0)
+                        {
+                            $final_price = $product->getData('final_price');
+                            if(!is_null($final_price))
+                            {
+                                $final_price = (float) $final_price;
+                            }
+                        }
+
+                        // Fallback 2: Use getFinalPrice() method
+                        if($final_price == 0)
+                        {
+                            $final_price = (float) $product->getFinalPrice();
+                        }
+
                         // Final fallback: Use regular price
-                        if(is_null($final_price) || $final_price == 0)
+                        if($final_price == 0)
                         {
                             $final_price = $regular_price;
                             if($regular_price > 0)
@@ -349,12 +357,24 @@ class ProductEntHelper extends AbstractHelper
                             }
                         }
 
-                        // Convert to float
-                        $final_price = (float) $final_price;
-
                     } catch (\Exception $e) {
                         $final_price = $regular_price;
                         $this->logger->warning('Final price error for SKU ' . $product->getSku() . ': ' . $e->getMessage());
+                    }
+
+                    // 4. Check custom_final_price and use if lower
+                    $customFinalPrice = $product->getCustomAttribute('custom_final_price');
+                    if(!is_null($customFinalPrice))
+                    {
+                        $customFinalPriceValue = (float) $customFinalPrice->getValue();
+
+                        // Use custom_final_price if it's valid and lower than calculated final_price
+                        if($customFinalPriceValue > 0 && $customFinalPriceValue < $final_price)
+                        {
+                            $this->logger->info('Using custom_final_price for SKU ' . $product->getSku() . ' - Catalog Final: ' . $final_price . ', Custom Final: ' . $customFinalPriceValue);
+                            $final_price = $customFinalPriceValue;
+                            $customPriceUsedCount++;
+                        }
                     }
 
                     // Validation: Log suspicious prices
@@ -371,6 +391,9 @@ class ProductEntHelper extends AbstractHelper
                         // Optionally skip products with no price
                         // continue;
                     }
+
+                    // Debug logging for price comparison
+                    $this->logger->debug('Price details for SKU ' . $product->getSku() . ' - Regular: ' . $regular_price . ', Final: ' . $final_price . ', Custom: ' . ($customFinalPriceValue ?? 'N/A'));
 
                     // ===== END PRICE CALCULATION =====
 
@@ -502,14 +525,9 @@ class ProductEntHelper extends AbstractHelper
         $stream->close();
 
         // Log summary
-        $this->logger->info("Export completed. Success: {$successCount}, Errors: {$errorCount}, No Price: {$noPriceCount}");
+        $this->logger->info("Export completed. Success: {$successCount}, Errors: {$errorCount}, No Price: {$noPriceCount}, Custom Price Used: {$customPriceUsedCount}");
 
-        return [
-            'success' => $successCount,
-            'errors' => $errorCount,
-            'no_price' => $noPriceCount,
-            'filepath' => $filepath
-        ];
+        exit;
     }
 
 
@@ -672,14 +690,16 @@ class ProductEntHelper extends AbstractHelper
 
     public function getProductCollection()
     {
-
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
-        ->addStoreFilter(1)
-        ->addFinalPrice()
-        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        return $collection;
+            ->addStoreFilter(1)
+            ->addFinalPrice() // This should apply catalog rules
+            ->addFieldToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 
+        // IMPORTANT: Set the website and customer group for price rules
+        $collection->addPriceData(0, 1); // (customerGroupId, websiteId)
+
+        return $collection;
     }
 
     protected function getOptionHash(string $attributeCode): array
