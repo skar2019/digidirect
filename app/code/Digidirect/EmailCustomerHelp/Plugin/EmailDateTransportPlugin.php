@@ -22,7 +22,7 @@ class EmailDateTransportPlugin
             $templateVars['email_invoice_created_at_formatted'] =
                 $this->timezone->formatDate(
                     $templateVars['invoice']->getCreatedAt(),
-                    \IntlDateFormatter::FULL
+                    'EEEE, MMMM d, y'
                 );
         }
 
