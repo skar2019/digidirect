@@ -28,7 +28,8 @@ define([
     'uiRegistry',
     'mage/translate',
     'Magento_Checkout/js/model/shipping-rate-service',
-    'Magento_Checkout/js/view/checkout-toggle'
+    'Magento_Checkout/js/view/checkout-toggle',
+    'Magento_Checkout/js/action/get-totals'
 ], function (
     $,
     _,
@@ -54,7 +55,8 @@ define([
     registry,
     $t,
     shippingRateService,
-    checkoutToggle
+    checkoutToggle,
+    getTotalsAction
 ) {
     'use strict';
 
@@ -80,9 +82,8 @@ define([
         saveInAddressBook: 1,
         quoteIsVirtual: quote.isVirtual(),
         marketplacerSellers: ko.observable(marketplacer_sellers),
-        selectMethodTimeout: null,
-        isSelectingMethod: ko.observable(false),
         shippingMethodRequest: null,
+        pendingShippingMethod: null,
 
         /**
          * @return {exports}
@@ -134,6 +135,13 @@ define([
                     checkoutData.setShippingAddressFromData(shippingAddrsData);
                 });
                 shippingRatesValidator.initFields(fieldsetName);
+            });
+
+            // Add click handler for immediate loader
+            $(document).on('click', 'input[name="delivery_type"]', function() {
+                // Show loader immediately on click
+                $('body').trigger('processStart');
+                $('input[name="delivery_type"]').prop('disabled', true);
             });
 
             this.afterRender = this.afterRenderHandler.bind(this);
@@ -260,16 +268,22 @@ define([
         selectShippingMethod: function (shippingMethod) {
             var self = this;
 
-            // If there's already a request in progress, abort it
-            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.abort)) {
-                this.shippingMethodRequest.abort();
+            // If there's already a request in progress, queue this one
+            if (this.shippingMethodRequest && this.shippingMethodRequest.state && this.shippingMethodRequest.state() === 'pending') {
+                // Store the pending method to process after current request completes
+                this.pendingShippingMethod = shippingMethod;
+                return false;
             }
 
-            // Show loader - disable the radio buttons
-            $('input[name="delivery_type"]').prop('disabled', true);
-            $('body').trigger('processStart'); // Magento's full page loader
+            // Set the shipping rate FIRST before calling the action
+            checkoutData.setSelectedShippingRate(
+                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
+            );
 
-            // Update UI immediately
+            // Call the action which updates quote.shippingMethod
+            selectShippingMethodAction(shippingMethod);
+
+            // Update UI
             if (customer.isLoggedIn()) {
                 if ($('input[name="delivery_type"]:checked').val() == 'collect') {
                     $('#payment .step-title.accordion-step').text('2. Payment');
@@ -292,23 +306,35 @@ define([
                 }
             }
 
-            // Store the deferred object returned by selectShippingMethodAction
-            this.shippingMethodRequest = selectShippingMethodAction(shippingMethod);
-            checkoutData.setSelectedShippingRate(
-                shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
-            );
+            // Now make the API call to update totals
+            this.shippingMethodRequest = getTotalsAction([], $.Deferred());
 
-            // Re-enable after request completes (success or failure)
+            // Re-enable after request completes
             if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
                 this.shippingMethodRequest.always(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
-                    $('body').trigger('processStop'); // Hide Magento's full page loader
+                    $('body').trigger('processStop');
+
+                    // If there's a pending method queued, process it now
+                    if (self.pendingShippingMethod) {
+                        var pending = self.pendingShippingMethod;
+                        self.pendingShippingMethod = null;
+                        self.shippingMethodRequest = null;
+
+                        // Re-trigger the click for the pending method
+                        setTimeout(function() {
+                            self.selectShippingMethod(pending);
+                        }, 100);
+                    } else {
+                        self.shippingMethodRequest = null;
+                    }
                 });
             } else {
-                // Fallback if no deferred object returned
+                // Fallback
                 setTimeout(function() {
                     $('input[name="delivery_type"]').prop('disabled', false);
                     $('body').trigger('processStop');
+                    self.shippingMethodRequest = null;
                 }, 1000);
             }
 
