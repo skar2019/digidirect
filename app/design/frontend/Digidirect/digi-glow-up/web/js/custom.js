@@ -723,27 +723,45 @@ define([
                      { capture: true }
                  );
 
+                 // ✅ FIXED: Exact same logic as Slick slider
                  $carousel.on("wheel", function (e) {
                      const event = e.originalEvent;
-                    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-                         e.preventDefault();
-                        if (hasSwiped) return;
-                        hasSwiped = true;
 
-                        if (event.deltaX > 0) {
-                            $carousel.trigger("next.owl.carousel", [
-                                transitionSpeed,
-                            ]);
+                     // Detect horizontal gesture with minimum threshold
+                     if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && Math.abs(event.deltaX) > 3) {
+                         e.preventDefault();
+
+                         // Initialize accumulator
+                         if (!$carousel.data('deltaAccumulator')) {
+                             $carousel.data('deltaAccumulator', 0);
+                         }
+
+                         // Accumulate delta
+                         let accumulated = $carousel.data('deltaAccumulator') + event.deltaX;
+                         $carousel.data('deltaAccumulator', accumulated);
+
+                         // Trigger when threshold reached
+                         const wheelThreshold = 30;
+                         if (!$carousel.data('swiping') && Math.abs(accumulated) > wheelThreshold) {
+                             $carousel.data('swiping', true);
+
+                             if (accumulated > 0) {
+                                 $carousel.trigger("next.owl.carousel", [transitionSpeed]);
                              } else {
-                            $carousel.trigger("prev.owl.carousel", [
-                                transitionSpeed,
-                            ]);
+                                 $carousel.trigger("prev.owl.carousel", [transitionSpeed]);
                              }
 
-                        setTimeout(() => {
-                            hasSwiped = false;
-                        }, lockDuration);
+                             $carousel.data('deltaAccumulator', 0); // Reset accumulator
                          }
+
+                         // Reset after gesture ends
+                         clearTimeout($carousel.data('swipeTimeout'));
+                         const timeout = setTimeout(() => {
+                             $carousel.data('swiping', false);
+                             $carousel.data('deltaAccumulator', 0);
+                         }, 100);
+                         $carousel.data('swipeTimeout', timeout);
+                     }
                  });
              });
          }

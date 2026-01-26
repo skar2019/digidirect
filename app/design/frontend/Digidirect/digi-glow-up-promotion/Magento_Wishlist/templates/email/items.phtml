@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/* @var \Magento\Wishlist\Block\Share\Email\Items $block */
+?>
+
+<?php
+/* @var \Magento\Framework\Pricing\Helper\Data $priceHelper */
+$priceHelper = \Magento\Framework\App\ObjectManager::getInstance()
+    ->get(\Magento\Framework\Pricing\Helper\Data::class);
+?>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <?php foreach ($block->getWishlistItems() as $item): ?>
+        <?php /* @var \Magento\Wishlist\Model\Item $item */ ?>
+        <?php /* @var \Magento\Catalog\Model\Product $_product */ ?>
+        <?php $_product = $item->getProduct(); ?>
+
+        <tr>
+            <td style="padding:15px 0 15px 50px; border-bottom:1px solid #e5e5e5;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <!-- Product image -->
+                        <td width="90" valign="top">
+                            <p style="margin:0 0 5px 0;">
+                                <a href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>">
+                                    <?php $productThumbnail = $block->getProductForThumbnail($item) ?>
+                                    <?= /* @noEscape */ $block->getImage(
+                                        $productThumbnail,
+                                        'product_small_image',
+                                        ['style' => 'display:block; max-width:80px;']
+                                    )->toHtml() ?>
+                                </a>
+                            </p>
+
+                        </td>
+
+                        <!-- Product details -->
+                        <td valign="middle" style="padding-left:15px; padding-right: 15px;">
+                            <p style="margin:0 0 5px 0; font-weight:600; font-size: 14px; color: #000000">
+                                <a style="color: #000000;" href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>">
+                                    <?= $block->escapeHtml($_product->getName()) ?>
+                                </a>
+                            </p>
+
+                            <?php if ($block->hasDescription($item)): ?>
+                                <p style="margin:0 0 5px 0; color:#555;">
+                                    <strong><?= $block->escapeHtml(__('Comment')) ?>:</strong><br/>
+                                    <?= /* @noEscape */ $block->getEscapedDescription($item) ?>
+                                </p>
+                            <?php endif; ?>
+
+                            <p style="margin: 0; font-size: 14px; font-weight: 500; color: #6E6E73;">
+                                <?= $priceHelper->currency($_product->getFinalPrice(), true, false) ?>
+                            </p>
+
+                        </td>
+                        <td valign="middle" style="white-space: nowrap; text-align: right; width: 90px; vertical-align: middle; padding-right: 20px;">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>"
+                               style="color: #FE4C25; font-weight: 700; text-decoration: none; font-size: 16px;">
+                                <?= $block->escapeHtml(__('View Product')) ?>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    <?php endforeach; ?>
+</table>
