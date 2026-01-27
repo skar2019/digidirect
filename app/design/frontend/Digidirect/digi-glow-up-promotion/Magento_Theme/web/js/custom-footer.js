@@ -142,29 +142,34 @@ require(['jquery'], function($) {
                 $('body').css('overflow', '');
             }
 
-            // Scroll to top FIRST so input is in viewport
+            // Scroll to top synchronously
             window.scrollTo(0, 0);
 
-            // Small delay to ensure scroll and DOM updates complete
-            setTimeout(() => {
-                // Make input ready
-                input.removeAttribute('readonly');
-                input.removeAttribute('disabled');
-                input.style.pointerEvents = 'auto';
-                
-                // Focus and click
-                input.focus();
-                input.click();
-                
-                console.log('Focus called, active element:', document.activeElement);
-                console.log('Is input focused?', document.activeElement === input);
+            // CRITICAL: Focus must happen synchronously in the touchstart handler
+            // NO setTimeout or the keyboard won't appear on mobile
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+            input.style.pointerEvents = 'auto';
+            
+            // Focus the input - this MUST be in the same call stack as touchstart
+            input.focus();
+            
+            // For iOS, also trigger a click
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            input.dispatchEvent(clickEvent);
+            
+            console.log('Focus called synchronously, active element:', document.activeElement);
+            console.log('Is input focused?', document.activeElement === input);
 
-                // Move cursor to end
-                if (input.value) {
-                    const length = input.value.length;
-                    input.setSelectionRange(length, length);
-                }
-            }, 100);
+            // Move cursor to end
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
         });
 
         // Fallback for non-touch devices
@@ -195,18 +200,22 @@ require(['jquery'], function($) {
 
             window.scrollTo(0, 0);
 
-            setTimeout(() => {
-                input.removeAttribute('readonly');
-                input.removeAttribute('disabled');
-                input.style.pointerEvents = 'auto';
-                input.focus();
-                input.click();
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+            input.style.pointerEvents = 'auto';
+            input.focus();
 
-                if (input.value) {
-                    const length = input.value.length;
-                    input.setSelectionRange(length, length);
-                }
-            }, 100);
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            input.dispatchEvent(clickEvent);
+
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
         });
     }
 
@@ -232,15 +241,19 @@ require(['jquery'], function($) {
         input.removeAttribute('disabled');
         window.scrollTo(0, 0);
         
-        setTimeout(() => {
-            input.focus();
-            input.click();
-            
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
-            }
-        }, 100);
+        input.focus();
+        
+        const clickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        input.dispatchEvent(clickEvent);
+        
+        if (input.value) {
+            const length = input.value.length;
+            input.setSelectionRange(length, length);
+        }
     }
 
     function setupFooterCart() {
