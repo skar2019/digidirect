@@ -18,10 +18,10 @@ class EmailTransportPlugin
         \Magento\Framework\Mail\Template\TransportBuilder $subject,
         array $templateVars
     ) {
-        if (isset($templateVars['invoice'])) {
-            $templateVars['email_invoice_created_at_formatted'] =
+        if (isset($templateVars['order'])) {
+            $templateVars['email_order_created_at_formatted'] =
                 $this->timezone->formatDate(
-                    $templateVars['invoice']->getCreatedAt(),
+                    $templateVars['order']->getCreatedAt(),
                     'EEEE, MMMM d, y'
                 );
         }
