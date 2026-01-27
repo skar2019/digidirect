@@ -34,7 +34,7 @@ require(['jquery'], function($) {
 
         // Individual handlers
         setupFooterMenuIcon();
-        setupFooterSearch();
+        setupFooterSearchWithInput(); // NEW FUNCTION
         setupFooterCart();
         setupAccountPopup();
         setupModals();
@@ -115,28 +115,29 @@ require(['jquery'], function($) {
         });
     }
 
-    function setupFooterSearch() {
-        // On touchstart, move the actual input to be under the user's finger
-        $('.footer-search').on('touchstart', function(e) {
-            const input = document.querySelector('.aa-Input');
-            if (!input) {
-                console.log('❌ Input not found');
-                return;
-            }
+    /**
+     * NEW FOOTER SEARCH WITH INPUT
+     * Handles the footer search input to trigger keyboard on mobile
+     */
+    function setupFooterSearchWithInput() {
+        const $footerSearchInput = $('.footer-search-input');
+        
+        if (!$footerSearchInput.length) {
+            console.warn('Footer search input not found');
+            return;
+        }
 
-            console.log('✅ Positioning input under touch');
+        console.log('✅ Footer search input initialized');
 
-            // Get touch coordinates
-            const touch = e.originalEvent.touches[0];
-            const touchX = touch.clientX;
-            const touchY = touch.clientY;
-
-            // Make sure Algolia autocomplete is open
-            if (window.algoliaAutocompleteInstance && 
-                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
-                window.algoliaAutocompleteInstance.setIsOpen(true);
-            }
-
+        // When the input gets focus (user taps the button area)
+        $footerSearchInput.on('focus', function() {
+            console.log('✅ Footer search input focused!');
+            
+            const $input = $(this);
+            
+            // Remove readonly so keyboard appears
+            $input.removeAttr('readonly');
+            
             // Close other menus
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             
@@ -144,119 +145,47 @@ require(['jquery'], function($) {
                 $('#mobile-account-popup').removeClass('active');
                 $('body').css('overflow', '');
             }
-
+            
+            // Open Algolia autocomplete
+            if (window.algoliaAutocompleteInstance && 
+                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+                window.algoliaAutocompleteInstance.setIsOpen(true);
+            }
+            
             // Scroll to top
             window.scrollTo(0, 0);
-
-            // Make input ready
-            input.removeAttribute('readonly');
-            input.removeAttribute('disabled');
             
-            // Position input absolutely at touch location temporarily
-            const inputParent = input.parentElement;
-            const originalPosition = input.style.position;
-            const originalTop = input.style.top;
-            const originalLeft = input.style.left;
-            const originalZIndex = input.style.zIndex;
-            
-            input.style.position = 'fixed';
-            input.style.top = (touchY - 20) + 'px'; // Center on touch
-            input.style.left = (touchX - 100) + 'px'; // Center on touch
-            input.style.zIndex = '99999';
-            input.style.pointerEvents = 'auto';
-
-            // Restore position after a moment
+            // Wait for Algolia to render, then transfer focus
             setTimeout(() => {
-                input.style.position = originalPosition;
-                input.style.top = originalTop;
-                input.style.left = originalLeft;
-                input.style.zIndex = originalZIndex;
-            }, 100);
+                const algoliaInput = document.querySelector('.aa-Input');
+                if (algoliaInput) {
+                    console.log('✅ Transferring focus to Algolia input');
+                    
+                    algoliaInput.removeAttribute('readonly');
+                    algoliaInput.removeAttribute('disabled');
+                    algoliaInput.focus();
+                    
+                    // Blur our fake input and make it readonly again
+                    $input.blur();
+                    $input.attr('readonly', 'readonly');
+                    
+                    console.log('✅ Focus transferred successfully');
+                } else {
+                    console.warn('❌ Algolia input not found');
+                }
+            }, 150);
         });
-
-        // Alternative simpler approach - just open and let user tap again
+        
+        // Prevent typing into the fake input
+        $footerSearchInput.on('input', function() {
+            $(this).val('');
+        });
+        
+        // Prevent default button click behavior
         $('.footer-search').on('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-
-            const input = document.querySelector('.aa-Input');
-            if (!input) return;
-
-            console.log('✅ Opening search, preparing input');
-
-            // Open Algolia
-            if (window.algoliaAutocompleteInstance && 
-                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
-                window.algoliaAutocompleteInstance.setIsOpen(true);
-            }
-
-            // Close other menus
-            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            
-            if (window.location.href.indexOf('/customer/') === -1) {
-                $('#mobile-account-popup').removeClass('active');
-                $('body').css('overflow', '');
-            }
-
-            // Scroll to top
-            window.scrollTo(0, 0);
-
-            // Make input ready
-            setTimeout(() => {
-                input.removeAttribute('readonly');
-                input.removeAttribute('disabled');
-                input.style.pointerEvents = 'auto';
-                
-                // Try to focus (won't show keyboard but will prepare it)
-                input.focus();
-                
-                // Highlight the input to draw attention
-                input.style.boxShadow = '0 0 10px 2px rgba(255, 165, 0, 0.8)';
-                input.style.border = '2px solid orange';
-                
-                setTimeout(() => {
-                    input.style.boxShadow = '';
-                    input.style.border = '';
-                }, 1500);
-
-                if (input.value) {
-                    const length = input.value.length;
-                    input.setSelectionRange(length, length);
-                }
-            }, 100);
+            // Let the input's focus event handle everything
         });
-    }
-
-    function handleSearchOpen() {
-        // This function is no longer used by footer search
-        // Keeping it in case it's called elsewhere
-        const input = document.querySelector('.aa-Input');
-        if (!input) return;
-
-        if (window.algoliaAutocompleteInstance && 
-            typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
-            window.algoliaAutocompleteInstance.setIsOpen(true);
-        }
-
-        $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-
-        if (window.location.href.indexOf('/customer/') === -1) {
-            $('#mobile-account-popup').removeClass('active');
-            $('body').css('overflow', '');
-        }
-
-        input.removeAttribute('readonly');
-        input.removeAttribute('disabled');
-        window.scrollTo(0, 0);
-        
-        setTimeout(() => {
-            input.focus();
-            
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
-            }
-        }, 50);
     }
 
     function setupFooterCart() {
