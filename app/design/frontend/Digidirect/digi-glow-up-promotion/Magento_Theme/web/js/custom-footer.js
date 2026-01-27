@@ -116,23 +116,17 @@ require(['jquery'], function($) {
     }
 
     function setupFooterSearch() {
-        let isHandling = false;
-
-        $('.footer-search').on('touchend', function(e) {
-            if (isHandling) return;
-            isHandling = true;
-
-            e.preventDefault();
-            e.stopPropagation();
+        // Remove preventDefault so the natural touch can propagate
+        $('.footer-search').on('touchstart', function(e) {
+            e.stopPropagation(); // Stop it from bubbling, but don't prevent default
 
             const input = document.querySelector('.aa-Input');
             if (!input) {
                 console.log('❌ Input not found');
-                isHandling = false;
                 return;
             }
 
-            console.log('✅ Input found, simulating tap');
+            console.log('✅ Redirecting touch to input');
 
             // Make sure Algolia autocomplete is open/visible first
             if (window.algoliaAutocompleteInstance && 
@@ -148,79 +142,117 @@ require(['jquery'], function($) {
                 $('body').css('overflow', '');
             }
 
-            // Scroll to top FIRST so input is in viewport
+            // Scroll to top
             window.scrollTo(0, 0);
 
-            // Minimal delay to ensure DOM updates complete
-            setTimeout(() => {
-                // Make input ready
-                input.removeAttribute('readonly');
-                input.removeAttribute('disabled');
-                input.style.pointerEvents = 'auto';
+            // Make input ready immediately
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+            input.style.pointerEvents = 'auto';
+
+            // Get the original touch event
+            const originalEvent = e.originalEvent;
+            if (originalEvent && originalEvent.touches && originalEvent.touches.length > 0) {
+                const touch = originalEvent.touches[0];
                 
-                // Get the bounding rect of the input
-                const rect = input.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-
-                // Simulate a complete touch sequence on the input itself
-                const touchObj = new Touch({
-                    identifier: Date.now(),
+                // Create new touch events targeting the input
+                const newTouchObj = {
+                    identifier: touch.identifier,
                     target: input,
-                    clientX: x,
-                    clientY: y,
-                    radiusX: 2.5,
-                    radiusY: 2.5,
-                    rotationAngle: 0,
-                    force: 1
-                });
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    screenX: touch.screenX,
+                    screenY: touch.screenY,
+                    pageX: touch.pageX,
+                    pageY: touch.pageY,
+                    radiusX: touch.radiusX || 0,
+                    radiusY: touch.radiusY || 0,
+                    rotationAngle: touch.rotationAngle || 0,
+                    force: touch.force || 1
+                };
 
-                // touchstart
-                const touchStartEvent = new TouchEvent('touchstart', {
-                    bubbles: true,
-                    cancelable: true,
-                    touches: [touchObj],
-                    targetTouches: [touchObj],
-                    changedTouches: [touchObj]
-                });
-                input.dispatchEvent(touchStartEvent);
+                try {
+                    // Try to create a proper Touch object
+                    const touchObj = new Touch(newTouchObj);
+                    
+                    // Redirect touch to input
+                    const touchEvent = new TouchEvent(originalEvent.type, {
+                        bubbles: true,
+                        cancelable: true,
+                        touches: [touchObj],
+                        targetTouches: [touchObj],
+                        changedTouches: [touchObj],
+                        view: window
+                    });
+                    
+                    input.dispatchEvent(touchEvent);
+                } catch (err) {
+                    console.log('Touch redirection failed:', err);
+                    // Fallback to simple focus
+                    input.focus();
+                }
+            }
+        });
 
-                // Small delay between touch events
-                setTimeout(() => {
-                    // touchend
+        // Also handle touchend
+        $('.footer-search').on('touchend', function(e) {
+            e.stopPropagation();
+
+            const input = document.querySelector('.aa-Input');
+            if (!input) return;
+
+            // Get the original touch event
+            const originalEvent = e.originalEvent;
+            if (originalEvent && originalEvent.changedTouches && originalEvent.changedTouches.length > 0) {
+                const touch = originalEvent.changedTouches[0];
+                
+                const newTouchObj = {
+                    identifier: touch.identifier,
+                    target: input,
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    screenX: touch.screenX,
+                    screenY: touch.screenY,
+                    pageX: touch.pageX,
+                    pageY: touch.pageY,
+                    radiusX: touch.radiusX || 0,
+                    radiusY: touch.radiusY || 0,
+                    rotationAngle: touch.rotationAngle || 0,
+                    force: touch.force || 1
+                };
+
+                try {
+                    const touchObj = new Touch(newTouchObj);
+                    
                     const touchEndEvent = new TouchEvent('touchend', {
                         bubbles: true,
                         cancelable: true,
                         touches: [],
                         targetTouches: [],
-                        changedTouches: [touchObj]
+                        changedTouches: [touchObj],
+                        view: window
                     });
+                    
                     input.dispatchEvent(touchEndEvent);
-
-                    // Follow up with focus and click
+                    
+                    // Also focus
                     setTimeout(() => {
                         input.focus();
                         input.click();
-                        
-                        console.log('Simulated tap complete, active element:', document.activeElement);
-                        console.log('Is input focused?', document.activeElement === input);
-
-                        // Move cursor to end
-                        if (input.value) {
-                            const length = input.value.length;
-                            input.setSelectionRange(length, length);
-                        }
-
-                        isHandling = false;
                     }, 10);
-                }, 10);
-            }, 50);
+                } catch (err) {
+                    console.log('Touch end redirection failed:', err);
+                    input.focus();
+                    input.click();
+                }
+            }
         });
 
         // Fallback for non-touch devices
         $('.footer-search').on('click', function(e) {
-            // Only handle if not already handled by touch
-            if (isHandling) return;
+            if (e.originalEvent && e.originalEvent.touches) {
+                return; // Already handled by touch
+            }
             
             e.preventDefault();
             e.stopPropagation();
@@ -228,7 +260,6 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            // Open Algolia first
             if (window.algoliaAutocompleteInstance && 
                 typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
                 window.algoliaAutocompleteInstance.setIsOpen(true);
