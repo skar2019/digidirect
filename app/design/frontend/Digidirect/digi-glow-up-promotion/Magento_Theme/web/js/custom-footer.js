@@ -116,19 +116,22 @@ require(['jquery'], function($) {
     }
 
     function setupFooterSearch() {
-        // Remove preventDefault so the natural touch can propagate
+        // On touchstart, move the actual input to be under the user's finger
         $('.footer-search').on('touchstart', function(e) {
-            e.stopPropagation(); // Stop it from bubbling, but don't prevent default
-
             const input = document.querySelector('.aa-Input');
             if (!input) {
                 console.log('❌ Input not found');
                 return;
             }
 
-            console.log('✅ Redirecting touch to input');
+            console.log('✅ Positioning input under touch');
 
-            // Make sure Algolia autocomplete is open/visible first
+            // Get touch coordinates
+            const touch = e.originalEvent.touches[0];
+            const touchX = touch.clientX;
+            const touchY = touch.clientY;
+
+            // Make sure Algolia autocomplete is open
             if (window.algoliaAutocompleteInstance && 
                 typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
                 window.algoliaAutocompleteInstance.setIsOpen(true);
@@ -145,126 +148,49 @@ require(['jquery'], function($) {
             // Scroll to top
             window.scrollTo(0, 0);
 
-            // Make input ready immediately
+            // Make input ready
             input.removeAttribute('readonly');
             input.removeAttribute('disabled');
+            
+            // Position input absolutely at touch location temporarily
+            const inputParent = input.parentElement;
+            const originalPosition = input.style.position;
+            const originalTop = input.style.top;
+            const originalLeft = input.style.left;
+            const originalZIndex = input.style.zIndex;
+            
+            input.style.position = 'fixed';
+            input.style.top = (touchY - 20) + 'px'; // Center on touch
+            input.style.left = (touchX - 100) + 'px'; // Center on touch
+            input.style.zIndex = '99999';
             input.style.pointerEvents = 'auto';
 
-            // Get the original touch event
-            const originalEvent = e.originalEvent;
-            if (originalEvent && originalEvent.touches && originalEvent.touches.length > 0) {
-                const touch = originalEvent.touches[0];
-                
-                // Create new touch events targeting the input
-                const newTouchObj = {
-                    identifier: touch.identifier,
-                    target: input,
-                    clientX: touch.clientX,
-                    clientY: touch.clientY,
-                    screenX: touch.screenX,
-                    screenY: touch.screenY,
-                    pageX: touch.pageX,
-                    pageY: touch.pageY,
-                    radiusX: touch.radiusX || 0,
-                    radiusY: touch.radiusY || 0,
-                    rotationAngle: touch.rotationAngle || 0,
-                    force: touch.force || 1
-                };
-
-                try {
-                    // Try to create a proper Touch object
-                    const touchObj = new Touch(newTouchObj);
-                    
-                    // Redirect touch to input
-                    const touchEvent = new TouchEvent(originalEvent.type, {
-                        bubbles: true,
-                        cancelable: true,
-                        touches: [touchObj],
-                        targetTouches: [touchObj],
-                        changedTouches: [touchObj],
-                        view: window
-                    });
-                    
-                    input.dispatchEvent(touchEvent);
-                } catch (err) {
-                    console.log('Touch redirection failed:', err);
-                    // Fallback to simple focus
-                    input.focus();
-                }
-            }
+            // Restore position after a moment
+            setTimeout(() => {
+                input.style.position = originalPosition;
+                input.style.top = originalTop;
+                input.style.left = originalLeft;
+                input.style.zIndex = originalZIndex;
+            }, 100);
         });
 
-        // Also handle touchend
-        $('.footer-search').on('touchend', function(e) {
-            e.stopPropagation();
-
-            const input = document.querySelector('.aa-Input');
-            if (!input) return;
-
-            // Get the original touch event
-            const originalEvent = e.originalEvent;
-            if (originalEvent && originalEvent.changedTouches && originalEvent.changedTouches.length > 0) {
-                const touch = originalEvent.changedTouches[0];
-                
-                const newTouchObj = {
-                    identifier: touch.identifier,
-                    target: input,
-                    clientX: touch.clientX,
-                    clientY: touch.clientY,
-                    screenX: touch.screenX,
-                    screenY: touch.screenY,
-                    pageX: touch.pageX,
-                    pageY: touch.pageY,
-                    radiusX: touch.radiusX || 0,
-                    radiusY: touch.radiusY || 0,
-                    rotationAngle: touch.rotationAngle || 0,
-                    force: touch.force || 1
-                };
-
-                try {
-                    const touchObj = new Touch(newTouchObj);
-                    
-                    const touchEndEvent = new TouchEvent('touchend', {
-                        bubbles: true,
-                        cancelable: true,
-                        touches: [],
-                        targetTouches: [],
-                        changedTouches: [touchObj],
-                        view: window
-                    });
-                    
-                    input.dispatchEvent(touchEndEvent);
-                    
-                    // Also focus
-                    setTimeout(() => {
-                        input.focus();
-                        input.click();
-                    }, 10);
-                } catch (err) {
-                    console.log('Touch end redirection failed:', err);
-                    input.focus();
-                    input.click();
-                }
-            }
-        });
-
-        // Fallback for non-touch devices
+        // Alternative simpler approach - just open and let user tap again
         $('.footer-search').on('click', function(e) {
-            if (e.originalEvent && e.originalEvent.touches) {
-                return; // Already handled by touch
-            }
-            
             e.preventDefault();
             e.stopPropagation();
 
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
+            console.log('✅ Opening search, preparing input');
+
+            // Open Algolia
             if (window.algoliaAutocompleteInstance && 
                 typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
                 window.algoliaAutocompleteInstance.setIsOpen(true);
             }
 
+            // Close other menus
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             
             if (window.location.href.indexOf('/customer/') === -1) {
@@ -272,20 +198,32 @@ require(['jquery'], function($) {
                 $('body').css('overflow', '');
             }
 
+            // Scroll to top
             window.scrollTo(0, 0);
 
+            // Make input ready
             setTimeout(() => {
                 input.removeAttribute('readonly');
                 input.removeAttribute('disabled');
                 input.style.pointerEvents = 'auto';
+                
+                // Try to focus (won't show keyboard but will prepare it)
                 input.focus();
-                input.click();
+                
+                // Highlight the input to draw attention
+                input.style.boxShadow = '0 0 10px 2px rgba(255, 165, 0, 0.8)';
+                input.style.border = '2px solid orange';
+                
+                setTimeout(() => {
+                    input.style.boxShadow = '';
+                    input.style.border = '';
+                }, 1500);
 
                 if (input.value) {
                     const length = input.value.length;
                     input.setSelectionRange(length, length);
                 }
-            }, 50);
+            }, 100);
         });
     }
 
@@ -313,7 +251,6 @@ require(['jquery'], function($) {
         
         setTimeout(() => {
             input.focus();
-            input.click();
             
             if (input.value) {
                 const length = input.value.length;
