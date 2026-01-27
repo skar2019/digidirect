@@ -132,7 +132,7 @@ require(['jquery'], function($) {
                 return;
             }
 
-            console.log('✅ Input found, attempting focus');
+            console.log('✅ Input found, simulating tap');
 
             // Make sure Algolia autocomplete is open/visible first
             if (window.algoliaAutocompleteInstance && 
@@ -158,20 +158,62 @@ require(['jquery'], function($) {
                 input.removeAttribute('disabled');
                 input.style.pointerEvents = 'auto';
                 
-                // Focus and click
-                input.focus();
-                input.click();
-                
-                console.log('Focus called, active element:', document.activeElement);
-                console.log('Is input focused?', document.activeElement === input);
+                // Get the bounding rect of the input
+                const rect = input.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
 
-                // Move cursor to end
-                if (input.value) {
-                    const length = input.value.length;
-                    input.setSelectionRange(length, length);
-                }
+                // Simulate a complete touch sequence on the input itself
+                const touchObj = new Touch({
+                    identifier: Date.now(),
+                    target: input,
+                    clientX: x,
+                    clientY: y,
+                    radiusX: 2.5,
+                    radiusY: 2.5,
+                    rotationAngle: 0,
+                    force: 1
+                });
 
-                isHandling = false;
+                // touchstart
+                const touchStartEvent = new TouchEvent('touchstart', {
+                    bubbles: true,
+                    cancelable: true,
+                    touches: [touchObj],
+                    targetTouches: [touchObj],
+                    changedTouches: [touchObj]
+                });
+                input.dispatchEvent(touchStartEvent);
+
+                // Small delay between touch events
+                setTimeout(() => {
+                    // touchend
+                    const touchEndEvent = new TouchEvent('touchend', {
+                        bubbles: true,
+                        cancelable: true,
+                        touches: [],
+                        targetTouches: [],
+                        changedTouches: [touchObj]
+                    });
+                    input.dispatchEvent(touchEndEvent);
+
+                    // Follow up with focus and click
+                    setTimeout(() => {
+                        input.focus();
+                        input.click();
+                        
+                        console.log('Simulated tap complete, active element:', document.activeElement);
+                        console.log('Is input focused?', document.activeElement === input);
+
+                        // Move cursor to end
+                        if (input.value) {
+                            const length = input.value.length;
+                            input.setSelectionRange(length, length);
+                        }
+
+                        isHandling = false;
+                    }, 10);
+                }, 10);
             }, 50);
         });
 
