@@ -118,7 +118,7 @@ require(['jquery'], function($) {
     function setupFooterSearch() {
         let searchTouchHandled = false;
 
-        $('.footer-search').on('click touchend', function(e) {
+        $('.footer-search').on('touchstart', function(e) {
             if (searchTouchHandled) return;
             searchTouchHandled = true;
 
@@ -129,13 +129,22 @@ require(['jquery'], function($) {
 
             setTimeout(() => { searchTouchHandled = false; }, 300);
         });
+
+        // Fallback for non-touch devices
+        $('.footer-search').on('click', function(e) {
+            if (searchTouchHandled) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            handleSearchOpen();
+        });
     }
 
     function handleSearchOpen() {
         const input = document.querySelector('.aa-Input');
         if (!input) return;
 
-        // Close other menus first
+        // Close other menus first (without animation delays)
         $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
 
         if (window.location.href.indexOf('/customer/') === -1) {
@@ -145,20 +154,21 @@ require(['jquery'], function($) {
 
         // Make input ready for focus
         input.removeAttribute('readonly');
+        input.disabled = false;
 
-        // Scroll to top immediately (synchronously)
+        // Scroll to top immediately (synchronously - no smooth behavior)
         window.scrollTo(0, 0);
 
-        // Focus input immediately - this must happen in the same call stack
-        // to trigger the keyboard on mobile
-        setTimeout(() => {
-            input.focus();
-            input.click(); // Extra trigger for iOS
-            
-            // Force cursor to end of input
-            const length = input.value.length;
-            input.setSelectionRange(length, length);
-        }, 100);
+        // CRITICAL: Focus must happen immediately in response to user touch
+        // Cannot be delayed or wrapped in setTimeout/RAF on mobile
+        input.focus();
+        
+        // Trigger click as well for iOS
+        input.click();
+        
+        // Move cursor to end of input
+        const length = input.value.length;
+        input.setSelectionRange(length, length);
     }
 
     function setupFooterCart() {
