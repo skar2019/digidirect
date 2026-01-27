@@ -1488,7 +1488,7 @@ define([
 });
 
   const loader = document.getElementById('plp-custom-loader')
-  if (loader) loader.style.display = 'block'; // Show immediately
+  if (loader) loader.style.display = 'none'; // Change to block if you want to display the loader but there are issues.
 
   window.addEventListener('load', () => {
     const body = document.body;
