@@ -121,33 +121,50 @@ require(['jquery'], function($) {
             e.stopPropagation();
 
             const input = document.querySelector('.aa-Input');
-            if (!input) return;
-
-            // CRITICAL: Focus FIRST before anything else
-            // This must happen immediately in the touchstart handler
-            input.removeAttribute('readonly');
-            input.disabled = false;
-            input.focus();
-            input.click(); // Extra trigger for iOS
-
-            // Move cursor to end
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
+            if (!input) {
+                console.log('❌ Input not found');
+                return;
             }
 
-            // Now handle other UI updates AFTER focus is set
-            setTimeout(() => {
-                $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-                
-                if (window.location.href.indexOf('/customer/') === -1) {
-                    $('#mobile-account-popup').removeClass('active');
-                    $('body').css('overflow', '');
-                }
+            console.log('✅ Input found, attempting focus');
 
-                // Scroll to top after focus is established
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 50);
+            // Make sure Algolia autocomplete is open/visible first
+            if (window.algoliaAutocompleteInstance && 
+                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+                window.algoliaAutocompleteInstance.setIsOpen(true);
+            }
+
+            // Close other menus
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+            
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
+
+            // Scroll to top FIRST so input is in viewport
+            window.scrollTo(0, 0);
+
+            // Small delay to ensure scroll and DOM updates complete
+            setTimeout(() => {
+                // Make input ready
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+                input.style.pointerEvents = 'auto';
+                
+                // Focus and click
+                input.focus();
+                input.click();
+                
+                console.log('Focus called, active element:', document.activeElement);
+                console.log('Is input focused?', document.activeElement === input);
+
+                // Move cursor to end
+                if (input.value) {
+                    const length = input.value.length;
+                    input.setSelectionRange(length, length);
+                }
+            }, 100);
         });
 
         // Fallback for non-touch devices
@@ -163,26 +180,33 @@ require(['jquery'], function($) {
             const input = document.querySelector('.aa-Input');
             if (!input) return;
 
-            input.removeAttribute('readonly');
-            input.disabled = false;
-            input.focus();
-            input.click();
-
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
+            // Open Algolia first
+            if (window.algoliaAutocompleteInstance && 
+                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+                window.algoliaAutocompleteInstance.setIsOpen(true);
             }
 
-            setTimeout(() => {
-                $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-                
-                if (window.location.href.indexOf('/customer/') === -1) {
-                    $('#mobile-account-popup').removeClass('active');
-                    $('body').css('overflow', '');
-                }
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+            
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
 
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 50);
+            window.scrollTo(0, 0);
+
+            setTimeout(() => {
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+                input.style.pointerEvents = 'auto';
+                input.focus();
+                input.click();
+
+                if (input.value) {
+                    const length = input.value.length;
+                    input.setSelectionRange(length, length);
+                }
+            }, 100);
         });
     }
 
@@ -192,6 +216,11 @@ require(['jquery'], function($) {
         const input = document.querySelector('.aa-Input');
         if (!input) return;
 
+        if (window.algoliaAutocompleteInstance && 
+            typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+            window.algoliaAutocompleteInstance.setIsOpen(true);
+        }
+
         $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
 
         if (window.location.href.indexOf('/customer/') === -1) {
@@ -200,13 +229,18 @@ require(['jquery'], function($) {
         }
 
         input.removeAttribute('readonly');
-        input.disabled = false;
+        input.removeAttribute('disabled');
         window.scrollTo(0, 0);
-        input.focus();
-        input.click();
         
-        const length = input.value.length;
-        input.setSelectionRange(length, length);
+        setTimeout(() => {
+            input.focus();
+            input.click();
+            
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
+        }, 100);
     }
 
     function setupFooterCart() {
