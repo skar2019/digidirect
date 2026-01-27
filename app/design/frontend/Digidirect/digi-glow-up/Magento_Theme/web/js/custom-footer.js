@@ -118,7 +118,7 @@ require(['jquery'], function($) {
     function setupFooterSearch() {
         let searchTouchHandled = false;
 
-        $('.footer-search').on('touchstart', function(e) {
+        $('.footer-search').on('click touchend', function(e) {
             if (searchTouchHandled) return;
             searchTouchHandled = true;
 
@@ -135,7 +135,7 @@ require(['jquery'], function($) {
         const input = document.querySelector('.aa-Input');
         if (!input) return;
 
-        // Close other menus
+        // Close other menus first
         $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
 
         if (window.location.href.indexOf('/customer/') === -1) {
@@ -143,21 +143,22 @@ require(['jquery'], function($) {
             $('body').css('overflow', '');
         }
 
-        // Smooth scroll with RAF
-        requestAnimationFrame(() => {
-            window.scrollTo({ top: 0, behavior: 'instant' });
+        // Make input ready for focus
+        input.removeAttribute('readonly');
 
-            // Focus in next frame
-            requestAnimationFrame(() => {
-                input.removeAttribute('readonly');
-                input.focus();
+        // Scroll to top immediately (synchronously)
+        window.scrollTo(0, 0);
 
-                // Force keyboard on iOS
-                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                    input.click();
-                }
-            });
-        });
+        // Focus input immediately - this must happen in the same call stack
+        // to trigger the keyboard on mobile
+        setTimeout(() => {
+            input.focus();
+            input.click(); // Extra trigger for iOS
+            
+            // Force cursor to end of input
+            const length = input.value.length;
+            input.setSelectionRange(length, length);
+        }, 100);
     }
 
     function setupFooterCart() {
