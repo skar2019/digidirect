@@ -4,7 +4,7 @@
 
     <type name="Magento\Framework\Mail\Template\TransportBuilder">
         <plugin name="add_email_created_at"
-                type="Digidirect\EmailCustomerHelp\Plugin\EmailDateTransportPlugin"/>
+                type="Digidirect\EmailCustomerHelp\Plugin\EmailTransportPlugin"/>
     </type>
 
 </config>
