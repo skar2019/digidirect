@@ -116,35 +116,82 @@ require(['jquery'], function($) {
     }
 
     function setupFooterSearch() {
-        let searchTouchHandled = false;
-
         $('.footer-search').on('touchstart', function(e) {
-            if (searchTouchHandled) return;
-            searchTouchHandled = true;
-
             e.preventDefault();
             e.stopPropagation();
 
-            handleSearchOpen();
+            const input = document.querySelector('.aa-Input');
+            if (!input) return;
 
-            setTimeout(() => { searchTouchHandled = false; }, 300);
+            // CRITICAL: Focus FIRST before anything else
+            // This must happen immediately in the touchstart handler
+            input.removeAttribute('readonly');
+            input.disabled = false;
+            input.focus();
+            input.click(); // Extra trigger for iOS
+
+            // Move cursor to end
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
+
+            // Now handle other UI updates AFTER focus is set
+            setTimeout(() => {
+                $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+                
+                if (window.location.href.indexOf('/customer/') === -1) {
+                    $('#mobile-account-popup').removeClass('active');
+                    $('body').css('overflow', '');
+                }
+
+                // Scroll to top after focus is established
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 50);
         });
 
         // Fallback for non-touch devices
         $('.footer-search').on('click', function(e) {
-            if (searchTouchHandled) return;
+            // Only handle if not already handled by touchstart
+            if (e.type === 'click' && e.originalEvent && e.originalEvent.sourceCapabilities) {
+                return; // Ignore click events from touch
+            }
             
             e.preventDefault();
             e.stopPropagation();
-            handleSearchOpen();
+
+            const input = document.querySelector('.aa-Input');
+            if (!input) return;
+
+            input.removeAttribute('readonly');
+            input.disabled = false;
+            input.focus();
+            input.click();
+
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
+
+            setTimeout(() => {
+                $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+                
+                if (window.location.href.indexOf('/customer/') === -1) {
+                    $('#mobile-account-popup').removeClass('active');
+                    $('body').css('overflow', '');
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 50);
         });
     }
 
     function handleSearchOpen() {
+        // This function is no longer used by footer search
+        // Keeping it in case it's called elsewhere
         const input = document.querySelector('.aa-Input');
         if (!input) return;
 
-        // Close other menus first (without animation delays)
         $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
 
         if (window.location.href.indexOf('/customer/') === -1) {
@@ -152,21 +199,12 @@ require(['jquery'], function($) {
             $('body').css('overflow', '');
         }
 
-        // Make input ready for focus
         input.removeAttribute('readonly');
         input.disabled = false;
-
-        // Scroll to top immediately (synchronously - no smooth behavior)
         window.scrollTo(0, 0);
-
-        // CRITICAL: Focus must happen immediately in response to user touch
-        // Cannot be delayed or wrapped in setTimeout/RAF on mobile
         input.focus();
-        
-        // Trigger click as well for iOS
         input.click();
         
-        // Move cursor to end of input
         const length = input.value.length;
         input.setSelectionRange(length, length);
     }
