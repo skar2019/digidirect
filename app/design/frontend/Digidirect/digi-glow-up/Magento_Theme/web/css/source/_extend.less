@@ -1776,6 +1776,70 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     display: none;
 }
 
+/* Footer Search - Make input functional for keyboard trigger */
+
+.footer-search {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* The actual input field - invisible but functional */
+.footer-search-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 0;
+    margin: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    z-index: 2; /* Sits on top so user taps it */
+}
+
+/* Remove any default input styles */
+.footer-search-input:focus {
+    outline: none;
+    border: none;
+}
+
+/* The SVG icon sits below the input visually */
+.footer-search-icon {
+    pointer-events: none; /* Let clicks pass through to the input */
+    position: relative;
+    z-index: 1;
+}
+
+/* Optional: Visual feedback when input is focused */
+.footer-search-input:focus ~ .footer-search-icon {
+    opacity: 0.7;
+}
+
+/* Make sure the button itself doesn't interfere */
+.footer-search:active,
+.footer-search:focus {
+    outline: none;
+}
+
+
+@media screen and (max-width: 390px) {
+    .slick-dots {
+        margin-top: -65px;
+    }
+}
+
 @media screen and (max-width: 1512px) {
     .pa-digidirect-product-widget .product-widget-header {
         padding: 0 0 5px 0 !important;

@@ -32,6 +32,8 @@ class ProductEntHelper extends AbstractHelper
     protected $sourceItemRepository;
 
     protected $productRepository;
+    protected $logger;
+
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
@@ -48,8 +50,8 @@ class ProductEntHelper extends AbstractHelper
         CategoryCollectionFactory $categoryCollectionFactory,
         GetSourceItemsBySku $getSourceItemsBySku,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Psr\Log\LoggerInterface $logger  // ADD THIS
     ) {
-
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->imageHelperFactory = $imageHelperFactory;
@@ -65,6 +67,7 @@ class ProductEntHelper extends AbstractHelper
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->productRepository = $productRepository;
+        $this->logger = $logger;  // ADD THIS
     }
 
     public function execute()

@@ -34,7 +34,7 @@ require(['jquery'], function($) {
 
         // Individual handlers
         setupFooterMenuIcon();
-        setupFooterSearch();
+        setupFooterSearchWithInput(); // NEW FUNCTION
         setupFooterCart();
         setupAccountPopup();
         setupModals();
@@ -115,48 +115,76 @@ require(['jquery'], function($) {
         });
     }
 
-    function setupFooterSearch() {
-        let searchTouchHandled = false;
-
-        $('.footer-search').on('touchstart', function(e) {
-            if (searchTouchHandled) return;
-            searchTouchHandled = true;
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            handleSearchOpen();
-
-            setTimeout(() => { searchTouchHandled = false; }, 300);
-        });
-    }
-
-    function handleSearchOpen() {
-        const input = document.querySelector('.aa-Input');
-        if (!input) return;
-
-        // Close other menus
-        $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-
-        if (window.location.href.indexOf('/customer/') === -1) {
-            $('#mobile-account-popup').removeClass('active');
-            $('body').css('overflow', '');
+    /**
+     * NEW FOOTER SEARCH WITH INPUT
+     * Handles the footer search input to trigger keyboard on mobile
+     */
+    function setupFooterSearchWithInput() {
+        const $footerSearchInput = $('.footer-search-input');
+        
+        if (!$footerSearchInput.length) {
+            console.warn('Footer search input not found');
+            return;
         }
 
-        // Smooth scroll with RAF
-        requestAnimationFrame(() => {
-            window.scrollTo({ top: 0, behavior: 'instant' });
+        console.log('✅ Footer search input initialized');
 
-            // Focus in next frame
-            requestAnimationFrame(() => {
-                input.removeAttribute('readonly');
-                input.focus();
-
-                // Force keyboard on iOS
-                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                    input.click();
+        // When the input gets focus (user taps the button area)
+        $footerSearchInput.on('focus', function() {
+            console.log('✅ Footer search input focused!');
+            
+            const $input = $(this);
+            
+            // Remove readonly so keyboard appears
+            $input.removeAttr('readonly');
+            
+            // Close other menus
+            $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
+            
+            if (window.location.href.indexOf('/customer/') === -1) {
+                $('#mobile-account-popup').removeClass('active');
+                $('body').css('overflow', '');
+            }
+            
+            // Open Algolia autocomplete
+            if (window.algoliaAutocompleteInstance && 
+                typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
+                window.algoliaAutocompleteInstance.setIsOpen(true);
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Wait for Algolia to render, then transfer focus
+            setTimeout(() => {
+                const algoliaInput = document.querySelector('.aa-Input');
+                if (algoliaInput) {
+                    console.log('✅ Transferring focus to Algolia input');
+                    
+                    algoliaInput.removeAttribute('readonly');
+                    algoliaInput.removeAttribute('disabled');
+                    algoliaInput.focus();
+                    
+                    // Blur our fake input and make it readonly again
+                    $input.blur();
+                    $input.attr('readonly', 'readonly');
+                    
+                    console.log('✅ Focus transferred successfully');
+                } else {
+                    console.warn('❌ Algolia input not found');
                 }
-            });
+            }, 150);
+        });
+        
+        // Prevent typing into the fake input
+        $footerSearchInput.on('input', function() {
+            $(this).val('');
+        });
+        
+        // Prevent default button click behavior
+        $('.footer-search').on('click', function(e) {
+            e.preventDefault();
+            // Let the input's focus event handle everything
         });
     }
 
