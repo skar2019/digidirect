@@ -116,13 +116,19 @@ require(['jquery'], function($) {
     }
 
     function setupFooterSearch() {
-        $('.footer-search').on('touchstart', function(e) {
+        let isHandling = false;
+
+        $('.footer-search').on('touchend', function(e) {
+            if (isHandling) return;
+            isHandling = true;
+
             e.preventDefault();
             e.stopPropagation();
 
             const input = document.querySelector('.aa-Input');
             if (!input) {
                 console.log('❌ Input not found');
+                isHandling = false;
                 return;
             }
 
@@ -142,42 +148,37 @@ require(['jquery'], function($) {
                 $('body').css('overflow', '');
             }
 
-            // Scroll to top synchronously
+            // Scroll to top FIRST so input is in viewport
             window.scrollTo(0, 0);
 
-            // CRITICAL: Focus must happen synchronously in the touchstart handler
-            // NO setTimeout or the keyboard won't appear on mobile
-            input.removeAttribute('readonly');
-            input.removeAttribute('disabled');
-            input.style.pointerEvents = 'auto';
-            
-            // Focus the input - this MUST be in the same call stack as touchstart
-            input.focus();
-            
-            // For iOS, also trigger a click
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-            });
-            input.dispatchEvent(clickEvent);
-            
-            console.log('Focus called synchronously, active element:', document.activeElement);
-            console.log('Is input focused?', document.activeElement === input);
+            // Minimal delay to ensure DOM updates complete
+            setTimeout(() => {
+                // Make input ready
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+                input.style.pointerEvents = 'auto';
+                
+                // Focus and click
+                input.focus();
+                input.click();
+                
+                console.log('Focus called, active element:', document.activeElement);
+                console.log('Is input focused?', document.activeElement === input);
 
-            // Move cursor to end
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
-            }
+                // Move cursor to end
+                if (input.value) {
+                    const length = input.value.length;
+                    input.setSelectionRange(length, length);
+                }
+
+                isHandling = false;
+            }, 50);
         });
 
         // Fallback for non-touch devices
         $('.footer-search').on('click', function(e) {
-            // Only handle if not already handled by touchstart
-            if (e.type === 'click' && e.originalEvent && e.originalEvent.sourceCapabilities) {
-                return; // Ignore click events from touch
-            }
+            // Only handle if not already handled by touch
+            if (isHandling) return;
             
             e.preventDefault();
             e.stopPropagation();
@@ -200,22 +201,18 @@ require(['jquery'], function($) {
 
             window.scrollTo(0, 0);
 
-            input.removeAttribute('readonly');
-            input.removeAttribute('disabled');
-            input.style.pointerEvents = 'auto';
-            input.focus();
+            setTimeout(() => {
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+                input.style.pointerEvents = 'auto';
+                input.focus();
+                input.click();
 
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-            });
-            input.dispatchEvent(clickEvent);
-
-            if (input.value) {
-                const length = input.value.length;
-                input.setSelectionRange(length, length);
-            }
+                if (input.value) {
+                    const length = input.value.length;
+                    input.setSelectionRange(length, length);
+                }
+            }, 50);
         });
     }
 
@@ -241,19 +238,15 @@ require(['jquery'], function($) {
         input.removeAttribute('disabled');
         window.scrollTo(0, 0);
         
-        input.focus();
-        
-        const clickEvent = new MouseEvent('click', {
-            view: window,
-            bubbles: true,
-            cancelable: true
-        });
-        input.dispatchEvent(clickEvent);
-        
-        if (input.value) {
-            const length = input.value.length;
-            input.setSelectionRange(length, length);
-        }
+        setTimeout(() => {
+            input.focus();
+            input.click();
+            
+            if (input.value) {
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
+        }, 50);
     }
 
     function setupFooterCart() {
