@@ -41,9 +41,9 @@ class OrderSender extends \LatitudeNew\Payment\Model\Order\Email\Sender\OrderSen
             // This runs AFTER parent, so it takes precedence
             if ($shippingMethod === 'collect_collect') {
                 $this->writeDebugLog('CONDITION MATCHED: Collection order detected');
-                $this->writeDebugLog('Setting template ID to: 69');
+                $this->writeDebugLog('Setting template ID to: 92');
 
-                $this->templateContainer->setTemplateId(69);
+                $this->templateContainer->setTemplateId(92);
 
                 $this->writeDebugLog('Template ID (after set): ' . $this->templateContainer->getTemplateId());
             } else {
