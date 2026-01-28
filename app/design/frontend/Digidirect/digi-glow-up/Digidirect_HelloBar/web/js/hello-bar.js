@@ -61,72 +61,72 @@ require(['jquery'], function ($) {
       })
     })
 
-      // ---- Swipe detection ----
-      let startX = 0
-      let isDragging = false
-      let swipeEnabled = false
+        // ---- Swipe detection ----
+        let startX = 0;
+        let isDragging = false;
+        let swipeEnabled = false;
 
-      slidesContainer.addEventListener('pointerdown', function (e) {
-          if (e.target.closest('a')) {
-              swipeEnabled = false
-              return
-          }
+        slidesContainer.addEventListener('pointerdown', function (e) {
+            if (e.target.closest('a')) {
+                swipeEnabled = false;
+                return;
+            }
 
-          swipeEnabled = true
-          startX = e.clientX
-          isDragging = false
-      })
+            swipeEnabled = true;
+            startX = e.clientX;
+            isDragging = false;
+        })
 
-      slidesContainer.addEventListener('pointermove', function (e) {
-          if (!swipeEnabled) return
+        slidesContainer.addEventListener('pointermove', function (e) {
+            if (!swipeEnabled) return;
 
-          const diffX = e.clientX - startX
-          if (Math.abs(diffX) > 10) {
-              isDragging = true
-          }
-      })
+            const diffX = e.clientX - startX;
+            if (Math.abs(diffX) > 10) {
+                isDragging = true;
+            }
+        })
 
-      slidesContainer.addEventListener('pointerup', function (e) {
-          if (!swipeEnabled || !isDragging) return
+        slidesContainer.addEventListener('pointerup', function (e) {
+            if (!swipeEnabled || !isDragging) return;
 
-          const diffX = e.clientX - startX
-          const threshold = 50
+            const diffX = e.clientX - startX;
+            const threshold = 50;
 
-          if (Math.abs(diffX) > threshold) {
-              switchSlide(
-                  diffX < 0
-                      ? (currentIndex + 1) % slides.length
-                      : (currentIndex - 1 + slides.length) % slides.length
-              )
-              stopAutoMoveTemporarily()
-          }
-      })
+            if (Math.abs(diffX) > threshold) {
+                switchSlide(
+                    diffX < 0
+                        ? (currentIndex + 1) % slides.length
+                        : (currentIndex - 1 + slides.length) % slides.length
+                );
+                stopAutoMoveTemporarily();
+            }
+        })
 
-      slidesContainer.addEventListener('pointercancel', function () {
-          swipeEnabled = false
-          isDragging = false
-      })
+        slidesContainer.addEventListener('pointercancel', function () {
+            swipeEnabled = false;
+            isDragging = false;
+        })
 
-      // ---- Observer: detect external changes ----
-    const observer = new MutationObserver(() => {
-      const newIndex = Array.from(slides).findIndex((s) =>
-        s.classList.contains('tcl-banner__slide--active')
-      )
-      if (newIndex !== -1 && newIndex !== currentIndex) {
-        currentIndex = newIndex
-        switchSlide(newIndex)
-      }
+        // ---- Observer: detect external changes ----
+        const observer = new MutationObserver(() => {
+            const newIndex = Array.from(slides).findIndex((s) =>
+                s.classList.contains('tcl-banner__slide--active')
+            )
+            if (newIndex !== -1 && newIndex !== currentIndex) {
+                currentIndex = newIndex
+                switchSlide(newIndex)
+            }
+        });
+
+        observer.observe(slidesContainer, {
+            attributes: true,
+            subtree: true,
+            attributeFilter: ['class']
+        });
+
+        // ---- Initialize ----
+        switchSlide(currentIndex);
+        moveBackdrop();
+        startAutoMove();
     })
-
-    observer.observe(slidesContainer, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ['class']
-    })
-
-    // ---- Initialize ----
-    switchSlide(currentIndex)
-    moveBackdrop()
-    startAutoMove()
-  })
 })
