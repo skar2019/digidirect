@@ -43,10 +43,11 @@ class FinalPrice
     }
 
     /**
-     * Override final price with wiser_price if lower and apply DigiClub discounts
+     * Use the lower price between current final price and wiser_price
+     * Apply DigiClub discounts to wiser_price if applicable (web only, not API)
      *
      * @param \Magento\Catalog\Pricing\Price\FinalPrice $subject
-     * @param float $result
+     * @param float $result - Current final price (could include catalog rules, special prices, etc)
      * @return float
      */
     public function afterGetValue(
@@ -64,20 +65,15 @@ class FinalPrice
                 return $result;
             }
 
+            $sku = $product->getSku();
+
             // Validate result is numeric
             if (!is_numeric($result)) {
                 $this->logger->error('FinalPrice plugin: Non-numeric result received', [
-                    'sku' => $product->getSku(),
+                    'sku' => $sku,
                     'result' => $result,
                     'result_type' => gettype($result)
                 ]);
-                return $result;
-            }
-
-            $wiserPrice = $this->getWiserPrice($product);
-
-            // If no valid wiser price or not lower than current price, return original
-            if ($wiserPrice === null || $wiserPrice <= 0 || $wiserPrice >= $result) {
                 return $result;
             }
 
@@ -86,24 +82,50 @@ class FinalPrice
                 return $result;
             }
 
-            // Apply DigiClub discount if customer is a member
-            if ($this->isDigiClubMember()) {
-                $discountedPrice = $this->applyDigiClubDiscount($wiserPrice, $product->getSku());
+            $wiserPrice = $this->getWiserPrice($product);
+
+            // If no valid wiser price, return current price
+            if ($wiserPrice === null || $wiserPrice <= 0) {
+                return $result;
+            }
+
+            // Check if this is an API request
+            $areaCode = $this->getAreaCode();
+            $isApiRequest = ($areaCode === 'webapi_rest' || $areaCode === 'webapi_soap');
+
+            $finalWiserPrice = $wiserPrice;
+
+            // Only apply DigiClub discount for non-API requests (web/frontend)
+            if (!$isApiRequest && $this->isDigiClubMember()) {
+                $finalWiserPrice = $this->applyDigiClubDiscount($wiserPrice, $sku);
 
                 // Validate discounted price is reasonable
-                if ($discountedPrice > 0 && $discountedPrice < $wiserPrice) {
-                    return $discountedPrice;
-                } else {
-                    $this->logger->warning('FinalPrice plugin: Invalid discounted price calculated', [
-                        'sku' => $product->getSku(),
+                if ($finalWiserPrice <= 0 || $finalWiserPrice > $wiserPrice) {
+                    $this->logger->warning('FinalPrice plugin: Invalid discounted price, using original wiser price', [
+                        'sku' => $sku,
                         'wiser_price' => $wiserPrice,
-                        'discounted_price' => $discountedPrice
+                        'discounted_price' => $finalWiserPrice
                     ]);
-                    return $wiserPrice;
+                    $finalWiserPrice = $wiserPrice;
                 }
             }
 
-            return $wiserPrice;
+            // Return the LOWER of the two prices
+            $finalPrice = min($result, $finalWiserPrice);
+
+            // Log the decision for debugging
+            $this->logger->info('FinalPrice plugin: Price comparison', [
+                'sku' => $sku,
+                'area_code' => $areaCode,
+                'is_api_request' => $isApiRequest,
+                'regular_final_price' => $result,
+                'wiser_price_original' => $wiserPrice,
+                'wiser_price_after_digiclub' => $finalWiserPrice,
+                'final_price_returned' => $finalPrice,
+                'is_digiclub' => !$isApiRequest ? $this->isDigiClubMember() : 'N/A (API)'
+            ]);
+
+            return $finalPrice;
 
         } catch (\Throwable $e) {
             // Log the error but don't break pricing - return original price
@@ -168,27 +190,20 @@ class FinalPrice
                 'sku' => $product->getSku(),
                 'exception' => $e->getMessage()
             ]);
-            return false; // Default to applying pricing if we can't determine
+            return false;
         }
     }
 
     /**
      * Check if current customer is a DigiClub member
-     * Handles both web session and API token authentication
+     * Only used for web/frontend requests (not API)
      *
      * @return bool
      */
     private function isDigiClubMember(): bool
     {
         try {
-            // Handle API requests (webapi_rest/webapi_soap area)
-            $areaCode = $this->getAreaCode();
-
-            if ($areaCode === 'webapi_rest' || $areaCode === 'webapi_soap') {
-                return $this->isDigiClubMemberViaApi();
-            }
-
-            // Handle frontend/adminhtml requests via session
+            // Only check session (frontend/adminhtml)
             return $this->isDigiClubMemberViaSession();
 
         } catch (\Throwable $e) {
@@ -196,7 +211,7 @@ class FinalPrice
                 'exception' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return false; // Fail safely - don't apply discount if we can't verify
+            return false;
         }
     }
 
@@ -210,41 +225,7 @@ class FinalPrice
         try {
             return $this->appState->getAreaCode();
         } catch (LocalizedException $e) {
-            // Area code not set yet (e.g., during CLI operations)
             return null;
-        }
-    }
-
-    /**
-     * Check DigiClub membership via API authentication
-     *
-     * @return bool
-     */
-    private function isDigiClubMemberViaApi(): bool
-    {
-        try {
-            $customerId = $this->userContext->getUserId();
-
-            if (!$customerId) {
-                return false;
-            }
-
-            $customer = $this->customerRepository->getById($customerId);
-            $groupId = $customer->getGroupId();
-
-            return $groupId == self::DIGICLUB_GROUP_ID;
-
-        } catch (NoSuchEntityException $e) {
-            $this->logger->warning('FinalPrice plugin: Customer not found in API context', [
-                'customer_id' => $this->userContext->getUserId()
-            ]);
-            return false;
-        } catch (\Exception $e) {
-            $this->logger->error('FinalPrice plugin: Error checking DigiClub via API', [
-                'exception' => $e->getMessage(),
-                'customer_id' => $this->userContext->getUserId() ?? 'unknown'
-            ]);
-            return false;
         }
     }
 
@@ -328,7 +309,6 @@ class FinalPrice
                         return $price;
                     }
 
-                    // Optional: Log successful discount application
                     $this->logger->info('FinalPrice plugin: DigiClub discount applied', [
                         'sku' => $sku,
                         'percentage' => $percentage,
@@ -351,7 +331,6 @@ class FinalPrice
                 'price' => $price
             ]);
 
-            // Return original price on error
             return $price;
         }
     }
