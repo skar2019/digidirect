@@ -62,59 +62,68 @@ require(['jquery'], function ($) {
     })
 
       // ---- Swipe detection ----
-      let startX = 0
-      let isDragging = false
-      let swipeEnabled = false
+      let startX = 0;
+      let isDragging = false;
+      let swipeEnabled = false;
+      let activePointerId = null;
 
       slidesContainer.addEventListener('pointerdown', function (e) {
           if (e.target.closest('a')) {
-              swipeEnabled = false
-              return
+              swipeEnabled = false;
+              return;
           }
 
-          swipeEnabled = true
-          startX = e.clientX
-          isDragging = false
+          swipeEnabled = true;
+          startX = e.clientX;
+          isDragging = false;
+          activePointerId = e.pointerId;
+
+          slidesContainer.setPointerCapture(e.pointerId);
       })
 
       slidesContainer.addEventListener('pointermove', function (e) {
-          if (!swipeEnabled) return
+          if (!swipeEnabled || e.pointerId !== activePointerId) return;
 
-          const diffX = e.clientX - startX
+          const diffX = e.clientX - startX;
           if (Math.abs(diffX) > 10) {
-              isDragging = true
+              isDragging = true;
           }
       })
 
       slidesContainer.addEventListener('pointerup', function (e) {
-          if (!swipeEnabled || !isDragging) return
+          if (!swipeEnabled || !isDragging) return;
 
-          const diffX = e.clientX - startX
-          const threshold = 50
+          const diffX = e.clientX - startX;
+          const threshold = 50;
 
           if (Math.abs(diffX) > threshold) {
               switchSlide(
                   diffX < 0
                       ? (currentIndex + 1) % slides.length
                       : (currentIndex - 1 + slides.length) % slides.length
-              )
+              );
               stopAutoMoveTemporarily()
           }
+
+          swipeEnabled = false;
+          isDragging = false;
+          activePointerId = null;
       })
 
       slidesContainer.addEventListener('pointercancel', function () {
-          swipeEnabled = false
-          isDragging = false
+          swipeEnabled = false;
+          isDragging = false;
+          activePointerId = null;
       })
 
       // ---- Observer: detect external changes ----
-    const observer = new MutationObserver(() => {
+  /*  const observer = new MutationObserver(() => {
       const newIndex = Array.from(slides).findIndex((s) =>
         s.classList.contains('tcl-banner__slide--active')
       )
       if (newIndex !== -1 && newIndex !== currentIndex) {
-        currentIndex = newIndex
-        switchSlide(newIndex)
+        currentIndex = newIndex;
+        switchSlide(newIndex);
       }
     })
 
@@ -125,8 +134,8 @@ require(['jquery'], function ($) {
     })
 
     // ---- Initialize ----
-    switchSlide(currentIndex)
-    moveBackdrop()
-    startAutoMove()
+    switchSlide(currentIndex);
+    moveBackdrop();
+    startAutoMove();*/
   })
 })
