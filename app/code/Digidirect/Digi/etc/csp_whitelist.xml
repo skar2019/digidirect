@@ -216,6 +216,9 @@
                 <value id="digidirectprodconnect" type="host">*.digidirect.com</value>
                 <value id="impactpxf" type="host">digidirect.pxf.io</value>
                 <value id="impactsite" type="host">d.impct.site</value>
+                <value id="evenbritescript" type="host">*.eventbrite.com</value>
+                <value id="evenbriteapi" type="host">*.eventbriteapi.com</value>
+                <value id="evenbriteapi" type="host">*.corsproxy.io</value>
             </values>
         </policy>
         <policy id="font-src">
