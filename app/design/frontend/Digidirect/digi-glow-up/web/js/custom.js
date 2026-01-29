@@ -4,6 +4,7 @@ define([
     "uiRegistry",
     "Magento_Ui/js/core/app",
     "Magento_Customer/js/customer-data",
+    "domReady!"
 ], function ($, ko, registry, uiApp, customerData) {
     "use strict";
 
@@ -2489,5 +2490,47 @@ define([
                 }
             });
         });
+        
+        //Test Fix Add To Cart
+        // Handle all add to cart forms
+        $(document).on('click', 'button.action.tocart.primary', function(e) {
+            var $button = $(this);
+            var $form = $button.closest('form[data-role="tocart-form"]');
+
+            // Only disable if not already disabled
+            if (!$button.prop('disabled')) {
+                // Immediate visual feedback
+                $button.prop('disabled', true);
+                $button.addClass('disabled');
+                $button.css({
+                    'opacity': '0.5',
+                    'cursor': 'not-allowed'
+                });
+
+                // Optional: Change button text
+                var $span = $button.find('span');
+                if ($span.length) {
+                    $span.data('original-text', $span.text());
+                    $span.text('Adding...');
+                }
+            }
+        });
+
+        // Re-enable button if there's a validation error
+        $(document).on('invalid-form.validate', 'form[data-role="tocart-form"]', function() {
+            var $button = $(this).find('button.action.tocart.primary');
+            $button.prop('disabled', false);
+            $button.removeClass('disabled');
+            $button.css({
+                'opacity': '1',
+                'cursor': 'pointer'
+            });
+
+            var $span = $button.find('span');
+            if ($span.length && $span.data('original-text')) {
+                $span.text($span.data('original-text'));
+            }
+        });
+        
     });
 });
