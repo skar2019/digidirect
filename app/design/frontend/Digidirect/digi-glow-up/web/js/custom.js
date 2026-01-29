@@ -2492,43 +2492,44 @@ define([
         });
         
         //Test Fix Add To Cart
-        // Handle all add to cart forms
-        $(document).on('click', 'button.action.tocart.primary', function(e) {
-            var $button = $(this);
-            var $form = $button.closest('form[data-role="tocart-form"]');
+        // Use native addEventListener with capture phase to run BEFORE any other handlers
+        document.addEventListener('click', function(e) {
+            var target = e.target;
 
-            // Only disable if not already disabled
-            if (!$button.prop('disabled')) {
-                // Immediate visual feedback
-                $button.prop('disabled', true);
-                $button.addClass('disabled');
-                $button.css({
-                    'opacity': '0.5',
-                    'cursor': 'not-allowed'
-                });
+            // Find the button (might click on span or img inside)
+            var button = target.closest('button.action.tocart.primary');
 
-                // Optional: Change button text
-                var $span = $button.find('span');
-                if ($span.length) {
-                    $span.data('original-text', $span.text());
-                    $span.text('Adding...');
+            if (button && !button.disabled) {
+                // Disable IMMEDIATELY in capture phase
+                button.disabled = true;
+                button.classList.add('disabled');
+                button.style.opacity = '0.5';
+                button.style.cursor = 'not-allowed';
+                button.style.pointerEvents = 'none';
+
+                // Change text if span exists
+                var span = button.querySelector('span');
+                if (span) {
+                    span.setAttribute('data-original', span.textContent);
+                    span.textContent = 'Adding...';
                 }
             }
-        });
+        }, true); // TRUE = capture phase, runs before bubble phase
 
-        // Re-enable button if there's a validation error
+        // Re-enable on validation error
         $(document).on('invalid-form.validate', 'form[data-role="tocart-form"]', function() {
-            var $button = $(this).find('button.action.tocart.primary');
-            $button.prop('disabled', false);
-            $button.removeClass('disabled');
-            $button.css({
-                'opacity': '1',
-                'cursor': 'pointer'
-            });
+            var button = this.querySelector('button.action.tocart.primary');
+            if (button) {
+                button.disabled = false;
+                button.classList.remove('disabled');
+                button.style.opacity = '';
+                button.style.cursor = '';
+                button.style.pointerEvents = '';
 
-            var $span = $button.find('span');
-            if ($span.length && $span.data('original-text')) {
-                $span.text($span.data('original-text'));
+                var span = button.querySelector('span');
+                if (span && span.getAttribute('data-original')) {
+                    span.textContent = span.getAttribute('data-original');
+                }
             }
         });
         
