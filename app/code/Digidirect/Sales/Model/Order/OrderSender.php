@@ -18,7 +18,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         parent::prepareTemplate($order);
 
         if ($shippingMethod == 'collect_collect') {
-            $this->templateContainer->setTemplateId(69);
+            $this->templateContainer->setTemplateId(92);
         }
 
     }
