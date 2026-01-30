@@ -1132,6 +1132,10 @@ class Product extends AbstractHelper
                 continue;
             }
 
+            if (in_array($sourceCode, ['MWAV', 'XWEB'])) {
+                continue;
+            }
+
             try {
                 $sourceItem = $this->sourceItemFactory->create();
                 $sourceItem->setSourceCode($sourceCode);
