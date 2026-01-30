@@ -1,0 +1,339 @@
+/* Reset & Container */
+#tradeup_form_wrapper {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#tradeup_form_wrapper .container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.form-header {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+/* Labels & Inputs */
+label,
+.label-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+label span,
+.label-title span {
+    color: #e02b20;
+    margin-left: 2px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: #ff5500;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Range Slider */
+.condition-section {
+    padding-bottom: 20px;
+}
+
+.range-wrapper {
+    position: relative;
+    margin-top: 30px;
+    /* Space for bubble */
+    margin-bottom: 15px;
+    padding-left: 10px;
+    /* Half thumb width approx */
+    padding-right: 10px;
+    /* Half thumb width approx */
+}
+
+.custom-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 12px;
+    background: #000000;
+    border-radius: 20px;
+    outline: none;
+    margin: 0;
+    cursor: pointer;
+}
+
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #ff5500;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.custom-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ff5500;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Bubble */
+.bubble-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+}
+
+.bubble {
+    background: #ff5500;
+    color: white;
+    padding: 4px 8px;
+    position: absolute;
+    border-radius: 4px;
+    top: -30px;
+    /* Position above thumb */
+    left: 0;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    white-space: nowrap;
+    display: block;
+}
+
+.bubble::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 6px solid #ff5500;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.range-labels {
+    position: relative;
+    height: 40px;
+    margin-left: 10px;
+    /* Match range padding */
+    margin-right: 10px;
+    font-size: 11px;
+    color: #666;
+    cursor: pointer;
+}
+
+.range-label-item {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    /* Fixed width to prevent wrapping */
+}
+
+.range-label-item .number {
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 2px;
+}
+
+.range-label-item .text {
+    font-size: 12px;
+}
+
+/* Checkboxes */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #555;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 0;
+}
+
+.checkbox-container:hover input~.checkmark {
+    border-color: #aaa;
+}
+
+.checkbox-container input:checked~.checkmark {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* Footer */
+.form-footer {
+    margin-top: 30px;
+}
+
+.terms {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+.submit-btn {
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.submit-btn:hover {
+    background-color: #e04b00;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #tradeup_form_wrapper .container {
+        padding: 20px;
+    }
+
+    /* Adjust labels overlap on mobile */
+    .range-label-item .text {
+        font-size: 10px;
+        display: none;
+        /* Hide text, show only numbers if too small? Or wrap */
+    }
+
+    .range-labels {
+        height: 20px;
+    }
+}
+
+/* Show text on larger screens */
+@media (min-width: 400px) {
+    .range-label-item .text {
+        display: block;
+    }
+
+    .range-labels {
+        height: 40px;
+    }
+}
