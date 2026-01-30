@@ -1,0 +1,27 @@
+<!-- Load Font Awesome for carousel arrows -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<section class="digievent">
+    <h2>Here's what we announced</h2>
+    <div id="event-list" class="event-list">
+        <p class="muted">Loading live events...</p>
+    </div>
+</section>
+
+<section>
+    <h2>Past digi events</h2>
+    <div class="carousel-container">
+        <button class="carousel-btn prev" id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
+        <div class="carousel-track" id="past-carousel">
+            <p class="muted">Loading past events...</p>
+        </div>
+        <button class="carousel-btn next" id="nextBtn"><i class="fa-solid fa-angle-right"></i></button>
+    </div>
+</section>
+
+<!-- Include JS -->
+<script type="text/javascript">
+    require(['Digi_EventbriteEvents/js/events'], function(eventsModule){
+        eventsModule.init();
+    });
+</script>
