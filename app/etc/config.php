@@ -336,7 +336,7 @@ return [
         'Magento_GoogleOptimizerStaging' => 1,
         'Magento_GoogleShoppingAds' => 1,
         'Magento_GoogleTagManager' => 1,
-        'Magento_ServicesId' => 0,
+        'Magento_ServicesId' => 1,
         'Magento_GraphQlCache' => 1,
         'Magento_SaaSCommon' => 1,
         'Magento_GroupedProduct' => 1,
