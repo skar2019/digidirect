@@ -40,4 +40,9 @@
     <type name="Magento\Quote\Model\Quote">
         <plugin name="Digidirect_Collect::QuoteModelQuote" type="Digidirect\Collect\Plugin\Quote\Model\Quote"/>
     </type>
+
+    <type name="Magento\Checkout\Model\TotalsInformationManagement">
+        <plugin name="digidirect_collect_clear_shipping_method" type="Digidirect\Collect\Plugin\Checkout\Model\TotalsInformationManagementPlugin" sortOrder="10"/>
+    </type>
+
 </config>
