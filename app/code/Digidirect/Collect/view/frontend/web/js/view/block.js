@@ -193,16 +193,7 @@ define([
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
             } else {
-                // Set Click & Collect as the shipping method immediately
-                quote.shippingMethod({
-                    carrier_code: 'collect',
-                    method_code: 'collect',
-                    carrier_title: 'Click & Collect',
-                    method_title: 'Click & Collect',
-                    amount: 0,
-                    base_amount: 0,
-                    available: true
-                });
+                quote.shippingMethod(null);
 
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
