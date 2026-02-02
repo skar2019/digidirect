@@ -33,7 +33,7 @@ define([
          * @return {jQuery.Deferred}
          */
         saveShippingInformation: function () {
-            var payload;
+            var payload, shippingMethod;
 
             console.log("saveShippingInformation");
 
@@ -41,10 +41,12 @@ define([
                 selectBillingAddressAction(quote.shippingAddress());
             }
 
+            shippingMethod = quote.shippingMethod();
+
             payload = {
                 addressInformation: {
                     'shipping_address': quote.shippingAddress(),
-                    'billing_address': quote.billingAddress(),
+                    'billing_address': quote.billingAddress()
                 }
             };
 
