@@ -45,10 +45,14 @@ define([
                 addressInformation: {
                     'shipping_address': quote.shippingAddress(),
                     'billing_address': quote.billingAddress(),
-                    'shipping_method_code': quote.shippingMethod()['method_code'],
-                    'shipping_carrier_code': quote.shippingMethod()['carrier_code']
                 }
             };
+
+            // Only add shipping method if it's actually selected
+            if (shippingMethod && shippingMethod.method_code && shippingMethod.carrier_code) {
+                payload.addressInformation.shipping_method_code = shippingMethod.method_code;
+                payload.addressInformation.shipping_carrier_code = shippingMethod.carrier_code;
+            }
 
             payloadExtender(payload);
 
