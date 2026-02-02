@@ -45,7 +45,7 @@ define([
         },
         initialize: function () {
             setBlockPlaces();
-            
+
             window.selectStore = ko.observable(false);
 
             this._super();
@@ -73,7 +73,7 @@ define([
         },
         renderItems: function () {
             var self = this;
-            
+
             if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
@@ -97,7 +97,7 @@ define([
 
             $('#collect_quote_item_id').val(this.formItemId);
 
-            if (!singleCartPopUp) { 
+            if (!singleCartPopUp) {
                 this.popUpForm.options.buttons = [];
                 this.popUpForm.options.closed = function () {
                     self.isSingleCartFormPopUpVisible(false);
@@ -186,13 +186,27 @@ define([
             $('[data-collect-type="' + method + '"]').addClass(this.visibleClass);
 
             if (method === 'delivery') {
+                // Clear shipping method when switching to delivery
+                quote.shippingMethod(null);
+
                 this.applyDeliveryToAllItems();
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
             } else {
+                // Set Click & Collect as the shipping method immediately
+                quote.shippingMethod({
+                    carrier_code: 'collect',
+                    method_code: 'collect',
+                    carrier_title: 'Click & Collect',
+                    method_title: 'Click & Collect',
+                    amount: 0,
+                    base_amount: 0,
+                    available: true
+                });
+
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
-                
+
                 this.showFormPopUp();
             }
         },
