@@ -11,9 +11,6 @@
         <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
             <schedule>*/10 * * * *</schedule>
         </job>
-        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="executeSync">
-            <schedule>0 0 * * *</schedule>
-        </job>
         <job name="pronto_retail_sync" instance="Digidirect\Pronto\Cron\RetailStoreProntoOrders" method="execute">
             <schedule>*/15 * * * *</schedule>
         </job>
@@ -55,6 +52,12 @@
         </job>
         <job name="pronto_mwaveextrasftp" instance="Digidirect\Pronto\Cron\SendMWaveFile" method="sendExtraData">
             <schedule>55 1 * * *</schedule>
+        </job>
+    </group>
+
+    <group id="digidirect_customoptions">
+        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="executeSync">
+            <schedule>0 0 * * *</schedule>
         </job>
     </group>
 </config>

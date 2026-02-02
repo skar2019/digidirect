@@ -56,6 +56,13 @@ class AbstractApplyShippingVariation
             $quoteItem->setCollectPlaceId($collectPlaceId);
             $quoteItem->setCollectPlaceStorageName($storageName);
         }
+
+        // Clear shipping method when switching to delivery mode (collectPlaceId is null)
+        if ($collectPlaceId === null) {
+            $this->checkoutSession->getQuote()->getShippingAddress()->setShippingMethod(null);
+            $this->checkoutSession->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        }
+
         try {
             $this->checkoutSession->getQuote()->collectTotals();
             $this->checkoutSession->getQuote()->save();
