@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+Place at: app/code/DigiDirect/EventbriteProxy/etc/frontend/routes.xml
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="eventbrite_proxy" frontName="eventbrite-proxy">
+            <module name="DigiDirect_EventbriteProxy" />
+        </route>
+    </router>
+</config>
