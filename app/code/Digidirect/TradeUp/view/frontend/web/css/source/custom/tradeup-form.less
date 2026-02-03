@@ -1,17 +1,3 @@
-/* Reset & Container */
-.cms-trade-up {
-    .column.main {
-        background-color: #f2f2f7;
-    }
-    .pagebuilder-column.text-center-vertical {
-        background-color: #ffffff;
-    }
-
-    div[data-content-type="row"]:has(.how-tradeup-works) {
-        background: #ffffff;
-    }
-}
-
 #tradeup_form_wrapper {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #ffffff;
@@ -22,7 +8,6 @@
     .container {
         background: #ffffff;
         width: 100%;
-        //max-width: 800px;
         padding: 40px;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -32,11 +17,9 @@
         text-align: center;
         font-size: 28px;
         font-weight: 700;
-        color: #333;
         margin-bottom: 30px;
     }
 
-    /* Layout */
     .form-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -53,11 +36,10 @@
         margin-bottom: 25px;
     }
 
-    /* Labels & Inputs */
     label,
     .label-title {
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 550;
         color: #333;
         margin-bottom: 8px;
         display: block;
@@ -94,7 +76,12 @@
         resize: vertical;
     }
 
-    /* Range Slider */
+    input::placeholder,
+    textarea::placeholder {
+        color: #757575;
+        opacity: 1;
+    }
+
     .condition-section {
         padding-bottom: 20px;
     }
@@ -102,18 +89,14 @@
     .range-wrapper {
         position: relative;
         margin-top: 30px;
-        /* Space for bubble */
         margin-bottom: 15px;
-        padding-left: 10px;
-        /* Half thumb width approx */
-        padding-right: 10px;
-        /* Half thumb width approx */
+         padding: 0 10px;
     }
 
     .custom-range {
         -webkit-appearance: none;
         width: 100%;
-        height: 12px;
+        height: 19px;
         background: #000000;
         border-radius: 20px;
         outline: none;
@@ -126,10 +109,10 @@
         appearance: none;
         width: 20px;
         height: 20px;
-        background: #ff5500;
+        background: #FE4C25;
         border-radius: 50%;
         cursor: pointer;
-        border: 2px solid white;
+        border: 2px solid #FE4C25;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
         position: relative;
         z-index: 2;
@@ -138,28 +121,27 @@
     .custom-range::-moz-range-thumb {
         width: 20px;
         height: 20px;
-        background: #ff5500;
+        background: #FE4C25;
         border-radius: 50%;
         cursor: pointer;
-        border: 2px solid white;
+        border: 2px solid #FE4C25;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
     }
 
-    /* Bubble */
     .bubble-container {
         position: relative;
-        width: 100%;
         height: 0;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     .bubble {
-        background: #ff5500;
+        background: #FE4C25;
         color: white;
-        padding: 4px 8px;
+        padding: 4px 10px;
         position: absolute;
         border-radius: 4px;
         top: -30px;
-        /* Position above thumb */
         left: 0;
         transform: translateX(-50%);
         font-size: 12px;
@@ -174,7 +156,7 @@
         position: absolute;
         width: 0;
         height: 0;
-        border-top: 6px solid #ff5500;
+        border-top: 6px solid #FE4C25;
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         bottom: -6px;
@@ -185,9 +167,8 @@
     .range-labels {
         position: relative;
         height: 40px;
-        margin-left: 10px;
-        /* Match range padding */
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
         font-size: 11px;
         color: #666;
         cursor: pointer;
@@ -202,7 +183,6 @@
         flex-direction: column;
         align-items: center;
         width: 80px;
-        /* Fixed width to prevent wrapping */
     }
 
     .range-label-item .number {
@@ -216,7 +196,6 @@
         font-size: 12px;
     }
 
-    /* Checkboxes */
     .checkbox-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -246,8 +225,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        height: 16px;
-        width: 16px;
+        height: 18px;
+        width: 18px;
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -259,8 +238,8 @@
     }
 
     .checkbox-container input:checked~.checkmark {
-        background-color: #2196F3;
-        border-color: #2196F3;
+        background-color: #0171E3;
+        border-color: #0171E3;
     }
 
     .checkmark:after {
@@ -276,16 +255,15 @@
     .checkbox-container .checkmark:after {
         left: 5px;
         top: 1px;
-        width: 4px;
-        height: 9px;
+        width: 6px;
+        height: 11px;
         border: solid white;
-        border-width: 0 2px 2px 0;
+        border-width: 0 4px 4px 0;
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     }
 
-    /* Footer */
     .form-footer {
         margin-top: 30px;
     }
@@ -313,7 +291,6 @@
         background-color: #e04b00;
     }
 
-    /* Mobile Responsive */
     @media (max-width: 600px) {
         .form-grid {
             grid-template-columns: 1fr;
@@ -327,11 +304,9 @@
             padding: 20px;
         }
 
-        /* Adjust labels overlap on mobile */
         .range-label-item .text {
             font-size: 10px;
             display: none;
-            /* Hide text, show only numbers if too small? Or wrap */
         }
 
         .range-labels {
@@ -339,7 +314,6 @@
         }
     }
 
-    /* Show text on larger screens */
     @media (min-width: 400px) {
         .range-label-item .text {
             display: block;
@@ -350,5 +324,3 @@
         }
     }
 }
-
-

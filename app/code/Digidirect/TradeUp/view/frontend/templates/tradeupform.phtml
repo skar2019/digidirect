@@ -111,7 +111,7 @@ if ($isEnabled && $request->isPost()) {
 		<div id="tradeup_form_wrapper">
 			<div class="container">
 
-				<header class="form-header">Trade In Your Gear</header>
+				<h2 class="form-header">Trade In Your Gear</h2>
 
 				<form enctype="multipart/form-data" method="POST" action="" id="tradeupForm">
 
@@ -193,41 +193,54 @@ if ($isEnabled && $request->isPost()) {
 								<span class="checkmark"></span>
 								Battery
 							</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="accessories[]" value="Instruction Manual">
+                                <span class="checkmark"></span>
+                                Instruction Manual
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="accessories[]" value="Charger">
+                                <span class="checkmark"></span>
+                                Charger
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="accessories[]" value="Filters">
+                                <span class="checkmark"></span>
+                                Filters
+                            </label>
 							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Original Box">
+								<input type="checkbox" name="accessories[]" value="Box">
 								<span class="checkmark"></span>
-								Original Box
+								Box
 							</label>
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Instruction Manual">
-								<span class="checkmark"></span>
-								Instruction Manual
-							</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="accessories[]" value="Original Battery">
+                                <span class="checkmark"></span>
+                                Original Battery
+                            </label>
+
 							<label class="checkbox-container">
 								<input type="checkbox" name="accessories[]" value="Body Cap">
 								<span class="checkmark"></span>
 								Body Cap
 							</label>
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Charger">
-								<span class="checkmark"></span>
-								Charger
-							</label>
+
 							<label class="checkbox-container">
 								<input type="checkbox" name="accessories[]" value="USB Cables">
 								<span class="checkmark"></span>
 								USB Cables
 							</label>
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Filters">
-								<span class="checkmark"></span>
-								Filters
-							</label>
+
 							<label class="checkbox-container">
 								<input type="checkbox" name="accessories[]" value="Lens Cap">
 								<span class="checkmark"></span>
 								Lens Cap
 							</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="accessories[]" value="Battery Packs">
+                                <span class="checkmark"></span>
+                                Battery Packs
+                            </label>
 						</div>
 					</div>
 
@@ -235,7 +248,7 @@ if ($isEnabled && $request->isPost()) {
 					<div class="form-section">
 						<label for="miscellaneousaccessories">General</label>
 						<textarea name="miscellaneousaccessories" id="miscellaneousaccessories" rows="3"
-							placeholder="Brand/ Model/ Extra/ Additional Batteries Etc."></textarea>
+							placeholder="Bags/Straps/Tripod Plates/Additional Batteries, Etc."></textarea>
 					</div>
 
 					<!-- Shutter Count -->
