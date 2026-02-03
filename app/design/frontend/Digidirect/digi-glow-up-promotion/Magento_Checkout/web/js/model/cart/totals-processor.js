@@ -30,6 +30,8 @@ define([
 
             shippingMethod = quote.shippingMethod();
 
+            console.log('Totals processor - shipping method:', shippingMethod);
+
             // Only include shipping method if it exists AND has valid codes
             // This prevents auto-selection of "standard_standard"
             if (shippingMethod &&
@@ -61,6 +63,7 @@ define([
             }).always(function () {
                 totalsService.isLoading(false);
             });
+
         }
     };
 });
