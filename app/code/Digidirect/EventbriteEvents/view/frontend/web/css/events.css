@@ -1,0 +1,336 @@
+
+    
+    section.digievent {
+      max-width: 1200px;
+      margin: 60px auto 40px;
+      padding: 0 20px;
+    }
+
+     #digi_eventbrite h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+      font-weight: 700;
+      color: #1a1a1a;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    #digi_eventbrite h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #0078ff, #00d4ff);
+      border-radius: 2px;
+    }
+
+    /* Live Event Cards */
+    .event-list {
+      display: grid;
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .event-card {
+      display: flex;
+      align-items: stretch;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .event-card .media {
+      width: 45%;
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-card .media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .event-card:hover .media img {
+      transform: scale(1.05);
+    }
+
+    .event-card .content {
+      padding: 30px;
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .event-card .content h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.6em;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .event-card .content p {
+      color: #666;
+      font-size: 1.05em;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .event-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+     #digi_eventbrite .learn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      color: #0078ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05em;
+      transition: gap 0.3s ease;
+    }
+
+     #digi_eventbrite .learn-more:hover {
+      gap: 12px;
+    }
+
+     #digi_eventbrite .learn-more i {
+      transition: transform 0.3s ease;
+    }
+
+     #digi_eventbrite .learn-more:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Past Events Carousel */
+    .carousel-section {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 25px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      padding: 10px 0;
+      cursor: grab;
+    }
+
+    .carousel-track:active {
+      cursor: grabbing;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-item {
+      flex: 0 0 320px;
+      min-width: 320px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .carousel-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .carousel-item .meta {
+      padding: 20px;
+    }
+
+    .carousel-item h4 {
+      margin: 0 0 12px 0;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #1a1a1a;
+      line-height: 1.4;
+      min-height: 60px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .carousel-item .date-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .carousel-item .date-info i {
+      color: #0078ff;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2em;
+      transition: background 0.3s ease, transform 0.3s ease;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn:active,
+    .carousel-btn:focus {
+      background: rgba(0, 0, 0, 0.6);
+      outline: none;
+    }
+
+    .carousel-btn.prev {
+      left: -15px;
+    }
+
+    .carousel-btn.next {
+      right: -15px;
+    }
+
+    .muted {
+      color: #999;
+      font-size: 1.05em;
+      text-align: center;
+      padding: 40px 20px;
+      font-style: italic;
+    }
+
+    .loading-spinner {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0078ff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 968px) {
+      .event-card {
+        flex-direction: column;
+      }
+
+      .event-card .media,
+      .event-card .content {
+        width: 100%;
+      }
+
+      .event-card .media {
+        min-height: 250px;
+      }
+
+      .carousel-btn {
+        display: none;
+      }
+
+      .carousel-item {
+        flex: 0 0 280px;
+        min-width: 280px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.6em;
+      }
+
+      section.digievent,
+      .carousel-section {
+        margin: 30px auto;
+      }
+
+      .event-card .content {
+        padding: 20px;
+      }
+
+      .event-card .content h3 {
+        font-size: 1.3em;
+      }
+
+      .carousel-item {
+        flex: 0 0 90%;
+        min-width: 90%;
+      }
+
+      .carousel-track {
+        gap: 15px;
+      }
+    }
