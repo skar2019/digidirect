@@ -2,33 +2,25 @@
 namespace Digidirect\Collect\Plugin\Quote\Address;
 
 use Magento\Quote\Model\Quote\Address;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
 class PreventAutoShippingSelection
 {
+    protected $checkoutSession;
+
+    public function __construct(CheckoutSession $checkoutSession)
+    {
+        $this->checkoutSession = $checkoutSession;
+    }
+
     public function beforeSetShippingMethod(
         Address $subject,
                 $method
     ) {
-        // If trying to set standard_standard, check if it's from user selection
-        // If not from explicit user action, prevent it
+        // Only allow standard_standard if it's been explicitly selected
+        // For now, just block it entirely to test
         if ($method === 'standard_standard') {
-            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
-
-            // Check if this is being set by user action (from shipping information save)
-            $isUserAction = false;
-            foreach ($backtrace as $trace) {
-                if (isset($trace['class']) &&
-                    (strpos($trace['class'], 'ShippingInformationManagement') !== false ||
-                        strpos($trace['class'], 'TotalsInformationManagement') !== false)) {
-                    $isUserAction = true;
-                    break;
-                }
-            }
-
-            // If not user action and it's trying to set standard, prevent it
-            if (!$isUserAction) {
-                return [null];
-            }
+            return [null];
         }
 
         return [$method];
