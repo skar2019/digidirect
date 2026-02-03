@@ -2,24 +2,27 @@
 namespace Digidirect\Collect\Plugin\Quote\Address;
 
 use Magento\Quote\Model\Quote\Address;
-use Magento\Checkout\Model\Session as CheckoutSession;
+use Psr\Log\LoggerInterface;
 
 class PreventAutoShippingSelection
 {
-    protected $checkoutSession;
+    protected $logger;
 
-    public function __construct(CheckoutSession $checkoutSession)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->checkoutSession = $checkoutSession;
+        $this->logger = $logger;
     }
 
     public function beforeSetShippingMethod(
         Address $subject,
                 $method
     ) {
-        // Only allow standard_standard if it's been explicitly selected
-        // For now, just block it entirely to test
+        // Log all attempts to set shipping method
+        $this->logger->info('Attempting to set shipping method: ' . ($method ?? 'NULL'));
+
+        // Block standard_standard from being set
         if ($method === 'standard_standard') {
+            $this->logger->info('BLOCKED standard_standard from being set');
             return [null];
         }
 
