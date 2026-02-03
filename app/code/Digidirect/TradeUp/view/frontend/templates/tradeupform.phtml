@@ -83,9 +83,23 @@ if ($isEnabled && $request->isPost()) {
 	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
 
 	if ($sentMailResult) {
-		echo "<p class='successmessage .message.success'>Successfully Sent. Thank You" . "</p>";
+		//echo "<p class='successmessage message success'>Successfully Sent. Thank You" . "</p>";
 		//echo "<div id='tradeup_success' class='container' style='text-align:center; padding: 40px;'><h3 class='successmessage' style='color: green;'>Successfully Sent. Thank You.</h3></div>";
 		$showForm = false;
+
+        echo "<script>
+            require(['jquery'], function($) {
+                $(document).ready(function() {
+                    var successMsg = '<div class=\"message-success success message\" style=\"margin-bottom: 20px;\"><div>Successfully Sent. Thank You</div></div>';
+                    var target = $('main#maincontent');
+                    if (target.length === 0) target = $('.page-main');
+                    if (target.length === 0) target = $('body');
+
+                    target.prepend(successMsg);
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                });
+            });
+        </script>";
 	} else {
 		echo "<script>alert('Sorry but the email could not be sent. Please try again!');</script>";
 	}
