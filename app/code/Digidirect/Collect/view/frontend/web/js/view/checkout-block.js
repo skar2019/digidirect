@@ -185,20 +185,23 @@ define([
             $(this.collectBlock).removeClass(this.visibleClass);
             $('[data-collect-type="' + method + '"]').addClass(this.visibleClass);
 
+            console.log('BEFORE clear - shipping method:', quote.shippingMethod());
+
             if (method === 'delivery') {
                 // Clear shipping method when switching to delivery
                 quote.shippingMethod(null);
+                console.log('AFTER clear (delivery) - shipping method:', quote.shippingMethod());
 
                 this.applyDeliveryToAllItems();
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
             } else {
+                // Clear shipping method when switching to Click & Collect
                 quote.shippingMethod(null);
+                console.log('AFTER clear (collect) - shipping method:', quote.shippingMethod());
 
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
-
-                this.showFormPopUp();
             }
         },
         applyDeliveryToAllItems: function () {
