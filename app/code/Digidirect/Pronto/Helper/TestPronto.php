@@ -750,6 +750,18 @@ class TestPronto extends AbstractHelper
 
             }
 
+            $rephistory = $order->getStatusHistories();
+            foreach ($rephistory as $status) {
+                //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                $comment = $status->getComment();
+                if(!empty($comment))
+                {
+                    var_dump($comment);
+
+                }
+
+            }
+
             echo "Rep ".$rep."<br/>";
             echo "Is marketplace ".$isMarketPlace."<br/>";
             $directToWhse = false;

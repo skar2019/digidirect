@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Digidirect_EventbriteEvents::css/events.css"/>
+        <script src="Digidirect_EventbriteEvents::js/events.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="digidirect.events"
+                   template="Digidirect_EventbriteEvents::events.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

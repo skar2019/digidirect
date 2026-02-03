@@ -1,4 +1,5 @@
-// @import "custom/_tradeup.less";  
+// @import "custom/_tradeup.less";
+@import "custom/tradeup-form.less";
 
 * #digimarketseler_form_application {
     margin: 0;
@@ -6,7 +7,7 @@
     outline: none;
     font-family: "Poppins", sans-serif;
   }
-  
+
   #digimarketseler_form_application {
     display: flex;
     align-items: center;
@@ -58,17 +59,17 @@
     bottom: -5px;
     left: 40%;
 
-    
+
   }
-  
+
   // end range version 2
-  
+
 
 
   //range
   .container {
     margin-top: 80px;
-    
+
     .rangeSlider {
       .rangeSlider__handle {
         .tooltip {
@@ -83,7 +84,7 @@
           padding: 4px;
           display: block;
           width: 200px;
-          
+
         }
       }
     }
@@ -177,13 +178,13 @@
     }
 
     .tool-tip {
-      position: absolute; 
-      color:black; 
-      border: 1px solid #ff6600; 
-      // border: 1px solid #FCD900; 
-      background: #ff6600; 
-      // background: #FCD900; 
-      min-width: 50px; 
+      position: absolute;
+      color:black;
+      border: 1px solid #ff6600;
+      // border: 1px solid #FCD900;
+      background: #ff6600;
+      // background: #FCD900;
+      min-width: 50px;
       text-align: center;
 
       // background: red;
@@ -208,11 +209,11 @@
       bottom: -16px;
       width: 0;
     }
-    
+
   }
     // range end
-  
-  
+
+
     header {
         font-size: 28px;
         font-weight: 600;
@@ -220,14 +221,14 @@
         // color: #ff6600;
         text-align: center;
     }
-  
+
     .title-text-orange {
         color: #ff6600;
     }
-  
+
     .checklist-row {
         margin-top: 15px;
-  
+
       ul {
         columns: 4;
         -webkit-columns: 4;
@@ -236,52 +237,52 @@
         margin-top: 10px;
         margin-bottom: 15px;
       }
-  
+
       li {
         margin-bottom: unset !important;
       }
-  
+
       input[type="checkbox"] {
         width: 15px;
         height: 15px;
         position: relative !important;
         margin: unset !important;
       }
-      
+
     }
-  
+
     .margin-top-extra {
         margin-top: 25px;
     }
-  
+
     #seller_country_select, #seller_country_select2, #products_intend, #annual_sales {
         margin: 10px 0;
     }
-  
+
     select {
         border:none;
         border-bottom: 1px solid #b6b6b6;
         border-radius: 0 !important;
         outline:none;
         padding: unset !important;
-    
+
         option {
             color: #323232;
         }
-    
+
         option[value=""][disabled] {
             display: none;
         }
     }
-    
+
     .input-placeholder {
         position: relative;
     }
-  
+
     .input-placeholder input {
         padding: 2px;
     }
-  
+
     .input-placeholder input:valid + .placeholder {
         display: none;
     }
@@ -289,11 +290,11 @@
     .placeholder-remove + .placeholder{
       display: none !important;
     }
-  
+
     .select-title>select:valid ~ .title-label {
         display: none;
     }
-  
+
     .placeholder {
         position: absolute;
         pointer-events: none;
@@ -303,19 +304,19 @@
         margin: auto;
         color: gray;
     }
-  
+
     .placeholder span {
         color: red;
     }
-  
+
     .label-title {
         span {
         color: red;
         }
     }
-  
+
   }
-  
+
   #digimarketseler_form_application input, #digimarketseler_form_application textarea {
         border: none;
         border-bottom: 1px solid #b6b6b6;
@@ -324,29 +325,29 @@
         font-family: 'Poppins',sans-serif;
         margin: 5px 0px;
   }
-  
+
   #digimarketseler_form_application .inline-row {
         display: block;
-  
+
     .row1 {
         display: inline-block;
         width: 49.9%;
     }
-  
+
     .row1:first-child {
         padding-right: 5px;
     }
-  
+
     .row1:nth-child(2) {
         padding-left: 5px;
     }
-  
+
   }
-  
+
     #digimarketseler_form_application input[type=file] {
         display:none;
     }
-  
+
     .uploadfile {
         padding: 10px;
         display: flex;
@@ -358,24 +359,24 @@
         border: 1px solid #b6b6b6;
         margin: 15px 0;
     }
-    
+
     .drop-zone--over {
         border-style: solid;
     }
-  
+
     .drop-zone__input {
         display: none;
     }
-    
+
     .drop-zone__prompt1 {
         color: #ff6600;
         margin-right: 5px;
     }
-  
+
     .drop-zone__prompt2 {
         color: #737373;
     }
-  
+
     .drop-zone__thumb {
         width: 50%;
         height: 100%;
@@ -386,7 +387,7 @@
         position: relative;
         background-image: unset !important;
     }
-  
+
     .drop-zone__thumb::after {
         content: attr(data-label);
         position: relative;
@@ -399,8 +400,8 @@
         font-size: 14px;
         text-align: center;
     }
-  
-  
+
+
     #digimarketseler_form_application input[type=submit] {
         background: #ff6600;
         border-radius: 25px;
@@ -410,30 +411,30 @@
         text-transform: uppercase;
         color: #ffffff;
     }
-  
+
     .successmessage {
         background: #e5efe5;
         color: #006400;
         padding: 15px 14px;
         margin-top: 25px !important;
     }
-  
-  
+
+
   @media screen and (max-width: 668px) {
-   
+
     #digimarketseler_form_application {
         width: 100%;
         // width: 400px;
         display: block;
-  
+
         .container {
             margin-top: unset;
             padding: 15px;
         }
-  
+
         .checklist-row {
           margin-top: 15px;
-      
+
           ul {
             columns: 2;
             -webkit-columns: 2;
@@ -442,18 +443,18 @@
             margin-top: 10px;
             margin-bottom: 15px;
           }
-      
+
           li {
             margin-bottom: unset !important;
           }
-      
+
           input[type="checkbox"] {
             width: 15px;
             height: 15px;
             position: relative !important;
             margin: unset !important;
           }
-          
+
         }
 
         .tickmarks {
@@ -464,7 +465,7 @@
           width: 100%;
           // padding: 10px;
           display: none !important;
-    
+
             option {
               // padding: 0 25px;
               width: 100%;
@@ -474,40 +475,40 @@
               // position: relative;
               display: none !important;
             }
-    
+
             option[value="2"]{
               margin-left: 20px !important;
             }
-    
+
             option[value="3"]{
               margin-left: 15px !important;
             }
-    
+
             option[value="4"]{
               margin-left: 10px !important;
             }
-    
+
             option[value="5"]{
               margin-left: 20px !important;
             }
-    
+
             option[value="6"]{
               margin-right: -50px !important;
             }
-    
-    
+
+
         }
-  
+
     }
-    
-  
+
+
   }
-  
+
   @media screen and (max-width: 490px) {
     #digimarketseler_form_application {
         width: 100%;
         display: block;
-  
+
         .container {
             box-sizing: border-box;
             border-radius: 0;
@@ -515,15 +516,15 @@
             width: 100%;
         }
     }
-  
+
     .container header {
         font-size: 22px !important;
         margin: 0 0 50px 0;
     }
-  
+
     .checklist-row {
       margin-top: 15px;
-  
+
       ul {
         columns: 2;
         -webkit-columns: 2;
@@ -532,60 +533,60 @@
         margin-top: 10px;
         margin-bottom: 15px;
       }
-  
+
       li {
         margin-bottom: unset !important;
       }
-  
+
       input[type="checkbox"] {
         width: 15px;
         height: 15px;
         position: relative !important;
         margin: unset !important;
       }
-      
+
     }
-  
-  
+
+
   }
-  
+
   @media screen and (max-width: 780px) {
   #digimarketseler_form_application .inline-row {
     display: block;
-  
+
     .row1 {
         display: block;
         width: 100%;
     }
-  
+
     .row1:first-child {
         padding-right: unset;
     }
-  
+
     .row1:nth-child(2) {
         padding-left: unset;
     }
-  
+
     .margin-top-extra {
       margin-top: 15px !important;
     }
-  
+
     select {
       height: 40px;
     }
-  
+
     .select-title .placeholder {
       bottom: 10px !important;
     }
-  
+
     #seller_country_select, #seller_country_select2, #products_intend, #annual_sales {
       margin: unset;
     }
-  
-  
+
+
     .checklist-row {
       margin-top: 15px;
-  
+
       ul {
         columns: 2;
         -webkit-columns: 2;
@@ -594,28 +595,28 @@
         margin-top: 10px;
         margin-bottom: 15px;
       }
-  
+
       li {
         margin-bottom: unset !important;
       }
-  
+
       input[type="checkbox"] {
         width: 15px;
         height: 15px;
         position: relative !important;
         margin: unset !important;
       }
-      
+
     }
 
     // #rating  {
     //   display: none;
     // }
-  
+
   }
-  
+
   }
-  
+
 
   @media screen and (min-width: 1024px) and (max-width: 1380px) {
   #digimarketseler_form_application .inline-row {
@@ -627,7 +628,7 @@
       color: black;
       width: 100%;
       // padding: 10px;
-      
+
 
         option {
           // padding: 0 25px;
@@ -664,8 +665,7 @@
   }
 
 }
-  
-  
-  
-  
-  
+
+
+
+

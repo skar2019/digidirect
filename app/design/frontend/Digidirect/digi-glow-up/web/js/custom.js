@@ -4,6 +4,7 @@ define([
     "uiRegistry",
     "Magento_Ui/js/core/app",
     "Magento_Customer/js/customer-data",
+    "domReady!"
 ], function ($, ko, registry, uiApp, customerData) {
     "use strict";
 
@@ -2489,5 +2490,48 @@ define([
                 }
             });
         });
+        
+        //Test Fix Add To Cart
+        // Use native addEventListener with capture phase to run BEFORE any other handlers
+        document.addEventListener('click', function(e) {
+            var target = e.target;
+
+            // Find the button (might click on span or img inside)
+            var button = target.closest('button.action.tocart.primary');
+
+            if (button && !button.disabled) {
+                // Disable IMMEDIATELY in capture phase
+                button.disabled = true;
+                button.classList.add('disabled');
+                button.style.opacity = '0.5';
+                button.style.cursor = 'not-allowed';
+                button.style.pointerEvents = 'none';
+
+                // Change text if span exists
+                var span = button.querySelector('span');
+                if (span) {
+                    span.setAttribute('data-original', span.textContent);
+                    span.textContent = 'Adding...';
+                }
+            }
+        }, true); // TRUE = capture phase, runs before bubble phase
+
+        // Re-enable on validation error
+        $(document).on('invalid-form.validate', 'form[data-role="tocart-form"]', function() {
+            var button = this.querySelector('button.action.tocart.primary');
+            if (button) {
+                button.disabled = false;
+                button.classList.remove('disabled');
+                button.style.opacity = '';
+                button.style.cursor = '';
+                button.style.pointerEvents = '';
+
+                var span = button.querySelector('span');
+                if (span && span.getAttribute('data-original')) {
+                    span.textContent = span.getAttribute('data-original');
+                }
+            }
+        });
+        
     });
 });

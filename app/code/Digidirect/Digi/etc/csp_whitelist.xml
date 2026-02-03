@@ -53,8 +53,6 @@
                 <value id="braintreescript" type="host">*.braintree-api.com</value>
                 <value id="paypalscript" type="host">*.paypal.com</value>
                 <value id="visitorsscript" type="host">*.visitors.live</value>
-                <value id="evenbritescript" type="host">*.eventbrite.com</value>
-                <value id="evenbriteapi" type="host">*.eventbriteapi.com</value>
                 <value id="wibmoscript" type="host">*.wibmo.com</value>
                 <value id="paypalcnscript" type="host">*.paypal.cn</value>
                 <value id="paypalobjscript" type="host">*.paypalobjects.com</value>
@@ -216,6 +214,8 @@
                 <value id="digidirectprodconnect" type="host">*.digidirect.com</value>
                 <value id="impactpxf" type="host">digidirect.pxf.io</value>
                 <value id="impactsite" type="host">d.impct.site</value>
+                <value id="eventbrite" type="host">https://www.eventbriteapi.com</value>
+                <value id="corsproxy" type="host">https://corsproxy.io</value>
             </values>
         </policy>
         <policy id="font-src">

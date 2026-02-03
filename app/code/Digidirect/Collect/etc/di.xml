@@ -40,4 +40,11 @@
     <type name="Magento\Quote\Model\Quote">
         <plugin name="Digidirect_Collect::QuoteModelQuote" type="Digidirect\Collect\Plugin\Quote\Model\Quote"/>
     </type>
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="digidirect_collect_prevent_auto_shipping" type="Digidirect\Collect\Plugin\Quote\Address\PreventAutoShippingSelection" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Address\Total\Shipping">
+        <plugin name="digidirect_collect_log_shipping_total" type="Digidirect\Collect\Plugin\Quote\Address\Total\ShippingPlugin" sortOrder="10"/>
+    </type>
 </config>
