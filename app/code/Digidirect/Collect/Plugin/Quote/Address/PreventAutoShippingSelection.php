@@ -17,15 +17,27 @@ class PreventAutoShippingSelection
         Address $subject,
                 $method
     ) {
-        // Log all attempts to set shipping method
-        $this->logger->info('Attempting to set shipping method: ' . ($method ?? 'NULL'));
+        $this->logger->info('beforeSetShippingMethod called: ' . ($method ?? 'NULL'));
 
-        // Block standard_standard from being set
         if ($method === 'standard_standard') {
-            $this->logger->info('BLOCKED standard_standard from being set');
+            $this->logger->info('BLOCKED standard_standard');
             return [null];
         }
 
         return [$method];
+    }
+
+    public function afterSetData(
+        Address $subject,
+                $result,
+                $key,
+                $value = null
+    ) {
+        if ($key === 'shipping_method' && $value === 'standard_standard') {
+            $this->logger->info('BLOCKED standard_standard via setData');
+            $subject->setData('shipping_method', null);
+        }
+
+        return $result;
     }
 }
