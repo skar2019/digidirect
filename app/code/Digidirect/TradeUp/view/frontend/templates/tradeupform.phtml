@@ -7,87 +7,41 @@ $request = $this->getRequest();
 
 if ($isEnabled && $request->isPost()) {
 
-	// $recipient_email = 'newseller@digidirect.com.au'; //recipient email address
-	// $recipient_email = 'tradeandsave@digidirect.com.au'; // Updated recipient
-	$recipient_email = $helper->getRecipientEmail();
 	$post = $request->getPostValue();
 
 	$firstname = $post["firstname"] ?? '';
 	$lastname = $post["lastname"] ?? '';
 	$email = $post["email"] ?? '';
 	$phonenumber = $post["phonenumber"] ?? '';
-	// $descriptiongoods = $post["descriptiongoods"] ?? ''; // Comment
 	$shuttercount = $post["shuttercount"] ?? '';
 	$rate = $post['rate'] ?? '';
 	$accessories = isset($post['accessories']) ? implode(", ", $post['accessories']) : '';
-	$miscellaneousaccessories = $post["miscellaneousaccessories"] ?? ''; // General
+	$miscellaneousaccessories = $post["miscellaneousaccessories"] ?? '';
 
-	//Get uploaded file data using Request object
 	$files = $request->getFiles('attachment');
-	$tmp_name = $files['tmp_name'] ?? '';
-	$name = $files['name'] ?? '';
-	$size = $files['size'] ?? 0;
-	$type = $files['type'] ?? '';
 
-	//Load POST data from HTML form
-	$Fullname = $firstname . " " . $lastname; //sender name
-	$subject = "Trade Up Form"; //subject for the email
-	$message = "\n" . "\n"
-		. "Fullname :" . "\t" . $Fullname . "\n"
-		. "Email :" . "\t" . $email . "\n"
-		. "Contact Number :" . "\t" . $phonenumber . "\n"
-		. "Rate :" . "\t" . $rate . "\n"
-		. "Included Accessories :" . "\t" . $accessories . "\n"
-		. "General :" . "\t" . $miscellaneousaccessories . "\n"
-		. "Shutter Count :" . "\t" . $shuttercount . "\n" . "\n";
+	$formData = [
+		'fullname' => $firstname . " " . $lastname,
+		'email' => $email,
+		'phonenumber' => $phonenumber,
+		'rate' => $rate,
+		'accessories' => $accessories,
+		'miscellaneousaccessories' => $miscellaneousaccessories,
+		'shuttercount' => $shuttercount
+	];
 
+	$fileData = [
+		'tmp_name' => $files['tmp_name'] ?? '',
+		'name' => $files['name'] ?? '',
+		'type' => $files['type'] ?? ''
+	];
 
-	if (empty($tmp_name)) {
-		$boundary = md5("random");
-		$headers = "MIME-Version: 1.0\r\n";
-		$headers .= "From:" . $email . "\r\n";
-		$headers .= "Content-Type: multipart/mixed;";
-		$headers .= "boundary = $boundary\r\n";
-
-		$body = "--$boundary\r\n";
-		$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
-		$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-		$body .= chunk_split(base64_encode($message));
-
-	} else {
-		$handle = fopen($tmp_name, "r");
-		$content = fread($handle, $size);
-		fclose($handle);
-
-		$encoded_content = chunk_split(base64_encode($content));
-		$boundary = md5("random");
-
-		$headers = "MIME-Version: 1.0\r\n";
-		$headers .= "From:" . $email . "\r\n";
-		$headers .= "Content-Type: multipart/mixed;";
-		$headers .= "boundary = $boundary\r\n";
-
-		$body = "--$boundary\r\n";
-		$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
-		$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-		$body .= chunk_split(base64_encode($message));
-
-		$body .= "--$boundary\r\n";
-		$body .= "Content-Type: $type; name=" . $name . "\r\n";
-		$body .= "Content-Disposition: attachment; filename=" . $name . "\r\n";
-		$body .= "Content-Transfer-Encoding: base64\r\n";
-		$body .= "X-Attachment-Id: " . rand(1000, 99999) . "\r\n\r\n";
-		$body .= $encoded_content;
-	}
-
-	$sentMailResult = mail($recipient_email, $subject, $body, $headers);
+	$sentMailResult = $helper->sendTradeUpEmail($formData, $fileData);
 
 	if ($sentMailResult) {
-		//echo "<p class='successmessage message success'>Successfully Sent. Thank You" . "</p>";
-		//echo "<div id='tradeup_success' class='container' style='text-align:center; padding: 40px;'><h3 class='successmessage' style='color: green;'>Successfully Sent. Thank You.</h3></div>";
 		$showForm = false;
 
-        echo "<script>
+		echo "<script>
             require(['jquery'], function($) {
                 $(document).ready(function() {
                     var successMsg = '<div class=\"message-success success message\" style=\"margin-bottom: 20px;\"><div>Successfully Sent. Thank You</div></div>';
@@ -108,175 +62,167 @@ if ($isEnabled && $request->isPost()) {
 
 <?php if ($isEnabled): ?>
 	<?php //if ($showForm): ?>
-		<div id="tradeup_form_wrapper">
-			<div class="container">
+	<div id="tradeup_form_wrapper">
+		<div class="container">
 
-				<h2 class="form-header">Trade In Your Gear</h2>
+			<h2 class="form-header">Trade In Your Gear</h2>
 
-				<form enctype="multipart/form-data" method="POST" action="" id="tradeupForm">
+			<form enctype="multipart/form-data" method="POST" action="" id="tradeupForm">
 
-					<div class="form-grid">
-						<!-- Row 1 -->
-						<div class="form-group">
-							<label for="firstname">First Name<span>*</span></label>
-							<input type="text" id="firstname" name="firstname" required />
-						</div>
-						<div class="form-group">
-							<label for="lastname">Last Name<span>*</span></label>
-							<input type="text" id="lastname" name="lastname" required />
-						</div>
-
-						<!-- Row 2 -->
-						<div class="form-group">
-							<label for="email">Email<span>*</span></label>
-							<input type="email" id="email" name="email" required />
-						</div>
-						<div class="form-group">
-							<label for="phonenumber">Contact Number<span>*</span></label>
-							<input type="text" id="phonenumber" name="phonenumber" required />
-						</div>
+				<div class="form-grid">
+					<div class="form-group">
+						<label for="firstname">First Name<span>*</span></label>
+						<input type="text" id="firstname" name="firstname" required />
+					</div>
+					<div class="form-group">
+						<label for="lastname">Last Name<span>*</span></label>
+						<input type="text" id="lastname" name="lastname" required />
 					</div>
 
-<!--                    <div class="descriptiongoods margin-top-extra">-->
-<!--                        <div class="control">-->
-<!--                            <textarea name="descriptiongoods" id="descriptiongoods" cols="10" rows="2" placeholder="Description of goods (Brand, model, colour, serial)"></textarea>-->
-<!--                        </div>-->
-<!--                    </div>-->
+					<div class="form-group">
+						<label for="email">Email<span>*</span></label>
+						<input type="email" id="email" name="email" required />
+					</div>
+					<div class="form-group">
+						<label for="phonenumber">Contact Number<span>*</span></label>
+						<input type="text" id="phonenumber" name="phonenumber" required />
+					</div>
+				</div>
 
-					<!-- Condition Slider -->
-					<div class="form-section condition-section">
-						<div class="label-title">What condition would you say this item is in?</div>
+				<!--                    <div class="descriptiongoods margin-top-extra">-->
+				<!--                        <div class="control">-->
+				<!--                            <textarea name="descriptiongoods" id="descriptiongoods" cols="10" rows="2" placeholder="Description of goods (Brand, model, colour, serial)"></textarea>-->
+				<!--                        </div>-->
+				<!--                    </div>-->
 
-						<div class="range-wrapper">
-							<div class="bubble-container">
-								<output class="bubble" id="rangeBubble">4</output>
-							</div>
-							<input type="range" class="custom-range" id="conditionRange" min="1" max="6" step="1" value="4"
-								oninput="updateConditionBubble(this.value)">
+				<div class="form-section condition-section">
+					<div class="label-title">What condition would you say this item is in?</div>
+
+					<div class="range-wrapper">
+						<div class="bubble-container">
+							<output class="bubble" id="rangeBubble">4</output>
 						</div>
-
-						<div class="range-labels">
-							<div class="range-label-item" style="left: 0%" onclick="setRating(1)">
-								<div class="number">1</div>
-								<div class="text">Inoperable</div>
-							</div>
-							<div class="range-label-item" style="left: 20%" onclick="setRating(2)">
-								<div class="number">2</div>
-								<div class="text">Fair</div>
-							</div>
-							<div class="range-label-item" style="left: 40%" onclick="setRating(3)">
-								<div class="number">3</div>
-								<div class="text">Good</div>
-							</div>
-							<div class="range-label-item" style="left: 60%" onclick="setRating(4)">
-								<div class="number">4</div>
-								<div class="text">Very Good</div>
-							</div>
-							<div class="range-label-item" style="left: 80%" onclick="setRating(5)">
-								<div class="number">5</div>
-								<div class="text">Excellent</div>
-							</div>
-							<div class="range-label-item" style="left: 100%" onclick="setRating(6)">
-								<div class="number">6</div>
-								<div class="text">Perfect</div>
-							</div>
-						</div>
-						<input type="hidden" id="ratingValue" name="rate" value="4">
+						<input type="range" class="custom-range" id="conditionRange" min="1" max="6" step="1" value="4"
+							oninput="updateConditionBubble(this.value)">
 					</div>
 
-					<!-- Included Accessories -->
-					<div class="form-section accessories-section">
-						<div class="label-title">Included Accessories<span>*</span></div>
-						<div class="checkbox-grid">
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Battery">
-								<span class="checkmark"></span>
-								Battery
-							</label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" name="accessories[]" value="Instruction Manual">
-                                <span class="checkmark"></span>
-                                Instruction Manual
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" name="accessories[]" value="Charger">
-                                <span class="checkmark"></span>
-                                Charger
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" name="accessories[]" value="Filters">
-                                <span class="checkmark"></span>
-                                Filters
-                            </label>
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Box">
-								<span class="checkmark"></span>
-								Box
-							</label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" name="accessories[]" value="Original Battery">
-                                <span class="checkmark"></span>
-                                Original Battery
-                            </label>
-
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Body Cap">
-								<span class="checkmark"></span>
-								Body Cap
-							</label>
-
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="USB Cables">
-								<span class="checkmark"></span>
-								USB Cables
-							</label>
-
-							<label class="checkbox-container">
-								<input type="checkbox" name="accessories[]" value="Lens Cap">
-								<span class="checkmark"></span>
-								Lens Cap
-							</label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" name="accessories[]" value="Battery Packs">
-                                <span class="checkmark"></span>
-                                Battery Packs
-                            </label>
+					<div class="range-labels">
+						<div class="range-label-item" style="left: 0%" onclick="setRating(1)">
+							<div class="number">1</div>
+							<div class="text">Inoperable</div>
+						</div>
+						<div class="range-label-item" style="left: 20%" onclick="setRating(2)">
+							<div class="number">2</div>
+							<div class="text">Fair</div>
+						</div>
+						<div class="range-label-item" style="left: 40%" onclick="setRating(3)">
+							<div class="number">3</div>
+							<div class="text">Good</div>
+						</div>
+						<div class="range-label-item" style="left: 60%" onclick="setRating(4)">
+							<div class="number">4</div>
+							<div class="text">Very Good</div>
+						</div>
+						<div class="range-label-item" style="left: 80%" onclick="setRating(5)">
+							<div class="number">5</div>
+							<div class="text">Excellent</div>
+						</div>
+						<div class="range-label-item" style="left: 100%" onclick="setRating(6)">
+							<div class="number">6</div>
+							<div class="text">Perfect</div>
 						</div>
 					</div>
+					<input type="hidden" id="ratingValue" name="rate" value="4">
+				</div>
 
-					<!-- General Description -->
-					<div class="form-section">
-						<label for="miscellaneousaccessories">General</label>
-						<textarea name="miscellaneousaccessories" id="miscellaneousaccessories" rows="3"
-							placeholder="Bags/Straps/Tripod Plates/Additional Batteries, Etc."></textarea>
+				<div class="form-section accessories-section">
+					<div class="label-title">Included Accessories<span>*</span></div>
+					<div class="checkbox-grid">
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Battery">
+							<span class="checkmark"></span>
+							Battery
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Instruction Manual">
+							<span class="checkmark"></span>
+							Instruction Manual
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Charger">
+							<span class="checkmark"></span>
+							Charger
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Filters">
+							<span class="checkmark"></span>
+							Filters
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Box">
+							<span class="checkmark"></span>
+							Box
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Original Battery">
+							<span class="checkmark"></span>
+							Original Battery
+						</label>
+
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Body Cap">
+							<span class="checkmark"></span>
+							Body Cap
+						</label>
+
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="USB Cables">
+							<span class="checkmark"></span>
+							USB Cables
+						</label>
+
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Lens Cap">
+							<span class="checkmark"></span>
+							Lens Cap
+						</label>
+						<label class="checkbox-container">
+							<input type="checkbox" name="accessories[]" value="Battery Packs">
+							<span class="checkmark"></span>
+							Battery Packs
+						</label>
 					</div>
+				</div>
 
-					<!-- Shutter Count -->
-					<div class="form-section">
-						<label for="shuttercount">Shutter Count</label>
-						<input type="text" id="shuttercount" name="shuttercount"
-							placeholder="If you know the shutter count of your camera, let us know." />
-					</div>
+				<div class="form-section">
+					<label for="miscellaneousaccessories">General</label>
+					<textarea name="miscellaneousaccessories" id="miscellaneousaccessories" rows="3"
+						placeholder="Bags/Straps/Tripod Plates/Additional Batteries, Etc."></textarea>
+				</div>
 
-					<div class="form-footer">
-						<p class="terms">Terms & Conditions and Privacy Policy</p>
-						<input class="submit-btn" type="submit" name="button" value="Submit" />
-					</div>
+				<div class="form-section">
+					<label for="shuttercount">Shutter Count</label>
+					<input type="text" id="shuttercount" name="shuttercount"
+						placeholder="If you know the shutter count of your camera, let us know." />
+				</div>
 
-				</form>
-			</div>
+				<div class="form-footer">
+					<p class="terms">Terms & Conditions and Privacy Policy</p>
+					<input class="submit-btn" type="submit" name="button" value="Submit" />
+				</div>
+
+			</form>
 		</div>
-	<?php //endif; ?>
+	</div>
+<?php //endif; ?>
 <?php endif; ?>
 
 <script>
 	require(['jquery'], function ($) {
 		$(document).ready(function () {
 
-			// Check scope of validation
 			$("#tradeupForm").submit(function (e) {
 				let allRequired = true;
-				// Scope validation to this form only
 				let requiredFields = $(this).find('input[required]');
 
 				requiredFields.each(function () {
@@ -294,7 +240,6 @@ if ($isEnabled && $request->isPost()) {
 					return false;
 				}
 
-				// Email validation (Simple HTML5 regex equivalent)
 				/*let emailVal = $("#email").val();
 				let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 				if (!emailRegex.test(emailVal)) {
@@ -303,7 +248,6 @@ if ($isEnabled && $request->isPost()) {
 					return false;
 				}*/
 
-				// Checkbox validation
 				if ($("input[type=checkbox]:checked").length === 0) {
 					alert("You must check at least one accessory.");
 					e.preventDefault();
@@ -311,7 +255,6 @@ if ($isEnabled && $request->isPost()) {
 				}
 			});
 
-			// Initial bubble position
 			const range = document.getElementById("conditionRange");
 			if (range) {
 				updateConditionBubble(range.value);
@@ -329,18 +272,13 @@ if ($isEnabled && $request->isPost()) {
 		const max = range.max ? range.max : 6;
 		const newVal = Number(((val - min) * 100) / (max - min));
 
-		// Update bubble text
 		bubble.innerHTML = val;
-
-		// Position bubble
-		// Simplified calculation: just follow the percentage exactly
 		bubble.style.left = `calc(${newVal}%)`;
 	}
 
 	function setRating(val) {
 		const range = document.getElementById("conditionRange");
 		range.value = val;
-		// Trigger generic input event if needed, or just call updater
 		updateConditionBubble(val);
 	}
 </script>
