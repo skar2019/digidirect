@@ -30,15 +30,13 @@ define([
 
             shippingMethod = quote.shippingMethod();
 
-            console.log('Totals processor - shipping method:', shippingMethod);
-
             // Only include shipping method if it exists AND has valid codes
-            // This prevents auto-selection of "standard_standard"
+            // This prevents sending shipping codes when switching to Delivery mode
             if (shippingMethod &&
-                shippingMethod['method_code'] &&
-                shippingMethod['carrier_code']) {
-                payload.addressInformation['shipping_method_code'] = shippingMethod['method_code'];
-                payload.addressInformation['shipping_carrier_code'] = shippingMethod['carrier_code'];
+                shippingMethod.method_code &&
+                shippingMethod.carrier_code) {
+                payload.addressInformation.shipping_method_code = shippingMethod.method_code;
+                payload.addressInformation.shipping_carrier_code = shippingMethod.carrier_code;
             }
 
             return storage.post(
@@ -63,7 +61,6 @@ define([
             }).always(function () {
                 totalsService.isLoading(false);
             });
-
         }
     };
 });
