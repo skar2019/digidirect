@@ -268,6 +268,18 @@ define([
         selectShippingMethod: function (shippingMethod) {
             var self = this;
 
+            // Add null check - if no method provided, just return
+            if (!shippingMethod) {
+                return false;
+            }
+
+            // If there's already a request in progress, queue this one
+            if (this.shippingMethodRequest && this.shippingMethodRequest.state && this.shippingMethodRequest.state() === 'pending') {
+                // Store the pending method to process after current request completes
+                this.pendingShippingMethod = shippingMethod;
+                return false;
+            }
+
             // If there's already a request in progress, queue this one
             if (this.shippingMethodRequest && this.shippingMethodRequest.state && this.shippingMethodRequest.state() === 'pending') {
                 // Store the pending method to process after current request completes
