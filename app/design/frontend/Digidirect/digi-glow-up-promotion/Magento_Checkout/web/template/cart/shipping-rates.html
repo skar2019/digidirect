@@ -19,8 +19,8 @@
                     <input type="radio"
                            class="radio"
                            data-bind="
-                                click: function() { $parents[0].selectShippingMethod(method); },
-                                checked: $parents[0].selectedShippingMethod,
+                                click: function() { $parents[1].selectShippingMethod(method); },
+                                checked: $parents[1].selectedShippingMethod,
                                 attr: {
                                         value: carrier_code + '_' + method_code,
                                         id: 's_method_' + carrier_code + '_' + method_code,
