@@ -614,6 +614,6 @@ define([
             }
 
             return true;
-        },
+        }
     });
 });
