@@ -8,7 +8,7 @@
 /** @var \Plumrocket\Newsletterpopup\Block\Template $block */
  ?>
 
-<div class="newspopup_up_bg pr-newsletter-popup__wrp" id="newspopup_up_bg_<?= (int) $block->getPopup()->getId() ?>" style="display: none;" data-mage-init='{"prnewsletterpopup":{}}'>
+<div class="newspopup_up_bg pr-newsletter-popup__wrp" id="newspopup_up_bg_<?= (int) $block->getPopup()->getId() ?>" data-mage-init='{"prnewsletterpopup":{}}'>
     <?= $block->getChildHtml('popup.body') ?>
 </div>
 <script type="text/javascript">
