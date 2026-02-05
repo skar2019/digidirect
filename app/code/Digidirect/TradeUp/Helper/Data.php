@@ -12,8 +12,8 @@ class Data extends AbstractHelper
 {
     const XML_PATH_ENABLED = 'digidirect_tradeup/general/enabled';
     const XML_PATH_RECIPIENT_EMAIL = 'digidirect_tradeup/general/recipient_email';
-    const XML_PATH_EMAIL_TEMPLATE_COMPANY = 'digidirect_tradeup/general/email_template_company';
-    const XML_PATH_EMAIL_TEMPLATE_CUSTOMER = 'digidirect_tradeup/general/email_template_customer';
+    //const XML_PATH_EMAIL_TEMPLATE_COMPANY = 'digidirect_tradeup/general/email_template_company';
+    //const XML_PATH_EMAIL_TEMPLATE_CUSTOMER = 'digidirect_tradeup/general/email_template_customer';
 
     /**
      * @var TransportBuilder
@@ -81,26 +81,26 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getEmailTemplateCompany()
-    {
-        return $this->scopeConfig->getValue(
-            self::XML_PATH_EMAIL_TEMPLATE_COMPANY,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
+//    public function getEmailTemplateCompany()
+//    {
+//        return $this->scopeConfig->getValue(
+//            self::XML_PATH_EMAIL_TEMPLATE_COMPANY,
+//            ScopeInterface::SCOPE_STORE
+//        );
+//    }
 
     /**
      * Get email template ID
      *
      * @return string
      */
-    public function getEmailTemplateCustomer()
-    {
-        return $this->scopeConfig->getValue(
-            self::XML_PATH_EMAIL_TEMPLATE_CUSTOMER,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
+//    public function getEmailTemplateCustomer()
+//    {
+//        return $this->scopeConfig->getValue(
+//            self::XML_PATH_EMAIL_TEMPLATE_CUSTOMER,
+//            ScopeInterface::SCOPE_STORE
+//        );
+//    }
 
     /**
      * Send Trade Up email
@@ -126,10 +126,10 @@ class Data extends AbstractHelper
 
             $storeId = $this->storeManager->getStore()->getId();
             $recipientCompanyEmail = $this->getRecipientEmail();
-            $templateIdCompany = $this->getEmailTemplateCompany();
+            //$templateIdCompany = $this->getEmailTemplateCompany();
 
             $this->transportBuilder
-                ->setTemplateIdentifier($templateIdCompany)
+                ->setTemplateIdentifier('digidirect_tradeup_submission_template_company')
                 ->setTemplateOptions([
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                     'store' => $storeId
@@ -142,11 +142,11 @@ class Data extends AbstractHelper
             $transportCompany = $this->transportBuilder->getTransport();
             $transportCompany->sendMessage();
 
-            $recipientCustomerEmail = $formData['email'];
-            $templateIdCustomer = $this->getEmailTemplateCustomer();
+            /*$recipientCustomerEmail = $formData['email'];
+            //$templateIdCustomer = $this->getEmailTemplateCustomer();
 
             $this->transportBuilder
-                ->setTemplateIdentifier($templateIdCustomer)
+                ->setTemplateIdentifier('digidirect_tradeup_submission_template_customer')
                 ->setTemplateOptions([
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                     'store' => $storeId
@@ -158,7 +158,7 @@ class Data extends AbstractHelper
 
             $transportCustomer = $this->transportBuilder->getTransport();
 
-            $transportCustomer->sendMessage();
+            $transportCustomer->sendMessage();*/
 
             $this->inlineTranslation->resume();
 

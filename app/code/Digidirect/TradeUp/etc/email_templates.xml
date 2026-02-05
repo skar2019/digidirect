@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
     <template id="digidirect_tradeup_submission_template_company" label="Trade Up Form Submission" file="tradeup_submission_company.html" type="html" module="Digidirect_TradeUp" area="frontend"/>
-    <template id="digidirect_tradeup_submission_template_customer" label="Trade Up Form Submission" file="tradeup_submission_customer.html" type="html" module="Digidirect_TradeUp" area="frontend"/>
+<!--    <template id="digidirect_tradeup_submission_template_customer" label="Trade Up Form Submission" file="tradeup_submission_customer.html" type="html" module="Digidirect_TradeUp" area="frontend"/>-->
 </config>
