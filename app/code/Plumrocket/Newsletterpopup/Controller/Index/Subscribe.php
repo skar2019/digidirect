@@ -115,6 +115,8 @@ class Subscribe extends Action
     {
         $this->logger->info(__METHOD__ . ' - Newsletter subscription request started');
         
+        $isAlreadySubscribed = false;
+        
         try {
             // Log all incoming request data
             $allParams = $this->getRequest()->getParams();
@@ -173,54 +175,59 @@ class Subscribe extends Action
             
             $this->logger->info(__METHOD__ . ' - Subscriber check - ID: ' . $subscriberId . ', Status: ' . $subscriberStatus);
             
-            // Block if subscriber already exists with any ID
+            // If subscriber already exists with any ID, treat as "already subscribed"
             if ($subscriberId !== 0) {
                 $statusMessages = [
-                    MagentoSubscriber::STATUS_SUBSCRIBED => 'This email address is already subscribed to our newsletter.',
-                    MagentoSubscriber::STATUS_NOT_ACTIVE => 'This email address has already been registered. Please check your email for confirmation.',
-                    MagentoSubscriber::STATUS_UNSUBSCRIBED => 'This email address was previously unsubscribed. Please contact us to resubscribe.',
-                    MagentoSubscriber::STATUS_UNCONFIRMED => 'This email address is pending confirmation. Please check your email.'
+                    MagentoSubscriber::STATUS_SUBSCRIBED => 'This email address is already subscribed to our newsletter. Thank you for your continued interest!',
+                    MagentoSubscriber::STATUS_NOT_ACTIVE => 'This email address has already been registered. Please check your email for the confirmation link.',
+                    MagentoSubscriber::STATUS_UNSUBSCRIBED => 'This email address was previously subscribed. We\'ve noted your interest!',
+                    MagentoSubscriber::STATUS_UNCONFIRMED => 'This email address is pending confirmation. Please check your email for the confirmation link.'
                 ];
                 
                 $message = isset($statusMessages[$subscriberStatus]) 
                     ? $statusMessages[$subscriberStatus] 
-                    : 'This email address is already registered in our system.';
+                    : 'This email address is already in our system. Thank you!';
                 
-                $this->logger->warning(__METHOD__ . ' - Email already exists with status ' . $subscriberStatus . ': ' . $email);
-                throw new ValidatorException(__($message));
-            }
+                $this->logger->info(__METHOD__ . ' - Email already exists with status ' . $subscriberStatus . ': ' . $email);
+                $this->logger->info(__METHOD__ . ' - Treating as success with message: ' . $message);
+                
+                // Mark as already subscribed and add success message
+                $isAlreadySubscribed = true;
+                $this->messageManager->addSuccessMessage(__($message));
+            } else {
+                // New subscriber - proceed with normal subscription
+                $inputData = $this->getRequest()->getPostValue();
+                $this->logger->info(__METHOD__ . ' - Input data received: ' . $this->serializer->serialize($inputData));
+                
+                // Prepare DOB.
+                if (empty($inputData['dob'])
+                    && !empty($inputData['month'])
+                    && !empty($inputData['day'])
+                    && !empty($inputData['year'])
+                ) {
+                    $dateMapping = $this->_view
+                        ->getLayout()
+                        ->createBlock(Dob::class)
+                        ->getDateMapping(false);
+                    $inputData['dob'] = sprintf(
+                        $dateMapping,
+                        (int) $inputData['month'],
+                        (int) $inputData['day'],
+                        (int) $inputData['year']
+                    );
+                    $this->logger->info(__METHOD__ . ' - DOB prepared: ' . $inputData['dob']);
+                }
 
-            $inputData = $this->getRequest()->getPostValue();
-            $this->logger->info(__METHOD__ . ' - Input data received: ' . $this->serializer->serialize($inputData));
-            
-            // Prepare DOB.
-            if (empty($inputData['dob'])
-                && !empty($inputData['month'])
-                && !empty($inputData['day'])
-                && !empty($inputData['year'])
-            ) {
-                $dateMapping = $this->_view
-                    ->getLayout()
-                    ->createBlock(Dob::class)
-                    ->getDateMapping(false);
-                $inputData['dob'] = sprintf(
-                    $dateMapping,
-                    (int) $inputData['month'],
-                    (int) $inputData['day'],
-                    (int) $inputData['year']
-                );
-                $this->logger->info(__METHOD__ . ' - DOB prepared: ' . $inputData['dob']);
-            }
+                // Prepare mailchimp lists if they was passed through integration data
+                if (isset($inputData['integration']['mailchimp'])) {
+                    $inputData['mailchimp_list'] = $inputData['integration']['mailchimp'];
+                    $this->logger->info(__METHOD__ . ' - Mailchimp list prepared');
+                }
 
-            // Prepare mailchimp lists if they was passed through integration data
-            if (isset($inputData['integration']['mailchimp'])) {
-                $inputData['mailchimp_list'] = $inputData['integration']['mailchimp'];
-                $this->logger->info(__METHOD__ . ' - Mailchimp list prepared');
+                $this->logger->info(__METHOD__ . ' - Calling customSubscribe for email: ' . $email);
+                $this->subscriber->customSubscribe($email, $this, $inputData);
+                $this->logger->info(__METHOD__ . ' - customSubscribe completed successfully');
             }
-
-            $this->logger->info(__METHOD__ . ' - Calling customSubscribe for email: ' . $email);
-            $this->subscriber->customSubscribe($email, $this, $inputData);
-            $this->logger->info(__METHOD__ . ' - customSubscribe completed successfully');
             
         } catch (ValidatorException $e) {
             $this->logger->error(__METHOD__ . ' - ValidatorException: ' . $e->getMessage());
@@ -235,6 +242,7 @@ class Subscribe extends Action
             'error' => 0,
             'messages' => [],
             'hasSuccessTextPlaceholders' => false,
+            'isAlreadySubscribed' => $isAlreadySubscribed,
         ];
 
         $messages = $this->messageManager->getMessages(true);
@@ -253,6 +261,7 @@ class Subscribe extends Action
         
         $this->logger->info(__METHOD__ . ' - Messages collected: ' . $this->serializer->serialize($data['messages']));
         $this->logger->info(__METHOD__ . ' - Error flag: ' . $data['error']);
+        $this->logger->info(__METHOD__ . ' - Already subscribed flag: ' . $isAlreadySubscribed);
 
         if ($popupId = $this->getRequest()->getParam('id')) {
             $data['hasSuccessTextPlaceholders'] = $this->dataHelper
