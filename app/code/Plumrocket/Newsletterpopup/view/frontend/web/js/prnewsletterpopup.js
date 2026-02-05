@@ -383,10 +383,10 @@ define([
                                 popupRedirect(settings.success_url);
                             });
                         } else if (messages && ! hasSuccessTextPlaceholders) {
-                            setTimeout(function(){
+                            /*setTimeout(function(){
                                 popupClose();
                                 popupRedirect(settings.success_url);
-                            }, 5000);
+                            }, 5000);*/
                         } else {
                             popupClose();
                             popupRedirect(settings.success_url);

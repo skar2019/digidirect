@@ -167,19 +167,19 @@ class Subscribe extends Action
             }
 
             // Check if subscriber already exists and is subscribed
-            $subscriber = $this->subscriber->load($email, 'subscriber_email');
-            $subscriberId = (int)$subscriber->getId();
-            $subscriberStatus = $subscriber->getStatus();
+            $existingSubscriber = $this->subscriber->loadByEmail($email);
+            $subscriberId = (int)$existingSubscriber->getId();
+            $subscriberStatus = $existingSubscriber->getStatus();
             
             $this->logger->info(__METHOD__ . ' - Subscriber check - ID: ' . $subscriberId . ', Status: ' . $subscriberStatus);
             
+            if ($subscriberId !== 0 && $subscriberStatus == MagentoSubscriber::STATUS_SUBSCRIBED) {
+                $this->logger->warning(__METHOD__ . ' - Email already subscribed: ' . $email);
+                throw new ValidatorException(__('This email address is already subscribed to our newsletter.'));
+            }
+            
             if ($subscriberId !== 0) {
-                if ($subscriberStatus == MagentoSubscriber::STATUS_SUBSCRIBED) {
-                    $this->logger->warning(__METHOD__ . ' - Email already subscribed: ' . $email);
-                    throw new ValidatorException(__('This email address is already subscribed.'));
-                } else {
-                    $this->logger->info(__METHOD__ . ' - Subscriber exists but not active. Status: ' . $subscriberStatus . ' - Allowing re-subscription');
-                }
+                $this->logger->info(__METHOD__ . ' - Subscriber exists but not active. Status: ' . $subscriberStatus . ' - Allowing re-subscription');
             }
 
             $inputData = $this->getRequest()->getPostValue();
@@ -244,6 +244,7 @@ class Subscribe extends Action
         }
         
         $this->logger->info(__METHOD__ . ' - Messages collected: ' . $this->serializer->serialize($data['messages']));
+        $this->logger->info(__METHOD__ . ' - Error flag: ' . $data['error']);
 
         if ($popupId = $this->getRequest()->getParam('id')) {
             $data['hasSuccessTextPlaceholders'] = $this->dataHelper
