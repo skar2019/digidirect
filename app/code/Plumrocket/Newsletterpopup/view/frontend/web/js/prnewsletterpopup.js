@@ -345,7 +345,13 @@ define([
                             eventTracking(action, 'Success', settings.id);
                             finalFunction(responseData.messages, action, responseData.hasSuccessTextPlaceholders);
                         } else {
+                            // ERROR case - show error message then close popup
                             showMessages(responseData.messages, action);
+                            
+                            // Close popup after showing error message for 3 seconds
+                            setTimeout(function() {
+                                popupClose();
+                            }, 3000);
                         }
                     }
                 })
