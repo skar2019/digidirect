@@ -166,20 +166,28 @@ class Subscribe extends Action
                 }
             }
 
-            // Check if subscriber already exists and is subscribed
+            // Check if subscriber already exists (any status)
             $existingSubscriber = $this->subscriber->loadByEmail($email);
             $subscriberId = (int)$existingSubscriber->getId();
             $subscriberStatus = $existingSubscriber->getStatus();
             
             $this->logger->info(__METHOD__ . ' - Subscriber check - ID: ' . $subscriberId . ', Status: ' . $subscriberStatus);
             
-            if ($subscriberId !== 0 && $subscriberStatus == MagentoSubscriber::STATUS_SUBSCRIBED) {
-                $this->logger->warning(__METHOD__ . ' - Email already subscribed: ' . $email);
-                throw new ValidatorException(__('This email address is already subscribed to our newsletter.'));
-            }
-            
+            // Block if subscriber already exists with any ID
             if ($subscriberId !== 0) {
-                $this->logger->info(__METHOD__ . ' - Subscriber exists but not active. Status: ' . $subscriberStatus . ' - Allowing re-subscription');
+                $statusMessages = [
+                    MagentoSubscriber::STATUS_SUBSCRIBED => 'This email address is already subscribed to our newsletter.',
+                    MagentoSubscriber::STATUS_NOT_ACTIVE => 'This email address has already been registered. Please check your email for confirmation.',
+                    MagentoSubscriber::STATUS_UNSUBSCRIBED => 'This email address was previously unsubscribed. Please contact us to resubscribe.',
+                    MagentoSubscriber::STATUS_UNCONFIRMED => 'This email address is pending confirmation. Please check your email.'
+                ];
+                
+                $message = isset($statusMessages[$subscriberStatus]) 
+                    ? $statusMessages[$subscriberStatus] 
+                    : 'This email address is already registered in our system.';
+                
+                $this->logger->warning(__METHOD__ . ' - Email already exists with status ' . $subscriberStatus . ': ' . $email);
+                throw new ValidatorException(__($message));
             }
 
             $inputData = $this->getRequest()->getPostValue();
