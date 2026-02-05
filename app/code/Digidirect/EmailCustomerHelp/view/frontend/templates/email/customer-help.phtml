@@ -12,22 +12,22 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
         <table bgcolor="#f5f5f5" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:none;">
             <tr>
                 <td>
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; margin:0 auto; padding: 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; margin:0 auto; margin-bottom: 35px;">
                         <tr>
-                            <td align="center" style="padding:26px;">
+                            <td align="center" style="padding:15px;">
                                 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="mobiletable" style="background-color:#ffffff; max-width:600px; margin:0 auto; padding:20px; border-radius: 50px;">
                                     <tr>
                                         <td align="center">
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
                                                     <td width="60" align="center" valign="top" style="padding-right:10px; padding: 20px;">
-                                                        <img src="<?= $block->escapeUrl($faqIconUrl) ?>" alt="questions" width="38" style="display:block; max-width:55px; margin-left: 60px;">
+                                                        <img src="<?= $block->escapeUrl($faqIconUrl) ?>" alt="questions" width="40" style="display:block; max-width:55px; margin-left: 60px; width: 40px;">
                                                     </td>
-                                                    <td valign="top" style="padding-top: 20px;">
+                                                    <td valign="top" style="padding-top: 17px;">
                                                         <p style="margin:0; font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight:bold; line-height:24px; color:#000000;">
                                                             <?= $block->escapeHtml(__('Have a question?')) ?>
                                                         </p>
-                                                        <p style="margin:4px 0 20px 0; font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
+                                                        <p style="font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
                                                             <a href="<?= $block->escapeUrl($faqUrl) ?>" title="FAQS" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View our FAQs')) ?></a>
                                                         </p>
                                                     </td>
@@ -35,17 +35,17 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
                                             </table>
                                         </td>
 
-                                        <td align="left" valign="top" style="width:50%; padding:10px;" class="mobileStack">
+                                        <td align="left" valign="top" style="width:50%; padding:10px 10px 10px 30px;" class="mobileStack">
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                    <td width="60" align="center" valign="top" style="padding-right:10px;padding-top: 10px;">
-                                                        <img src="<?= $block->escapeUrl($accountIconUrl) ?>" alt="account" width="38" style="display:block; max-width:38px;">
+                                                    <td width="60" align="center" valign="top" style="padding-right:5px;padding-top: 8px;">
+                                                        <img src="<?= $block->escapeUrl($accountIconUrl) ?>" alt="account" width="44" style="display:block; max-width:44px;">
                                                     </td>
                                                     <td valign="top" style="padding-top: 10px;">
                                                         <p style="margin:0; font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight:bold; line-height:24px; color:#000000;">
                                                             <?= $block->escapeHtml(__('Manage my order')) ?>
                                                         </p>
-                                                        <p style="margin:4px 0 0 0; font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
+                                                        <p style="font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
                                                             <a href="<?= $block->escapeUrl($accountUrl) ?>" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View My Account')) ?></a>
                                                         </p>
                                                     </td>
