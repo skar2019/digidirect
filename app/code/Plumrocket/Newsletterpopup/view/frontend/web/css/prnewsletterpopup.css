@@ -289,6 +289,18 @@ div.agreement-hld #agreement-error {
 }
 
 .newspopup-message-success {
+    font-family: "Open Sans", Arial, sans-serif;
+    background-color: #242426 !important;
+    font-size: 18px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 32px;
+    padding: 0;
+    border: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.newspopup-message-success {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
