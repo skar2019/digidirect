@@ -14,6 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Validator\EmailAddress as EmailValidator;
 use Magento\Framework\Validator\Exception as ValidatorException;
+use Magento\Newsletter\Model\Subscriber as MagentoSubscriber;
 use Plumrocket\Base\Api\ConfigUtilsInterface;
 use Plumrocket\Newsletterpopup\Block\Popup\Fields\Dob;
 use Plumrocket\Newsletterpopup\Helper\Config;
@@ -162,6 +163,22 @@ class Subscribe extends Action
                             )
                         );
                     }
+                }
+            }
+
+            // Check if subscriber already exists and is subscribed
+            $subscriber = $this->subscriber->load($email, 'subscriber_email');
+            $subscriberId = (int)$subscriber->getId();
+            $subscriberStatus = $subscriber->getStatus();
+            
+            $this->logger->info(__METHOD__ . ' - Subscriber check - ID: ' . $subscriberId . ', Status: ' . $subscriberStatus);
+            
+            if ($subscriberId !== 0) {
+                if ($subscriberStatus == MagentoSubscriber::STATUS_SUBSCRIBED) {
+                    $this->logger->warning(__METHOD__ . ' - Email already subscribed: ' . $email);
+                    throw new ValidatorException(__('This email address is already subscribed.'));
+                } else {
+                    $this->logger->info(__METHOD__ . ' - Subscriber exists but not active. Status: ' . $subscriberStatus . ' - Allowing re-subscription');
                 }
             }
 
