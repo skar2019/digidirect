@@ -112,22 +112,35 @@ class Subscribe extends Action
      */
     public function execute()
     {
+        $this->logger->info(__METHOD__ . ' - Newsletter subscription request started');
+        
         try {
+            // Log all incoming request data
+            $allParams = $this->getRequest()->getParams();
+            $this->logger->info(__METHOD__ . ' - Request params: ' . $this->serializer->serialize($allParams));
+            
             if (! $this->config->isModuleEnabled()) {
+                $this->logger->warning(__METHOD__ . ' - Module is disabled');
                 throw new ValidatorException(__('The Plumrocket Newsletter Popup Module is disabled.'));
             }
 
             $recaptchaResponse = $this->getRequest()->getParam('g-recaptcha-response');
             $popupId = $this->getRequest()->getParam('id');
+            
+            $this->logger->info(__METHOD__ . ' - Popup ID: ' . $popupId);
 
             if (in_array('recaptcha', $this->dataHelper->getPopupFormFieldsKeys($popupId, true))
                 && ! $this->reCaptchaValidator->isValid($recaptchaResponse)
             ) {
+                $this->logger->warning(__METHOD__ . ' - reCAPTCHA validation failed');
                 throw new ValidatorException(__('reCAPTCHA verification failed.'));
             }
 
             $email = $this->getRequest()->getParam('email');
+            $this->logger->info(__METHOD__ . ' - Email received: ' . $email);
+            
             if (! $this->emailValidator->isValid($email)) {
+                $this->logger->warning(__METHOD__ . ' - Invalid email format: ' . $email);
                 throw new ValidatorException(__('Please enter a valid email address.'));
             }
 
@@ -135,12 +148,14 @@ class Subscribe extends Action
                 $_email = preg_replace('#[[:space:]]#', '', $email);
                 preg_match('#@([\w\-.]+$)#is', $_email, $domain);
                 if (!empty($domain[1])) {
+                    $this->logger->info(__METHOD__ . ' - Checking disposable email domain: ' . $domain[1]);
                     preg_match(
                         '#(?:^|[\s,]+)'. preg_quote($domain[1]) . '(?:$|[\s,]+)#i',
                         $this->configUtils->getStoreConfig('prnewsletterpopup/disposable_emails/domains'),
                         $math
                     );
                     if (!empty($math)) {
+                        $this->logger->warning(__METHOD__ . ' - Disposable email domain blocked: ' . $domain[1]);
                         throw new ValidatorException(
                             __(
                                 'This email address provider is blocked. Please try again with different email address.'
@@ -150,12 +165,9 @@ class Subscribe extends Action
                 }
             }
 
-            $subscriber = $this->subscriber->load($email, 'subscriber_email');
-            if ((int)$subscriber->getId() !== 0) {
-                throw new ValidatorException(__('This email address is already assigned to another user.'));
-            }
-
             $inputData = $this->getRequest()->getPostValue();
+            $this->logger->info(__METHOD__ . ' - Input data received: ' . $this->serializer->serialize($inputData));
+            
             // Prepare DOB.
             if (empty($inputData['dob'])
                 && !empty($inputData['month'])
@@ -172,20 +184,26 @@ class Subscribe extends Action
                     (int) $inputData['day'],
                     (int) $inputData['year']
                 );
+                $this->logger->info(__METHOD__ . ' - DOB prepared: ' . $inputData['dob']);
             }
 
             // Prepare mailchimp lists if they was passed through integration data
             if (isset($inputData['integration']['mailchimp'])) {
                 $inputData['mailchimp_list'] = $inputData['integration']['mailchimp'];
+                $this->logger->info(__METHOD__ . ' - Mailchimp list prepared');
             }
 
-            $subscriber->customSubscribe($email, $this, $inputData);
+            $this->logger->info(__METHOD__ . ' - Calling customSubscribe for email: ' . $email);
+            $this->subscriber->customSubscribe($email, $this, $inputData);
+            $this->logger->info(__METHOD__ . ' - customSubscribe completed successfully');
+            
         } catch (ValidatorException $e) {
+            $this->logger->error(__METHOD__ . ' - ValidatorException: ' . $e->getMessage());
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
-            // $this->messageManager->addError($e->getMessage());
+            $this->logger->error(__METHOD__ . ' - Exception: ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ' - Exception trace: ' . $e->getTraceAsString());
             $this->messageManager->addErrorMessage(__('Unknown Error'));
-            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
         }
 
         $data = [
@@ -207,6 +225,8 @@ class Subscribe extends Action
             }
             $data['messages'][$message->getType()][] = $message->getText();
         }
+        
+        $this->logger->info(__METHOD__ . ' - Messages collected: ' . $this->serializer->serialize($data['messages']));
 
         if ($popupId = $this->getRequest()->getParam('id')) {
             $data['hasSuccessTextPlaceholders'] = $this->dataHelper
@@ -214,11 +234,15 @@ class Subscribe extends Action
                 ->hasSuccessTextPlaceholders();
         }
 
+        $this->logger->info(__METHOD__ . ' - Final response data: ' . $this->serializer->serialize($data));
+
         $this->getResponse()
             ->setHeader('Content-type', 'application/json')
             ->clearHeader('Location')
             // ->clearRawHeader('Location')
             ->setHttpResponseCode(200)
             ->setBody($this->serializer->serialize($data));
+            
+        $this->logger->info(__METHOD__ . ' - Response sent successfully');
     }
 }
