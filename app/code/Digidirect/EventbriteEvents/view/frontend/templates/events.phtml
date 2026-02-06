@@ -1,17 +1,7 @@
-<div id="digi_eventbrite">
+<?php
+$events = $block->getEvents();
+?>
 
-    <section class="digievent">
-    <h2>🎉 Here's What We Announced</h2>
-    <div id="event-list" class="event-list"></div>
-    </section>
-
-    <section class="carousel-section">
-    <h2>📅 Past digiDirect Events</h2>
-    <div class="carousel-container">
-    <button class="carousel-btn prev" id="prevBtn">‹</button>
-    <div class="carousel-track" id="past-carousel"></div>
-    <button class="carousel-btn next" id="nextBtn">›</button>
-    </div>
-    </section>
-
-</div>
+<pre>
+<?php print_r($events); ?>
+</pre>
