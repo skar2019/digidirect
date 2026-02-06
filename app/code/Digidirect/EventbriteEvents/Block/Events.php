@@ -21,5 +21,6 @@ class Events extends Template
     public function getEvents()
     {
         return $this->eventHelper->getEvents();
+        // return ["block working"];
     }
 }
