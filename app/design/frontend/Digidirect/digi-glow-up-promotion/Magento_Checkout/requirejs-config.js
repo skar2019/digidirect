@@ -33,6 +33,9 @@ var config = {
             },
             'Magento_Checkout/js/view/shipping': {
                 'Magento_Checkout/js/dist/view/shipping-extend': true
+            },
+            'Magento_Checkout/js/view/shipping-address/shipping-method-list': {
+                'Magento_Checkout/js/view/shipping-address/shipping-method-list-mixin': true
             }
         }
     }
