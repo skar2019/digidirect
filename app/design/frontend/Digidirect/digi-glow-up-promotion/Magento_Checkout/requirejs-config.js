@@ -33,9 +33,6 @@ var config = {
             },
             'Magento_Checkout/js/view/shipping': {
                 'Magento_Checkout/js/dist/view/shipping-extend': true
-            },
-            'Magento_Checkout/js/view/cart/shipping-rates': {
-                'Magento_Checkout/js/view/cart/shipping-rates-mixin': true
             }
         }
     }
