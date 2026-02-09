@@ -79,7 +79,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get active combinations within date range
+     * Get active combinations within datetime range
      *
      * @param int|null $storeId
      * @return array
@@ -88,14 +88,9 @@ class Data extends AbstractHelper
     {
         $combinations = $this->getCombinations($storeId);
         $activeCombinations = [];
-        $currentDate = $this->timezone->date()->format('Y-m-d');
+        $currentDateTime = $this->timezone->date();
 
         foreach ($combinations as $combination) {
-            // Check if combination is active
-            if (empty($combination['active']) || $combination['active'] != '1') {
-                continue;
-            }
-
             // Validate required fields
             if (empty($combination['first_sku']) || 
                 empty($combination['second_sku']) || 
@@ -104,26 +99,28 @@ class Data extends AbstractHelper
                 continue;
             }
 
-            // Check start date
-            if (!empty($combination['start_date'])) {
+            // Check start datetime
+            if (!empty($combination['start_datetime'])) {
                 try {
-                    $startDateTime = new \DateTime($combination['start_date']);
-                    if ($currentDate < $startDateTime->format('Y-m-d')) {
+                    $startDateTime = new \DateTime($combination['start_datetime'], $this->timezone->getConfigTimezone());
+                    if ($currentDateTime < $startDateTime) {
                         continue;
                     }
                 } catch (\Exception $e) {
+                    $this->_logger->warning('Invalid start_datetime format: ' . $combination['start_datetime']);
                     continue;
                 }
             }
 
-            // Check end date
-            if (!empty($combination['end_date'])) {
+            // Check end datetime
+            if (!empty($combination['end_datetime'])) {
                 try {
-                    $endDateTime = new \DateTime($combination['end_date']);
-                    if ($currentDate > $endDateTime->format('Y-m-d')) {
+                    $endDateTime = new \DateTime($combination['end_datetime'], $this->timezone->getConfigTimezone());
+                    if ($currentDateTime > $endDateTime) {
                         continue;
                     }
                 } catch (\Exception $e) {
+                    $this->_logger->warning('Invalid end_datetime format: ' . $combination['end_datetime']);
                     continue;
                 }
             }

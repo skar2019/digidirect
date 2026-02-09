@@ -17,7 +17,7 @@
                 </field>
                 <field id="combinations" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Product Combinations</label>
-                    <comment>Add multiple product combination rules</comment>
+                    <comment>Add multiple product combination rules. Leave dates empty for always active rules.</comment>
                     <frontend_model>Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Combinations</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>

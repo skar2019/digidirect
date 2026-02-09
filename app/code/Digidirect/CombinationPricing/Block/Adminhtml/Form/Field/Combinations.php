@@ -8,9 +8,9 @@ use Magento\Framework\Exception\LocalizedException;
 class Combinations extends AbstractFieldArray
 {
     /**
-     * @var \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\Active
+     * @var \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\DateTime
      */
-    private $activeRenderer;
+    private $dateTimeRenderer;
 
     /**
      * Prepare rendering the new field by adding all the needed columns
@@ -35,19 +35,16 @@ class Combinations extends AbstractFieldArray
             'style' => 'width:100px'
         ]);
         
-        $this->addColumn('start_date', [
-            'label' => __('Start Date (YYYY-MM-DD)'),
-            'style' => 'width:130px'
+        $this->addColumn('start_datetime', [
+            'label' => __('Start Date & Time'),
+            'renderer' => $this->getDateTimeRenderer(),
+            'style' => 'width:180px'
         ]);
         
-        $this->addColumn('end_date', [
-            'label' => __('End Date (YYYY-MM-DD)'),
-            'style' => 'width:130px'
-        ]);
-        
-        $this->addColumn('active', [
-            'label' => __('Active'),
-            'renderer' => $this->getActiveRenderer()
+        $this->addColumn('end_datetime', [
+            'label' => __('End Date & Time'),
+            'renderer' => $this->getDateTimeRenderer(),
+            'style' => 'width:180px'
         ]);
 
         $this->_addAfter = false;
@@ -55,21 +52,21 @@ class Combinations extends AbstractFieldArray
     }
 
     /**
-     * Get active column renderer
+     * Get datetime column renderer
      *
-     * @return \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\Active
+     * @return \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\DateTime
      * @throws LocalizedException
      */
-    private function getActiveRenderer()
+    private function getDateTimeRenderer()
     {
-        if (!$this->activeRenderer) {
-            $this->activeRenderer = $this->getLayout()->createBlock(
-                \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\Active::class,
+        if (!$this->dateTimeRenderer) {
+            $this->dateTimeRenderer = $this->getLayout()->createBlock(
+                \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\DateTime::class,
                 '',
                 ['data' => ['is_render_to_js_template' => true]]
             );
         }
-        return $this->activeRenderer;
+        return $this->dateTimeRenderer;
     }
 
     /**
@@ -81,10 +78,6 @@ class Combinations extends AbstractFieldArray
     protected function _prepareArrayRow(DataObject $row): void
     {
         $options = [];
-        $active = $row->getData('active');
-        if ($active !== null) {
-            $options['option_' . $this->getActiveRenderer()->calcOptionHash($active)] = 'selected="selected"';
-        }
         $row->setData('option_extra_attrs', $options);
     }
 }
