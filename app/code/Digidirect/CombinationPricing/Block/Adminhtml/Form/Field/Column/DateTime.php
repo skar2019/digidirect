@@ -1,15 +1,10 @@
 <?php
 namespace Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column;
 
-use Magento\Framework\View\Element\AbstractBlock;
-
-class DateTime extends AbstractBlock
+class DateTime extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * Set input name
-     *
-     * @param string $value
-     * @return $this
      */
     public function setInputName($value)
     {
@@ -18,9 +13,6 @@ class DateTime extends AbstractBlock
 
     /**
      * Set input id
-     *
-     * @param string $value
-     * @return $this
      */
     public function setInputId($value)
     {
@@ -28,51 +20,26 @@ class DateTime extends AbstractBlock
     }
 
     /**
-     * Set column name
-     *
-     * @param string $value
-     * @return $this
-     */
-    public function setColumnName($value)
-    {
-        return $this->setData('column_name', $value);
-    }
-
-    /**
-     * Set column value
-     *
-     * @param string $value
-     * @return $this
-     */
-    public function setColumn($value)
-    {
-        return $this->setData('column', $value);
-    }
-
-    /**
-     * Render block HTML
-     *
-     * @return string
+     * Render HTML
      */
     protected function _toHtml()
     {
-        $inputName = $this->getData('input_name');
-        $inputId = $this->getData('input_id');
-        $columnName = $this->getData('column_name');
         $column = $this->getData('column');
+        $columnName = $this->getData('column_name');
         
         $value = '';
         if (is_array($column) && isset($column[$columnName])) {
             $value = $column[$columnName];
         }
 
-        $html = '<input type="text" 
-                    name="' . $inputName . '" 
-                    id="' . $inputId . '" 
+        $html = '<input 
+                    type="text" 
+                    name="' . $this->escapeHtml($this->getData('input_name')) . '" 
+                    id="' . $this->escapeHtml($this->getData('input_id')) . '" 
                     value="' . $this->escapeHtml($value) . '" 
-                    class="admin__control-text input-text" 
-                    placeholder="YYYY-MM-DD HH:MM:SS"
-                    style="width:180px" />';
+                    class="admin__control-text datetime-picker"
+                    placeholder="mm/dd/yyyy hh:mm:ss"
+                    style="width: 200px;" />';
         
         return $html;
     }
