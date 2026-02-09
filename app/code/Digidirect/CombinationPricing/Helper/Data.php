@@ -89,144 +89,168 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Parse datetime string with multiple format support
-     * Prioritizes d/m/Y format (Magento default)
-     *
-     * @param string $dateTimeString
-     * @return \DateTime|null
-     */
-    protected function parseDateTime($dateTimeString)
-    {
-        if (empty($dateTimeString)) {
-            return null;
-        }
+    * Parse datetime string with multiple format support
+    * Always parse in store's configured timezone
+    *
+    * @param string $dateTimeString
+    * @return \DateTime|null
+    */
+   protected function parseDateTime($dateTimeString)
+   {
+       if (empty($dateTimeString)) {
+           return null;
+       }
 
-        $dateTimeString = trim($dateTimeString);
+       $dateTimeString = trim($dateTimeString);
 
-        // List of possible datetime formats - Magento format FIRST
-        $formats = [
-            'd/m/Y H:i:s',      // 15/01/2025 14:30:00 (Magento default)
-            'd/m/Y H:i',        // 15/01/2025 14:30
-            'd/m/Y',            // 15/01/2025
-            'd/m/y H:i:s',      // 15/01/25 14:30:00
-            'm/d/Y H:i:s',      // 01/15/2025 14:30:00
-            'm/d/y H:i:s',      // 01/15/25 14:30:00
-            'Y-m-d H:i:s',      // 2025-01-15 14:30:00
-            'm-d-Y H:i:s',      // 01-15-2025 14:30:00
-            'Y/m/d H:i:s',      // 2025/01/15 14:30:00
-            'm/d/Y H:i',        // 01/15/2025 14:30
-            'Y-m-d H:i',        // 2025-01-15 14:30
-            'm/d/Y',            // 01/15/2025
-            'Y-m-d',            // 2025-01-15
-        ];
+       // Get store timezone
+       $storeTimezone = new \DateTimeZone($this->timezone->getConfigTimezone());
 
-        foreach ($formats as $format) {
-            $dateTime = \DateTime::createFromFormat($format, $dateTimeString);
-            if ($dateTime !== false) {
-                // Validate that the parsed date makes sense
-                $errors = \DateTime::getLastErrors();
-                if ($errors['warning_count'] == 0 && $errors['error_count'] == 0) {
-                    $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using format '{$format}' => " . $dateTime->format('Y-m-d H:i:s'));
-                    return $dateTime;
-                }
-            }
-        }
+       // List of possible datetime formats - Magento format FIRST
+       $formats = [
+           'd/m/Y H:i:s',      // 09/02/2026 17:47:00 (Magento default)
+           'd/m/Y H:i',        // 09/02/2026 17:47
+           'd/m/Y',            // 09/02/2026
+           'd/m/y H:i:s',      // 09/02/26 17:47:00
+           'm/d/Y H:i:s',      // 02/09/2026 17:47:00
+           'm/d/y H:i:s',      // 02/09/26 17:47:00
+           'Y-m-d H:i:s',      // 2026-02-09 17:47:00
+           'm-d-Y H:i:s',      // 02-09-2026 17:47:00
+           'Y/m/d H:i:s',      // 2026/02/09 17:47:00
+           'm/d/Y H:i',        // 02/09/2026 17:47
+           'Y-m-d H:i',        // 2026-02-09 17:47
+           'm/d/Y',            // 02/09/2026
+           'Y-m-d',            // 2026-02-09
+       ];
 
-        // Fallback: try strtotime
-        try {
-            $timestamp = strtotime($dateTimeString);
-            if ($timestamp !== false) {
-                $dateTime = new \DateTime();
-                $dateTime->setTimestamp($timestamp);
-                $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using strtotime => " . $dateTime->format('Y-m-d H:i:s'));
-                return $dateTime;
-            }
-        } catch (\Exception $e) {
-            $this->logger->warning("Failed to parse datetime using strtotime: {$dateTimeString}");
-        }
+       foreach ($formats as $format) {
+           $dateTime = \DateTime::createFromFormat($format, $dateTimeString, $storeTimezone);
+           if ($dateTime !== false) {
+               // Validate that the parsed date makes sense
+               $errors = \DateTime::getLastErrors();
+               if ($errors['warning_count'] == 0 && $errors['error_count'] == 0) {
+                   $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using format '{$format}' in timezone '{$storeTimezone->getName()}' => " . $dateTime->format('Y-m-d H:i:s T'));
+                   return $dateTime;
+               }
+           }
+       }
 
-        $this->logger->error("Failed to parse datetime: {$dateTimeString}");
-        return null;
-    }
+       // Fallback: try strtotime with timezone
+       try {
+           $timestamp = strtotime($dateTimeString);
+           if ($timestamp !== false) {
+               $dateTime = new \DateTime('@' . $timestamp);
+               $dateTime->setTimezone($storeTimezone);
+               $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using strtotime in timezone '{$storeTimezone->getName()}' => " . $dateTime->format('Y-m-d H:i:s T'));
+               return $dateTime;
+           }
+       } catch (\Exception $e) {
+           $this->logger->warning("Failed to parse datetime using strtotime: {$dateTimeString}");
+       }
 
-    /**
-     * Get active combinations within datetime range
-     *
-     * @param int|null $storeId
-     * @return array
-     */
-    public function getActiveCombinations($storeId = null)
-    {
-        $combinations = $this->getCombinations($storeId);
-        $activeCombinations = [];
-        $currentDateTime = $this->timezone->date();
+       $this->logger->error("Failed to parse datetime: {$dateTimeString}");
+       return null;
+   }
 
-        $this->logger->info('Digidirect_CombinationPricing: Current datetime: ' . $currentDateTime->format('Y-m-d H:i:s'));
-        $this->logger->info('Digidirect_CombinationPricing: Checking ' . count($combinations) . ' combinations');
+   /**
+    * Get active combinations within datetime range
+    *
+    * @param int|null $storeId
+    * @return array
+    */
+   public function getActiveCombinations($storeId = null)
+   {
+       $combinations = $this->getCombinations($storeId);
+       $activeCombinations = [];
 
-        foreach ($combinations as $key => $combination) {
-            $this->logger->info('=== Combination ' . $key . ' ===');
-            $this->logger->info('Raw data: ' . json_encode($combination));
+       // Get current datetime in store timezone
+       $storeTimezone = $this->timezone->getConfigTimezone();
+       $currentDateTime = new \DateTime('now', new \DateTimeZone($storeTimezone));
 
-            // Validate required fields
-            if (empty($combination['first_sku'])) {
-                $this->logger->warning('Combination ' . $key . ' skipped: first_sku is empty');
-                continue;
-            }
-            
-            if (empty($combination['second_sku'])) {
-                $this->logger->warning('Combination ' . $key . ' skipped: second_sku is empty');
-                continue;
-            }
-            
-            if (!isset($combination['fixed_price']) || $combination['fixed_price'] <= 0) {
-                $this->logger->warning('Combination ' . $key . ' skipped: fixed_price is invalid (' . ($combination['fixed_price'] ?? 'null') . ')');
-                continue;
-            }
+       $this->logger->info('========================================');
+       $this->logger->info('Digidirect_CombinationPricing: Checking Active Combinations');
+       $this->logger->info('Current datetime: ' . $currentDateTime->format('Y-m-d H:i:s T (e)'));
+       $this->logger->info('Timezone: ' . $storeTimezone);
+       $this->logger->info('Total combinations to check: ' . count($combinations));
+       $this->logger->info('========================================');
 
-            // Check start datetime
-            $startDateTime = null;
-            if (!empty($combination['start_datetime'])) {
-                $startDateTime = $this->parseDateTime($combination['start_datetime']);
-                
-                if ($startDateTime === null) {
-                    $this->logger->warning('Combination ' . $key . ' skipped: invalid start_datetime format: ' . $combination['start_datetime']);
-                    continue;
-                }
-                
-                if ($currentDateTime < $startDateTime) {
-                    $this->logger->info('Combination ' . $key . ' skipped: Not started yet (current: ' . $currentDateTime->format('Y-m-d H:i:s') . ', start: ' . $startDateTime->format('Y-m-d H:i:s') . ')');
-                    continue;
-                }
-            }
+       foreach ($combinations as $key => $combination) {
+           $this->logger->info('--- Combination ' . $key . ' ---');
+           $this->logger->info('Raw data: ' . json_encode($combination));
 
-            // Check end datetime
-            $endDateTime = null;
-            if (!empty($combination['end_datetime'])) {
-                $endDateTime = $this->parseDateTime($combination['end_datetime']);
-                
-                if ($endDateTime === null) {
-                    $this->logger->warning('Combination ' . $key . ' skipped: invalid end_datetime format: ' . $combination['end_datetime']);
-                    continue;
-                }
-                
-                if ($currentDateTime > $endDateTime) {
-                    $this->logger->info('Combination ' . $key . ' skipped: Expired (current: ' . $currentDateTime->format('Y-m-d H:i:s') . ', end: ' . $endDateTime->format('Y-m-d H:i:s') . ')');
-                    continue;
-                }
-            }
+           // Validate required fields
+           if (empty($combination['first_sku'])) {
+               $this->logger->warning('✗ Skipped: first_sku is empty');
+               continue;
+           }
 
-            $activeCombinations[] = [
-                'first_sku' => trim($combination['first_sku']),
-                'second_sku' => trim($combination['second_sku']),
-                'fixed_price' => (float) $combination['fixed_price']
-            ];
+           if (empty($combination['second_sku'])) {
+               $this->logger->warning('✗ Skipped: second_sku is empty');
+               continue;
+           }
 
-            $this->logger->info('✓ Combination ' . $key . ' is ACTIVE: ' . $combination['first_sku'] . ' + ' . $combination['second_sku'] . ' = $' . $combination['fixed_price']);
-        }
+           if (!isset($combination['fixed_price']) || $combination['fixed_price'] <= 0) {
+               $this->logger->warning('✗ Skipped: fixed_price is invalid (' . ($combination['fixed_price'] ?? 'null') . ')');
+               continue;
+           }
 
-        $this->logger->info('Digidirect_CombinationPricing: Total active combinations found: ' . count($activeCombinations));
+           // Check start datetime
+           if (!empty($combination['start_datetime'])) {
+               $startDateTime = $this->parseDateTime($combination['start_datetime']);
 
-        return $activeCombinations;
-    }
+               if ($startDateTime === null) {
+                   $this->logger->warning('✗ Skipped: invalid start_datetime format: ' . $combination['start_datetime']);
+                   continue;
+               }
+
+               $this->logger->info('Start check:');
+               $this->logger->info('  Current: ' . $currentDateTime->format('Y-m-d H:i:s T'));
+               $this->logger->info('  Start:   ' . $startDateTime->format('Y-m-d H:i:s T'));
+               $this->logger->info('  Current >= Start? ' . ($currentDateTime >= $startDateTime ? 'YES ✓' : 'NO ✗'));
+
+               if ($currentDateTime < $startDateTime) {
+                   $this->logger->info('✗ Skipped: Not started yet');
+                   continue;
+               }
+           } else {
+               $this->logger->info('No start datetime - active from beginning');
+           }
+
+           // Check end datetime
+           if (!empty($combination['end_datetime'])) {
+               $endDateTime = $this->parseDateTime($combination['end_datetime']);
+
+               if ($endDateTime === null) {
+                   $this->logger->warning('✗ Skipped: invalid end_datetime format: ' . $combination['end_datetime']);
+                   continue;
+               }
+
+               $this->logger->info('End check:');
+               $this->logger->info('  Current: ' . $currentDateTime->format('Y-m-d H:i:s T'));
+               $this->logger->info('  End:     ' . $endDateTime->format('Y-m-d H:i:s T'));
+               $this->logger->info('  Current <= End? ' . ($currentDateTime <= $endDateTime ? 'YES ✓' : 'NO ✗'));
+
+               if ($currentDateTime > $endDateTime) {
+                   $this->logger->info('✗ Skipped: Expired');
+                   continue;
+               }
+           } else {
+               $this->logger->info('No end datetime - active forever');
+           }
+
+           $activeCombinations[] = [
+               'first_sku' => trim($combination['first_sku']),
+               'second_sku' => trim($combination['second_sku']),
+               'fixed_price' => (float) $combination['fixed_price']
+           ];
+
+           $this->logger->info('✓✓✓ ACTIVE: ' . $combination['first_sku'] . ' + ' . $combination['second_sku'] . ' = $' . $combination['fixed_price']);
+       }
+
+       $this->logger->info('========================================');
+       $this->logger->info('Total ACTIVE combinations: ' . count($activeCombinations));
+       $this->logger->info('========================================');
+
+       return $activeCombinations;
+   }
 }
