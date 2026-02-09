@@ -90,6 +90,7 @@ class Data extends AbstractHelper
 
     /**
      * Parse datetime string with multiple format support
+     * Prioritizes d/m/Y format (Magento default)
      *
      * @param string $dateTimeString
      * @return \DateTime|null
@@ -100,12 +101,17 @@ class Data extends AbstractHelper
             return null;
         }
 
-        // List of possible datetime formats
+        $dateTimeString = trim($dateTimeString);
+
+        // List of possible datetime formats - Magento format FIRST
         $formats = [
+            'd/m/Y H:i:s',      // 15/01/2025 14:30:00 (Magento default)
+            'd/m/Y H:i',        // 15/01/2025 14:30
+            'd/m/Y',            // 15/01/2025
+            'd/m/y H:i:s',      // 15/01/25 14:30:00
             'm/d/Y H:i:s',      // 01/15/2025 14:30:00
             'm/d/y H:i:s',      // 01/15/25 14:30:00
             'Y-m-d H:i:s',      // 2025-01-15 14:30:00
-            'd/m/Y H:i:s',      // 15/01/2025 14:30:00
             'm-d-Y H:i:s',      // 01-15-2025 14:30:00
             'Y/m/d H:i:s',      // 2025/01/15 14:30:00
             'm/d/Y H:i',        // 01/15/2025 14:30
@@ -115,10 +121,14 @@ class Data extends AbstractHelper
         ];
 
         foreach ($formats as $format) {
-            $dateTime = \DateTime::createFromFormat($format, trim($dateTimeString));
+            $dateTime = \DateTime::createFromFormat($format, $dateTimeString);
             if ($dateTime !== false) {
-                $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using format '{$format}'");
-                return $dateTime;
+                // Validate that the parsed date makes sense
+                $errors = \DateTime::getLastErrors();
+                if ($errors['warning_count'] == 0 && $errors['error_count'] == 0) {
+                    $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using format '{$format}' => " . $dateTime->format('Y-m-d H:i:s'));
+                    return $dateTime;
+                }
             }
         }
 
@@ -128,7 +138,7 @@ class Data extends AbstractHelper
             if ($timestamp !== false) {
                 $dateTime = new \DateTime();
                 $dateTime->setTimestamp($timestamp);
-                $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using strtotime");
+                $this->logger->info("Successfully parsed datetime '{$dateTimeString}' using strtotime => " . $dateTime->format('Y-m-d H:i:s'));
                 return $dateTime;
             }
         } catch (\Exception $e) {
@@ -156,7 +166,7 @@ class Data extends AbstractHelper
 
         foreach ($combinations as $key => $combination) {
             $this->logger->info('=== Combination ' . $key . ' ===');
-            $this->logger->info('Data: ' . json_encode($combination));
+            $this->logger->info('Raw data: ' . json_encode($combination));
 
             // Validate required fields
             if (empty($combination['first_sku'])) {
@@ -175,6 +185,7 @@ class Data extends AbstractHelper
             }
 
             // Check start datetime
+            $startDateTime = null;
             if (!empty($combination['start_datetime'])) {
                 $startDateTime = $this->parseDateTime($combination['start_datetime']);
                 
@@ -184,12 +195,13 @@ class Data extends AbstractHelper
                 }
                 
                 if ($currentDateTime < $startDateTime) {
-                    $this->logger->info('Combination ' . $key . ' skipped: Not started yet (start: ' . $startDateTime->format('Y-m-d H:i:s') . ')');
+                    $this->logger->info('Combination ' . $key . ' skipped: Not started yet (current: ' . $currentDateTime->format('Y-m-d H:i:s') . ', start: ' . $startDateTime->format('Y-m-d H:i:s') . ')');
                     continue;
                 }
             }
 
             // Check end datetime
+            $endDateTime = null;
             if (!empty($combination['end_datetime'])) {
                 $endDateTime = $this->parseDateTime($combination['end_datetime']);
                 
@@ -199,7 +211,7 @@ class Data extends AbstractHelper
                 }
                 
                 if ($currentDateTime > $endDateTime) {
-                    $this->logger->info('Combination ' . $key . ' skipped: Expired (end: ' . $endDateTime->format('Y-m-d H:i:s') . ')');
+                    $this->logger->info('Combination ' . $key . ' skipped: Expired (current: ' . $currentDateTime->format('Y-m-d H:i:s') . ', end: ' . $endDateTime->format('Y-m-d H:i:s') . ')');
                     continue;
                 }
             }
@@ -213,7 +225,7 @@ class Data extends AbstractHelper
             $this->logger->info('✓ Combination ' . $key . ' is ACTIVE: ' . $combination['first_sku'] . ' + ' . $combination['second_sku'] . ' = $' . $combination['fixed_price']);
         }
 
-        $this->logger->info('Digidirect_CombinationPricing: ' . count($activeCombinations) . ' active combinations found');
+        $this->logger->info('Digidirect_CombinationPricing: Total active combinations found: ' . count($activeCombinations));
 
         return $activeCombinations;
     }

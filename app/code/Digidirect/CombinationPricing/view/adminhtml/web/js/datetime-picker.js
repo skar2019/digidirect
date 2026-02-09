@@ -8,7 +8,7 @@ require([
         $('.datetime-picker').each(function() {
             if (!$(this).hasClass('hasDatepicker')) {
                 $(this).calendar({
-                    dateFormat: 'mm/dd/yy',
+                    dateFormat: 'dd/mm/yy',  // Magento format: day/month/year
                     showsTime: true,
                     timeFormat: 'HH:mm:ss',
                     buttonText: 'Select Date & Time',

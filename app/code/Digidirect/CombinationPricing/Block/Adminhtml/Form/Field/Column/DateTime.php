@@ -38,7 +38,7 @@ class DateTime extends \Magento\Framework\View\Element\AbstractBlock
                     id="' . $this->escapeHtml($this->getData('input_id')) . '" 
                     value="' . $this->escapeHtml($value) . '" 
                     class="admin__control-text datetime-picker"
-                    placeholder="mm/dd/yyyy hh:mm:ss"
+                    placeholder="dd/mm/yyyy hh:mm:ss"
                     style="width: 200px;" />';
         
         return $html;
