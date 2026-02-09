@@ -128,5 +128,6 @@ class ChangePriceObserver implements ObserverInterface
             $this->logger->error('Stack trace: ' . $e->getTraceAsString());
             $this->logger->info('========================================');
         }
+        
     }
 }
