@@ -8,6 +8,11 @@ use Magento\Framework\Exception\LocalizedException;
 class Combinations extends AbstractFieldArray
 {
     /**
+     * @var \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\Active
+     */
+    private $activeRenderer;
+
+    /**
      * Prepare rendering the new field by adding all the needed columns
      */
     protected function _prepareToRender()
@@ -31,21 +36,18 @@ class Combinations extends AbstractFieldArray
         ]);
         
         $this->addColumn('start_date', [
-            'label' => __('Start Date'),
-            'class' => 'admin__control-text',
-            'style' => 'width:120px'
+            'label' => __('Start Date (YYYY-MM-DD)'),
+            'style' => 'width:130px'
         ]);
         
         $this->addColumn('end_date', [
-            'label' => __('End Date'),
-            'class' => 'admin__control-text',
-            'style' => 'width:120px'
+            'label' => __('End Date (YYYY-MM-DD)'),
+            'style' => 'width:130px'
         ]);
         
         $this->addColumn('active', [
             'label' => __('Active'),
-            'renderer' => $this->getActiveRenderer(),
-            'style' => 'width:80px'
+            'renderer' => $this->getActiveRenderer()
         ]);
 
         $this->_addAfter = false;
@@ -55,10 +57,10 @@ class Combinations extends AbstractFieldArray
     /**
      * Get active column renderer
      *
-     * @return \Magento\Framework\View\Element\BlockInterface
+     * @return \Digidirect\CombinationPricing\Block\Adminhtml\Form\Field\Column\Active
      * @throws LocalizedException
      */
-    protected function getActiveRenderer()
+    private function getActiveRenderer()
     {
         if (!$this->activeRenderer) {
             $this->activeRenderer = $this->getLayout()->createBlock(
