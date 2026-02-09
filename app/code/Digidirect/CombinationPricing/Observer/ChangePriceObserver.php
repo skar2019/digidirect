@@ -39,58 +39,94 @@ class ChangePriceObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         try {
+            $this->logger->info('========================================');
+            $this->logger->info('Digidirect_CombinationPricing Observer triggered');
+            
             // Check if feature is enabled
             if (!$this->helper->isEnabled()) {
+                $this->logger->info('Digidirect_CombinationPricing: Module is DISABLED');
+                $this->logger->info('========================================');
                 return;
             }
 
+            $this->logger->info('Digidirect_CombinationPricing: Module is ENABLED');
+
             $quote = $observer->getQuote();
             $storeId = $quote->getStoreId();
+
+            $this->logger->info('Quote ID: ' . $quote->getId());
+            $this->logger->info('Store ID: ' . $storeId);
 
             // Get active combinations
             $activeCombinations = $this->helper->getActiveCombinations($storeId);
 
             if (empty($activeCombinations)) {
+                $this->logger->info('Digidirect_CombinationPricing: No active combinations found');
+                $this->logger->info('========================================');
                 return;
             }
 
+            $this->logger->info('Active combinations count: ' . count($activeCombinations));
+
             // Get all quote items indexed by SKU
             $quoteItems = [];
+            $this->logger->info('Cart items:');
             foreach ($quote->getAllVisibleItems() as $item) {
                 $sku = $item->getProduct()->getSku();
                 $quoteItems[$sku] = $item;
+                $this->logger->info('  - SKU: ' . $sku . ' | Name: ' . $item->getName() . ' | Price: ' . $item->getPrice() . ' | Custom Price: ' . ($item->getCustomPrice() ?? 'NULL'));
             }
 
             // Process each combination
-            foreach ($activeCombinations as $combination) {
+            foreach ($activeCombinations as $index => $combination) {
                 $firstSku = $combination['first_sku'];
                 $secondSku = $combination['second_sku'];
                 $fixedPrice = $combination['fixed_price'];
 
+                $this->logger->info("--- Processing Combination #" . $index . " ---");
+                $this->logger->info("  First SKU required: {$firstSku}");
+                $this->logger->info("  Second SKU to modify: {$secondSku}");
+                $this->logger->info("  Fixed price to apply: {$fixedPrice}");
+
+                // Check if first product exists
+                $hasFirstProduct = isset($quoteItems[$firstSku]);
+                $this->logger->info("  First product in cart: " . ($hasFirstProduct ? 'YES' : 'NO'));
+
+                // Check if second product exists
+                $hasSecondProduct = isset($quoteItems[$secondSku]);
+                $this->logger->info("  Second product in cart: " . ($hasSecondProduct ? 'YES' : 'NO'));
+
                 // Check if both products exist in cart
-                if (isset($quoteItems[$firstSku]) && isset($quoteItems[$secondSku])) {
+                if ($hasFirstProduct && $hasSecondProduct) {
                     $secondProductItem = $quoteItems[$secondSku];
+                    
+                    $this->logger->info("  ✓ Both products found! Applying price...");
+                    $this->logger->info("  Original price: " . $secondProductItem->getPrice());
+                    $this->logger->info("  Current custom price: " . ($secondProductItem->getCustomPrice() ?? 'NULL'));
                     
                     // Apply custom price
                     $secondProductItem->setCustomPrice($fixedPrice);
                     $secondProductItem->setOriginalCustomPrice($fixedPrice);
                     $secondProductItem->getProduct()->setIsSuperMode(true);
                     
-                    $this->logger->info(
-                        sprintf(
-                            'Digidirect_CombinationPricing: Applied fixed price %s to product %s when combined with %s (Quote ID: %s)',
-                            $fixedPrice,
-                            $secondSku,
-                            $firstSku,
-                            $quote->getId()
-                        )
-                    );
+                    $this->logger->info("  New custom price set: " . $secondProductItem->getCustomPrice());
+                    $this->logger->info("  SUCCESS: Applied fixed price {$fixedPrice} to product {$secondSku}");
+                } else {
+                    $this->logger->info("  ✗ Combination NOT matched - missing required products in cart");
+                    if (!$hasFirstProduct) {
+                        $this->logger->info("    Missing: {$firstSku}");
+                    }
+                    if (!$hasSecondProduct) {
+                        $this->logger->info("    Missing: {$secondSku}");
+                    }
                 }
             }
+            
+            $this->logger->info('========================================');
         } catch (\Exception $e) {
-            $this->logger->error(
-                'Digidirect_CombinationPricing Error: ' . $e->getMessage()
-            );
+            $this->logger->error('Digidirect_CombinationPricing Error: ' . $e->getMessage());
+            $this->logger->error('Stack trace: ' . $e->getTraceAsString());
+            $this->logger->info('========================================');
         }
     }
 }
