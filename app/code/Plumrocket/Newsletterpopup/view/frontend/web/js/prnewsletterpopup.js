@@ -343,9 +343,15 @@ define([
                                 setCookieForDisable();
                             }
                             eventTracking(action, 'Success', settings.id);
-                            finalFunction(responseData.messages, action, responseData.hasSuccessTextPlaceholders);
+                            finalFunction(responseData.messages, action, responseData.hasSuccessTextPlaceholders, responseData.isAlreadySubscribed);
                         } else {
+                            // ERROR case - show error message then close popup
                             showMessages(responseData.messages, action);
+                            
+                            // Close popup after showing error message for 3 seconds
+                            setTimeout(function() {
+                                popupClose();
+                            }, 3000);
                         }
                     }
                 })
@@ -373,20 +379,27 @@ define([
                 if ($($form.get(0)).validation() && $($form.get(0)).validation('isValid')) {
                     send(globalSettings.action_url, 'Subscribe', function (data) {
                         return data + '&' + $form.serialize();
-                    }, function (messages, action, hasSuccessTextPlaceholders) {
+                    }, function (messages, action, hasSuccessTextPlaceholders, isAlreadySubscribed) {
                         _this.isSubscribed = true;
-                        $popupSuccess.find('.newspopup-message-content').html(messages.success);
+                        
+                        // Set the success message content
+                        if (messages && messages.success && messages.success.length > 0) {
+                            $popupSuccess.find('.newspopup-message-content').html(messages.success[0]);
+                        }
+                        
                         showMessages(messages, action);
-                        // can contain just success or nothing
+                        
+                        // Handle the success popup display
                         if (messages && hasSuccessTextPlaceholders) {
                             $popupSuccess.find('.newspopup-message-close').on('click', function() {
                                 popupRedirect(settings.success_url);
                             });
                         } else if (messages && ! hasSuccessTextPlaceholders) {
-                            setTimeout(function(){
+                            // Optional: Auto-close after delay
+                            /*setTimeout(function(){
                                 popupClose();
                                 popupRedirect(settings.success_url);
-                            }, 5000);
+                            }, 5000);*/
                         } else {
                             popupClose();
                             popupRedirect(settings.success_url);

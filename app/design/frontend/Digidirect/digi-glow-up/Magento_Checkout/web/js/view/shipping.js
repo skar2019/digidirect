@@ -266,16 +266,12 @@ define([
          * @return {Boolean}
          */
         selectShippingMethod: function (shippingMethod) {
-            var self = this;
-
-            // If there's already a request in progress, queue this one
-            if (this.shippingMethodRequest && this.shippingMethodRequest.state && this.shippingMethodRequest.state() === 'pending') {
-                // Store the pending method to process after current request completes
-                this.pendingShippingMethod = shippingMethod;
+            // Add null check - if no method provided, just return
+            if (!shippingMethod) {
                 return false;
             }
 
-            // Set the shipping rate FIRST before calling the action
+            // Set the shipping rate
             checkoutData.setSelectedShippingRate(
                 shippingMethod['carrier_code'] + '_' + shippingMethod['method_code']
             );
@@ -306,37 +302,11 @@ define([
                 }
             }
 
-            // Now make the API call to update totals
-            this.shippingMethodRequest = getTotalsAction([], $.Deferred());
-
-            // Re-enable after request completes
-            if (this.shippingMethodRequest && $.isFunction(this.shippingMethodRequest.always)) {
-                this.shippingMethodRequest.always(function() {
-                    $('input[name="delivery_type"]').prop('disabled', false);
-                    $('body').trigger('processStop');
-
-                    // If there's a pending method queued, process it now
-                    if (self.pendingShippingMethod) {
-                        var pending = self.pendingShippingMethod;
-                        self.pendingShippingMethod = null;
-                        self.shippingMethodRequest = null;
-
-                        // Re-trigger the click for the pending method
-                        setTimeout(function() {
-                            self.selectShippingMethod(pending);
-                        }, 100);
-                    } else {
-                        self.shippingMethodRequest = null;
-                    }
-                });
-            } else {
-                // Fallback
-                setTimeout(function() {
-                    $('input[name="delivery_type"]').prop('disabled', false);
-                    $('body').trigger('processStop');
-                    self.shippingMethodRequest = null;
-                }, 1000);
-            }
+            // Make the API call to update totals
+            getTotalsAction([], $.Deferred()).always(function() {
+                $('input[name="delivery_type"]').prop('disabled', false);
+                $('body').trigger('processStop');
+            });
 
             return true;
         },
@@ -614,6 +584,6 @@ define([
             }
 
             return true;
-        },
+        }
     });
 });

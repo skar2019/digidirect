@@ -8,26 +8,26 @@ $faqUrl = $block->getUrl('faq', ['_nosid' => true]);
 $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
 ?>
 <tr>
-    <td>
-        <table bgcolor="#f5f5f5" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:none;">
+    <td style="vertical-align: middle;">
+        <table width="100%" align="center" bgcolor="#f5f5f5" cellpadding="0" cellspacing="0" border="0" style="border:none;">
             <tr>
                 <td>
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; margin:0 auto; padding: 20px;">
+                    <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 40px;">
                         <tr>
-                            <td align="center" style="padding:26px;">
-                                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="mobiletable" style="background-color:#ffffff; max-width:600px; margin:0 auto; padding:20px; border-radius: 50px;">
+                            <td align="center" style="padding:15px;">
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" class="mobiletable" style="background-color:#ffffff; margin:0 auto; padding:20px; border-radius: 30px;">
                                     <tr>
-                                        <td align="center">
+                                        <td align="right" style="vertical-align: middle; padding: 20px 30px 20px 100px">
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                    <td width="60" align="center" valign="top" style="padding-right:10px; padding: 20px;">
-                                                        <img src="<?= $block->escapeUrl($faqIconUrl) ?>" alt="questions" width="38" style="display:block; max-width:55px; margin-left: 60px;">
+                                                    <td align="center" style="padding-right:10px; vertical-align: middle;">
+                                                        <img src="<?= $block->escapeUrl($faqIconUrl) ?>" alt="questions" width="40" style="display:block;">
                                                     </td>
-                                                    <td valign="top" style="padding-top: 20px;">
+                                                    <td style="padding-top: 6px;">
                                                         <p style="margin:0; font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight:bold; line-height:24px; color:#000000;">
                                                             <?= $block->escapeHtml(__('Have a question?')) ?>
                                                         </p>
-                                                        <p style="margin:4px 0 20px 0; font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
+                                                        <p style="font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
                                                             <a href="<?= $block->escapeUrl($faqUrl) ?>" title="FAQS" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View our FAQs')) ?></a>
                                                         </p>
                                                     </td>
@@ -35,17 +35,17 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
                                             </table>
                                         </td>
 
-                                        <td align="left" valign="top" style="width:50%; padding:10px;" class="mobileStack">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                        <td align="left" class="mobileStack" style="padding: 20px 100px 20px 30px; vertical-align: middle;">
+                                            <table cellpadding="0" cellspacing="0" border="0">
                                                 <tr>
-                                                    <td width="60" align="center" valign="top" style="padding-right:10px;padding-top: 10px;">
-                                                        <img src="<?= $block->escapeUrl($accountIconUrl) ?>" alt="account" width="38" style="display:block; max-width:38px;">
+                                                    <td align="center" style="padding-right:2px; vertical-align: middle;">
+                                                        <img src="<?= $block->escapeUrl($accountIconUrl) ?>" alt="account" width="44" style="display:block;">
                                                     </td>
-                                                    <td valign="top" style="padding-top: 10px;">
+                                                    <td style="vertical-align: middle; padding-top: 9px;">
                                                         <p style="margin:0; font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight:bold; line-height:24px; color:#000000;">
                                                             <?= $block->escapeHtml(__('Manage my order')) ?>
                                                         </p>
-                                                        <p style="margin:4px 0 0 0; font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
+                                                        <p style="font-size:12px; font-family:Arial,Helvetica,sans-serif; color:#666666; line-height:20px;">
                                                             <a href="<?= $block->escapeUrl($accountUrl) ?>" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View My Account')) ?></a>
                                                         </p>
                                                     </td>

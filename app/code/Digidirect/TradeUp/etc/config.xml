@@ -5,8 +5,8 @@
             <general>
                 <enabled>1</enabled>
                 <recipient_email>tradeandsave@digidirect.com.au</recipient_email>
-                <email_template_company>digidirect_tradeup_submission_template_company</email_template_company>
-                <email_template_customer>digidirect_tradeup_submission_template_customer</email_template_customer>
+<!--                <email_template_company>digidirect_tradeup_submission_template_company</email_template_company>-->
+<!--                <email_template_customer>digidirect_tradeup_submission_template_customer</email_template_customer>-->
             </general>
         </digidirect_tradeup>
     </default>

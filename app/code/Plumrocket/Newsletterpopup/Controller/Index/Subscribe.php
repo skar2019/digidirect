@@ -14,6 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Validator\EmailAddress as EmailValidator;
 use Magento\Framework\Validator\Exception as ValidatorException;
+use Magento\Newsletter\Model\Subscriber as MagentoSubscriber;
 use Plumrocket\Base\Api\ConfigUtilsInterface;
 use Plumrocket\Newsletterpopup\Block\Popup\Fields\Dob;
 use Plumrocket\Newsletterpopup\Helper\Config;
@@ -112,22 +113,37 @@ class Subscribe extends Action
      */
     public function execute()
     {
+        $this->logger->info(__METHOD__ . ' - Newsletter subscription request started');
+        
+        $isAlreadySubscribed = false;
+        
         try {
+            // Log all incoming request data
+            $allParams = $this->getRequest()->getParams();
+            $this->logger->info(__METHOD__ . ' - Request params: ' . $this->serializer->serialize($allParams));
+            
             if (! $this->config->isModuleEnabled()) {
+                $this->logger->warning(__METHOD__ . ' - Module is disabled');
                 throw new ValidatorException(__('The Plumrocket Newsletter Popup Module is disabled.'));
             }
 
             $recaptchaResponse = $this->getRequest()->getParam('g-recaptcha-response');
             $popupId = $this->getRequest()->getParam('id');
+            
+            $this->logger->info(__METHOD__ . ' - Popup ID: ' . $popupId);
 
             if (in_array('recaptcha', $this->dataHelper->getPopupFormFieldsKeys($popupId, true))
                 && ! $this->reCaptchaValidator->isValid($recaptchaResponse)
             ) {
+                $this->logger->warning(__METHOD__ . ' - reCAPTCHA validation failed');
                 throw new ValidatorException(__('reCAPTCHA verification failed.'));
             }
 
             $email = $this->getRequest()->getParam('email');
+            $this->logger->info(__METHOD__ . ' - Email received: ' . $email);
+            
             if (! $this->emailValidator->isValid($email)) {
+                $this->logger->warning(__METHOD__ . ' - Invalid email format: ' . $email);
                 throw new ValidatorException(__('Please enter a valid email address.'));
             }
 
@@ -135,12 +151,14 @@ class Subscribe extends Action
                 $_email = preg_replace('#[[:space:]]#', '', $email);
                 preg_match('#@([\w\-.]+$)#is', $_email, $domain);
                 if (!empty($domain[1])) {
+                    $this->logger->info(__METHOD__ . ' - Checking disposable email domain: ' . $domain[1]);
                     preg_match(
                         '#(?:^|[\s,]+)'. preg_quote($domain[1]) . '(?:$|[\s,]+)#i',
                         $this->configUtils->getStoreConfig('prnewsletterpopup/disposable_emails/domains'),
                         $math
                     );
                     if (!empty($math)) {
+                        $this->logger->warning(__METHOD__ . ' - Disposable email domain blocked: ' . $domain[1]);
                         throw new ValidatorException(
                             __(
                                 'This email address provider is blocked. Please try again with different email address.'
@@ -150,48 +168,81 @@ class Subscribe extends Action
                 }
             }
 
-            $subscriber = $this->subscriber->load($email, 'subscriber_email');
-            if ((int)$subscriber->getId() !== 0) {
-                throw new ValidatorException(__('This email address is already assigned to another user.'));
-            }
+            // Check if subscriber already exists (any status)
+            $existingSubscriber = $this->subscriber->loadByEmail($email);
+            $subscriberId = (int)$existingSubscriber->getId();
+            $subscriberStatus = $existingSubscriber->getStatus();
+            
+            $this->logger->info(__METHOD__ . ' - Subscriber check - ID: ' . $subscriberId . ', Status: ' . $subscriberStatus);
+            
+            // If subscriber already exists with any ID, treat as "already subscribed"
+            if ($subscriberId !== 0) {
+                $statusMessages = [
+                    MagentoSubscriber::STATUS_SUBSCRIBED => 'This email address is already subscribed to our newsletter. Thank you for your continued interest!',
+                    MagentoSubscriber::STATUS_NOT_ACTIVE => 'This email address has already been registered. Please check your email for the confirmation link.',
+                    MagentoSubscriber::STATUS_UNSUBSCRIBED => 'This email address was previously subscribed. We\'ve noted your interest!',
+                    MagentoSubscriber::STATUS_UNCONFIRMED => 'This email address is pending confirmation. Please check your email for the confirmation link.'
+                ];
+                
+                $message = isset($statusMessages[$subscriberStatus]) 
+                    ? $statusMessages[$subscriberStatus] 
+                    : 'This email address is already in our system. Thank you!';
+                
+                $this->logger->info(__METHOD__ . ' - Email already exists with status ' . $subscriberStatus . ': ' . $email);
+                $this->logger->info(__METHOD__ . ' - Treating as success with message: ' . $message);
+                
+                // Mark as already subscribed and add success message
+                $isAlreadySubscribed = true;
+                $this->messageManager->addSuccessMessage(__($message));
+            } else {
+                // New subscriber - proceed with normal subscription
+                $inputData = $this->getRequest()->getPostValue();
+                $this->logger->info(__METHOD__ . ' - Input data received: ' . $this->serializer->serialize($inputData));
+                
+                // Prepare DOB.
+                if (empty($inputData['dob'])
+                    && !empty($inputData['month'])
+                    && !empty($inputData['day'])
+                    && !empty($inputData['year'])
+                ) {
+                    $dateMapping = $this->_view
+                        ->getLayout()
+                        ->createBlock(Dob::class)
+                        ->getDateMapping(false);
+                    $inputData['dob'] = sprintf(
+                        $dateMapping,
+                        (int) $inputData['month'],
+                        (int) $inputData['day'],
+                        (int) $inputData['year']
+                    );
+                    $this->logger->info(__METHOD__ . ' - DOB prepared: ' . $inputData['dob']);
+                }
 
-            $inputData = $this->getRequest()->getPostValue();
-            // Prepare DOB.
-            if (empty($inputData['dob'])
-                && !empty($inputData['month'])
-                && !empty($inputData['day'])
-                && !empty($inputData['year'])
-            ) {
-                $dateMapping = $this->_view
-                    ->getLayout()
-                    ->createBlock(Dob::class)
-                    ->getDateMapping(false);
-                $inputData['dob'] = sprintf(
-                    $dateMapping,
-                    (int) $inputData['month'],
-                    (int) $inputData['day'],
-                    (int) $inputData['year']
-                );
-            }
+                // Prepare mailchimp lists if they was passed through integration data
+                if (isset($inputData['integration']['mailchimp'])) {
+                    $inputData['mailchimp_list'] = $inputData['integration']['mailchimp'];
+                    $this->logger->info(__METHOD__ . ' - Mailchimp list prepared');
+                }
 
-            // Prepare mailchimp lists if they was passed through integration data
-            if (isset($inputData['integration']['mailchimp'])) {
-                $inputData['mailchimp_list'] = $inputData['integration']['mailchimp'];
+                $this->logger->info(__METHOD__ . ' - Calling customSubscribe for email: ' . $email);
+                $this->subscriber->customSubscribe($email, $this, $inputData);
+                $this->logger->info(__METHOD__ . ' - customSubscribe completed successfully');
             }
-
-            $subscriber->customSubscribe($email, $this, $inputData);
+            
         } catch (ValidatorException $e) {
+            $this->logger->error(__METHOD__ . ' - ValidatorException: ' . $e->getMessage());
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
-            // $this->messageManager->addError($e->getMessage());
+            $this->logger->error(__METHOD__ . ' - Exception: ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ' - Exception trace: ' . $e->getTraceAsString());
             $this->messageManager->addErrorMessage(__('Unknown Error'));
-            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
         }
 
         $data = [
             'error' => 0,
             'messages' => [],
             'hasSuccessTextPlaceholders' => false,
+            'isAlreadySubscribed' => $isAlreadySubscribed,
         ];
 
         $messages = $this->messageManager->getMessages(true);
@@ -207,6 +258,10 @@ class Subscribe extends Action
             }
             $data['messages'][$message->getType()][] = $message->getText();
         }
+        
+        $this->logger->info(__METHOD__ . ' - Messages collected: ' . $this->serializer->serialize($data['messages']));
+        $this->logger->info(__METHOD__ . ' - Error flag: ' . $data['error']);
+        $this->logger->info(__METHOD__ . ' - Already subscribed flag: ' . $isAlreadySubscribed);
 
         if ($popupId = $this->getRequest()->getParam('id')) {
             $data['hasSuccessTextPlaceholders'] = $this->dataHelper
@@ -214,11 +269,15 @@ class Subscribe extends Action
                 ->hasSuccessTextPlaceholders();
         }
 
+        $this->logger->info(__METHOD__ . ' - Final response data: ' . $this->serializer->serialize($data));
+
         $this->getResponse()
             ->setHeader('Content-type', 'application/json')
             ->clearHeader('Location')
             // ->clearRawHeader('Location')
             ->setHttpResponseCode(200)
             ->setBody($this->serializer->serialize($data));
+            
+        $this->logger->info(__METHOD__ . ' - Response sent successfully');
     }
 }
