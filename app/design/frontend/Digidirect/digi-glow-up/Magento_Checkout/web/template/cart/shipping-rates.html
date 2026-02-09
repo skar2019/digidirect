@@ -1,8 +1,7 @@
-<!--
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+* Copyright © Magento, Inc. All rights reserved.
+* See COPYING.txt for license details.
+*/
 -->
 <form id="co-shipping-method-form" data-bind="blockLoader: isLoading, visible: isVisible()">
     <p class="field note" data-bind="visible: (!isLoading() && shippingRates().length <= 0)">
@@ -20,8 +19,8 @@
                     <input type="radio"
                            class="radio"
                            data-bind="
-                                click: $parents[0].selectShippingMethod,
-                                checked: $parents[0].selectedShippingMethod,
+                                click: function() { $parent.selectShippingMethod(method); },
+                                checked: $parent.selectedShippingMethod,
                                 attr: {
                                         value: carrier_code + '_' + method_code,
                                         id: 's_method_' + carrier_code + '_' + method_code,
