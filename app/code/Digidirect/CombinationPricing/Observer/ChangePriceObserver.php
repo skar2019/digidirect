@@ -57,25 +57,39 @@ class ChangePriceObserver implements ObserverInterface
             $this->logger->info('Quote ID: ' . $quote->getId());
             $this->logger->info('Store ID: ' . $storeId);
 
-            // Get active combinations
-            $activeCombinations = $this->helper->getActiveCombinations($storeId);
-
-            if (empty($activeCombinations)) {
-                $this->logger->info('Digidirect_CombinationPricing: No active combinations found');
-                $this->logger->info('========================================');
-                return;
-            }
-
-            $this->logger->info('Active combinations count: ' . count($activeCombinations));
-
             // Get all quote items indexed by SKU
             $quoteItems = [];
             $this->logger->info('Cart items:');
             foreach ($quote->getAllVisibleItems() as $item) {
                 $sku = $item->getProduct()->getSku();
                 $quoteItems[$sku] = $item;
-                $this->logger->info('  - SKU: ' . $sku . ' | Name: ' . $item->getName() . ' | Price: ' . $item->getPrice() . ' | Custom Price: ' . ($item->getCustomPrice() ?? 'NULL'));
+                $this->logger->info('  - SKU: ' . $sku . ' | Name: ' . $item->getName() . ' | Original Price: ' . $item->getProduct()->getFinalPrice());
             }
+
+            // Get active combinations
+            $activeCombinations = $this->helper->getActiveCombinations($storeId);
+
+            if (empty($activeCombinations)) {
+                $this->logger->info('Digidirect_CombinationPricing: No active combinations found');
+                
+                // Reset ALL custom prices when no combinations are active
+                foreach ($quoteItems as $item) {
+                    if ($item->getCustomPrice() !== null) {
+                        $this->logger->info('Resetting custom price for SKU: ' . $item->getProduct()->getSku());
+                        $item->setCustomPrice(null);
+                        $item->setOriginalCustomPrice(null);
+                        $item->getProduct()->setIsSuperMode(false);
+                    }
+                }
+                
+                $this->logger->info('========================================');
+                return;
+            }
+
+            $this->logger->info('Active combinations count: ' . count($activeCombinations));
+
+            // Track which SKUs should have custom prices
+            $skusWithCustomPrice = [];
 
             // Process each combination
             foreach ($activeCombinations as $index => $combination) {
@@ -101,24 +115,28 @@ class ChangePriceObserver implements ObserverInterface
                     $secondProductItem = $quoteItems[$secondSku];
                     
                     $this->logger->info("  ✓ Both products found! Applying price...");
-                    $this->logger->info("  Original price: " . $secondProductItem->getPrice());
-                    $this->logger->info("  Current custom price: " . ($secondProductItem->getCustomPrice() ?? 'NULL'));
                     
                     // Apply custom price
                     $secondProductItem->setCustomPrice($fixedPrice);
                     $secondProductItem->setOriginalCustomPrice($fixedPrice);
                     $secondProductItem->getProduct()->setIsSuperMode(true);
                     
-                    $this->logger->info("  New custom price set: " . $secondProductItem->getCustomPrice());
+                    // Track this SKU as having a custom price
+                    $skusWithCustomPrice[] = $secondSku;
+                    
                     $this->logger->info("  SUCCESS: Applied fixed price {$fixedPrice} to product {$secondSku}");
                 } else {
                     $this->logger->info("  ✗ Combination NOT matched - missing required products in cart");
-                    if (!$hasFirstProduct) {
-                        $this->logger->info("    Missing: {$firstSku}");
-                    }
-                    if (!$hasSecondProduct) {
-                        $this->logger->info("    Missing: {$secondSku}");
-                    }
+                }
+            }
+
+            // Reset custom prices for items NOT in active combinations
+            foreach ($quoteItems as $sku => $item) {
+                if (!in_array($sku, $skusWithCustomPrice) && $item->getCustomPrice() !== null) {
+                    $this->logger->info("Resetting custom price for SKU: {$sku} (no longer in active combination)");
+                    $item->setCustomPrice(null);
+                    $item->setOriginalCustomPrice(null);
+                    $item->getProduct()->setIsSuperMode(false);
                 }
             }
             
@@ -128,6 +146,5 @@ class ChangePriceObserver implements ObserverInterface
             $this->logger->error('Stack trace: ' . $e->getTraceAsString());
             $this->logger->info('========================================');
         }
-        
     }
 }
