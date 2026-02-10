@@ -59,7 +59,7 @@ define([
             }).fail(function () {
                 quote.setTotals({});
             }).always(function () {
-                quote.isLoading(false);
+                totalsService.isLoading(false);
             });
         }
     };
