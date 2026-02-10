@@ -7,7 +7,7 @@
     </type>
     <type name="Magento\Shipping\Model\Shipping">
         <plugin name="digidirect_disable_shipping_method" sortOrder="10" type="Digidirect\Checkout\Plugin\Model\Shipping" />
-        <plugin name="digidirect_free_express_shipping" sortOrder="20" type="Digidirect\Checkout\Plugin\Model\SetExpressShippingToZero" />
+        <plugin name="digidirect_free_express_shipping" sortOrder="20" type="Digidirect\Checkout\Plugin\Model\SetExpressShippingToZero" disabled="true" />
     </type>
     <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
         <plugin name="Custom_Checkout" type="Digidirect\Checkout\Block\Cart\LayoutProcessor" sortOrder="10"/>
