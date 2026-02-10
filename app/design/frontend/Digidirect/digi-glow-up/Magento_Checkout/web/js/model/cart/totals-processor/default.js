@@ -55,11 +55,11 @@ define([
                     data.shippingCarrierCode = quote.shippingMethod()['carrier_code'];
                 }
                 cartCache.set('cart-data', data);
-                totalsService.setTotals(result);
+                quote.setTotals(result);
             }).fail(function () {
-                totalsService.setTotals({});
+                quote.setTotals({});
             }).always(function () {
-                totalsService.isLoading(false);
+                quote.isLoading(false);
             });
         }
     };
