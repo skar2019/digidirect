@@ -22,7 +22,7 @@ class EmailTransportPlugin
             $templateVars['email_order_created_at_formatted'] =
                 $this->timezone->formatDate(
                     $templateVars['order']->getCreatedAt(),
-                    \IntlDateFormatter::FULL,
+                    \IntlDateFormatter::LONG,
                     true
                 );
         }
