@@ -12,9 +12,9 @@ define([
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/action/select-shipping-method',
     'Magento_Checkout/js/checkout-data',
-    'Magento_Checkout/js/model/totals',  // ← 9th import
+    'Magento_Checkout/js/action/get-totals',
     'jquery'
-], function (ko, _, Component, shippingService, priceUtils, quote, selectShippingMethodAction, checkoutData, totalsService, $) {
+], function (ko, _, Component, shippingService, priceUtils, quote, selectShippingMethodAction, checkoutData, getTotalsAction, $) {
     'use strict';
 
     return Component.extend({
