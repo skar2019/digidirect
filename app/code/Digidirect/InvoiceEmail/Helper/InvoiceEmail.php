@@ -74,7 +74,7 @@ class InvoiceEmail extends AbstractHelper
      * @var Country
      */
     public $countryFactory;
-    
+
     /**
      * @var TransportBuilder
      */
@@ -89,8 +89,8 @@ class InvoiceEmail extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
-    
-    
+
+
     protected $date;
 
 
@@ -137,7 +137,7 @@ class InvoiceEmail extends AbstractHelper
 
         $orders = $this->getOrderCollection();
         $counter = 0;
-        
+
         //$order = $this->order->create()->loadByIncrementId($id);
 
         foreach ($orders as $order)
@@ -146,7 +146,7 @@ class InvoiceEmail extends AbstractHelper
             {
                 echo "orders <br>";
             }
-            
+
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
@@ -154,10 +154,10 @@ class InvoiceEmail extends AbstractHelper
             $orderSubtotal = round($order->getSubtotal(), 2);
             $orderGrandTotal = round($order->getGrandtotal(), 2);
             $couponDiscount = round($order->getBaseDiscountAmount(), 2);
-            
+
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
-            
+
             if(is_array($billingStreet))
             {
                 $billingStreet = implode(",", $billingStreet);
@@ -167,7 +167,7 @@ class InvoiceEmail extends AbstractHelper
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
             $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
-            
+
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();
             if(is_array($shippingStreet))
@@ -180,50 +180,113 @@ class InvoiceEmail extends AbstractHelper
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             $shippingAmount = round($order->getShippingAmount(), 2);
-            
+
             //$totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
             $totalEx = round($orderGrandTotal / 1.1, 2);
             $gst = round($orderGrandTotal - $totalEx, 2);
-            
+
             $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
-            
+
             $tracksCollection = $order->getTracksCollection();
             $trackTitleString = "";
             $trackNumberString = "";
-            
+
             foreach ($tracksCollection->getItems() as $track) {
                 $trackTitleString .= $track->getTitle();
                 $trackNumberString .= $track->getTrackNumber();
             }
 
             $trackTitle = $trackTitleString; //$order->getTracksCollection()->fetchItem()->getTitle();
-            $trackNumber = $trackNumberString; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
-        
+            $trackNumber = $trackNumberString; //$order->getTracksCollection()->fetchItem()->getTrackNumber();
+
             if($test)
             {
                 echo "order -" .$orderNumber." to ".$customerEmail." <br>";
             }
-            
+
             $items = $order->getAllItems();
             $store = $this->storeManager->getStore();
+
+            $invoiceNumber = '';
+            try {
+                $invoiceCollection = $order->getInvoiceCollection();
+                if ($invoiceCollection && $invoiceCollection->getSize()) {
+                    $firstInvoice = $invoiceCollection->getFirstItem();
+                    $invoiceNumber = $firstInvoice->getIncrementId() ?: '';
+                    if ($firstInvoice->getCreatedAt()) {
+                        try {
+                            $dtInv = $this->timezone->date($firstInvoice->getCreatedAt());
+                            $invoiceDate = $dtInv->format('l, j M Y, g:i:s a');
+                        } catch (\Throwable $e) {
+                            $invoiceDate = date('d/m/Y', strtotime($firstInvoice->getCreatedAt()));
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching invoice for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
+            $paymentMethod = '';
+            $paymentMethodLabel = '';
+            $paymentDetails = [];
+            try {
+                $payment = $order->getPayment();
+                if ($payment) {
+                    $paymentMethod = $payment->getMethod();
+                    try {
+                        $methodInstance = $payment->getMethodInstance();
+                        $paymentMethodLabel = $methodInstance ? $methodInstance->getTitle() : $paymentMethod;
+                    } catch (\Throwable $e) {
+                        $paymentMethodLabel = $paymentMethod;
+                    }
+
+                    if ($paymentMethod && stripos($paymentMethod, 'braintree') !== false) {
+                        $additional = $payment->getAdditionalInformation();
+                        if (!is_array($additional)) {
+                            $additional = [];
+                        }
+                        $cardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
+                        $last4 = $additional['last4'] ?? $additional['last_4'] ?? $additional['cc_last4'] ?? $additional['cc_last_4'] ?? null;
+                        $expiry = $additional['expiration_date'] ?? $additional['expirationDate'] ?? null;
+                        if (empty($expiry) && !empty($additional['cc_exp_month']) && !empty($additional['cc_exp_year'])) {
+                            $expiry = $additional['cc_exp_month'] . '/' . $additional['cc_exp_year'];
+                        }
+
+                        if ($cardType) {
+                            $paymentDetails['card_type'] = $cardType;
+                        }
+                        if ($last4) {
+                            $paymentDetails['card_last4'] = $last4;
+                        }
+                        if ($expiry) {
+                            $paymentDetails['card_expiry'] = $expiry;
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching payment info for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
 
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
-                'order_number' => $orderNumber, 
-                'order_subtotal' => $orderSubtotal, 
+                'order_number' => $orderNumber,
+                'order_subtotal' => $orderSubtotal,
                 'order_grandtotal' => $orderGrandTotal,
                 'total_ex' => $totalEx,
                 'gst' => $gst,
                 'coupon_discount' => $couponDiscount,
-                'invoice_date' => $invoiceDate, 
-                'customer_firstname' => $customerFirstName, 
+                'invoice_date' => $invoiceDate,
+                'invoice_number' => $invoiceNumber,
+                'payment_method' => $paymentMethodLabel ?: $paymentMethod,
+                'payment_details' => $paymentDetails,
+                'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
-                'billingAddress' => $billingAddressConcat, 
+                'billingAddress' => $billingAddressConcat,
                 'shippingAddress' => $shippingAddressConcat,
                 'shippingAmount' => $shippingAmount,
-                'trackTitle' => $trackTitle, 
-                'trackNumber' => $trackNumber, 
+                'trackTitle' => $trackTitle,
+                'trackNumber' => $trackNumber,
                 'items' => $items
             ];
 
@@ -238,7 +301,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'clint@kayweb.com.au' 
+                    'clint@kayweb.com.au'
                 )->getTransport();
 
             try {
@@ -249,19 +312,19 @@ class InvoiceEmail extends AbstractHelper
                     echo $e->getMessage()."<br>";
                 }
                 $this->logger->critical($e->getMessage());
-                
+
             }
-            
+
             $order->setData('invoice_email', 1);
             $order->save();
-            
+
         }
         return true;
     }
 
     public function getOrderCollection()
     {
-        
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1419436))
@@ -275,5 +338,5 @@ class InvoiceEmail extends AbstractHelper
 
     }
 
-    
+
 }
