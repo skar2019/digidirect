@@ -2491,5 +2491,9 @@ define([
             });
         });
         
+        $(document).on('mousedown', 'button.tocart', function() {
+            $(this).addClass('clicking');
+        });
+        
     });
 });
