@@ -4,7 +4,8 @@ define([
     "uiRegistry",
     "Magento_Ui/js/core/app",
     "Magento_Customer/js/customer-data",
-    "domReady!"
+    "domReady!",
+    'Magento_Catalog/js/catalog-add-to-cart'
 ], function ($, ko, registry, uiApp, customerData) {
     "use strict";
 
@@ -2491,24 +2492,25 @@ define([
             });
         });
         
-        var formSubmitting = {};
-    
-        // Listen for form submission START
-        $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
-            var $form = $(this);
-            var formId = $form.attr('action');
-            var $button = $form.find('button.tocart');
+        $(document).ready(function() {
+            // Store original enableAddToCartButton method
+            var originalEnable = $.mage.catalogAddToCart.prototype.enableAddToCartButton;
+            var originalDisable = $.mage.catalogAddToCart.prototype.disableAddToCartButton;
 
-            // Only disable if not already submitting
-            if (!formSubmitting[formId]) {
-                formSubmitting[formId] = true;
+            // Override disableAddToCartButton to work immediately
+            $.mage.catalogAddToCart.prototype.disableAddToCartButton = function(form) {
+                var $button = $(form).find(this.options.addToCartButtonSelector);
+                $button.prop('disabled', true).addClass(this.options.addToCartButtonDisabledClass);
+            };
+
+            // Intercept any click on the button
+            $(document).on('click', 'button.tocart', function() {
+                var $form = $(this).closest('form');
+                var $button = $(this);
+
+                // Disable immediately
                 $button.prop('disabled', true).addClass('disabled');
-
-                // Reset flag after AJAX completes (safety fallback)
-                setTimeout(function() {
-                    delete formSubmitting[formId];
-                }, 5000);
-            }
+            });
         });
         
     });
