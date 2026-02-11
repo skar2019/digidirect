@@ -2492,21 +2492,22 @@ define([
         });
         
         //Test Fix Add To Cart Delay
-        // Only handle the form submission, not the button click directly
-        $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
-            var $form = $(this);
-            var $button = $form.find('button.tocart');
+        // Use native event listener with capture phase to fire FIRST
+        document.addEventListener('click', function(e) {
+            var button = e.target.closest('button.tocart');
+            if (button && !button.disabled) {
+                // Disable immediately - this runs before any other handlers
+                button.disabled = true;
+                button.classList.add('disabled');
 
-            // Disable immediately when form submits
-            if (!$button.prop('disabled')) {
-                $button.prop('disabled', true).addClass('disabled');
-
-                // Optional: Add loading text
-                var $span = $button.find('span');
-                $span.data('original-text', $span.text());
-                $span.text('Adding...');
+                // Optional: Add loading state
+                var span = button.querySelector('span');
+                if (span) {
+                    span.setAttribute('data-original', span.textContent);
+                    span.textContent = 'Adding...';
+                }
             }
-        });
+        }, true); // TRUE = capture phase (runs before jQuery handlers)
         
     });
 });
