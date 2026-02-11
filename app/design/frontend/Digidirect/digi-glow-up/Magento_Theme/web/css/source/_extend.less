@@ -4,6 +4,22 @@
 */
 @import "_digi_print_common.less";
 
+button.tocart.clicking {
+    opacity: 0.5;
+    pointer-events: none;
+    position: relative;
+}
+
+button.tocart.clicking::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.3);
+}
+
 //Hide Discount
 
 .price-container:not(.price-final_price) {
@@ -530,7 +546,7 @@ a.action.towishlist {
     position: relative;
     z-index: 1;
     padding: 0 !important;
-    opacity: 10%;
+    opacity: 30%;
 }
 
 .slick-dots li button {
