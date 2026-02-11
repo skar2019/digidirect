@@ -2492,23 +2492,20 @@ define([
         });
         
         //Test Fix Add To Cart Delay
-        // Intercept form submission and disable button immediately
+        // Only handle the form submission, not the button click directly
         $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
             var $form = $(this);
             var $button = $form.find('button.tocart');
 
-            // Disable immediately on click
-            $button.prop('disabled', true).addClass('disabled');
+            // Disable immediately when form submits
+            if (!$button.prop('disabled')) {
+                $button.prop('disabled', true).addClass('disabled');
 
-            // Optional: Add loading state
-            $button.find('span').text('Adding...');
-            console.log("Add to cart clicked! Fixing delay! - 1");
-        });
-
-        // Also handle direct button clicks (in case form submit is prevented)
-        $(document).on('click', 'button.tocart', function() {
-            $(this).prop('disabled', true).addClass('disabled');
-            console.log("Add to cart clicked! Fixing delay! - 2");
+                // Optional: Add loading text
+                var $span = $button.find('span');
+                $span.data('original-text', $span.text());
+                $span.text('Adding...');
+            }
         });
         
     });
