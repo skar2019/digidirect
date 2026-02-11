@@ -19,11 +19,19 @@ class EmailTransportPlugin
         array $templateVars
     ) {
         if (isset($templateVars['order'])) {
-            $templateVars['email_order_created_at_formatted'] =
-                $this->timezone->formatDate(
-                    $templateVars['order']->getCreatedAt(),
-                    'EEEE, MMMM d, y g:i:s a'
-                );
+            $createdAt = $templateVars['order']->getCreatedAt();
+            $formatted = '';
+            if (!empty($createdAt)) {
+                try {
+                    $dt = $this->timezone->date($createdAt);
+                    $formatted = $dt->format('j M Y, g:i:s a');
+                } catch (\Throwable $e) {
+                    $this->logger->debug('Error formatting order created date: ' . $e->getMessage());
+                    $formatted = '';
+                }
+            }
+
+            $templateVars['email_order_created_at_formatted'] = $formatted;
         }
 
         if (isset($templateVars['shipment']) && is_object($templateVars['shipment'])) {
