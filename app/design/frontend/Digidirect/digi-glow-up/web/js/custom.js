@@ -2492,26 +2492,5 @@ define([
             });
         });
         
-        $(document).ready(function() {
-            // Store original enableAddToCartButton method
-            var originalEnable = $.mage.catalogAddToCart.prototype.enableAddToCartButton;
-            var originalDisable = $.mage.catalogAddToCart.prototype.disableAddToCartButton;
-
-            // Override disableAddToCartButton to work immediately
-            $.mage.catalogAddToCart.prototype.disableAddToCartButton = function(form) {
-                var $button = $(form).find(this.options.addToCartButtonSelector);
-                $button.prop('disabled', true).addClass(this.options.addToCartButtonDisabledClass);
-            };
-
-            // Intercept any click on the button
-            $(document).on('click', 'button.tocart', function() {
-                var $form = $(this).closest('form');
-                var $button = $(this);
-
-                // Disable immediately
-                $button.prop('disabled', true).addClass('disabled');
-            });
-        });
-        
     });
 });
