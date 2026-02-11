@@ -8,102 +8,178 @@
 ​
 {{template config_path="design/email/header_template"}}
 
- <table class="order-details">
-    <tr class="email-summary">
-        <td>
-            <h1>Tracking Info: {{trans "%trackTitle" trackTitle=$trackTitle|raw}} {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</h1>
-        </td>
-    </tr>
+<!-- Outer container background -->
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; padding: 0; margin: 0;">
     <tr>
-        <td style="white-space: normal; width:300px;">
-            <p>{{trans "ABN 92 122 703 806 "}}</p>
-            <p>{{trans "Invoice Date: %invoice_date" invoice_date=$invoice_date|raw}}</p>
-            <h3>{{trans "Sold To:"}}</h3>
-            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
-            <p>{{trans "%billingAddress" billingAddress=$billingAddress|raw}}</p>
-        </td>
-        <td style="white-space: normal; width:300px;">
-            <h3>{{trans "Deliver To:"}}</h3>
-            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
-            <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            {{layout handle="email_product_list" items=$items area="frontend"}}
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "Subtotal: %order_subtotal" order_subtotal=$order_subtotal|raw}}</p>
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "Coupon Discount: %coupon_discount" coupon_discount=$coupon_discount|raw}}</p>
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "Shipping Amount: %shippingAmount" shippingAmount=$shippingAmount|raw}}</p>
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "Total Ex: %total_ex" total_ex=$total_ex|raw}}</p>
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "GST: %gst" gst=$gst|raw}}</p>
-        </td>
-    </tr>
-    <tr>
-        <td align="left">
-            <p>{{trans "Total: %order_grandtotal" order_grandtotal=$order_grandtotal|raw}}</p>
+        <td align="center">
+
+            <!-- Main card -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:720px; margin:0 auto;">
+
+                <!-- Intro paragraph -->
+                <tr>
+                    <td align="center" style="padding:20px 40px 10px; font-family:Arial; color:#333; font-size:15px; line-height:22px;">
+                        <p class="greeting">{{trans "Dear %name," name=$order_data.customer_name}}</p>
+                        <p>Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="sales@digidirect.com.au">sales@digidirect.com.au</a> or call us at <a href="tel:+61287326400">+61 2 8732 6400</a></p>.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:30px; font-family:Arial; color:#333;">
+                        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:20px; padding:20px; border-collapse: initial !important;">
+
+                            <!-- ORDER DETAILS -->
+                            <tr>
+                                <td style="font-size: 16px; font-weight: bold; color: #222; padding-bottom: 5px;">
+                                    Your Invoice: {{var invoice.increment_id}}
+                                </td>
+                                <td style="font-size: 16px; font-weight: bold; color: #222; padding-bottom: 5px;">
+                                    Your Order: {{var order.increment_id}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-size: 13px; color: #666; padding-bottom: 25px;">
+                                    Placed on  {{var email_order_created_at_formatted}}
+                                </td>
+                            </tr>
+
+                            <!-- Shipping Address -->
+                            {{depend formattedShippingAddress}}
+                            <tr>
+                                <td style="padding-right:30px; padding-bottom: 20px;">
+
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <!-- ICON -->
+                                            <td width="40" valign="top" style="padding-top:3px;">
+                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/truck-fast.png" width="28" alt="">
+                                            </td>
+
+                                            <!-- TEXT -->
+                                            <td valign="top">
+                                                <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Shipping Address</h3>
+                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var formattedShippingAddress|raw}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            {{/depend}}
+
+                            <!-- Billing Address -->
+                            <tr>
+                                <td style="padding-right:30px; padding-bottom: 20px;">
+
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <!-- ICON -->
+                                            <td width="40" valign="top" style="padding-top:3px;">
+                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/bill.png?rand=1765415468" width="28" alt="">
+                                            </td>
+
+                                            <!-- TEXT -->
+                                            <td valign="top">
+                                                <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Billing Address</h3>
+                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var formattedBillingAddress|raw}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                            <!-- Payment Method -->
+                            <tr>
+                                <td style="padding-right:30px; padding-bottom: 20px;">
+
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <!-- ICON -->
+                                            <td width="40" valign="top" style="padding-top:3px;">
+                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/wallet.png?rand=1765415592" width="28" alt="">
+                                            </td>
+
+                                            <!-- TEXT -->
+                                            <td valign="top">
+                                                <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Payment Method</h3>
+                                                <div style="font-size:14px; line-height:20px;">{{var payment_html|raw}}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                            <!-- Shipping Method -->
+                            <tr>
+                                <td style="padding-right:30px; padding-bottom: 20px;">
+
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <!-- ICON -->
+                                            <td width="40" valign="top" style="padding-top:3px;">
+                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/box.png" width="28" alt="">
+                                            </td>
+
+                                            <!-- TEXT -->
+                                            <td valign="top">
+                                                <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Shipping Method</h3>
+                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var order.shipping_description}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- ORDER SUMMARY CARD -->
+                <tr>
+                    <td style="padding:0 0 20px;">
+                        <table width="90%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 25px; margin: 0 auto; border-collapse: collapse;">
+                            <tr>
+                                <td align="center" style="padding:35px 20px 20px;">
+                                    <h2 style="margin:0; font-size:24px; font-family:Arial; font-weight:700; color:#000;">
+                                        Order Summary
+                                    </h2>
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- Magento order item block -->
+                                <td style="padding:0 30px 30px 30px;">
+                                    {{layout handle="sales_email_order_items" order_id=$order_id}}
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- CTA Box - 2 Columns -->
+            {{layout handle="email_customer_help_handle" area="frontend"}}
+
         </td>
     </tr>
 </table>
 
-<table>
-    <tr class="email-intro">
-        <td>
-            <h1>{{trans "Your Order #%order_number" order_number=$order_number|raw}}</h1>
-            <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
-            <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
-            
-        <td>
-    </tr>
-    <tr>
-        <td align="center" style="padding:25px 0;">
-            <p style="color:#1E1E1E;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:17px;margin:0;font-weight:normal;">
-                {{trans 'For our hours of operation and contact information, please click here <a href="https://digidirect.com.au/store-locator" style="color:black;text-decoration:underline">Store Locator</a>' store_email=$store_email |raw}}
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding:25px 0;">
-            <p>
-                {{trans "Kind Regards,"}}
-            </p>
-            <p>
-                {{trans "digiDirect"}}
-            </p>
-        </td>
-    </tr>
-    <tr class="email-information">
-        <td>
-            {{depend order_data.email_customer_note}}
-            <table class="message-info">
-                <tr>
-                    <td>
-                        {{var order_data.email_customer_note|escape|nl2br}}
-                    </td>
-                </tr>
-            </table>
-            {{/depend}} {{layout handle="sales_email_order_items" order=$order area="frontend"}}
-        </td>
-    </tr>
-</table>
+<style>
+    [class*="email-items"] img {
+        /* display: none; */
+        width: 100px !important;
+    }
+    table[width="90%"] {
+        display: flex;
+        justify-content: space-around !important;
+        justify-items: center !important;
+    }
+</style>
 ​
 {{template config_path="design/email/footer_template"}}
