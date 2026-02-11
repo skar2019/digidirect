@@ -2491,23 +2491,5 @@ define([
             });
         });
         
-        //Test Fix Add To Cart Delay
-        // Use native event listener with capture phase to fire FIRST
-        document.addEventListener('click', function(e) {
-            var button = e.target.closest('button.tocart');
-            if (button && !button.disabled) {
-                // Disable immediately - this runs before any other handlers
-                button.disabled = true;
-                button.classList.add('disabled');
-
-                // Optional: Add loading state
-                var span = button.querySelector('span');
-                if (span) {
-                    span.setAttribute('data-original', span.textContent);
-                    span.textContent = 'Adding...';
-                }
-            }
-        }, true); // TRUE = capture phase (runs before jQuery handlers)
-        
     });
 });
