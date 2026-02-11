@@ -22,8 +22,7 @@ class EmailTransportPlugin
             $templateVars['email_order_created_at_formatted'] =
                 $this->timezone->formatDate(
                     $templateVars['order']->getCreatedAt(),
-                    'EEEE, MMMM d, y',
-                    false
+                    'EEEE, MMMM d, y'
                 );
         }
 
