@@ -2491,8 +2491,19 @@ define([
             });
         });
         
-        $(document).on('mousedown', 'button.tocart', function() {
+        /*$(document).on('mousedown', 'button.tocart', function() {
             $(this).addClass('clicking');
+        });*/
+        
+        // Just visual feedback, don't touch functionality
+        $(document).on('click', 'button.tocart', function() {
+            var $button = $(this);
+
+            // Only add visual class, don't disable
+            $button.addClass('btn-loading');
+
+            // Optional: change button text
+            $button.find('span').text('Adding...');
         });
         
     });
