@@ -2491,5 +2491,25 @@ define([
             });
         });
         
+        var formSubmitting = {};
+    
+        // Listen for form submission START
+        $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
+            var $form = $(this);
+            var formId = $form.attr('action');
+            var $button = $form.find('button.tocart');
+
+            // Only disable if not already submitting
+            if (!formSubmitting[formId]) {
+                formSubmitting[formId] = true;
+                $button.prop('disabled', true).addClass('disabled');
+
+                // Reset flag after AJAX completes (safety fallback)
+                setTimeout(function() {
+                    delete formSubmitting[formId];
+                }, 5000);
+            }
+        });
+        
     });
 });
