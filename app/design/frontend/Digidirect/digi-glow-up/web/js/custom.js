@@ -2492,5 +2492,22 @@ define([
             });
         });
         
+        // Capture the click before Magento's handler
+        $(document).on('mousedown touchstart', 'form[data-role="tocart-form"] button.tocart', function(e) {
+            var $button = $(this);
+
+            if ($button.prop('disabled')) {
+                return false;
+            }
+
+            // Disable immediately
+            $button.prop('disabled', true)
+                   .addClass('disabled')
+                   .css('pointer-events', 'none');
+
+            // Visual feedback
+            $button.find('span').text('Adding...');
+        });
+        
     });
 });
