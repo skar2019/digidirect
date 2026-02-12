@@ -2492,21 +2492,45 @@ define([
             });
         });
         
-        // Capture the click before Magento's handler
-        $(document).on('mousedown touchstart', 'form[data-role="tocart-form"] button.tocart', function(e) {
-            var $button = $(this);
+        //Test
+        var isProcessing = false;
+    
+        $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
+            var $form = $(this);
+            var $button = $form.find('button.tocart');
 
-            if ($button.prop('disabled')) {
+            // Prevent double submission
+            if (isProcessing) {
+                e.preventDefault();
                 return false;
             }
 
-            // Disable immediately
+            // Disable immediately on submit
+            isProcessing = true;
             $button.prop('disabled', true)
                    .addClass('disabled')
                    .css('pointer-events', 'none');
 
             // Visual feedback
-            $button.find('span').text('Adding...');
+            var $span = $button.find('span');
+            var originalText = $span.text();
+            $span.text('Adding...');
+
+            // Reset after a timeout as fallback (in case AJAX completes or page redirects)
+            setTimeout(function() {
+                if (!$form.closest('html').length) {
+                    // Form/page no longer exists (likely redirected)
+                    return;
+                }
+                isProcessing = false;
+                $button.prop('disabled', false)
+                       .removeClass('disabled')
+                       .css('pointer-events', '');
+                $span.text(originalText);
+            }, 5000);
+
+            // Let form submit naturally
+            return true;
         });
         
     });
