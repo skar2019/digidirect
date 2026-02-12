@@ -2493,37 +2493,32 @@ define([
         });
         
         //Test
-        var processing = false;
-    
-        $(document).on('click', 'form[data-role="tocart-form"] button.tocart', function(e) {
+        // Use body delegation to catch it early
+        $('body').on('click.customAddToCart', 'form[data-role="tocart-form"] button.tocart', function(e) {
             var $button = $(this);
+            var buttonId = $button.attr('product-id');
 
-            // Prevent double clicks
-            if (processing) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
+            // Already processing this button?
+            if (processing[buttonId]) {
+                return;
             }
 
             // Mark as processing
-            processing = true;
+            processing[buttonId] = true;
             $button.addClass('processing');
 
-            // Visual feedback
             var $span = $button.find('span');
             if (!$span.data('original-text')) {
                 $span.data('original-text', $span.text());
             }
             $span.text('Adding...');
 
-            // Reset after timeout (fallback)
+            // Cleanup
             setTimeout(function() {
-                processing = false;
+                delete processing[buttonId];
                 $button.removeClass('processing');
                 $span.text($span.data('original-text') || 'Add to Cart');
             }, 3000);
-
-            // Let the event continue to Magento's handlers
         });
         
     });
