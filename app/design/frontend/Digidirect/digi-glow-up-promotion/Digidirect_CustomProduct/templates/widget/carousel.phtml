@@ -150,11 +150,20 @@ $collection = $block->getProductCollection();
                                     </div>
 
                                     <div class="result-description text-ellipsis"><?= $block->escapeHtml($_product->getShortDescription() ?: '') ?></div>
-                                    
-                                    <div class="price-digirent-container">
-                                        <?php
-                                        $currencyCode = $block->getStore()->getCurrentCurrencyCode();
-                                        ?>
+
+                                    <div class="s19-rental-price-target">
+                                        <?php if ($isDigiPrint): ?>
+                                            <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                        <?php else: ?>
+                                            <p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p>
+                                            <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php
+                                    $currencyCode = $block->getStore()->getCurrentCurrencyCode();
+                                    ?>
+                                    <div itemprop="offers" itemscope itemtype="<?= $hasCustomFinalPrice ? 'http://schema.org/AggregateOffer' : 'http://schema.org/Offer' ?>" class="price">
                                         <?php if ($hasCustomFinalPrice): ?>
                                             <meta itemprop="lowPrice" content="<?= number_format($finalPrice, 2, '.', '') ?>" />
                                             <meta itemprop="highPrice" content="<?= number_format($regularPrice, 2, '.', '') ?>" />
@@ -186,52 +195,45 @@ $collection = $block->getProductCollection();
                                                 </div>
                                             </div>
                                         <?php endif; ?>
-                                        <div class="s19-rental-price-target">
-                                            <?php if ($isDigiPrint): ?>
-                                                <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                    </div>
+
+                                    <div class="product-info-bottom black-friday">
+                                        <?php if ($hasCustomFinalPrice): ?>
+                                            <div class="discount-price-wrapper">
+                                                <span class="discount-price">$<?= $block->escapeHtml($discount) ?></span> OFF RRP
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="discount-price-wrapper-no-price"></div>
+                                        <?php endif; ?>
+
+                                        <?php if ($isAddToCartEnabled): ?>
+                                            <?php if (!$isDigiPrint): ?>
+                                                <form data-role="tocart-form" action="<?= $block->getUrl('checkout/cart/add') ?>" method="post">
+                                                    <input type="hidden" name="product" value="<?= (int)$objectID ?>">
+                                                    <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>">
+                                                    <button type="submit" title="<?= __('Add to Cart') ?>" class="action tocart primary"
+                                                        data-objectid="<?= (int)$objectID ?>">
+                                                        <?php if (!$isPreorder): ?>
+                                                            <span><?= __('Add to Cart') ?></span>
+                                                            <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" alt="" />
+                                                        <?php else: ?>
+                                                            <span><?= __('Pre-Order') ?></span>
+                                                        <?php endif; ?>
+                                                    </button>
+                                                </form>
                                             <?php else: ?>
-                                                <p style="font-size: 13px; font-weight: 500;">Buy now Pay later</p>
-                                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                                <div class="actions-primary">
+                                                    <a class="ordernow-link" href="<?= $block->escapeUrl($_product->getData('digiprint_url') ?: '#') ?>" target="_blank">
+                                                        <button type="button" title="<?= __('Order Now') ?>" class="action tocart primary"><?= __('Order Now') ?></button>
+                                                    </a>
+                                                </div>
                                             <?php endif; ?>
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div> <!-- result-sub-content -->
                             </div> <!-- result-content -->
                             <div class="algolia-clearfix"></div>
                         </a>
-                        <div class="product-info-bottom black-friday">
-                            <?php if ($hasCustomFinalPrice): ?>
-                                <div class="discount-price-wrapper">
-                                    <span class="discount-price">$<?= $block->escapeHtml($discount) ?></span> OFF RRP
-                                </div>
-                            <?php else: ?>
-                                <div class="discount-price-wrapper-no-price"></div>
-                            <?php endif; ?>
-
-                            <?php if ($isAddToCartEnabled): ?>
-                                <?php if (!$isDigiPrint): ?>
-                                    <form data-role="tocart-form" action="<?= $block->getUrl('checkout/cart/add') ?>" method="post">
-                                        <input type="hidden" name="product" value="<?= (int)$objectID ?>">
-                                        <input name="form_key" type="hidden" value="<?= $block->getFormKey() ?>">
-                                        <button type="submit" title="<?= __('Add to Cart') ?>" class="action tocart primary"
-                                            data-objectid="<?= (int)$objectID ?>">
-                                            <?php if (!$isPreorder): ?>
-                                                <span><?= __('Add to Cart') ?></span>
-                                                <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>" alt="" />
-                                            <?php else: ?>
-                                                <span><?= __('Pre-Order') ?></span>
-                                            <?php endif; ?>
-                                        </button>
-                                    </form>
-                                <?php else: ?>
-                                    <div class="actions-primary">
-                                        <a class="ordernow-link" href="<?= $block->escapeUrl($_product->getData('digiprint_url') ?: '#') ?>" target="_blank">
-                                            <button type="button" title="<?= __('Order Now') ?>" class="action tocart primary"><?= __('Order Now') ?></button>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
