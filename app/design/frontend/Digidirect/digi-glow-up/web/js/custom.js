@@ -2493,44 +2493,39 @@ define([
         });
         
         //Test
-        var isProcessing = false;
+        var processedButtons = new WeakSet();
     
-        $(document).on('submit', 'form[data-role="tocart-form"]', function(e) {
-            var $form = $(this);
-            var $button = $form.find('button.tocart');
+        // Capture click BEFORE Magento's handler
+        $(document).on('click', 'form[data-role="tocart-form"] button.tocart', function(e) {
+            var $button = $(this);
 
-            // Prevent double submission
-            if (isProcessing) {
-                e.preventDefault();
-                return false;
+            // Skip if already processed
+            if (processedButtons.has(this)) {
+                return;
             }
 
-            // Disable immediately on submit
-            isProcessing = true;
-            $button.prop('disabled', true)
-                   .addClass('disabled')
-                   .css('pointer-events', 'none');
+            // Mark as processed
+            processedButtons.add(this);
+
+            // Disable immediately - visual feedback only
+            $button.addClass('disabled processing')
+                   .css('opacity', '0.5');
 
             // Visual feedback
             var $span = $button.find('span');
-            var originalText = $span.text();
+            var originalText = $span.data('original-text') || $span.text();
+            $span.data('original-text', originalText);
             $span.text('Adding...');
 
-            // Reset after a timeout as fallback (in case AJAX completes or page redirects)
-            setTimeout(function() {
-                if (!$form.closest('html').length) {
-                    // Form/page no longer exists (likely redirected)
-                    return;
-                }
-                isProcessing = false;
-                $button.prop('disabled', false)
-                       .removeClass('disabled')
-                       .css('pointer-events', '');
-                $span.text(originalText);
-            }, 5000);
+            // DON'T prevent default, DON'T stop propagation
+            // Let Magento's handler run and actually disable the button
+        });
 
-            // Let form submit naturally
-            return true;
+        // Cleanup on page navigation or cart update
+        $(document).on('ajaxComplete', function(event, xhr, settings) {
+            if (settings.url.indexOf('checkout/cart/add') > -1) {
+                processedButtons = new WeakSet();
+            }
         });
         
     });
