@@ -2493,39 +2493,31 @@ define([
         });
         
         //Test
-        var processedButtons = new WeakSet();
-    
-        // Capture click BEFORE Magento's handler
-        $(document).on('click', 'form[data-role="tocart-form"] button.tocart', function(e) {
+        $(document).on('mousedown', 'form[data-role="tocart-form"] button.tocart', function(e) {
             var $button = $(this);
 
-            // Skip if already processed
-            if (processedButtons.has(this)) {
+            if ($button.prop('disabled')) {
                 return;
             }
 
-            // Mark as processed
-            processedButtons.add(this);
-
-            // Disable immediately - visual feedback only
-            $button.addClass('disabled processing')
-                   .css('opacity', '0.5');
+            // Disable immediately
+            $button.prop('disabled', true).addClass('processing');
 
             // Visual feedback
             var $span = $button.find('span');
-            var originalText = $span.data('original-text') || $span.text();
-            $span.data('original-text', originalText);
+            if (!$span.data('original-text')) {
+                $span.data('original-text', $span.text());
+            }
             $span.text('Adding...');
-
-            // DON'T prevent default, DON'T stop propagation
-            // Let Magento's handler run and actually disable the button
         });
 
-        // Cleanup on page navigation or cart update
-        $(document).on('ajaxComplete', function(event, xhr, settings) {
-            if (settings.url.indexOf('checkout/cart/add') > -1) {
-                processedButtons = new WeakSet();
-            }
+        // Reset after add to cart completes (cleanup)
+        $(document).on('ajax:addToCart', function() {
+            $('.tocart.processing').each(function() {
+                var $button = $(this);
+                $button.removeClass('processing').prop('disabled', false);
+                $button.find('span').text($button.find('span').data('original-text') || 'Add to Cart');
+            });
         });
         
     });
