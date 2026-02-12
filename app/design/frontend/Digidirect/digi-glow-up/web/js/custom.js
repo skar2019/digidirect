@@ -4,7 +4,8 @@ define([
     "uiRegistry",
     "Magento_Ui/js/core/app",
     "Magento_Customer/js/customer-data",
-    "domReady!"
+    "domReady!",
+    'Magento_Catalog/js/catalog-add-to-cart'
 ], function ($, ko, registry, uiApp, customerData) {
     "use strict";
 
@@ -2489,6 +2490,35 @@ define([
                     clearInterval(pollInterval);
                 }
             });
+        });
+        
+        //Test
+        // Use body delegation to catch it early
+        $('body').on('click.customAddToCart', 'form[data-role="tocart-form"] button.tocart', function(e) {
+            var $button = $(this);
+            var buttonId = $button.attr('product-id');
+
+            // Already processing this button?
+            if (processing[buttonId]) {
+                return;
+            }
+
+            // Mark as processing
+            processing[buttonId] = true;
+            $button.addClass('processing');
+
+            var $span = $button.find('span');
+            if (!$span.data('original-text')) {
+                $span.data('original-text', $span.text());
+            }
+            $span.text('Adding...');
+
+            // Cleanup
+            setTimeout(function() {
+                delete processing[buttonId];
+                $button.removeClass('processing');
+                $span.text($span.data('original-text') || 'Add to Cart');
+            }, 3000);
         });
         
     });
