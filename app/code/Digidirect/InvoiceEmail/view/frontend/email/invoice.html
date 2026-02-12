@@ -26,34 +26,34 @@
 
                             <!-- Intro paragraph -->
                             <tr>
-                                <td align="center" style="padding:20px 40px 10px; color:#333; font-size:15px; line-height:22px;">
+                                <td style="padding:0 40px 50px; color:#333; font-size:15px; line-height:22px;">
                                     <p class="greeting">Dear {{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
-                                    <p>Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="sales@digidirect.com.au">sales@digidirect.com.au</a> or call us at <a href="tel:+61287326400">+61 2 8732 6400</a></p>.
+                                    <p>Thank you for your order from digiDirect. Please see below your invoice details.</p>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:30px; color:#333;">
-                                    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:20px; padding:20px; border-collapse: initial !important;">
+                                <td style="padding:0 40px 50px; color:#333;">
+                                    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:30px; padding:20px; border-collapse: initial !important;">
 
                                         <!-- ORDER DETAILS -->
                                         <tr>
-                                            <td style="font-size: 16px; font-weight: bold; color: #222; padding-bottom: 5px;">
-                                                Tax Invoice Number: {{trans "%invoice_number,"  invoice_number=$invoice_number|raw}}
+                                            <td style="font-size: 15px; font-weight:500; color: #242426; padding-bottom: 5px;">
+                                                Tax Invoice Number: <span style="font-weight: 700">{{trans "%invoice_number"  invoice_number=$invoice_number|raw}}</span>
                                             </td>
-                                            <td style="font-size: 16px; font-weight: bold; color: #222; padding-bottom: 5px;">
-                                                Your Order: {{var order.increment_id}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size: 13px; color: #666; padding-bottom: 25px;">
-                                                <p>{{trans "ABN 92 122 703 806 "}}</p>
-                                                <p>{{trans "Digital Imaging Express Pty Ltd"}}</p>
-                                                <p>{{trans "Building 2 / 34-48 Cosgrove Road, Strathfield South NSW 2136"}}</p>
+                                            <td style="font-size: 15px; font-weight:500; color: #242426; padding-bottom: 5px;">
+                                                Order Number: <span style="font-weight: 700">{{var order.increment_id}}</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: 13px; color: #666; padding-bottom: 25px;">
+                                            <td style="color: #666; padding-bottom: 15px;">
+                                                <p style="font-size: 15px; color: #242426; padding-bottom: 10px;">{{trans "ABN 92 122 703 806 "}}</p>
+                                                <p style="font-size: 11px; padding-bottom: 0;">{{trans "Digital Imaging Express Pty Ltd"}}</p>
+                                                <p style="font-size: 11px; padding-bottom: 0;">{{trans "Building 2 / 34-48 Cosgrove Road, Strathfield South NSW 2136"}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px; color: #666; padding-bottom: 25px;">
                                                 Invoice Date  {{trans "%invoice_date" invoice_date=$invoice_date|raw}}
                                             </td>
                                         </tr>
@@ -67,13 +67,15 @@
                                                     <tr>
                                                         <!-- ICON -->
                                                         <td width="40" valign="top" style="padding-top:3px;">
-                                                            <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/truck-fast.png" width="28" alt="">
+                                                            <img src="{{var store.getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)}}wysiwyg/glow-up/emai-template/truck-fast.png" alt="truck" width="28"/>
                                                         </td>
 
                                                         <!-- TEXT -->
                                                         <td valign="top">
-                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Shipping Address</h3>
+                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Shipping Address</h3>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{trans "%shippingAddress,"  shippingAddress=$shippingAddress|raw}}</p>
+                                                            <p style="margin:0; font-size:14px; line-height:20px;">{{var order.getShippingAddress().format('html') |raw}}</p>
+                                                            <p> T: {{var order.getShippingAddress().getTelephone()}}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -90,13 +92,15 @@
                                                     <tr>
                                                         <!-- ICON -->
                                                         <td width="40" valign="top" style="padding-top:3px;">
-                                                            <img src="https://www.digidirect.com.au/media/wysiwyg/glow-up/emai-template/bill.png?rand=1765415468" width="28" alt="">
+                                                            <img src="{{var store.getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)}}wysiwyg/glow-up/emai-template/bill.png?rand=1765415468" alt="truck" width="28"/>
                                                         </td>
 
                                                         <!-- TEXT -->
                                                         <td valign="top">
-                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Billing Address</h3>
+                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Billing Address</h3>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{trans "%billingAddress,"  billingAddress=$billingAddress|raw}}</p>
+                                                            <p style="margin:0; font-size:14px; line-height:20px;">{{var order.getBillingAddress().format('html') |raw}}</p>
+                                                            <p> T: {{var order.getBillingAddress().getTelephone()}}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -112,14 +116,25 @@
                                                     <tr>
                                                         <!-- ICON -->
                                                         <td width="40" valign="top" style="padding-top:3px;">
-                                                            <img src="https://www.digidirect.com.au/media/wysiwyg/glow-up/emai-template/wallet.png?rand=1765415592" width="28" alt="">
+                                                            <img src="{{var store.getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)}}wysiwyg/glow-up/emai-template/wallet.png?rand=1765415592" alt="truck" width="28"/>
                                                         </td>
 
                                                         <!-- TEXT -->
                                                         <td valign="top">
-                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Payment Method</h3>
+                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Payment Method</h3>
                                                             <div style="font-size:14px; line-height:20px;">{{trans "%payment_method,"  payment_method=$payment_method|raw}}</div>
                                                             <div style="font-size:14px; line-height:20px;">{{trans "%payment_details,"  payment_details=$payment_details|raw}}</div>
+                                                            ---------->{{var order.getPayment().getMethodInstance().getTitle()}}<----------
+                                                            <br/>
+                                                            ++++++>{{var payment_html |raw}}<++++++++
+                                                            =====>{{var payment_html |raw}}<=======
+                                                            ***************************
+                                                            {{var order.getPayment().getMethod()}} <!-- method code -->
+
+                                                            {{var order.getPayment().getAdditionalInformation('cc_type')}}
+                                                            {{var order.getPayment().getAdditionalInformation('cc_last4')}}
+                                                            {{var order.getPayment().getAdditionalInformation('transaction_id')}}
+                                                            *****************************
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -135,12 +150,12 @@
                                                     <tr>
                                                         <!-- ICON -->
                                                         <td width="40" valign="top" style="padding-top:3px;">
-                                                            <img src="https://www..digidirect.com.au/media/wysiwyg/glow-up/emai-template/box.png" width="28" alt="">
+                                                            <img src="{{var store.getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)}}wysiwyg/glow-up/emai-template/box.png" alt="truck" width="28"/>
                                                         </td>
 
                                                         <!-- TEXT -->
                                                         <td valign="top">
-                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700;">Shipping Method</h3>
+                                                            <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Shipping Method</h3>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{var order.shipping_description}}</p>
                                                         </td>
                                                     </tr>
@@ -156,7 +171,7 @@
                             <!-- ORDER SUMMARY CARD -->
                             <tr>
                                 <td style="padding:0 0 20px;">
-                                    <table width="90%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 25px; margin: 0 auto; border-collapse: collapse;">
+                                    <table width="90%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 30px; margin: 0 auto; border-collapse: collapse;">
                                         <tr>
                                             <td align="center" style="padding:35px 20px 20px;">
                                                 <h2 style="margin:0; font-size:24px; font-weight:700; color:#000;">
@@ -169,6 +184,8 @@
                                             <!-- Magento order item block -->
                                             <td style="padding:0 30px 30px 30px;">
                                                 {{layout handle="sales_email_order_items" order_id=order.increment_id}}
+                                                -----------------------------
+                                                {{layout handle="sales_email_order_invoice_items" invoice=$invoice order=$order}}
                                             </td>
                                         </tr>
 
