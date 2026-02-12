@@ -27,8 +27,8 @@ class InvoiceEmail extends AbstractHelper
 {
 
     /**
-    * @var Curl
-    */
+     * @var Curl
+     */
     protected $curl;
 
     protected $_orderCollectionFactory;
@@ -207,66 +207,6 @@ class InvoiceEmail extends AbstractHelper
             $items = $order->getAllItems();
             $store = $this->storeManager->getStore();
 
-            $invoiceNumber = '';
-            try {
-                $invoiceCollection = $order->getInvoiceCollection();
-                if ($invoiceCollection && $invoiceCollection->getSize()) {
-                    $firstInvoice = $invoiceCollection->getFirstItem();
-                    $invoiceNumber = $firstInvoice->getIncrementId() ?: '';
-                    if ($firstInvoice->getCreatedAt()) {
-                        try {
-                            $dtInv = $this->timezone->date($firstInvoice->getCreatedAt());
-                            $invoiceDate = $dtInv->format('l, j M Y, g:i:s a');
-                        } catch (\Throwable $e) {
-                            $invoiceDate = date('d/m/Y', strtotime($firstInvoice->getCreatedAt()));
-                        }
-                    }
-                }
-            } catch (\Throwable $e) {
-                $this->logger->debug('Error fetching invoice for order ' . $orderNumber . ': ' . $e->getMessage());
-            }
-
-            $paymentMethod = '';
-            $paymentMethodLabel = '';
-            $paymentDetails = [];
-            try {
-                $payment = $order->getPayment();
-                if ($payment) {
-                    $paymentMethod = $payment->getMethod();
-                    try {
-                        $methodInstance = $payment->getMethodInstance();
-                        $paymentMethodLabel = $methodInstance ? $methodInstance->getTitle() : $paymentMethod;
-                    } catch (\Throwable $e) {
-                        $paymentMethodLabel = $paymentMethod;
-                    }
-
-                    if ($paymentMethod && stripos($paymentMethod, 'braintree') !== false) {
-                        $additional = $payment->getAdditionalInformation();
-                        if (!is_array($additional)) {
-                            $additional = [];
-                        }
-                        $cardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
-                        $last4 = $additional['last4'] ?? $additional['last_4'] ?? $additional['cc_last4'] ?? $additional['cc_last_4'] ?? null;
-                        $expiry = $additional['expiration_date'] ?? $additional['expirationDate'] ?? null;
-                        if (empty($expiry) && !empty($additional['cc_exp_month']) && !empty($additional['cc_exp_year'])) {
-                            $expiry = $additional['cc_exp_month'] . '/' . $additional['cc_exp_year'];
-                        }
-
-                        if ($cardType) {
-                            $paymentDetails['card_type'] = $cardType;
-                        }
-                        if ($last4) {
-                            $paymentDetails['card_last4'] = $last4;
-                        }
-                        if ($expiry) {
-                            $paymentDetails['card_expiry'] = $expiry;
-                        }
-                    }
-                }
-            } catch (\Throwable $e) {
-                $this->logger->debug('Error fetching payment info for order ' . $orderNumber . ': ' . $e->getMessage());
-            }
-
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
@@ -277,9 +217,6 @@ class InvoiceEmail extends AbstractHelper
                 'gst' => $gst,
                 'coupon_discount' => $couponDiscount,
                 'invoice_date' => $invoiceDate,
-                'invoice_number' => $invoiceNumber,
-                'payment_method' => $paymentMethodLabel ?: $paymentMethod,
-                'payment_details' => $paymentDetails,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
@@ -292,17 +229,17 @@ class InvoiceEmail extends AbstractHelper
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
-                )->setTemplateOptions(
-                    ['area' => 'frontend', 'store' => $store->getId()]
-                )->addTo(
-                    $customerEmail, $customerFirstName
-                )->setTemplateVars(
-                    $templateParams
-                )->setFrom(
-                    'general'
-                )->addBcc(
-                    'clint@kayweb.com.au'
-                )->getTransport();
+            )->setTemplateOptions(
+                ['area' => 'frontend', 'store' => $store->getId()]
+            )->addTo(
+                $customerEmail, $customerFirstName
+            )->setTemplateVars(
+                $templateParams
+            )->setFrom(
+                'general'
+            )->addBcc(
+                'clint@kayweb.com.au'
+            )->getTransport();
 
             try {
                 $transport->sendMessage();
