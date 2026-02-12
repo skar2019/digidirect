@@ -85,55 +85,57 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             </div>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
+                        
                         <div class="s19-rental-price-target">
-                            {{#isDigiPrint}}
-                                <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
-                            {{/isDigiPrint}}
-                            {{#isNotDigiPrint}}
-                                <p style="font-size: 13px; font-weight: 500;">Buy now pay later, </p>
-                                <p style="font-size: 13px; font-weight: 500;">Options Available</p>
-                            {{/isNotDigiPrint}}
+                            <div class="s19-rental-price-target">
+                                {{#isDigiPrint}}
+                                    <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                {{/isDigiPrint}}
+                                {{#isNotDigiPrint}}
+                                    <p style="font-size: 13px; font-weight: 500;">Buy now pay later </p>
+                                    <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                {{/isNotDigiPrint}}
+                            </div>
                         </div>
+                        
                         {{^<?php echo $maxVar; ?>}}
-                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="price">
                             <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
                         {{/<?php echo $maxVar; ?>}}
                         {{#<?php echo $maxVar; ?>}}
-                        <div itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer" class="price">
                             <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
                             <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
                         {{/<?php echo $maxVar; ?>}}
-                            <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
-                                {{#hasCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
-                                        <span class="price-container">
-                                            {{#defaultOriginalPrice}}
-                                                <span class="price">
-                                                    {{defaultOriginalPrice}}
-                                                </span>
-                                            {{/defaultOriginalPrice}}
-                                            {{^defaultOriginalPrice}}
-                                                <span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
-                                            {{/defaultOriginalPrice}}
-                                        </span>
-                                        <div>  
-                                            <span class="after_special custom_final_price">{{customFinalPrice}}</span>
-                                        </div> 
-                                    </div>
-                                {{/hasCustomFinalPrice}}
-                                {{#hasNoCustomFinalPrice}}
-                                    <div class="price-wrapper"> 
-                                        <span class="price-container">
-                                            <span class="price"></span>
-                                        </span>
-                                        <div>
-                                            <span class="after_special">
-                                                {{<?php echo $baseFormatedVar; ?>}}
+                        <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
+                            {{#hasCustomFinalPrice}}
+                                <div class="price-wrapper"> 
+                                    <span class="price-container">
+                                        {{#defaultOriginalPrice}}
+                                            <span class="price">
+                                                {{defaultOriginalPrice}}
                                             </span>
-                                        </div>
+                                        {{/defaultOriginalPrice}}
+                                        {{^defaultOriginalPrice}}
+                                            <span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
+                                        {{/defaultOriginalPrice}}
+                                    </span>
+                                    <div>  
+                                        <span class="after_special custom_final_price">{{customFinalPrice}}</span>
+                                    </div> 
+                                </div>
+                            {{/hasCustomFinalPrice}}
+                            {{#hasNoCustomFinalPrice}}
+                                <div class="price-wrapper"> 
+                                    <span class="price-container">
+                                        <span class="price"></span>
+                                    </span>
+                                    <div>
+                                        <span class="after_special">
+                                            {{<?php echo $baseFormatedVar; ?>}}
+                                        </span>
                                     </div>
-                                {{/hasNoCustomFinalPrice}}
-                        </div>
+                                </div>
+                            {{/hasNoCustomFinalPrice}}
+                        
                         <div class="product-info-bottom">
                             {{#hasCustomFinalPrice}}
                                 <div class="discount-price-wrapper">
