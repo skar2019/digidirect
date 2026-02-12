@@ -2496,12 +2496,12 @@ define([
         $(document).on('mousedown', 'form[data-role="tocart-form"] button.tocart', function(e) {
             var $button = $(this);
 
-            if ($button.prop('disabled')) {
+            if ($button.hasClass('processing')) {
                 return;
             }
 
-            // Disable immediately
-            $button.prop('disabled', true).addClass('processing');
+            // Just add visual class - DON'T actually disable
+            $button.addClass('processing');
 
             // Visual feedback
             var $span = $button.find('span');
@@ -2511,13 +2511,17 @@ define([
             $span.text('Adding...');
         });
 
-        // Reset after add to cart completes (cleanup)
+        // Let Magento handle the actual form submission
+        // Reset after product added
         $(document).on('ajax:addToCart', function() {
-            $('.tocart.processing').each(function() {
-                var $button = $(this);
-                $button.removeClass('processing').prop('disabled', false);
-                $button.find('span').text($button.find('span').data('original-text') || 'Add to Cart');
-            });
+            setTimeout(function() {
+                $('.tocart.processing').each(function() {
+                    var $button = $(this);
+                    $button.removeClass('processing');
+                    var $span = $button.find('span');
+                    $span.text($span.data('original-text') || 'Add to Cart');
+                });
+            }, 100);
         });
         
     });
