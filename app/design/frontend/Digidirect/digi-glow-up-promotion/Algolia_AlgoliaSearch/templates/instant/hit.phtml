@@ -86,6 +86,46 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             </div>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
+                        <div class="price-digirent-container">
+                            {{^<?php echo $maxVar; ?>}}
+                                <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            {{#<?php echo $maxVar; ?>}}
+                                <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
+                                <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
+                            {{#hasCustomFinalPrice}}
+                                <div class="price-wrapper black-friday"> 
+                                    <span class="price-container">
+                                        {{#defaultOriginalPrice}}
+                                            <span class="price">
+                                                {{defaultOriginalPrice}}
+                                            </span>
+                                        {{/defaultOriginalPrice}}
+                                        {{^defaultOriginalPrice}}
+                                            <span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
+                                        {{/defaultOriginalPrice}}
+                                    </span>
+                                    <div>  
+                                        <div class="black-friday-deal">Flash <span class="digi">Deal</span></div>
+                                        <span class="after_special custom_final_price black-friday">{{customFinalPrice}}</span>
+                                    </div> 
+                                </div>
+                            {{/hasCustomFinalPrice}}
+                            {{#hasNoCustomFinalPrice}}
+                                <div class="price-wrapper black-friday"> 
+                                    <span class="price-container">
+                                        <span class="price"></span>
+                                    </span>
+                                    <div>
+                                        <span class="after_special">
+                                            {{<?php echo $baseFormatedVar; ?>}}
+                                        </span>
+                                    </div>
+                                </div>
+                            {{/hasNoCustomFinalPrice}}
+                        </div>
                         <div class="s19-rental-price-target black-friday">
                             {{#isDigiPrint}}
                                 <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
@@ -94,47 +134,6 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                 <p style="font-size: 13px; font-weight: 500;">Buy now Pay later, </p>
                                 <p style="font-size: 13px; font-weight: 500;">Options Available</p>
                             {{/isNotDigiPrint}}
-                        </div>
-                        {{^<?php echo $maxVar; ?>}}
-                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="price">
-                            <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                        {{#<?php echo $maxVar; ?>}}
-                        <div itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer" class="price">
-                            <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
-                            <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                            <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
-                                {{#hasCustomFinalPrice}}
-                                    <div class="price-wrapper black-friday"> 
-                                        <span class="price-container">
-                                            {{#defaultOriginalPrice}}
-                                                <span class="price">
-                                                    {{defaultOriginalPrice}}
-                                                </span>
-                                            {{/defaultOriginalPrice}}
-                                            {{^defaultOriginalPrice}}
-                                                <span class="price">{{<?php echo $baseFormatedVar; ?>}}</span>
-                                            {{/defaultOriginalPrice}}
-                                        </span>
-                                        <div>  
-                                            <div class="black-friday-deal">Flash <span class="digi">Deal</span></div>
-                                            <span class="after_special custom_final_price black-friday">{{customFinalPrice}}</span>
-                                        </div> 
-                                    </div>
-                                {{/hasCustomFinalPrice}}
-                                {{#hasNoCustomFinalPrice}}
-                                    <div class="price-wrapper black-friday"> 
-                                        <span class="price-container">
-                                            <span class="price"></span>
-                                        </span>
-                                        <div>
-                                            <span class="after_special">
-                                                {{<?php echo $baseFormatedVar; ?>}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                {{/hasNoCustomFinalPrice}}
                         </div>
                         <div class="product-info-bottom black-friday">
                             {{#hasCustomFinalPrice}}

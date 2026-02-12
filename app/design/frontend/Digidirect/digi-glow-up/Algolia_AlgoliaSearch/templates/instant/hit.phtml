@@ -85,27 +85,15 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             </div>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
-                        
-                        <div class="s19-rental-price-target">
-                            <div class="s19-rental-price-target">
-                                {{#isDigiPrint}}
-                                    <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
-                                {{/isDigiPrint}}
-                                {{#isNotDigiPrint}}
-                                    <p style="font-size: 13px; font-weight: 500;">Buy now pay later </p>
-                                    <p style="font-size: 13px; font-weight: 500;">Options Available</p>
-                                {{/isNotDigiPrint}}
-                            </div>
-                        </div>
-                        
-                        {{^<?php echo $maxVar; ?>}}
-                            <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                        {{#<?php echo $maxVar; ?>}}
-                            <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
-                            <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                        <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
+                        <div class="price-digirent-container">
+                            {{^<?php echo $maxVar; ?>}}
+                                <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            {{#<?php echo $maxVar; ?>}}
+                                <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
+                                <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                             {{#hasCustomFinalPrice}}
                                 <div class="price-wrapper"> 
                                     <span class="price-container">
@@ -135,55 +123,67 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     </div>
                                 </div>
                             {{/hasNoCustomFinalPrice}}
-                        
-                        <div class="product-info-bottom">
-                            {{#hasCustomFinalPrice}}
-                                <div class="discount-price-wrapper">
-                                    <span class="discount-price">{{discount}}</span> Off
+
+                            <div class="s19-rental-price-target">
+                                <div class="s19-rental-price-target">
+                                    {{#isDigiPrint}}
+                                        <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                    {{/isDigiPrint}}
+                                    {{#isNotDigiPrint}}
+                                        <p style="font-size: 13px; font-weight: 500;">Buy now pay later </p>
+                                        <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                    {{/isNotDigiPrint}}
                                 </div>
-                            {{/hasCustomFinalPrice}}
-                            {{#hasNoCustomFinalPrice}}
-                                <div class="discount-price-wrapper-no-price"></div>
-                            {{/hasNoCustomFinalPrice}}
-                                    
-                            {{#isAddToCartEnabled}}
-                                {{#isNotDigiPrint}}
-                                    <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
-                                        <input type="hidden" name="queryID" value="{{__queryID}}">
-                                        <input type="hidden" name="product" value="{{objectID}}">
-                                        {{#_highlightResult.default_bundle_options}}<input type="hidden" name="bundle_option[{{ optionId }}]" value="{{selectionId}}">{{/_highlightResult.default_bundle_options}}
-                                        <input type="hidden" name="{{ addToCart.redirectUrlParam }}" value="{{ addToCart.uenc }}">
-                                        <input name="form_key" type="hidden" value="{{ addToCart.formKey }}">
-                                        <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart primary"
-                                        data-objectid="{{objectID}}"
-                                        data-indexname="{{__indexName}}"
-                                        data-position="{{__position}}"
-                                        data-queryid="{{__queryID}}"
-                                        >
-
-                                        {{#isNotPreorder}}
-                                            <span><?php echo __('Add to Cart') ?></span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>
-                                        {{/isNotPreorder}}
-                                        {{#isPreorder}}
-                                            <span><?php echo __('Pre-Order') ?></span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>
-                                        {{/isPreorder}}
-
-                                        </button>
-                                    </form>
-                                {{/isNotDigiPrint}}
-                                {{#isDigiPrint}}
-                                    <div class="actions-primary">
-                                        <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
-                                            <button type="button" title="Order Now" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/></button>
-                                        </a>
-                                    </div>
-                                {{/isDigiPrint}}
-                            {{/isAddToCartEnabled}}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="algolia-clearfix"></div>
             </a>
+            <div class="product-info-bottom">
+                {{#hasCustomFinalPrice}}
+                    <div class="discount-price-wrapper">
+                        <span class="discount-price">{{discount}}</span> Off
+                    </div>
+                {{/hasCustomFinalPrice}}
+                {{#hasNoCustomFinalPrice}}
+                    <div class="discount-price-wrapper-no-price"></div>
+                {{/hasNoCustomFinalPrice}}
+
+                {{#isAddToCartEnabled}}
+                    {{#isNotDigiPrint}}
+                        <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
+                            <input type="hidden" name="queryID" value="{{__queryID}}">
+                            <input type="hidden" name="product" value="{{objectID}}">
+                            {{#_highlightResult.default_bundle_options}}<input type="hidden" name="bundle_option[{{ optionId }}]" value="{{selectionId}}">{{/_highlightResult.default_bundle_options}}
+                            <input type="hidden" name="{{ addToCart.redirectUrlParam }}" value="{{ addToCart.uenc }}">
+                            <input name="form_key" type="hidden" value="{{ addToCart.formKey }}">
+                            <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart primary"
+                            data-objectid="{{objectID}}"
+                            data-indexname="{{__indexName}}"
+                            data-position="{{__position}}"
+                            data-queryid="{{__queryID}}"
+                            >
+
+                            {{#isNotPreorder}}
+                                <span><?php echo __('Add to Cart') ?></span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>
+                            {{/isNotPreorder}}
+                            {{#isPreorder}}
+                                <span><?php echo __('Pre-Order') ?></span><img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/>
+                            {{/isPreorder}}
+
+                            </button>
+                        </form>
+                    {{/isNotDigiPrint}}
+                    {{#isDigiPrint}}
+                        <div class="actions-primary">
+                            <a class="ordernow-link" href="{{digiPrintUrl}}" target="_blank">
+                                <button type="button" title="Order Now" class="action tocart primary">Order Now <img src="<?= $block->getViewFileUrl('images/icons/cart.png') ?>"/></button>
+                            </a>
+                        </div>
+                    {{/isDigiPrint}}
+                {{/isAddToCartEnabled}}
+            </div>
         </div>
     </div>
    
