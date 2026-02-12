@@ -2493,14 +2493,20 @@ define([
         });
         
         //Test
-        $(document).on('mousedown', 'form[data-role="tocart-form"] button.tocart', function(e) {
+        var processing = false;
+    
+        $(document).on('click', 'form[data-role="tocart-form"] button.tocart', function(e) {
             var $button = $(this);
 
-            if ($button.hasClass('processing')) {
-                return;
+            // Prevent double clicks
+            if (processing) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
             }
 
-            // Just add visual class - DON'T actually disable
+            // Mark as processing
+            processing = true;
             $button.addClass('processing');
 
             // Visual feedback
@@ -2509,19 +2515,15 @@ define([
                 $span.data('original-text', $span.text());
             }
             $span.text('Adding...');
-        });
 
-        // Let Magento handle the actual form submission
-        // Reset after product added
-        $(document).on('ajax:addToCart', function() {
+            // Reset after timeout (fallback)
             setTimeout(function() {
-                $('.tocart.processing').each(function() {
-                    var $button = $(this);
-                    $button.removeClass('processing');
-                    var $span = $button.find('span');
-                    $span.text($span.data('original-text') || 'Add to Cart');
-                });
-            }, 100);
+                processing = false;
+                $button.removeClass('processing');
+                $span.text($span.data('original-text') || 'Add to Cart');
+            }, 3000);
+
+            // Let the event continue to Magento's handlers
         });
         
     });
