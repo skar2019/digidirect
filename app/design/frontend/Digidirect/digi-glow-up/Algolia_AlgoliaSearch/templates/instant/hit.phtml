@@ -85,27 +85,15 @@ $seller = $block->escapeHtml('marketplacer_seller');
                             </div>
                         </div>
                         <div class="result-description text-ellipsis">{{{ _highlightResult.description.value }}}</div>
-                        
-                        <div class="s19-rental-price-target">
-                            <div class="s19-rental-price-target">
-                                {{#isDigiPrint}}
-                                    <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
-                                {{/isDigiPrint}}
-                                {{#isNotDigiPrint}}
-                                    <p style="font-size: 13px; font-weight: 500;">Buy now pay later </p>
-                                    <p style="font-size: 13px; font-weight: 500;">Options Available</p>
-                                {{/isNotDigiPrint}}
-                            </div>
-                        </div>
-                        
-                        {{^<?php echo $maxVar; ?>}}
-                            <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                        {{#<?php echo $maxVar; ?>}}
-                            <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
-                            <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
-                        {{/<?php echo $maxVar; ?>}}
-                        <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
+                        <div class="price-digirent-container">
+                            {{^<?php echo $maxVar; ?>}}
+                                <meta itemprop="price" content="{{<?php echo $baseVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            {{#<?php echo $maxVar; ?>}}
+                                <meta itemprop="lowPrice" content="{{<?php echo $baseVar; ?>}}" />
+                                <meta itemprop="highPrice" content="{{<?php echo $maxVar; ?>}}" />
+                            {{/<?php echo $maxVar; ?>}}
+                            <meta itemprop="priceCurrency" content="<?php echo $currencyCode; ?>" />
                             {{#hasCustomFinalPrice}}
                                 <div class="price-wrapper"> 
                                     <span class="price-container">
@@ -135,7 +123,19 @@ $seller = $block->escapeHtml('marketplacer_seller');
                                     </div>
                                 </div>
                             {{/hasNoCustomFinalPrice}}
-                        
+
+                            <div class="s19-rental-price-target">
+                                <div class="s19-rental-price-target">
+                                    {{#isDigiPrint}}
+                                        <p style="font-size: 13px; font-weight: 500;">Order Online Today!</p>
+                                    {{/isDigiPrint}}
+                                    {{#isNotDigiPrint}}
+                                        <p style="font-size: 13px; font-weight: 500;">Buy now pay later </p>
+                                        <p style="font-size: 13px; font-weight: 500;">Options Available</p>
+                                    {{/isNotDigiPrint}}
+                                </div>
+                            </div>
+                        </div>
                         <div class="product-info-bottom">
                             {{#hasCustomFinalPrice}}
                                 <div class="discount-price-wrapper">
