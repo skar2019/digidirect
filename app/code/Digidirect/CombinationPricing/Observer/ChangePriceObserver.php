@@ -19,6 +19,11 @@ class ChangePriceObserver implements ObserverInterface
     protected $logger;
 
     /**
+     * @var array
+     */
+    protected static $processedQuotes = [];
+
+    /**
      * @param Helper $helper
      * @param LoggerInterface $logger
      */
@@ -39,22 +44,36 @@ class ChangePriceObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         try {
-            $this->logger->info('========================================');
-            $this->logger->info('Digidirect_CombinationPricing Observer triggered');
-            
             // Check if feature is enabled
             if (!$this->helper->isEnabled()) {
-                $this->logger->info('Digidirect_CombinationPricing: Module is DISABLED');
-                $this->logger->info('========================================');
                 return;
             }
 
-            $this->logger->info('Digidirect_CombinationPricing: Module is ENABLED');
-
             $quote = $observer->getQuote();
-            $storeId = $quote->getStoreId();
+            
+            // Skip if quote is not active
+            if (!$quote || !$quote->getId()) {
+                return;
+            }
 
-            $this->logger->info('Quote ID: ' . $quote->getId());
+            $storeId = $quote->getStoreId();
+            $quoteId = $quote->getId();
+
+            // Create a unique key for this quote state
+            $quoteStateKey = $this->getQuoteStateKey($quote);
+
+            // Skip if we've already processed this exact quote state in this request
+            if (isset(self::$processedQuotes[$quoteStateKey])) {
+                $this->logger->info('Digidirect_CombinationPricing: Already processed this quote state, skipping');
+                return;
+            }
+
+            // Mark this quote state as processed
+            self::$processedQuotes[$quoteStateKey] = true;
+
+            $this->logger->info('========================================');
+            $this->logger->info('Digidirect_CombinationPricing Observer triggered');
+            $this->logger->info('Quote ID: ' . $quoteId);
             $this->logger->info('Store ID: ' . $storeId);
 
             // Get all quote items indexed by SKU
@@ -63,7 +82,7 @@ class ChangePriceObserver implements ObserverInterface
             foreach ($quote->getAllVisibleItems() as $item) {
                 $sku = $item->getProduct()->getSku();
                 $quoteItems[$sku] = $item;
-                $this->logger->info('  - SKU: ' . $sku . ' | Name: ' . $item->getName() . ' | Original Price: ' . $item->getProduct()->getFinalPrice());
+                $this->logger->info('  - SKU: ' . $sku . ' | Name: ' . $item->getName() . ' | Qty: ' . $item->getQty());
             }
 
             // Get active combinations
@@ -73,14 +92,7 @@ class ChangePriceObserver implements ObserverInterface
                 $this->logger->info('Digidirect_CombinationPricing: No active combinations found');
                 
                 // Reset ALL custom prices when no combinations are active
-                foreach ($quoteItems as $item) {
-                    if ($item->getCustomPrice() !== null) {
-                        $this->logger->info('Resetting custom price for SKU: ' . $item->getProduct()->getSku());
-                        $item->setCustomPrice(null);
-                        $item->setOriginalCustomPrice(null);
-                        $item->getProduct()->setIsSuperMode(false);
-                    }
-                }
+                $this->resetCustomPrices($quoteItems);
                 
                 $this->logger->info('========================================');
                 return;
@@ -102,29 +114,34 @@ class ChangePriceObserver implements ObserverInterface
                 $this->logger->info("  Second SKU to modify: {$secondSku}");
                 $this->logger->info("  Fixed price to apply: {$fixedPrice}");
 
-                // Check if first product exists
+                // Check if both products exist in cart
                 $hasFirstProduct = isset($quoteItems[$firstSku]);
-                $this->logger->info("  First product in cart: " . ($hasFirstProduct ? 'YES' : 'NO'));
-
-                // Check if second product exists
                 $hasSecondProduct = isset($quoteItems[$secondSku]);
+
+                $this->logger->info("  First product in cart: " . ($hasFirstProduct ? 'YES' : 'NO'));
                 $this->logger->info("  Second product in cart: " . ($hasSecondProduct ? 'YES' : 'NO'));
 
-                // Check if both products exist in cart
                 if ($hasFirstProduct && $hasSecondProduct) {
                     $secondProductItem = $quoteItems[$secondSku];
                     
-                    $this->logger->info("  ✓ Both products found! Applying price...");
+                    // Only apply if price is different from what's already set
+                    $currentCustomPrice = $secondProductItem->getCustomPrice();
                     
-                    // Apply custom price
-                    $secondProductItem->setCustomPrice($fixedPrice);
-                    $secondProductItem->setOriginalCustomPrice($fixedPrice);
-                    $secondProductItem->getProduct()->setIsSuperMode(true);
+                    if ($currentCustomPrice != $fixedPrice) {
+                        $this->logger->info("  ✓ Both products found! Applying price...");
+                        
+                        // Apply custom price
+                        $secondProductItem->setCustomPrice($fixedPrice);
+                        $secondProductItem->setOriginalCustomPrice($fixedPrice);
+                        $secondProductItem->getProduct()->setIsSuperMode(true);
+                        
+                        $this->logger->info("  SUCCESS: Applied fixed price {$fixedPrice} to product {$secondSku}");
+                    } else {
+                        $this->logger->info("  Price already set correctly ({$fixedPrice}), skipping");
+                    }
                     
                     // Track this SKU as having a custom price
                     $skusWithCustomPrice[] = $secondSku;
-                    
-                    $this->logger->info("  SUCCESS: Applied fixed price {$fixedPrice} to product {$secondSku}");
                 } else {
                     $this->logger->info("  ✗ Combination NOT matched - missing required products in cart");
                 }
@@ -145,6 +162,41 @@ class ChangePriceObserver implements ObserverInterface
             $this->logger->error('Digidirect_CombinationPricing Error: ' . $e->getMessage());
             $this->logger->error('Stack trace: ' . $e->getTraceAsString());
             $this->logger->info('========================================');
+        }
+    }
+
+    /**
+     * Generate a unique key for the current quote state
+     *
+     * @param \Magento\Quote\Model\Quote $quote
+     * @return string
+     */
+    protected function getQuoteStateKey($quote)
+    {
+        $items = [];
+        foreach ($quote->getAllVisibleItems() as $item) {
+            $items[] = $item->getProduct()->getSku() . ':' . $item->getQty();
+        }
+        sort($items);
+        
+        return $quote->getId() . '_' . md5(implode('|', $items));
+    }
+
+    /**
+     * Reset custom prices for all items
+     *
+     * @param array $quoteItems
+     * @return void
+     */
+    protected function resetCustomPrices($quoteItems)
+    {
+        foreach ($quoteItems as $item) {
+            if ($item->getCustomPrice() !== null) {
+                $this->logger->info('Resetting custom price for SKU: ' . $item->getProduct()->getSku());
+                $item->setCustomPrice(null);
+                $item->setOriginalCustomPrice(null);
+                $item->getProduct()->setIsSuperMode(false);
+            }
         }
     }
 }
