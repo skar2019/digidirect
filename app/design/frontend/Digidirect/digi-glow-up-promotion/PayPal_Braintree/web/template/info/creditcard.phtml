@@ -1,0 +1,21 @@
+<?php
+$info = $block->getInfo();
+?>
+
+<div>
+    <strong><?= __('Credit Card') ?></strong>
+</div>
+
+<?php if ($info->getCcType()): ?>
+    <div>
+        <strong><?= __('Credit Card Type') ?>:</strong>
+        <?= $block->escapeHtml($info->getCcType()) ?>
+    </div>
+<?php endif; ?>
+
+<?php if ($info->getCcLast4()): ?>
+    <div>
+        <strong><?= __('Credit Card Number') ?>:</strong>
+        ****-<?= $block->escapeHtml($info->getCcLast4()) ?>
+    </div>
+<?php endif; ?>
