@@ -284,16 +284,19 @@ require(['jquery'], function ($) {
                             '<span class="product-image-wrapper" style="padding-bottom: 125%;">' +
                                 '<img class="product-image-photo" src="' + product.images[0] + '" loading="lazy" width="240" height="300" alt="Product Image">' +
                             '</span>' +
-                        '</a>' + 
+                        '</a>' +
                         '<div style="position: relative;">' + sponsoredLabel +
                             '<a href="' + product.url + '" class="product details product-item-details">' +
                                  '<strong class="product-item-name">' +
                                     '<span title="' + product.name + '" class="product-item-link">' +
                                         product.name +
                                     '</span>' +
-                                '</strong><div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
-                                priceBlock + productInfoBottom +
-                            '</a>' +
+                                '</strong>' + 
+                                '<div class="price-digirent-container">' + 
+                                    priceBlock +
+                                    '<div class="s19-rental-price-target"><p style="font-size: 13px; font-weight: 500;">Buy now pay later</p><p style="font-size: 13px; font-weight: 500;">Options Available</p></div>' +
+                                '</div>' +
+                            '</a>' + productInfoBottom +
                         '</div>' +
                     '</div>'
             $(appendTo).append(productItem);
