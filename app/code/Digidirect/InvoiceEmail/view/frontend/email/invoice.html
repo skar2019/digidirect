@@ -26,15 +26,15 @@
 
                             <!-- Intro paragraph -->
                             <tr>
-                                <td style="padding:0 40px 50px; color:#333; font-size:15px; line-height:22px;">
+                                <td style="padding:0 55px 30px 55px; color:#333; font-size:15px; line-height:22px;">
                                     <p class="greeting">Dear {{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
                                     <p>Thank you for your order from digiDirect. Please see below your invoice details.</p>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="padding:0 40px 50px; color:#333;">
-                                    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:30px; padding:40px; border-collapse: initial !important;">
+                                <td style="padding:0 55px 30px 55px; color:#333;">
+                                    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:30px; padding:30px; border-collapse: initial !important;">
 
                                         <!-- ORDER DETAILS -->
                                         <tr>
@@ -49,7 +49,7 @@
                                             <td style="color: #666; padding-bottom: 15px;">
                                                 <p style="font-size: 15px; color: #242426; padding-bottom: 10px;">{{trans "ABN 92 122 703 806 "}}</p>
                                                 <p style="font-size: 13px; padding-bottom: 0;">{{trans "Digital Imaging Express Pty Ltd"}}</p>
-                                                <p style="font-size: 13px; padding-bottom: 0;">{{trans "Building 2 / 34-48 Cosgrove Road, Strathfield South NSW 2136"}}</p>
+                                                <p style="font-size: 13px; padding-bottom: 0;">{{trans "Building 2/34-48 Cosgrove Road, Strathfield South NSW 2136"}}</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -120,10 +120,24 @@
                                                         <td valign="top">
                                                             <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Payment Method</h3>
                                                             <div style="font-size:14px; line-height:20px;">{{trans "%payment_method"  payment_method=$payment_method|raw}}</div>
-                                                            {{if payment_details}}
-                                                                <div style="font-size:14px; line-height:20px;">{{trans "%payment_icon"  payment_icon=$payment_icon|raw}}</div>
-<!--                                                                <img src="{{view url='images/pdp/}}" alt="Visa" />-->
-                                                                <div style="font-size:14px; line-height:20px;">{{trans "%payment_details"  payment_details=$payment_details|raw}}</div>
+                                                            {{if payment_card_type}}
+                                                                <table cellpadding="0" cellspacing="0" border="0">
+                                                                    <tr>
+                                                                        <td style="vertical-align:top; padding-top: 10px;">
+                                                                            <img src="{{view url='images/pdp/visa.svg' _absolute=true}}"
+                                                                                 alt="Visa"
+                                                                                 width="40"
+                                                                                 style="display:block;">
+                                                                        </td>
+                                                                        <td style="vertical-align:middle; padding-left:8px; font-size:14px; line-height:20px;">
+                                                                            <table>
+                                                                                <tr><td style="padding-top: 5px;">{{trans "%payment_card_type"  payment_card_type=$payment_card_type|raw}}</td></tr>
+                                                                                <tr><td>{{trans "%payment_card_number"  payment_card_number=$payment_card_number|raw}}</td></tr>
+                                                                            </table>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             {{/if}}
                                                         </td>
                                                     </tr>
@@ -147,7 +161,9 @@
                                                         <td valign="top">
                                                             <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Shipping Method</h3>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{var order.shipping_description}}</p>
-                                                            <p style="margin:0; font-size:14px; line-height:20px;">{{trans "%trackTitle" trackTitle=$trackTitle|raw}} - {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</p>
+                                                            {{if trackTitle}}
+                                                                <p style="margin:0; font-size:14px; line-height:20px;">{{trans "%trackTitle" trackTitle=$trackTitle|raw}} - {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</p>
+                                                            {{/if}}
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -161,8 +177,8 @@
 
                             <!-- ORDER SUMMARY CARD -->
                             <tr>
-                                <td style="padding:0 0 20px;">
-                                    <table width="90%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 30px; margin: 0 auto; border-collapse: collapse;">
+                                <td style="padding:0 55px 30px 55px;">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 30px; margin: 0 auto; border-collapse: collapse;">
                                         <tr>
                                             <td align="center" style="padding:35px 20px 20px;">
                                                 <h2 style="margin:0; font-size:24px; font-weight:700; color:#000;">
@@ -227,23 +243,16 @@
                                                 </table>
                                             </td>
                                         </tr>
-
-
                                     </table>
                                 </td>
                             </tr>
                         </table>
-
                         <!-- CTA Box - 2 Columns -->
                         {{layout handle="email_customer_help_handle" area="frontend"}}
-
                     </td>
                 </tr>
             </table>
-
-​
-{{template config_path="design/email/footer_template"}}
-
+            {{template config_path="design/email/footer_template"}}
         </td>
     </tr>
 </table>

@@ -228,8 +228,9 @@ class InvoiceEmail extends AbstractHelper
 
             $paymentMethod = '';
             $paymentMethodLabel = '';
-            $paymentDetails = '';
+            $paymentCardType = '';
             $paymentIcon = '';
+            $paymentCardNumber = '';
 
             try {
                 $payment = $order->getPayment();
@@ -247,22 +248,15 @@ class InvoiceEmail extends AbstractHelper
                         if (!is_array($additional)) {
                             $additional = [];
                         }
-                        $cardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
-                        $cardIcon = '';
-                        if ($cardType == "Visa") {
-                            $cardIcon = 'visa.svg';
-                        } elseif ($cardType == "MasterCard") {
-                            $cardIcon = 'master.svg';
-                        } elseif ($cardType == "American Express") {
-                            $cardIcon = 'amex.svg';
+                        $paymentCardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
+                        if ($paymentCardType == "Visa") {
+                            $paymentIcon = 'images/pdp/visa.svg';
+                        } elseif ($paymentCardType == "MasterCard") {
+                            $paymentIcon = 'images/pdp/master.svg';
+                        } elseif ($paymentCardType == "American Express") {
+                            $paymentIcon = 'images/pdp/amex.svg';
                         }
-                        $cardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
-                        $expiry = $additional['expiration_date'] ?? $additional['expirationDate'] ?? null;
-                        if (empty($expiry) && !empty($additional['cc_exp_month']) && !empty($additional['cc_exp_year'])) {
-                            $expiry = $additional['cc_exp_month'] . '/' . $additional['cc_exp_year'];
-                        }
-                        $paymentIcon = $cardIcon;
-                        $paymentDetails = $cardType. "<br>" . $cardNumber;
+                        $paymentCardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
                     }
                 }
             } catch (\Throwable $e) {
@@ -281,8 +275,9 @@ class InvoiceEmail extends AbstractHelper
                 'invoice_date' => $invoiceDate,
                 'invoice_number' => $invoiceNumber,
                 'payment_method' => $paymentMethodLabel ?: $paymentMethod,
-                'payment_details' => $paymentDetails,
                 'payment_icon' => $paymentIcon,
+                'payment_card_type' => $paymentCardType,
+                'payment_card_number' => $paymentCardNumber,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
