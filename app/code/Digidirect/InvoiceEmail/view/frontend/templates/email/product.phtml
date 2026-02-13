@@ -1,65 +1,101 @@
-<?php $_items = $block->getItems() ?>
+<?php $_items = $this->getItems() ?>
 <table class="email-items">
     <thead>
     <tr>
-        <th class="item-info">
+        <th class="item-image" style="width:70px;">&nbsp;</th>
+        <th class="item-info" style="vertical-align: middle; !important;">
             <?= /* @escapeNotVerified */  __('Product'); ?>
         </th>
-        <th class="item-qty">
+        <th class="item-qty" style="vertical-align: middle; !important;">
             <?= /* @escapeNotVerified */  __('Qty'); ?>
         </th>
-        <th class="item-qty">
-            <?= /* @escapeNotVerified */  __('Price'); ?>
+        <th class="item-qty" style="vertical-align: middle; !important;">
+            <?= /* @escapeNotVerified */  __('Each'); ?>
         </th>
-        <th class="item-price">
-            <?= /* @escapeNotVerified */  __('Total Price'); ?>
+        <th class="item-price" style="vertical-align: middle; !important;">
+            <?= /* @escapeNotVerified */  __('Subtotal'); ?>
+        </th>
+        <th class="item-price" style="vertical-align: middle; !important;">
+            <?= /* @escapeNotVerified */  __('GST'); ?>
+            <p><?= /* @escapeNotVerified */  __('Amount'); ?></p>
+        </th>
+        <th class="item-price" style="vertical-align: middle; !important;">
+            <?= /* @escapeNotVerified */  __('Total'); ?>
+            <p><?= /* @escapeNotVerified */  __('(incl. GST)'); ?></p>
         </th>
     </tr>
     </thead>
     <tbody>
     <?php
         $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $storeManager = $om->create('\Magento\Store\Model\StoreManagerInterface');
-        $thumbNail =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
-        $productRepository = $storeManager = $om->create('\Magento\Catalog\Api\ProductRepositoryInterface');
+        $storeManager = $om->create(\Magento\Store\Model\StoreManagerInterface::class);
+        $mediaBaseUrl = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        $thumbNail =  $mediaBaseUrl . 'catalog/product';
+        $productRepository = $om->create(\Magento\Catalog\Api\ProductRepositoryInterface::class);
         $totalAmount = 0;
     ?>
     <?php foreach ($_items as $_item): ?>
         <?php $_product = $productRepository->getById($_item->getProductId()); ?>
         <tr>
-            <td>
-                <a href="<?php echo $block->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
-                    <p class="product-name"><?php echo $block->escapeHtml($_item->getName()) ?></p>
-                </a>
-                <p class="sku">
-                    <b><?php /* @escapeNotVerified */ echo  __('SKU') . ' : '  ?></b>
-                    <a href="<?php echo $block->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
-                        <?php echo $block->escapeHtml($_item->getSku()); ?>
-                    </a>
-                </p>
+            <td class="item-image" style="vertical-align:top;padding:6px 8px;">
+                <?php
+                    $imagePath = '';
+                    try {
+                        $imagePath = $_product->getSmallImage();
+                    } catch (\Throwable $e) {
+                        $imagePath = '';
+                    }
+                    if ($imagePath && $imagePath !== 'no_selection') {
+                        $imgUrl = $thumbNail . $imagePath;
+                    } else {
+                        $imgUrl = $mediaBaseUrl . 'wysiwyg/no-product-image.png';
+                    }
+                ?>
+                <img src="<?php echo $imgUrl ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" style="width:60px;height:auto;display:block;border:0;" />
             </td>
-            <td class="item-qty">
-                <span><?php echo floor($_item->getQtyOrdered()) ?></span>
-            </td>
-            <td class="item-price">
-                <span><?php echo round($_item->getPrice(), 2) ?></span>
-            </td>
-            <td class="item-price">
-                <span><?php echo round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
-            </td>
+             <td>
+                 <a href="<?php echo $this->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
+                     <p class="product-name"><?php echo $this->escapeHtml($_item->getName()) ?></p>
+                 </a>
+                 <p class="sku">
+                     <b><?php /* @escapeNotVerified */ echo  __('SKU') . ' : '  ?></b>
+                     <a href="<?php echo $this->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
+                         <?php echo $this->escapeHtml($_item->getSku()); ?>
+                     </a>
+                 </p>
+             </td>
+             <td class="item-qty">
+                 <span><?php echo floor($_item->getQtyOrdered()) ?></span>
+             </td>
+             <td class="item-price">
+                 <span><?php echo round($_item->getPrice(), 2) ?></span>
+             </td>
+             <td class="item-price">
+                 <span><?php echo round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
+             </td>
             <?php
-            $tAmount = $_item->getQtyOrdered() * $_item->getPrice();
-            $totalAmount += $tAmount;
+            $totalEx = round($_item->getPrice() / 1.1, 2);
+            $gst = round($_item->getPrice() - $totalEx, 2);
             ?>
-        </tr>
-    <?php endforeach; ?>
-        <tr style="display: none;">
-            <td colspan="4" style="text-align: right;font-size: 16px;font-weight: bold;">
-                <span>Total: </span>
+            <td class="item-price">
+                <span><?php echo round($gst, 2) ?></span>
             </td>
-            <td style="text-align: right;font-size: 16px;font-weight: bold;">
-               <span><?php echo round($totalAmount, 2) ?></span>
+            <td class="item-price">
+                <span><?php echo round($_item->getPrice()+$gst, 2) ?></span>
             </td>
-        </tr>
-    </tbody>
-</table>
+             <?php
+             $tAmount = $_item->getQtyOrdered() * $_item->getPrice();
+             $totalAmount += $tAmount;
+             ?>
+         </tr>
+     <?php endforeach; ?>
+         <tr style="display: none;">
+             <td colspan="4" style="text-align: right;font-size: 16px;font-weight: bold;">
+                 <span>Total: </span>
+             </td>
+             <td style="text-align: right;font-size: 16px;font-weight: bold;">
+                <span><?php echo round($totalAmount, 2) ?></span>
+             </td>
+         </tr>
+     </tbody>
+ </table>

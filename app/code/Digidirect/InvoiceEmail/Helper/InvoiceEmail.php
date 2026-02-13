@@ -27,8 +27,8 @@ class InvoiceEmail extends AbstractHelper
 {
 
     /**
-     * @var Curl
-     */
+    * @var Curl
+    */
     protected $curl;
 
     protected $_orderCollectionFactory;
@@ -166,7 +166,7 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry."<br>T: ".$billingAddress->getTelephone();
 
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();
@@ -178,7 +178,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingRegion = $shippingAddress->getRegion();
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
-            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry."<br>T: ".$shippingAddress->getTelephone();;
             $shippingAmount = round($order->getShippingAmount(), 2);
 
             //$totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
@@ -207,6 +207,68 @@ class InvoiceEmail extends AbstractHelper
             $items = $order->getAllItems();
             $store = $this->storeManager->getStore();
 
+            $invoiceNumber = '';
+            try {
+                $invoiceCollection = $order->getInvoiceCollection();
+                if ($invoiceCollection && $invoiceCollection->getSize()) {
+                    $firstInvoice = $invoiceCollection->getFirstItem();
+                    $invoiceNumber = $firstInvoice->getIncrementId() ?: '';
+                    if ($firstInvoice->getCreatedAt()) {
+                        try {
+                            $dtInv = $this->timezone->date($firstInvoice->getCreatedAt());
+                            $invoiceDate = $dtInv->format('l, j M Y, g:i:s a');
+                        } catch (\Throwable $e) {
+                            $invoiceDate = date('d/m/Y', strtotime($firstInvoice->getCreatedAt()));
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching invoice for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
+            $paymentMethod = '';
+            $paymentMethodLabel = '';
+            $paymentDetails = '';
+            $paymentIcon = '';
+
+            try {
+                $payment = $order->getPayment();
+                if ($payment) {
+                    $paymentMethod = $payment->getMethod();
+                    try {
+                        $methodInstance = $payment->getMethodInstance();
+                        $paymentMethodLabel = $methodInstance ? $methodInstance->getTitle() : $paymentMethod;
+                    } catch (\Throwable $e) {
+                        $paymentMethodLabel = $paymentMethod;
+                    }
+
+                    if ($paymentMethod && stripos($paymentMethod, 'braintree') !== false) {
+                        $additional = $payment->getAdditionalInformation();
+                        if (!is_array($additional)) {
+                            $additional = [];
+                        }
+                        $cardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
+                        $cardIcon = '';
+                        if ($cardType == "Visa") {
+                            $cardIcon = 'visa.svg';
+                        } elseif ($cardType == "MasterCard") {
+                            $cardIcon = 'master.svg';
+                        } elseif ($cardType == "American Express") {
+                            $cardIcon = 'amex.svg';
+                        }
+                        $cardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
+                        $expiry = $additional['expiration_date'] ?? $additional['expirationDate'] ?? null;
+                        if (empty($expiry) && !empty($additional['cc_exp_month']) && !empty($additional['cc_exp_year'])) {
+                            $expiry = $additional['cc_exp_month'] . '/' . $additional['cc_exp_year'];
+                        }
+                        $paymentIcon = $cardIcon;
+                        $paymentDetails = $cardType. "<br>" . $cardNumber;
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching payment info for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
@@ -217,6 +279,10 @@ class InvoiceEmail extends AbstractHelper
                 'gst' => $gst,
                 'coupon_discount' => $couponDiscount,
                 'invoice_date' => $invoiceDate,
+                'invoice_number' => $invoiceNumber,
+                'payment_method' => $paymentMethodLabel ?: $paymentMethod,
+                'payment_details' => $paymentDetails,
+                'payment_icon' => $paymentIcon,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
@@ -229,17 +295,17 @@ class InvoiceEmail extends AbstractHelper
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
-            )->setTemplateOptions(
-                ['area' => 'frontend', 'store' => $store->getId()]
-            )->addTo(
-                $customerEmail, $customerFirstName
-            )->setTemplateVars(
-                $templateParams
-            )->setFrom(
-                'general'
-            )->addBcc(
-                'clint@kayweb.com.au'
-            )->getTransport();
+                )->setTemplateOptions(
+                    ['area' => 'frontend', 'store' => $store->getId()]
+                )->addTo(
+                    $customerEmail, $customerFirstName
+                )->setTemplateVars(
+                    $templateParams
+                )->setFrom(
+                    'general'
+                )->addBcc(
+                    'clint@kayweb.com.au'
+                )->getTransport();
 
             try {
                 $transport->sendMessage();
