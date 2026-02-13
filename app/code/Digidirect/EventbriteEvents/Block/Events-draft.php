@@ -22,5 +22,6 @@ class Events extends Template
     {
         return $this->eventHelper->getEvents();
         // return ["block working"];
+        //redeploy
     }
 }
