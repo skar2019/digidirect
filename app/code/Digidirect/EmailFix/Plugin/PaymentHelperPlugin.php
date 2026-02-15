@@ -17,7 +17,7 @@ class PaymentHelperPlugin
         $ccType = $info->getCcType();
         $ccLast4 = $info->getCcLast4();
 
-        $html = '<div><strong>Credit Card</strong></div>';
+        $html = '<div><strong>Credit Card Test</strong></div>';
 
         if ($ccType) {
             $html .= '<div><strong>Credit Card Type:</strong> ' . $ccType . '</div>';
