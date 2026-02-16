@@ -258,11 +258,11 @@ class InvoiceEmail extends AbstractHelper
 
                         $paymentImage = '';
                         if ($paymentCardType === 'Visa') {
-                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/visa.svg" width="40"/>';
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/visa.png" width="40"/>';
                         } else if ($paymentCardType === 'MasterCard') {
-                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/master.svg" width="40"/>';
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/master.png" width="40"/>';
                         } else if ($paymentCardType === 'American Express') {
-                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amex.svg" width="40"/>';
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amex.png" width="40"/>';
                         }
 
                         $paymentCardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
