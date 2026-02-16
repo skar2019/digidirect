@@ -2,8 +2,18 @@
 
 namespace Digidirect\EmailFix\Plugin;
 
+use Magento\Payment\Model\Config;
+
 class PaymentHelperPlugin
 {
+    protected $paymentConfig;
+
+    public function __construct(
+        Config $paymentConfig
+    ) {
+        $this->paymentConfig = $paymentConfig;
+    }
+
     public function afterGetInfoBlockHtml(
         \Magento\Payment\Helper\Data $subject,
         $result,
@@ -12,7 +22,6 @@ class PaymentHelperPlugin
     ) {
         $method = $info->getMethod();
 
-        // Only modify Braintree methods
         if (strpos($method, 'braintree') === false) {
             return $result;
         }
@@ -20,6 +29,14 @@ class PaymentHelperPlugin
         $additionalInfo = $info->getAdditionalInformation();
         $ccType = $info->getCcType();
         $ccLast4 = $info->getCcLast4();
+
+        // ✅ Convert CC code to readable label
+        if ($ccType) {
+            $types = $this->paymentConfig->getCcTypes();
+            if (isset($types[$ccType])) {
+                $ccType = $types[$ccType]; // VI → Visa
+            }
+        }
 
         $html = '';
 
@@ -53,7 +70,6 @@ class PaymentHelperPlugin
                 . $additionalInfo['paypal_payer_email'] . '</div>';
         }
 
-        // Fallback (if something unexpected)
         else {
             return $result;
         }
