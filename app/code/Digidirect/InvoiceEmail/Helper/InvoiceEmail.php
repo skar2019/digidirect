@@ -22,6 +22,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -93,6 +94,10 @@ class InvoiceEmail extends AbstractHelper
 
     protected $date;
 
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected  $scopeConfig;
 
     public function __construct(
         Curl $curl,
@@ -111,7 +116,8 @@ class InvoiceEmail extends AbstractHelper
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        ScopeConfigInterface $scopeConfig
     )
     {
         $this->curl = $curl;
@@ -131,6 +137,7 @@ class InvoiceEmail extends AbstractHelper
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->date = $date;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function sendInvoiceEmail($test) {
@@ -229,7 +236,6 @@ class InvoiceEmail extends AbstractHelper
             $paymentMethod = '';
             $paymentMethodLabel = '';
             $paymentCardType = '';
-            $paymentIcon = '';
             $paymentCardNumber = '';
 
             try {
@@ -249,18 +255,26 @@ class InvoiceEmail extends AbstractHelper
                             $additional = [];
                         }
                         $paymentCardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
-                        if ($paymentCardType == "Visa") {
-                            $paymentIcon = 'images/pdp/visa.svg';
-                        } elseif ($paymentCardType == "MasterCard") {
-                            $paymentIcon = 'images/pdp/master.svg';
-                        } elseif ($paymentCardType == "American Express") {
-                            $paymentIcon = 'images/pdp/amex.svg';
+
+                        $paymentImage = '';
+                        if ($paymentCardType === 'Visa') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/visa.svg" width="40"/>';
+                        } else if ($paymentCardType === 'MasterCard') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/master.svg" width="40"/>';
+                        } else if ($paymentCardType === 'American Express') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amex.svg" width="40"/>';
                         }
+
                         $paymentCardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
                     }
                 }
             } catch (\Throwable $e) {
                 $this->logger->debug('Error fetching payment info for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
+            $bankInstructions = "";
+            if ($paymentMethod == "banktransfer") {
+                $bankInstructions = $this->getBankTransferInstructions();
             }
 
             $templateParams = [
@@ -275,9 +289,10 @@ class InvoiceEmail extends AbstractHelper
                 'invoice_date' => $invoiceDate,
                 'invoice_number' => $invoiceNumber,
                 'payment_method' => $paymentMethodLabel ?: $paymentMethod,
-                'payment_icon' => $paymentIcon,
+                'payment_image' => $paymentImage ?? false,
                 'payment_card_type' => $paymentCardType,
                 'payment_card_number' => $paymentCardNumber,
+                'bank_instructions' => $bankInstructions,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
@@ -322,7 +337,6 @@ class InvoiceEmail extends AbstractHelper
 
     public function getOrderCollection()
     {
-
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1419436))
@@ -333,7 +347,14 @@ class InvoiceEmail extends AbstractHelper
             ->setOrder('created_at', 'asc');
 
         return $collection;
+    }
 
+    public function getBankTransferInstructions()
+    {
+        return $this->scopeConfig->getValue(
+            'payment/banktransfer/instructions',
+            \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+        );
     }
 
 
