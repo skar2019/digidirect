@@ -6,9 +6,10 @@
         <plugin name="digidirect_emailfix_payment_html"
                 type="Digidirect\EmailFix\Plugin\PaymentHelperPlugin"/>
     </type>
-    <type name="Magento\Sales\Model\Order\Email\Container\OrderIdentity">
-        <plugin name="add_banktransfer_flag"
-                type="Digidirect\EmailFix\Plugin\OrderEmailPlugin" />
+    
+    <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
+    <plugin name="add_banktransfer_flag"
+            type="Digidirect\EmailFix\Plugin\OrderEmailPlugin" />
     </type>
 
 </config>
