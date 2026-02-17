@@ -80,20 +80,33 @@ require(['jquery'], function($) {
         const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // Close button handler
-        $closeButtons.on('click', function() {
-            requestAnimationFrame(() => {
+        // ✅ FIX: Track the pending rAF so we can cancel it before scheduling a new one.
+        // Without this, rapid clicks queue multiple frames; the removeClass/addClass calls
+        // from earlier frames can fire AFTER a later frame's addClass, leaving items
+        // stuck in the active state simultaneously.
+        let pendingRaf = null;
+
+        function setActiveItem($target) {
+            if (pendingRaf) {
+                cancelAnimationFrame(pendingRaf);
+            }
+            pendingRaf = requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
+                if ($target) {
+                    $target.addClass('active');
+                }
+                pendingRaf = null;
             });
+        }
+
+        // Close button handler — clear active state
+        $closeButtons.on('click', function() {
+            setActiveItem(null);
         });
 
-        // Footer nav item handler
+        // Footer nav item handler — set exactly one item active
         $footerNavItems.on('click', function() {
-            const $this = $(this);
-            requestAnimationFrame(() => {
-                $footerNavItems.removeClass('active');
-                $this.addClass('active');
-            });
+            setActiveItem($(this));
         });
     }
 
