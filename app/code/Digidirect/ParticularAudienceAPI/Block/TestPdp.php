@@ -35,6 +35,8 @@ class TestPdp extends \Magento\Framework\View\Element\Template
 
     protected $_registry;
 
+    protected $cart;
+
     private $urlInterface;
 
     public function __construct(
@@ -49,6 +51,7 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\UrlInterface $urlInterface,
+        \Magento\Checkout\Model\Cart $cart,
         array $data = []
     ) {
         $this->_cookieManager = $cookieManager;
@@ -64,6 +67,7 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         $this->jsonSerializer = $jsonSerializer;
         $this->_registry = $registry;
         $this->urlInterface = $urlInterface;
+        $this->cart = $cart;
         parent::__construct($context, $data);
     }
 
@@ -120,38 +124,6 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         }
     }
 
-    /*public function viewProduct(){
-
-        $this->getConfig();
-
-        $customerId = $this->getCookie(self::PA_CUSTOMER_ID);
-        $sessionId = $this->getCookie(self::PA_SESSION_ID);
-        $productId = $this->getCurrentProduct()->getId();
-        $currentUrl = $this->getCurrentUrl()->getId();
-        $bearerToken = $this->getBearerToken();
-        $dateTime = new \DateTimeZone('UTC');
-
-        $viewProductData = [
-            'customerId' => $customerId,
-            'sessionId' => $sessionId,
-            'events' => [
-                'currentUrl' => $currentUrl,
-                'eventTime' => $dateTime->format('Y-m-d\\TH:i:s.vp'),
-                'refId' => $productId
-            ],
-        ];
-
-        $eventData = $viewProductData;
-        $getEventUrl = "https://api-recs.particularaudience.com/3.0/events/view-products";
-        $this->curl->addHeader("Content-Type", "application/json");
-        $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
-        $this->curl->post($getEventUrl, $eventData);
-
-        $getEventResult = $this->curl->getBody();
-        $getEventResultJson = $this->jsonSerializer->unserialize($getEventResult);
-
-    }*/
-
     public function getRecommendations(){
 
         $customerId = $this->getCookie(self::PA_CUSTOMER_ID);
@@ -159,16 +131,14 @@ class TestPdp extends \Magento\Framework\View\Element\Template
 
         $bearerToken = $this->getBearerToken();
 
-        if ($productId) {
-            $refIdParam = "&refId=".$productId;
-        } else {
-            $refIdParam = "";
-        }
+        $refIdParam = $productId ? "&refId=" . $productId : "";
+        $customerIdParam = $customerId ? "&customerId=" . $customerId : "";
 
-        if ($customerId) {
-            $customerIdParam = "&customerId=".$customerId;
-        } else {
-            $customerIdParam = "";
+        // Get SKUs in cart
+        $items = $this->cart->getQuote()->getAllVisibleItems();
+        $skuParams = '';
+        foreach ($items as $index => $item) {
+            $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
 
         $route = "pa-digi-products-pdp";
@@ -182,8 +152,8 @@ class TestPdp extends \Magento\Framework\View\Element\Template
             $route = "pa-iphone-15";
         }
 
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/".$route."&expandProductDetails=true".$refIdParam.$customerIdParam;
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/" . $route . "&expandProductDetails=true" . $refIdParam . $customerIdParam . $skuParams;
+        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getRecommendationsUrl);
