@@ -15,10 +15,10 @@ class PaymentHelperPlugin
     }
 
     public function afterGetInfoBlockHtml(
-    \Magento\Payment\Helper\Data $subject,
-    $result,
-    \Magento\Payment\Model\InfoInterface $info,
-    $storeId
+        \Magento\Payment\Helper\Data $subject,
+        $result,
+        \Magento\Payment\Model\InfoInterface $info,
+        $storeId
     ) {
         $method = $info->getMethod();
 
@@ -27,60 +27,60 @@ class PaymentHelperPlugin
         }
 
         $additionalInfo = $info->getAdditionalInformation();
-        $ccType  = $info->getCcType();
+        $ccType = $info->getCcType();
         $ccLast4 = $info->getCcLast4();
 
         /**
          * ===== Resolve Proper Card Label =====
          */
 
+        // 1️⃣ Prefer Braintree readable label
         if (!empty($additionalInfo['credit_card_type'])) {
             $ccType = ucwords(str_replace('_', ' ', $additionalInfo['credit_card_type']));
-        } elseif ($ccType) {
+        }
+
+        // 2️⃣ Fallback to Magento CC config mapping (VI → Visa)
+        elseif ($ccType) {
             $types = $this->paymentConfig->getCcTypes();
             if (isset($types[$ccType])) {
                 $ccType = $types[$ccType];
             }
         }
 
+        /**
+         * ===== Build Email HTML =====
+         */
+
         $html = '';
 
-        /**
-         * ===== CREDIT CARD =====
-         */
+        // ===== Credit Card =====
         if ($ccLast4) {
-
-            $html .= '<div style="margin-bottom:6px;"><strong>Credit Card</strong></div>';
+            $html .= '<div><strong>Credit Card</strong></div>';
 
             if ($ccType) {
-                $html .= '<div style="margin:0;">' . $ccType . '</div>';
+                $html .= '<div><strong>Credit Card Type:</strong> ' . $ccType . '</div>';
             }
 
-            $html .= '<div style="margin:0;">xxxx-' . $ccLast4 . '</div>';
+            $html .= '<div><strong>Credit Card Number:</strong> ****-' . $ccLast4 . '</div>';
         }
 
-        /**
-         * ===== APPLE PAY =====
-         */
+        // ===== Apple Pay =====
         elseif (
             isset($additionalInfo['payment_instrument_type']) &&
             $additionalInfo['payment_instrument_type'] === 'apple_pay'
         ) {
-            $html .= '<div style="margin-bottom:6px;"><strong>Apple Pay</strong></div>';
+            $html .= '<div><strong>Apple Pay</strong></div>';
 
             if ($ccType && $ccLast4) {
-                $html .= '<div style="margin:0;">'
-                    . $ccType . ' xxxx-' . $ccLast4 . '</div>';
+                $html .= '<div><strong>Card:</strong> ' . $ccType . ' ****-' . $ccLast4 . '</div>';
             }
         }
 
-        /**
-         * ===== PAYPAL =====
-         */
+        // ===== PayPal =====
         elseif (isset($additionalInfo['paypal_payer_email'])) {
 
-            $html .= '<div style="margin-bottom:6px;"><strong>PayPal</strong></div>';
-            $html .= '<div style="margin:0;">'
+            $html .= '<div><strong>PayPal</strong></div>';
+            $html .= '<div><strong>PayPal Email:</strong> '
                 . $additionalInfo['paypal_payer_email'] . '</div>';
         }
 
@@ -90,5 +90,4 @@ class PaymentHelperPlugin
 
         return $html;
     }
-
 }
