@@ -6,6 +6,39 @@ require(['jquery'], function($) {
 
     window.toggleMobileMenu = toggleMobileMenu;
 
+    // ✅ ENFORCER: Start immediately — before DOM ready, before any handlers.
+    // Observes document.body so it catches every class change on every
+    // .footer-nav-item no matter when the button renders or gets clicked.
+    // Live-queries '.footer-nav-item' on each mutation so buttons that
+    // appear late (page still loading) are always included.
+    (function enforceOneActiveNavItem() {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (
+                    mutation.type === 'attributes' &&
+                    mutation.attributeName === 'class' &&
+                    mutation.target.classList.contains('footer-nav-item') &&
+                    mutation.target.classList.contains('active')
+                ) {
+                    const justActivated = mutation.target;
+                    // Live query every time — picks up buttons added after initial load
+                    document.querySelectorAll('.footer-nav-item').forEach(function(item) {
+                        if (item !== justActivated && item.classList.contains('active')) {
+                            item.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Observe the whole document subtree so late-rendered buttons are covered
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class'],
+            subtree: true
+        });
+    })();
+
     $(document).ready(function() {
         // Cache DOM queries
         const $body = $('body');
@@ -34,7 +67,7 @@ require(['jquery'], function($) {
 
         // Individual handlers
         setupFooterMenuIcon();
-        setupFooterSearchWithInput(); // NEW FUNCTION
+        setupFooterSearchWithInput();
         setupFooterCart();
         setupAccountPopup();
         setupModals();
@@ -76,30 +109,19 @@ require(['jquery'], function($) {
         }
     }
 
-    // ✅ Single source of truth for footer nav active state.
-    // ALL handlers must go through this — never call addClass/removeClass('active')
-    // on footer nav items directly anywhere else.
-    let _activeRaf = null;
-    function setFooterNavActive($target) {
-        if (_activeRaf) cancelAnimationFrame(_activeRaf);
-        _activeRaf = requestAnimationFrame(() => {
-            $('.footer-nav-item').removeClass('active');
-            if ($target && $target.length) $target.addClass('active');
-            _activeRaf = null;
-        });
-    }
-
     function setupEventDelegation() {
+        const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // Close button handler — clear active state entirely
+        // Close button handler — clear all active states
         $closeButtons.on('click', function() {
-            setFooterNavActive(null);
+            $footerNavItems.removeClass('active');
         });
 
-        // Footer nav item handler — exactly one item active at a time
-        $('.footer-nav-item').on('click', function() {
-            setFooterNavActive($(this));
+        // Footer nav item click — enforcer handles stripping others
+        $footerNavItems.on('click', function() {
+            $footerNavItems.removeClass('active');
+            $(this).addClass('active');
         });
     }
 
@@ -108,33 +130,29 @@ require(['jquery'], function($) {
             const $mobileMenu = $('.mobile-menu');
             const $menuButton = $(this);
 
-            // Close other panels first (these will trigger setFooterNavActive(null)
-            // via the $closeButtons handler above, but we override below)
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
             closeAlgolia();
 
             requestAnimationFrame(() => {
                 if ($mobileMenu.hasClass('active')) {
-                    // Menu is open — close it and clear active state
                     $('.mobile-menu-close').trigger('click');
-                    setFooterNavActive(null);
+                    $('.footer-nav-item').removeClass('active');
                 } else {
-                    // Menu is opening — keep menu button highlighted
                     $mobileMenu.addClass('active');
-                    setFooterNavActive($menuButton);
+                    $('.footer-nav-item').removeClass('active');
+                    $menuButton.addClass('active');
                 }
             });
         });
     }
 
     /**
-     * NEW FOOTER SEARCH WITH INPUT
      * Handles the footer search input to trigger keyboard on mobile
      */
     function setupFooterSearchWithInput() {
         const $footerSearchInput = $('.footer-search-input');
-        
+
         if (!$footerSearchInput.length) {
             console.warn('Footer search input not found');
             return;
@@ -142,62 +160,52 @@ require(['jquery'], function($) {
 
         console.log('✅ Footer search input initialized');
 
-        // When the input gets focus (user taps the button area)
         $footerSearchInput.on('focus', function() {
             console.log('✅ Footer search input focused!');
-            
+
             const $input = $(this);
-            
-            // Remove readonly so keyboard appears
+
             $input.removeAttr('readonly');
-            
-            // Close other menus
+
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
-            
+
             if (window.location.href.indexOf('/customer/') === -1) {
                 $('#mobile-account-popup').removeClass('active');
                 $('body').css('overflow', '');
             }
-            
-            // Open Algolia autocomplete
-            if (window.algoliaAutocompleteInstance && 
+
+            if (window.algoliaAutocompleteInstance &&
                 typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
                 window.algoliaAutocompleteInstance.setIsOpen(true);
             }
-            
-            // Scroll to top
+
             window.scrollTo(0, 0);
-            
-            // Wait for Algolia to render, then transfer focus
+
             setTimeout(() => {
                 const algoliaInput = document.querySelector('.aa-Input');
                 if (algoliaInput) {
                     console.log('✅ Transferring focus to Algolia input');
-                    
+
                     algoliaInput.removeAttribute('readonly');
                     algoliaInput.removeAttribute('disabled');
                     algoliaInput.focus();
-                    
-                    // Blur our fake input and make it readonly again
+
                     $input.blur();
                     $input.attr('readonly', 'readonly');
-                    
+
                     console.log('✅ Focus transferred successfully');
                 } else {
                     console.warn('❌ Algolia input not found');
                 }
             }, 150);
         });
-        
-        // Prevent typing into the fake input
+
         $footerSearchInput.on('input', function() {
             $(this).val('');
         });
-        
-        // Prevent default button click behavior
+
         $('.footer-search').on('click', function(e) {
             e.preventDefault();
-            // Let the input's focus event handle everything
         });
     }
 
@@ -323,7 +331,6 @@ require(['jquery'], function($) {
             if (input) {
                 input.blur();
 
-                // Mobile keyboard dismissal
                 if (/iPhone|iPad|iPod|Android/.test(navigator.userAgent)) {
                     input.setAttribute('readonly', 'readonly');
                     setTimeout(() => {
