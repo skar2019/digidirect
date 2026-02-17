@@ -6,11 +6,11 @@ require(['jquery'], function($) {
 
     window.toggleMobileMenu = toggleMobileMenu;
 
-    // ✅ ENFORCER: Start immediately — before DOM ready, before any handlers.
-    // Observes document.body so it catches every class change on every
-    // .footer-nav-item no matter when the button renders or gets clicked.
-    // Live-queries '.footer-nav-item' on each mutation so buttons that
-    // appear late (page still loading) are always included.
+    // ✅ ENFORCER: Runs immediately as an IIFE — before DOM ready, before any handler.
+    // Observes the entire document subtree so it catches every .footer-nav-item
+    // class change regardless of when buttons render or when the user clicks.
+    // Live-queries '.footer-nav-item' on each mutation so late-rendered buttons
+    // are always included.
     (function enforceOneActiveNavItem() {
         const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -21,7 +21,6 @@ require(['jquery'], function($) {
                     mutation.target.classList.contains('active')
                 ) {
                     const justActivated = mutation.target;
-                    // Live query every time — picks up buttons added after initial load
                     document.querySelectorAll('.footer-nav-item').forEach(function(item) {
                         if (item !== justActivated && item.classList.contains('active')) {
                             item.classList.remove('active');
@@ -31,7 +30,6 @@ require(['jquery'], function($) {
             });
         });
 
-        // Observe the whole document subtree so late-rendered buttons are covered
         observer.observe(document.documentElement, {
             attributes: true,
             attributeFilter: ['class'],
@@ -40,18 +38,13 @@ require(['jquery'], function($) {
     })();
 
     $(document).ready(function() {
-        // Cache DOM queries
         const $body = $('body');
         const $pageFooter = $('.page-footer');
         const $footerGradient = $('.footer-black-gradient');
-        const $mobileAccountPopup = $('#mobile-account-popup');
-        const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
         const $footerNavItems = $('.footer-nav-item');
 
-        // Passive event listeners for better scroll performance
         const passiveSupported = checkPassiveSupport();
 
-        // Footer hover (desktop only - remove on mobile)
         if (window.matchMedia("(min-width: 769px)").matches) {
             $pageFooter.hover(
                 function() { $footerGradient.css('opacity', '0'); },
@@ -59,35 +52,26 @@ require(['jquery'], function($) {
             );
         }
 
-        // Active state management
+        // ✅ Always clear ALL active states first, then set exactly one based on URL.
+        // This prevents stale highlights from a previous page state persisting
+        // after a reload (e.g. Home staying lit after clicking Menu).
         initializeActiveStates();
 
-        // Event delegation for better performance
         setupEventDelegation();
-
-        // Individual handlers
         setupFooterMenuIcon();
         setupFooterSearchWithInput();
         setupFooterCart();
         setupAccountPopup();
         setupModals();
-
-        // Auto-open login overlay on account pages
         handleAutoLogin();
-
-        // Chat from email link
         handleEmailChatLink();
     });
 
-    // Check for passive event support
     function checkPassiveSupport() {
         let passive = false;
         try {
             const options = {
-                get passive() {
-                    passive = true;
-                    return false;
-                }
+                get passive() { passive = true; return false; }
             };
             window.addEventListener("test", null, options);
             window.removeEventListener("test", null, options);
@@ -98,27 +82,41 @@ require(['jquery'], function($) {
     }
 
     function initializeActiveStates() {
+        // ✅ Step 1: Wipe every active state unconditionally.
+        // Nothing should be highlighted until we explicitly decide below.
+        document.querySelectorAll('.footer-nav-item').forEach(function(item) {
+            item.classList.remove('active');
+        });
+
+        // ✅ Step 2: Highlight exactly one button based on current URL.
         const path = window.location.pathname;
 
         if (path === '/') {
             document.querySelector('.home-footer-menu')?.classList.add('active');
+            return;
         }
 
-        if (path === '/customer/account/index/' || path === '/customer/account/index/') {
+        if (
+            path === '/customer/account' ||
+            path === '/customer/account/' ||
+            path === '/customer/account/index' ||
+            path === '/customer/account/index/'
+        ) {
             document.querySelector('.account-footer-menu')?.classList.add('active');
+            return;
         }
+
+        // All other pages — no button highlighted by default
     }
 
     function setupEventDelegation() {
         const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // Close button handler — clear all active states
         $closeButtons.on('click', function() {
             $footerNavItems.removeClass('active');
         });
 
-        // Footer nav item click — enforcer handles stripping others
         $footerNavItems.on('click', function() {
             $footerNavItems.removeClass('active');
             $(this).addClass('active');
@@ -147,9 +145,6 @@ require(['jquery'], function($) {
         });
     }
 
-    /**
-     * Handles the footer search input to trigger keyboard on mobile
-     */
     function setupFooterSearchWithInput() {
         const $footerSearchInput = $('.footer-search-input');
 
@@ -164,7 +159,6 @@ require(['jquery'], function($) {
             console.log('✅ Footer search input focused!');
 
             const $input = $(this);
-
             $input.removeAttr('readonly');
 
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
@@ -185,14 +179,11 @@ require(['jquery'], function($) {
                 const algoliaInput = document.querySelector('.aa-Input');
                 if (algoliaInput) {
                     console.log('✅ Transferring focus to Algolia input');
-
                     algoliaInput.removeAttribute('readonly');
                     algoliaInput.removeAttribute('disabled');
                     algoliaInput.focus();
-
                     $input.blur();
                     $input.attr('readonly', 'readonly');
-
                     console.log('✅ Focus transferred successfully');
                 } else {
                     console.warn('❌ Algolia input not found');
@@ -219,7 +210,6 @@ require(['jquery'], function($) {
 
             requestAnimationFrame(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-
                 requestAnimationFrame(() => {
                     $('.showcart').trigger('click');
                 });
@@ -286,7 +276,6 @@ require(['jquery'], function($) {
 
         requestAnimationFrame(() => {
             $modal.find('.mobile-modal-container').css('transform', 'translateY(100%)');
-
             setTimeout(() => {
                 $modal.removeClass('active');
                 $('body').removeClass('modal-open');
@@ -298,7 +287,8 @@ require(['jquery'], function($) {
         if (!window.matchMedia("(max-width: 768px)").matches) return;
 
         const path = window.location.pathname;
-        const isAccountPage = path === '/customer/account' ||
+        const isAccountPage =
+            path === '/customer/account' ||
             path === '/customer/account/' ||
             path === '/customer/account/index' ||
             path === '/customer/account/index/';
@@ -330,7 +320,6 @@ require(['jquery'], function($) {
             const input = document.querySelector('input[type="search"], .aa-Input');
             if (input) {
                 input.blur();
-
                 if (/iPhone|iPad|iPod|Android/.test(navigator.userAgent)) {
                     input.setAttribute('readonly', 'readonly');
                     setTimeout(() => {
