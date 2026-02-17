@@ -4,16 +4,17 @@ namespace Digidirect\EmailFix\Plugin;
 
 class OrderEmailPlugin
 {
-    public function beforeSetTemplateVars(
-        \Magento\Sales\Model\Order\Email\Container\OrderIdentity $subject,
-        array $vars
+    public function beforeSend(
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $subject,
+        \Magento\Sales\Model\Order $order,
+        $forceSyncMode = false
     ) {
-        if (isset($vars['order'])) {
-            $order = $vars['order'];
-            $vars['is_banktransfer'] =
-                $order->getPayment()->getMethod() === 'banktransfer';
+        if ($order->getPayment()->getMethod() === 'banktransfer') {
+            $order->setData('is_banktransfer', true);
+        } else {
+            $order->setData('is_banktransfer', false);
         }
 
-        return [$vars];
+        return [$order, $forceSyncMode];
     }
 }
