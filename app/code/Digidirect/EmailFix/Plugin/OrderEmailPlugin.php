@@ -15,6 +15,8 @@ class OrderEmailPlugin
             $order->setData('is_banktransfer', false);
         }
 
+        // redeploy
+
         return [$order, $forceSyncMode];
     }
 }
