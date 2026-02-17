@@ -24,6 +24,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Tax\Model\Calculation\RateFactory;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -105,6 +106,11 @@ class InvoiceEmail extends AbstractHelper
      */
     protected $productRepository;
 
+    /**
+     * @var RateFactory
+     */
+    protected $taxRateFactory;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -124,7 +130,8 @@ class InvoiceEmail extends AbstractHelper
         LoggerInterface $logger,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         ScopeConfigInterface $scopeConfig,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        RateFactory $taxRateFactory
     )
     {
         $this->curl = $curl;
@@ -146,6 +153,7 @@ class InvoiceEmail extends AbstractHelper
         $this->date = $date;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
+        $this->taxRateFactory = $taxRateFactory;
     }
 
     public function sendInvoiceEmail($test) {
@@ -400,6 +408,15 @@ class InvoiceEmail extends AbstractHelper
     {
         $currency = $this->storeManager->getStore()->getBaseCurrency();
         return $currency->getCurrencySymbol();
+    }
+
+    public function getGstRate()
+    {
+        $rate = $this->taxRateFactory->create()->load('Australia GST', 'code');
+        if ($rate->getId()) {
+            return $rate->getRate();
+        }
+        return 0;
     }
 
 }

@@ -33,6 +33,7 @@
     $productRepository = $helper->getProductRepository();
     $totalAmount = 0;
     $currencySymbol = $helper->getCurrencySymbol();
+    $gstRate = $helper->getGstRate();
     ?>
     <?php foreach ($_items as $_item): ?>
         <?php $_product = $productRepository->getById($_item->getProductId()); ?>
@@ -75,8 +76,7 @@
                  <span><?php echo $currencySymbol.round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
              </td>
             <?php
-            $totalEx = round($_item->getPrice() / 1.1, 2);
-            $gst = round($_item->getPrice() - $totalEx, 2);
+            $gst = round($_item->getPrice() * $gstRate/100, 2);
             ?>
             <td class="item-price">
                 <span><?php echo $currencySymbol.round($gst, 2) ?></span>
