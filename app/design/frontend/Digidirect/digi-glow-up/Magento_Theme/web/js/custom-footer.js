@@ -76,53 +76,53 @@ require(['jquery'], function($) {
         }
     }
 
+    // ✅ Single source of truth for footer nav active state.
+    // ALL handlers must go through this — never call addClass/removeClass('active')
+    // on footer nav items directly anywhere else.
+    let _activeRaf = null;
+    function setFooterNavActive($target) {
+        if (_activeRaf) cancelAnimationFrame(_activeRaf);
+        _activeRaf = requestAnimationFrame(() => {
+            $('.footer-nav-item').removeClass('active');
+            if ($target && $target.length) $target.addClass('active');
+            _activeRaf = null;
+        });
+    }
+
     function setupEventDelegation() {
-        const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // ✅ FIX: Track the pending rAF so we can cancel it before scheduling a new one.
-        // Without this, rapid clicks queue multiple frames; the removeClass/addClass calls
-        // from earlier frames can fire AFTER a later frame's addClass, leaving items
-        // stuck in the active state simultaneously.
-        let pendingRaf = null;
-
-        function setActiveItem($target) {
-            if (pendingRaf) {
-                cancelAnimationFrame(pendingRaf);
-            }
-            pendingRaf = requestAnimationFrame(() => {
-                $footerNavItems.removeClass('active');
-                if ($target) {
-                    $target.addClass('active');
-                }
-                pendingRaf = null;
-            });
-        }
-
-        // Close button handler — clear active state
+        // Close button handler — clear active state entirely
         $closeButtons.on('click', function() {
-            setActiveItem(null);
+            setFooterNavActive(null);
         });
 
-        // Footer nav item handler — set exactly one item active
-        $footerNavItems.on('click', function() {
-            setActiveItem($(this));
+        // Footer nav item handler — exactly one item active at a time
+        $('.footer-nav-item').on('click', function() {
+            setFooterNavActive($(this));
         });
     }
 
     function setupFooterMenuIcon() {
         $('.footer-mobile-menu-icon').on('click', function() {
             const $mobileMenu = $('.mobile-menu');
+            const $menuButton = $(this);
 
+            // Close other panels first (these will trigger setFooterNavActive(null)
+            // via the $closeButtons handler above, but we override below)
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             closeAccountPopup();
             closeAlgolia();
 
             requestAnimationFrame(() => {
                 if ($mobileMenu.hasClass('active')) {
+                    // Menu is open — close it and clear active state
                     $('.mobile-menu-close').trigger('click');
+                    setFooterNavActive(null);
                 } else {
+                    // Menu is opening — keep menu button highlighted
                     $mobileMenu.addClass('active');
+                    setFooterNavActive($menuButton);
                 }
             });
         });
