@@ -29,6 +29,11 @@ require(['jquery'], function($) {
         // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
         // This prevents race condition where user clicks during page load
         initializeActiveStates();
+        // ✅ RE-ENABLE BUTTONS after initialization is complete
+        $footerNavItems.css({
+            'pointer-events': '',
+            'opacity': ''
+        });
 
         // Event delegation for better performance
         setupEventDelegation();

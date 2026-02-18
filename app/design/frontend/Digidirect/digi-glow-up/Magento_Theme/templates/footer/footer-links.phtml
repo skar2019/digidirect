@@ -107,8 +107,6 @@ $viewModel->unsetShowLoginOverlay();
             <path d="M17.1095 4.16938L12.2626 7.94615C11.4533 8.57562 10.7969 9.91547 10.7969 10.9316V17.5949C10.7969 19.6811 12.4964 21.3897 14.5826 21.3897H24.9957C27.082 21.3897 28.7815 19.6811 28.7815 17.6039V11.0575C28.7815 9.96942 28.0531 8.57562 27.1629 7.95515L21.6056 4.06147C20.3467 3.18023 18.3234 3.22519 17.1095 4.16938Z" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M19.7891 17.7954V15.0977" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-
-
     </button>
 
     <button class="footer-nav-item footer-mobile-menu-icon" >
@@ -121,7 +119,6 @@ $viewModel->unsetShowLoginOverlay();
             <line x1="12.6883" y1="12.5539" x2="27.076" y2="12.5539" stroke="#545456" stroke-width="1.79846" stroke-linecap="round"/>
             <line x1="12.6883" y1="18.8469" x2="27.076" y2="18.8469" stroke="#545456" stroke-width="1.79846" stroke-linecap="round"/>
         </svg>
-
     </button>
 
     <button class="footer-nav-item footer-search">
@@ -163,8 +160,6 @@ $viewModel->unsetShowLoginOverlay();
                 </clipPath>
             </defs>
         </svg>
-
-
     </button>
 
     <button  class="footer-nav-item showcart-footer">
@@ -189,20 +184,40 @@ $viewModel->unsetShowLoginOverlay();
     </button>
 </nav>
 
+<script>
+// ✅ Runs IMMEDIATELY - disables buttons to prevent clicks during page load
+(function() {
+    'use strict';
+    
+    var navItems = document.querySelectorAll('.footer-nav-item');
+    navItems.forEach(function(item) {
+        item.style.pointerEvents = 'none';
+        item.style.opacity = '0.6';
+    });
+    
+    // Re-check every 50ms for dynamically added buttons
+    var attempts = 0;
+    var maxAttempts = 20;
+    var checkInterval = setInterval(function() {
+        var items = document.querySelectorAll('.footer-nav-item');
+        items.forEach(function(item) {
+            if (item.style.pointerEvents !== 'none') {
+                item.style.pointerEvents = 'none';
+                item.style.opacity = '0.6';
+            }
+        });
+        
+        attempts++;
+        if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+        }
+    }, 50);
+})();
+</script>
+
 <!-- Account Popup Overlay -->
 <div id="mobile-account-popup" class="account-popup">
-<!--    <div class="account-popup-header">-->
-<!--        <span class="signout">Sign Out</span>-->
-<!--        <button class="close-popup" aria-label="Close">&times;</button>-->
-<!--    </div>-->
     <div class="account-popup-header">
-<!--        <div class="close-popup">-->
-<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-close.png') ?><!--">-->
-<!--        </div>-->
-<!--        <div class="goback">-->
-<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-back.png') ?><!--"/>-->
-<!--            <span class="goback-txt">Go Back</span>-->
-<!--        </div>-->
         <span class="signout">Sign Out</span>
     </div>
     <ul class="account-menu">
@@ -231,10 +246,8 @@ $viewModel->unsetShowLoginOverlay();
                     </li>
                     <li class="nav item"><a href="<?= $block->getUrl('digiclubmember/customer/index/')?>" class="digiclub-icon">digiClub</a></li><li class="nav item -icon -digiclub"></li></ul>    </div>
         </div>
-
     </ul>
 </div>
-
 
 <!-- Services Modal -->
 <div class="service-mobile-modal" id="digiSevicesModal" data-modal="digiSevicesModal">
@@ -328,7 +341,7 @@ $viewModel->unsetShowLoginOverlay();
                 <div class="service-content">
                     <h2 class="service-title"><span class="digi">Price</span> <span class="suffix">Match</span></h2>
                     <p class="service-description">
-                        digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers.
+                        digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers.
                     </p>
                     <button class="cta-button" onclick="window.location.href='/price-match-guarantee'">Learn More</button>
                 </div>
