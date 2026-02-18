@@ -26,7 +26,8 @@ require(['jquery'], function($) {
             );
         }
 
-        // Active state management
+        // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
+        // This prevents race condition where user clicks during page load
         initializeActiveStates();
 
         // Event delegation for better performance
@@ -65,77 +66,44 @@ require(['jquery'], function($) {
     }
 
     function initializeActiveStates() {
+        // ✅ STEP 1: ALWAYS clear ALL active states first
+        // This removes any active state set by clicks during page load
+        $('.footer-nav-item').removeClass('active');
+        
+        // ✅ STEP 2: Set the correct active state based on current URL
         const path = window.location.pathname;
 
         if (path === '/') {
             document.querySelector('.home-footer-menu')?.classList.add('active');
+            return;
         }
 
         if (path === '/customer/account/index/' || path === '/customer/account/index/') {
             document.querySelector('.account-footer-menu')?.classList.add('active');
+            return;
         }
+        
+        // All other pages - no button should be active
     }
 
     function setupEventDelegation() {
         const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // ✅ MOBILE FIX: Debounce and prevent duplicate touch/click events
-        let isProcessing = false;
-        let lastTapTime = 0;
-
-        function setActiveNavItem($item) {
-            const now = Date.now();
-            
-            // Ignore rapid taps within 300ms
-            if (now - lastTapTime < 300) {
-                return;
-            }
-            
-            // Ignore if already processing
-            if (isProcessing) {
-                return;
-            }
-            
-            isProcessing = true;
-            lastTapTime = now;
-            
+        // Close button handler
+        $closeButtons.on('click', function() {
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
-                if ($item) {
-                    $item.addClass('active');
-                }
-                
-                // Reset processing flag after animation frame completes
-                setTimeout(() => {
-                    isProcessing = false;
-                }, 100);
             });
-        }
-
-        // Close button handler
-        $closeButtons.on('click', function(e) {
-            e.preventDefault();
-            setActiveNavItem(null);
         });
 
-        // Footer nav item handler with touch event prevention
-        $footerNavItems.on('touchend click', function(e) {
-            // Prevent both touch and click from firing
-            if (e.type === 'click' && e.originalEvent && e.originalEvent.detail === 0) {
-                // This is a programmatic click, allow it
-            } else if (e.type === 'click') {
-                // Check if this is a click following a touchend
-                const timeSinceTap = Date.now() - lastTapTime;
-                if (timeSinceTap < 300) {
-                    // Recent touch event, ignore this click
-                    e.preventDefault();
-                    return;
-                }
-            }
-            
+        // Footer nav item handler
+        $footerNavItems.on('click', function() {
             const $this = $(this);
-            setActiveNavItem($this);
+            requestAnimationFrame(() => {
+                $footerNavItems.removeClass('active');
+                $this.addClass('active');
+            });
         });
     }
 
