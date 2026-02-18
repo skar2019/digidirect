@@ -23,6 +23,8 @@ use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Tax\Model\Calculation\RateFactory;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -99,6 +101,16 @@ class InvoiceEmail extends AbstractHelper
      */
     protected  $scopeConfig;
 
+    /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @var RateFactory
+     */
+    protected $taxRateFactory;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -117,7 +129,9 @@ class InvoiceEmail extends AbstractHelper
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        ProductRepositoryInterface $productRepository,
+        RateFactory $taxRateFactory
     )
     {
         $this->curl = $curl;
@@ -138,6 +152,8 @@ class InvoiceEmail extends AbstractHelper
         $this->logger = $logger;
         $this->date = $date;
         $this->scopeConfig = $scopeConfig;
+        $this->productRepository = $productRepository;
+        $this->taxRateFactory = $taxRateFactory;
     }
 
     public function sendInvoiceEmail($test) {
@@ -215,8 +231,10 @@ class InvoiceEmail extends AbstractHelper
             $store = $this->storeManager->getStore();
 
             $invoiceNumber = '';
+            $prontoOrderNumber = '';
             try {
                 $invoiceCollection = $order->getInvoiceCollection();
+                $prontoOrderNumber = $order->getProntoOrderNumber() ?: '';
                 if ($invoiceCollection && $invoiceCollection->getSize()) {
                     $firstInvoice = $invoiceCollection->getFirstItem();
                     $invoiceNumber = $firstInvoice->getIncrementId() ?: '';
@@ -277,17 +295,19 @@ class InvoiceEmail extends AbstractHelper
                 $bankInstructions = $this->getBankTransferInstructions();
             }
 
+            $currencySymbol = $this->getCurrencySymbol();
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
                 'order_number' => $orderNumber,
-                'order_subtotal' => $orderSubtotal,
-                'order_grandtotal' => $orderGrandTotal,
-                'total_ex' => $totalEx,
-                'gst' => $gst,
-                'coupon_discount' => $couponDiscount,
+                'order_subtotal' => $currencySymbol.$orderSubtotal,
+                'order_grandtotal' => $currencySymbol.$orderGrandTotal,
+                'total_ex' => $currencySymbol.$totalEx,
+                'gst' => $currencySymbol.$gst,
+                'coupon_discount' => $currencySymbol.$couponDiscount,
                 'invoice_date' => $invoiceDate,
                 'invoice_number' => $invoiceNumber,
+                'pronto_order_number' => $prontoOrderNumber,
                 'payment_method' => $paymentMethodLabel ?: $paymentMethod,
                 'payment_image' => $paymentImage ?? false,
                 'payment_card_type' => $paymentCardType,
@@ -296,11 +316,12 @@ class InvoiceEmail extends AbstractHelper
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
-                'shippingAddress' => $shippingAddressConcat,
-                'shippingAmount' => $shippingAmount,
+                'shippingAddress' => $currencySymbol.$shippingAddressConcat,
+                'shippingAmount' => $currencySymbol.$shippingAmount,
                 'trackTitle' => $trackTitle,
                 'trackNumber' => $trackNumber,
-                'items' => $items
+                'items' => $items,
+                'currency_symbol' => $currencySymbol
             ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
@@ -315,6 +336,8 @@ class InvoiceEmail extends AbstractHelper
                     'general'
                 )->addBcc(
                     'clint@kayweb.com.au'
+                )->addBcc(
+                'lakshyami@i4tlabs.io'
                 )->getTransport();
 
             try {
@@ -349,6 +372,9 @@ class InvoiceEmail extends AbstractHelper
         return $collection;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBankTransferInstructions()
     {
         return $this->scopeConfig->getValue(
@@ -357,5 +383,40 @@ class InvoiceEmail extends AbstractHelper
         );
     }
 
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getMediaBaseUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductRepository()
+    {
+        return $this->productRepository;
+    }
+
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getCurrencySymbol()
+    {
+        $currency = $this->storeManager->getStore()->getBaseCurrency();
+        return $currency->getCurrencySymbol();
+    }
+
+    public function getGstRate()
+    {
+        $rate = $this->taxRateFactory->create()->load('Australia GST', 'code');
+        if ($rate->getId()) {
+            return $rate->getRate();
+        }
+        return 0;
+    }
 
 }

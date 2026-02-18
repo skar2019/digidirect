@@ -27,12 +27,13 @@
     </thead>
     <tbody>
     <?php
-        $om = \Magento\Framework\App\ObjectManager::getInstance();
-        $storeManager = $om->create(\Magento\Store\Model\StoreManagerInterface::class);
-        $mediaBaseUrl = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-        $thumbNail =  $mediaBaseUrl . 'catalog/product';
-        $productRepository = $om->create(\Magento\Catalog\Api\ProductRepositoryInterface::class);
-        $totalAmount = 0;
+    /** @var \Digidirect\InvoiceEmail\Helper\InvoiceEmail $helper */
+    $helper = $this->helper(\Digidirect\InvoiceEmail\Helper\InvoiceEmail::class);
+    $mediaBaseUrl = $helper->getMediaBaseUrl();
+    $productRepository = $helper->getProductRepository();
+    $totalAmount = 0;
+    $currencySymbol = $helper->getCurrencySymbol();
+    $gstRate = $helper->getGstRate();
     ?>
     <?php foreach ($_items as $_item): ?>
         <?php $_product = $productRepository->getById($_item->getProductId()); ?>
@@ -46,7 +47,8 @@
                         $imagePath = '';
                     }
                     if ($imagePath && $imagePath !== 'no_selection') {
-                        $imgUrl = $thumbNail . $imagePath;
+                        //$imgUrl = $thumbNail . $imagePath;
+                        $imgUrl = $mediaBaseUrl . 'catalog/product' . $imagePath;
                     } else {
                         $imgUrl = $mediaBaseUrl . 'wysiwyg/no-product-image.png';
                     }
@@ -68,20 +70,19 @@
                  <span><?php echo floor($_item->getQtyOrdered()) ?></span>
              </td>
              <td class="item-price">
-                 <span><?php echo round($_item->getPrice(), 2) ?></span>
+                 <span><?php echo $currencySymbol.round($_item->getPrice(), 2) ?></span>
              </td>
              <td class="item-price">
-                 <span><?php echo round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
+                 <span><?php echo $currencySymbol.round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
              </td>
             <?php
-            $totalEx = round($_item->getPrice() / 1.1, 2);
-            $gst = round($_item->getPrice() - $totalEx, 2);
+            $gst = round($_item->getPrice() * $gstRate/100, 2);
             ?>
             <td class="item-price">
-                <span><?php echo round($gst, 2) ?></span>
+                <span><?php echo $currencySymbol.round($gst, 2) ?></span>
             </td>
             <td class="item-price">
-                <span><?php echo round($_item->getPrice()+$gst, 2) ?></span>
+                <span><?php echo $currencySymbol.round($_item->getPrice()+$gst, 2) ?></span>
             </td>
              <?php
              $tAmount = $_item->getQtyOrdered() * $_item->getPrice();
@@ -94,7 +95,7 @@
                  <span>Total: </span>
              </td>
              <td style="text-align: right;font-size: 16px;font-weight: bold;">
-                <span><?php echo round($totalAmount, 2) ?></span>
+                <span><?php echo $currencySymbol.round($totalAmount, 2) ?></span>
              </td>
          </tr>
      </tbody>
