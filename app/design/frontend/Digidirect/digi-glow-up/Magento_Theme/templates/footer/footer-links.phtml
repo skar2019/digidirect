@@ -97,7 +97,7 @@ $viewModel->unsetShowLoginOverlay();
     </ul>
 </nav>
 
-<nav class="mobile-footer-nav">
+<nav class="mobile-footer-nav" style="pointer-events: none;">
     <button onclick="window.location.href='<?php echo $block->getBaseUrl(); ?>'" class="footer-nav-item home-footer-menu">
         <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.69531 35.9368V28.6641H7.79261V31.8246H11.4183V28.6641H12.5192V35.9368H11.4183V32.7656H7.79261V35.9368H6.69531Z" fill="#545456"/>
@@ -107,8 +107,6 @@ $viewModel->unsetShowLoginOverlay();
             <path d="M17.1095 4.16938L12.2626 7.94615C11.4533 8.57562 10.7969 9.91547 10.7969 10.9316V17.5949C10.7969 19.6811 12.4964 21.3897 14.5826 21.3897H24.9957C27.082 21.3897 28.7815 19.6811 28.7815 17.6039V11.0575C28.7815 9.96942 28.0531 8.57562 27.1629 7.95515L21.6056 4.06147C20.3467 3.18023 18.3234 3.22519 17.1095 4.16938Z" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M19.7891 17.7954V15.0977" stroke="#545456" stroke-width="1.34885" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-
-
     </button>
 
     <button class="footer-nav-item footer-mobile-menu-icon" >
@@ -121,7 +119,6 @@ $viewModel->unsetShowLoginOverlay();
             <line x1="12.6883" y1="12.5539" x2="27.076" y2="12.5539" stroke="#545456" stroke-width="1.79846" stroke-linecap="round"/>
             <line x1="12.6883" y1="18.8469" x2="27.076" y2="18.8469" stroke="#545456" stroke-width="1.79846" stroke-linecap="round"/>
         </svg>
-
     </button>
 
     <button class="footer-nav-item footer-search">
@@ -163,8 +160,6 @@ $viewModel->unsetShowLoginOverlay();
                 </clipPath>
             </defs>
         </svg>
-
-
     </button>
 
     <button  class="footer-nav-item showcart-footer">
@@ -189,20 +184,79 @@ $viewModel->unsetShowLoginOverlay();
     </button>
 </nav>
 
+</nav> <!-- mobile-footer-nav ends here -->
+
+<script>
+// Continuously clean up active states until page is FULLY loaded
+(function() {
+    'use strict';
+    
+    console.log('🔒 Footer nav guard started');
+    
+    var cleanupCount = 0;
+    var maxCleanups = 100; // Run for up to 10 seconds
+    
+    // Continuously remove extra active classes every 100ms
+    var cleanupInterval = setInterval(function() {
+        var buttons = document.querySelectorAll('.footer-nav-item.active');
+        
+        if (buttons.length > 1) {
+            console.warn('⚠️ Found ' + buttons.length + ' active buttons! Cleaning up...');
+            
+            // Remove active from ALL buttons
+            buttons.forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            
+            cleanupCount++;
+        }
+        
+        // Stop after max attempts
+        if (cleanupCount > maxCleanups) {
+            clearInterval(cleanupInterval);
+            console.log('🛑 Cleanup stopped after max attempts');
+        }
+    }, 100);
+    
+    // ✅ Use window.onload instead of DOMContentLoaded
+    // This fires AFTER all resources (images, CSS, scripts) are loaded
+    window.addEventListener('load', function() {
+        console.log('✅ window.onload fired - doing final cleanup');
+        
+        // Stop the continuous cleanup
+        clearInterval(cleanupInterval);
+        
+        // Remove ALL active classes
+        var buttons = document.querySelectorAll('.footer-nav-item');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        
+        // Set the correct one based on URL
+        var path = window.location.pathname;
+        
+        if (path === '/') {
+            var homeBtn = document.querySelector('.home-footer-menu');
+            if (homeBtn) {
+                homeBtn.classList.add('active');
+                console.log('✅ Set home button active');
+            }
+        } else if (path.indexOf('/customer/account') === 0) {
+            var accountBtn = document.querySelector('.account-footer-menu');
+            if (accountBtn) {
+                accountBtn.classList.add('active');
+                console.log('✅ Set account button active');
+            }
+        }
+        
+        console.log('✅ Footer nav initialization complete!');
+    });
+})();
+</script>
+
 <!-- Account Popup Overlay -->
 <div id="mobile-account-popup" class="account-popup">
-<!--    <div class="account-popup-header">-->
-<!--        <span class="signout">Sign Out</span>-->
-<!--        <button class="close-popup" aria-label="Close">&times;</button>-->
-<!--    </div>-->
     <div class="account-popup-header">
-<!--        <div class="close-popup">-->
-<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-close.png') ?><!--">-->
-<!--        </div>-->
-<!--        <div class="goback">-->
-<!--            <img src="--><?php //= $block->getViewFileUrl('images/mobile-menu-back.png') ?><!--"/>-->
-<!--            <span class="goback-txt">Go Back</span>-->
-<!--        </div>-->
         <span class="signout">Sign Out</span>
     </div>
     <ul class="account-menu">
@@ -231,10 +285,8 @@ $viewModel->unsetShowLoginOverlay();
                     </li>
                     <li class="nav item"><a href="<?= $block->getUrl('digiclubmember/customer/index/')?>" class="digiclub-icon">digiClub</a></li><li class="nav item -icon -digiclub"></li></ul>    </div>
         </div>
-
     </ul>
 </div>
-
 
 <!-- Services Modal -->
 <div class="service-mobile-modal" id="digiSevicesModal" data-modal="digiSevicesModal">
@@ -328,7 +380,7 @@ $viewModel->unsetShowLoginOverlay();
                 <div class="service-content">
                     <h2 class="service-title"><span class="digi">Price</span> <span class="suffix">Match</span></h2>
                     <p class="service-description">
-                        digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers.
+                        digiDirect will price match Authorised Australian competitors which include both physical stores and online retailers.
                     </p>
                     <button class="cta-button" onclick="window.location.href='/price-match-guarantee'">Learn More</button>
                 </div>

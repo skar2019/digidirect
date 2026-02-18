@@ -16,7 +16,6 @@ class BrandPage extends Action implements HttpPostActionInterface
     protected $curl;
     protected $jsonSerializer;
     protected $cart;
-
     public function __construct(
         Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
@@ -34,7 +33,6 @@ class BrandPage extends Action implements HttpPostActionInterface
         $this->cart = $cart;
         parent::__construct($context);
     }
-
     /**
      * @return ResultInterface
      * @throws LocalizedException
@@ -44,34 +42,25 @@ class BrandPage extends Action implements HttpPostActionInterface
         $result = $this->_resultJsonFactory->create();
         $customerId = $this->getRequest()->getParam('customerId');
         $brand = $this->getRequest()->getParam('brand');
-
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
-
         // Build customerId param
         $customerIdParam = $customerId ? "&customerId=" . $customerId : "";
-
         // Get SKUs in cart
         $items = $this->cart->getQuote()->getAllVisibleItems();
         $skuParams = '';
         foreach ($items as $index => $item) {
             $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
-        
         $indexFilterValue = '&indexFilterValue=' . str_replace('-', '%20', $brand);
-
         // Build recommendation URL
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-brand" . $indexFilterValue ."&expandProductDetails=true";
-
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au/pa-digi-brand" . $indexFilterValue . "&expandProductDetails=true" . $customerIdParam . $skuParams;
         $this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
-
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getRecommendationsUrl);
-
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
-
         $result->setData($getRecommendationsResultJson);
         return $result;
     }

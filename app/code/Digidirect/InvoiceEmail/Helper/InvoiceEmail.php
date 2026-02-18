@@ -22,13 +22,16 @@ use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Tax\Model\Calculation\RateFactory;
 
 class InvoiceEmail extends AbstractHelper
 {
 
     /**
-     * @var Curl
-     */
+    * @var Curl
+    */
     protected $curl;
 
     protected $_orderCollectionFactory;
@@ -93,6 +96,20 @@ class InvoiceEmail extends AbstractHelper
 
     protected $date;
 
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected  $scopeConfig;
+
+    /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @var RateFactory
+     */
+    protected $taxRateFactory;
 
     public function __construct(
         Curl $curl,
@@ -111,7 +128,10 @@ class InvoiceEmail extends AbstractHelper
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        ScopeConfigInterface $scopeConfig,
+        ProductRepositoryInterface $productRepository,
+        RateFactory $taxRateFactory
     )
     {
         $this->curl = $curl;
@@ -131,6 +151,9 @@ class InvoiceEmail extends AbstractHelper
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->date = $date;
+        $this->scopeConfig = $scopeConfig;
+        $this->productRepository = $productRepository;
+        $this->taxRateFactory = $taxRateFactory;
     }
 
     public function sendInvoiceEmail($test) {
@@ -166,7 +189,7 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry."<br>T: ".$billingAddress->getTelephone();
 
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();
@@ -178,7 +201,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingRegion = $shippingAddress->getRegion();
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
-            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry."<br>T: ".$shippingAddress->getTelephone();;
             $shippingAmount = round($order->getShippingAmount(), 2);
 
             //$totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
@@ -207,39 +230,115 @@ class InvoiceEmail extends AbstractHelper
             $items = $order->getAllItems();
             $store = $this->storeManager->getStore();
 
+            $invoiceNumber = '';
+            $prontoOrderNumber = '';
+            try {
+                $invoiceCollection = $order->getInvoiceCollection();
+                $prontoOrderNumber = $order->getProntoOrderNumber() ?: '';
+                if ($invoiceCollection && $invoiceCollection->getSize()) {
+                    $firstInvoice = $invoiceCollection->getFirstItem();
+                    $invoiceNumber = $firstInvoice->getIncrementId() ?: '';
+                    if ($firstInvoice->getCreatedAt()) {
+                        try {
+                            $dtInv = $this->timezone->date($firstInvoice->getCreatedAt());
+                            $invoiceDate = $dtInv->format('l, j M Y, g:i:s a');
+                        } catch (\Throwable $e) {
+                            $invoiceDate = date('d/m/Y', strtotime($firstInvoice->getCreatedAt()));
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching invoice for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
+            $paymentMethod = '';
+            $paymentMethodLabel = '';
+            $paymentCardType = '';
+            $paymentCardNumber = '';
+
+            try {
+                $payment = $order->getPayment();
+                if ($payment) {
+                    $paymentMethod = $payment->getMethod();
+                    try {
+                        $methodInstance = $payment->getMethodInstance();
+                        $paymentMethodLabel = $methodInstance ? $methodInstance->getTitle() : $paymentMethod;
+                    } catch (\Throwable $e) {
+                        $paymentMethodLabel = $paymentMethod;
+                    }
+
+                    if ($paymentMethod && stripos($paymentMethod, 'braintree') !== false) {
+                        $additional = $payment->getAdditionalInformation();
+                        if (!is_array($additional)) {
+                            $additional = [];
+                        }
+                        $paymentCardType = $additional['card_type'] ?? $additional['cc_type'] ?? $additional['cardType'] ?? null;
+
+                        $paymentImage = '';
+                        if ($paymentCardType === 'Visa') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/visa.png" width="40"/>';
+                        } else if ($paymentCardType === 'MasterCard') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/master.png" width="40"/>';
+                        } else if ($paymentCardType === 'American Express') {
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amex.png" width="40"/>';
+                        }
+
+                        $paymentCardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;
+                    }
+                }
+            } catch (\Throwable $e) {
+                $this->logger->debug('Error fetching payment info for order ' . $orderNumber . ': ' . $e->getMessage());
+            }
+
+            $bankInstructions = "";
+            if ($paymentMethod == "banktransfer") {
+                $bankInstructions = $this->getBankTransferInstructions();
+            }
+
+            $currencySymbol = $this->getCurrencySymbol();
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
                 'order_number' => $orderNumber,
-                'order_subtotal' => $orderSubtotal,
-                'order_grandtotal' => $orderGrandTotal,
-                'total_ex' => $totalEx,
-                'gst' => $gst,
-                'coupon_discount' => $couponDiscount,
+                'order_subtotal' => $currencySymbol.$orderSubtotal,
+                'order_grandtotal' => $currencySymbol.$orderGrandTotal,
+                'total_ex' => $currencySymbol.$totalEx,
+                'gst' => $currencySymbol.$gst,
+                'coupon_discount' => $currencySymbol.$couponDiscount,
                 'invoice_date' => $invoiceDate,
+                'invoice_number' => $invoiceNumber,
+                'pronto_order_number' => $prontoOrderNumber,
+                'payment_method' => $paymentMethodLabel ?: $paymentMethod,
+                'payment_image' => $paymentImage ?? false,
+                'payment_card_type' => $paymentCardType,
+                'payment_card_number' => $paymentCardNumber,
+                'bank_instructions' => $bankInstructions,
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
-                'shippingAddress' => $shippingAddressConcat,
-                'shippingAmount' => $shippingAmount,
+                'shippingAddress' => $currencySymbol.$shippingAddressConcat,
+                'shippingAmount' => $currencySymbol.$shippingAmount,
                 'trackTitle' => $trackTitle,
                 'trackNumber' => $trackNumber,
-                'items' => $items
+                'items' => $items,
+                'currency_symbol' => $currencySymbol
             ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
-            )->setTemplateOptions(
-                ['area' => 'frontend', 'store' => $store->getId()]
-            )->addTo(
-                $customerEmail, $customerFirstName
-            )->setTemplateVars(
-                $templateParams
-            )->setFrom(
-                'general'
-            )->addBcc(
-                'clint@kayweb.com.au'
-            )->getTransport();
+                )->setTemplateOptions(
+                    ['area' => 'frontend', 'store' => $store->getId()]
+                )->addTo(
+                    $customerEmail, $customerFirstName
+                )->setTemplateVars(
+                    $templateParams
+                )->setFrom(
+                    'general'
+                )->addBcc(
+                    'clint@kayweb.com.au'
+                )->addBcc(
+                'lakshyami@i4tlabs.io'
+                )->getTransport();
 
             try {
                 $transport->sendMessage();
@@ -261,7 +360,6 @@ class InvoiceEmail extends AbstractHelper
 
     public function getOrderCollection()
     {
-
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1419436))
@@ -272,8 +370,53 @@ class InvoiceEmail extends AbstractHelper
             ->setOrder('created_at', 'asc');
 
         return $collection;
-
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBankTransferInstructions()
+    {
+        return $this->scopeConfig->getValue(
+            'payment/banktransfer/instructions',
+            \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+        );
+    }
+
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getMediaBaseUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductRepository()
+    {
+        return $this->productRepository;
+    }
+
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getCurrencySymbol()
+    {
+        $currency = $this->storeManager->getStore()->getBaseCurrency();
+        return $currency->getCurrencySymbol();
+    }
+
+    public function getGstRate()
+    {
+        $rate = $this->taxRateFactory->create()->load('Australia GST', 'code');
+        if ($rate->getId()) {
+            return $rate->getRate();
+        }
+        return 0;
+    }
 
 }
