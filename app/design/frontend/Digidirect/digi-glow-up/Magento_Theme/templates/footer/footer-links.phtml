@@ -184,6 +184,76 @@ $viewModel->unsetShowLoginOverlay();
     </button>
 </nav>
 
+</nav> <!-- mobile-footer-nav ends here -->
+
+<script>
+// Continuously clean up active states until page is FULLY loaded
+(function() {
+    'use strict';
+    
+    console.log('🔒 Footer nav guard started');
+    
+    var cleanupCount = 0;
+    var maxCleanups = 100; // Run for up to 10 seconds
+    
+    // Continuously remove extra active classes every 100ms
+    var cleanupInterval = setInterval(function() {
+        var buttons = document.querySelectorAll('.footer-nav-item.active');
+        
+        if (buttons.length > 1) {
+            console.warn('⚠️ Found ' + buttons.length + ' active buttons! Cleaning up...');
+            
+            // Remove active from ALL buttons
+            buttons.forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            
+            cleanupCount++;
+        }
+        
+        // Stop after max attempts
+        if (cleanupCount > maxCleanups) {
+            clearInterval(cleanupInterval);
+            console.log('🛑 Cleanup stopped after max attempts');
+        }
+    }, 100);
+    
+    // ✅ Use window.onload instead of DOMContentLoaded
+    // This fires AFTER all resources (images, CSS, scripts) are loaded
+    window.addEventListener('load', function() {
+        console.log('✅ window.onload fired - doing final cleanup');
+        
+        // Stop the continuous cleanup
+        clearInterval(cleanupInterval);
+        
+        // Remove ALL active classes
+        var buttons = document.querySelectorAll('.footer-nav-item');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        
+        // Set the correct one based on URL
+        var path = window.location.pathname;
+        
+        if (path === '/') {
+            var homeBtn = document.querySelector('.home-footer-menu');
+            if (homeBtn) {
+                homeBtn.classList.add('active');
+                console.log('✅ Set home button active');
+            }
+        } else if (path.indexOf('/customer/account') === 0) {
+            var accountBtn = document.querySelector('.account-footer-menu');
+            if (accountBtn) {
+                accountBtn.classList.add('active');
+                console.log('✅ Set account button active');
+            }
+        }
+        
+        console.log('✅ Footer nav initialization complete!');
+    });
+})();
+</script>
+
 <!-- Account Popup Overlay -->
 <div id="mobile-account-popup" class="account-popup">
     <div class="account-popup-header">
