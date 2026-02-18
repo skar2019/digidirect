@@ -4,28 +4,104 @@
  * See COPYING.txt for license details.
  */
 
+/** @var \WebPanda\SalesProductImage\Helper\Data $helper */
+$helper = $this->helper(\WebPanda\SalesProductImage\Helper\Data::class);
 ?>
+    <style>
+        .order-totals.shipment-email {
+            th,
+            td {
+                border-top: 0 !important;
+                background-color: #F2F2F7 !important;
+            }
+        }
+    </style>
 <?php $_shipment = $block->getShipment() ?>
-<?php $_order    = $block->getOrder() ?>
+<?php $_order = $block->getOrder() ?>
 <?php if ($_shipment && $_order) : ?>
-    <table class="email-items">
+    <table class="email-items digi-theme-glowup-shipment" style="border: none;">
         <thead>
-            <tr>
-                <th class="item-image"> </th>
-                <th class="item-info">
-                    <?= $block->escapeHtml(__('Items')) ?>
-                </th>
-                <th class="item-qty">
-                    <?= $block->escapeHtml(__('Qty')) ?>
-                </th>
-            </tr>
+        <tr>
+            <th class="item-image" style="background-color: unset;"> </th>
+            <th class="item-info" style="background-color: unset;"> </th>
+            <th class="item-qty" style="background-color: unset; border-top: none;"><?= $this->escapeHtml(__('Qty')) ?></th>
+            <th class="item-price" style="background-color: unset; border-top: none;"><?= $this->escapeHtml(__('Price')) ?></th>
+        </tr>
         </thead>
         <?php foreach ($_shipment->getAllItems() as $_item) : ?>
             <?php if (!$_item->getOrderItem()->getParentItem()) : ?>
                 <tbody>
-                    <?= $block->getItemHtml($_item) ?>
+                <tr>
+                    <td class="item-image">
+                        <?= $helper ? $helper->renderImage($_item, 'front', 'left') : '' ?>
+                    </td>
+                    <td class="item-info">
+                        <strong><?= $this->escapeHtml($_item->getName()) ?></strong>
+                        <?php if ($_item->getSku()): ?>
+                            <div style="color:#777;font-size:12px;">SKU: <?= $this->escapeHtml($_item->getSku()) ?></div>
+                        <?php endif; ?>
+
+                        <?php if ($_options = $this->getItemOptions($_item)) : ?>
+                            <dl class="item-options" style="margin-top:6px; font-size:12px; color:#666;">
+                                <?php foreach ($_options as $option): ?>
+                                    <dt><strong><em><?= $this->escapeHtml($option['label']) ?></em></strong></dt>
+                                    <dd><?= /* @noEscape */ nl2br($this->escapeHtml($option['value'])) ?></dd>
+                                <?php endforeach; ?>
+                            </dl>
+                        <?php endif; ?>
+
+                    </td>
+                    <td class="item-qty"><?= (int)$_item->getQty() ?></td>
+                    <td class="item-price">
+                        <?php
+                        $price = null;
+                        if (method_exists($_item, 'getPriceInclTax') && $_item->getPriceInclTax()) {
+                            $price = $_item->getPriceInclTax();
+                            $rowTotal = $_item->getRowTotalInclTax() ?: ($_item->getQty() * $price);
+                        } else {
+                            $price = $_item->getOrderItem() ? $_item->getOrderItem()->getPrice() : $_item->getPrice();
+                            $rowTotal = $_item->getRowTotal() ?: ($_item->getQty() * $price);
+                        }
+                        ?>
+                        <div><?= $_order->formatPrice($price) ?></div>
+<!--                        <div style="font-size:12px;color:#777;">--><?php //= $this->escapeHtml(__('Row total:')) ?><!-- --><?php //= $_order->formatPrice($rowTotal) ?><!--</div>-->
+                    </td>
+                </tr>
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
+        <tfoot class="order-totals shipment-email" style="border-top: none;">
+        <?php
+        $orderTotalsHtml = $this->getChildHtml('order_totals');
+        if ($orderTotalsHtml) {
+            echo $orderTotalsHtml;
+        } else {
+            $subtotal = $_order->getSubtotal();
+            $shipping = $_order->getShippingAmount();
+            $tax = $_order->getTaxAmount();
+            $discount = abs((float)$_order->getDiscountAmount());
+            $grand = $_order->getGrandTotal();
+            ?>
+            <tr>
+                <td colspan="4">
+                    <table class="totals-table" cellspacing="0" cellpadding="0" border="0" style="float:right; width:320px;">
+                        <?php if ($subtotal !== null): ?>
+                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Subtotal')) ?></td><td class="totals-value"><?= $_order->formatPrice($subtotal) ?></td></tr>
+                        <?php endif; ?>
+                        <?php if ($shipping && $shipping > 0): ?>
+                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Shipping')) ?></td><td class="totals-value"><?= $_order->formatPrice($shipping) ?></td></tr>
+                        <?php endif; ?>
+                        <?php if ($tax && $tax > 0): ?>
+                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Tax')) ?></td><td class="totals-value"><?= $_order->formatPrice($tax) ?></td></tr>
+                        <?php endif; ?>
+                        <?php if ($discount && $discount > 0): ?>
+                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Discount')) ?></td><td class="totals-value">-<?= $_order->formatPrice($discount) ?></td></tr>
+                        <?php endif; ?>
+                        <tr style="border-top:1px solid #e6e6e6;"><td class="totals-label" style="padding-top:8px;"><?= $this->escapeHtml(__('Grand Total')) ?></td><td class="totals-value" style="padding-top:8px;"><?= $_order->formatPrice($grand) ?></td></tr>
+                    </table>
+                </td>
+            </tr>
+        <?php } ?>
+        </tfoot>
     </table>
 <?php endif; ?>
