@@ -26,12 +26,8 @@ require(['jquery'], function($) {
             );
         }
 
-        // ✅ AGGRESSIVE FIX: Clear ALL active states, set the correct one, then enforce continuously
-        $footerNavItems.removeClass('active');
+        // Active state management
         initializeActiveStates();
-        
-        // Start continuous enforcer
-        startActiveStateEnforcer();
 
         // Event delegation for better performance
         setupEventDelegation();
@@ -49,27 +45,6 @@ require(['jquery'], function($) {
         // Chat from email link
         handleEmailChatLink();
     });
-
-    // ✅ ENFORCER: Runs every 50ms to guarantee only one active button at a time.
-    // This is the nuclear option — catches all edge cases including:
-    // - Clicks during page load
-    // - Race conditions between handlers
-    // - Residual state from previous page
-    // - Multiple handlers firing simultaneously
-    function startActiveStateEnforcer() {
-        setInterval(function() {
-            const activeItems = document.querySelectorAll('.footer-nav-item.active');
-            
-            if (activeItems.length > 1) {
-                console.warn('⚠️ Multiple active buttons detected, fixing...', activeItems);
-                
-                // Keep only the LAST one that became active
-                for (let i = 0; i < activeItems.length - 1; i++) {
-                    activeItems[i].classList.remove('active');
-                }
-            }
-        }, 50); // Check every 50ms
-    }
 
     // Check for passive event support
     function checkPassiveSupport() {
@@ -94,17 +69,10 @@ require(['jquery'], function($) {
 
         if (path === '/') {
             document.querySelector('.home-footer-menu')?.classList.add('active');
-            return;
         }
 
-        if (
-            path === '/customer/account' ||
-            path === '/customer/account/' ||
-            path === '/customer/account/index' ||
-            path === '/customer/account/index/'
-        ) {
+        if (path === '/customer/account/index/' || path === '/customer/account/index/') {
             document.querySelector('.account-footer-menu')?.classList.add('active');
-            return;
         }
     }
 
@@ -112,20 +80,62 @@ require(['jquery'], function($) {
         const $footerNavItems = $('.footer-nav-item');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
 
-        // Close button handler — clear all active states
-        $closeButtons.on('click', function() {
+        // ✅ MOBILE FIX: Debounce and prevent duplicate touch/click events
+        let isProcessing = false;
+        let lastTapTime = 0;
+
+        function setActiveNavItem($item) {
+            const now = Date.now();
+            
+            // Ignore rapid taps within 300ms
+            if (now - lastTapTime < 300) {
+                return;
+            }
+            
+            // Ignore if already processing
+            if (isProcessing) {
+                return;
+            }
+            
+            isProcessing = true;
+            lastTapTime = now;
+            
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
+                if ($item) {
+                    $item.addClass('active');
+                }
+                
+                // Reset processing flag after animation frame completes
+                setTimeout(() => {
+                    isProcessing = false;
+                }, 100);
             });
+        }
+
+        // Close button handler
+        $closeButtons.on('click', function(e) {
+            e.preventDefault();
+            setActiveNavItem(null);
         });
 
-        // Footer nav item handler — set exactly one active at a time
-        $footerNavItems.on('click', function() {
+        // Footer nav item handler with touch event prevention
+        $footerNavItems.on('touchend click', function(e) {
+            // Prevent both touch and click from firing
+            if (e.type === 'click' && e.originalEvent && e.originalEvent.detail === 0) {
+                // This is a programmatic click, allow it
+            } else if (e.type === 'click') {
+                // Check if this is a click following a touchend
+                const timeSinceTap = Date.now() - lastTapTime;
+                if (timeSinceTap < 300) {
+                    // Recent touch event, ignore this click
+                    e.preventDefault();
+                    return;
+                }
+            }
+            
             const $this = $(this);
-            requestAnimationFrame(() => {
-                $footerNavItems.removeClass('active');
-                $this.addClass('active');
-            });
+            setActiveNavItem($this);
         });
     }
 
