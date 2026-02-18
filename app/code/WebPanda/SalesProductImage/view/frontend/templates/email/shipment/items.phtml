@@ -89,7 +89,7 @@ $helper = $this->helper(\WebPanda\SalesProductImage\Helper\Data::class);
                             <tr><td class="totals-label"><?= $this->escapeHtml(__('Subtotal')) ?></td><td class="totals-value"><?= $_order->formatPrice($subtotal) ?></td></tr>
                         <?php endif; ?>
                         <?php if ($shipping && $shipping > 0): ?>
-                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Shipping')) ?></td><td class="totals-value"><?= $_order->formatPrice($shipping) ?></td></tr>
+                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Shipping & Handling')) ?></td><td class="totals-value"><?= $_order->formatPrice($shipping) ?></td></tr>
                         <?php endif; ?>
                         <?php if ($tax && $tax > 0): ?>
                             <tr><td class="totals-label"><?= $this->escapeHtml(__('Tax')) ?></td><td class="totals-value"><?= $_order->formatPrice($tax) ?></td></tr>
@@ -97,7 +97,7 @@ $helper = $this->helper(\WebPanda\SalesProductImage\Helper\Data::class);
                         <?php if ($discount && $discount > 0): ?>
                             <tr><td class="totals-label"><?= $this->escapeHtml(__('Discount')) ?></td><td class="totals-value">-<?= $_order->formatPrice($discount) ?></td></tr>
                         <?php endif; ?>
-                        <tr style="border-top:1px solid #e6e6e6;"><td class="totals-label" style="padding-top:8px;"><?= $this->escapeHtml(__('Grand Total')) ?></td><td class="totals-value" style="padding-top:8px;"><?= $_order->formatPrice($grand) ?></td></tr>
+                        <tr style="border-top:1px solid #e6e6e6;"><td class="totals-label" style="padding-top:8px; font-weight: bold;"><?= $this->escapeHtml(__('Grand Total')) ?></td><td class="totals-value" style="padding-top:8px;"><?= $_order->formatPrice($grand) ?></td></tr>
                     </table>
                 </td>
             </tr>
