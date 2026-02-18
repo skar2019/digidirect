@@ -7,6 +7,8 @@ require(['jquery'], function($) {
     window.toggleMobileMenu = toggleMobileMenu;
 
     $(document).ready(function() {
+        console.log('🚀 Document ready fired!');
+        
         // Cache DOM queries
         const $body = $('body');
         const $pageFooter = $('.page-footer');
@@ -14,6 +16,8 @@ require(['jquery'], function($) {
         const $mobileAccountPopup = $('#mobile-account-popup');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
         const $footerNavItems = $('.footer-nav-item');
+
+        console.log('📊 Found footer nav items:', $footerNavItems.length);
 
         // Passive event listeners for better scroll performance
         const passiveSupported = checkPassiveSupport();
@@ -27,13 +31,15 @@ require(['jquery'], function($) {
         }
 
         // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
-        // This prevents race condition where user clicks during page load
         initializeActiveStates();
+        
         // ✅ RE-ENABLE BUTTONS after initialization is complete
+        console.log('🔓 Re-enabling buttons now...');
         $footerNavItems.css({
             'pointer-events': '',
             'opacity': ''
         });
+        console.log('✅ Buttons re-enabled!');
 
         // Event delegation for better performance
         setupEventDelegation();
@@ -71,24 +77,31 @@ require(['jquery'], function($) {
     }
 
     function initializeActiveStates() {
+        console.log('🎯 Initializing active states...');
+        
         // ✅ STEP 1: ALWAYS clear ALL active states first
-        // This removes any active state set by clicks during page load
         $('.footer-nav-item').removeClass('active');
         
         // ✅ STEP 2: Set the correct active state based on current URL
         const path = window.location.pathname;
+        console.log('📍 Current path:', path);
 
         if (path === '/') {
             document.querySelector('.home-footer-menu')?.classList.add('active');
+            console.log('✅ Home button activated');
             return;
         }
 
-        if (path === '/customer/account/index/' || path === '/customer/account/index/') {
+        if (path === '/customer/account' || 
+            path === '/customer/account/' || 
+            path === '/customer/account/index' || 
+            path === '/customer/account/index/') {
             document.querySelector('.account-footer-menu')?.classList.add('active');
+            console.log('✅ Account button activated');
             return;
         }
         
-        // All other pages - no button should be active
+        console.log('ℹ️ No button active for this path');
     }
 
     function setupEventDelegation() {
