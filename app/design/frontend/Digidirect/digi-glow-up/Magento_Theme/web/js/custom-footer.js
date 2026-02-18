@@ -5,9 +5,6 @@ require(['jquery'], function($) {
     }
 
     window.toggleMobileMenu = toggleMobileMenu;
-    
-    // ✅ CRITICAL: Flag to track if initialization is complete
-    var pageReady = false;
 
     $(document).ready(function() {
         // Cache DOM queries
@@ -17,6 +14,7 @@ require(['jquery'], function($) {
         const $mobileAccountPopup = $('#mobile-account-popup');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
         const $footerNavItems = $('.footer-nav-item');
+        const $mobileFooterNav = $('.mobile-footer-nav');
 
         // Passive event listeners for better scroll performance
         const passiveSupported = checkPassiveSupport();
@@ -32,8 +30,9 @@ require(['jquery'], function($) {
         // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
         initializeActiveStates();
         
-        // ✅ Mark page as ready - now clicks are allowed to change active state
-        pageReady = true;
+        // ✅ RE-ENABLE BUTTONS - Remove pointer-events: none from nav
+        $mobileFooterNav.css('pointer-events', '');
+        console.log('✅ Footer nav re-enabled');
 
         // Event delegation for better performance
         setupEventDelegation();
@@ -71,15 +70,18 @@ require(['jquery'], function($) {
     }
 
     function initializeActiveStates() {
+        console.log('🎯 Initializing active states...');
+        
         // ✅ STEP 1: ALWAYS clear ALL active states first
-        // This removes any active state set by clicks during page load
         $('.footer-nav-item').removeClass('active');
         
         // ✅ STEP 2: Set the correct active state based on current URL
         const path = window.location.pathname;
+        console.log('📍 Current path:', path);
 
         if (path === '/') {
             document.querySelector('.home-footer-menu')?.classList.add('active');
+            console.log('✅ Home button activated');
             return;
         }
 
@@ -88,10 +90,11 @@ require(['jquery'], function($) {
             path === '/customer/account/index' || 
             path === '/customer/account/index/') {
             document.querySelector('.account-footer-menu')?.classList.add('active');
+            console.log('✅ Account button activated');
             return;
         }
         
-        // All other pages - no button should be active
+        console.log('ℹ️ No button active for this path');
     }
 
     function setupEventDelegation() {
@@ -105,13 +108,8 @@ require(['jquery'], function($) {
             });
         });
 
-        // ✅ Footer nav item handler - ONLY change active state if page is ready
+        // Footer nav item handler
         $footerNavItems.on('click', function() {
-            if (!pageReady) {
-                console.log('⚠️ Click ignored - page not ready yet');
-                return; // Ignore clicks during page load
-            }
-            
             const $this = $(this);
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
