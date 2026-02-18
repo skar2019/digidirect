@@ -7,6 +7,40 @@ $showOverlay = $viewModel->getShowLoginOverlay();
 $viewModel->unsetShowLoginOverlay();
 ?>
 
+<!-- In your footer.phtml or wherever the footer nav is rendered -->
+<script>
+// This runs IMMEDIATELY when parsed - disables buttons before any clicks possible
+(function() {
+    'use strict';
+    
+    function disableFooterNav() {
+        var navItems = document.querySelectorAll('.footer-nav-item');
+        navItems.forEach(function(item) {
+            item.style.pointerEvents = 'none';
+            item.style.opacity = '0.6';
+        });
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', disableFooterNav);
+    } else {
+        disableFooterNav();
+    }
+    
+    var attempts = 0;
+    var interval = setInterval(function() {
+        var navItems = document.querySelectorAll('.footer-nav-item');
+        if (navItems.length > 0) {
+            disableFooterNav();
+        }
+        attempts++;
+        if (attempts > 20) {
+            clearInterval(interval);
+        }
+    }, 50);
+})();
+</script>
+
 <nav data-action="navigation" class="footer-nav" id="footer_nav">
     <ul class="footer-menu footer-categories">
         <li class="category-item item">

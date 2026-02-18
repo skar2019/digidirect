@@ -6,21 +6,6 @@ require(['jquery'], function($) {
 
     window.toggleMobileMenu = toggleMobileMenu;
 
-    // ✅ SIMPLE FIX: Disable all footer nav buttons immediately.
-    // They'll be re-enabled only after DOM ready + a small delay to ensure
-    // everything is fully initialized. This prevents clicks during page load
-    // that cause race conditions and double-highlighting.
-    (function disableFooterNavUntilReady() {
-        // Disable immediately when script loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const navItems = document.querySelectorAll('.footer-nav-item');
-            navItems.forEach(function(item) {
-                item.style.pointerEvents = 'none';
-                item.style.opacity = '0.6';
-            });
-        });
-    })();
-
     $(document).ready(function() {
         // Cache DOM queries
         const $body = $('body');
@@ -41,21 +26,12 @@ require(['jquery'], function($) {
             );
         }
 
-        // ✅ Step 1: Clear all active states unconditionally
+        // ✅ AGGRESSIVE FIX: Clear ALL active states, set the correct one, then enforce continuously
         $footerNavItems.removeClass('active');
-        
-        // ✅ Step 2: Set the correct initial state based on URL
         initializeActiveStates();
-
-        // ✅ Step 3: Re-enable buttons after everything is initialized
-        // Small delay ensures all handlers are attached and initial state is clean
-        setTimeout(function() {
-            $footerNavItems.css({
-                'pointer-events': '',
-                'opacity': ''
-            });
-            console.log('✅ Footer nav buttons enabled');
-        }, 100);
+        
+        // Start continuous enforcer
+        startActiveStateEnforcer();
 
         // Event delegation for better performance
         setupEventDelegation();
@@ -73,6 +49,27 @@ require(['jquery'], function($) {
         // Chat from email link
         handleEmailChatLink();
     });
+
+    // ✅ ENFORCER: Runs every 50ms to guarantee only one active button at a time.
+    // This is the nuclear option — catches all edge cases including:
+    // - Clicks during page load
+    // - Race conditions between handlers
+    // - Residual state from previous page
+    // - Multiple handlers firing simultaneously
+    function startActiveStateEnforcer() {
+        setInterval(function() {
+            const activeItems = document.querySelectorAll('.footer-nav-item.active');
+            
+            if (activeItems.length > 1) {
+                console.warn('⚠️ Multiple active buttons detected, fixing...', activeItems);
+                
+                // Keep only the LAST one that became active
+                for (let i = 0; i < activeItems.length - 1; i++) {
+                    activeItems[i].classList.remove('active');
+                }
+            }
+        }, 50); // Check every 50ms
+    }
 
     // Check for passive event support
     function checkPassiveSupport() {
