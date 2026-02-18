@@ -184,37 +184,6 @@ $viewModel->unsetShowLoginOverlay();
     </button>
 </nav>
 
-<script>
-// ✅ Runs IMMEDIATELY - disables buttons to prevent clicks during page load
-(function() {
-    'use strict';
-    
-    var navItems = document.querySelectorAll('.footer-nav-item');
-    navItems.forEach(function(item) {
-        item.style.pointerEvents = 'none';
-        item.style.opacity = '0.6';
-    });
-    
-    // Re-check every 50ms for dynamically added buttons
-    var attempts = 0;
-    var maxAttempts = 20;
-    var checkInterval = setInterval(function() {
-        var items = document.querySelectorAll('.footer-nav-item');
-        items.forEach(function(item) {
-            if (item.style.pointerEvents !== 'none') {
-                item.style.pointerEvents = 'none';
-                item.style.opacity = '0.6';
-            }
-        });
-        
-        attempts++;
-        if (attempts >= maxAttempts) {
-            clearInterval(checkInterval);
-        }
-    }, 50);
-})();
-</script>
-
 <!-- Account Popup Overlay -->
 <div id="mobile-account-popup" class="account-popup">
     <div class="account-popup-header">

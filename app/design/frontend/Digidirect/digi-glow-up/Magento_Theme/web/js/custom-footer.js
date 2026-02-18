@@ -33,13 +33,7 @@ require(['jquery'], function($) {
         // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
         initializeActiveStates();
         
-        // ✅ RE-ENABLE BUTTONS after initialization is complete
-        console.log('🔓 Re-enabling buttons now...');
-        $footerNavItems.css({
-            'pointer-events': '',
-            'opacity': ''
-        });
-        console.log('✅ Buttons re-enabled!');
+        $('.mobile-footer-nav').addClass('ready');
 
         // Event delegation for better performance
         setupEventDelegation();
