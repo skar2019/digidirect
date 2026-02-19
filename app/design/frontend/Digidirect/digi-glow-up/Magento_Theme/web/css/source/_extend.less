@@ -4,9 +4,17 @@
 */
 @import "_digi_print_common.less";
 
-.mobile-footer-nav.ready .footer-nav-item {
+/* Buttons are disabled by default */
+.mobile-footer-nav {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Buttons are enabled when the 'ready' class is added */
+.mobile-footer-nav.ready {
     pointer-events: auto;
     opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 //PA Widget Product Tile Fix

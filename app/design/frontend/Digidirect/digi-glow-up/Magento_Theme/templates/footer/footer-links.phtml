@@ -187,29 +187,25 @@ $viewModel->unsetShowLoginOverlay();
 </nav> <!-- mobile-footer-nav ends here -->
 
 <script>
+// Enable buttons 2 seconds after window.onload
 (function() {
     'use strict';
     
-    console.log('🔒 Footer nav guard started - buttons disabled');
+    console.log('🔒 Footer nav buttons are disabled by default via CSS');
     
-    // Get the nav container
-    var nav = document.querySelector('.mobile-footer-nav');
-    if (!nav) {
-        console.error('❌ Nav not found!');
-        return;
-    }
-    
-    // Disable pointer events immediately
-    nav.style.pointerEvents = 'none';
-    nav.style.opacity = '0.6';
-    console.log('🔒 Buttons disabled via pointer-events');
-    
-    // On window.onload, wait 2 more seconds, then initialize and enable
+    // Wait for window.onload (page fully loaded)
     window.addEventListener('load', function() {
-        console.log('✅ window.onload fired - waiting 2 seconds...');
+        console.log('✅ window.onload fired - waiting 2 seconds before enabling buttons...');
         
+        // Wait 2 more seconds
         setTimeout(function() {
-            console.log('⏰ 2 seconds elapsed - initializing...');
+            console.log('⏰ 2 seconds elapsed - initializing footer nav...');
+            
+            var nav = document.querySelector('.mobile-footer-nav');
+            if (!nav) {
+                console.error('❌ Nav not found!');
+                return;
+            }
             
             // Remove ALL active classes
             var buttons = document.querySelectorAll('.footer-nav-item');
@@ -234,12 +230,11 @@ $viewModel->unsetShowLoginOverlay();
                 }
             }
             
-            // Re-enable buttons
-            nav.style.pointerEvents = '';
-            nav.style.opacity = '';
+            // Enable buttons by adding 'ready' class
+            nav.classList.add('ready');
             console.log('🔓 Buttons enabled!');
             
-        }, 2000); // 2 second delay after window.onload
+        }, 2000); // 2 second delay
     });
 })();
 </script>
