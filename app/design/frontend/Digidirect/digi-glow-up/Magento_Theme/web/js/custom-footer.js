@@ -94,8 +94,16 @@ require(['jquery'], function($) {
             });
         });
 
-        // Footer nav item handler
-        $footerNavItems.on('click', function() {
+        // Footer nav item handler - ONLY run if nav is ready
+        $footerNavItems.on('click', function(e) {
+            const $nav = $('.mobile-footer-nav');
+
+            // Check if nav has 'ready' class - if not, don't process the click
+            if (!$nav.hasClass('ready')) {
+                console.log('🚫 Click ignored - nav not ready yet');
+                return;
+            }
+
             const $this = $(this);
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
