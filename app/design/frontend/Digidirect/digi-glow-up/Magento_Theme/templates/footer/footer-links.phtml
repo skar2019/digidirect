@@ -185,7 +185,7 @@ $viewModel->unsetShowLoginOverlay();
 </nav>
 
 <script>
-// Show footer nav 2 seconds after window.onload
+// Show footer nav immediately on window.onload
 (function() {
     'use strict';
     
@@ -193,46 +193,40 @@ $viewModel->unsetShowLoginOverlay();
     
     // Wait for window.onload (page fully loaded)
     window.addEventListener('load', function() {
-        console.log('✅ window.onload fired - waiting 2 seconds...');
+        console.log('✅ window.onload fired - initializing footer nav...');
         
-        // Wait 2 more seconds
-        setTimeout(function() {
-            console.log('⏰ 2 seconds elapsed - initializing footer nav...');
-            
-            var nav = document.querySelector('.mobile-footer-nav');
-            if (!nav) {
-                console.error('❌ Nav not found!');
-                return;
+        var nav = document.querySelector('.mobile-footer-nav');
+        if (!nav) {
+            console.error('❌ Nav not found!');
+            return;
+        }
+        
+        // Remove ALL active classes
+        var buttons = document.querySelectorAll('.footer-nav-item');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        
+        // Set correct button based on URL
+        var path = window.location.pathname;
+        
+        if (path === '/') {
+            var homeBtn = document.querySelector('.home-footer-menu');
+            if (homeBtn) {
+                homeBtn.classList.add('active');
+                console.log('✅ Set home button active');
             }
-            
-            // Remove ALL active classes
-            var buttons = document.querySelectorAll('.footer-nav-item');
-            buttons.forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            
-            // Set correct button based on URL
-            var path = window.location.pathname;
-            
-            if (path === '/') {
-                var homeBtn = document.querySelector('.home-footer-menu');
-                if (homeBtn) {
-                    homeBtn.classList.add('active');
-                    console.log('✅ Set home button active');
-                }
-            } else if (path.indexOf('/customer/account') === 0) {
-                var accountBtn = document.querySelector('.account-footer-menu');
-                if (accountBtn) {
-                    accountBtn.classList.add('active');
-                    console.log('✅ Set account button active');
-                }
+        } else if (path.indexOf('/customer/account') === 0) {
+            var accountBtn = document.querySelector('.account-footer-menu');
+            if (accountBtn) {
+                accountBtn.classList.add('active');
+                console.log('✅ Set account button active');
             }
-            
-            // Show the nav by adding 'ready' class
-            nav.classList.add('ready');
-            console.log('🔓 Footer nav visible and ready!');
-            
-        }, 2000); // 2 second delay
+        }
+        
+        // Show the nav by adding 'ready' class
+        nav.classList.add('ready');
+        console.log('🔓 Footer nav visible and ready!');
     });
 })();
 </script>
