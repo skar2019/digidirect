@@ -4,14 +4,14 @@
 */
 @import "_digi_print_common.less";
 
-/* Disable individual buttons by default (not the nav container) */
-.mobile-footer-nav .footer-nav-item {
-    pointer-events: none;
+/* Hide footer nav by default */
+.mobile-footer-nav {
+    display: none;
 }
 
-/* Enable buttons when nav has 'ready' class */
-.mobile-footer-nav.ready .footer-nav-item {
-    pointer-events: auto;
+/* Show footer nav when ready */
+.mobile-footer-nav.ready {
+    display: flex;
 }
 
 //PA Widget Product Tile Fix
