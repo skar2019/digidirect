@@ -187,69 +187,60 @@ $viewModel->unsetShowLoginOverlay();
 </nav> <!-- mobile-footer-nav ends here -->
 
 <script>
-// Continuously clean up active states until page is FULLY loaded
+// Disable buttons during load + 2 seconds after onload
 (function() {
     'use strict';
     
-    console.log('🔒 Footer nav guard started');
+    console.log('🔒 Footer nav guard started - buttons disabled');
     
-    var cleanupCount = 0;
-    var maxCleanups = 100; // Run for up to 10 seconds
+    // Get the nav container
+    var nav = document.querySelector('.mobile-footer-nav');
+    if (!nav) {
+        console.error('❌ Nav not found!');
+        return;
+    }
     
-    // Continuously remove extra active classes every 100ms
-    var cleanupInterval = setInterval(function() {
-        var buttons = document.querySelectorAll('.footer-nav-item.active');
+    // Disable pointer events immediately
+    nav.style.pointerEvents = 'none';
+    nav.style.opacity = '0.6';
+    console.log('🔒 Buttons disabled via pointer-events');
+    
+    // On window.onload, wait 2 more seconds, then initialize and enable
+    window.addEventListener('load', function() {
+        console.log('✅ window.onload fired - waiting 2 seconds...');
         
-        if (buttons.length > 1) {
-            console.warn('⚠️ Found ' + buttons.length + ' active buttons! Cleaning up...');
+        setTimeout(function() {
+            console.log('⏰ 2 seconds elapsed - initializing...');
             
-            // Remove active from ALL buttons
+            // Remove ALL active classes
+            var buttons = document.querySelectorAll('.footer-nav-item');
             buttons.forEach(function(btn) {
                 btn.classList.remove('active');
             });
             
-            cleanupCount++;
-        }
-        
-        // Stop after max attempts
-        if (cleanupCount > maxCleanups) {
-            clearInterval(cleanupInterval);
-            console.log('🛑 Cleanup stopped after max attempts');
-        }
-    }, 100);
-    
-    // ✅ Use window.onload instead of DOMContentLoaded
-    // This fires AFTER all resources (images, CSS, scripts) are loaded
-    window.addEventListener('load', function() {
-        console.log('✅ window.onload fired - doing final cleanup');
-        
-        // Stop the continuous cleanup
-        clearInterval(cleanupInterval);
-        
-        // Remove ALL active classes
-        var buttons = document.querySelectorAll('.footer-nav-item');
-        buttons.forEach(function(btn) {
-            btn.classList.remove('active');
-        });
-        
-        // Set the correct one based on URL
-        var path = window.location.pathname;
-        
-        if (path === '/') {
-            var homeBtn = document.querySelector('.home-footer-menu');
-            if (homeBtn) {
-                homeBtn.classList.add('active');
-                console.log('✅ Set home button active');
+            // Set correct button based on URL
+            var path = window.location.pathname;
+            
+            if (path === '/') {
+                var homeBtn = document.querySelector('.home-footer-menu');
+                if (homeBtn) {
+                    homeBtn.classList.add('active');
+                    console.log('✅ Set home button active');
+                }
+            } else if (path.indexOf('/customer/account') === 0) {
+                var accountBtn = document.querySelector('.account-footer-menu');
+                if (accountBtn) {
+                    accountBtn.classList.add('active');
+                    console.log('✅ Set account button active');
+                }
             }
-        } else if (path.indexOf('/customer/account') === 0) {
-            var accountBtn = document.querySelector('.account-footer-menu');
-            if (accountBtn) {
-                accountBtn.classList.add('active');
-                console.log('✅ Set account button active');
-            }
-        }
-        
-        console.log('✅ Footer nav initialization complete!');
+            
+            // Re-enable buttons
+            nav.style.pointerEvents = '';
+            nav.style.opacity = '';
+            console.log('🔓 Buttons enabled!');
+            
+        }, 2000); // 2 second delay after window.onload
     });
 })();
 </script>
