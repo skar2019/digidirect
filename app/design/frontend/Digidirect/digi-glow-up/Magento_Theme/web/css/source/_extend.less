@@ -4,9 +4,14 @@
 */
 @import "_digi_print_common.less";
 
-.mobile-footer-nav.ready .footer-nav-item {
-    pointer-events: auto;
-    opacity: 1;
+/* Hide footer nav by default */
+.mobile-footer-nav {
+    display: none;
+}
+
+/* Show footer nav when ready */
+.mobile-footer-nav.ready {
+    display: flex;
 }
 
 //PA Widget Product Tile Fix

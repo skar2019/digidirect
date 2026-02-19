@@ -15,28 +15,29 @@ define([
     return function (target) {
         target.resolveShippingRates = function (ratesData) {
             var selectedShippingRate = checkoutData.getSelectedShippingRate(),
-                availableRate = false,
-                freeshippingExist = ratesData.filter(function(item) {
-                    return item.method_code == 'freeshipping';
-                }),
-                flaterateExist = ratesData.filter(function(item) {
-                    return item.method_code == 'flatrate';
-                }),
-                shippingExist = ratesData.filter(function (item) {
-                    return item.method_code == 'shipping';
-                });
+                availableRate = false;
 
+            // Check if user has explicitly selected a method previously
+            var hasExplicitSelection = selectedShippingRate || quote.shippingMethod();
+
+            // Only auto-select for Click & Collect (single rate scenario)
             if (ratesData.length === 1) {
-                //set shipping rate if we have only one available shipping rate
-                selectShippingMethodAction(ratesData[0]);
-
+                var singleRate = ratesData[0];
+                // Only auto-select if it's Click & Collect
+                if (singleRate.carrier_code === 'collect' && singleRate.method_code === 'collect') {
+                    selectShippingMethodAction(singleRate);
+                    return;
+                }
+                // For other single rates, don't auto-select
+                selectShippingMethodAction(null);
                 return;
             }
 
+            // If user previously selected a method, check if it's still available
             if (quote.shippingMethod()) {
                 availableRate = _.find(ratesData, function (rate) {
-                    return rate['carrier_code'] == quote.shippingMethod()['carrier_code'] && //eslint-disable-line
-                        rate['method_code'] == quote.shippingMethod()['method_code']; //eslint-disable-line eqeqeq
+                    return rate['carrier_code'] == quote.shippingMethod()['carrier_code'] &&
+                        rate['method_code'] == quote.shippingMethod()['method_code'];
                 });
             }
 
@@ -46,61 +47,24 @@ define([
                 });
             }
 
-            if (!availableRate && window.checkoutConfig.selectedShippingMethod) {
-                availableRate = window.checkoutConfig.selectedShippingMethod;
-                selectShippingMethodAction(window.checkoutConfig.selectedShippingMethod);
-
-                return;
-            }
-
-            //Unset selected shipping method if not available
-            if (!availableRate) {
-                selectShippingMethodAction(null);
-            } else {
+            // Only restore previously selected method if it's still available
+            if (availableRate && hasExplicitSelection) {
                 selectShippingMethodAction(availableRate);
-            }
-
-//            if (shippingExist.length > 0 && !availableRate) {
-//                var shippingAmount = shippingExist[0].base_amount;
-//
-//                if (shippingAmount === 0) {
-//                    selectShippingMethodAction(shippingExist[0]);
-//
-//                    var msg = '<svg xmlns="http://www.w3.org/2000/svg" class="free-message svg-icon -free"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-shipping"></use></svg>' + 'You have qualified for free shipping!';
-//
-//                    customerData.set('messages', {
-//                        messages: [{
-//                            type: 'success',
-//                            text: msg
-//                        }]
-//                    });
-//
-//                    var element = $('.free-message');
-//                    element.parent().prop('id','removedBefore');
-//
-//                    return
-//                }
-//            }
-
-            if (freeshippingExist.length > 0 && !availableRate) {
-                selectShippingMethodAction(freeshippingExist[0]);
-            } else if(flaterateExist.length > 0 &&!availableRate) {
-                selectShippingMethodAction(flaterateExist[0]);
+            } else {
+                // No auto-selection - user must choose
+                selectShippingMethodAction(null);
             }
 
             function checkoutMobileCart () {
-
                 var checkoutOffCanvasBar = document.getElementById('checkoutOffCanvasBarContent'),
-                checkoutOffCanvasSummary = document.getElementById('mobileCheckout'),
-                checkoutOffCanvasItems = $('#mobileCheckout .items-in-cart'),
-                checkoutOffCanvasButton = $('#mobileCheckout .single-actions .button');
+                    checkoutOffCanvasSummary = document.getElementById('mobileCheckout'),
+                    checkoutOffCanvasItems = $('#mobileCheckout .items-in-cart'),
+                    checkoutOffCanvasButton = $('#mobileCheckout .single-actions .button');
 
                 // Move items copy to Right Bar on Checkout page
-
                 $(checkoutOffCanvasItems).appendTo(checkoutOffCanvasBar);
 
                 // Move summary copy to Right Bar on Checkout page
-
                 $(checkoutOffCanvasSummary).appendTo(checkoutOffCanvasBar);
 
                 var btn = $('#checkoutOffCanvasBarContent .button.action');
@@ -111,7 +75,6 @@ define([
                     checkoutCartContentBar.classList.remove('-bar-open');
                     actionLeftBlock.classList.remove('-bar-open');
                 })
-
             }
 
             checkoutMobileCart()
