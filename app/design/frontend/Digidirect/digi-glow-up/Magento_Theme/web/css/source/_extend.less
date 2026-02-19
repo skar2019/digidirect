@@ -4,17 +4,14 @@
 */
 @import "_digi_print_common.less";
 
-/* Buttons are disabled by default */
-.mobile-footer-nav {
+/* Disable individual buttons by default (not the nav container) */
+.mobile-footer-nav .footer-nav-item {
     pointer-events: none;
-    opacity: 0.6;
 }
 
-/* Buttons are enabled when the 'ready' class is added */
-.mobile-footer-nav.ready {
+/* Enable buttons when nav has 'ready' class */
+.mobile-footer-nav.ready .footer-nav-item {
     pointer-events: auto;
-    opacity: 1;
-    transition: opacity 0.3s ease;
 }
 
 //PA Widget Product Tile Fix

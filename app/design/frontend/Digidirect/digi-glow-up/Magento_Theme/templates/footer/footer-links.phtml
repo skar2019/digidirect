@@ -97,7 +97,7 @@ $viewModel->unsetShowLoginOverlay();
     </ul>
 </nav>
 
-<nav class="mobile-footer-nav" style="pointer-events: none;">
+<nav class="mobile-footer-nav">
     <button onclick="window.location.href='<?php echo $block->getBaseUrl(); ?>'" class="footer-nav-item home-footer-menu">
         <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.69531 35.9368V28.6641H7.79261V31.8246H11.4183V28.6641H12.5192V35.9368H11.4183V32.7656H7.79261V35.9368H6.69531Z" fill="#545456"/>
@@ -183,8 +183,6 @@ $viewModel->unsetShowLoginOverlay();
         <span class="nav-label"><?php if ($isCustomerLoggedIn) echo 'Account'; else echo 'Login'; ?></span>
     </button>
 </nav>
-
-</nav> <!-- mobile-footer-nav ends here -->
 
 <script>
 // Enable buttons 2 seconds after window.onload
