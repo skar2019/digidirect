@@ -40,7 +40,16 @@ class EmailTransportPlugin
             try {
                 $tracks = method_exists($shipment, 'getAllTracks') ? $shipment->getAllTracks() : [];
                 foreach ($tracks as $track) {
-                    $tracksHtml = $track->getTrackNumber() ?: '';
+                    if ($track->getCarrierCode() == 'standard' ||
+                        $track->getCarrierCode() == 'express' ||
+                        $track->getCarrierCode() == 'intlshippingnz' ||
+                        $track->getCarrierCode() == 'intlshipping') {
+                        $tracksHtml = $track->getTitle()." - <a href='https://auspost.com.au/mypost/track/details/".$track->getTrackNumber()."'>".$track->getTrackNumber()."</a>";
+                    } elseif ($track->getCarrierCode() == 'nextdayship') {
+                        $tracksHtml = $track->getTitle()." - <a href='https://www.gopeople.com.au/tracking/?code=".$track->getTrackNumber()."'>".$track->getTrackNumber()."</a>";
+                    } else {
+                        $tracksHtml = $track->getTitle()." - ".$track->getTrackNumber();
+                    }
                 }
             } catch (\Throwable $e) {
                 $this->logger->debug('Error building tracks_html: ' . $e->getMessage());
