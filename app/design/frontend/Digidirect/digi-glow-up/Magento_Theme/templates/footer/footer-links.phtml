@@ -185,11 +185,27 @@ $viewModel->unsetShowLoginOverlay();
 </nav>
 
 <script>
-// Enable buttons 2 seconds after window.onload
+// Enable buttons 2 seconds after window.onload and prevent queued clicks
 (function() {
     'use strict';
     
     console.log('🔒 Footer nav buttons are disabled by default via CSS');
+    
+    var clicksBlocked = true;
+    
+    // Block ALL clicks on footer nav items during page load
+    document.addEventListener('click', function(e) {
+        if (clicksBlocked) {
+            var target = e.target.closest('.footer-nav-item');
+            if (target) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                console.log('🚫 Click blocked during page load');
+                return false;
+            }
+        }
+    }, true); // Use capture phase to catch it early
     
     // Wait for window.onload (page fully loaded)
     window.addEventListener('load', function() {
@@ -230,6 +246,10 @@ $viewModel->unsetShowLoginOverlay();
             
             // Enable buttons by adding 'ready' class
             nav.classList.add('ready');
+            
+            // Allow clicks now
+            clicksBlocked = false;
+            
             console.log('🔓 Buttons enabled!');
             
         }, 2000); // 2 second delay
