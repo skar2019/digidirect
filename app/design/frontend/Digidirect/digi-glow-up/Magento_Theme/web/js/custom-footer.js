@@ -35,6 +35,9 @@ require(['jquery'], function($) {
         setupFooterCart();
         setupAccountPopup();
         setupModals();
+        
+        // ✅ NEW: Setup navigation handlers for Home and Account buttons
+        setupFooterNavigation();
 
         // Auto-open login overlay on account pages
         handleAutoLogin();
@@ -59,6 +62,25 @@ require(['jquery'], function($) {
             passive = false;
         }
         return passive;
+    }
+
+    // ✅ NEW: Handle Home and Account button navigation
+    function setupFooterNavigation() {
+        // Home button navigation
+        $('.home-footer-menu').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/';
+        });
+
+        // Account button navigation (only if not logged in)
+        $('.account-footer-menu').on('click', function(e) {
+            // If button has id="open-account-popup", the popup handler will handle it
+            // Otherwise, navigate to account page
+            if (!$(this).attr('id')) {
+                e.preventDefault();
+                window.location.href = '/customer/account';
+            }
+        });
     }
 
     function setupEventDelegation() {

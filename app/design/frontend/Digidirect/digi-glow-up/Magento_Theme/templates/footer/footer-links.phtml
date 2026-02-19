@@ -98,7 +98,7 @@ $viewModel->unsetShowLoginOverlay();
 </nav>
 
 <nav class="mobile-footer-nav">
-    <button onclick="window.location.href='<?php echo $block->getBaseUrl(); ?>'" class="footer-nav-item home-footer-menu">
+    <button class="footer-nav-item home-footer-menu">
         <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.69531 35.9368V28.6641H7.79261V31.8246H11.4183V28.6641H12.5192V35.9368H11.4183V32.7656H7.79261V35.9368H6.69531Z" fill="#545456"/>
             <path d="M16.3295 36.0469C15.8182 36.0469 15.3719 35.9297 14.9908 35.6953C14.6096 35.4609 14.3137 35.133 14.103 34.7116C13.8923 34.2902 13.7869 33.7978 13.7869 33.2344C13.7869 32.6686 13.8923 32.1738 14.103 31.75C14.3137 31.3262 14.6096 30.9972 14.9908 30.7628C15.3719 30.5284 15.8182 30.4112 16.3295 30.4112C16.8409 30.4112 17.2872 30.5284 17.6683 30.7628C18.0495 30.9972 18.3454 31.3262 18.5561 31.75C18.7668 32.1738 18.8722 32.6686 18.8722 33.2344C18.8722 33.7978 18.7668 34.2902 18.5561 34.7116C18.3454 35.133 18.0495 35.4609 17.6683 35.6953C17.2872 35.9297 16.8409 36.0469 16.3295 36.0469ZM16.3331 35.1555C16.6645 35.1555 16.9392 35.0679 17.157 34.8928C17.3748 34.7176 17.5357 34.4844 17.6399 34.1932C17.7464 33.902 17.7997 33.5812 17.7997 33.2308C17.7997 32.8828 17.7464 32.5632 17.6399 32.272C17.5357 31.9785 17.3748 31.7429 17.157 31.5653C16.9392 31.3878 16.6645 31.299 16.3331 31.299C15.9993 31.299 15.7223 31.3878 15.5021 31.5653C15.2843 31.7429 15.1222 31.9785 15.0156 32.272C14.9115 32.5632 14.8594 32.8828 14.8594 33.2308C14.8594 33.5812 14.9115 33.902 15.0156 34.1932C15.1222 34.4844 15.2843 34.7176 15.5021 34.8928C15.7223 35.0679 15.9993 35.1555 16.3331 35.1555Z" fill="#545456"/>
@@ -172,7 +172,7 @@ $viewModel->unsetShowLoginOverlay();
         <span class="nav-label">Cart</span>
     </button>
 
-    <button class="footer-nav-item account-footer-menu" <?php if ($isCustomerLoggedIn) echo 'id="open-account-popup"'; else echo 'onclick="window.location.href=\'' . $block->getUrl('customer/account') . '\'"'; ?>>
+    <button class="footer-nav-item account-footer-menu" <?php if ($isCustomerLoggedIn) echo 'id="open-account-popup"'; ?>>
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4.87083 8.99167C7.14671 8.99167 8.99167 7.14671 8.99167 4.87083C8.99167 2.59496 7.14671 0.75 4.87083 0.75C2.59496 0.75 0.75 2.59496 0.75 4.87083C0.75 7.14671 2.59496 8.99167 4.87083 8.99167Z" stroke="#545456" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
