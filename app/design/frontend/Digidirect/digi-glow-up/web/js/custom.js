@@ -256,17 +256,6 @@ define([
             }
         }
 
-        if ($container.length && $target.length && canShow) {
-            setTimeout(() => {
-                // Final check — if news popup appeared in the meantime, abort
-                if (document.getElementById("newspopup_up_bg_13")) return;
-
-                $target.addClass("active");
-                // Record time widget was shown
-                localStorage.setItem("welcomeBackLastShown", Date.now());
-            }, 1000);
-        }
-
         // Watch for news popup being injected into the DOM at any point
         const newsPopupObserver = new MutationObserver(() => {
             if (document.getElementById("newspopup_up_bg_13")) {
@@ -278,6 +267,16 @@ define([
             childList: true,
             subtree: true,
         });
+
+        if ($container.length && $target.length && canShow) {
+            setTimeout(() => {
+                // Only show if news popup is not present
+                if (document.getElementById("newspopup_up_bg_13")) return;
+
+                $target.addClass("active");
+                localStorage.setItem("welcomeBackLastShown", Date.now());
+            }, 1000);
+        }
 
         // Observe dynamic class changes on #pa-welcome-back
         const target = document.querySelector("#pa-welcome-back");
