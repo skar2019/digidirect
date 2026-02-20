@@ -4,6 +4,37 @@
 */
 @import "_digi_print_common.less";
 
+.message-container {
+    position: relative;
+
+    .message-close-btn {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+        color: inherit;
+        opacity: 0.7;
+        padding: 0 5px;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        span {
+            display: block;
+        }
+    }
+
+    .message {
+        padding-right: 40px; // make room for the close button
+    }
+}
+
 #pa-welcome-back {
     visibility: hidden;
 }
