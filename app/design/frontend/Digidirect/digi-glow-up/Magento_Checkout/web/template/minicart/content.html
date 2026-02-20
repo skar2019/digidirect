@@ -14,7 +14,14 @@
                            attr: { title: $t('Items in Cart') }"
             >
             </span>
-            <span class="text" translate="'Item added to your Cart'"></span>
+            <!-- Singular -->
+            <if args="getCartParam('summary_count') == 1">
+                <span class="text" translate="'item in your cart'"></span>
+            </if>
+            <!-- Plural -->
+            <if args="getCartParam('summary_count') > 1">
+                <span class="text" translate="'items in your cart'"></span>
+            </if>
         </strong>
     </div>
 </if>
@@ -99,7 +106,7 @@
             ></p>
             <div class="actions">
                 <div class="secondary">
-                    <a
+                    
                         class="action viewcart"
                         data-bind="attr: {href: shoppingCartUrl}"
                     >
