@@ -238,27 +238,48 @@ define([
         // Check if first-time visitor
         const isFirstVisit = !localStorage.getItem("hasVisited");
 
-        // Check if newsletter popup is present in DOM
-        const isNewsPopupPresent = !!document.getElementById("newspopup_up_bg_13");
-
-        // Show widget only for returning visitors, when newsletter popup is absent
         const canShow =
             !isFirstVisit &&
-            !isNewsPopupPresent &&
             (!lastShown || now - parseInt(lastShown, 10) > SIX_HOURS);
+
+        // Mark visitor as having visited (for future visits)
+        localStorage.setItem("hasVisited", "true");
+
+        function hideWelcomeBack() {
+            $target.removeClass("active");
+            $("body").removeClass("pa-welcome-active");
+            if (
+                !$(".aa-Panel").length &&
+                !$(".ruby-menu-mega-blog:hover").length
+            ) {
+                $("body").removeClass("blur-active");
+            }
+        }
 
         if ($container.length && $target.length && canShow) {
             setTimeout(() => {
+                // Final check — if news popup appeared in the meantime, abort
+                if (document.getElementById("newspopup_up_bg_13")) return;
+
                 $target.addClass("active");
                 // Record time widget was shown
                 localStorage.setItem("welcomeBackLastShown", Date.now());
             }, 1000);
         }
 
-        // Mark visitor as having visited (for future visits)
-        localStorage.setItem("hasVisited", "true");
+        // Watch for news popup being injected into the DOM at any point
+        const newsPopupObserver = new MutationObserver(() => {
+            if (document.getElementById("newspopup_up_bg_13")) {
+                hideWelcomeBack();
+                newsPopupObserver.disconnect();
+            }
+        });
+        newsPopupObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
 
-        // Observe dynamic class changes
+        // Observe dynamic class changes on #pa-welcome-back
         const target = document.querySelector("#pa-welcome-back");
         if (target) {
             new MutationObserver(toggleOverlay).observe(target, {
