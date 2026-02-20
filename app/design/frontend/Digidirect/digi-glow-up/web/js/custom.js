@@ -224,9 +224,9 @@ define([
         initBlurObserver();
 
         /* ========================
-✨ Sync #pa-welcome-back with Body Blur
-    Show only to returning visitors, once every 6 hours
-    ======================== */
+        ✨ Sync #pa-welcome-back with Body Blur
+            Show only to returning visitors, once every 6 hours
+            ======================== */
         const $container = $("#welcome-back-widget-desktop");
         const $target = $("#pa-welcome-back");
 
@@ -238,15 +238,18 @@ define([
         // Check if first-time visitor
         const isFirstVisit = !localStorage.getItem("hasVisited");
 
-        // Show widget only for returning visitors
+        // Check if newsletter popup is present in DOM
+        const isNewsPopupPresent = !!document.getElementById("newspopup_up_bg_13");
+
+        // Show widget only for returning visitors, when newsletter popup is absent
         const canShow =
             !isFirstVisit &&
+            !isNewsPopupPresent &&
             (!lastShown || now - parseInt(lastShown, 10) > SIX_HOURS);
 
         if ($container.length && $target.length && canShow) {
             setTimeout(() => {
                 $target.addClass("active");
-
                 // Record time widget was shown
                 localStorage.setItem("welcomeBackLastShown", Date.now());
             }, 1000);
@@ -267,12 +270,10 @@ define([
         function toggleWelcomeBackBlur() {
             const $target = $("#pa-welcome-back");
             const isActive = $target.hasClass("active");
-
             if (isActive) {
                 $("body").addClass("blur-active pa-welcome-active");
             } else {
                 $("body").removeClass("pa-welcome-active");
-
                 // Only remove blur if no other blur source is active
                 if (
                     !$(".aa-Panel").length &&
@@ -282,7 +283,6 @@ define([
                     $("body").removeClass("blur-active");
                 }
             }
-
             if (typeof positionBlurOverlay === "function")
                 positionBlurOverlay();
         }
