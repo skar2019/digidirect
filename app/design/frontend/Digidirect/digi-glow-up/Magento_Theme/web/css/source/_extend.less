@@ -4,6 +4,13 @@
 */
 @import "_digi_print_common.less";
 
+#pa-welcome-back {
+    visibility: hidden;
+}
+#pa-welcome-back.active {
+    visibility: visible;
+}
+
 /* Hide footer nav by default */
 .mobile-footer-nav {
     display: none;
@@ -2861,6 +2868,10 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     
     .ais-Hits-item .s19-rental-price-target:not(:has(p)) {
         margin-top: -12px !important;;
+    }
+    
+    .mobile-footer-nav {
+        display: none !important;
     }
 }
 
