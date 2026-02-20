@@ -308,6 +308,7 @@ define([
                 positionBlurOverlay();
         }
 
+
         // Observe #pa-welcome-back for .active changes
         //    if (window.MutationObserver) {
         //      const paEl = document.getElementById('pa-welcome-back')
