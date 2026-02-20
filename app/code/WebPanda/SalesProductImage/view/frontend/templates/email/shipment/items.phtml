@@ -70,38 +70,5 @@ $helper = $this->helper(\WebPanda\SalesProductImage\Helper\Data::class);
                 </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tfoot class="order-totals shipment-email" style="border-top: none;">
-        <?php
-        $orderTotalsHtml = $this->getChildHtml('order_totals');
-        if ($orderTotalsHtml) {
-            echo $orderTotalsHtml;
-        } else {
-            $subtotal = $_order->getSubtotal();
-            $shipping = $_order->getShippingAmount();
-            $tax = $_order->getTaxAmount();
-            $discount = abs((float)$_order->getDiscountAmount());
-            $grand = $_order->getGrandTotal();
-            ?>
-            <tr>
-                <td colspan="4">
-                    <table class="totals-table" cellspacing="0" cellpadding="0" border="0" style="float:right; width:320px;">
-                        <?php if ($subtotal !== null): ?>
-                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Subtotal')) ?></td><td class="totals-value"><?= $_order->formatPrice($subtotal) ?></td></tr>
-                        <?php endif; ?>
-                        <?php if ($shipping && $shipping > 0): ?>
-                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Shipping & Handling')) ?></td><td class="totals-value"><?= $_order->formatPrice($shipping) ?></td></tr>
-                        <?php endif; ?>
-                        <?php if ($tax && $tax > 0): ?>
-                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Tax')) ?></td><td class="totals-value"><?= $_order->formatPrice($tax) ?></td></tr>
-                        <?php endif; ?>
-                        <?php if ($discount && $discount > 0): ?>
-                            <tr><td class="totals-label"><?= $this->escapeHtml(__('Discount')) ?></td><td class="totals-value">-<?= $_order->formatPrice($discount) ?></td></tr>
-                        <?php endif; ?>
-                        <tr style="border-top:1px solid #e6e6e6;"><td class="totals-label" style="padding-top:8px; font-weight: bold;"><?= $this->escapeHtml(__('Grand Total')) ?></td><td class="totals-value" style="padding-top:8px;"><?= $_order->formatPrice($grand) ?></td></tr>
-                    </table>
-                </td>
-            </tr>
-        <?php } ?>
-        </tfoot>
     </table>
 <?php endif; ?>
