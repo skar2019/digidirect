@@ -28,26 +28,48 @@ class Product extends AbstractHelper
 
     // Category name mappings
     const CATEGORY_MAPPINGS = [
-        'Cameras' => 'Digital Cameras',
-        'Gaming' => 'Gaming Products',
-        'Fujifilm Instant Cameras' => 'Fujifilm Instant Instax Cameras',
-        'Cables & Adaptors' => 'Computer Cables & Adaptors',
-        'Cases Covers & Bags' => 'Laptop Cases, Covers & Bags',
-        'Chargers' => 'Laptop Chargers',
-        'Hubs & Docks' => 'Computer Hubs & Docks',
-        'Webcams' => 'Computer Webcams',
-        'Console Accessories' => 'Console Gaming Accessories',
-        'Consoles' => 'Gaming Consoles',
-        'Business' => 'Business Laptops',
-        'Home & Student' => 'Home & Student Laptops',
-        'Monitor Accessories' => 'Computer Monitor Accessories',
-        'Monitor Mounts & Stands' => 'Monitor Arms, Mounts & Stands',
-        'Monitors' => 'Computer Monitors',
-        'Ink' => 'Printer Ink',
-        'Paper' => 'Photo Printing Papers',
-        'Shredders' => 'Paper Shredders',
-        'Light Meters' => 'Light Meters for Cameras'
+        'Cameras' => 'Cameras',
+        'Gaming' => 'Products',
+        'Fujifilm Instant Cameras' => 'Fujifilm Instant Cameras',
+        'Cables & Adaptors' => 'Cables & Adaptors',
+        'Cases Covers & Bags' => 'Cases, Covers & Bags',
+        'Chargers' => 'Chargers',
+        'Hubs & Docks' => 'Hubs & Docks',
+        'Webcams' => 'Webcams',
+        'Console Accessories' => 'Console Accessories',
+        'Consoles' => 'Consoles',
+        'Business' => 'Business',
+        'Home & Student' => 'Home & Student',
+        'Monitor Accessories' => 'Monitor Accessories',
+        'Monitor Mounts & Stands' => 'Monitor Mounts & Stands',
+        'Monitors' => 'Monitors',
+        'Ink' => 'Ink',
+        'Paper' => 'Papers',
+        'Shredders' => 'Shredders',
+        'Light Meters' => 'Light Meters'
     ];
+
+//    const CATEGORY_MAPPINGS = [
+//        'Cameras' => 'Digital Cameras',
+//        'Gaming' => 'Gaming Products',
+//        'Fujifilm Instant Cameras' => 'Fujifilm Instant Instax Cameras',
+//        'Cables & Adaptors' => 'Computer Cables & Adaptors',
+//        'Cases Covers & Bags' => 'Laptop Cases, Covers & Bags',
+//        'Chargers' => 'Laptop Chargers',
+//        'Hubs & Docks' => 'Computer Hubs & Docks',
+//        'Webcams' => 'Computer Webcams',
+//        'Console Accessories' => 'Console Gaming Accessories',
+//        'Consoles' => 'Gaming Consoles',
+//        'Business' => 'Business Laptops',
+//        'Home & Student' => 'Home & Student Laptops',
+//        'Monitor Accessories' => 'Computer Monitor Accessories',
+//        'Monitor Mounts & Stands' => 'Monitor Arms, Mounts & Stands',
+//        'Monitors' => 'Computer Monitors',
+//        'Ink' => 'Printer Ink',
+//        'Paper' => 'Photo Printing Papers',
+//        'Shredders' => 'Paper Shredders',
+//        'Light Meters' => 'Light Meters for Cameras'
+//    ];
 
     // Brand name mappings
     const BRAND_MAPPINGS = [

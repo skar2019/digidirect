@@ -1,0 +1,37 @@
+<div data-bind="attr: {
+        id: 'messages',
+        class: 'page messages'
+    }">
+    <div class="messages">
+        <!-- ko foreach: { data: cookieMessages, as: 'message' } -->
+        <div class="message-container" style="position: relative;">
+            <div data-bind="attr: {
+                class: 'message message-' + message.type + ' ' + message.type
+            }">
+                <div data-bind="html: $parent.prepareMessageForHtml(message.text)"></div>
+            </div>
+            <button class="message-close-btn"
+                    data-bind="click: function(){ $parent.removeCookieMessage($index()); }"
+                    type="button"
+                    title="Close">
+                <span>&times;</span>
+            </button>
+        </div>
+        <!-- /ko -->
+        <!-- ko foreach: { data: messages, as: 'message' } -->
+        <div class="message-container" style="position: relative;">
+            <div data-bind="attr: {
+                class: 'message message-' + message.type + ' ' + message.type
+            }">
+                <div data-bind="html: $parent.prepareMessageForHtml(message.text)"></div>
+            </div>
+            <button class="message-close-btn"
+                    data-bind="click: function(){ $parent.removeMessage($index()); }"
+                    type="button"
+                    title="Close">
+                <span>&times;</span>
+            </button>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>

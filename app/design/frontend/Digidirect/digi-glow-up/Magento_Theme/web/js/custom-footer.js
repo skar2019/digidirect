@@ -26,18 +26,18 @@ require(['jquery'], function($) {
             );
         }
 
-        // Active state management
-        initializeActiveStates();
-
         // Event delegation for better performance
         setupEventDelegation();
 
         // Individual handlers
         setupFooterMenuIcon();
-        setupFooterSearchWithInput(); // NEW FUNCTION
+        setupFooterSearchWithInput();
         setupFooterCart();
         setupAccountPopup();
         setupModals();
+        
+        // ✅ NEW: Setup navigation handlers for Home and Account buttons
+        setupFooterNavigation();
 
         // Auto-open login overlay on account pages
         handleAutoLogin();
@@ -64,16 +64,23 @@ require(['jquery'], function($) {
         return passive;
     }
 
-    function initializeActiveStates() {
-        const path = window.location.pathname;
+    // ✅ NEW: Handle Home and Account button navigation
+    function setupFooterNavigation() {
+        // Home button navigation
+        $('.home-footer-menu').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/';
+        });
 
-        if (path === '/') {
-            document.querySelector('.home-footer-menu')?.classList.add('active');
-        }
-
-        if (path === '/customer/account/index/' || path === '/customer/account/index/') {
-            document.querySelector('.account-footer-menu')?.classList.add('active');
-        }
+        // Account button navigation (only if not logged in)
+        $('.account-footer-menu').on('click', function(e) {
+            // If button has id="open-account-popup", the popup handler will handle it
+            // Otherwise, navigate to account page
+            if (!$(this).attr('id')) {
+                e.preventDefault();
+                window.location.href = '/customer/account';
+            }
+        });
     }
 
     function setupEventDelegation() {
@@ -87,8 +94,16 @@ require(['jquery'], function($) {
             });
         });
 
-        // Footer nav item handler
-        $footerNavItems.on('click', function() {
+        // Footer nav item handler - ONLY run if nav is ready
+        $footerNavItems.on('click', function(e) {
+            const $nav = $('.mobile-footer-nav');
+
+            // Check if nav has 'ready' class - if not, don't process the click
+            if (!$nav.hasClass('ready')) {
+                console.log('🚫 Click ignored - nav not ready yet');
+                return;
+            }
+
             const $this = $(this);
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
@@ -116,7 +131,6 @@ require(['jquery'], function($) {
     }
 
     /**
-     * NEW FOOTER SEARCH WITH INPUT
      * Handles the footer search input to trigger keyboard on mobile
      */
     function setupFooterSearchWithInput() {
@@ -129,16 +143,13 @@ require(['jquery'], function($) {
 
         console.log('✅ Footer search input initialized');
 
-        // When the input gets focus (user taps the button area)
         $footerSearchInput.on('focus', function() {
             console.log('✅ Footer search input focused!');
             
             const $input = $(this);
             
-            // Remove readonly so keyboard appears
             $input.removeAttr('readonly');
             
-            // Close other menus
             $('.mobile-menu-close, .mobile-services-close, .minicart-close').trigger('click');
             
             if (window.location.href.indexOf('/customer/') === -1) {
@@ -146,16 +157,13 @@ require(['jquery'], function($) {
                 $('body').css('overflow', '');
             }
             
-            // Open Algolia autocomplete
             if (window.algoliaAutocompleteInstance && 
                 typeof window.algoliaAutocompleteInstance.setIsOpen === 'function') {
                 window.algoliaAutocompleteInstance.setIsOpen(true);
             }
             
-            // Scroll to top
             window.scrollTo(0, 0);
             
-            // Wait for Algolia to render, then transfer focus
             setTimeout(() => {
                 const algoliaInput = document.querySelector('.aa-Input');
                 if (algoliaInput) {
@@ -165,7 +173,6 @@ require(['jquery'], function($) {
                     algoliaInput.removeAttribute('disabled');
                     algoliaInput.focus();
                     
-                    // Blur our fake input and make it readonly again
                     $input.blur();
                     $input.attr('readonly', 'readonly');
                     
@@ -176,15 +183,12 @@ require(['jquery'], function($) {
             }, 150);
         });
         
-        // Prevent typing into the fake input
         $footerSearchInput.on('input', function() {
             $(this).val('');
         });
         
-        // Prevent default button click behavior
         $('.footer-search').on('click', function(e) {
             e.preventDefault();
-            // Let the input's focus event handle everything
         });
     }
 
@@ -310,7 +314,6 @@ require(['jquery'], function($) {
             if (input) {
                 input.blur();
 
-                // Mobile keyboard dismissal
                 if (/iPhone|iPad|iPod|Android/.test(navigator.userAgent)) {
                     input.setAttribute('readonly', 'readonly');
                     setTimeout(() => {

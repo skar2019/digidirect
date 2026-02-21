@@ -11,16 +11,12 @@ use Magento\Framework\Exception\LocalizedException;
 class ProductListing extends Action implements HttpPostActionInterface {
     
     protected $_resultJsonFactory;
-
     protected $logger;
-    
     protected $variable;
-    
     protected $curl;
-
     protected $jsonSerializer;
-    
     protected $_registry;
+    protected $cart;
     
     public function __construct(
         Context $context,
@@ -29,7 +25,8 @@ class ProductListing extends Action implements HttpPostActionInterface {
         \Magento\Variable\Model\Variable $variable,
         \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
-        \Magento\Framework\Registry $registry
+        \Magento\Framework\Registry $registry,
+        \Magento\Checkout\Model\Cart $cart
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
@@ -37,9 +34,9 @@ class ProductListing extends Action implements HttpPostActionInterface {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
         $this->_registry = $registry;
+        $this->cart = $cart;
         parent::__construct($context);
     }
-
     /**
     * @return ResultInterface
     * @throws LocalizedException
@@ -53,21 +50,22 @@ class ProductListing extends Action implements HttpPostActionInterface {
         $variableData = $this->variable->loadByCode('pa_bearer_token');
         $bearerToken = $variableData->getValue('text');
         
-        if ($customerId) {
-            $customerIdParam = "&customerId=".$customerId;
-        } else {
-            $customerIdParam = "";
+        $customerIdParam = $customerId ? "&customerId=" . $customerId : "";
+
+        // Get SKUs in cart
+        $items = $this->cart->getQuote()->getAllVisibleItems();
+        $skuParams = '';
+        foreach ($items as $index => $item) {
+            $skuParams .= '&productsInCart[' . $index . ']=' . urlencode($item->getProduct()->getId());
         }
 
-        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au".$urlPath."&expandProductDetails=true".$customerIdParam;
-        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);ß
+        $getRecommendationsUrl = "https://api-recs.particularaudience.com/3.0/recommendations?currentUrl=https://www.digidirect.com.au" . $urlPath . "&expandProductDetails=true" . $customerIdParam . $skuParams;
+        //$this->logger->info("getRecommendationsUrl: " . $getRecommendationsUrl);
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Authorization", "Bearer " . $bearerToken);
         $this->curl->get($getRecommendationsUrl);
-
         $getRecommendationsResult = $this->curl->getBody();
         $getRecommendationsResultJson = $this->jsonSerializer->unserialize($getRecommendationsResult);
-
         $result->setData($getRecommendationsResultJson);
         return $result;
     }
