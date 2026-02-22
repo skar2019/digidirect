@@ -95,7 +95,6 @@
                                                             <h3 style="margin:0 0 5px; font-size:16px; font-weight:700; color: #666;">Billing Address</h3>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{trans "%billingAddress,"  billingAddress=$billingAddress|raw}}</p>
                                                             <p style="margin:0; font-size:14px; line-height:20px;">{{var order.getBillingAddress().format('html') |raw}}</p>
-                                                            <p> T: {{var order.getBillingAddress().getTelephone()}}</p>
                                                         </td>
                                                     </tr>
                                                 </table>
