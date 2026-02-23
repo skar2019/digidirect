@@ -3,7 +3,23 @@
     Author     : rondel
 */
 @import "_digi_print_common.less";
-@import "_blackfriday_mobile.less";
+
+#pa-welcome-back {
+    visibility: hidden;
+}
+#pa-welcome-back.active {
+    visibility: visible;
+}
+
+/* Hide footer nav by default */
+.mobile-footer-nav {
+    display: none;
+}
+
+/* Show footer nav when ready */
+.mobile-footer-nav.ready {
+    display: flex;
+}
 
 //PA Widget Product Tile Fix
 .price-digirent-container {
@@ -19,7 +35,6 @@
     height: 0 !important;
 }
 
-//Redeploy
 //Hide Discount
 
 .price-container:not(.price-final_price) {
@@ -77,7 +92,11 @@
 }
 
 .pa-digidirect-product-widget .s19-rental-price-target {
-    //top: 63px !important;
+    //top: 88px !important;
+}
+
+.discount-price-wrapper {
+    display: none !important;
 }
 
 //End
@@ -542,7 +561,7 @@ a.action.towishlist {
     position: relative;
     z-index: 1;
     padding: 0 !important;
-    opacity: 20%;
+    opacity: 30%;
 }
 
 .slick-dots li button {
@@ -630,7 +649,7 @@ a.action.towishlist {
     position: unset;
     right: 0;
     //top: 57px;
-    padding-top: 10px;
+    //padding-top: 10px;
     margin-right: 0;
     margin-left: auto;
     padding-top: 0;
@@ -1315,7 +1334,7 @@ body.blur-active .global-blur-overlay {
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target {
-    top: 98px !important;
+    top: 68px !important;
 }
 
 .cms-page-view .ais-Hits-item .s19-rental-price-target p {
@@ -1527,7 +1546,7 @@ body.blur-active .global-blur-overlay {
     padding: 3px 8px;
     line-height: 21px;
     font-weight: 400;
-    font-size: 9px;
+    font-size: 10px;
     width: -webkit-fill-available;
 }
 
@@ -1557,7 +1576,7 @@ body.blur-active .global-blur-overlay {
 .product-item .special-price .price.black-friday {
     background: #fef011;
     border-radius: 30px;
-    width: max-content !important;
+    width: max-content;
     padding: 3px 10px;
     margin-top: 5px;
     color: #fe4c25;
@@ -1628,7 +1647,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     background: initial;
 }
 
-//Boxing Day
+//Black Friday
 
 .product-item .special-price .price-wrapper {
     display: flex;
@@ -1947,7 +1966,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
 @media screen and (min-width: 1512px) {
     .pa-upsell .pa-digidirect-product-widget .s19-rental-price-target {
         padding-top: 0;
-        //top: 110px !important;
+        //top: 106px !important;
     }
 }
 
@@ -2238,7 +2257,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .ais-Hits-item .s19-rental-price-target {
-        top: 98px !important;
+        top: 74px !important;
     }
 
     .ais-Hits-item .s19-rental-price-target > div > div:first-child {
@@ -2343,7 +2362,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         font-size: 12px;
         line-height: normal;
         font-weight: 100;
-        height: 38px;
+        height: 34px;
     }
 
     .catalog-category-view
@@ -2363,7 +2382,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .pa-digidirect-product-widget .s19-rental-price-target {
-        //top: 48px;
+        //top: 95px !important;
     }
 
     .catalog-category-view
@@ -2472,7 +2491,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         margin-top: 11px;
         height: 100vh;
         z-index: 9 !important;
-        top: 149px !important;
+        //top: 149px !important;
     }
 
     .aa-Source[data-autocomplete-source-id="querySuggestionsPlugin"] {
@@ -2692,7 +2711,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .digidirect-custom-widget .ais-Hits-item .s19-rental-price-target {
-        top: 86px !important;
+        top: 53px !important;
     }
 
     .digidirect-custom-widget .ais-Hits-item .s19-rental-price-target p {
@@ -2701,7 +2720,7 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     }
 
     .pa-welcome-back .black-friday .price-wrapper {
-        height: 50px !important;
+        height: 43px !important;
     }
 
     .pa-welcome-back .black-friday .s19-rental-price-target {
@@ -2726,21 +2745,27 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
         strong.product-item-name {
         height: 34px;
     }
-    .pa-welcome-back
-        .pa-digidirect-product-widget-container
-        .product-item
-        .special-price
-        .price {
-        font-size: 17px !important;
-    }
 
-    .pa-digidirect-product-widget.welcome-back-widget
-        .s19-rental-price-target
-        p {
-        font-size: 8px !important;
-    }
     .pa-digidirect-product-widget.welcome-back-widget strong.product-item-name {
         height: 34px;
+    }
+
+    .pa-digidirect-product-widget.welcome-back-widget .s19-rental-price-target {
+        top: 66px !important;
+    }
+
+    .cms-home .pa-digidirect-product-widget .s19-rental-price-target {
+        //top: 84px !important;
+    }
+
+    .cms-home
+        .pa-digidirect-product-widget.welcome-back-widget
+        .s19-rental-price-target {
+        top: 73px !important;
+    }
+
+    .list-view .result-wrapper .result-content .result-sub-content .price {
+        margin-top: 0 !important;
     }
 
     .footer-black-gradient-div {
@@ -2780,6 +2805,38 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     .upsell-widget .black-friday .s19-rental-price-target {
         top: 78px !important;
     }
+
+    .pa-welcome-back
+        .pa-digidirect-product-widget-container
+        .product-item
+        .special-price
+        .price {
+        font-size: 17px !important;
+    }
+
+    .pa-digidirect-product-widget.welcome-back-widget .s19-rental-price-target {
+        top: 78px !important;
+    }
+
+    .pa-digidirect-product-widget.welcome-back-widget
+        .s19-rental-price-target
+        p {
+        font-size: 8px !important;
+    }
+
+    .pa-digidirect-product-widget.upsell-widget .s19-rental-price-target {
+        top: 79px !important;
+    }
+
+    .pa-digidirect-product-widget.pa-minicart-widget .s19-rental-price-target {
+        top: 93px !important;
+    }
+}
+
+@media screen and (min-width: 1512px) {
+    .pa-digidirect-product-widget.pa-minicart-widget .s19-rental-price-target {
+        top: 93px !important;
+    }
 }
 
 @media screen and (max-width: 440px) {
@@ -2811,6 +2868,10 @@ li.ruby-menu-mega-blog.just-link.black-friday:hover a {
     
     .ais-Hits-item .s19-rental-price-target:not(:has(p)) {
         margin-top: -12px !important;;
+    }
+    
+    .mobile-footer-nav {
+        display: none !important;
     }
 }
 
@@ -3183,21 +3244,6 @@ select:not([disabled]):focus {
 .desktop-digisevices-widget {
     display: block;
 }
-
-@media screen and (max-width: 768px) {
-    .block-extendedrule.-pdp {
-        .link {
-            .description {
-                img {
-                    width: 100% !important;
-                    border-radius: 25px !important;
-                }
-            }
-
-        }
-    }
-}
-
 /*@media screen and (max-width: 768px) {
     .glow-up-main-hero-banner div.pagebuilder-slide-wrapper {
         height: 30dvh !important;
@@ -3362,7 +3408,7 @@ select:not([disabled]):focus {
     ul.ruby-menu
         > li.ruby-menu-mega-blog.products
         > div.facelift-dropdown-container {
-        height: 50vh !important;
+        height: 48vh !important;
         padding-bottom: 20px;
     }
     ul.ruby-menu
@@ -3377,7 +3423,15 @@ select:not([disabled]):focus {
         width: 190px;
     }
 }
-@media screen and (min-width: 1024px) and (max-width: 1244px) {
+@media screen and (min-width: 1025px) and (max-width: 1244px) {
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li:hover
+        > a {
+        width: 246px;
+    }
     .megamenu-brands-container .megamenu-brands-image {
         display: none;
     }
@@ -3400,6 +3454,24 @@ select:not([disabled]):focus {
                 border-radius: 10px;
             }
         }
+    }
+
+    .pa-upsell.active {
+        width: 72% !important;
+    }
+    .pa-digidirect-product-widget {
+        .s19-rental-price-target {
+            padding-top: 5px !important;
+        }
+    }
+    .product-info-bottom.black-friday .discount-price-wrapper {
+        font-size: 8px !important;
+    }
+    .algolia-infos .ais-Stats {
+        margin-right: 8px;
+    }
+    .ais-Hits-item .s19-rental-price-target div {
+        font-size: 8px !important;
     }
 }
 @media screen and (min-width: 768px) and (max-width: 1200px) {
@@ -3669,6 +3741,9 @@ select:not([disabled]):focus {
             }
         }
     }
+    .ais-Hits-item .s19-rental-price-target div {
+        font-size: 8px !important;
+    }
 }
 
 .product-overlay.-bottom-left.-ready {
@@ -3814,6 +3889,19 @@ select:not([disabled]):focus {
     }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    ul.ruby-menu
+        > li.ruby-menu-mega-blog
+        > div
+        > ul.ruby-menu-mega-blog-nav
+        > li
+        > div {
+        left: 200px;
+    }
+    .plp-banner-widget {
+        .plp-row.pa-widget {
+            padding: 30px 15px !important;
+        }
+    }
     .cms-digi-print {
         .filmprocess-card {
             flex: 1 !important;
@@ -3839,19 +3927,6 @@ select:not([disabled]):focus {
     #refine-toggle svg {
         float: left;
         width: 18px;
-    }
-    ul.ruby-menu
-        > li.ruby-menu-mega-blog
-        > div
-        > ul.ruby-menu-mega-blog-nav
-        > li
-        > div {
-        left: 200px;
-    }
-    .plp-banner-widget {
-        .plp-row.pa-widget {
-            padding: 30px 15px !important;
-        }
     }
 }
 @media only screen and (min-width: 1024px) and (max-width: 1200px) {
@@ -3889,12 +3964,11 @@ select:not([disabled]):focus {
 @media screen and (max-width: 1024px) {
     //Brands Page
 
-    .brand-header {
-        padding: 20px;
-    }
-
     .brands-index-index #maincontent {
         margin: 0;
+    }
+    .brand-header {
+        padding: 20px;
     }
 
     .brands-index-index
@@ -3957,17 +4031,6 @@ select:not([disabled]):focus {
                 }
             }
 
-        }
-    }
-}
-@media screen and (max-width: 1180px) and (min-width: 1025px) {
-    .brand-filter-container {
-        #brand-search {
-            width: 136px;
-        }
-        .brand-alphabet {
-            gap: 4px;
-            margin-left: 9px;
         }
     }
 }

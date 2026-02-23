@@ -14,7 +14,6 @@ require(['jquery'], function($) {
         const $mobileAccountPopup = $('#mobile-account-popup');
         const $closeButtons = $('.mobile-menu-close, .mobile-services-close, .minicart-close, .close-popup');
         const $footerNavItems = $('.footer-nav-item');
-        const $mobileFooterNav = $('.mobile-footer-nav');
 
         // Passive event listeners for better scroll performance
         const passiveSupported = checkPassiveSupport();
@@ -27,13 +26,6 @@ require(['jquery'], function($) {
             );
         }
 
-        // ✅ CRITICAL FIX: Clear ALL active states first, then set based on URL
-        initializeActiveStates();
-        
-        // ✅ RE-ENABLE BUTTONS - Remove pointer-events: none from nav
-        $mobileFooterNav.css('pointer-events', '');
-        console.log('✅ Footer nav re-enabled');
-
         // Event delegation for better performance
         setupEventDelegation();
 
@@ -43,6 +35,9 @@ require(['jquery'], function($) {
         setupFooterCart();
         setupAccountPopup();
         setupModals();
+        
+        // ✅ NEW: Setup navigation handlers for Home and Account buttons
+        setupFooterNavigation();
 
         // Auto-open login overlay on account pages
         handleAutoLogin();
@@ -69,32 +64,23 @@ require(['jquery'], function($) {
         return passive;
     }
 
-    function initializeActiveStates() {
-        console.log('🎯 Initializing active states...');
-        
-        // ✅ STEP 1: ALWAYS clear ALL active states first
-        $('.footer-nav-item').removeClass('active');
-        
-        // ✅ STEP 2: Set the correct active state based on current URL
-        const path = window.location.pathname;
-        console.log('📍 Current path:', path);
+    // ✅ NEW: Handle Home and Account button navigation
+    function setupFooterNavigation() {
+        // Home button navigation
+        $('.home-footer-menu').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/';
+        });
 
-        if (path === '/') {
-            document.querySelector('.home-footer-menu')?.classList.add('active');
-            console.log('✅ Home button activated');
-            return;
-        }
-
-        if (path === '/customer/account' || 
-            path === '/customer/account/' || 
-            path === '/customer/account/index' || 
-            path === '/customer/account/index/') {
-            document.querySelector('.account-footer-menu')?.classList.add('active');
-            console.log('✅ Account button activated');
-            return;
-        }
-        
-        console.log('ℹ️ No button active for this path');
+        // Account button navigation (only if not logged in)
+        $('.account-footer-menu').on('click', function(e) {
+            // If button has id="open-account-popup", the popup handler will handle it
+            // Otherwise, navigate to account page
+            if (!$(this).attr('id')) {
+                e.preventDefault();
+                window.location.href = '/customer/account';
+            }
+        });
     }
 
     function setupEventDelegation() {
@@ -108,8 +94,16 @@ require(['jquery'], function($) {
             });
         });
 
-        // Footer nav item handler
-        $footerNavItems.on('click', function() {
+        // Footer nav item handler - ONLY run if nav is ready
+        $footerNavItems.on('click', function(e) {
+            const $nav = $('.mobile-footer-nav');
+
+            // Check if nav has 'ready' class - if not, don't process the click
+            if (!$nav.hasClass('ready')) {
+                console.log('🚫 Click ignored - nav not ready yet');
+                return;
+            }
+
             const $this = $(this);
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');

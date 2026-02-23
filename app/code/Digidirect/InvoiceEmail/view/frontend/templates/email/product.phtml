@@ -3,23 +3,23 @@
     <thead>
     <tr>
         <th class="item-image" style="width:70px;">&nbsp;</th>
-        <th class="item-info" style="vertical-align: middle; !important;">
+        <th class="item-info" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Product'); ?>
         </th>
-        <th class="item-qty" style="vertical-align: middle; !important;">
+        <th class="item-qty" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Qty'); ?>
         </th>
-        <th class="item-qty" style="vertical-align: middle; !important;">
+        <th class="item-qty" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Each'); ?>
         </th>
-        <th class="item-price" style="vertical-align: middle; !important;">
+        <th class="item-price" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Subtotal'); ?>
         </th>
-        <th class="item-price" style="vertical-align: middle; !important;">
+        <th class="item-price" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('GST'); ?>
             <?= /* @escapeNotVerified */  __('Amount'); ?>
         </th>
-        <th class="item-price" style="vertical-align: middle; !important;">
+        <th class="item-price" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Total'); ?>
             <?= /* @escapeNotVerified */  __('(incl. GST)'); ?>
         </th>
@@ -66,22 +66,22 @@
                      </a>
                  </p>
              </td>
-             <td class="item-qty">
+             <td class="item-qty" style="text-align: center;">
                  <span><?php echo floor($_item->getQtyOrdered()) ?></span>
              </td>
-             <td class="item-price">
+             <td class="item-price" style="text-align: center;">
                  <span><?php echo $currencySymbol.round($_item->getPrice(), 2) ?></span>
              </td>
-             <td class="item-price">
+             <td class="item-price" style="text-align: center;">
                  <span><?php echo $currencySymbol.round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
              </td>
             <?php
             $gst = round($_item->getPrice() * $gstRate/100, 2);
             ?>
-            <td class="item-price">
+            <td class="item-price" style="text-align: center;">
                 <span><?php echo $currencySymbol.round($gst, 2) ?></span>
             </td>
-            <td class="item-price">
+            <td class="item-price" style="text-align: center;">
                 <span><?php echo $currencySymbol.round($_item->getPrice()+$gst, 2) ?></span>
             </td>
              <?php

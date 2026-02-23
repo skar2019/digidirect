@@ -14,9 +14,20 @@ if ($isEnabled && $request->isPost()) {
 	$email = $post["email"] ?? '';
 	$phonenumber = $post["phonenumber"] ?? '';
 	$shuttercount = $post["shuttercount"] ?? '';
-	$rate = $post['rate'] ?? '';
+	$rateNumber = $post['rate'] ?? '';
 	$accessories = isset($post['accessories']) ? implode(", ", $post['accessories']) : '';
 	$miscellaneousaccessories = $post["miscellaneousaccessories"] ?? '';
+
+	// Map numeric rating to text label
+	$rateLabels = [
+		'1' => 'Inoperable',
+		'2' => 'Fair',
+		'3' => 'Good',
+		'4' => 'Very Good',
+		'5' => 'Excellent',
+		'6' => 'Perfect'
+	];
+	$rate = isset($rateLabels[$rateNumber]) ? $rateLabels[$rateNumber] : '';
 
 	$files = $request->getFiles('attachment');
 
@@ -207,8 +218,9 @@ if ($isEnabled && $request->isPost()) {
 				</div>
 
 				<div class="form-footer">
-					<p class="terms">Terms & Conditions and Privacy Policy</p>
-					<input class="submit-btn" type="submit" name="button" value="Submit" />
+					<p class="terms"><a style="text-decoration: underline;" title="Trade-In Terms of Use" href="/trade-terms">Trade-In Terms & Conditions</a></p>
+                    <p class="terms"><a style="text-decoration: underline;" title="digiDirect Terms of Use" href="/terms-and-conditions">digiDirect Terms & Conditions</a> and <a  style="text-decoration: underline;" title="Privacy Policy" href="/privacy">Privacy Policy</a></p>
+                    <input class="submit-btn" type="submit" name="button" value="Submit" />
 				</div>
 
 			</form>

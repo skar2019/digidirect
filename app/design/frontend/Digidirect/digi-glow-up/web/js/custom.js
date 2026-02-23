@@ -224,9 +224,9 @@ define([
         initBlurObserver();
 
         /* ========================
-✨ Sync #pa-welcome-back with Body Blur
-    Show only to returning visitors, once every 6 hours
-    ======================== */
+        ✨ Sync #pa-welcome-back with Body Blur
+            Show only to returning visitors, once every 6 hours
+            ======================== */
         const $container = $("#welcome-back-widget-desktop");
         const $target = $("#pa-welcome-back");
 
@@ -238,24 +238,66 @@ define([
         // Check if first-time visitor
         const isFirstVisit = !localStorage.getItem("hasVisited");
 
-        // Show widget only for returning visitors
         const canShow =
             !isFirstVisit &&
             (!lastShown || now - parseInt(lastShown, 10) > SIX_HOURS);
 
-        if ($container.length && $target.length && canShow) {
-            setTimeout(() => {
-                $target.addClass("active");
-
-                // Record time widget was shown
-                localStorage.setItem("welcomeBackLastShown", Date.now());
-            }, 1000);
-        }
-
         // Mark visitor as having visited (for future visits)
         localStorage.setItem("hasVisited", "true");
 
-        // Observe dynamic class changes
+        function isNewsPopupInDOM() {
+            return !!document.getElementById("newspopup_up_bg_13");
+        }
+
+        function hideWelcomeBack() {
+            $target.removeClass("active");
+            $("body").removeClass("pa-welcome-active");
+            if (
+                !$(".aa-Panel").length &&
+                !$(".ruby-menu-mega-blog:hover").length
+            ) {
+                $("body").removeClass("blur-active");
+            }
+        }
+
+        // Watch for news popup being injected into the DOM at any point
+        const newsPopupObserver = new MutationObserver(() => {
+            const newsPopup = document.getElementById("newspopup_up_bg_13");
+            if (newsPopup) {
+                // Hide it immediately on injection
+                newsPopup.style.visibility = "hidden";
+                setTimeout(() => {
+                    hideWelcomeBack();
+                    newsPopup.style.visibility = "visible";
+                }, 3000);
+                newsPopupObserver.disconnect();
+            }
+        });
+        newsPopupObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+
+        if ($container.length && $target.length && canShow) {
+            // Wait 1s then do a final DOM check before showing
+            setTimeout(() => {
+                if (isNewsPopupInDOM()) return;
+
+                $target.addClass("active");
+                localStorage.setItem("welcomeBackLastShown", Date.now());
+
+                // Keep polling for 5 seconds after showing, in case popup appears late
+                const pollInterval = setInterval(() => {
+                    if (isNewsPopupInDOM()) {
+                        hideWelcomeBack();
+                        clearInterval(pollInterval);
+                    }
+                }, 200);
+                setTimeout(() => clearInterval(pollInterval), 5000);
+            }, 1000);
+        }
+
+        // Observe dynamic class changes on #pa-welcome-back
         const target = document.querySelector("#pa-welcome-back");
         if (target) {
             new MutationObserver(toggleOverlay).observe(target, {
@@ -267,12 +309,10 @@ define([
         function toggleWelcomeBackBlur() {
             const $target = $("#pa-welcome-back");
             const isActive = $target.hasClass("active");
-
             if (isActive) {
                 $("body").addClass("blur-active pa-welcome-active");
             } else {
                 $("body").removeClass("pa-welcome-active");
-
                 // Only remove blur if no other blur source is active
                 if (
                     !$(".aa-Panel").length &&
@@ -282,10 +322,10 @@ define([
                     $("body").removeClass("blur-active");
                 }
             }
-
             if (typeof positionBlurOverlay === "function")
                 positionBlurOverlay();
         }
+
 
         // Observe #pa-welcome-back for .active changes
         //    if (window.MutationObserver) {
