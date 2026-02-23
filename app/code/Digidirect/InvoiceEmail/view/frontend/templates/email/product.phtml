@@ -14,6 +14,7 @@
         </th>
         <th class="item-price" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('Subtotal'); ?>
+            <?= /* @escapeNotVerified */  __('(ex. GST)'); ?>
         </th>
         <th class="item-price" style="vertical-align: middle; !important; text-align: center;">
             <?= /* @escapeNotVerified */  __('GST'); ?>
@@ -67,22 +68,24 @@
                  </p>
              </td>
              <td class="item-qty" style="text-align: center;">
-                 <span><?php echo floor($_item->getQtyOrdered()) ?></span>
+                 <span><?php echo floor($_item->getQtyOrdered()) ?></span> <!--qty-->
              </td>
              <td class="item-price" style="text-align: center;">
-                 <span><?php echo $currencySymbol.round($_item->getPrice(), 2) ?></span>
-             </td>
-             <td class="item-price" style="text-align: center;">
-                 <span><?php echo $currencySymbol.round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
+                 <span><?php echo $currencySymbol.round($_item->getPrice(), 2) ?></span> <!--each-->
              </td>
             <?php
-            $gst = round($_item->getPrice() * $gstRate/100, 2);
+                $itemPriceInclGst = $_item->getPrice();
+                $itemPriceExclGst = $itemPriceInclGst * 100 / (100 + $gstRate);
+                $gstPerItem = $itemPriceExclGst * $gstRate/100;
             ?>
             <td class="item-price" style="text-align: center;">
-                <span><?php echo $currencySymbol.round($gst, 2) ?></span>
+                <span><?php echo $currencySymbol.round($itemPriceExclGst * $_item->getQtyOrdered(), 2) ?></span> <!--subtotal excl GST-->
             </td>
             <td class="item-price" style="text-align: center;">
-                <span><?php echo $currencySymbol.round($_item->getPrice()+$gst, 2) ?></span>
+                <span><?php echo $currencySymbol.round($gstPerItem*$_item->getQtyOrdered(), 2) ?></span> <!--GST amount-->
+            </td>
+            <td class="item-price" style="text-align: center;">
+                <span><?php echo $currencySymbol.round($itemPriceExclGst*$_item->getQtyOrdered(), 2) ?></span><!--total incl GST-->
             </td>
              <?php
              $tAmount = $_item->getQtyOrdered() * $_item->getPrice();
