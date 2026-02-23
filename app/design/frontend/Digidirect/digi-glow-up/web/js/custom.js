@@ -245,6 +245,10 @@ define([
         // Mark visitor as having visited (for future visits)
         localStorage.setItem("hasVisited", "true");
 
+        function isNewsPopupInDOM() {
+            return !!document.getElementById("newspopup_up_bg_13");
+        }
+
         function hideWelcomeBack() {
             $target.removeClass("active");
             $("body").removeClass("pa-welcome-active");
@@ -258,8 +262,14 @@ define([
 
         // Watch for news popup being injected into the DOM at any point
         const newsPopupObserver = new MutationObserver(() => {
-            if (document.getElementById("newspopup_up_bg_13")) {
-                hideWelcomeBack();
+            const newsPopup = document.getElementById("newspopup_up_bg_13");
+            if (newsPopup) {
+                // Hide it immediately on injection
+                newsPopup.style.visibility = "hidden";
+                setTimeout(() => {
+                    hideWelcomeBack();
+                    newsPopup.style.visibility = "visible";
+                }, 3000);
                 newsPopupObserver.disconnect();
             }
         });
@@ -269,12 +279,21 @@ define([
         });
 
         if ($container.length && $target.length && canShow) {
+            // Wait 1s then do a final DOM check before showing
             setTimeout(() => {
-                // Only show if news popup is not present
-                if (document.getElementById("newspopup_up_bg_13")) return;
+                if (isNewsPopupInDOM()) return;
 
                 $target.addClass("active");
                 localStorage.setItem("welcomeBackLastShown", Date.now());
+
+                // Keep polling for 5 seconds after showing, in case popup appears late
+                const pollInterval = setInterval(() => {
+                    if (isNewsPopupInDOM()) {
+                        hideWelcomeBack();
+                        clearInterval(pollInterval);
+                    }
+                }, 200);
+                setTimeout(() => clearInterval(pollInterval), 5000);
             }, 1000);
         }
 
