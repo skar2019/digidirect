@@ -58,10 +58,10 @@ class PaymentHelperPlugin
             $html .= '<div><strong>Credit Card</strong></div>';
 
             if ($ccType) {
-                $html .= '<div><img src="https://mcstaging2.digidirect.com.au/media/.thumbswysiwyg/glow-up/emai-template/visa.png" alt="visa"> ' . $ccType . '</div>';
+                $html .= '<div><strong>Credit Card Type:</strong> ' . $ccType . '</div>';
             }
 
-            $html .= '<div> ****-' . $ccLast4 . '</div>';
+            $html .= '<div><strong>Credit Card Number:</strong> ****-' . $ccLast4 . '</div>';
         }
 
         // ===== Apple Pay =====
