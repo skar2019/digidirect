@@ -258,8 +258,14 @@ define([
 
         // Watch for news popup being injected into the DOM at any point
         const newsPopupObserver = new MutationObserver(() => {
-            if (document.getElementById("newspopup_up_bg_13")) {
-                hideWelcomeBack();
+            const newsPopup = document.getElementById("newspopup_up_bg_13");
+            if (newsPopup) {
+                // Hide it immediately on injection
+                newsPopup.style.visibility = "hidden";
+                setTimeout(() => {
+                    hideWelcomeBack();
+                    newsPopup.style.visibility = "visible";
+                }, 3000);
                 newsPopupObserver.disconnect();
             }
         });
