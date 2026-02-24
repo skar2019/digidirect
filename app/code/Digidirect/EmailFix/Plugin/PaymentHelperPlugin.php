@@ -60,7 +60,7 @@ class PaymentHelperPlugin
             ->getStore($storeId)
             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
 
-        $baseUrl = $mediaUrl . '.thumbswysiwyg/glow-up/emai-template/';
+        $baseUrl = $mediaUrl . '.wysiwyg/glow-up/emai-template/';
 
         $html = '';
 
@@ -94,6 +94,7 @@ class PaymentHelperPlugin
             }
 
             $html .= '
+            <div><strong>Credit Card</strong></div>
             <table cellpadding="0" cellspacing="0" style="margin-top:8px;">
                 <tr>
                     <td width="40" valign="middle">
