@@ -34,6 +34,7 @@
     </type>
     <type name="Magento\Quote\Model\Quote\Address">
         <plugin name="digidirect_collect_after_get_grouped_shipping" type="Digidirect\Collect\Model\Plugin\Quote\Address"/>
+        <plugin name="digidirect_collect_prevent_auto_shipping" type="Digidirect\Collect\Plugin\Quote\Address\PreventAutoShippingSelection" sortOrder="10"/>
     </type>
     <type name="Magento\Checkout\Model\Cart">
         <plugin name="digidirect_collect_add_to_cart" type="Digidirect\Collect\Model\Plugin\Checkout\Cart" />

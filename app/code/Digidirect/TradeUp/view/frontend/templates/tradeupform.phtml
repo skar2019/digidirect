@@ -55,7 +55,7 @@ if ($isEnabled && $request->isPost()) {
 		echo "<script>
             require(['jquery'], function($) {
                 $(document).ready(function() {
-                    var successMsg = '<div class=\"message-success success message\" style=\"margin-bottom: 20px;\"><div>Successfully Sent. Thank You!</div></div>';
+                    var successMsg = '<div class=\"message-success success message\" style=\"margin-bottom: 20px;\"><div>Your Trade-In request has been received and will be answered on the next business day. Thank you!</div></div>';
                     var target = $('main#maincontent');
                     if (target.length === 0) target = $('.page-main');
                     if (target.length === 0) target = $('body');
@@ -218,8 +218,9 @@ if ($isEnabled && $request->isPost()) {
 				</div>
 
 				<div class="form-footer">
-					<p class="terms"><a style="text-decoration: underline;" title="Terms of Use" href="/terms-and-conditions">Terms & Conditions</a> and <a  style="text-decoration: underline;" title="Privacy Policy" href="/privacy">Privacy Policy</a></p>
-					<input class="submit-btn" type="submit" name="button" value="Submit" />
+					<p class="terms"><a style="text-decoration: underline;" title="Trade-In Terms of Use" href="/trade-terms">Trade-In Terms & Conditions</a></p>
+                    <p class="terms"><a style="text-decoration: underline;" title="digiDirect Terms of Use" href="/terms-and-conditions">digiDirect Terms & Conditions</a> and <a  style="text-decoration: underline;" title="Privacy Policy" href="/privacy">Privacy Policy</a></p>
+                    <input class="submit-btn" type="submit" name="button" value="Submit" />
 				</div>
 
 			</form>
