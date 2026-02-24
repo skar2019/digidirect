@@ -3,15 +3,19 @@
 namespace Digidirect\EmailFix\Plugin;
 
 use Magento\Payment\Model\Config;
+use Magento\Store\Model\StoreManagerInterface;
 
 class PaymentHelperPlugin
 {
     protected $paymentConfig;
+    protected $storeManager;
 
     public function __construct(
-        Config $paymentConfig
+        Config $paymentConfig,
+        StoreManagerInterface $storeManager
     ) {
         $this->paymentConfig = $paymentConfig;
+        $this->storeManager = $storeManager;
     }
 
     public function afterGetInfoBlockHtml(
@@ -20,6 +24,7 @@ class PaymentHelperPlugin
         \Magento\Payment\Model\InfoInterface $info,
         $storeId
     ) {
+
         $method = $info->getMethod();
 
         if (strpos($method, 'braintree') === false) {
@@ -30,58 +35,144 @@ class PaymentHelperPlugin
         $ccType = $info->getCcType();
         $ccLast4 = $info->getCcLast4();
 
-        /**
-         * ===== Resolve Proper Card Label =====
-         */
+        /*
+        |--------------------------------------------------------------------------
+        | Resolve Proper Card Label
+        |--------------------------------------------------------------------------
+        */
 
-        // 1️⃣ Prefer Braintree readable label
         if (!empty($additionalInfo['credit_card_type'])) {
             $ccType = ucwords(str_replace('_', ' ', $additionalInfo['credit_card_type']));
-        }
-
-        // 2️⃣ Fallback to Magento CC config mapping (VI → Visa)
-        elseif ($ccType) {
+        } elseif ($ccType) {
             $types = $this->paymentConfig->getCcTypes();
             if (isset($types[$ccType])) {
                 $ccType = $types[$ccType];
             }
         }
 
-        /**
-         * ===== Build Email HTML =====
-         */
+        /*
+        |--------------------------------------------------------------------------
+        | Dynamic Media URL
+        |--------------------------------------------------------------------------
+        */
+
+        $mediaUrl = $this->storeManager
+            ->getStore($storeId)
+            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+
+        $baseUrl = $mediaUrl . '.wysiwyg/glow-up/email-template/';
 
         $html = '';
 
-        // ===== Credit Card =====
-        if ($ccLast4) {
-            $html .= '<div><strong>Credit Card</strong></div>';
+        /*
+        |--------------------------------------------------------------------------
+        | Credit Card Block (Visa / MC / Amex)
+        |--------------------------------------------------------------------------
+        */
 
-            if ($ccType) {
-                $html .= '<div><strong>Credit Card Type:</strong> ' . $ccType . '</div>';
+        if ($ccLast4) {
+
+            $cardImage = '';
+
+            switch (strtolower($ccType)) {
+                case 'visa':
+                    $cardImage = 'visa.png';
+                    break;
+
+                case 'mastercard':
+                case 'master card':
+                    $cardImage = 'mastercard.png';
+                    break;
+
+                case 'american express':
+                case 'amex':
+                    $cardImage = 'amex.png';
+                    break;
+
+                default:
+                    $cardImage = 'visa.png';
             }
 
-            $html .= '<div><strong>Credit Card Number:</strong> ****-' . $ccLast4 . '</div>';
+            $html .= '
+            <div><strong>Credit Card</strong></div>
+            <table cellpadding="0" cellspacing="0" style="margin-top:8px;">
+                <tr>
+                    <td width="40" valign="middle">
+                        <img src="' . $baseUrl . $cardImage . '" width="30" alt="' . $ccType . '">
+                    </td>
+                    <td valign="middle" style="font-weight:bold;">
+                        ' . $ccType . '
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding-top:4px;">
+                        ****-' . $ccLast4 . '
+                    </td>
+                </tr>
+            </table>';
         }
 
-        // ===== Apple Pay =====
+        /*
+        |--------------------------------------------------------------------------
+        | Apple Pay Block
+        |--------------------------------------------------------------------------
+        */
+
         elseif (
             isset($additionalInfo['payment_instrument_type']) &&
             $additionalInfo['payment_instrument_type'] === 'apple_pay'
         ) {
-            $html .= '<div><strong>Apple Pay</strong></div>';
+
+            $html .= '
+            <table cellpadding="0" cellspacing="0" style="margin-top:8px;">
+                <tr>
+                    <td width="40" valign="middle">
+                        <img src="' . $baseUrl . 'apple-pay.png" width="30" alt="Apple Pay">
+                    </td>
+                    <td valign="middle" style="font-weight:bold;">
+                        Apple Pay
+                    </td>
+                </tr>';
 
             if ($ccType && $ccLast4) {
-                $html .= '<div><strong>Card:</strong> ' . $ccType . ' ****-' . $ccLast4 . '</div>';
+                $html .= '
+                <tr>
+                    <td></td>
+                    <td style="padding-top:4px;">
+                        ' . $ccType . ' ****-' . $ccLast4 . '
+                    </td>
+                </tr>';
             }
+
+            $html .= '</table>';
         }
 
-        // ===== PayPal =====
+        /*
+        |--------------------------------------------------------------------------
+        | PayPal Block
+        |--------------------------------------------------------------------------
+        */
+
         elseif (isset($additionalInfo['paypal_payer_email'])) {
 
-            $html .= '<div><strong>PayPal</strong></div>';
-            $html .= '<div><strong>PayPal Email:</strong> '
-                . $additionalInfo['paypal_payer_email'] . '</div>';
+            $html .= '
+            <table cellpadding="0" cellspacing="0" style="margin-top:8px;">
+                <tr>
+                    <td width="40" valign="middle">
+                        <img src="' . $baseUrl . 'paypal.png" width="30" alt="PayPal">
+                    </td>
+                    <td valign="middle" style="font-weight:bold;">
+                        PayPal
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding-top:4px;">
+                        ' . $additionalInfo['paypal_payer_email'] . '
+                    </td>
+                </tr>
+            </table>';
         }
 
         else {
