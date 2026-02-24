@@ -25,6 +25,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Tax\Model\Calculation\RateFactory;
+use Magento\Framework\Pricing\Helper\Data as PriceHelper;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -111,6 +112,11 @@ class InvoiceEmail extends AbstractHelper
      */
     protected $taxRateFactory;
 
+    /**
+     * @var PriceHelper
+     */
+    protected $priceHelper;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -131,7 +137,8 @@ class InvoiceEmail extends AbstractHelper
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         ScopeConfigInterface $scopeConfig,
         ProductRepositoryInterface $productRepository,
-        RateFactory $taxRateFactory
+        RateFactory $taxRateFactory,
+        PriceHelper $priceHelper
     )
     {
         $this->curl = $curl;
@@ -154,6 +161,7 @@ class InvoiceEmail extends AbstractHelper
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
         $this->taxRateFactory = $taxRateFactory;
+        $this->priceHelper = $priceHelper;
     }
 
     public function sendInvoiceEmail($test) {
@@ -175,7 +183,9 @@ class InvoiceEmail extends AbstractHelper
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
             $orderSubtotal = round($order->getSubtotal(), 2);
+            $orderSubtotalExclGst = round($orderSubtotal * 100 / (100 + $this->getGstRate()), 2);
             $orderGrandTotal = round($order->getGrandtotal(), 2);
+            $orderSubtotalExclGst = round($orderSubtotal * 100 / (100 + $this->getGstRate()), 2);
             $couponDiscount = round($order->getBaseDiscountAmount(), 2);
 
             $billingAddress = $order->getBillingAddress();
@@ -295,16 +305,16 @@ class InvoiceEmail extends AbstractHelper
                 $bankInstructions = $this->getBankTransferInstructions();
             }
 
-            $currencySymbol = $this->getCurrencySymbol();
             $templateParams = [
                 'store' => $store,
                 'order' => $order,
                 'order_number' => $orderNumber,
-                'order_subtotal' => $currencySymbol.$orderSubtotal,
-                'order_grandtotal' => $currencySymbol.$orderGrandTotal,
-                'total_ex' => $currencySymbol.$totalEx,
-                'gst' => $currencySymbol.$gst,
-                'coupon_discount' => $currencySymbol.$couponDiscount,
+                'order_subtotal' => $this->getFormattedPrice($orderSubtotal),
+                'order_subtotal_excl_tax' => $this->getFormattedPrice($orderSubtotalExclGst),
+                'order_grandtotal' => $this->getFormattedPrice($orderGrandTotal),
+                'total_ex' => $this->getFormattedPrice($totalEx),
+                'gst' => $this->getFormattedPrice($gst),
+                'coupon_discount' => $this->getFormattedPrice($couponDiscount),
                 'invoice_date' => $invoiceDate,
                 'invoice_number' => $invoiceNumber,
                 'pronto_order_number' => $prontoOrderNumber,
@@ -316,12 +326,11 @@ class InvoiceEmail extends AbstractHelper
                 'customer_firstname' => $customerFirstName,
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat,
-                'shippingAddress' => $currencySymbol.$shippingAddressConcat,
-                'shippingAmount' => $currencySymbol.$shippingAmount,
+                'shippingAddress' => $shippingAddressConcat,
+                'shippingAmount' => $this->getFormattedPrice($shippingAmount),
                 'trackTitle' => $trackTitle,
                 'trackNumber' => $trackNumber,
-                'items' => $items,
-                'currency_symbol' => $currencySymbol
+                'items' => $items
             ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
@@ -400,15 +409,6 @@ class InvoiceEmail extends AbstractHelper
         return $this->productRepository;
     }
 
-    /**
-     * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getCurrencySymbol()
-    {
-        $currency = $this->storeManager->getStore()->getBaseCurrency();
-        return $currency->getCurrencySymbol();
-    }
 
     public function getGstRate()
     {
@@ -419,4 +419,12 @@ class InvoiceEmail extends AbstractHelper
         return 0;
     }
 
+    /**
+     * @param $price
+     * @return float|string
+     */
+    public function getFormattedPrice($price)
+    {
+        return $this->priceHelper->currency($price, true, false);
+    }
 }
