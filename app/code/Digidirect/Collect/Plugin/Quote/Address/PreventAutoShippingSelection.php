@@ -11,14 +11,19 @@ class PreventAutoShippingSelection
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->logger->info('PreventAutoShippingSelection PLUGIN LOADED');
     }
 
     public function beforeSetShippingMethod(
         Address $subject,
                 $method
     ) {
+        // ALWAYS log - this proves the method is being called
+        $this->logger->info('=== PreventAutoShippingSelection TRIGGERED === Method: ' . var_export($method, true) . ' | Current: ' . var_export($subject->getShippingMethod(), true));
+
         // Allow null - we're explicitly clearing the method
         if ($method === null) {
+            $this->logger->info('Allowing NULL method');
             return [$method];
         }
 
@@ -45,6 +50,7 @@ class PreventAutoShippingSelection
             return [$method];
         }
 
+        $this->logger->info('Allowing method: ' . $method);
         return [$method];
     }
 
