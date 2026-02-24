@@ -152,7 +152,7 @@ define([
         $("head").append(`<style>${blurStyle}</style>`);
 
         $(document).on(
-            "mouseenter, click",
+            "mouseenter click",
             ".ruby-menu-mega-blog:not(.just-link)",
             function () {
                 const $panel = $(".aa-Panel");
