@@ -3,9 +3,6 @@
 
 $faqIconUrl = $block->getViewFileUrl('Magento_Email::images/email-faq.png');
 $accountIconUrl = $block->getViewFileUrl('Magento_Email::images/email-account.png');
-
-$faqUrl = $block->getUrl('faq', ['_nosid' => true]);
-$accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
 ?>
 <tr>
     <td style="vertical-align: middle;">
@@ -28,7 +25,7 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
                                                             <?= $block->escapeHtml(__('Have a question?')) ?>
                                                         </p>
                                                         <p style="font-size:12px; color:#666666; line-height:20px;">
-                                                            <a href="<?= $block->escapeUrl($faqUrl) ?>" title="FAQS" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View our FAQs')) ?></a>
+                                                            <a href="<?=$block->getBaseUrl();?>faq" title="FAQS" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View our FAQs')) ?></a>
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -46,7 +43,7 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
                                                             <?= $block->escapeHtml(__('Manage my order')) ?>
                                                         </p>
                                                         <p style="font-size:12px; color:#666666; line-height:20px;">
-                                                            <a href="<?= $block->escapeUrl($accountUrl) ?>" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View My Account')) ?></a>
+                                                            <a href="<?=$block->getBaseUrl();?>customer/account" style="color:#666666; text-decoration:none;"><?= $block->escapeHtml(__('View My Account')) ?></a>
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -59,3 +56,4 @@ $accountUrl = $block->getUrl('customer/account/', ['_nosid' => true]);
                     </table>
                 </td>
             </tr>
+
