@@ -60,7 +60,7 @@ class PaymentHelperPlugin
             ->getStore($storeId)
             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
 
-        $baseUrl = $mediaUrl . '.wysiwyg/glow-up/emai-template/';
+        $baseUrl = $mediaUrl . '.wysiwyg/glow-up/email-template/';
 
         $html = '';
 
