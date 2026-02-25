@@ -63,14 +63,6 @@ define([
     var popUp = null;
     var marketplacer_sellers = window.checkoutConfig.quoteData.marketplacer_sellers;
 
-    // CRITICAL: Monitor ALL changes to shipping method
-    var originalShippingMethod = quote.shippingMethod;
-    quote.shippingMethod = function(newValue) {
-        if (arguments.length > 0) {
-            console.trace('🔴 SETTING SHIPPING METHOD TO:', newValue);
-        }
-        return originalShippingMethod.apply(this, arguments);
-    };
 
     return Component.extend({
         defaults: {
@@ -106,6 +98,12 @@ define([
                 fieldsetName = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
 
             this._super();
+
+            // Monitor shipping method changes
+            quote.shippingMethod.subscribe(function(newMethod) {
+                console.log('🔴 SHIPPING METHOD CHANGED TO:', newMethod);
+                console.trace('Stack trace:');
+            });
 
             if (!quote.isVirtual()) {
                 stepNavigator.registerStep(
