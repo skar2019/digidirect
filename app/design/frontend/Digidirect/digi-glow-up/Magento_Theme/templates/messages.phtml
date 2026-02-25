@@ -12,10 +12,10 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: $parent.prepareMessageForHtml(message.text)"></div>
+            <button type="button" class="message-close" onclick="this.closest('.message').remove()" aria-label="Close">&#x2715;</button>
         </div>
     </div>
     <!-- /ko -->
-
     <!-- ko if: messages().messages && messages().messages.length > 0 -->
     <div aria-atomic="true" role="alert" class="messages" data-bind="foreach: {
         data: messages().messages, as: 'message'
@@ -25,6 +25,7 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: $parent.prepareMessageForHtml(message.text)"></div>
+            <button type="button" class="message-close" onclick="this.closest('.message').remove()" aria-label="Close">&#x2715;</button>
         </div>
     </div>
     <!-- /ko -->

@@ -4,35 +4,28 @@
 */
 @import "_digi_print_common.less";
 
-.message-container {
+.message {
     position: relative;
+    padding-right: 40px; /* make room for the button */
+}
 
-    .message-close-btn {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 20px;
-        line-height: 1;
-        color: inherit;
-        opacity: 0.7;
-        padding: 0 5px;
+.message-close {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px;
+    color: inherit;
+    opacity: 0.6;
+}
 
-        &:hover {
-            opacity: 1;
-        }
-
-        span {
-            display: block;
-        }
-    }
-
-    .message {
-        padding-right: 40px; // make room for the close button
-    }
+.message-close:hover {
+    opacity: 1;
 }
 
 #pa-welcome-back {
