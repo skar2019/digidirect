@@ -89,6 +89,9 @@ define([
          * @return {exports}
          */
         initialize: function () {
+            console.log('=== SHIPPING COMPONENT INITIALIZE START ===');
+            console.log('Initial shipping method:', quote.shippingMethod());
+
             var self = this,
                 hasNewAddress,
                 fieldsetName = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
@@ -145,6 +148,10 @@ define([
             });
 
             this.afterRender = this.afterRenderHandler.bind(this);
+
+            console.log('=== SHIPPING COMPONENT INITIALIZE END ===');
+            console.log('Shipping method after initialize:', quote.shippingMethod());
+
             return this;
         },
 
