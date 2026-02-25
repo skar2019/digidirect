@@ -489,28 +489,10 @@ define([
                 window.location.pathname.includes("/checkout/cart")
             ) return;
 
-            let lastCartCount = -1;
+            let lastCartCount = -1; // -1 = baseline not yet set
+            let baselineSet = false;
             let upsellReady = false;
             let minicartQueued = false;
-
-            // ✅ Get the TRUE initial cart count from CustomerData before observing anything
-            function initCartCount(callback) {
-                const cartData = customerData.get('cart')();
-                const count = parseInt(cartData?.summary_count || 0);
-
-                if (count >= 0) {
-                    // CustomerData already loaded
-                    lastCartCount = count;
-                    callback();
-                } else {
-                    // Wait for CustomerData to load
-                    const sub = customerData.get('cart').subscribe(function (data) {
-                        lastCartCount = parseInt(data?.summary_count || 0);
-                        sub.dispose();
-                        callback();
-                    });
-                }
-            }
 
             function attachObserver($counter) {
                 if ($counter.data("observer-attached")) return;
@@ -519,10 +501,17 @@ define([
                 const observer = new MutationObserver(() => {
                     const currentCount = parseInt($counter.text() || 0);
 
-                    // lastCartCount not yet initialized — skip
-                    if (lastCartCount === -1) return;
+                    // ✅ First time counter renders with a real value = set baseline, never open
+                    if (!baselineSet) {
+                        // Wait until Knockout renders a stable non-empty value
+                        if ($counter.text().trim() === '') return;
+                        lastCartCount = currentCount;
+                        baselineSet = true;
+                        console.log("🛒 Baseline cart count set:", lastCartCount);
+                        return;
+                    }
 
-                    // Only open minicart if count genuinely increased
+                    // ✅ Only open if count genuinely increased AFTER baseline was set
                     if (currentCount > lastCartCount) {
                         const $upsell = $("#pa-upsell");
                         const isUpsellActive = $upsell.length && $upsell.hasClass("active");
@@ -548,31 +537,26 @@ define([
                 });
             }
 
-            // ✅ Only start observing AFTER we have the real initial count
-            initCartCount(function () {
-                console.log("🛒 Initial cart count captured:", lastCartCount);
-
-                // Attach to existing counters
+            // Watch for counter elements injected by Knockout
+            const bodyObserver = new MutationObserver(() => {
                 $('.counter-number[data-bind*="summary_count"]').each(function () {
                     attachObserver($(this));
                 });
 
-                // Watch for counters injected later
-                const bodyObserver = new MutationObserver(() => {
-                    $('.counter-number[data-bind*="summary_count"]').each(function () {
-                        attachObserver($(this));
-                    });
+                if (!upsellReady && $("#pa-upsell").length) {
+                    upsellReady = true;
+                    observeUpsell();
+                }
+            });
 
-                    if (!upsellReady && $("#pa-upsell").length) {
-                        upsellReady = true;
-                        observeUpsell();
-                    }
-                });
+            bodyObserver.observe(document.body, {
+                childList: true,
+                subtree: true,
+            });
 
-                bodyObserver.observe(document.body, {
-                    childList: true,
-                    subtree: true,
-                });
+            // Also attach to any already-existing counters
+            $('.counter-number[data-bind*="summary_count"]').each(function () {
+                attachObserver($(this));
             });
 
             function observeUpsell() {
