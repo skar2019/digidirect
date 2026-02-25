@@ -5,258 +5,69 @@
 } @-->
 ​
 {{template config_path="design/email/header_template"}}
-<!-- Outer container background -->
-<table width="100%" cellpadding="0" cellspacing="0" style="padding: 0; margin: 0;">
+
+<table>
+    <tr class="email-intro">
+        <td align="center" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+            <br>
+            <p class="greeting">{{trans "Dear %name," name=$order.getCustomerName()}}</p>
+            <p>
+               {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}
+                {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
+            </p>
+            <p>  
+               {{trans "Please make your way to the digiDirect location to collect your goods."}}
+            </p>
+        </td>
+    </tr>
     <tr>
-        <td align="center" style="padding: 10px 40px;">
+        <td align="center" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+                <!-- <p align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+                    {{trans 'For our hours of operation and contact information, please click here <a href="/store-locator" style="color:black;text-decoration:underline">Store Locator</a>' store_email=$store_email |raw}}
+                </p> -->
+            <p>
+                    {{store.getName()}}
+                    {{store.getBaseUrl()}}
+                    {{store.getPhone()}}
+                    {{store.getAddress()}}
 
-            <!-- Main card -->
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:720px; margin:0 auto;">
+                    --------
+
+                    {{config path="general/store_information/name"}}
+                    {{config path="general/store_information/phone"}}
+                    {{config path="general/store_information/address"}}
+
+            </p>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding:25px 0;">
+                <p>  
+                    {{trans "Kind Regards,"}}
+                    </p>
+                <p>  
+                    {{trans "digiDirect"}}
+                    </p>
+        </td>
+    </tr>
 
 
-                <!-- Greetings -->
+
+    <tr class="email-information">
+        <td>
+            {{depend order_data.email_customer_note}}
+            <table class="message-info">
                 <tr>
-                    <td align="center" style="padding:10px; color:#242426; font-size:14px; line-height:22px;">
-                       {{trans "Dear %name," name=$order_data.customer_name}}
+                    <td>
+                        {{var order_data.email_customer_note|escape|nl2br}}
                     </td>
                 </tr>
-
-                <!-- Intro paragraph -->
-                <tr>
-                    <td align="center" style="padding:10px; color:#242426; font-size:14px; line-height:22px;">
-                       {{trans 'Thank you for click and collect your order from digiDirect. You can check the status of your order by <a href="%account_url" style="color:#2F80ED;text-decoration:underline;">logging into your account</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
-                    </td>
-                    </td>
-                </tr>
-
-                <!-- Paragraph -->
-                <tr>
-                    <td align="center" style="padding:10px; color:#242426; font-size:15px; line-height:22px;">
-                        
-                        <br>
-                        <h2 style="margin:0;font-size:22px; color:#242426; font-weight:700;">IMPORTANT!</h2>
-                        <br>
-
-                        <p>Kindly wait to receive a second email notifying you that your order is ready for pick-up</p>
-                        
-                        <br>
-
-                        <p>NOTE: You must wait for the email notifying you that your order is ready for pick-up before making your way to your chosen Click & Collect location</p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td style="padding: 30px 16px 20px; color:#242426;">
-                        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:20px; padding:20px; border-collapse: initial !important;">
-
-                           <!-- ORDER DETAILS -->
-                            <tr>
-                                <td style="font-size: 15px; font-weight: bold; color: #222; padding-bottom: 5px;">
-                                    Your Order: {{var order.increment_id}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="font-size: 15px; color: #666; padding-bottom: 25px;">
-                                   Placed on {{var email_order_created_at_formatted}}
-                                </td>
-                            </tr>
-
-                             <!-- Shipping Address -->
-                            {{depend formattedShippingAddress}}
-                            <tr>
-                                <td style="padding-right:30px; padding-bottom: 20px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/truck-fast.png" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Shipping Address</h3>
-                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var formattedShippingAddress|raw}}</p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-                            {{/depend}}
-
-                            <!-- Billing Address -->
-                            <tr>
-                                <td style="padding-right:30px; padding-bottom: 20px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/bill.png?rand=1765415468" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Billing Address</h3>
-                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var formattedBillingAddress|raw}}</p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-
-                            <!-- Payment Method 1 -->
-                            {{if order.is_banktransfer}}
-                            <tr>
-                                <td style="padding-right:30px; padding-bottom: 0px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/wallet.png?rand=1765415592" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Payment Method</h3>
-                                                <div style="font-size:14px; line-height:20px;">{{var payment_html|raw}}</div>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-
-                            {{else}}
-                            <!-- Payment Method2 -->
-                            <tr>
-                                <td style="padding-right:30px; padding-bottom: 20px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/wallet.png?rand=1765415592" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Payment Method</h3>
-                                                <div style="font-size:14px; line-height:20px;">{{var payment_html|raw}}</div>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-                            {{/if}}
-
-                            <!-- Order Number -->
-                            {{if order.is_banktransfer}}
-                            <tr style="position: relative; top: -20px !important;">
-                                <td style="padding-right:30px; padding-bottom: 20px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/box.png" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Order Number</h3>
-                                                <p style="margin:0; font-size:14px; line-height:20px;">
-                                                    <strong>{{var order.increment_id}}</strong>
-                                                </p>
-
-                                                <p style="margin:0; font-size:14px; line-height:20px; ">
-                                                    Your order will be processed once the payment is received. Please see our bank details and include your Order Number as the Reference when making the transfer.
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-                            {{/if}}
-
-
-                            <!-- Shipping Method -->
-                            <tr>
-                                <td style="padding-right:30px; padding-bottom: 20px;">
-
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <!-- ICON -->
-                                            <td width="40" valign="top" style="padding-top:3px;">
-                                                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/box.png" width="28" alt="">
-                                            </td>
-
-                                            <!-- TEXT -->
-                                            <td valign="top">
-                                                <h3 style="margin:0 0 5px; font-size:15px; font-weight:700; color: #7C7C80;">Shipping Method</h3>
-                                                <p style="margin:0; font-size:14px; line-height:20px;">{{var order.shipping_description}}</p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                            </tr>
-
-                        </table>
-                    </td>
-                </tr>
-
-                <!-- ORDER SUMMARY CARD -->
-                <tr>
-                    <td style="padding:0 16px 20px;">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fff; border-radius: 25px; margin: 0 auto; border-collapse: collapse;">
-                            <tr>
-                                <td align="center" style="padding:35px 20px 20px;">
-                                    <h2 style="margin:0; font-size:24px; font-weight:700; color:#000;">
-                                        Order Summary
-                                    </h2>
-                                    <br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <!-- Magento order item block -->
-                                <td style="padding:0 30px 30px 30px;">
-                                    {{layout handle="sales_email_order_items" order_id=$order_id}}
-                                </td>   
-                            </tr>
-
-
-                        </table>
-                    </td>
-                </tr>
-
-
             </table>
+            {{/depend}}
+            {{layout handle="sales_email_order_items" order=$order area="frontend"}}
         </td>
     </tr>
 </table>
 
- <!-- CTA Box - 2 Columns -->
-{{layout handle="email_customer_help_handle" area="frontend"}}
-
-<style>
-[class*="email-items"] img {
-    /* display: none; */
-    width: 100px !important;
-}
-
-table[width="90%"] {
-    display: flex; 
-    justify-content: space-around !important; 
-    justify-items: center !important;
-}
-
-</style>
-​
 {{template config_path="design/email/footer_template"}}
