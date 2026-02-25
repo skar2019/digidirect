@@ -17,10 +17,10 @@ define([
             var selectedShippingRate = checkoutData.getSelectedShippingRate(),
                 availableRate = false;
 
-            console.log('=== resolveShippingRates called ===');
-            console.log('Rates data length:', ratesData.length);
-            console.log('Current quote.shippingMethod():', quote.shippingMethod());
-            console.log('Saved selectedShippingRate:', selectedShippingRate);
+            // console.log('=== resolveShippingRates called ===');
+            // console.log('Rates data length:', ratesData.length);
+            // console.log('Current quote.shippingMethod():', quote.shippingMethod());
+            // console.log('Saved selectedShippingRate:', selectedShippingRate);
 
             // CRITICAL: Only has explicit selection if BOTH conditions are true:
             // 1. There's a saved rate in localStorage
@@ -32,12 +32,12 @@ define([
                 var singleRate = ratesData[0];
                 // Only auto-select if it's Click & Collect
                 if (singleRate.carrier_code === 'collect' && singleRate.method_code === 'collect') {
-                    console.log('Auto-selecting Click & Collect (only option)');
+                    //console.log('Auto-selecting Click & Collect (only option)');
                     selectShippingMethodAction(singleRate);
                     return;
                 }
                 // For other single rates, don't auto-select
-                console.log('Single rate but not C&C, not auto-selecting');
+                //console.log('Single rate but not C&C, not auto-selecting');
                 selectShippingMethodAction(null);
                 return;
             }
@@ -58,10 +58,10 @@ define([
 
             // Only restore previously selected method if it's still available AND currently set
             if (availableRate && hasExplicitSelection) {
-                console.log('Restoring previously selected method:', availableRate);
+                //console.log('Restoring previously selected method:', availableRate);
                 selectShippingMethodAction(availableRate);
             } else {
-                console.log('No auto-selection - user must choose');
+                //console.log('No auto-selection - user must choose');
                 // No auto-selection - user must choose
                 selectShippingMethodAction(null);
             }

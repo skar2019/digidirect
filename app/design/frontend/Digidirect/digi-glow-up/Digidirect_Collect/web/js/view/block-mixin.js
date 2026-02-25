@@ -41,7 +41,7 @@ define([
             toggleToDeliveryShippingMethod: function () {
                 // DISABLED: This was auto-selecting standard shipping
                 // Keep function for compatibility but don't auto-click
-                console.log('toggleToDeliveryShippingMethod called but auto-selection disabled');
+                //console.log('toggleToDeliveryShippingMethod called but auto-selection disabled');
             },
             setCollectAbstractEntityFields: function () {
                 var self = this,
@@ -113,13 +113,13 @@ define([
                     .done(function (data) {
                         var responseObj = JSON.parse(data);
                         if (_.has(responseObj, 'error')) {
-                            console.log(data);
+                            //console.log(data);
                             return;
                         }
                         this.checkAvailableVsmData(responseObj, postcode);
                     }.bind(this))
                     .fail(function (response) {
-                        console.log(response);
+                        //console.log(response);
                     })
             },
 
