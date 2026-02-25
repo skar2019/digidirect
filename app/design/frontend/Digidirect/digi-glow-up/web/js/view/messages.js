@@ -23,9 +23,7 @@ define([
                 _.unique($.cookieStorage.get('mage-messages'), 'text')
             );
 
-            this.messages = customerData.get('messages').extend({
-                disposableCustomerData: 'messages'
-            });
+            this.messages = customerData.get('messages');
 
             // Force to clean obsolete messages
             /*if (!_.isEmpty(this.messages().messages)) {
