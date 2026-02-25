@@ -1490,130 +1490,115 @@ define([
   const loader = document.getElementById('plp-custom-loader');
   if (loader) loader.style.display = 'block' // Show immediately
 
-  window.addEventListener('load', () => {
-    const body = document.body;
-    const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button');
+  // ─── PLP Layout Repositioning ────────────────────────────────────────────────
+  // Drop-in replacement for the IIFE block at the bottom of your instantsearch JS.
+  // Fixes: premature calls, observer-loops, loader never hiding on non-empty results.
+  // ─────────────────────────────────────────────────────────────────────────────
 
-    // Helper: update .pa-product classes based on view mode
-    const updateProductClasses = () => {
-      const products = document.querySelectorAll('.pa-product');
-      if (!products.length) return;
-      if (body.classList.contains('list-view')) {
-        products.forEach(p => p.classList.add('list-view-col'));
-      } else {
-        products.forEach(p => p.classList.remove('list-view-col'));
-      }
+  ;(function () {
+
+    const SEARCH_BAR_ID        = '#instant-search-bar';
+    const FACETS_CONTAINER_ID  = '#instant-search-facets-container';
+    const RECHECK_DELAY        = 200;
+    const MAX_RETRIES          = 300;
+
+    const loader   = document.getElementById('plp-custom-loader');
+    const isMobile = () => window.innerWidth <= 768;
+
+    // ── Loader helpers ────────────────────────────────────────────────────────
+
+    if (loader) loader.style.display = 'block';
+
+    let loaderHidden = false;
+    function hideLoader() {
+      if (loaderHidden || !loader) return;
+      loaderHidden = true;
+      loader.style.display = 'none';
     }
 
-    // Wait until .pa-product elements exist
-    const waitForProducts = () => {
-      const products = document.querySelectorAll('.pa-product');
-      if (products.length) {
-        updateProductClasses();
-      } else {
-        setTimeout(waitForProducts, 200);
-      }
+    // ── Absolute loader failsafe ──────────────────────────────────────────────
+    // Hides the loader no matter what after 3 s so the page is never blocked.
+    setTimeout(hideLoader, 3000);
+
+    // ── Search-bar visibility helpers ─────────────────────────────────────────
+
+    function hideSearchBar() {
+      const sb = document.querySelector(SEARCH_BAR_ID);
+      if (sb) sb.style.display = 'none';
+    }
+    function showSearchBar() {
+      const sb = document.querySelector(SEARCH_BAR_ID);
+      if (sb) sb.style.display = '';
     }
 
-    // Load saved view mode
-    const savedView = localStorage.getItem('viewMode');
-    if (savedView === 'list') {
-      body.classList.add('list-view');
-      document.querySelector('[data-view="list"]')?.classList.add('is-active');
-    } else {
-      body.classList.remove('list-view');
-      document.querySelector('[data-view="grid"]')?.classList.add('is-active');
+    // ── moveAndInsertSearchBar ────────────────────────────────────────────────
+    // Moves #instant-search-bar into #instant-search-facets-container.
+    // Returns true only when the move is confirmed.
+
+    function moveAndInsertSearchBar() {
+      const searchBar       = document.querySelector(SEARCH_BAR_ID);
+      const facetsContainer = document.querySelector(FACETS_CONTAINER_ID);
+      if (!searchBar || !facetsContainer) return false;
+
+      if (searchBar.parentElement !== facetsContainer) {
+        facetsContainer.appendChild(searchBar);
+      }
+
+      if (!searchBar.querySelector('.search-within-label')) {
+        const label       = document.createElement('span');
+        label.className   = 'search-within-label';
+        label.textContent = 'Search Within Results';
+        searchBar.insertBefore(label, searchBar.firstChild);
+      }
+
+      return searchBar.parentElement === facetsContainer;
     }
 
-    waitForProducts();
+    // ── moveElements ──────────────────────────────────────────────────────────
+    // Repositions layout elements differently for mobile vs desktop.
+    // Uses a "dirty" guard so the MutationObserver doesn't loop on its own moves.
 
-    // Handle button clicks
-    toggleButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const view = button.getAttribute('data-view');
-        toggleButtons.forEach(btn => btn.classList.remove('is-active'));
-        button.classList.add('is-active');
+    let moveBusy = false;
 
-        if (view === 'list') body.classList.add('list-view');
-        else body.classList.remove('list-view');
+    function moveElements() {
+      if (moveBusy) return;
+      moveBusy = true;
 
-        localStorage.setItem('viewMode', view);
-        updateProductClasses();
-      })
-    })
-
-    // ---------------------------------------------------------------------
-    // Search bar reposition + layout adjustments
-    // ---------------------------------------------------------------------
-    ;(function () {
-      const SEARCH_BAR_ID = '#instant-search-bar';
-      const FACETS_CONTAINER_ID = '#instant-search-facets-container';
-      const RECHECK_DELAY = 200;
-      const DESKTOP_ONLY = false;
-      const MAX_RETRIES = 300;
-
-      const isMobile = () => window.innerWidth <= 768;
-      const isDesktop = () => window.matchMedia('(min-width: 769px)').matches;
-
-      function hideSearchBar() {
-        const sb = document.querySelector(SEARCH_BAR_ID);
-        if (sb) sb.style.display = 'none';
-      }
-      function showSearchBar() {
-        const sb = document.querySelector(SEARCH_BAR_ID);
-        if (sb) sb.style.display = '';
-      }
-
-      function moveAndInsertSearchBar() {
-        const searchBar = document.querySelector(SEARCH_BAR_ID);
-        const facetsContainer = document.querySelector(FACETS_CONTAINER_ID);
-        if (!searchBar || !facetsContainer) return false;
-
-        if (searchBar.parentElement !== facetsContainer) {
-          facetsContainer.appendChild(searchBar);
-          console.log('✅ instant-search-bar moved inside instant-search-facets-container');
-        }
-
-        if (!searchBar.querySelector('.search-within-label')) {
-          const label = document.createElement('span');
-          label.className = 'search-within-label';
-          label.textContent = 'Search Within Results';
-          searchBar.insertBefore(label, searchBar.firstChild);
-          console.log('✅ Added "Search Within Results" label');
-        }
-
-        return searchBar.parentElement === facetsContainer;
-      }
-
-      function moveElements() {
-        const infos = document.querySelector('.algolia-infos');
-        const refineToggle = document.querySelector('#refine-toggle');
-        const customRefinement = document.querySelector('.algolia-custom-refinement');
-        const hitsPerPage = document.querySelector('.hits-per-page-container');
-        const pagination = document.querySelector('#instant-search-pagination-container');
-        const viewToggle = document.querySelector('.ais-ViewToggle');
-        const stats = document.querySelector('#algolia-stats');
-        const facets = document.querySelector(FACETS_CONTAINER_ID);
-        const leftContainer = document.querySelector('#algolia-left-container');
-
-        if (!facets || !leftContainer) return;
+      try {
         const mobile = isMobile();
 
+        const sel = (q) => document.querySelector(q);
+
+        const infos           = sel('.algolia-infos');
+        const refineToggle    = sel('#refine-toggle');
+        const customRefinement= sel('.algolia-custom-refinement');
+        const hitsPerPage     = sel('.hits-per-page-container');
+        const pagination      = sel('#instant-search-pagination-container');
+        const viewToggle      = sel('.ais-ViewToggle');
+        const stats           = sel('#algolia-stats');
+        const facets          = sel(FACETS_CONTAINER_ID);
+        const leftContainer   = sel('#algolia-left-container');
+
+        if (!facets || !leftContainer) return;
+
+        // ── stats ──
         if (stats) {
           if (mobile) {
             if (stats.nextElementSibling !== leftContainer) {
               leftContainer.parentNode.insertBefore(stats, leftContainer);
             }
           } else {
-            if (stats.parentElement !== infos && infos) {
+            if (infos && stats.parentElement !== infos) {
               infos.insertBefore(stats, infos.firstChild);
             }
           }
         }
 
+        // ── infos bar ──
         if (infos && refineToggle && customRefinement) {
           if (mobile) {
-            if (infos.parentElement !== refineToggle.parentElement) {
+            if (infos.parentElement !== refineToggle.parentElement ||
+                infos.previousElementSibling !== refineToggle) {
               refineToggle.parentNode.insertBefore(infos, refineToggle.nextElementSibling);
             }
           } else {
@@ -1623,196 +1608,209 @@ define([
           }
         }
 
-        if (hitsPerPage && pagination && viewToggle) {
+        // ── hits per page ──
+        if (hitsPerPage) {
           if (mobile) {
-            if (hitsPerPage.nextElementSibling !== pagination) {
+            if (pagination && hitsPerPage.nextElementSibling !== pagination) {
               pagination.parentNode.insertBefore(hitsPerPage, pagination);
             }
           } else {
-            if (hitsPerPage.nextElementSibling !== viewToggle) {
+            if (viewToggle && hitsPerPage.nextElementSibling !== viewToggle) {
               viewToggle.parentNode.insertBefore(hitsPerPage, viewToggle);
             }
           }
         }
 
-        if (facets && leftContainer) {
-          if (mobile) {
-            if (facets.previousElementSibling !== leftContainer) {
-              leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling);
-            }
-          } else {
-            if (facets.parentElement !== leftContainer) {
-              leftContainer.appendChild(facets);
-            }
+        // ── facets panel ──
+        if (mobile) {
+          if (facets.previousElementSibling !== leftContainer) {
+            leftContainer.parentNode.insertBefore(facets, leftContainer.nextElementSibling);
           }
-        }
-      }
-
-      function startRepositionWatcher(callback) {
-        if (DESKTOP_ONLY && !isDesktop()) return;
-        hideSearchBar();
-
-        let observerStarted = false;
-        let retries = 0;
-
-        function ensurePositioned() {
-          try {
-            moveElements();
-          } catch (e) {
-            console.warn('moveElements error', e);
-          }
-
-          const placed = moveAndInsertSearchBar();
-          retries++;
-
-          if (placed) {
-            showSearchBar();
-
-            if (!observerStarted) {
-              observerStarted = true;
-              const observer = new MutationObserver(() => {
-                moveElements();
-                const stillInPlace = moveAndInsertSearchBar();
-                if (stillInPlace) showSearchBar();
-                else hideSearchBar();
-              })
-              observer.observe(document.body, { childList: true, subtree: true });
-
-              // ✅ Call callback once layout is ready
-              if (typeof callback === 'function') callback();
-            }
-          } else {
-            hideSearchBar();
-            if (retries < MAX_RETRIES) {
-              setTimeout(ensurePositioned, RECHECK_DELAY);
-            } else {
-              console.warn('instant-search-bar repositioning retries exceeded.');
-            }
+        } else {
+          if (facets.parentElement !== leftContainer) {
+            leftContainer.appendChild(facets);
           }
         }
 
-        ensurePositioned();
+      } finally {
+        // Release the guard on next tick so legitimate external mutations
+        // (e.g. InstantSearch adding a widget) can still re-trigger a move.
+        setTimeout(() => { moveBusy = false; }, 0);
       }
-
-      function boot(callback) {
-        moveElements();
-        startRepositionWatcher(callback);
-        let resizeTimer = null;
-        window.addEventListener('resize', function () {
-          if (resizeTimer) clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(() => moveElements(), 120);
-        })
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => boot(callbackAfterAll));
-      } else {
-        boot(callbackAfterAll);
-      }
-
-    // ✅ Callback after everything is done (layout, search bar, and hits)
-    function callbackAfterAll() {
-      let cleanupDone = false;
-
-      const ensureSearchBoxVisible = () => {
-        const searchBox = document.querySelector('.ais-SearchBox');
-        if (searchBox) {
-          searchBox.style.display = 'block';
-          return;
-        }
-        const observer = new MutationObserver((_, obs) => {
-          const sb = document.querySelector('.ais-SearchBox');
-          if (sb) {
-            sb.style.display = 'block';
-            obs.disconnect();
-          }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-      };
-
-      const executeCleanup = () => {
-        if (cleanupDone) return;
-        cleanupDone = true;
-
-        try {
-          const elementsToClear = [
-            ...document.querySelectorAll('.algolia-instant-selector-results'),
-            ...document.querySelectorAll('.hits-per-page-container'),
-            ...document.querySelectorAll('.ais-ViewToggle')
-          ];
-
-          const idsToClear = ['refine-toggle', 'algolia-stats', 'algolia-sorts'];
-
-          elementsToClear.forEach(el => el?.removeAttribute('style'));
-          idsToClear.forEach(id => {
-            const el = document.getElementById(id);
-            el?.removeAttribute('style');
-          });
-
-          ensureSearchBoxVisible();
-        } finally {
-          if (loader) loader.style.display = 'none';
-        }
-      };
-
-      // -----------------------------
-      // Observe for .ais-Hits--empty anywhere in the DOM
-      // -----------------------------
-      const observer = new MutationObserver(() => {
-        const emptyResults = document.querySelector(
-          '.instant-search-results-container .ais-Hits--empty'
-        );
-        if (emptyResults) {
-          executeCleanup();
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-
-      // -----------------------------
-      // Absolute failsafe
-      // -----------------------------
-      setTimeout(() => {
-        if (!cleanupDone) executeCleanup();
-      }, 1500);
     }
 
-    })()
+    // ── ensureSearchBoxVisible ────────────────────────────────────────────────
 
-    // 🧹 Remove PA products after filter
-    /*;(function () {
-      const TARGET_SELECTOR = '#instant-search-results-container'
-      const PRODUCT_SELECTOR = '.ais-Hits-list li:has(.pa-product)'
+    function ensureSearchBoxVisible() {
+      const sb = document.querySelector('.ais-SearchBox');
+      if (sb) { sb.style.display = 'block'; return; }
 
-      const waitForTarget = setInterval(() => {
-        const target = document.querySelector(TARGET_SELECTOR)
-        if (!target) return
+      const obs = new MutationObserver((_, o) => {
+        const found = document.querySelector('.ais-SearchBox');
+        if (found) { found.style.display = 'block'; o.disconnect(); }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    }
 
-        clearInterval(waitForTarget)
-        let isFirstRender = true
-        let timeout
+    // ── clearInlineStyles ─────────────────────────────────────────────────────
+    // Removes any leftover inline display:none / display:block that we set
+    // during the loading phase, so CSS takes full control again.
 
-        const observer = new MutationObserver(() => {
-          clearTimeout(timeout)
-          timeout = setTimeout(() => {
-            if (isFirstRender) {
-              isFirstRender = false
-              return
-            }
+    function clearInlineStyles() {
+      const elements = [
+        ...document.querySelectorAll('.algolia-instant-selector-results'),
+        ...document.querySelectorAll('.hits-per-page-container'),
+        ...document.querySelectorAll('.ais-ViewToggle'),
+      ];
+      ['refine-toggle', 'algolia-stats', 'algolia-sorts'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) elements.push(el);
+      });
+      elements.forEach(el => el.removeAttribute('style'));
 
-            const products = document.querySelectorAll(PRODUCT_SELECTOR)
-            if (products.length > 0) {
-              products.forEach(el => el.remove())
-              console.log('🧹 PA products removed after filter change.')
-            }
-          }, 200)
-        })
+      ensureSearchBoxVisible();
+      hideLoader();
+    }
 
-        observer.observe(target, { childList: true, subtree: true })
-      }, 300)
-    })()*/
-  })
+    // ── watchForResults ───────────────────────────────────────────────────────
+    // Hides the loader once InstantSearch has rendered its first result set
+    // (whether there are hits or not).  Covers both empty AND non-empty cases.
+
+    function watchForResults() {
+      // InstantSearch adds one of these two classes after its first render:
+      //   .ais-Hits-list   → results exist
+      //   .ais-Hits--empty → no results
+      const READY_SELECTORS = [
+        '#instant-search-results-container .ais-Hits-list',
+        '#instant-search-results-container .ais-Hits--empty',
+        '#instant-search-results-container .ais-InfiniteHits-list',
+        '#instant-search-results-container .ais-InfiniteHits--empty',
+      ].join(', ');
+
+      const checkReady = () => document.querySelector(READY_SELECTORS);
+
+      if (checkReady()) { clearInlineStyles(); return; }
+
+      const obs = new MutationObserver(() => {
+        if (checkReady()) {
+          clearInlineStyles();
+          obs.disconnect();
+        }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // ── startRepositionWatcher ────────────────────────────────────────────────
+    // Polls until #instant-search-bar is successfully moved, then hands off
+    // to a MutationObserver for ongoing maintenance.
+
+    function startRepositionWatcher() {
+      hideSearchBar();
+
+      let retries         = 0;
+      let observerStarted = false;
+
+      function attempt() {
+        moveElements();
+
+        const placed = moveAndInsertSearchBar();
+        retries++;
+
+        if (placed) {
+          showSearchBar();
+
+          if (!observerStarted) {
+            observerStarted = true;
+
+            const obs = new MutationObserver(() => {
+              moveElements();
+              if (moveAndInsertSearchBar()) showSearchBar();
+              else hideSearchBar();
+            });
+            // Watch subtree so late-rendered widgets are caught.
+            // childList only — avoids firing on every attribute tweak.
+            obs.observe(document.body, { childList: true, subtree: true });
+
+            // Layout is stable — now watch for IS render completion
+            watchForResults();
+          }
+        } else {
+          hideSearchBar();
+          if (retries < MAX_RETRIES) {
+            setTimeout(attempt, RECHECK_DELAY);
+          } else {
+            console.warn('[PLP] Repositioning retries exceeded — showing search bar anyway.');
+            showSearchBar();
+            watchForResults();
+          }
+        }
+      }
+
+      attempt();
+    }
+
+    // ── View toggle (grid / list) ─────────────────────────────────────────────
+
+    function initViewToggle() {
+      const body          = document.body;
+      const toggleButtons = document.querySelectorAll('.ais-ViewToggle-button');
+
+      const updateProductClasses = () => {
+        document.querySelectorAll('.pa-product').forEach(p => {
+          p.classList.toggle('list-view-col', body.classList.contains('list-view'));
+        });
+      };
+
+      // Wait for .pa-product elements (InstantSearch renders them asynchronously)
+      const waitForProducts = () => {
+        if (document.querySelectorAll('.pa-product').length) {
+          updateProductClasses();
+        } else {
+          setTimeout(waitForProducts, 200);
+        }
+      };
+
+      const savedView = localStorage.getItem('viewMode');
+      if (savedView === 'list') {
+        body.classList.add('list-view');
+        document.querySelector('[data-view="list"]')?.classList.add('is-active');
+      } else {
+        body.classList.remove('list-view');
+        document.querySelector('[data-view="grid"]')?.classList.add('is-active');
+      }
+
+      waitForProducts();
+
+      toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const view = button.getAttribute('data-view');
+          toggleButtons.forEach(btn => btn.classList.remove('is-active'));
+          button.classList.add('is-active');
+          body.classList.toggle('list-view', view === 'list');
+          localStorage.setItem('viewMode', view);
+          updateProductClasses();
+        });
+      });
+    }
+
+    // ── boot ──────────────────────────────────────────────────────────────────
+
+    function boot() {
+      initViewToggle();
+      startRepositionWatcher();
+
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(moveElements, 120);
+      });
+    }
+
+    // Run after full page load so InstantSearch widgets have had a chance to mount
+    if (document.readyState === 'complete') {
+      boot();
+    } else {
+      window.addEventListener('load', boot);
+    }
+
+  })();
