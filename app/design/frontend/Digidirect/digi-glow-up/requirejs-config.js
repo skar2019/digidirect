@@ -6,10 +6,5 @@ var config = {
   ],
   paths: {
       'mage/calendar': false
-  },
-  map: {
-      '*': {
-          'Magento_Theme/js/view/messages': 'js/view/messages'
-      }
   }
 };
