@@ -18,19 +18,25 @@ define([
 
         initialize: function () {
             this._super();
-
             this.cookieMessages = ko.observableArray(
                 _.unique($.cookieStorage.get('mage-messages'), 'text')
             );
+            this.messages = customerData.get('messages');
 
-            this.messages = customerData.get('messages').extend({
-                disposableCustomerData: 'messages'
+            // Capture messages on first load
+            var self = this;
+            var captured = false;
+
+            this.messages.subscribe(function (newValue) {
+                if (newValue && newValue.messages && newValue.messages.length > 0) {
+                    // Store a copy when real messages arrive
+                    self._persistedMessages = newValue;
+                    captured = true;
+                } else if (captured && self._persistedMessages) {
+                    // Something is trying to clear messages — restore them
+                    customerData.set('messages', self._persistedMessages);
+                }
             });
-
-            // Force to clean obsolete messages
-            if (!_.isEmpty(this.messages().messages)) {
-                customerData.set('messages', {});
-            }
 
             $.mage.cookies.set('mage-messages', '', {
                 samesite: 'strict',
@@ -42,10 +48,12 @@ define([
          * Remove a customer data message by index
          */
         removeMessage: function (index) {
-            var data = this.messages();
-
+            var data = this._persistedMessages || this.messages();
             if (data && data.messages) {
                 data.messages.splice(index, 1);
+                if (data.messages.length === 0) {
+                    this._persistedMessages = null;
+                }
                 customerData.set('messages', data);
             }
         },
