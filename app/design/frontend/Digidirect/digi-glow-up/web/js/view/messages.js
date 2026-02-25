@@ -28,9 +28,9 @@ define([
             });
 
             // Force to clean obsolete messages
-            if (!_.isEmpty(this.messages().messages)) {
+            /*if (!_.isEmpty(this.messages().messages)) {
                 customerData.set('messages', {});
-            }
+            }*/
 
             $.mage.cookies.set('mage-messages', '', {
                 samesite: 'strict',

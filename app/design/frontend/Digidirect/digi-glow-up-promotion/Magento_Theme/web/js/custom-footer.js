@@ -91,10 +91,12 @@ require(['jquery'], function($) {
         $closeButtons.on('click', function() {
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
+                // Blur all buttons to remove focus highlight
+                $footerNavItems.blur();
             });
         });
 
-        // Footer nav item handler - ONLY run if nav is ready
+        // Footer nav item handler
         $footerNavItems.on('click', function(e) {
             const $nav = $('.mobile-footer-nav');
 
@@ -107,7 +109,12 @@ require(['jquery'], function($) {
             const $this = $(this);
             requestAnimationFrame(() => {
                 $footerNavItems.removeClass('active');
+                // Blur all buttons first
+                $footerNavItems.blur();
+                // Then add active to clicked button
                 $this.addClass('active');
+                // Blur the clicked button to remove focus state
+                $this.blur();
             });
         });
     }

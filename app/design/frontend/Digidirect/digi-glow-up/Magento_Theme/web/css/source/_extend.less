@@ -28,6 +28,28 @@
     opacity: 1;
 }
 
+/* Remove tap highlight and focus states on Android */
+.mobile-footer-nav .footer-nav-item {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none;
+}
+
+/* Remove focus outline on buttons */
+.mobile-footer-nav .footer-nav-item:focus {
+    outline: none;
+}
+
+/* Remove active/focus pseudo-classes on Android */
+.mobile-footer-nav .footer-nav-item:active,
+.mobile-footer-nav .footer-nav-item:focus,
+.mobile-footer-nav .footer-nav-item:focus-visible {
+    outline: none;
+    background: none;
+}
+
 #pa-welcome-back {
     visibility: hidden;
 }
