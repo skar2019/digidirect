@@ -13,7 +13,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 
 <div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
 
-    <?php if (!$isCustomerLoggedIn) : ?>
+    <?php if (!$isCustomerLoggedIn): ?>
         <!--TODO: REMOVE SVG SCRIPTS, ADD CONDITION IF USER NOT LOGGED IN ONLY SHOW ACCOUNT CREATE BAR-->
         <div class="account-signin-banner">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@ $isCustomerLoggedIn = $quoteHelper->isCustomerLoggedIn();
 
             <div class="signin-text">
                 <span>Have a <span class="orange-txt">digi</span>Direct account?</span>
-                <a href="<?= $block->getUrl('customer/account/login'); ?>">Sign in</a> <span class="mobile-hide-txt">for a faster checkout.</span>
+                <a href="<?= $block->getUrl('customer/account/login', ['referer' => base64_encode($block->getUrl('checkout'))]); ?>">Sign in</a> <span class="mobile-hide-txt">for a faster checkout.</span>
             </div>
         </div>
     <?php endif; ?>
