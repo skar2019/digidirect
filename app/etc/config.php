@@ -765,7 +765,7 @@ return [
         'Digidirect_RecommendedProducts' => 1,
         'Digidirect_RelatedProduct' => 1,
         'Digidirect_SEO' => 1,
-        'LatitudeNew_Payment' => 0,
+        'LatitudeNew_Payment' => 1,
         'Digidirect_SellerShipping' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
         'Digidirect_ShippingAvailabilityCheckCollect' => 1,
