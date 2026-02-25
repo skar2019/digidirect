@@ -11,7 +11,7 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: message.text, afterRender: $parent.addExtraClassName($element)"></div>
-            <button type="button" class="message-close" data-bind="click: function() { $root.removeCookieMessage($index()) }" aria-label="Close">&#x2715;</button>
+            <button type="button" class="message-close" data-bind="click: $parent.removeCookieMessage.bind($parent, $index())" aria-label="Close">&#x2715;</button>
         </div>
     </div>
     <div data-bind="foreach: { data: messages().messages, as: 'message' }" class="messages">
@@ -20,7 +20,7 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: message.text, afterRender: $parent.addExtraClassName($element)"></div>
-            <button type="button" class="message-close" data-bind="click: function() { $root.removeMessage($index()) }" aria-label="Close">&#x2715;</button>
+            <button type="button" class="message-close" data-bind="click: $parent.removeMessage.bind($parent, $index())" aria-label="Close">&#x2715;</button>
         </div>
     </div>
 </div>

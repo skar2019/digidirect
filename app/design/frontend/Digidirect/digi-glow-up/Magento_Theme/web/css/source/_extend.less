@@ -14,14 +14,23 @@
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    background: none;
+    background: 0 0;
     border: none;
     cursor: pointer;
     font-size: 16px;
     line-height: 1;
     padding: 4px;
     color: inherit;
-    opacity: 0.6;
+    opacity: .6;
+    display: none;
+}
+
+.message .message-close,
+.message-success .message-close,
+.message-error .message-close,
+.message-warning .message-close,
+.message-notice .message-close {
+    display: block;
 }
 
 .message-close:hover {
