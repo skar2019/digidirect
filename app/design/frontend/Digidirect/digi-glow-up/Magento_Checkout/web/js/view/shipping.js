@@ -63,6 +63,15 @@ define([
     var popUp = null;
     var marketplacer_sellers = window.checkoutConfig.quoteData.marketplacer_sellers;
 
+    // CRITICAL: Monitor ALL changes to shipping method
+    var originalShippingMethod = quote.shippingMethod;
+    quote.shippingMethod = function(newValue) {
+        if (arguments.length > 0) {
+            console.trace('🔴 SETTING SHIPPING METHOD TO:', newValue);
+        }
+        return originalShippingMethod.apply(this, arguments);
+    };
+
     return Component.extend({
         defaults: {
             template: 'Magento_Checkout/shipping',
@@ -89,6 +98,9 @@ define([
          * @return {exports}
          */
         initialize: function () {
+            console.log('=== SHIPPING COMPONENT INITIALIZE START ===');
+            console.log('Initial shipping method:', quote.shippingMethod());
+
             var self = this,
                 hasNewAddress,
                 fieldsetName = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
@@ -145,6 +157,10 @@ define([
             });
 
             this.afterRender = this.afterRenderHandler.bind(this);
+
+            console.log('=== SHIPPING COMPONENT INITIALIZE END ===');
+            console.log('Shipping method after initialize:', quote.shippingMethod());
+
             return this;
         },
 
