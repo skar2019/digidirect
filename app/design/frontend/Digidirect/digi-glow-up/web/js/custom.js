@@ -491,9 +491,7 @@ define([
             )
                 return;
 
-            let lastCartCount = parseInt(
-                $('.counter-number[data-bind*="summary_count"]').text() || 0
-            );
+            let lastCartCount = -1; // -1 = not yet initialized
             let firstLoad = true;
             let upsellReady = false;
             let minicartQueued = false;
@@ -506,8 +504,8 @@ define([
                 const observer = new MutationObserver(() => {
                     const currentCount = parseInt($counter.text() || 0);
 
-                    // Skip first load
-                    if (firstLoad) {
+                    // On first render, just capture the real count — never open minicart
+                    if (firstLoad || lastCartCount === -1) {
                         lastCartCount = currentCount;
                         firstLoad = false;
                         return;
