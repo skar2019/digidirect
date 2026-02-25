@@ -527,13 +527,13 @@ define([
                         return;
                     }
 
-                    // Open minicart when count increases
-                    //if (currentCount > lastCartCount) {
-                    const $minicartDropdown = $(
-                        '.block-minicart[data-role="dropdownDialog"]'
-                    );
-                    if (!$minicartDropdown.is(":visible")) openMinicart();
-                    //}
+                    // Open minicart ONLY when count actually increases (item added)
+                    if (currentCount > lastCartCount) {
+                        const $minicartDropdown = $(
+                            '.block-minicart[data-role="dropdownDialog"]'
+                        );
+                        if (!$minicartDropdown.is(":visible")) openMinicart();
+                    }
 
                     lastCartCount = currentCount;
                 });
