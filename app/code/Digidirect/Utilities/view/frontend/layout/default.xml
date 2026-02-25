@@ -19,7 +19,7 @@
         </referenceContainer>
 
         <referenceContainer name="page.messages">
-            <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages" template="Digidirect_Utilities::messages.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="messages" as="messages" template="Digidirect_Utilities::messages.phtml"/>
         </referenceContainer>
     </body>
 </page>

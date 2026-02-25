@@ -8,14 +8,12 @@ define([
     'jquery/jquery-storageapi'
 ], function ($, Component, customerData, _, escaper, ko) {
     'use strict';
-
     return Component.extend({
         defaults: {
             cookieMessages: [],
             messages: [],
             allowedTags: ['div', 'span', 'b', 'strong', 'i', 'em', 'u', 'a']
         },
-
         initialize: function () {
             this._super();
             this.cookieMessages = ko.observableArray(
@@ -23,17 +21,14 @@ define([
             );
             this.messages = customerData.get('messages');
 
-            // Capture messages on first load
             var self = this;
             var captured = false;
 
             this.messages.subscribe(function (newValue) {
                 if (newValue && newValue.messages && newValue.messages.length > 0) {
-                    // Store a copy when real messages arrive
                     self._persistedMessages = newValue;
                     captured = true;
                 } else if (captured && self._persistedMessages) {
-                    // Something is trying to clear messages — restore them
                     customerData.set('messages', self._persistedMessages);
                 }
             });
@@ -43,7 +38,15 @@ define([
                 domain: ''
             });
         },
-
+        /**
+         * Add extra class name to message element
+         */
+        addExtraClassName: function (element) {
+            var className = $(element).find('[data-message-classname]').data('message-classname');
+            if (className) {
+                $(element).closest('.message').addClass(className);
+            }
+        },
         /**
          * Remove a customer data message by index
          */
@@ -57,14 +60,12 @@ define([
                 customerData.set('messages', data);
             }
         },
-
         /**
          * Remove a cookie message by index
          */
         removeCookieMessage: function (index) {
             this.cookieMessages.splice(index, 1);
         },
-
         /**
          * Prepare the given message to be rendered as HTML
          */
