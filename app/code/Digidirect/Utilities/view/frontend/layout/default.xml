@@ -18,8 +18,10 @@
             </block>
         </referenceContainer>
 
-        <referenceContainer name="page.messages">
-            <block class="Magento\Framework\View\Element\Template" name="messages" as="messages" template="Digidirect_Utilities::messages.phtml"/>
-        </referenceContainer>
+        <referenceBlock name="messages">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Digidirect_Utilities::messages.phtml</argument>
+            </action>
+        </referenceBlock>
     </body>
 </page>
