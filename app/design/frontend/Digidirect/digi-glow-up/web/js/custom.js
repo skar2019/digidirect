@@ -484,52 +484,57 @@ define([
         ✅ Excludes first load, account pages & cart page
      ======================== */
         function setupPersistentAutoMinicart() {
-            // ⛔ Skip on account pages and cart page
             if (
                 isAccountPage() ||
                 window.location.pathname.includes("/checkout/cart")
-            )
-                return;
+            ) return;
 
-            let lastCartCount = -1; // -1 = not yet initialized
-            let firstLoad = true;
+            let lastCartCount = -1;
             let upsellReady = false;
             let minicartQueued = false;
 
-            // 🧩 Attach counter observer
-            const attachObserver = ($counter) => {
+            // ✅ Get the TRUE initial cart count from CustomerData before observing anything
+            function initCartCount(callback) {
+                const cartData = customerData.get('cart')();
+                const count = parseInt(cartData?.summary_count || 0);
+
+                if (count >= 0) {
+                    // CustomerData already loaded
+                    lastCartCount = count;
+                    callback();
+                } else {
+                    // Wait for CustomerData to load
+                    const sub = customerData.get('cart').subscribe(function (data) {
+                        lastCartCount = parseInt(data?.summary_count || 0);
+                        sub.dispose();
+                        callback();
+                    });
+                }
+            }
+
+            function attachObserver($counter) {
                 if ($counter.data("observer-attached")) return;
                 $counter.data("observer-attached", true);
 
                 const observer = new MutationObserver(() => {
                     const currentCount = parseInt($counter.text() || 0);
 
-                    // On first render, just capture the real count — never open minicart
-                    if (firstLoad || lastCartCount === -1) {
-                        lastCartCount = currentCount;
-                        firstLoad = false;
-                        return;
-                    }
+                    // lastCartCount not yet initialized — skip
+                    if (lastCartCount === -1) return;
 
-                    // Check upsell
-                    const $upsell = $("#pa-upsell");
-                    const isUpsellActive =
-                        $upsell.length && $upsell.hasClass("active");
-
-                    if (isUpsellActive) {
-                        console.log(
-                            "🟡 Upsell active — delaying minicart open."
-                        );
-                        minicartQueued = true; // mark to open later
-                        lastCartCount = currentCount;
-                        return;
-                    }
-
-                    // Open minicart ONLY when count actually increases (item added)
+                    // Only open minicart if count genuinely increased
                     if (currentCount > lastCartCount) {
-                        const $minicartDropdown = $(
-                            '.block-minicart[data-role="dropdownDialog"]'
-                        );
+                        const $upsell = $("#pa-upsell");
+                        const isUpsellActive = $upsell.length && $upsell.hasClass("active");
+
+                        if (isUpsellActive) {
+                            console.log("🟡 Upsell active — delaying minicart open.");
+                            minicartQueued = true;
+                            lastCartCount = currentCount;
+                            return;
+                        }
+
+                        const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]');
                         if (!$minicartDropdown.is(":visible")) openMinicart();
                     }
 
@@ -541,43 +546,41 @@ define([
                     subtree: true,
                     characterData: true,
                 });
-            };
+            }
 
-            // 🧩 Observe counters injected later
-            const bodyObserver = new MutationObserver(() => {
-                const $counters = $(
-                    '.counter-number[data-bind*="summary_count"]'
-                );
-                $counters.each(function () {
+            // ✅ Only start observing AFTER we have the real initial count
+            initCartCount(function () {
+                console.log("🛒 Initial cart count captured:", lastCartCount);
+
+                // Attach to existing counters
+                $('.counter-number[data-bind*="summary_count"]').each(function () {
                     attachObserver($(this));
                 });
 
-                // 🔍 Wait until #pa-upsell appears, then attach its observer
-                if (!upsellReady && $("#pa-upsell").length) {
-                    upsellReady = true;
-                    observeUpsell();
-                }
+                // Watch for counters injected later
+                const bodyObserver = new MutationObserver(() => {
+                    $('.counter-number[data-bind*="summary_count"]').each(function () {
+                        attachObserver($(this));
+                    });
+
+                    if (!upsellReady && $("#pa-upsell").length) {
+                        upsellReady = true;
+                        observeUpsell();
+                    }
+                });
+
+                bodyObserver.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
             });
 
-            bodyObserver.observe(document.body, {
-                childList: true,
-                subtree: true,
-            });
-
-            // Attach to existing counters
-            $('.counter-number[data-bind*="summary_count"]').each(function () {
-                attachObserver($(this));
-            });
-
-            // 🧩 Separate function to watch upsell activation
             function observeUpsell() {
                 const upsellEl = document.getElementById("pa-upsell");
                 if (!upsellEl) return;
 
-                console.log("👀 Watching #pa-upsell...");
                 const upsellObserver = new MutationObserver(() => {
                     const isActive = $("#pa-upsell").hasClass("active");
-
                     if (!isActive && minicartQueued) {
                         console.log("🟢 Upsell closed — opening minicart now.");
                         minicartQueued = false;
