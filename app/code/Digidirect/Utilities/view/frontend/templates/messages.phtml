@@ -11,7 +11,7 @@
             class: 'message-' + message.type + ' ' + message.type + ' message',
             'data-ui-id': 'message-' + message.type
         }">
-            <div data-bind="html: $root.prepareMessageForHtml(message.text)"></div>
+            <div data-bind="html: $root.prepareMessageForHtml(message.text), afterRender: $root.addExtraClassName($element)"></div>
             <button type="button" class="message-close" data-bind="click: function() { $root.removeCookieMessage($index()) }" aria-label="Close">&#x2715;</button>
         </div>
     </div>
@@ -24,7 +24,7 @@
             class: 'message-' + message.type + ' ' + message.type + ' message',
             'data-ui-id': 'message-' + message.type
         }">
-            <div data-bind="html: $root.prepareMessageForHtml(message.text)"></div>
+            <div data-bind="html: $root.prepareMessageForHtml(message.text), afterRender: $root.addExtraClassName($element)"></div>
             <button type="button" class="message-close" data-bind="click: function() { $root.removeMessage($index()) }" aria-label="Close">&#x2715;</button>
         </div>
     </div>
@@ -35,11 +35,11 @@
         "*": {
             "Magento_Ui/js/core/app": {
                 "components": {
-                        "messages": {
-                            "component": "Magento_Theme/js/view/messages"
-                        }
+                    "messages": {
+                        "component": "Digidirect_Utilities/js/view/messages"
                     }
                 }
             }
+        }
     }
 </script>
