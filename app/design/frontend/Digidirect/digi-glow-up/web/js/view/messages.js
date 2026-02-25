@@ -18,17 +18,18 @@ define([
 
         initialize: function () {
             this._super();
-
             this.cookieMessages = ko.observableArray(
                 _.unique($.cookieStorage.get('mage-messages'), 'text')
             );
-
             this.messages = customerData.get('messages');
 
-            // Force to clean obsolete messages
-            /*if (!_.isEmpty(this.messages().messages)) {
-                customerData.set('messages', {});
-            }*/
+            console.log('Init - cookie messages:', $.cookieStorage.get('mage-messages'));
+            console.log('Init - customer messages:', this.messages());
+
+            this.messages.subscribe(function (newValue) {
+                console.log('Messages changed:', newValue);
+                console.trace();
+            });
 
             $.mage.cookies.set('mage-messages', '', {
                 samesite: 'strict',
