@@ -35,14 +35,13 @@ define([
             },
             onSuccessDelivery: function () {
                 this._super();
-                this.toggleToDeliveryShippingMethod();
+                // REMOVED: Auto-selection of shipping method
+                // this.toggleToDeliveryShippingMethod();
             },
             toggleToDeliveryShippingMethod: function () {
-                var closestRadioButtons = $('.row.collect').siblings().find('input');
-
-                if (!closestRadioButtons.filter(':checked').length) {
-                    closestRadioButtons.first().trigger('click');
-                }
+                // DISABLED: This was auto-selecting standard shipping
+                // Keep function for compatibility but don't auto-click
+                //console.log('toggleToDeliveryShippingMethod called but auto-selection disabled');
             },
             setCollectAbstractEntityFields: function () {
                 var self = this,
@@ -114,13 +113,13 @@ define([
                     .done(function (data) {
                         var responseObj = JSON.parse(data);
                         if (_.has(responseObj, 'error')) {
-                            console.log(data);
+                            //console.log(data);
                             return;
                         }
                         this.checkAvailableVsmData(responseObj, postcode);
                     }.bind(this))
                     .fail(function (response) {
-                        console.log(response);
+                        //console.log(response);
                     })
             },
 

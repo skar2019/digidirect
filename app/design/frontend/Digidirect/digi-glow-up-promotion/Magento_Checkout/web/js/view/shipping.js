@@ -63,6 +63,7 @@ define([
     var popUp = null;
     var marketplacer_sellers = window.checkoutConfig.quoteData.marketplacer_sellers;
 
+
     return Component.extend({
         defaults: {
             template: 'Magento_Checkout/shipping',
@@ -89,11 +90,20 @@ define([
          * @return {exports}
          */
         initialize: function () {
+            //console.log('=== SHIPPING COMPONENT INITIALIZE START ===');
+            //console.log('Initial shipping method:', quote.shippingMethod());
+
             var self = this,
                 hasNewAddress,
                 fieldsetName = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
 
             this._super();
+
+            // Monitor shipping method changes
+            // quote.shippingMethod.subscribe(function(newMethod) {
+            //     console.log('🔴 SHIPPING METHOD CHANGED TO:', newMethod);
+            //     console.trace('Stack trace:');
+            // });
 
             if (!quote.isVirtual()) {
                 stepNavigator.registerStep(
@@ -145,6 +155,10 @@ define([
             });
 
             this.afterRender = this.afterRenderHandler.bind(this);
+
+            // console.log('=== SHIPPING COMPONENT INITIALIZE END ===');
+            // console.log('Shipping method after initialize:', quote.shippingMethod());
+
             return this;
         },
 
@@ -456,6 +470,8 @@ define([
         },
 
         afterRenderHandler: function () {
+            //console.log('=== afterRenderHandler START ===');
+
             if (isCustomerLoggedIn && quote.getQuoteId()) {
                 $('.cart-id .cart-id-txt').text('Your Cart ID:');
                 $('.cart-id .cart-id-value').text(quote.getQuoteId().toString().match(/.{1,3}/g).join('-'));
@@ -464,9 +480,38 @@ define([
             //$('#checkoutSteps li#customer-info').css('border-bottom', 'none');
 
             setTimeout(() => {
+                //console.log('=== 800ms timeout - before toggleDownAllSections ===');
+                //console.log('Current shipping method:', quote.shippingMethod());
+
                 checkoutToggle.toggleDownAllSections();
 
+                //console.log('=== Setting delivery radio to checked ===');
                 $('#collect_type_delivery').prop('checked', true).trigger('change');
+
+                //console.log('After trigger change - shipping method:', quote.shippingMethod());
+
+                // Clear any auto-selected shipping method when defaulting to Delivery
+                setTimeout(function() {
+                    //console.log('=== 200ms inner timeout - checking for auto-selection ===');
+                    //console.log('Current shipping method:', quote.shippingMethod());
+
+                    if (quote.shippingMethod()) {
+                        // console.log('Shipping method exists:', {
+                        //     carrier: quote.shippingMethod().carrier_code,
+                        //     method: quote.shippingMethod().method_code,
+                        //     full: quote.shippingMethod()
+                        // });
+
+                        if (quote.shippingMethod().carrier_code === 'standard') {
+                            //console.log('CLEARING auto-selected standard shipping on page load');
+                            quote.shippingMethod(null);
+                            //console.log('After clear - shipping method:', quote.shippingMethod());
+                        }
+                    } else {
+                        //console.log('No shipping method set - good!');
+                    }
+                }, 200);
+
                 // $('.collect-block').css('display', 'none !important');
 
                 if ($('#collect_type_collect').length === 0) {
@@ -488,6 +533,8 @@ define([
                     $('#opc-shipping_method .step-title').text('2. Shipping Method');
                     $('#payment .step-title.accordion-step').text('3. Payment');
                 }
+
+                //console.log('=== afterRenderHandler END ===');
 
             }, 800);
         },

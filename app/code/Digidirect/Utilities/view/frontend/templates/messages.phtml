@@ -1,3 +1,9 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
 <div data-bind="scope: 'messages'">
     <div data-bind="foreach: { data: cookieMessages, as: 'message' }" class="messages">
         <div data-bind="attr: {
@@ -5,6 +11,7 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: message.text, afterRender: $parent.addExtraClassName($element)"></div>
+            <button type="button" class="message-close" data-bind="click: function() { $root.removeCookieMessage($index()) }" aria-label="Close">&#x2715;</button>
         </div>
     </div>
     <div data-bind="foreach: { data: messages().messages, as: 'message' }" class="messages">
@@ -13,6 +20,7 @@
             'data-ui-id': 'message-' + message.type
         }">
             <div data-bind="html: message.text, afterRender: $parent.addExtraClassName($element)"></div>
+            <button type="button" class="message-close" data-bind="click: function() { $root.removeMessage($index()) }" aria-label="Close">&#x2715;</button>
         </div>
     </div>
 </div>
