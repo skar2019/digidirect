@@ -59,14 +59,15 @@ class InjectPickupStoreToEmail implements ObserverInterface
                 // $order->setData('pickup_store_name', $storeName);
                 // break;
                 // }
-
+                
                 if ($collectPlace instanceof \Digidirect\Collect\Api\Data\CollectPlaceInterface) {
                     $storeName = 'digiDirect ' . $collectPlace->getName();
                     $order->setShippingDescription('Click & Collect - ' . $storeName);
-                    $order->getShippingAddress()->setCompany($storeName);
-                    $order->getShippingAddress()->save();
+                    $order->setCustomerNote($storeName);
+                    $order->setCustomerNoteNotify(false);
                     break;
                 }
+                
             }
         } catch (\Exception $e) {
             $this->logger->error('InjectPickupStoreToEmail Error: ' . $e->getMessage());
