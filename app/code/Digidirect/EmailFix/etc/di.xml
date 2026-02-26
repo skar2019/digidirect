@@ -12,10 +12,9 @@
             type="Digidirect\EmailFix\Plugin\OrderEmailPlugin" />
     </type>
 
-    <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
-        <plugin name="digidirect_pickup_email_fix"
-                type="Digidirect\EmailFix\Plugin\OrderSenderPlugin"
-                sortOrder="10"/>
+    <type name="Magento\Sales\Model\Order\Email\Container\Template">
+        <plugin name="digidirect_add_pickup_to_email"
+                type="Digidirect\EmailFix\Plugin\AddPickupToEmail" />
     </type>
 
 </config>
