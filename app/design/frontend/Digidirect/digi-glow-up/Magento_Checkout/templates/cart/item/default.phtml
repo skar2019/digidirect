@@ -16,11 +16,6 @@ $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_
 $quoteHelper = $this->helper('Digidirect\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 
-$_cartOrderLimit = (int)$product->getData('order_limit');
-if (empty($_cartOrderLimit) || $_cartOrderLimit <= 0) {
-    $_cartOrderLimit = 10;
-}
-
 $qff_base_points = 0;
 $qff_bonus_points = 0;
 $qty = $block->getQty();
@@ -147,20 +142,19 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     </div>
 
                     <input
-                        id="cart-<?php echo $_item->getId(); ?>-qty"
-                        name="cart[<?php echo $_item->getId(); ?>][qty]"
-                        data-cart-item-id="<?php echo $_item->getSku(); ?>"
-                        data-order-limit="<?php echo $_cartOrderLimit; ?>"
-                        value="<?php echo $block->getQty(); ?>"
-                        type="number"
-                        size="4"
-                        title="<?= __('Qty'); ?>"
-                        class="input-text qty"
-                        maxlength="12"
-                        min="1"
-                        inputmode="numeric"
-                        data-validate="{'required':true,'validate-greater-than-zero':true}"
-                        data-role="cart-item-qty"
+                      id="cart-<?php echo $_item->getId(); ?>-qty"
+                      name="cart[<?php echo $_item->getId(); ?>][qty]"
+                      data-cart-item-id="<?php echo $_item->getSku(); ?>"
+                      value="<?php echo $block->getQty(); ?>"
+                      type="number"
+                      size="4"
+                      title="<?= __('Qty'); ?>"
+                      class="input-text qty"
+                      maxlength="12"
+                      min="1"
+                      inputmode="numeric"
+                      data-validate="{'required':true,'validate-greater-than-zero':true}"
+                      data-role="cart-item-qty"
                     />
 
                     <div class="qty-increase-cart-page">
@@ -198,178 +192,3 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
     </td>
 </tr>
 </tbody>
-
-<script>
-    require([
-        'jquery',
-        'domReady!'
-    ], function ($) {
-
-        var GLOBAL_CART_LIMIT = 10;
-
-        // Track qty in memory per item — keyed by input id
-        // This way we NEVER touch input.val() until form submit
-        var qtyState = {};
-
-        function getProductLimit($input) {
-            var limit = parseInt($input.attr('data-order-limit'));
-            return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
-        }
-
-        function getTotalQty() {
-            var total = 0;
-            $.each(qtyState, function (id, val) {
-                total += val;
-            });
-            return total;
-        }
-
-        function showError($input, message) {
-            var $field = $input.closest('.field.qty');
-            var $error = $field.find('.cart-qty-error');
-            if (!$error.length) {
-                $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
-                $input.closest('.qty-buttons').after($error);
-            }
-            $error.text(message).show();
-        }
-
-        function clearError($input) {
-            $input.closest('.field.qty').find('.cart-qty-error').hide();
-        }
-
-        function validate($input, newQty) {
-            var id           = $input.attr('id');
-            var productLimit = getProductLimit($input);
-            var currentQty   = qtyState[id] || 0;
-            var totalQty     = getTotalQty();
-            var projected    = (totalQty - currentQty) + newQty;
-
-            if (newQty > productLimit) {
-                return 'The maximum you may purchase of this item is ' + productLimit + '.';
-            }
-            if (projected > GLOBAL_CART_LIMIT) {
-                var allowedForItem = GLOBAL_CART_LIMIT - (totalQty - currentQty);
-                return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
-                    + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
-            }
-            return null;
-        }
-
-        /**
-         * Update display value only — does NOT write to the actual input
-         * so Magento's cart widget never detects a change
-         */
-        function updateDisplay($input, val) {
-            var id = $input.attr('id');
-            qtyState[id] = val;
-
-            // Write to a sibling display element, not the input itself
-            var $display = $input.closest('.qty-buttons').find('.qty-display');
-            if ($display.length) {
-                $display.text(val);
-            }
-        }
-
-        /**
-         * Flush qtyState values into inputs just before form submit
-         */
-        function flushQtyToInputs() {
-            $.each(qtyState, function (id, val) {
-                $('#' + id).val(val);
-            });
-        }
-
-        function initCartRow($row) {
-            var $input    = $row.find('input[data-role="cart-item-qty"]');
-            var $increase = $row.find('.qty-increase-cart-page');
-            var $decrease = $row.find('.qty-decrease-cart-page');
-
-            if (!$input.length) return;
-
-            var id           = $input.attr('id');
-            var initialQty   = parseInt($input.val()) || 1;
-
-            // Seed state from server-rendered value
-            qtyState[id] = initialQty;
-
-            // Hide the real input, show a read-only display span instead
-            // This completely prevents Magento from detecting any value changes
-            $input.css('opacity', '0').css('position', 'absolute').css('pointer-events', 'none').css('width', '0');
-
-            var $display = $('<span class="qty-display" style="'
-                + 'display:inline-flex;align-items:center;justify-content:center;'
-                + 'min-width:32px;text-align:center;font-size:14px;font-weight:500;'
-                + '">' + initialQty + '</span>');
-
-            $input.closest('.qty-buttons').find('.qty-decrease-cart-page').after($display);
-
-            $increase.on('click.orderLimit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-
-                var currentVal = qtyState[id];
-                var newVal     = currentVal + 1;
-                var error      = validate($input, newVal);
-
-                if (error) {
-                    showError($input, error);
-                    return;
-                }
-                clearError($input);
-                updateDisplay($input, newVal);
-            });
-
-            $decrease.on('click.orderLimit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-
-                var currentVal = qtyState[id];
-                if (currentVal <= 1) return;
-                clearError($input);
-                updateDisplay($input, currentVal - 1);
-            });
-        }
-
-        // Init after full page load — well after Magento's cart widget settles
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('tbody.cart.item').each(function () {
-                    initCartRow($(this));
-                });
-            }, 300);
-        });
-
-        // On "Update Cart" — flush state to inputs then let Magento submit normally
-        $(document).on('click', '[data-cart-item-update]', function () {
-            flushQtyToInputs();
-            // Let the native submit proceed — no preventDefault here
-        });
-
-        // Final guard on form submit
-        $(document).on('submit.orderLimit', '#form-validate', function (e) {
-            var hasError = false;
-
-            $('input[data-role="cart-item-qty"]').each(function () {
-                var $input = $(this);
-                var id     = $input.attr('id');
-                var newQty = qtyState[id] || parseInt($input.val()) || 1;
-                var error  = validate($input, newQty);
-                if (error) {
-                    showError($input, error);
-                    hasError = true;
-                }
-            });
-
-            if (hasError) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-
-            flushQtyToInputs();
-        });
-    });
-</script>
