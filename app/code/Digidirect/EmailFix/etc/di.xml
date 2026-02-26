@@ -12,4 +12,9 @@
             type="Digidirect\EmailFix\Plugin\OrderEmailPlugin" />
     </type>
 
+    <type name="Magento\Sales\Model\Order\Email\Container\Template">
+        <plugin name="digidirect_add_pickup_to_email"
+                type="Digidirect\EmailFix\Plugin\AddPickupToEmail" />
+    </type>
+
 </config>
