@@ -16,6 +16,11 @@ $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_
 $quoteHelper = $this->helper('Digidirect\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 
+$_cartOrderLimit = (int)$product->getData('order_limit');
+if (empty($_cartOrderLimit) || $_cartOrderLimit <= 0) {
+    $_cartOrderLimit = 10;
+}
+
 $qff_base_points = 0;
 $qff_bonus_points = 0;
 $qty = $block->getQty();
@@ -142,19 +147,20 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     </div>
 
                     <input
-                      id="cart-<?php echo $_item->getId(); ?>-qty"
-                      name="cart[<?php echo $_item->getId(); ?>][qty]"
-                      data-cart-item-id="<?php echo $_item->getSku(); ?>"
-                      value="<?php echo $block->getQty(); ?>"
-                      type="number"
-                      size="4"
-                      title="<?= __('Qty'); ?>"
-                      class="input-text qty"
-                      maxlength="12"
-                      min="1"
-                      inputmode="numeric"
-                      data-validate="{'required':true,'validate-greater-than-zero':true}"
-                      data-role="cart-item-qty"
+                        id="cart-<?php echo $_item->getId(); ?>-qty"
+                        name="cart[<?php echo $_item->getId(); ?>][qty]"
+                        data-cart-item-id="<?php echo $_item->getSku(); ?>"
+                        data-order-limit="<?php echo $_cartOrderLimit; ?>"
+                        value="<?php echo $block->getQty(); ?>"
+                        type="number"
+                        size="4"
+                        title="<?= __('Qty'); ?>"
+                        class="input-text qty"
+                        maxlength="12"
+                        min="1"
+                        inputmode="numeric"
+                        data-validate="{'required':true,'validate-greater-than-zero':true}"
+                        data-role="cart-item-qty"
                     />
 
                     <div class="qty-increase-cart-page">
@@ -192,3 +198,154 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
     </td>
 </tr>
 </tbody>
+<script>
+require([
+    'jquery',
+    'Magento_Customer/js/customer-data',
+    'domReady!'
+], function ($, customerData) {
+
+    var GLOBAL_CART_LIMIT = 10;
+
+    /**
+     * Get per-product order limit from a cart item row.
+     * We pass it via a data attribute on the input (added below via PHP).
+     */
+    function getProductLimit($input) {
+        var limit = parseInt($input.attr('data-order-limit'));
+        return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
+    }
+
+    /**
+     * Calculate total qty across all cart item inputs.
+     */
+    function getTotalCartQty() {
+        var total = 0;
+        $('input[data-role="cart-item-qty"]').each(function () {
+            total += parseInt($(this).val()) || 0;
+        });
+        return total;
+    }
+
+    /**
+     * Show or hide an error message below a qty input.
+     */
+    function showError($input, message) {
+        var $error = $input.closest('.field.qty').find('.cart-qty-error');
+        if (!$error.length) {
+            $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
+            $input.closest('.qty-buttons').after($error);
+        }
+        $error.text(message).show();
+    }
+
+    function clearError($input) {
+        $input.closest('.field.qty').find('.cart-qty-error').hide();
+    }
+
+    /**
+     * Validate a single item's qty against both limits.
+     * Returns an error string or null if valid.
+     */
+    function validate($input, newQty) {
+        var productLimit  = getProductLimit($input);
+        var currentQty    = parseInt($input.val()) || 0;
+        var totalCartQty  = getTotalCartQty();
+
+        // Swap out old value with new value for total calculation
+        var projectedTotal = (totalCartQty - currentQty) + newQty;
+
+        if (newQty > productLimit) {
+            return 'The maximum you may purchase of this item is ' + productLimit + '.';
+        }
+        if (projectedTotal > GLOBAL_CART_LIMIT) {
+            var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+            return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
+                + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+        }
+        return null;
+    }
+
+    /**
+     * Wire up +/- buttons and input validation for a single cart row.
+     */
+    function initCartRow($row) {
+        var $input    = $row.find('input[data-role="cart-item-qty"]');
+        var $increase = $row.find('.qty-increase-cart-page');
+        var $decrease = $row.find('.qty-decrease-cart-page');
+
+        if (!$input.length) return;
+
+        // Increase button
+        $increase.on('click', function () {
+            var currentVal = parseInt($input.val()) || 1;
+            var newVal     = currentVal + 1;
+            var error      = validate($input, newVal);
+
+            if (error) {
+                showError($input, error);
+                return; // Block the increase
+            }
+            clearError($input);
+            $input.val(newVal);
+        });
+
+        // Decrease button
+        $decrease.on('click', function () {
+            var currentVal = parseInt($input.val()) || 1;
+            var newVal     = Math.max(1, currentVal - 1);
+            clearError($input);
+            $input.val(newVal);
+        });
+
+        // Manual input change
+        $input.on('change', function () {
+            var newVal = parseInt($(this).val()) || 1;
+            var error  = validate($input, newVal);
+
+            if (error) {
+                showError($input, error);
+                // Revert to max allowed
+                var productLimit = getProductLimit($input);
+                var totalCartQty = getTotalCartQty();
+                var currentQty   = parseInt($input.val()) || 0;
+                var allowedByGlobal = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+                $input.val(Math.min(productLimit, Math.max(1, allowedByGlobal)));
+            } else {
+                clearError($input);
+            }
+        });
+    }
+
+    // Init all rows on load
+    $('tbody.cart.item').each(function () {
+        initCartRow($(this));
+    });
+
+    // Block the update cart form submission if any limits are violated
+    $('#form-validate').on('submit', function (e) {
+        var hasError = false;
+
+        $('input[data-role="cart-item-qty"]').each(function () {
+            var $input = $(this);
+            var newQty = parseInt($input.val()) || 1;
+            var error  = validate($input, newQty);
+            if (error) {
+                showError($input, error);
+                hasError = true;
+            }
+        });
+
+        // Final global total check
+        if (getTotalCartQty() > GLOBAL_CART_LIMIT) {
+            hasError = true;
+        }
+
+        if (hasError) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+    });
+});
+</script>

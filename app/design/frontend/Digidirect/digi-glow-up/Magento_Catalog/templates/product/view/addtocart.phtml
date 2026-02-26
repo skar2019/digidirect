@@ -148,6 +148,115 @@ if (empty($_orderLimit) || $_orderLimit == 0)
     }
 </script>
 
+<script>
+require([
+    'Magento_Customer/js/customer-data',
+    'jquery',
+    'domReady!'
+], function (customerData, $) {
+    var productId  = <?php echo (int)$_product->getId() ?>;
+    var orderLimit = <?php echo (int)$_orderLimit ?>;
+
+    function adjustQtyForCart() {
+        var cartData  = customerData.get('cart')();
+        var qtyInCart = 0;      // qty of THIS product in cart
+        var totalCartQty = 0;   // ALL items in cart combined
+
+        if (cartData && cartData.items && cartData.items.length) {
+            $.each(cartData.items, function (i, item) {
+                var itemQty = parseInt(item.qty) || 0;
+                totalCartQty += itemQty;
+                if (parseInt(item.product_id) === productId) {
+                    qtyInCart += itemQty;
+                }
+            });
+        }
+
+        var globalLimit       = 10;
+        var remainingGlobal   = Math.max(0, globalLimit - totalCartQty);
+        var remainingProduct  = Math.max(0, orderLimit - qtyInCart);
+
+        // Strictest limit wins — global cap is the hard ceiling
+        var remainingQty = Math.min(remainingProduct, remainingGlobal);
+
+        var $qtyInput  = $('#qty');
+        var $errorMsg  = $('.qty-error-message');
+        var $addToCart = $('#product-addtocart-button');
+        var $form      = $('#product_addtocart_form');
+
+        // Update input constraints
+        $qtyInput.attr('data-maxQty', remainingQty);
+        $qtyInput.attr('max', remainingQty);
+
+        if (parseInt($qtyInput.val()) > remainingQty) {
+            $qtyInput.val(Math.max(1, remainingQty));
+        }
+
+        // Build contextual error message based on which limit is the binding constraint
+        function buildErrorMessage(selectedQty) {
+            selectedQty = selectedQty || 0;
+            if (remainingGlobal <= 0) {
+                return 'Your cart has reached the maximum of ' + globalLimit + ' items total. '
+                    + 'Please remove some items before adding more.';
+            }
+            if (remainingProduct <= 0) {
+                return 'You have reached the per-product limit of ' + orderLimit + ' for this item. '
+                    + 'You already have ' + qtyInCart + ' in your cart.';
+            }
+            if (selectedQty && (totalCartQty + selectedQty) > globalLimit) {
+                return 'Cannot add ' + selectedQty + ' item(s). Your cart has ' + totalCartQty
+                    + ' item(s) and the maximum total allowed is ' + globalLimit + '. '
+                    + 'You can add up to ' + remainingGlobal + ' more.';
+            }
+            if (selectedQty && (qtyInCart + selectedQty) > orderLimit) {
+                return 'Cannot add ' + selectedQty + ' item(s). You already have ' + qtyInCart
+                    + ' of this product and the per-product limit is ' + orderLimit + '. '
+                    + 'You can add up to ' + remainingProduct + ' more.';
+            }
+            return 'The maximum you may purchase is ' + orderLimit + ' of this item. '
+                + 'Cart total is limited to ' + globalLimit + ' items.';
+        }
+
+        // Block entirely if no remaining slots (either limit)
+        if (remainingQty <= 0) {
+            $addToCart.prop('disabled', true).addClass('disabled');
+            $qtyInput.val(0);
+            $errorMsg.text(buildErrorMessage()).show();
+            return;
+        }
+
+        // Re-enable if previously disabled
+        $addToCart.prop('disabled', false).removeClass('disabled');
+        $errorMsg.hide();
+
+        // Pre-submission validation
+        $form.off('submit.orderLimit').on('submit.orderLimit', function (e) {
+            var selectedQty = parseInt($qtyInput.val()) || 1;
+
+            if ((totalCartQty + selectedQty) > globalLimit) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $errorMsg.text(buildErrorMessage(selectedQty)).show();
+                return false;
+            }
+
+            if ((qtyInCart + selectedQty) > orderLimit) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $errorMsg.text(buildErrorMessage(selectedQty)).show();
+                return false;
+            }
+        });
+    }
+
+    // React to cart updates (e.g. after adding from another tab)
+    customerData.get('cart').subscribe(adjustQtyForCart);
+
+    // Run immediately on page load
+    adjustQtyForCart();
+});
+</script>
+
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
 <script>
     function addToCartClick() {
@@ -156,15 +265,13 @@ if (empty($_orderLimit) || $_orderLimit == 0)
             'ecomm_pagetype': 'cart',
             'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
             'currency': 'AUD',
-            'ecomm_prodid': [
-                <?php echo $_product->getId() ?>
-            ]
+            'ecomm_prodid': [<?php echo $_product->getId() ?>]
         });
     }
     var form = document.getElementById("product_addtocart_form");
-    if(form.addEventListener){
+    if (form.addEventListener) {
         form.addEventListener("submit", addToCartClick, false);
-    }else if(form.attachEvent){
+    } else if (form.attachEvent) {
         form.attachEvent("onsubmit", addToCartClick);
     }
 </script>
