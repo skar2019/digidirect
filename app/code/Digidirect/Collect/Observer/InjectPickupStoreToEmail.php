@@ -45,13 +45,20 @@ class InjectPickupStoreToEmail implements ObserverInterface
                 //     break;
                 // }
 
+                // if ($collectPlace instanceof \Digidirect\Collect\Api\Data\CollectPlaceInterface) {
+                //     $storeName = $collectPlace->getName(); // e.g. "Parramatta"
+                //     $order->setShippingDescription('Click & Collect - ' . $storeName);
+                //     $order->setData('pickup_store_name', 'digiDirect ' . $storeName); // e.g. "digiDirect Parramatta"
+                //     $order->setData('pickup_store_address', $collectPlace->getAddress());
+                //     break;
+                // }
+
                 if ($collectPlace instanceof \Digidirect\Collect\Api\Data\CollectPlaceInterface) {
-                    $storeName = $collectPlace->getName(); // e.g. "Parramatta"
-                    $order->setShippingDescription('Click & Collect - ' . $storeName);
-                    $order->setData('pickup_store_name', 'digiDirect ' . $storeName); // e.g. "digiDirect Parramatta"
-                    $order->setData('pickup_store_address', $collectPlace->getAddress());
-                    break;
-                }
+                $storeName = 'digiDirect ' . $collectPlace->getName();
+                $order->setShippingDescription('Click & Collect - ' . $storeName);
+                $order->setData('pickup_store_name', $storeName);
+                break;
+            }
             }
         } catch (\Exception $e) {
             $this->logger->error('InjectPickupStoreToEmail Error: ' . $e->getMessage());
