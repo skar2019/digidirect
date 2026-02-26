@@ -277,40 +277,54 @@ require([
         if (!$input.length) return;
 
         // Increase button
-        $increase.on('click', function () {
+        $increase.on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
             var currentVal = parseInt($input.val()) || 1;
             var newVal     = currentVal + 1;
             var error      = validate($input, newVal);
 
             if (error) {
                 showError($input, error);
-                return; // Block the increase
+                return;
             }
             clearError($input);
             $input.val(newVal);
         });
 
         // Decrease button
-        $decrease.on('click', function () {
+        $decrease.on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
             var currentVal = parseInt($input.val()) || 1;
-            var newVal     = Math.max(1, currentVal - 1);
+            if (currentVal <= 1) return;
             clearError($input);
-            $input.val(newVal);
+            $input.val(currentVal - 1);
         });
 
         // Manual input change
-        $input.on('change', function () {
+        $input.on('change.orderLimit', function () {
             var newVal = parseInt($(this).val()) || 1;
             var error  = validate($input, newVal);
 
             if (error) {
                 showError($input, error);
-                // Revert to max allowed
-                var productLimit = getProductLimit($input);
-                var totalCartQty = getTotalCartQty();
-                var currentQty   = parseInt($input.val()) || 0;
+                var productLimit    = getProductLimit($input);
+                var totalCartQty    = getTotalCartQty();
+                var currentQty      = newVal; // current displayed val
                 var allowedByGlobal = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
-                $input.val(Math.min(productLimit, Math.max(1, allowedByGlobal)));
+                var safeVal         = Math.min(productLimit, Math.max(1, allowedByGlobal));
+
+                // Revert value without re-triggering this handler
+                $input.off('change.orderLimit');
+                $input.val(safeVal);
+                setTimeout(function () {
+                    $input.on('change.orderLimit', arguments.callee);
+                }, 0);
             } else {
                 clearError($input);
             }
