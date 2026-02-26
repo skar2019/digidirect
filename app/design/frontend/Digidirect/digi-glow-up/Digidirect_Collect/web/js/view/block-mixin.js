@@ -37,6 +37,11 @@ define([
                 this._super();
                 // REMOVED: Auto-selection of shipping method
                 // this.toggleToDeliveryShippingMethod();
+                // Stop loader and re-enable buttons
+                $('input[name="delivery_type"]').prop('disabled', false);
+                $('body').trigger('processStop');
+
+                console.log('🔵 block-mixin onSuccessDelivery - loader stopped');
             },
             toggleToDeliveryShippingMethod: function () {
                 // DISABLED: This was auto-selecting standard shipping
