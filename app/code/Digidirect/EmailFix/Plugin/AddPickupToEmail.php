@@ -2,7 +2,6 @@
 
 namespace Digidirect\EmailFix\Plugin;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\InventoryApi\Api\SourceRepositoryInterface;
 use Magento\Sales\Model\Order;
 
@@ -27,9 +26,18 @@ class AddPickupToEmail
         /** @var Order $order */
         $order = $templateVars['order'];
 
-        $pickupLocationCode = $order->getData('pickup_location_code');
+        $shippingAddress = $order->getShippingAddress();
 
-        if ($pickupLocationCode) {
+        if (!$shippingAddress) {
+            return [$templateVars];
+        }
+
+        $extensionAttributes = $shippingAddress->getExtensionAttributes();
+
+        if ($extensionAttributes && $extensionAttributes->getPickupLocationCode()) {
+
+            $pickupLocationCode = $extensionAttributes->getPickupLocationCode();
+
             try {
                 $source = $this->sourceRepository->get($pickupLocationCode);
 
