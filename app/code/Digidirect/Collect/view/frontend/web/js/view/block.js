@@ -216,8 +216,15 @@ define([
         },
         onSuccessDelivery: function (response) {
             this.collectPlaces.removeAll();
+            // Stop loader and re-enable buttons
+            $('input[name="delivery_type"]').prop('disabled', false);
+            $('body').trigger('processStop');
         },
-        onErrorDelivery: function (response) {},
+        onErrorDelivery: function (response) {
+            // Stop loader and re-enable buttons even on error
+            $('input[name="delivery_type"]').prop('disabled', false);
+            $('body').trigger('processStop');
+        },
         applyCollectPlaceToAllItems: function (id, name) {
             var self,
                 serviceUrl,
