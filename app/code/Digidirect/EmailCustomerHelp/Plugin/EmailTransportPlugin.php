@@ -40,6 +40,7 @@ class EmailTransportPlugin
             try {
                 $tracks = method_exists($shipment, 'getAllTracks') ? $shipment->getAllTracks() : [];
                 foreach ($tracks as $track) {
+                    $this->logger->debug('Tracks - Carrier Code: '. $track->getCarrierCode(). ' for order id ' . $shipment->getOrderId() . ' and track number ' . $track->getTrackNumber());
                     if ($track->getCarrierCode() == 'standard' ||
                         $track->getCarrierCode() == 'express' ||
                         $track->getCarrierCode() == 'intlshippingnz' ||
@@ -51,6 +52,7 @@ class EmailTransportPlugin
                         $tracksHtml = $track->getTitle()." - ".$track->getTrackNumber();
                     }
                 }
+                $this->logger->debug('tracksHtml for digidirect shipping: ' . $tracksHtml);
             } catch (\Throwable $e) {
                 $this->logger->debug('Error building tracks_html: ' . $e->getMessage());
             }
