@@ -9,7 +9,7 @@ var config = {
   },
   map: {
       '*': {
-          'Magento_Theme/js/view/messages': 'js/view/messages'
+          'Magento_Theme/js/view/messages': 'Digidirect_Utilities/js/view/messages'
       }
   }
 };

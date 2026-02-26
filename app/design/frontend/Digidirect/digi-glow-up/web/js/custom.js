@@ -484,54 +484,46 @@ define([
         ✅ Excludes first load, account pages & cart page
      ======================== */
         function setupPersistentAutoMinicart() {
-            // ⛔ Skip on account pages and cart page
             if (
                 isAccountPage() ||
                 window.location.pathname.includes("/checkout/cart")
-            )
-                return;
+            ) return;
 
-            let lastCartCount = parseInt(
-                $('.counter-number[data-bind*="summary_count"]').text() || 0
-            );
-            let firstLoad = true;
+            let lastCartCount = -1; // -1 = baseline not yet set
+            let baselineSet = false;
             let upsellReady = false;
             let minicartQueued = false;
 
-            // 🧩 Attach counter observer
-            const attachObserver = ($counter) => {
+            function attachObserver($counter) {
                 if ($counter.data("observer-attached")) return;
                 $counter.data("observer-attached", true);
 
                 const observer = new MutationObserver(() => {
                     const currentCount = parseInt($counter.text() || 0);
 
-                    // Skip first load
-                    if (firstLoad) {
+                    // ✅ First time counter renders with a real value = set baseline, never open
+                    if (!baselineSet) {
+                        // Wait until Knockout renders a stable non-empty value
+                        if ($counter.text().trim() === '') return;
                         lastCartCount = currentCount;
-                        firstLoad = false;
+                        baselineSet = true;
+                        console.log("🛒 Baseline cart count set:", lastCartCount);
                         return;
                     }
 
-                    // Check upsell
-                    const $upsell = $("#pa-upsell");
-                    const isUpsellActive =
-                        $upsell.length && $upsell.hasClass("active");
-
-                    if (isUpsellActive) {
-                        console.log(
-                            "🟡 Upsell active — delaying minicart open."
-                        );
-                        minicartQueued = true; // mark to open later
-                        lastCartCount = currentCount;
-                        return;
-                    }
-
-                    // Open minicart ONLY when count actually increases (item added)
+                    // ✅ Only open if count genuinely increased AFTER baseline was set
                     if (currentCount > lastCartCount) {
-                        const $minicartDropdown = $(
-                            '.block-minicart[data-role="dropdownDialog"]'
-                        );
+                        const $upsell = $("#pa-upsell");
+                        const isUpsellActive = $upsell.length && $upsell.hasClass("active");
+
+                        if (isUpsellActive) {
+                            console.log("🟡 Upsell active — delaying minicart open.");
+                            minicartQueued = true;
+                            lastCartCount = currentCount;
+                            return;
+                        }
+
+                        const $minicartDropdown = $('.block-minicart[data-role="dropdownDialog"]');
                         if (!$minicartDropdown.is(":visible")) openMinicart();
                     }
 
@@ -543,18 +535,14 @@ define([
                     subtree: true,
                     characterData: true,
                 });
-            };
+            }
 
-            // 🧩 Observe counters injected later
+            // Watch for counter elements injected by Knockout
             const bodyObserver = new MutationObserver(() => {
-                const $counters = $(
-                    '.counter-number[data-bind*="summary_count"]'
-                );
-                $counters.each(function () {
+                $('.counter-number[data-bind*="summary_count"]').each(function () {
                     attachObserver($(this));
                 });
 
-                // 🔍 Wait until #pa-upsell appears, then attach its observer
                 if (!upsellReady && $("#pa-upsell").length) {
                     upsellReady = true;
                     observeUpsell();
@@ -566,20 +554,17 @@ define([
                 subtree: true,
             });
 
-            // Attach to existing counters
+            // Also attach to any already-existing counters
             $('.counter-number[data-bind*="summary_count"]').each(function () {
                 attachObserver($(this));
             });
 
-            // 🧩 Separate function to watch upsell activation
             function observeUpsell() {
                 const upsellEl = document.getElementById("pa-upsell");
                 if (!upsellEl) return;
 
-                console.log("👀 Watching #pa-upsell...");
                 const upsellObserver = new MutationObserver(() => {
                     const isActive = $("#pa-upsell").hasClass("active");
-
                     if (!isActive && minicartQueued) {
                         console.log("🟢 Upsell closed — opening minicart now.");
                         minicartQueued = false;
