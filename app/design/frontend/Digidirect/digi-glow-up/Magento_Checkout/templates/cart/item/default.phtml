@@ -206,17 +206,20 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
     ], function ($) {
 
         var GLOBAL_CART_LIMIT = 10;
-        var initialized = false;
+
+        // Track qty in memory per item — keyed by input id
+        // This way we NEVER touch input.val() until form submit
+        var qtyState = {};
 
         function getProductLimit($input) {
             var limit = parseInt($input.attr('data-order-limit'));
             return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
         }
 
-        function getTotalCartQty() {
+        function getTotalQty() {
             var total = 0;
-            $('input[data-role="cart-item-qty"]').each(function () {
-                total += parseInt($(this).val()) || 0;
+            $.each(qtyState, function (id, val) {
+                total += val;
             });
             return total;
         }
@@ -236,16 +239,17 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         }
 
         function validate($input, newQty) {
-            var productLimit   = getProductLimit($input);
-            var currentQty     = parseInt($input.attr('data-original-qty')) || parseInt($input.val()) || 0;
-            var totalCartQty   = getTotalCartQty();
-            var projectedTotal = (totalCartQty - currentQty) + newQty;
+            var id           = $input.attr('id');
+            var productLimit = getProductLimit($input);
+            var currentQty   = qtyState[id] || 0;
+            var totalQty     = getTotalQty();
+            var projected    = (totalQty - currentQty) + newQty;
 
             if (newQty > productLimit) {
                 return 'The maximum you may purchase of this item is ' + productLimit + '.';
             }
-            if (projectedTotal > GLOBAL_CART_LIMIT) {
-                var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+            if (projected > GLOBAL_CART_LIMIT) {
+                var allowedForItem = GLOBAL_CART_LIMIT - (totalQty - currentQty);
                 return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
                     + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
             }
@@ -253,19 +257,27 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         }
 
         /**
-         * Set value without triggering Magento's delegated change listener.
-         * Only called on explicit user interaction, never on page load.
+         * Update display value only — does NOT write to the actual input
+         * so Magento's cart widget never detects a change
          */
-        function setQtySilent($input, val) {
-            var $native = $input[0];
-            // Use native setter to bypass jQuery change event
-            var nativeSetter = Object.getOwnPropertyDescriptor(
-                window.HTMLInputElement.prototype, 'value'
-            ).set;
-            nativeSetter.call($native, val);
-            // Do NOT fire 'change' — only update the visual value
-            // Update our tracked original qty reference too
-            $input.attr('data-original-qty', val);
+        function updateDisplay($input, val) {
+            var id = $input.attr('id');
+            qtyState[id] = val;
+
+            // Write to a sibling display element, not the input itself
+            var $display = $input.closest('.qty-buttons').find('.qty-display');
+            if ($display.length) {
+                $display.text(val);
+            }
+        }
+
+        /**
+         * Flush qtyState values into inputs just before form submit
+         */
+        function flushQtyToInputs() {
+            $.each(qtyState, function (id, val) {
+                $('#' + id).val(val);
+            });
         }
 
         function initCartRow($row) {
@@ -275,15 +287,29 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 
             if (!$input.length) return;
 
-            // Store the server-confirmed qty as reference — never triggers reload
-            $input.attr('data-original-qty', $input.val());
+            var id           = $input.attr('id');
+            var initialQty   = parseInt($input.val()) || 1;
+
+            // Seed state from server-rendered value
+            qtyState[id] = initialQty;
+
+            // Hide the real input, show a read-only display span instead
+            // This completely prevents Magento from detecting any value changes
+            $input.css('opacity', '0').css('position', 'absolute').css('pointer-events', 'none').css('width', '0');
+
+            var $display = $('<span class="qty-display" style="'
+                + 'display:inline-flex;align-items:center;justify-content:center;'
+                + 'min-width:32px;text-align:center;font-size:14px;font-weight:500;'
+                + '">' + initialQty + '</span>');
+
+            $input.closest('.qty-buttons').find('.qty-decrease-cart-page').after($display);
 
             $increase.on('click.orderLimit', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
 
-                var currentVal = parseInt($input.val()) || 1;
+                var currentVal = qtyState[id];
                 var newVal     = currentVal + 1;
                 var error      = validate($input, newVal);
 
@@ -292,7 +318,7 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     return;
                 }
                 clearError($input);
-                setQtySilent($input, newVal);
+                updateDisplay($input, newVal);
             });
 
             $decrease.on('click.orderLimit', function (e) {
@@ -300,51 +326,36 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                 e.stopPropagation();
                 e.stopImmediatePropagation();
 
-                var currentVal = parseInt($input.val()) || 1;
+                var currentVal = qtyState[id];
                 if (currentVal <= 1) return;
                 clearError($input);
-                setQtySilent($input, currentVal - 1);
-            });
-
-            // Validate on blur only — avoids Magento's change-based auto-update
-            $input.on('blur.orderLimit', function () {
-                var newVal = parseInt($(this).val()) || 1;
-                var error  = validate($input, newVal);
-
-                if (error) {
-                    showError($input, error);
-                    var productLimit    = getProductLimit($input);
-                    var totalCartQty    = getTotalCartQty();
-                    var currentQty      = newVal;
-                    var allowedByGlobal = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
-                    var safeVal         = Math.min(productLimit, Math.max(1, allowedByGlobal));
-                    setQtySilent($input, safeVal);
-                } else {
-                    clearError($input);
-                }
+                updateDisplay($input, currentVal - 1);
             });
         }
 
-        // Delay init until after Magento's cart widget has fully settled
-        // This prevents our code from interfering with Magento's own initialization cycle
+        // Init after full page load — well after Magento's cart widget settles
         $(window).on('load', function () {
             setTimeout(function () {
-                if (initialized) return;
-                initialized = true;
-
                 $('tbody.cart.item').each(function () {
                     initCartRow($(this));
                 });
-            }, 500);
+            }, 300);
         });
 
-        // Block update cart form if limits violated
+        // On "Update Cart" — flush state to inputs then let Magento submit normally
+        $(document).on('click', '[data-cart-item-update]', function () {
+            flushQtyToInputs();
+            // Let the native submit proceed — no preventDefault here
+        });
+
+        // Final guard on form submit
         $(document).on('submit.orderLimit', '#form-validate', function (e) {
             var hasError = false;
 
             $('input[data-role="cart-item-qty"]').each(function () {
                 var $input = $(this);
-                var newQty = parseInt($input.val()) || 1;
+                var id     = $input.attr('id');
+                var newQty = qtyState[id] || parseInt($input.val()) || 1;
                 var error  = validate($input, newQty);
                 if (error) {
                     showError($input, error);
@@ -357,6 +368,8 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                 e.stopImmediatePropagation();
                 return false;
             }
+
+            flushQtyToInputs();
         });
     });
 </script>
