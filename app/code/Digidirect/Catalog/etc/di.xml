@@ -17,4 +17,7 @@
     <type name="Magento\Framework\View\Result\Page">
         <plugin name="digiprinit_class" type="Digidirect\Catalog\Plugin\Result\Page"/>
     </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="digidirect_order_limit_validation" type="Digidirect\Catalog\Plugin\Checkout\OrderLimitValidation" sortOrder="10"/>
+    </type>
 </config>
