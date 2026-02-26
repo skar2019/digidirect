@@ -53,323 +53,155 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 ?>
 
 <tbody class="cart item <?php echo $freeGift; ?>" id="cart-item-<?php echo (int)$_item->getId(); ?>">
-<tr class="item-info <?php echo $congigProductClass; ?>">
-    <td data-th="<?php echo $block->escapeHtml(__('Item')); ?>" class="col item">
-        <?php if ($block->hasProductUrl()): ?>
-            <a href="<?php echo $block->getProductUrl() ?>"
-               title="<?php echo $block->escapeHtml($block->getProductName()) ?>"
-               tabindex="-1"
-               class="product-item-photo">
-                <?php echo $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
-            </a>
-        <?php else: ?>
-            <span class="product-item-photo">
-                <?php echo $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
-            </span>
-        <?php endif; ?>
-
-        <div class="product-image-name-wrapper">
-            <div class="product-item-details">
-                <strong class="product-item-name">
-                    <?php if ($block->hasProductUrl()): ?>
-                        <a href="<?php echo $block->getProductUrl() ?>">
-                            <?php echo $block->escapeHtml($block->getProductName()) ?>
-                        </a>
-                    <?php else: ?>
-                        <?php echo $block->escapeHtml($block->getProductName()) ?>
-                    <?php endif; ?>
-                </strong>
-
-                <?php if ($isSddAvailable): ?>
-                    <div class="pickup-available-wrapper">
-                        <span class="pickup-available-text"><?= __("Available for Same-Day Delivery"); ?></span>
-                    </div>
-                <?php endif; ?>
-
-                <?php if ($_options = $block->getOptionList()): ?>
-                    <dl class="item-options">
-                        <?php foreach ($_options as $_option): ?>
-                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option); ?>
-                            <dt><?= $block->escapeHtml($_option['label']); ?></dt>
-                            <dd>
-                                <?php if (isset($_option['custom_html'])): ?>
-                                    <?= $_option['custom_html']; ?>
-                                <?php elseif (isset($_formatedOptionValue['full_view'])): ?>
-                                    <?= $_formatedOptionValue['full_view']; ?>
-                                <?php else: ?>
-                                    <?= $_formatedOptionValue['value']; ?>
-                                <?php endif; ?>
-                            </dd>
-                        <?php endforeach; ?>
-                    </dl>
-                <?php endif; ?>
-
-                <?php if ($messages = $block->getMessages()): ?>
-                    <?php foreach ($messages as $message): ?>
-                        <div class="cart item message <?= $message['type']; ?>">
-                            <div><?= $block->escapeHtml($message['text']); ?></div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-                <?php if ($isProductWebOnly): ?>
-                    <div class="cart item message webonly-message">
-                        <span><?= __("This product is available for delivery only."); ?></span>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <div class="price-wrapper-mobile">
-                <?php if ($canApplyMsrp): ?>
-                    <span class="cart msrp subtotal">--</span>
-                <?php else: ?>
-                    <?= $block->getRowTotalHtml($_item); ?>
-                <?php endif; ?>
-                <span class="item-actions">
-                    <?= $block->getActions($_item); ?>
+    <tr class="item-info <?php echo $congigProductClass; ?>">
+        <td data-th="<?php echo $block->escapeHtml(__('Item')); ?>" class="col item">
+            <?php if ($block->hasProductUrl()): ?>
+                <a href="<?php echo $block->getProductUrl() ?>"
+                   title="<?php echo $block->escapeHtml($block->getProductName()) ?>"
+                   tabindex="-1"
+                   class="product-item-photo">
+                    <?php echo $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
+                </a>
+            <?php else: ?>
+                <span class="product-item-photo">
+                    <?php echo $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
                 </span>
-            </div>
-        </div>
-    </td>
+            <?php endif; ?>
 
-    <!-- 🧮 Quantity Column -->
-    <td class="col qty">
-        <div class="field qty">
-            <label class="label" for="cart-<?php echo $_item->getId(); ?>-qty">
-                <span><?= __('Qty'); ?></span>
-            </label>
-            <div class="control qty-group-control" data-bind="scope: 'qty-change'">
-                <div class="qty-buttons">
-                    <div class="qty-decrease-cart-page">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                        <path d="M4 8h8v1H4V8z"></path>
-                      </svg>
-                    </div>
+            <div class="product-image-name-wrapper">
+                <div class="product-item-details">
+                    <strong class="product-item-name">
+                        <?php if ($block->hasProductUrl()): ?>
+                            <a href="<?php echo $block->getProductUrl() ?>">
+                                <?php echo $block->escapeHtml($block->getProductName()) ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo $block->escapeHtml($block->getProductName()) ?>
+                        <?php endif; ?>
+                    </strong>
 
-                    <input
-                        id="cart-<?php echo $_item->getId(); ?>-qty"
-                        name="cart[<?php echo $_item->getId(); ?>][qty]"
-                        data-cart-item-id="<?php echo $_item->getSku(); ?>"
-                        data-order-limit="<?php echo $_cartOrderLimit; ?>"
-                        value="<?php echo $block->getQty(); ?>"
-                        type="number"
-                        size="4"
-                        title="<?= __('Qty'); ?>"
-                        class="input-text qty"
-                        maxlength="12"
-                        min="1"
-                        inputmode="numeric"
-                        data-validate="{'required':true,'validate-greater-than-zero':true}"
-                        data-role="cart-item-qty"
-                    />
+                    <?php if ($isSddAvailable): ?>
+                        <div class="pickup-available-wrapper">
+                            <span class="pickup-available-text"><?= __("Available for Same-Day Delivery"); ?></span>
+                        </div>
+                    <?php endif; ?>
 
-                    <div class="qty-increase-cart-page">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <rect width="20" height="20" rx="10" fill="#242426"></rect>
-                        <path d="M14.35 10.5H6.12C5.83 10.5 5.6 10.27 5.6 10C5.6 9.73 5.83 9.5 6.12 9.5H14.35C14.63 9.5 14.86 9.73 14.86 10C14.86 10.27 14.63 10.5 14.35 10.5Z" fill="#F2F2F7"></path>
-                        <path d="M10.23 14.5C9.95 14.5 9.71 14.27 9.71 14V6C9.71 5.73 9.95 5.5 10.23 5.5C10.51 5.5 10.74 5.73 10.74 6V14C10.74 14.27 10.51 14.5 10.23 14.5Z" fill="#F2F2F7"></path>
-                      </svg>
-                    </div>
+                    <?php if ($_options = $block->getOptionList()): ?>
+                        <dl class="item-options">
+                            <?php foreach ($_options as $_option): ?>
+                                <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option); ?>
+                                <dt><?= $block->escapeHtml($_option['label']); ?></dt>
+                                <dd>
+                                    <?php if (isset($_option['custom_html'])): ?>
+                                        <?= $_option['custom_html']; ?>
+                                    <?php elseif (isset($_formatedOptionValue['full_view'])): ?>
+                                        <?= $_formatedOptionValue['full_view']; ?>
+                                    <?php else: ?>
+                                        <?= $_formatedOptionValue['value']; ?>
+                                    <?php endif; ?>
+                                </dd>
+                            <?php endforeach; ?>
+                        </dl>
+                    <?php endif; ?>
+
+                    <?php if ($messages = $block->getMessages()): ?>
+                        <?php foreach ($messages as $message): ?>
+                            <div class="cart item message <?= $message['type']; ?>">
+                                <div><?= $block->escapeHtml($message['text']); ?></div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <?php if ($isProductWebOnly): ?>
+                        <div class="cart item message webonly-message">
+                            <span><?= __("This product is available for delivery only."); ?></span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="price-wrapper-mobile">
+                    <?php if ($canApplyMsrp): ?>
+                        <span class="cart msrp subtotal">--</span>
+                    <?php else: ?>
+                        <?= $block->getRowTotalHtml($_item); ?>
+                    <?php endif; ?>
+                    <span class="item-actions">
+                        <?= $block->getActions($_item); ?>
+                    </span>
                 </div>
             </div>
-            <button type="submit"
-                    name="update_cart_action"
-                    data-cart-item-update
-                    value="update_qty"
-                    title="<?= __('Update Shopping Cart'); ?>"
-                    class="action update">
-                <span><?= __('Update'); ?></span>
-            </button>
-        </div>
-    </td>
+        </td>
 
-    <td class="col subtotal" data-th="<?= __('Subtotal'); ?>">
-        <?php if ($canApplyMsrp): ?>
-            <span class="cart msrp subtotal">--</span>
-        <?php else: ?>
-            <span class="old-price">
-                <?= '$' . number_format($product->getPrice(), 2); ?>
+        <!-- 🧮 Quantity Column -->
+        <td class="col qty">
+            <div class="field qty">
+                <label class="label" for="cart-<?php echo $_item->getId(); ?>-qty">
+                    <span><?= __('Qty'); ?></span>
+                </label>
+                <div class="control qty-group-control" data-bind="scope: 'qty-change'">
+                    <div class="qty-buttons">
+                        <div class="qty-decrease-cart-page">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                <path d="M4 8h8v1H4V8z"></path>
+                            </svg>
+                        </div>
+
+                        <!-- ✅ Visible display span — server-rendered with correct initial qty -->
+                        <span class="qty-display" style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;text-align:center;font-size:14px;font-weight:500;">
+                            <?php echo $block->getQty(); ?>
+                        </span>
+
+                        <!-- ✅ Hidden input — only written to on AJAX update or form submit -->
+                        <input
+                            id="cart-<?php echo $_item->getId(); ?>-qty"
+                            name="cart[<?php echo $_item->getId(); ?>][qty]"
+                            data-cart-item-id="<?php echo $_item->getSku(); ?>"
+                            data-order-limit="<?php echo $_cartOrderLimit; ?>"
+                            value="<?php echo $block->getQty(); ?>"
+                            type="number"
+                            size="4"
+                            title="<?= __('Qty'); ?>"
+                            class="input-text qty"
+                            maxlength="12"
+                            min="1"
+                            inputmode="numeric"
+                            data-validate="{'required':true,'validate-greater-than-zero':true}"
+                            data-role="cart-item-qty"
+                            style="opacity:0;position:absolute;pointer-events:none;width:0;"
+                        />
+
+                        <div class="qty-increase-cart-page">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <rect width="20" height="20" rx="10" fill="#242426"></rect>
+                                <path d="M14.35 10.5H6.12C5.83 10.5 5.6 10.27 5.6 10C5.6 9.73 5.83 9.5 6.12 9.5H14.35C14.63 9.5 14.86 9.73 14.86 10C14.86 10.27 14.63 10.5 14.35 10.5Z" fill="#F2F2F7"></path>
+                                <path d="M10.23 14.5C9.95 14.5 9.71 14.27 9.71 14V6C9.71 5.73 9.95 5.5 10.23 5.5C10.51 5.5 10.74 5.73 10.74 6V14C10.74 14.27 10.51 14.5 10.23 14.5Z" fill="#F2F2F7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit"
+                        name="update_cart_action"
+                        data-cart-item-update
+                        value="update_qty"
+                        title="<?= __('Update Shopping Cart'); ?>"
+                        class="action update">
+                    <span><?= __('Update'); ?></span>
+                </button>
+            </div>
+        </td>
+
+        <td class="col subtotal" data-th="<?= __('Subtotal'); ?>">
+            <?php if ($canApplyMsrp): ?>
+                <span class="cart msrp subtotal">--</span>
+            <?php else: ?>
+                <span class="old-price">
+                    <?= '$' . number_format($product->getPrice(), 2); ?>
+                </span>
+                <?= $block->getRowTotalHtml($_item); ?>
+            <?php endif; ?>
+            <span class="item-actions">
+                <?= $block->getActions($_item); ?>
             </span>
-            <?= $block->getRowTotalHtml($_item); ?>
-        <?php endif; ?>
-        <span class="item-actions">
-            <?= $block->getActions($_item); ?>
-        </span>
-    </td>
-</tr>
+        </td>
+    </tr>
 </tbody>
-
-<script>
-    require([
-        'jquery',
-        'domReady!'
-    ], function ($) {
-
-        var GLOBAL_CART_LIMIT = 10;
-
-        // Track qty in memory per item — keyed by input id
-        // This way we NEVER touch input.val() until form submit
-        var qtyState = {};
-
-        function getProductLimit($input) {
-            var limit = parseInt($input.attr('data-order-limit'));
-            return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
-        }
-
-        function getTotalQty() {
-            var total = 0;
-            $.each(qtyState, function (id, val) {
-                total += val;
-            });
-            return total;
-        }
-
-        function showError($input, message) {
-            var $field = $input.closest('.field.qty');
-            var $error = $field.find('.cart-qty-error');
-            if (!$error.length) {
-                $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
-                $input.closest('.qty-buttons').after($error);
-            }
-            $error.text(message).show();
-        }
-
-        function clearError($input) {
-            $input.closest('.field.qty').find('.cart-qty-error').hide();
-        }
-
-        function validate($input, newQty) {
-            var id           = $input.attr('id');
-            var productLimit = getProductLimit($input);
-            var currentQty   = qtyState[id] || 0;
-            var totalQty     = getTotalQty();
-            var projected    = (totalQty - currentQty) + newQty;
-
-            if (newQty > productLimit) {
-                return 'The maximum you may purchase of this item is ' + productLimit + '.';
-            }
-            if (projected > GLOBAL_CART_LIMIT) {
-                var allowedForItem = GLOBAL_CART_LIMIT - (totalQty - currentQty);
-                return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
-                    + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
-            }
-            return null;
-        }
-
-        /**
-         * Update display value only — does NOT write to the actual input
-         * so Magento's cart widget never detects a change
-         */
-        function updateDisplay($input, val) {
-            var id = $input.attr('id');
-            qtyState[id] = val;
-
-            // Write to a sibling display element, not the input itself
-            var $display = $input.closest('.qty-buttons').find('.qty-display');
-            if ($display.length) {
-                $display.text(val);
-            }
-        }
-
-        /**
-         * Flush qtyState values into inputs just before form submit
-         */
-        function flushQtyToInputs() {
-            $.each(qtyState, function (id, val) {
-                $('#' + id).val(val);
-            });
-        }
-
-        function initCartRow($row) {
-            var $input    = $row.find('input[data-role="cart-item-qty"]');
-            var $increase = $row.find('.qty-increase-cart-page');
-            var $decrease = $row.find('.qty-decrease-cart-page');
-
-            if (!$input.length) return;
-
-            var id           = $input.attr('id');
-            var initialQty   = parseInt($input.val()) || 1;
-
-            // Seed state from server-rendered value
-            qtyState[id] = initialQty;
-
-            // Hide the real input, show a read-only display span instead
-            // This completely prevents Magento from detecting any value changes
-            $input.css('opacity', '0').css('position', 'absolute').css('pointer-events', 'none').css('width', '0');
-
-            var $display = $('<span class="qty-display" style="'
-                + 'display:inline-flex;align-items:center;justify-content:center;'
-                + 'min-width:32px;text-align:center;font-size:14px;font-weight:500;'
-                + '">' + initialQty + '</span>');
-
-            $input.closest('.qty-buttons').find('.qty-decrease-cart-page').after($display);
-
-            $increase.on('click.orderLimit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-
-                var currentVal = qtyState[id];
-                var newVal     = currentVal + 1;
-                var error      = validate($input, newVal);
-
-                if (error) {
-                    showError($input, error);
-                    return;
-                }
-                clearError($input);
-                updateDisplay($input, newVal);
-            });
-
-            $decrease.on('click.orderLimit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-
-                var currentVal = qtyState[id];
-                if (currentVal <= 1) return;
-                clearError($input);
-                updateDisplay($input, currentVal - 1);
-            });
-        }
-
-        // Init after full page load — well after Magento's cart widget settles
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('tbody.cart.item').each(function () {
-                    initCartRow($(this));
-                });
-            }, 300);
-        });
-
-        // On "Update Cart" — flush state to inputs then let Magento submit normally
-        $(document).on('click', '[data-cart-item-update]', function () {
-            flushQtyToInputs();
-            // Let the native submit proceed — no preventDefault here
-        });
-
-        // Final guard on form submit
-        $(document).on('submit.orderLimit', '#form-validate', function (e) {
-            var hasError = false;
-
-            $('input[data-role="cart-item-qty"]').each(function () {
-                var $input = $(this);
-                var id     = $input.attr('id');
-                var newQty = qtyState[id] || parseInt($input.val()) || 1;
-                var error  = validate($input, newQty);
-                if (error) {
-                    showError($input, error);
-                    hasError = true;
-                }
-            });
-
-            if (hasError) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-
-            flushQtyToInputs();
-        });
-    });
-</script>
