@@ -200,148 +200,163 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 </tbody>
 
 <script>
-require([
-    'jquery',
-    'domReady!'
-], function ($) {
+    require([
+        'jquery',
+        'domReady!'
+    ], function ($) {
 
-    var GLOBAL_CART_LIMIT = 10;
+        var GLOBAL_CART_LIMIT = 10;
+        var initialized = false;
 
-    function getProductLimit($input) {
-        var limit = parseInt($input.attr('data-order-limit'));
-        return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
-    }
-
-    function getTotalCartQty() {
-        var total = 0;
-        $('input[data-role="cart-item-qty"]').each(function () {
-            total += parseInt($(this).val()) || 0;
-        });
-        return total;
-    }
-
-    function showError($input, message) {
-        var $field = $input.closest('.field.qty');
-        var $error = $field.find('.cart-qty-error');
-        if (!$error.length) {
-            $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
-            $input.closest('.qty-buttons').after($error);
+        function getProductLimit($input) {
+            var limit = parseInt($input.attr('data-order-limit'));
+            return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
         }
-        $error.text(message).show();
-    }
 
-    function clearError($input) {
-        $input.closest('.field.qty').find('.cart-qty-error').hide();
-    }
-
-    function validate($input, newQty) {
-        var productLimit    = getProductLimit($input);
-        var currentQty      = parseInt($input.val()) || 0;
-        var totalCartQty    = getTotalCartQty();
-        var projectedTotal  = (totalCartQty - currentQty) + newQty;
-
-        if (newQty > productLimit) {
-            return 'The maximum you may purchase of this item is ' + productLimit + '.';
+        function getTotalCartQty() {
+            var total = 0;
+            $('input[data-role="cart-item-qty"]').each(function () {
+                total += parseInt($(this).val()) || 0;
+            });
+            return total;
         }
-        if (projectedTotal > GLOBAL_CART_LIMIT) {
-            var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
-            return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
-                + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
-        }
-        return null;
-    }
 
-    /**
-     * Set value silently — no events fired, prevents Magento auto-refresh
-     */
-    function setQtySilent($input, val) {
-        // Temporarily remove data-role so Magento's delegated listener ignores it
-        $input.removeAttr('data-role');
-        $input.val(val);
-        setTimeout(function () {
-            $input.attr('data-role', 'cart-item-qty');
-        }, 100);
-    }
-
-    function initCartRow($row) {
-        var $input    = $row.find('input[data-role="cart-item-qty"]');
-        var $increase = $row.find('.qty-increase-cart-page');
-        var $decrease = $row.find('.qty-decrease-cart-page');
-
-        if (!$input.length) return;
-
-        $increase.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-
-            var currentVal = parseInt($input.val()) || 1;
-            var newVal     = currentVal + 1;
-            var error      = validate($input, newVal);
-
-            if (error) {
-                showError($input, error);
-                return;
+        function showError($input, message) {
+            var $field = $input.closest('.field.qty');
+            var $error = $field.find('.cart-qty-error');
+            if (!$error.length) {
+                $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
+                $input.closest('.qty-buttons').after($error);
             }
-            clearError($input);
-            setQtySilent($input, newVal);
-        });
+            $error.text(message).show();
+        }
 
-        $decrease.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+        function clearError($input) {
+            $input.closest('.field.qty').find('.cart-qty-error').hide();
+        }
 
-            var currentVal = parseInt($input.val()) || 1;
-            if (currentVal <= 1) return;
-            clearError($input);
-            setQtySilent($input, currentVal - 1);
-        });
+        function validate($input, newQty) {
+            var productLimit   = getProductLimit($input);
+            var currentQty     = parseInt($input.attr('data-original-qty')) || parseInt($input.val()) || 0;
+            var totalCartQty   = getTotalCartQty();
+            var projectedTotal = (totalCartQty - currentQty) + newQty;
 
-        // Manual input typing — validate on blur instead of change
-        // to avoid triggering Magento's change-based auto-update
-        $input.on('blur.orderLimit', function () {
-            var newVal = parseInt($(this).val()) || 1;
-            var error  = validate($input, newVal);
+            if (newQty > productLimit) {
+                return 'The maximum you may purchase of this item is ' + productLimit + '.';
+            }
+            if (projectedTotal > GLOBAL_CART_LIMIT) {
+                var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+                return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
+                    + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+            }
+            return null;
+        }
 
-            if (error) {
-                showError($input, error);
-                var productLimit    = getProductLimit($input);
-                var totalCartQty    = getTotalCartQty();
-                var currentQty      = newVal;
-                var allowedByGlobal = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
-                var safeVal         = Math.min(productLimit, Math.max(1, allowedByGlobal));
-                setQtySilent($input, safeVal);
-            } else {
+        /**
+         * Set value without triggering Magento's delegated change listener.
+         * Only called on explicit user interaction, never on page load.
+         */
+        function setQtySilent($input, val) {
+            var $native = $input[0];
+            // Use native setter to bypass jQuery change event
+            var nativeSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value'
+            ).set;
+            nativeSetter.call($native, val);
+            // Do NOT fire 'change' — only update the visual value
+            // Update our tracked original qty reference too
+            $input.attr('data-original-qty', val);
+        }
+
+        function initCartRow($row) {
+            var $input    = $row.find('input[data-role="cart-item-qty"]');
+            var $increase = $row.find('.qty-increase-cart-page');
+            var $decrease = $row.find('.qty-decrease-cart-page');
+
+            if (!$input.length) return;
+
+            // Store the server-confirmed qty as reference — never triggers reload
+            $input.attr('data-original-qty', $input.val());
+
+            $increase.on('click.orderLimit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                var currentVal = parseInt($input.val()) || 1;
+                var newVal     = currentVal + 1;
+                var error      = validate($input, newVal);
+
+                if (error) {
+                    showError($input, error);
+                    return;
+                }
                 clearError($input);
-            }
-        });
-    }
+                setQtySilent($input, newVal);
+            });
 
-    // Init all rows
-    $('tbody.cart.item').each(function () {
-        initCartRow($(this));
-    });
+            $decrease.on('click.orderLimit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
 
-    // Block update cart form if limits violated
-    $('#form-validate').on('submit.orderLimit', function (e) {
-        var hasError = false;
+                var currentVal = parseInt($input.val()) || 1;
+                if (currentVal <= 1) return;
+                clearError($input);
+                setQtySilent($input, currentVal - 1);
+            });
 
-        $('input[data-role="cart-item-qty"]').each(function () {
-            var $input = $(this);
-            var newQty = parseInt($input.val()) || 1;
-            var error  = validate($input, newQty);
-            if (error) {
-                showError($input, error);
-                hasError = true;
-            }
-        });
+            // Validate on blur only — avoids Magento's change-based auto-update
+            $input.on('blur.orderLimit', function () {
+                var newVal = parseInt($(this).val()) || 1;
+                var error  = validate($input, newVal);
 
-        if (hasError) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
+                if (error) {
+                    showError($input, error);
+                    var productLimit    = getProductLimit($input);
+                    var totalCartQty    = getTotalCartQty();
+                    var currentQty      = newVal;
+                    var allowedByGlobal = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+                    var safeVal         = Math.min(productLimit, Math.max(1, allowedByGlobal));
+                    setQtySilent($input, safeVal);
+                } else {
+                    clearError($input);
+                }
+            });
         }
+
+        // Delay init until after Magento's cart widget has fully settled
+        // This prevents our code from interfering with Magento's own initialization cycle
+        $(window).on('load', function () {
+            setTimeout(function () {
+                if (initialized) return;
+                initialized = true;
+
+                $('tbody.cart.item').each(function () {
+                    initCartRow($(this));
+                });
+            }, 500);
+        });
+
+        // Block update cart form if limits violated
+        $(document).on('submit.orderLimit', '#form-validate', function (e) {
+            var hasError = false;
+
+            $('input[data-role="cart-item-qty"]').each(function () {
+                var $input = $(this);
+                var newQty = parseInt($input.val()) || 1;
+                var error  = validate($input, newQty);
+                if (error) {
+                    showError($input, error);
+                    hasError = true;
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
     });
-});
 </script>
