@@ -208,16 +208,27 @@ define([
             var self = this,
                 serviceUrl = urlBuilder.createUrl('/collectplace/delivery/all', {});
 
+            console.log('🔵 POST to:', serviceUrl);
+
             storage.post(serviceUrl).done(function (response) {
+                console.log('🔵 POST SUCCESS');
                 self.onSuccessDelivery(response);
             }).fail(function (response) {
+                console.log('🔴 POST FAILED:', response);
                 self.onErrorDelivery(response);
             });
         },
         onSuccessDelivery: function (response) {
             this.collectPlaces.removeAll();
+            // Stop loader and re-enable buttons
+            $('input[name="delivery_type"]').prop('disabled', false);
+            $('body').trigger('processStop');
         },
-        onErrorDelivery: function (response) {},
+        onErrorDelivery: function (response) {
+            // Stop loader and re-enable buttons even on error
+            $('input[name="delivery_type"]').prop('disabled', false);
+            $('body').trigger('processStop');
+        },
         applyCollectPlaceToAllItems: function (id, name) {
             var self,
                 serviceUrl,

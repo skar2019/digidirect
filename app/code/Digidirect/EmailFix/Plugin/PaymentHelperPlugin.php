@@ -81,7 +81,7 @@ class PaymentHelperPlugin
 
                 case 'mastercard':
                 case 'master card':
-                    $cardImage = 'mastercard.png';
+                    $cardImage = 'master.png';
                     break;
 
                 case 'american express':
