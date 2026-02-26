@@ -208,9 +208,13 @@ define([
             var self = this,
                 serviceUrl = urlBuilder.createUrl('/collectplace/delivery/all', {});
 
+            console.log('🔵 POST to:', serviceUrl);
+
             storage.post(serviceUrl).done(function (response) {
+                console.log('🔵 POST SUCCESS');
                 self.onSuccessDelivery(response);
             }).fail(function (response) {
+                console.log('🔴 POST FAILED:', response);
                 self.onErrorDelivery(response);
             });
         },
