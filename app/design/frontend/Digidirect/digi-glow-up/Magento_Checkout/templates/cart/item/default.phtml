@@ -229,7 +229,7 @@ require(['jquery', 'domReady!'], function ($) {
         var $error = $field.find('.cart-qty-error');
         if (!$error.length) {
             $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
-            $input.closest('.qty-buttons').after($error);
+            $input.closest('.field.qty').after($error);
         }
         $error.text(message).show();
     }
@@ -249,8 +249,9 @@ require(['jquery', 'domReady!'], function ($) {
         }
         if (projectedTotal > GLOBAL_CART_LIMIT) {
             var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
-            return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
-                + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+            //return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
+            //    + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+            return 'Cart limit ' + GLOBAL_CART_LIMIT + '. Max ' + Math.max(0, allowedForItem) + ' here.';
         }
         return null;
     }

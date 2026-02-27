@@ -196,25 +196,30 @@ require([
         function buildErrorMessage(selectedQty) {
             selectedQty = selectedQty || 0;
             if (remainingGlobal <= 0) {
-                return 'Your cart has reached the maximum of ' + globalLimit + ' items total. '
-                    + 'Please remove some items before adding more.';
+                //return 'Your cart has reached the maximum of ' + globalLimit + ' items total. '
+                //    + 'Please remove some items before adding more.';
+                return 'Cart limit reached. Remove items to add more.';
             }
             if (remainingProduct <= 0) {
-                return 'You have reached the per-product limit of ' + orderLimit + ' for this item. '
-                    + 'You already have ' + qtyInCart + ' in your cart.';
+                //return 'You have reached the per-product limit of ' + orderLimit + ' for this item. '
+                //    + 'You already have ' + qtyInCart + ' in your cart.';
+                return 'Max ' + orderLimit + ' per item. ' + qtyInCart + ' already in cart.';
             }
             if (selectedQty && (totalCartQty + selectedQty) > globalLimit) {
-                return 'Cannot add ' + selectedQty + ' item(s). Your cart has ' + totalCartQty
-                    + ' item(s) and the maximum total allowed is ' + globalLimit + '. '
-                    + 'You can add up to ' + remainingGlobal + ' more.';
+                //return 'Cannot add ' + selectedQty + ' item(s). Your cart has ' + totalCartQty
+                //    + ' item(s) and the maximum total allowed is ' + globalLimit + '. '
+                //   + 'You can add up to ' + remainingGlobal + ' more.';
+                return 'Max ' + globalLimit + ' items. ' + remainingGlobal + ' more allowed.';
             }
             if (selectedQty && (qtyInCart + selectedQty) > orderLimit) {
-                return 'Cannot add ' + selectedQty + ' item(s). You already have ' + qtyInCart
-                    + ' of this product and the per-product limit is ' + orderLimit + '. '
-                    + 'You can add up to ' + remainingProduct + ' more.';
+                //return 'Cannot add ' + selectedQty + ' item(s). You already have ' + qtyInCart
+                //    + ' of this product and the per-product limit is ' + orderLimit + '. '
+                //    + 'You can add up to ' + remainingProduct + ' more.';
+                return 'Max ' + orderLimit + ' per item. ' + remainingProduct + ' more allowed.';
             }
-            return 'The maximum you may purchase is ' + orderLimit + ' of this item. '
-                + 'Cart total is limited to ' + globalLimit + ' items.';
+            //return 'The maximum you may purchase is ' + orderLimit + ' of this item. '
+            //    + 'Cart total is limited to ' + globalLimit + ' items.';
+            return 'Max ' + orderLimit + ' per item. ' + globalLimit + ' items max per cart.';
         }
 
         // Block entirely if no remaining slots (either limit)
