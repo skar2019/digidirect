@@ -2094,17 +2094,29 @@ define([
         function updateCartAjax($input, newQty) {
             const itemIdMatch = $input.attr("name")?.match(/\[(\d+)\]/);
             if (!itemIdMatch) {
-                console.error(
-                    "❌ Cannot extract item ID from",
-                    $input.attr("name")
-                );
+                console.error("❌ Cannot extract item ID from", $input.attr("name"));
                 return;
             }
 
             const itemId = itemIdMatch[1];
-            console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
 
-            // Build the URL safely using Magento's URL builder
+            // ✅ Find and disable both +/- buttons for this item
+            var $qtyButtons  = $input.closest('.qty-buttons');
+            var $btnIncrease = $qtyButtons.find('.qty-increase-cart-page');
+            var $btnDecrease = $qtyButtons.find('.qty-decrease-cart-page');
+
+            function disableButtons() {
+                $btnIncrease.css({ 'opacity': '0.4', 'pointer-events': 'none', 'cursor': 'not-allowed' });
+                $btnDecrease.css({ 'opacity': '0.4', 'pointer-events': 'none', 'cursor': 'not-allowed' });
+            }
+
+            function enableButtons() {
+                $btnIncrease.css({ 'opacity': '', 'pointer-events': '', 'cursor': '' });
+                $btnDecrease.css({ 'opacity': '', 'pointer-events': '', 'cursor': '' });
+            }
+
+            disableButtons();
+
             require([
                 "mage/url",
                 "Magento_Checkout/js/model/cart/totals-processor/default",
@@ -2121,39 +2133,42 @@ define([
                         update_cart_action: "update_qty",
                     },
                     beforeSend: function () {
-                        console.log("⏳ Sending AJAX update for item", itemId);
                         $input.prop("disabled", true);
                     },
                     success: function () {
-                        console.log("✅ Cart updated successfully");
-
-                        // 🔁 Refresh customer data (minicart + cart summary sections)
                         customerData.invalidate(["cart", "checkout-data"]);
                         customerData.reload(["cart", "checkout-data"], true);
 
-                        // 🔁 Trigger totals recalculation (Knockout summary)
                         try {
                             totalsProcessor.estimateTotals(quote);
-                            console.log("🔄 Totals recalculated");
                         } catch (err) {
-                            console.warn(
-                                "⚠️ Could not run totalsProcessor:",
-                                err
-                            );
+                            console.warn("⚠️ Could not run totalsProcessor:", err);
                         }
 
-                        // Optional: visually refresh the subtotal cell for the updated row
-                        const $row = $input.closest("tr");
-                        if ($row.length) {
-                            const rowId = $row.attr("id");
-                            $(`#${rowId} .col.subtotal`).load(
-                                window.location.href +
-                                ` #${rowId} .col.subtotal > *`
-                            );
-                        }
+                        // ✅ Wait for cart section to reflect the update before re-enabling
+                        var checkCount  = 0;
+                        var maxChecks   = 20;
+                        var checkInterval = setInterval(function () {
+                            checkCount++;
+                            var cartData     = customerData.get('cart')();
+                            var updatedTotal = 0;
+
+                            if (cartData && cartData.items) {
+                                $.each(cartData.items, function (i, item) {
+                                    updatedTotal += parseInt(item.qty) || 0;
+                                });
+                            }
+
+                            // Re-enable once cart data has refreshed or timeout reached
+                            if (updatedTotal > 0 || checkCount >= maxChecks) {
+                                clearInterval(checkInterval);
+                                enableButtons();
+                            }
+                        }, 300);
                     },
                     error: function (xhr, status, err) {
                         console.error("❌ Cart update failed", status, err);
+                        enableButtons(); // ✅ Always re-enable on error
                     },
                     complete: function () {
                         $input.prop("disabled", false);
@@ -2177,8 +2192,6 @@ define([
                 e.stopPropagation();
                 e.stopImmediatePropagation();
 
-                var GLOBAL_CART_LIMIT = 10;
-
                 var $btn        = $(btn);
                 var $qtyButtons = $btn.closest('.qty-buttons');
                 var $input      = $qtyButtons.find('input[data-role="cart-item-qty"]');
@@ -2191,22 +2204,24 @@ define([
                     ? currentVal + 1
                     : Math.max(1, currentVal - 1);
 
-                // ✅ Validation (cart page only)
+                // ✅ Validation — cart page only
                 if (document.body.classList.contains('checkout-cart-index')) {
-                    var productLimit = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
-                    var totalCartQty = 0;
+                    var GLOBAL_CART_LIMIT  = 10;
+                    var productLimit       = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
+                    var totalCartQty       = 0;
+
                     $('input[data-role="cart-item-qty"]').each(function () {
                         totalCartQty += parseInt($(this).val()) || 0;
                     });
-                    var projectedTotal = (totalCartQty - currentVal) + newVal;
 
-                    var errorMsg = null;
+                    var projectedTotal = (totalCartQty - currentVal) + newVal;
+                    var errorMsg       = null;
+
                     if (newVal > productLimit) {
                         errorMsg = 'The maximum you may purchase of this item is ' + productLimit + '.';
                     } else if (projectedTotal > GLOBAL_CART_LIMIT) {
                         var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentVal);
-                        errorMsg = 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
-                            + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+                        errorMsg = 'Cart limit ' + GLOBAL_CART_LIMIT + '. Max ' + Math.max(0, allowedForItem) + ' here.';
                     }
 
                     if (errorMsg) {
@@ -2220,14 +2235,14 @@ define([
                         return;
                     }
 
-                    // Clear any existing error
-                    $input.closest('.field.qty').find('.cart-qty-error').hide();
+                    // Clear error if valid
+                    $input.closest('.field.qty').next('.cart-qty-error').hide();
                 }
 
-                // ✅ Update input value
+                // ✅ Update hidden input
                 $input.val(newVal);
 
-                // ✅ Update display span (cart page)
+                // ✅ Update visible display span (cart page)
                 if ($display.length) {
                     $display.text(newVal);
                 }
