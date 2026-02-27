@@ -205,3 +205,116 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
         </td>
     </tr>
 </tbody>
+
+<script>
+require(['jquery', 'domReady!'], function ($) {
+
+    var GLOBAL_CART_LIMIT = 10;
+
+    function getProductLimit($input) {
+        var limit = parseInt($input.attr('data-order-limit'));
+        return (!isNaN(limit) && limit > 0) ? limit : GLOBAL_CART_LIMIT;
+    }
+
+    function getTotalCartQty() {
+        var total = 0;
+        $('input[data-role="cart-item-qty"]').each(function () {
+            total += parseInt($(this).val()) || 0;
+        });
+        return total;
+    }
+
+    function showError($input, message) {
+        var $field = $input.closest('.field.qty');
+        var $error = $field.find('.cart-qty-error');
+        if (!$error.length) {
+            $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
+            $input.closest('.qty-buttons').after($error);
+        }
+        $error.text(message).show();
+    }
+
+    function clearError($input) {
+        $input.closest('.field.qty').find('.cart-qty-error').hide();
+    }
+
+    function validate($input, newQty) {
+        var productLimit   = getProductLimit($input);
+        var currentQty     = parseInt($input.val()) || 0;
+        var totalCartQty   = getTotalCartQty();
+        var projectedTotal = (totalCartQty - currentQty) + newQty;
+
+        if (newQty > productLimit) {
+            return 'The maximum you may purchase of this item is ' + productLimit + '.';
+        }
+        if (projectedTotal > GLOBAL_CART_LIMIT) {
+            var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentQty);
+            return 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
+                + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+        }
+        return null;
+    }
+
+    // Use event delegation on document — handles all cart rows
+    // Namespaced to avoid duplicate bindings since this template renders once per item
+    $(document).off('click.cartQty').on('click.cartQty',
+        '.qty-increase-cart-page, .qty-decrease-cart-page',
+        function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            var $btn        = $(e.currentTarget);
+            var $qtyButtons = $btn.closest('.qty-buttons');
+            var $input      = $qtyButtons.find('input[data-role="cart-item-qty"]');
+            var $display    = $qtyButtons.find('.qty-display');
+
+            if (!$input.length) return;
+
+            var currentVal = parseInt($input.val()) || 1;
+            var newVal = $btn.hasClass('qty-increase-cart-page')
+                ? currentVal + 1
+                : Math.max(1, currentVal - 1);
+
+            var error = validate($input, newVal);
+            if (error) {
+                showError($input, error);
+                return;
+            }
+
+            clearError($input);
+
+            // Update hidden input
+            $input.val(newVal);
+
+            // Update visible display
+            $display.text(newVal);
+
+            // AJAX update
+            var itemIdMatch = $input.attr('name') && $input.attr('name').match(/\[(\d+)\]/);
+            if (!itemIdMatch) return;
+
+            var itemId = itemIdMatch[1];
+
+            require(['mage/url'], function (urlBuilder) {
+                var updateUrl = urlBuilder.build('checkout/cart/updatePost/');
+                $.ajax({
+                    url: updateUrl,
+                    type: 'POST',
+                    data: {
+                        form_key: $('input[name="form_key"]').val(),
+                        'cart[' + itemId + '][qty]': newVal,
+                        update_cart_action: 'update_qty'
+                    },
+                    success: function () {
+                        require(['Magento_Customer/js/customer-data'], function (customerData) {
+                            customerData.invalidate(['cart']);
+                            customerData.reload(['cart'], true);
+                        });
+                    }
+                });
+            });
+        }
+    );
+});
+</script>
