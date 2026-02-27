@@ -2199,10 +2199,8 @@ define([
 
                 if (!$input.length) return;
 
-                // ✅ Check if buttons are disabled (mid-AJAX)
-                if ($btn.data('disabled')) return;
-
-                var currentVal = parseInt($input.val()) || 1;
+                // ✅ Always read current value from display span — input is stale after AJAX
+                var currentVal = parseInt($display.text().trim()) || parseInt($input.val()) || 1;
                 var newVal = btn.classList.contains('qty-increase-cart-page')
                     ? currentVal + 1
                     : Math.max(1, currentVal - 1);
@@ -2211,10 +2209,11 @@ define([
                 if (document.body.classList.contains('checkout-cart-index')) {
                     var GLOBAL_CART_LIMIT = 10;
                     var productLimit      = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
-                    var totalCartQty      = 0;
 
-                    $('input[data-role="cart-item-qty"]').each(function () {
-                        totalCartQty += parseInt($(this).val()) || 0;
+                    // ✅ Total cart qty — read from display spans, not inputs (inputs are stale)
+                    var totalCartQty = 0;
+                    $('.qty-buttons').each(function () {
+                        totalCartQty += parseInt($(this).find('.qty-display').text().trim()) || 0;
                     });
 
                     var projectedTotal = (totalCartQty - currentVal) + newVal;
@@ -2235,7 +2234,7 @@ define([
                             $field.after($error);
                         }
                         $error.text(errorMsg).show();
-                        return; // ✅ Hard stop — nothing below runs
+                        return;
                     }
 
                     // Clear error if valid
@@ -2246,9 +2245,7 @@ define([
                 $input.val(newVal);
 
                 // ✅ Update visible display span
-                if ($display.length) {
-                    $display.text(newVal);
-                }
+                $display.text(newVal);
 
                 // ✅ AJAX update
                 updateCartAjax($input, newVal);
