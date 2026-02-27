@@ -103,7 +103,10 @@ class PaymentHelperPlugin
                     <td valign="middle" style="font-weight:bold;">
                         ' . $ccType . '
                     </td>
-                    <td valign="middle">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding-top:4px;">
                         ****-' . $ccLast4 . '
                     </td>
                 </tr>
