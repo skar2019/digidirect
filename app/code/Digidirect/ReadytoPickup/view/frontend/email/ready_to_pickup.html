@@ -7,49 +7,74 @@
 {{template config_path="design/email/header_template"}}
 <table>
     <tr class="email-intro">
-        <td align="center">
-            <p class="greeting">{{trans "Dear %customer_fullname,"  customer_fullname=$customer_fullname|row}}</p>
-​
+        <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+            <br>
+             <p class="greeting">{{trans "Dear %customer_fullname,"  customer_fullname=$customer_fullname|row}}</p>
             <p>
-                {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span> / <span class="no-link">#%pronto_order_number</span>' increment_id=$order_number pronto_order_number=$pronto_order_number |raw}}
+                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span> / <span class="no-link">#%pronto_order_number</span>' increment_id=$order_number pronto_order_number=$pronto_order_number |raw}}
                 {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
+            <p>  
+               {{trans "Please make your way to the digiDirect location to collect your goods."}}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+                <!-- <p align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+                    {{trans 'For our hours of operation and contact information, please click here <a href="/store-locator" style="color:black;text-decoration:underline">Store Locator</a>' store_email=$store_email |raw}}
+                </p> -->
             <p>
-                {{trans "Please check our opening hours referenced below, then make your way to your chosen digiDirect location to collect your goods."}}
-            </p>
-        <td>
-    </tr>
-    <tr>
-        <td align="center" style="padding:25px 0;">
-            <p style="color:#1E1E1E;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:17px;margin:0;font-weight:normal;">
-                {{trans '<span>%swhs_store_hours</span>' swhs_store_hours=$swhs_store_hours |raw}}
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td align="center" style="padding:25px 0;">
-            <p style="color:#1E1E1E;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:17px;margin:0;font-weight:normal;">
-                {{trans '<span>%swhs_store_hours</span>' swhs_store_hours=$swhs_store_hours |raw}}
+                    {{store.getName()}}
+                    {{store.getBaseUrl()}}
+                    {{store.getPhone()}}
+                    {{store.getAddress()}}
+
+                    --------
+                    <br>
+
+                    {{config path="general/store_information/name"}}
+                    {{config path="general/store_information/phone"}}
+                    {{config path="general/store_information/address"}}
+                
+
             </p>
         </td>
     </tr>
+
     <tr>
-        <td align="center" style="padding:25px 0;">
-            <p style="color:#1E1E1E;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:17px;margin:0;font-weight:normal;">
-                {{trans 'Please click <a href="https://digidirect.com.au/store-locator" style="color:black;text-decoration:underline">Store Locator</a> to confirm the above opening hours, as they are subject to change, especially during holidays and promotional periods.' store_email=$store_email |raw}}
-            </p>
+        <!-- Store Pick-Up Details -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6e6eb; border-radius:12px; padding:16px 20px; border-collapse: initial !important; text-align:left;">
+            <tr>
+                <td width="40" valign="top" style="padding-top:3px;">
+                    <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/glow-up/emai-template/truck-fast.png" width="28" alt="">
+                </td>
+                <td valign="top">
+                    <h3 style="margin:0 0 8px; font-size:15px; font-weight:700; color:#7C7C80;">Your Pick-Up Store</h3>
+                    <p style="margin:0 0 4px; font-size:14px; font-weight:700; color:#242426;">
+                        {{var pickup_store_name}}
+                    </p>
+                    <p style="margin:0; font-size:14px; line-height:22px; color:#242426;">
+                        {{var pickup_store_address}}
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </tr>
+
+    <tr>
+        <td style="padding:25px 0;">
+                <p>  
+                    {{trans "Kind Regards,"}}
+                    </p>
+                <p>  
+                    {{trans "digiDirect"}}
+                    </p>
         </td>
     </tr>
-    <tr>
-        <td style="padding:25px;">
-            <p>
-                {{trans "Kind Regards,"}}
-            </p>
-            <p>
-                {{trans "digiDirect"}}
-            </p>
-        </td>
-    </tr>
+
+
+
     <tr class="email-information">
         <td>
             {{depend order_data.email_customer_note}}
@@ -60,7 +85,8 @@
                     </td>
                 </tr>
             </table>
-            {{/depend}} {{layout handle="sales_email_order_items" order=$order area="frontend"}}
+            {{/depend}}
+            {{layout handle="sales_email_order_items" order=$order area="frontend"}}
         </td>
     </tr>
 </table>
