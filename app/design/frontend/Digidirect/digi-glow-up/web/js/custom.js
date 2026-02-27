@@ -2199,6 +2199,9 @@ define([
 
                 if (!$input.length) return;
 
+                // ✅ Check if buttons are disabled (mid-AJAX)
+                if ($btn.data('disabled')) return;
+
                 var currentVal = parseInt($input.val()) || 1;
                 var newVal = btn.classList.contains('qty-increase-cart-page')
                     ? currentVal + 1
@@ -2206,9 +2209,9 @@ define([
 
                 // ✅ Validation — cart page only
                 if (document.body.classList.contains('checkout-cart-index')) {
-                    var GLOBAL_CART_LIMIT  = 10;
-                    var productLimit       = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
-                    var totalCartQty       = 0;
+                    var GLOBAL_CART_LIMIT = 10;
+                    var productLimit      = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
+                    var totalCartQty      = 0;
 
                     $('input[data-role="cart-item-qty"]').each(function () {
                         totalCartQty += parseInt($(this).val()) || 0;
@@ -2226,13 +2229,13 @@ define([
 
                     if (errorMsg) {
                         var $field = $input.closest('.field.qty');
-                        var $error = $field.find('.cart-qty-error');
+                        var $error = $field.next('.cart-qty-error');
                         if (!$error.length) {
                             $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
-                            $input.closest('.qty-buttons').after($error);
+                            $field.after($error);
                         }
                         $error.text(errorMsg).show();
-                        return;
+                        return; // ✅ Hard stop — nothing below runs
                     }
 
                     // Clear error if valid
@@ -2242,7 +2245,7 @@ define([
                 // ✅ Update hidden input
                 $input.val(newVal);
 
-                // ✅ Update visible display span (cart page)
+                // ✅ Update visible display span
                 if ($display.length) {
                     $display.text(newVal);
                 }
