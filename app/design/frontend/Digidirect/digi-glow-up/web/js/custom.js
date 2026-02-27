@@ -2165,46 +2165,78 @@ define([
         // ======================
         // 🧮 Qty Button Click Logic
         // ======================
-        document.addEventListener('click', function (e) {
-            var btn = e.target.closest('.qty-increase-cart-page, .qty-decrease-cart-page');
-            if (!btn) return;
-            if (!document.body.classList.contains('checkout-cart-index')) return;
+        document.addEventListener(
+            "click",
+            function (e) {
+                const btn = e.target.closest(
+                    ".qty-increase-cart-page, .qty-decrease-cart-page"
+                );
+                if (!btn) return;
 
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
 
-            // ✅ Always navigate to .qty-buttons parent first
-            // e.target may be the SVG or path child, not the div itself
-            var $qtyButtons = $(btn).closest('.qty-buttons');
-            var $input      = $qtyButtons.find('input[data-role="cart-item-qty"]');
-            var $display    = $qtyButtons.find('.qty-display');
+                var GLOBAL_CART_LIMIT = 10;
 
-            if (!$input.length) return;
+                var $btn        = $(btn);
+                var $qtyButtons = $btn.closest('.qty-buttons');
+                var $input      = $qtyButtons.find('input[data-role="cart-item-qty"]');
+                var $display    = $qtyButtons.find('.qty-display');
 
-            var currentVal = parseInt($input.val()) || 1;
-            var newVal = btn.classList.contains('qty-increase-cart-page')
-                ? currentVal + 1
-                : Math.max(1, currentVal - 1);
+                if (!$input.length) return;
 
-            var error = validate($input, newVal);
-            if (error) {
-                showError($input, error);
-                return;
-            }
+                var currentVal = parseInt($input.val()) || 1;
+                var newVal = btn.classList.contains('qty-increase-cart-page')
+                    ? currentVal + 1
+                    : Math.max(1, currentVal - 1);
 
-            clearError($input);
+                // ✅ Validation (cart page only)
+                if (document.body.classList.contains('checkout-cart-index')) {
+                    var productLimit = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
+                    var totalCartQty = 0;
+                    $('input[data-role="cart-item-qty"]').each(function () {
+                        totalCartQty += parseInt($(this).val()) || 0;
+                    });
+                    var projectedTotal = (totalCartQty - currentVal) + newVal;
 
-            // Update hidden input
-            $input.val(newVal);
+                    var errorMsg = null;
+                    if (newVal > productLimit) {
+                        errorMsg = 'The maximum you may purchase of this item is ' + productLimit + '.';
+                    } else if (projectedTotal > GLOBAL_CART_LIMIT) {
+                        var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentVal);
+                        errorMsg = 'Cart total cannot exceed ' + GLOBAL_CART_LIMIT + ' items. '
+                            + 'You can set this item to a maximum of ' + Math.max(0, allowedForItem) + '.';
+                    }
 
-            // Update visible display span directly — no function call needed
-            $display.text(newVal);
+                    if (errorMsg) {
+                        var $field = $input.closest('.field.qty');
+                        var $error = $field.find('.cart-qty-error');
+                        if (!$error.length) {
+                            $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
+                            $input.closest('.qty-buttons').after($error);
+                        }
+                        $error.text(errorMsg).show();
+                        return;
+                    }
 
-            // Trigger AJAX cart update
-            updateCartAjax($input, newVal);
+                    // Clear any existing error
+                    $input.closest('.field.qty').find('.cart-qty-error').hide();
+                }
 
-        }, true);
+                // ✅ Update input value
+                $input.val(newVal);
+
+                // ✅ Update display span (cart page)
+                if ($display.length) {
+                    $display.text(newVal);
+                }
+
+                // ✅ AJAX update
+                updateCartAjax($input, newVal);
+            },
+            true
+        );
 
         //Fix Carousel On Android Mobile
         $(document).ready(function () {
