@@ -2136,35 +2136,34 @@ define([
                         $input.prop("disabled", true);
                     },
                     success: function () {
-                        customerData.invalidate(["cart", "checkout-data"]);
-                        customerData.reload(["cart", "checkout-data"], true);
+                        console.log("✅ Cart updated successfully");
 
-                        try {
-                            totalsProcessor.estimateTotals(quote);
-                        } catch (err) {
-                            console.warn("⚠️ Could not run totalsProcessor:", err);
+                        if (document.body.classList.contains('checkout-cart-index')) {
+                            // ✅ On cart page — only update the subtotal cell via partial load
+                            // Do NOT invalidate/reload cart sections — causes page reload loop
+                            const $row = $input.closest("tr");
+                            if ($row.length) {
+                                const rowId = $row.attr("id");
+                                $(`#${rowId} .col.subtotal`).load(
+                                    window.location.href +
+                                    ` #${rowId} .col.subtotal > *`
+                                );
+                            }
+
+                            // ✅ Refresh order summary totals only
+                            $(".cart-totals").load(window.location.href + " .cart-totals > *");
+
+                        } else {
+                            // ✅ Not on cart page (e.g. minicart elsewhere) — safe to reload sections
+                            customerData.invalidate(["cart", "checkout-data"]);
+                            customerData.reload(["cart", "checkout-data"], true);
+
+                            try {
+                                totalsProcessor.estimateTotals(quote);
+                            } catch (err) {
+                                console.warn("⚠️ Could not run totalsProcessor:", err);
+                            }
                         }
-
-                        // ✅ Wait for cart section to reflect the update before re-enabling
-                        var checkCount  = 0;
-                        var maxChecks   = 20;
-                        var checkInterval = setInterval(function () {
-                            checkCount++;
-                            var cartData     = customerData.get('cart')();
-                            var updatedTotal = 0;
-
-                            if (cartData && cartData.items) {
-                                $.each(cartData.items, function (i, item) {
-                                    updatedTotal += parseInt(item.qty) || 0;
-                                });
-                            }
-
-                            // Re-enable once cart data has refreshed or timeout reached
-                            if (updatedTotal > 0 || checkCount >= maxChecks) {
-                                clearInterval(checkInterval);
-                                enableButtons();
-                            }
-                        }, 300);
                     },
                     error: function (xhr, status, err) {
                         console.error("❌ Cart update failed", status, err);
