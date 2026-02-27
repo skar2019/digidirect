@@ -180,13 +180,40 @@ class ReadytoPickup extends AbstractHelper
             $orderNumber = $order->getIncrementId();
             $prontoordernumber = $order->getData('pronto_order_number');
             $store = $this->storeManager->getStore();
-            $templateParams = ['store' => $store,
-                'order_number' => $orderNumber,
-                'customer_firstname' => $customerFirstName,
-                'customer_fullname' => $customerFullName,
-                'swhs_store_hours' => $shwhStoreHours,
-                'pronto_order_number' => $prontoordernumber
+
+            // $templateParams = ['store' => $store,
+            //     'order_number' => $orderNumber,
+            //     'customer_firstname' => $customerFirstName,
+            //     'customer_fullname' => $customerFullName,
+            //     'swhs_store_hours' => $shwhStoreHours,
+            //     'pronto_order_number' => $prontoordernumber
+            // ];
+
+
+            // jireh code
+            // Get store name from customer_note (set by InjectPickupStoreToEmail observer)
+            $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
+
+            // Get store address from shipping address
+            $shippingAddress = $order->getShippingAddress();
+            $storeAddress = implode(', ', array_filter([
+            $shippingAddress->getStreetLine(1),
+            $shippingAddress->getCity(),
+            $shippingAddress->getRegion(),
+            $shippingAddress->getPostcode(),
+            ]));
+
+            $templateParams = [
+            'store'              => $store,
+            'order_number'       => $orderNumber,
+            'customer_firstname' => $customerFirstName,
+            'customer_fullname'  => $customerFullName,
+            'swhs_store_hours'   => $shwhStoreHours,
+            'pronto_order_number'=> $prontoordernumber,
+            'pickup_store_name'  => $storeName,
+            'pickup_store_address' => $storeAddress,
             ];
+            
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
                 )->setTemplateOptions(
@@ -216,14 +243,26 @@ class ReadytoPickup extends AbstractHelper
         return true;
     }
 
-    public function getOrderCollection()
-    {
+    // public function getOrderCollection()
+    // {
+    //     $collection = $this->_orderCollectionFactory->create()
+    //         ->addAttributeToSelect('*')
+    //         ->addFieldToFilter('entity_id', array('gt' => 1139532))
+    //         ->addFieldToFilter('status', array('eq' => 'complete'))
+    //         ->addFieldToFilter('pickup_email', array('eq' => 0))
+    //         ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
+    //         ->setOrder('created_at', 'asc');
+    //     return $collection;
+    // }
+
+    // jireh code
+    public function getOrderCollection() {
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1139532))
             ->addFieldToFilter('status', array('eq' => 'complete'))
             ->addFieldToFilter('pickup_email', array('eq' => 0))
-            ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
+            ->addFieldToFilter('shipping_description', array('like' => '%Click & Collect%'))
             ->setOrder('created_at', 'asc');
         return $collection;
     }

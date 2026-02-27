@@ -2094,17 +2094,29 @@ define([
         function updateCartAjax($input, newQty) {
             const itemIdMatch = $input.attr("name")?.match(/\[(\d+)\]/);
             if (!itemIdMatch) {
-                console.error(
-                    "❌ Cannot extract item ID from",
-                    $input.attr("name")
-                );
+                console.error("❌ Cannot extract item ID from", $input.attr("name"));
                 return;
             }
 
             const itemId = itemIdMatch[1];
-            console.log(`🧩 updateCartAjax(${itemId}, qty=${newQty})`);
 
-            // Build the URL safely using Magento's URL builder
+            // ✅ Find and disable both +/- buttons for this item
+            var $qtyButtons  = $input.closest('.qty-buttons');
+            var $btnIncrease = $qtyButtons.find('.qty-increase-cart-page');
+            var $btnDecrease = $qtyButtons.find('.qty-decrease-cart-page');
+
+            function disableButtons() {
+                $btnIncrease.css({ 'opacity': '0.4', 'pointer-events': 'none', 'cursor': 'not-allowed' });
+                $btnDecrease.css({ 'opacity': '0.4', 'pointer-events': 'none', 'cursor': 'not-allowed' });
+            }
+
+            function enableButtons() {
+                $btnIncrease.css({ 'opacity': '', 'pointer-events': '', 'cursor': '' });
+                $btnDecrease.css({ 'opacity': '', 'pointer-events': '', 'cursor': '' });
+            }
+
+            disableButtons();
+
             require([
                 "mage/url",
                 "Magento_Checkout/js/model/cart/totals-processor/default",
@@ -2121,39 +2133,42 @@ define([
                         update_cart_action: "update_qty",
                     },
                     beforeSend: function () {
-                        console.log("⏳ Sending AJAX update for item", itemId);
                         $input.prop("disabled", true);
                     },
                     success: function () {
-                        console.log("✅ Cart updated successfully");
-
-                        // 🔁 Refresh customer data (minicart + cart summary sections)
                         customerData.invalidate(["cart", "checkout-data"]);
                         customerData.reload(["cart", "checkout-data"], true);
 
-                        // 🔁 Trigger totals recalculation (Knockout summary)
                         try {
                             totalsProcessor.estimateTotals(quote);
-                            console.log("🔄 Totals recalculated");
                         } catch (err) {
-                            console.warn(
-                                "⚠️ Could not run totalsProcessor:",
-                                err
-                            );
+                            console.warn("⚠️ Could not run totalsProcessor:", err);
                         }
 
-                        // Optional: visually refresh the subtotal cell for the updated row
-                        const $row = $input.closest("tr");
-                        if ($row.length) {
-                            const rowId = $row.attr("id");
-                            $(`#${rowId} .col.subtotal`).load(
-                                window.location.href +
-                                ` #${rowId} .col.subtotal > *`
-                            );
-                        }
+                        // ✅ Wait for cart section to reflect the update before re-enabling
+                        var checkCount  = 0;
+                        var maxChecks   = 20;
+                        var checkInterval = setInterval(function () {
+                            checkCount++;
+                            var cartData     = customerData.get('cart')();
+                            var updatedTotal = 0;
+
+                            if (cartData && cartData.items) {
+                                $.each(cartData.items, function (i, item) {
+                                    updatedTotal += parseInt(item.qty) || 0;
+                                });
+                            }
+
+                            // Re-enable once cart data has refreshed or timeout reached
+                            if (updatedTotal > 0 || checkCount >= maxChecks) {
+                                clearInterval(checkInterval);
+                                enableButtons();
+                            }
+                        }, 300);
                     },
                     error: function (xhr, status, err) {
                         console.error("❌ Cart update failed", status, err);
+                        enableButtons(); // ✅ Always re-enable on error
                     },
                     complete: function () {
                         $input.prop("disabled", false);
@@ -2175,35 +2190,67 @@ define([
 
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
 
-                console.log("🧩 qty button clicked:", btn.className);
+                var $btn        = $(btn);
+                var $qtyButtons = $btn.closest('.qty-buttons');
+                var $input      = $qtyButtons.find('input[data-role="cart-item-qty"]');
+                var $display    = $qtyButtons.find('.qty-display');
 
-                // Find sibling input
-                let input;
-                if (btn.classList.contains("qty-increase-cart-page")) {
-                    input = btn.previousElementSibling;
-                } else {
-                    input = btn.nextElementSibling;
+                if (!$input.length) return;
+
+                // ✅ Always read current value from display span — input is stale after AJAX
+                var currentVal = parseInt($display.text().trim()) || parseInt($input.val()) || 1;
+                var newVal = btn.classList.contains('qty-increase-cart-page')
+                    ? currentVal + 1
+                    : Math.max(1, currentVal - 1);
+
+                // ✅ Validation — cart page only
+                if (document.body.classList.contains('checkout-cart-index')) {
+                    var GLOBAL_CART_LIMIT = 10;
+                    var productLimit      = parseInt($input.attr('data-order-limit')) || GLOBAL_CART_LIMIT;
+
+                    // ✅ Total cart qty — read from display spans, not inputs (inputs are stale)
+                    var totalCartQty = 0;
+                    $('.qty-buttons').each(function () {
+                        totalCartQty += parseInt($(this).find('.qty-display').text().trim()) || 0;
+                    });
+
+                    var projectedTotal = (totalCartQty - currentVal) + newVal;
+                    var errorMsg       = null;
+
+                    if (newVal > productLimit) {
+                        errorMsg = 'Max ' + productLimit + ' per item.';
+                    } else if (projectedTotal > GLOBAL_CART_LIMIT) {
+                        var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentVal);
+                        errorMsg = 'Cart limit ' + GLOBAL_CART_LIMIT + '. Max ' + Math.max(0, allowedForItem) + ' here.';
+                    }
+
+                    if (errorMsg) {
+                        var $field = $input.closest('.field.qty');
+                        var $error = $field.next('.cart-qty-error');
+                        if (!$error.length) {
+                            $error = $('<div class="cart-qty-error mage-error" style="color:#e02b27;font-size:12px;margin-top:4px;"></div>');
+                            $field.after($error);
+                        }
+                        $error.text(errorMsg).show();
+                        return;
+                    }
+
+                    // Clear error if valid
+                    $input.closest('.field.qty').next('.cart-qty-error').hide();
                 }
 
-                if (!input || !input.classList.contains("input-text")) {
-                    console.warn("⚠️ No qty input found for", btn);
-                    return;
-                }
+                // ✅ Update hidden input
+                $input.val(newVal);
 
-                const $input = $(input);
-                let qty = parseInt($input.val(), 10) || 1;
+                // ✅ Update visible display span
+                $display.text(newVal);
 
-                if (btn.classList.contains("qty-increase-cart-page")) qty++;
-                else qty = Math.max(1, qty - 1);
-
-                $input.val(qty).trigger("change");
-                console.log(`🧩 qty updated → ${qty}`);
-
-                // 🧠 Trigger AJAX cart update
-                updateCartAjax($input, qty);
+                // ✅ AJAX update
+                updateCartAjax($input, newVal);
             },
-            true // capture mode
+            true
         );
 
         //Fix Carousel On Android Mobile
@@ -2357,164 +2404,39 @@ define([
             console.log("closeAlgolia()");
         });
 
-        //Force reload on cart page when product is added to cart.
+        //Force reload on cart page when product is added from widget.
         $(document).ready(function () {
-            // Only run on cart page
             if (!$("body").hasClass("checkout-cart-index")) {
                 return;
             }
 
-            console.log("Cart reload script initialized");
-
-            // Use a timestamp-based approach to prevent false positives
-            var lastReloadTime = sessionStorage.getItem(
-                "cart_last_reload_time"
-            );
-            var currentTime = new Date().getTime();
-
-            // If we reloaded within the last 2 seconds, skip checking for messages
-            if (
-                lastReloadTime &&
-                currentTime - parseInt(lastReloadTime) < 2000
-            ) {
-                console.log(
-                    "Just reloaded",
-                    currentTime - parseInt(lastReloadTime),
-                    "ms ago, skipping message check"
-                );
+            // ✅ If we just arrived via a reload we triggered, stop here
+            if (sessionStorage.getItem("cart_reload_triggered") === "1") {
+                sessionStorage.removeItem("cart_reload_triggered");
                 return;
             }
 
             var reloadTriggered = false;
 
             function triggerReload() {
-                if (reloadTriggered) {
-                    console.log("Reload already triggered, skipping");
-                    return;
-                }
+                if (reloadTriggered) return;
                 reloadTriggered = true;
-                console.log("Triggering reload...");
-
-                // Store timestamp instead of boolean
-                sessionStorage.setItem(
-                    "cart_last_reload_time",
-                    new Date().getTime().toString()
-                );
-
+                sessionStorage.setItem("cart_reload_triggered", "1");
                 setTimeout(function () {
                     location.reload();
-                }, 500);
+                }, 1500); // slight delay to let the cart AJAX complete first
             }
 
-            // Check for success message with multiple selectors
-            function checkForSuccessMessage() {
-                var hasSuccess =
-                    $(".message-success").length > 0 ||
-                    $(".success.message").length > 0 ||
-                    $('[data-ui-id="message-success"]').length > 0 ||
-                    $(".page.messages .message-success").length > 0;
-
-                if (hasSuccess) {
-                    console.log("Success message found!");
-                }
-                return hasSuccess;
-            }
-
-            // Check immediately on page load
-            if (checkForSuccessMessage()) {
-                console.log("Success message found on page load, reloading...");
-                triggerReload();
-                return;
-            }
-
-            // Watch the specific messages container that Knockout binds to
-            var messagesContainer = document.querySelector(".page.messages");
-
-            if (!messagesContainer) {
-                console.error("Messages container not found");
-                return;
-            }
-
-            console.log("Watching .page.messages for changes...");
-
-            // MutationObserver to watch for message additions
-            var observer = new MutationObserver(function (mutations) {
-                if (reloadTriggered) {
-                    observer.disconnect();
-                    return;
-                }
-
-                // Check if success message was added
-                if (checkForSuccessMessage()) {
-                    console.log(
-                        "Success message detected via MutationObserver"
-                    );
-                    observer.disconnect();
-                    clearInterval(pollInterval);
-                    triggerReload();
-                }
-            });
-
-            // Observe with comprehensive settings to catch Knockout changes
-            observer.observe(messagesContainer, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                characterData: true,
-                attributeFilter: ["class", "data-ui-id"],
-            });
-
-            // Additional polling as backup (in case observer misses it)
-            var pollCount = 0;
-            var maxPolls = 50; // 5 seconds
-
-            var pollInterval = setInterval(function () {
-                if (reloadTriggered) {
-                    clearInterval(pollInterval);
-                    return;
-                }
-
-                pollCount++;
-
-                if (checkForSuccessMessage()) {
-                    console.log(
-                        "Success message detected via polling at",
-                        pollCount * 100,
-                        "ms"
-                    );
-                    clearInterval(pollInterval);
-                    observer.disconnect();
-                    triggerReload();
-                    return;
-                }
-
-                if (pollCount >= maxPolls) {
-                    console.log("Polling stopped after", maxPolls * 100, "ms");
-                    clearInterval(pollInterval);
-                }
-            }, 100);
-
-            // Detect add to cart button clicks to extend watch time
+            // ✅ Target specifically: tocart-form whose action contains /checkout/cart/add/
+            // This matches the PA widget forms but NOT the qty update form (#form-validate)
             $(document).on(
                 "click",
-                'form[data-role="tocart-form"] button[type="submit"]',
+                'form[data-role="tocart-form"][action*="/checkout/cart/add/"] button[type="submit"]',
                 function () {
-                    console.log("Add to cart button clicked");
-                    // Reset and extend polling
-                    pollCount = 0;
-                    maxPolls = 100; // Extend to 10 seconds after button click
+                    console.log("Widget add-to-cart clicked on cart page");
+                    triggerReload();
                 }
             );
-
-            // Cleanup on page unload
-            $(window).on("beforeunload", function () {
-                if (observer) {
-                    observer.disconnect();
-                }
-                if (pollInterval) {
-                    clearInterval(pollInterval);
-                }
-            });
         });
         
     });
