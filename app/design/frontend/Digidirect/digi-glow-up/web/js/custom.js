@@ -2220,7 +2220,7 @@ define([
                     var errorMsg       = null;
 
                     if (newVal > productLimit) {
-                        errorMsg = 'The maximum you may purchase of this item is ' + productLimit + '.';
+                        errorMsg = 'Max ' + productLimit + ' per item.';
                     } else if (projectedTotal > GLOBAL_CART_LIMIT) {
                         var allowedForItem = GLOBAL_CART_LIMIT - (totalCartQty - currentVal);
                         errorMsg = 'Cart limit ' + GLOBAL_CART_LIMIT + '. Max ' + Math.max(0, allowedForItem) + ' here.';
