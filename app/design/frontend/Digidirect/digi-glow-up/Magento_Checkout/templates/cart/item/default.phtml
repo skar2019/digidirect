@@ -18,6 +18,11 @@ $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 
 $_cartOrderLimit = (int)$product->getData('order_limit');
 if (empty($_cartOrderLimit) || $_cartOrderLimit <= 0) {
+    // Force load the attribute directly from the resource
+    $product->load($product->getId());
+    $_cartOrderLimit = (int)$product->getData('order_limit');
+}
+if (empty($_cartOrderLimit) || $_cartOrderLimit <= 0) {
     $_cartOrderLimit = 10;
 }
 
