@@ -7,7 +7,7 @@
 {{template config_path="design/email/header_template"}}
 <table>
     <tr class="email-intro">
-        <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+        <td align="center" style="padding:0px 40px; color:#242426; font-size:14px; line-height:22px;">
             <br>
             <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$customer_fullname|raw}}</p>
             <p>
@@ -21,13 +21,13 @@
     </tr>
 
     <tr>
-        <td align="left" style="padding:0 40px 10px;">
+        <td align="left" style="padding:0px 40px;">
             {{var store_card|raw}}
         </td>
     </tr>
 
     <tr>
-        <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
+        <td align="center" style="padding:0px 40px; color:#242426; font-size:14px; line-height:22px;">
             <p>
                 Please click <a href="https://www.digidirect.com.au/store-locator" style="color:black;text-decoration:underline">Store Locator</a> to confirm the above opening hours, as they are subject to change, especially during holidays and promotional period.
             </p>

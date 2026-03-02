@@ -194,7 +194,10 @@ class ReadytoPickup extends AbstractHelper
             // Get store name from customer_note (set by InjectPickupStoreToEmail observer)
             // $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
             $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
+
+            $this->logger->info('DEBUG storeName = ' . $storeName); // add this
             $storeCard = $this->getStoreCardHtml($storeName);
+            $this->logger->info('DEBUG storeCard length = ' . strlen($storeCard)); // add this
 
             // Get store address from shipping address
             $shippingAddress = $order->getShippingAddress();
@@ -205,15 +208,27 @@ class ReadytoPickup extends AbstractHelper
             $shippingAddress->getPostcode(),
             ]));
 
+            // $templateParams = [
+            // 'store'              => $store,
+            // 'order_number'       => $orderNumber,
+            // 'customer_firstname' => $customerFirstName,
+            // 'customer_fullname'  => $customerFullName,
+            // 'swhs_store_hours'   => $shwhStoreHours,
+            // 'pronto_order_number'=> $prontoordernumber,
+            // 'pickup_store_name'  => $storeName,
+            // 'pickup_store_address' => $storeAddress,
+            // ];
+
             $templateParams = [
-            'store'              => $store,
-            'order_number'       => $orderNumber,
-            'customer_firstname' => $customerFirstName,
-            'customer_fullname'  => $customerFullName,
-            'swhs_store_hours'   => $shwhStoreHours,
-            'pronto_order_number'=> $prontoordernumber,
-            'pickup_store_name'  => $storeName,
-            'pickup_store_address' => $storeAddress,
+                'store'              => $store,
+                'order_number'       => $orderNumber,
+                'customer_firstname' => $customerFirstName,
+                'customer_fullname'  => $customerFullName,
+                'swhs_store_hours'   => $shwhStoreHours,
+                'pronto_order_number'=> $prontoordernumber,
+                'pickup_store_name'  => $storeName,
+                'pickup_store_address' => $storeAddress,
+                'store_card'         => $storeCard,
             ];
             
             $transport = $this->transportBuilder->setTemplateIdentifier(
