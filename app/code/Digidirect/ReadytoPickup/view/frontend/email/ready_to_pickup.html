@@ -1,49 +1,45 @@
 <!--@subject {{trans "Your order from %store_name is Ready to Pickup" store_name=$store.getFrontendName()}} @-->
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
-"var customer.name":"Customer Name",
+"var customer.name":"Customer Name"
 } @-->
-​
+
 {{template config_path="design/email/header_template"}}
 <table>
     <tr class="email-intro">
         <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
             <br>
-             <p class="greeting">{{trans "Dear %customer_fullname,"  customer_fullname=$customer_fullname|row}}</p>
+            <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$customer_fullname|raw}}</p>
             <p>
-                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span> / <span class="no-link">#%pronto_order_number</span>' increment_id=$order_number pronto_order_number=$pronto_order_number |raw}}
+                {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span> / <span class="no-link">#%pronto_order_number</span>' increment_id=$order_number pronto_order_number=$pronto_order_number |raw}}
                 {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
-            <p>  
-               {{trans "Please check our opening hours referenced below, then make your way to your chosen digiDirect location to collect your goods."}}
+            <p>
+                {{trans "Please check our opening hours referenced below, then make your way to your chosen digiDirect location to collect your goods."}}
             </p>
         </td>
     </tr>
 
     <tr>
-       {{var store_card|raw}}
+        <td align="left" style="padding:0 40px 10px;">
+            {{var store_card|raw}}
+        </td>
     </tr>
 
     <tr>
         <td align="left" style="padding:0 40px 10px; color:#242426; font-size:14px; line-height:22px;">
-                <p>
-                    {{trans "Please click <a href="https://www.digidirect.com.au/store-locator" style="color:black;text-decoration:underline">Store Locator</a> to confirm the above opening hours, as they are subject to change, especially during holidays and promotional period."}}
-                </p>
+            <p>
+                Please click <a href="https://www.digidirect.com.au/store-locator" style="color:black;text-decoration:underline">Store Locator</a> to confirm the above opening hours, as they are subject to change, especially during holidays and promotional period.
+            </p>
         </td>
     </tr>
 
     <tr>
-        <td style="padding:25px 0;">
-                <p>  
-                    {{trans "Kind Regards,"}}
-                    </p>
-                <p>  
-                    {{trans "digiDirect"}}
-                    </p>
+        <td style="padding:25px 40px;">
+            <p>{{trans "Kind Regards,"}}</p>
+            <p>{{trans "digiDirect"}}</p>
         </td>
     </tr>
-
-
 
     <tr class="email-information">
         <td>
@@ -60,5 +56,5 @@
         </td>
     </tr>
 </table>
-​
+
 {{template config_path="design/email/footer_template"}}
