@@ -288,74 +288,74 @@ class ReadytoPickup extends AbstractHelper
         $stores = [
             'digiDirect Parramatta' => [
                 'title'   => 'Parramatta',
-                'address' => 'Shop 2101-2103 Level 2 (159 Church Street)<br>Parramatta New South Wales 2150',
+                'address' => 'Shop 2101-2103 Level 2 (159 Church Street)<br/>Parramatta New South Wales 2150',
                 'phone'   => '02 9689 3000',
                 'tel'     => '0296893000',
                 'hours'   => ['Mon'=>'9:30 AM - 6:00 PM','Tue'=>'9:30 AM - 6:00 PM','Wed'=>'9:30 AM - 6:00 PM','Thu'=>'9:30 AM - 9:00 PM','Fri'=>'9:30 AM - 6:00 PM','Sat'=>'10:00 AM - 5:00 PM','Sun'=>'10:00 AM - 5:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Parramatta/@-33.8173554,151.0007589,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Parramatta',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_7_.png',
             ],
             'digiDirect Melbourne CBD' => [
                 'title'   => 'Melbourne CBD',
-                'address' => '217 Elizabeth Street<br>Melbourne Victoria 3000',
+                'address' => '217 Elizabeth Street<br/>Melbourne Victoria 3000',
                 'phone'   => '03 9608 6990',
                 'tel'     => '0396086990',
                 'hours'   => ['Mon'=>'9:30 AM - 6:00 PM','Tue'=>'9:30 AM - 6:00 PM','Wed'=>'9:30 AM - 6:00 PM','Thu'=>'9:30 AM - 6:00 PM','Fri'=>'9:30 AM - 6:00 PM','Sat'=>'10:00 AM - 5:00 PM','Sun'=>'11:00 AM - 5:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Melbourne/@-37.813422,144.9599211,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Melbourne+CBD',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/melbourne_new.png',
             ],
             'digiDirect Sydney CBD' => [
                 'title'   => 'Sydney CBD',
-                'address' => 'Shop 3/75 King Street<br>Sydney New South Wales 2000',
+                'address' => 'Shop 3/75 King Street<br/>Sydney New South Wales 2000',
                 'phone'   => '02 8235 9600',
                 'tel'     => '0282359600',
                 'hours'   => ['Mon'=>'9:30 AM - 6:00 PM','Tue'=>'9:30 AM - 6:00 PM','Wed'=>'9:30 AM - 6:00 PM','Thu'=>'9:30 AM - 7:00 PM','Fri'=>'9:30 AM - 6:00 PM','Sat'=>'10:00 AM - 5:00 PM','Sun'=>'10:00 AM - 5:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Sydney/@-33.8687464,151.2038007,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Sydney+CBD',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/image_20_.png',
             ],
             'digiDirect Brisbane' => [
                 'title'   => 'Brisbane CBD',
-                'address' => '166 Adelaide Street<br>Brisbane Queensland 4000',
+                'address' => '166 Adelaide Street<br/>Brisbane Queensland 4000',
                 'phone'   => '07 3227 5300',
                 'tel'     => '0732275300',
                 'hours'   => ['Mon'=>'9:00 AM - 5:30 PM','Tue'=>'9:00 AM - 5:30 PM','Wed'=>'9:00 AM - 5:30 PM','Thu'=>'9:00 AM - 5:30 PM','Fri'=>'9:00 AM - 6:00 PM','Sat'=>'10:00 AM - 4:00 PM','Sun'=>'10:00 AM - 3:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Sydney/@-33.8687464,151.2038007,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Brisbane+CBD',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/image_20_.png',
             ],
             'digiDirect Bondi Junction' => [
                 'title'   => 'Bondi Junction',
-                'address' => 'Level 1 Shop 1044/500 Oxford Street<br>Bondi Junction New South Wales 2022',
+                'address' => 'Level 1 Shop 1044/500 Oxford Street<br/>Bondi Junction New South Wales 2022',
                 'phone'   => '02 8383 0900',
                 'tel'     => '0283830900',
                 'hours'   => ['Mon'=>'9:30 AM - 6:00 PM','Tue'=>'9:30 AM - 6:00 PM','Wed'=>'9:30 AM - 6:00 PM','Thu'=>'9:30 AM - 9:00 PM','Fri'=>'9:30 AM - 6:00 PM','Sat'=>'10:00 AM - 5:00 PM','Sun'=>'10:00 AM - 5:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+-+Bondi/@-33.8917176,151.2455848,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Bondi+Junction',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_5_.png',
             ],
             'digiDirect Cannington' => [
                 'title'   => 'Cannington (Perth)',
-                'address' => '12 Cecil Ave<br>Cannington Western Australia 6107',
+                'address' => '12 Cecil Ave<br/>Cannington Western Australia 6107',
                 'phone'   => '08 6350 8200',
                 'tel'     => '0863508200',
                 'hours'   => ['Mon'=>'9:00 AM - 5:30 PM','Tue'=>'9:00 AM - 5:30 PM','Wed'=>'9:00 AM - 5:30 PM','Thu'=>'9:00 AM - 5:30 PM','Fri'=>'9:00 AM - 5:30 PM','Sat'=>'9:00 AM - 4:00 PM','Sun'=>'11:00 AM - 4:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Perth+(Cannington)/@-32.01697,115.9334651,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Cannington+Perth',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_2_.png',
             ],
             'digiDirect Miranda' => [
                 'title'   => 'Miranda',
-                'address' => 'Shop 1098/600 Kingsway<br>Miranda New South Wales 2228',
+                'address' => 'Shop 1098/600 Kingsway<br/>Miranda New South Wales 2228',
                 'phone'   => '02 9589 5700',
                 'tel'     => '0295895700',
                 'hours'   => ['Mon'=>'9:30 AM - 5:30 PM','Tue'=>'9:30 AM - 5:30 PM','Wed'=>'9:30 AM - 5:30 PM','Thu'=>'9:30 AM - 8:00 PM','Fri'=>'9:30 AM - 5:30 PM','Sat'=>'9:30 AM - 5:00 PM','Sun'=>'10:00 AM - 5:00 PM'],
-                'map'     => 'https://www.google.com/maps/place/digiDirect+Miranda/@-34.0352695,151.0978985,17z',
+                'map'     => 'https://maps.google.com/?q=digiDirect+Miranda',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/miranda_new_1_1.png',
             ],
             'digiDirect Strathfield' => [
-                'title'   => 'Strathfield <span style="font-size:13px;font-weight:400;color:#666;">(Click & Collect Only)</span>',
-                'address' => 'Building 2, 34-48 Cosgrove Rd<br>Strathfield South NSW 2136',
+                'title'   => 'Strathfield (Click &amp; Collect Only)',
+                'address' => 'Building 2, 34-48 Cosgrove Rd<br/>Strathfield South NSW 2136',
                 'phone'   => '',
                 'tel'     => '',
                 'hours'   => ['Mon'=>'9:00 AM - 5:00 PM','Tue'=>'9:00 AM - 5:00 PM','Wed'=>'9:00 AM - 5:00 PM','Thu'=>'9:00 AM - 5:00 PM','Fri'=>'9:00 AM - 5:00 PM','Sat'=>'CLOSED','Sun'=>'CLOSED'],
-                'map'     => 'https://www.google.com/maps/place/Booktopia+(Part+of+the+digiDirect+Group)/@-33.8930865,151.0721992,17z',
+                'map'     => 'https://maps.google.com/?q=34-48+Cosgrove+Rd+Strathfield+South+NSW',
                 'img'     => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/DJI_20251125091754_0008_D.JPG',
             ],
         ];
@@ -365,42 +365,46 @@ class ReadytoPickup extends AbstractHelper
 
         $hoursRows = '';
         foreach ($store['hours'] as $day => $time) {
-            $color = in_array($time, ['CLOSED']) ? '#e53e3e' : '#333333';
-            $hoursRows .= "<tr>
-                <td style='font-size:13px;color:#555;padding:3px 0;width:100px;font-family:Arial,sans-serif;'>{$day}</td>
-                <td style='font-size:13px;color:{$color};padding:3px 0;font-family:Arial,sans-serif;'>{$time}</td>
-            </tr>";
+            $color = ($time === 'CLOSED') ? '#e53e3e' : '#333333';
+            $hoursRows .= "
+                <tr>
+                    <td style=\"font-size:13px;color:#777777;padding:3px 0;width:110px;font-family:Arial,sans-serif;\">{$day}</td>
+                    <td style=\"font-size:13px;color:{$color};padding:3px 0;font-family:Arial,sans-serif;\">{$time}</td>
+                </tr>";
         }
 
         $phoneHtml = $store['phone']
-            ? "<a href='tel:{$store['tel']}' style='font-size:13px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;display:block;margin-bottom:6px;'>&#128222; {$store['phone']}</a>"
+            ? "<a href=\"tel:{$store['tel']}\" style=\"font-size:13px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128222; {$store['phone']}</a><br/>"
             : '';
 
         return "
-        <table width='100%' cellpadding='0' cellspacing='0' style='border:1px solid #e0e0e0;border-radius:12px;border-collapse:separate;margin:16px 0;background:#ffffff;'>
+        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #e0e0e0;border-radius:12px;border-collapse:separate;background:#ffffff;\">
             <tr>
-                <td valign='top' style='padding:24px 20px 16px 24px;'>
-                    <h2 style='margin:0 0 4px;font-size:22px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;'>{$store['title']}</h2>
-                    <p style='margin:0 0 14px;font-size:13px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;'>Store Hours</p>
-                    <table cellpadding='0' cellspacing='0' style='width:100%;margin-bottom:20px;'>{$hoursRows}</table>
-                    <table width='100%' cellpadding='0' cellspacing='0'>
+                <td valign=\"top\" style=\"padding:24px 16px 20px 24px;\">
+                    <h2 style=\"margin:0 0 2px;font-size:20px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;\">{$store['title']}</h2>
+                    <p style=\"margin:0 0 12px;font-size:13px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;\">Store Hours</p>
+                    <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:20px;\">
+                        {$hoursRows}
+                    </table>
+                    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">
                         <tr>
-                            <td valign='bottom' style='width:50%;'>
-                                <a href='{$store['map']}' style='font-size:13px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;'>&#128205; View on<br>Google Maps</a>
+                            <td valign=\"bottom\" style=\"width:50%;\">
+                                <a href=\"{$store['map']}\" style=\"font-size:13px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128205; View on<br/>Google Maps</a>
                             </td>
-                            <td valign='bottom' style='width:50%;text-align:right;'>
+                            <td valign=\"bottom\" style=\"text-align:right;\">
                                 {$phoneHtml}
-                                <p style='margin:0;font-size:13px;color:#333;font-family:Arial,sans-serif;text-align:right;'>{$store['address']}</p>
+                                <span style=\"font-size:13px;color:#333333;font-family:Arial,sans-serif;text-align:right;\">{$store['address']}</span>
                             </td>
                         </tr>
                     </table>
                 </td>
-                <td valign='top' width='180' style='padding:16px 16px 16px 0;'>
-                    <img src='{$store['img']}' width='160' height='180' style='border-radius:10px;display:block;object-fit:cover;' alt='{$store['title']} Store'>
+                <td valign=\"top\" width=\"170\" style=\"padding:16px 16px 16px 0;\">
+                    <img src=\"{$store['img']}\" width=\"155\" height=\"190\" style=\"border-radius:10px;display:block;\" alt=\"{$store['title']}\">
                 </td>
             </tr>
         </table>";
     }
+
 
 
 
