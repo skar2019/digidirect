@@ -195,9 +195,9 @@ class ReadytoPickup extends AbstractHelper
             // $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
             $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
 
-            $this->logger->info('DEBUG storeName = ' . $storeName); // add this
+            $this->logger->info('DEBUG storeName = ' . $storeName);
             $storeCard = $this->getStoreCardHtml($storeName);
-            $this->logger->info('DEBUG storeCard length = ' . strlen($storeCard)); // add this
+            $this->logger->info('DEBUG storeCard length = ' . strlen($storeCard));
 
             // Get store address from shipping address
             $shippingAddress = $order->getShippingAddress();
@@ -462,8 +462,8 @@ class ReadytoPickup extends AbstractHelper
                         </tr>
                     </table>
                 </td>
-                <td valign=\"top\" width=\"200\" style=\"padding:0;\">
-                    <img src=\"{$store['img']}\" width=\"200\" style=\"border-radius:0 12px 12px 0;display:block;width:200px;height:100%;min-height:280px;object-fit:cover;\" alt=\"{$store['title']}\">
+                <td valign=\"top\" width=\"200\" style=\"padding:20px;\">
+                    <img src=\"{$store['img']}\" width=\"250\" style=\"border-radius:25px;display:block;width:250px;height:100%;min-height:280px;object-fit:cover;\" alt=\"{$store['title']}\">
                 </td>
             </tr>
         </table>";
