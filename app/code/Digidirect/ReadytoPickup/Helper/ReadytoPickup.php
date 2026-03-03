@@ -452,11 +452,11 @@ class ReadytoPickup extends AbstractHelper
                     </table>
                     <a href=\"{$store['map']}\" style=\"font-size:14px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128205; View on<br/>Google Maps</a>
                 </td>
-                <td valign=\"top\" width=\"210\" style=\"padding:0;border-left:0;\">
+                <td valign=\"top\" width=\"210\" style=\"padding:20px;border-left:0;\">
                     <table width=\"210\" cellpadding=\"0\" cellspacing=\"0\" height=\"100%\">
                         <tr>
                             <td style=\"padding:0;\">
-                                <img src=\"{$store['img']}\" width=\"210\" style=\"border-radius:0 12px 0 0;display:block;width:210px;height:230px;object-fit:cover;\" alt=\"{$store['title']}\">
+                                <img src=\"{$store['img']}\" width=\"280\" style=\"border-radius:20px;display:block;width:280px;height:250px;object-fit:cover;\" alt=\"{$store['title']}\">
                             </td>
                         </tr>
                         <tr>
