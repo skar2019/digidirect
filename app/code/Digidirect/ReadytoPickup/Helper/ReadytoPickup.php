@@ -180,13 +180,57 @@ class ReadytoPickup extends AbstractHelper
             $orderNumber = $order->getIncrementId();
             $prontoordernumber = $order->getData('pronto_order_number');
             $store = $this->storeManager->getStore();
-            $templateParams = ['store' => $store,
-                'order_number' => $orderNumber,
+
+            // $templateParams = ['store' => $store,
+            //     'order_number' => $orderNumber,
+            //     'customer_firstname' => $customerFirstName,
+            //     'customer_fullname' => $customerFullName,
+            //     'swhs_store_hours' => $shwhStoreHours,
+            //     'pronto_order_number' => $prontoordernumber
+            // ];
+
+
+            // jireh code
+            // Get store name from customer_note (set by InjectPickupStoreToEmail observer)
+            // $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
+            $storeName = $order->getCustomerNote() ?: 'digiDirect Store';
+
+            $this->logger->info('DEBUG storeName = ' . $storeName);
+            $storeCard = $this->getStoreCardHtml($storeName);
+            $this->logger->info('DEBUG storeCard length = ' . strlen($storeCard));
+
+            // Get store address from shipping address
+            $shippingAddress = $order->getShippingAddress();
+            $storeAddress = implode(', ', array_filter([
+            $shippingAddress->getStreetLine(1),
+            $shippingAddress->getCity(),
+            $shippingAddress->getRegion(),
+            $shippingAddress->getPostcode(),
+            ]));
+
+            // $templateParams = [
+            // 'store'              => $store,
+            // 'order_number'       => $orderNumber,
+            // 'customer_firstname' => $customerFirstName,
+            // 'customer_fullname'  => $customerFullName,
+            // 'swhs_store_hours'   => $shwhStoreHours,
+            // 'pronto_order_number'=> $prontoordernumber,
+            // 'pickup_store_name'  => $storeName,
+            // 'pickup_store_address' => $storeAddress,
+            // ];
+
+            $templateParams = [
+                'store'              => $store,
+                'order_number'       => $orderNumber,
                 'customer_firstname' => $customerFirstName,
-                'customer_fullname' => $customerFullName,
-                'swhs_store_hours' => $shwhStoreHours,
-                'pronto_order_number' => $prontoordernumber
+                'customer_fullname'  => $customerFullName,
+                'swhs_store_hours'   => $shwhStoreHours,
+                'pronto_order_number'=> $prontoordernumber,
+                'pickup_store_name'  => $storeName,
+                'pickup_store_address' => $storeAddress,
+                'store_card'         => $storeCard,
             ];
+            
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
                 )->setTemplateOptions(
@@ -216,17 +260,219 @@ class ReadytoPickup extends AbstractHelper
         return true;
     }
 
-    public function getOrderCollection()
-    {
+    // public function getOrderCollection()
+    // {
+    //     $collection = $this->_orderCollectionFactory->create()
+    //         ->addAttributeToSelect('*')
+    //         ->addFieldToFilter('entity_id', array('gt' => 1139532))
+    //         ->addFieldToFilter('status', array('eq' => 'complete'))
+    //         ->addFieldToFilter('pickup_email', array('eq' => 0))
+    //         ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
+    //         ->setOrder('created_at', 'asc');
+    //     return $collection;
+    // }
+
+    // jireh code
+    public function getOrderCollection() {
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1139532))
             ->addFieldToFilter('status', array('eq' => 'complete'))
             ->addFieldToFilter('pickup_email', array('eq' => 0))
-            ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
+            ->addFieldToFilter('shipping_description', array('like' => '%Click & Collect%'))
             ->setOrder('created_at', 'asc');
         return $collection;
     }
+
+    public function getStoreCardHtml($storeName) {
+        $stores = [
+            'digiDirect Parramatta' => [
+                'title'   => 'Parramatta',
+                'address' => '217 Elizabeth Street<br/>Parramatta New South Wales 2150',
+                'phone'   => '02 9689 3000',
+                'tel'     => '0296893000',
+                'hours'   => [
+                    'Monday'    => '9:30 AM  - 6:00 PM',
+                    'Tuesday'   => '9:30 AM  - 6:00 PM',
+                    'Wednesday' => '9:30 AM  - 6:00 PM',
+                    'Thursday'  => '9:30 AM  - 9:00 PM',
+                    'Friday'    => '9:30 AM  - 6:00 PM',
+                    'Saturday'  => '10:00 AM - 5:00 PM',
+                    'Sunday'    => '10:00 AM - 5:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Parramatta',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_7_.png',
+            ],
+            'digiDirect Melbourne CBD' => [
+                'title'   => 'Melbourne CBD',
+                'address' => '217 Elizabeth Street<br/>Melbourne Victoria 3000',
+                'phone'   => '03 9608 6990',
+                'tel'     => '0396086990',
+                'hours'   => [
+                    'Monday'    => '9:30 AM  - 6:00 PM',
+                    'Tuesday'   => '9:30 AM  - 6:00 PM',
+                    'Wednesday' => '9:30 AM  - 6:00 PM',
+                    'Thursday'  => '9:30 AM  - 6:00 PM',
+                    'Friday'    => '9:30 AM  - 6:00 PM',
+                    'Saturday'  => '10:00 AM - 5:00 PM',
+                    'Sunday'    => '11:00 AM - 5:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Melbourne+CBD',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/melbourne_new.png',
+            ],
+            'digiDirect Sydney CBD' => [
+                'title'   => 'Sydney CBD',
+                'address' => 'Shop 3/75 King Street<br/>Sydney New South Wales 2000',
+                'phone'   => '02 8235 9600',
+                'tel'     => '0282359600',
+                'hours'   => [
+                    'Monday'    => '9:30 AM  - 6:00 PM',
+                    'Tuesday'   => '9:30 AM  - 6:00 PM',
+                    'Wednesday' => '9:30 AM  - 6:00 PM',
+                    'Thursday'  => '9:30 AM  - 7:00 PM',
+                    'Friday'    => '9:30 AM  - 6:00 PM',
+                    'Saturday'  => '10:00 AM - 5:00 PM',
+                    'Sunday'    => '10:00 AM - 5:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Sydney+CBD',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/image_20_.png',
+            ],
+            'digiDirect Brisbane' => [
+                'title'   => 'Brisbane CBD',
+                'address' => '166 Adelaide Street<br/>Brisbane Queensland 4000',
+                'phone'   => '07 3227 5300',
+                'tel'     => '0732275300',
+                'hours'   => [
+                    'Monday'    => '9:00 AM  - 5:30 PM',
+                    'Tuesday'   => '9:00 AM  - 5:30 PM',
+                    'Wednesday' => '9:00 AM  - 5:30 PM',
+                    'Thursday'  => '9:00 AM  - 5:30 PM',
+                    'Friday'    => '9:00 AM  - 6:00 PM',
+                    'Saturday'  => '10:00 AM - 4:00 PM',
+                    'Sunday'    => '10:00 AM - 3:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Brisbane+CBD',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/image_20_.png',
+            ],
+            'digiDirect Bondi Junction' => [
+                'title'   => 'Bondi Junction',
+                'address' => 'Level 1 Shop 1044/500 Oxford Street<br/>Bondi Junction New South Wales 2022',
+                'phone'   => '02 8383 0900',
+                'tel'     => '0283830900',
+                'hours'   => [
+                    'Monday'    => '9:30 AM  - 6:00 PM',
+                    'Tuesday'   => '9:30 AM  - 6:00 PM',
+                    'Wednesday' => '9:30 AM  - 6:00 PM',
+                    'Thursday'  => '9:30 AM  - 9:00 PM',
+                    'Friday'    => '9:30 AM  - 6:00 PM',
+                    'Saturday'  => '10:00 AM - 5:00 PM',
+                    'Sunday'    => '10:00 AM - 5:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Bondi+Junction',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_5_.png',
+            ],
+            'digiDirect Cannington' => [
+                'title'   => 'Cannington (Perth)',
+                'address' => '12 Cecil Ave<br/>Cannington Western Australia 6107',
+                'phone'   => '08 6350 8200',
+                'tel'     => '0863508200',
+                'hours'   => [
+                    'Monday'    => '9:00 AM  - 5:30 PM',
+                    'Tuesday'   => '9:00 AM  - 5:30 PM',
+                    'Wednesday' => '9:00 AM  - 5:30 PM',
+                    'Thursday'  => '9:00 AM  - 5:30 PM',
+                    'Friday'    => '9:00 AM  - 5:30 PM',
+                    'Saturday'  => '9:00 AM  - 4:00 PM',
+                    'Sunday'    => '11:00 AM - 4:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Cannington+Perth',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/Rectangle_1525_2_.png',
+            ],
+            'digiDirect Miranda' => [
+                'title'   => 'Miranda',
+                'address' => 'Shop 1098/600 Kingsway<br/>Miranda New South Wales 2228',
+                'phone'   => '02 9589 5700',
+                'tel'     => '0295895700',
+                'hours'   => [
+                    'Monday'    => '9:30 AM  - 5:30 PM',
+                    'Tuesday'   => '9:30 AM  - 5:30 PM',
+                    'Wednesday' => '9:30 AM  - 5:30 PM',
+                    'Thursday'  => '9:30 AM  - 8:00 PM',
+                    'Friday'    => '9:30 AM  - 5:30 PM',
+                    'Saturday'  => '9:30 AM  - 5:00 PM',
+                    'Sunday'    => '10:00 AM - 5:00 PM',
+                ],
+                'map' => 'https://maps.google.com/?q=digiDirect+Miranda',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/miranda_new_1_1.png',
+            ],
+            'digiDirect Strathfield' => [
+                'title'   => 'Strathfield (Click &amp; Collect Only)',
+                'address' => 'Building 2, 34-48 Cosgrove Rd<br/>Strathfield South NSW 2136',
+                'phone'   => '',
+                'tel'     => '',
+                'hours'   => [
+                    'Monday'    => '9:00 AM  - 5:00 PM',
+                    'Tuesday'   => '9:00 AM  - 5:00 PM',
+                    'Wednesday' => '9:00 AM  - 5:00 PM',
+                    'Thursday'  => '9:00 AM  - 5:00 PM',
+                    'Friday'    => '9:00 AM  - 5:00 PM',
+                    'Saturday'  => 'CLOSED',
+                    'Sunday'    => 'CLOSED',
+                ],
+                'map' => 'https://maps.google.com/?q=34-48+Cosgrove+Rd+Strathfield+South+NSW',
+                'img' => 'https://www.digidirect.com.au/media/wysiwyg/glow-up/store-locator-list/DJI_20251125091754_0008_D.JPG',
+            ],
+        ];
+
+        $store = $stores[$storeName] ?? null;
+        if (!$store) return '';
+
+        $hoursRows = '';
+        foreach ($store['hours'] as $day => $time) {
+            $color = ($time === 'CLOSED') ? '#e53e3e' : '#333333';
+            $hoursRows .= "
+                <tr>
+                    <td style=\"font-size:14px;color:#555555;padding:4px 0;width:120px;font-family:Arial,sans-serif;\">{$day}</td>
+                    <td style=\"font-size:14px;color:{$color};padding:4px 0;font-family:Arial,sans-serif;\">{$time}</td>
+                </tr>";
+        }
+
+        $phoneHtml = $store['phone']
+            ? "<a href=\"tel:{$store['tel']}\" style=\"font-size:14px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128222; {$store['phone']}</a><br/>"
+            : '';
+
+        return "
+        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #e0e0e0;border-radius:12px;border-collapse:separate;background:#ffffff;margin:16px 0;\">
+            <tr>
+                <td valign=\"top\" style=\"padding:24px 16px 20px 24px;\">
+                    <h2 style=\"margin:0 0 2px;font-size:24px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;\">{$store['title']}</h2>
+                    <p style=\"margin:0 0 14px;font-size:14px;font-weight:700;color:#1a1a1a;font-family:Arial,sans-serif;\">Store Hours</p>
+                    <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:24px;\">
+                        {$hoursRows}
+                    </table>
+                    <a href=\"{$store['map']}\" style=\"font-size:14px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128205; View on<br/>Google Maps</a>
+                </td>
+                <td valign=\"top\" width=\"210\" style=\"padding:0;border-left:0;\">
+                    <table width=\"210\" cellpadding=\"0\" cellspacing=\"0\" height=\"100%\">
+                        <tr>
+                            <td style=\"padding:0;\">
+                                <img src=\"{$store['img']}\" width=\"210\" style=\"border-radius:0 12px 0 0;display:block;width:210px;height:230px;object-fit:cover;\" alt=\"{$store['title']}\">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=\"padding:14px 16px 16px 16px;text-align:right;background:#f9f9f9;border-radius:0 0 12px 0;\">
+                                {$phoneHtml}
+                                <span style=\"font-size:13px;font-weight:700;color:#333333;font-family:Arial,sans-serif;line-height:1.6;\">{$store['address']}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>";
+    }
+
+
+
 
     /**
      * @param OrderInterface $order

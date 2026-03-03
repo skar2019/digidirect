@@ -41,12 +41,20 @@ class EmailTransportPlugin
                 $tracks = method_exists($shipment, 'getAllTracks') ? $shipment->getAllTracks() : [];
                 foreach ($tracks as $track) {
                     $this->logger->debug('Tracks - Carrier Code: '. $track->getCarrierCode(). ' for order id ' . $shipment->getOrderId() . ' and track number ' . $track->getTrackNumber());
-                    if ($track->getCarrierCode() == 'standard' ||
-                        $track->getCarrierCode() == 'express' ||
-                        $track->getCarrierCode() == 'intlshippingnz' ||
-                        $track->getCarrierCode() == 'intlshipping') {
+                    if ($track->getCarrierCode() == 'standard' || // Standard
+                        $track->getCarrierCode() == 'express' || // Express
+                        //$track->getCarrierCode() == 'intlshippingnz' || // AP
+                        //$track->getCarrierCode() == 'intlshipping' || // AP
+                        $track->getCarrierCode() == 'AP' || // Australia Post
+                        $track->getCarrierCode() == 'Australia Post' || // Australia Post
+                        $track->getCarrierCode() == 'EP' || //AUSPOST_EPARCEL
+                        $track->getCarrierCode() == 'EX' //AUSPOST_EPARCEL_EXPRESS
+                        ) {
                         $tracksHtml = $track->getTitle()." - <a href='https://auspost.com.au/mypost/track/details/".$track->getTrackNumber()."'>".$track->getTrackNumber()."</a>";
-                    } elseif ($track->getCarrierCode() == 'nextdayship') {
+                    } elseif (
+                        $track->getCarrierCode() == 'nextdaydelivery'  //nextdaydelivery
+
+                    ) {
                         $tracksHtml = $track->getTitle()." - <a href='https://www.gopeople.com.au/tracking/?code=".$track->getTrackNumber()."'>".$track->getTrackNumber()."</a>";
                     } else {
                         $tracksHtml = $track->getTitle()." - ".$track->getTrackNumber();
