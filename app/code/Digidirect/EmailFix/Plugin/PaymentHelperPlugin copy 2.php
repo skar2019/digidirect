@@ -103,7 +103,10 @@ class PaymentHelperPlugin
                     <td valign="middle" style="font-weight:bold;">
                         ' . $ccType . '
                     </td>
-                    <td valign="middle" style="padding-left: 10px;">
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="padding-top:4px;">
                         ****-' . $ccLast4 . '
                     </td>
                 </tr>
@@ -161,9 +164,6 @@ class PaymentHelperPlugin
                     </td>
                     <td valign="middle" style="font-weight:bold;">
                         PayPal
-                    </td>
-                    <td style="padding-top:4px;">
-                        ' . $additionalInfo['paypal_payer_email'] . '
                     </td>
                 </tr>
                 <tr>
