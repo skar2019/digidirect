@@ -17,6 +17,8 @@
  */
 namespace Bss\PreOrder\Model;
 
+use Magento\InventorySales\Model\GetProductSalableQty;
+use Magento\InventorySalesApi\Api\StockResolverInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -40,24 +42,20 @@ class Stock
     protected $stockResolver;
 
     /**
-     * Object Manager
-     *
-     * @var \Magento\Framework\ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
      * Construct
      *
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param GetProductSalableQty $getProductSalableQty
+     * @param StockResolverInterface $stockResolver
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        GetProductSalableQty $getProductSalableQty,
+        StockResolverInterface $stockResolver
     ) {
         $this->storeManager = $storeManager;
-        $this->objectManager = $objectManager;
+        $this->getProductSalableQty = $getProductSalableQty;
+        $this->stockResolver = $stockResolver;
     }
 
     /**
@@ -85,9 +83,6 @@ class Stock
      */
     public function createGetProductSalableQty()
     {
-        if (!$this->getProductSalableQty) {
-            $this->getProductSalableQty = $this->objectManager->create(\Magento\InventorySales\Model\GetProductSalableQty::class);
-        }
         return $this->getProductSalableQty;
     }
 
@@ -98,9 +93,6 @@ class Stock
      */
     public function createStockResolver()
     {
-        if (!$this->stockResolver) {
-            $this->stockResolver = $this->objectManager->create(\Magento\InventorySalesApi\Api\StockResolverInterface ::class);
-        }
         return $this->stockResolver;
     }
 }

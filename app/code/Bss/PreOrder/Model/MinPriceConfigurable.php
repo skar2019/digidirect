@@ -22,6 +22,10 @@ use Magento\Catalog\Model\ResourceModel\Product\BaseSelectProcessorInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface;
+use Magento\InventoryIndexer\Model\StockIndexTableNameResolver;
+use Magento\InventorySales\Model\GetProductSalableQty;
+use Magento\InventorySalesApi\Api\StockResolverInterface;
 use Magento\InventorySalesApi\Api\Data\SalesChannelInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -73,30 +77,35 @@ class MinPriceConfigurable
     protected $stockResolver;
 
     /**
-     * Object Manager
+     * MinPriceConfigurable constructor.
      *
-     * @var \Magento\Framework\ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * Construct
-     *
+     * @param \Bss\PreOrder\Model\Attribute\Source\Module $souceModule
+     * @param \Bss\PreOrder\Model\Config $config
+     * @param ResourceConnection $resourceConnection
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param GetProductSalableQty $getProductSalableQty
+     * @param StockResolverInterface $stockResolver
+     * @param DefaultStockProviderInterface $defaultStockProvider
+     * @param StockIndexTableNameResolver $stockIndexTableNameResolver
      */
     public function __construct(
         \Bss\PreOrder\Model\Attribute\Source\Module $souceModule,
         \Bss\PreOrder\Model\Config $config,
         ResourceConnection $resourceConnection,
         StoreManagerInterface $storeManager,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        GetProductSalableQty $getProductSalableQty,
+        StockResolverInterface $stockResolver,
+        DefaultStockProviderInterface $defaultStockProvider,
+        StockIndexTableNameResolver $stockIndexTableNameResolver
     ) {
         $this->sourceModule = $souceModule;
         $this->config = $config;
         $this->resourceConnection = $resourceConnection;
         $this->storeManager = $storeManager;
-        $this->objectManager = $objectManager;
+        $this->getProductSalableQty = $getProductSalableQty;
+        $this->stockResolver = $stockResolver;
+        $this->defaultStockProvider = $defaultStockProvider;
+        $this->stockIndexTableNameResolver = $stockIndexTableNameResolver;
     }
 
     /**
@@ -124,9 +133,6 @@ class MinPriceConfigurable
      */
     private function createGetProductSalableQty()
     {
-        if (!$this->getProductSalableQty) {
-            $this->getProductSalableQty = $this->objectManager->create(\Magento\InventorySales\Model\GetProductSalableQty::class);
-        }
         return $this->getProductSalableQty;
     }
 
@@ -137,9 +143,6 @@ class MinPriceConfigurable
      */
     private function createStockResolver()
     {
-        if (!$this->stockResolver) {
-            $this->stockResolver = $this->objectManager->create(\Magento\InventorySalesApi\Api\StockResolverInterface ::class);
-        }
         return $this->stockResolver;
     }
 
@@ -150,9 +153,6 @@ class MinPriceConfigurable
      */
     private function defaultStockProvider()
     {
-        if (!$this->defaultStockProvider) {
-            $this->defaultStockProvider = $this->objectManager->create(\Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface ::class);
-        }
         return $this->defaultStockProvider;
     }
 
@@ -180,9 +180,6 @@ class MinPriceConfigurable
      */
     private function stockIndexTableNameResolver()
     {
-        if (!$this->stockIndexTableNameResolver) {
-            $this->stockIndexTableNameResolver =  $this->objectManager->create(\Magento\InventoryIndexer\Model\StockIndexTableNameResolver ::class);
-        }
         return $this->stockIndexTableNameResolver;
     }
 
