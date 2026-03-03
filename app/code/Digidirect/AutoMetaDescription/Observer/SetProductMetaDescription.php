@@ -1,6 +1,6 @@
 <?php
 
-namespace DigiDirect\AutoMetaDescription\Observer;
+namespace Digidirect\AutoMetaDescription\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;

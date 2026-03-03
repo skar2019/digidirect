@@ -3,6 +3,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'DigiDirect_AutoMetaDescription',
+    'Digidirect_AutoMetaDescription',
     __DIR__
 );

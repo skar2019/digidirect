@@ -4,7 +4,7 @@
 
     <event name="layout_generate_blocks_after">
         <observer name="digidirect_auto_meta_description"
-                  instance="DigiDirect\AutoMetaDescription\Observer\SetProductMetaDescription"/>
+                  instance="Digidirect\AutoMetaDescription\Observer\SetProductMetaDescription"/>
     </event>
 
 </config>
