@@ -450,20 +450,22 @@ class ReadytoPickup extends AbstractHelper
                     <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:24px;\">
                         {$hoursRows}
                     </table>
-                    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">
+                    <a href=\"{$store['map']}\" style=\"font-size:14px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128205; View on<br/>Google Maps</a>
+                </td>
+                <td valign=\"top\" width=\"210\" style=\"padding:0;border-left:0;\">
+                    <table width=\"210\" cellpadding=\"0\" cellspacing=\"0\" height=\"100%\">
                         <tr>
-                            <td valign=\"bottom\" style=\"width:50%;\">
-                                <a href=\"{$store['map']}\" style=\"font-size:14px;color:#1a73e8;text-decoration:none;font-family:Arial,sans-serif;\">&#128205; View on<br/>Google Maps</a>
+                            <td style=\"padding:0;\">
+                                <img src=\"{$store['img']}\" width=\"210\" style=\"border-radius:0 12px 0 0;display:block;width:210px;height:230px;object-fit:cover;\" alt=\"{$store['title']}\">
                             </td>
-                            <td valign=\"bottom\" style=\"text-align:right;\">
+                        </tr>
+                        <tr>
+                            <td style=\"padding:14px 16px 16px 16px;text-align:right;background:#f9f9f9;border-radius:0 0 12px 0;\">
                                 {$phoneHtml}
-                                <span style=\"font-size:14px;font-weight:700;color:#333333;font-family:Arial,sans-serif;\">{$store['address']}</span>
+                                <span style=\"font-size:13px;font-weight:700;color:#333333;font-family:Arial,sans-serif;line-height:1.6;\">{$store['address']}</span>
                             </td>
                         </tr>
                     </table>
-                </td>
-                <td valign=\"top\" width=\"200\" style=\"padding:20px;\">
-                    <img src=\"{$store['img']}\" width=\"250\" style=\"border-radius:25px;display:block;width:250px;height:100%;min-height:280px;object-fit:cover;\" alt=\"{$store['title']}\">
                 </td>
             </tr>
         </table>";
