@@ -35,9 +35,9 @@ class SetProductMetaDescription implements ObserverInterface
         }
 
         // If meta description exists for this store view, preserve it
-        $existingMeta = trim((string)$product->getMetaDescription());
-        if (!empty($existingMeta)) {
-            $this->pageConfig->setDescription($existingMeta);
+        $existingMeta = $product->getData('meta_description');
+        if ($existingMeta !== null && trim($existingMeta) !== '') {
+            $this->pageConfig->setDescription(trim($existingMeta));
             return;
         }
 
