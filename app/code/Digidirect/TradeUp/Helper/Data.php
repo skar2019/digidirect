@@ -81,7 +81,7 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-//    public function getEmailTemplateCompany()
+    //    public function getEmailTemplateCompany()
 //    {
 //        return $this->scopeConfig->getValue(
 //            self::XML_PATH_EMAIL_TEMPLATE_COMPANY,
@@ -94,7 +94,7 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-//    public function getEmailTemplateCustomer()
+    //    public function getEmailTemplateCustomer()
 //    {
 //        return $this->scopeConfig->getValue(
 //            self::XML_PATH_EMAIL_TEMPLATE_CUSTOMER,
@@ -117,6 +117,8 @@ class Data extends AbstractHelper
             $templateVars = [
                 'fullname' => $formData['fullname'],
                 'email' => $formData['email'],
+                'brand' => $formData['brand'],
+                'model' => $formData['model'],
                 'phonenumber' => $formData['phonenumber'],
                 'rate' => $formData['rate'],
                 'accessories' => $formData['accessories'],
