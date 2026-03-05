@@ -3,14 +3,50 @@ namespace Digidirect\AbstractEntity\Controller\Adminhtml\AbstractEntity;
 
 use Digidirect\AbstractEntity\Controller\Adminhtml\AbstractEntity as AbstractEntityController;
 use Digidirect\AbstractEntity\Api\AbstractEntityRepositoryInterface;
-use Digidirect\AbstractEntity\Model\AbstractEntity;
+use Digidirect\AbstractEntity\Model\AbstractEntityFactory;
 use Digidirect\AbstractEntity\Model\Registry\Constants;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\ForwardFactory;
+use Magento\Eav\Api\AttributeSetRepositoryInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
 
 class Edit extends AbstractEntityController
 {
+    /**
+     * @var AbstractEntityFactory
+     */
+    private $abstractEntityFactory;
+
+    /**
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param PageFactory $resultPageFactory
+     * @param ForwardFactory $resultForwardFactory
+     * @param AbstractEntityRepositoryInterface $abstractEntityRepository
+     * @param AttributeSetRepositoryInterface $attributeSetRepository
+     * @param AbstractEntityFactory $abstractEntityFactory
+     */
+    public function __construct(
+        Context $context,
+        Registry $coreRegistry,
+        PageFactory $resultPageFactory,
+        ForwardFactory $resultForwardFactory,
+        AbstractEntityRepositoryInterface $abstractEntityRepository,
+        AttributeSetRepositoryInterface $attributeSetRepository,
+        AbstractEntityFactory $abstractEntityFactory
+    ) {
+        $this->abstractEntityFactory = $abstractEntityFactory;
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $resultPageFactory,
+            $resultForwardFactory,
+            $abstractEntityRepository,
+            $attributeSetRepository
+        );
+    }
+
     /**
      * Edit action
      *
@@ -25,7 +61,7 @@ class Edit extends AbstractEntityController
             if ($id) {
                 $model = $this->abstractEntityRepository->getById($id, $storeId);
             } else {
-                $model = $this->_objectManager->create(AbstractEntity::class);
+                $model = $this->abstractEntityFactory->create();
             }
             $this->_coreRegistry->register(Constants::CURRENT_ABSTRACT_ENTITY, $model);
         } catch (\Exception $e) {

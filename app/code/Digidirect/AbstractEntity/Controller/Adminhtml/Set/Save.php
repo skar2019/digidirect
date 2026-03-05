@@ -5,7 +5,7 @@ namespace Digidirect\AbstractEntity\Controller\Adminhtml\Set;
 use Digidirect\AbstractEntity\Model\Registry\Constants;
 use Digidirect\AbstractEntity\Controller\Adminhtml\Set;
 use Digidirect\AbstractEntity\Model\ResourceModel\AbstractEntity as AbstractEntityResource;
-use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
+use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Serialize\Serializer\Json as JsonHelper;
 use Magento\Backend\App\Action\Context;
@@ -44,12 +44,30 @@ class Save extends Set
     protected $data;
 
     /**
+     * @var AttributeSetFactory
+     */
+    private $attributeSetFactory;
+
+    /**
+     * @var FilterManager
+     */
+    private $filterManager;
+
+    /**
+     * @var JsonHelper
+     */
+    private $jsonHelper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param AbstractEntityResource $abstractEntityResource
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $typeList
+     * @param AttributeSetFactory $attributeSetFactory
+     * @param FilterManager $filterManager
+     * @param JsonHelper $jsonHelper
      * @param array $data
      */
     public function __construct(
@@ -59,12 +77,18 @@ class Save extends Set
         LayoutFactory $layoutFactory,
         JsonFactory $resultJsonFactory,
         TypeListInterface $typeList,
+        AttributeSetFactory $attributeSetFactory,
+        FilterManager $filterManager,
+        JsonHelper $jsonHelper,
         array $data = []
     ) {
         parent::__construct($context, $coreRegistry, $abstractEntityResource);
         $this->layoutFactory = $layoutFactory;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->typeList = $typeList;
+        $this->attributeSetFactory = $attributeSetFactory;
+        $this->filterManager = $filterManager;
+        $this->jsonHelper = $jsonHelper;
         $this->data = $data;
     }
 
@@ -98,16 +122,13 @@ class Save extends Set
         $isNewSet = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model \Magento\Eav\Model\Entity\Attribute\Set */
-        $model = $this->_objectManager->create(AttributeSet::class)
+        $model = $this->attributeSetFactory->create()
             ->setEntityTypeId($entityTypeId);
-
-        /** @var $filterManager \Magento\Framework\Filter\FilterManager */
-        $filterManager = $this->_objectManager->get(FilterManager::class);
 
         try {
             if ($isNewSet) {
                 //filter html tags
-                $name = $filterManager->stripTags($this->getRequest()->getParam('attribute_set_name'));
+                $name = $this->filterManager->stripTags($this->getRequest()->getParam('attribute_set_name'));
                 $model->setAttributeSetName(trim($name));
             } else {
                 if ($attributeSetId) {
@@ -117,12 +138,11 @@ class Save extends Set
                     throw new LocalizedException(__('This attribute set no longer exists.'));
                 }
 
-                $data = $this->_objectManager->get(JsonHelper::class)
-                    ->unserialize($this->getRequest()->getPost('data'));
+                $data = $this->jsonHelper->unserialize($this->getRequest()->getPost('data'));
 
                 //filter html tags
-                $data['attribute_set_name'] = $filterManager->stripTags($data['attribute_set_name']);
-                $model->setUrlKey($filterManager->stripTags($data['url_key']));
+                $data['attribute_set_name'] = $this->filterManager->stripTags($data['attribute_set_name']);
+                $model->setUrlKey($this->filterManager->stripTags($data['url_key']));
                 $model->organizeData($data);
                 $model->setOrganizedData($data);
             }

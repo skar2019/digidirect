@@ -123,7 +123,7 @@ class ForceCollectAddressOnPlaceOrder
         return $this->addressRateFactory->create()
             ->setCode(Collectcarrier::COLLECT_SHIPPING_METHOD)
             ->setCarrier(Collectcarrier::COLLECT_CARRIER_CODE)
-            ->setCarrierTitle('Click & Collect')
+            ->setCarrierTitle('Pick Up in Store - Click and Collect')
             ->setMethod(Collectcarrier::COLLECT_CARRIER_CODE)
             ->setMethodTitle('Store Pickup');
     }

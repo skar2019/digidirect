@@ -2,7 +2,7 @@
 namespace Digidirect\AbstractEntity\Controller\Adminhtml\AbstractEntity;
 
 use Digidirect\AbstractEntity\Controller\Adminhtml\AbstractEntity as AbstractEntityController;
-use Digidirect\AbstractEntity\Model\AbstractEntity;
+use Digidirect\AbstractEntity\Model\AbstractEntityFactory;
 use Digidirect\AbstractEntity\Api\AbstractEntityRepositoryInterface;
 use Digidirect\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Digidirect\AbstractEntity\Model\Registry\Constants;
@@ -35,6 +35,11 @@ class Save extends AbstractEntityController
     protected $dataFilterPool;
 
     /**
+     * @var AbstractEntityFactory
+     */
+    private $abstractEntityFactory;
+
+    /**
      * Save constructor.
      * @param Context $context
      * @param Registry $coreRegistry
@@ -44,6 +49,7 @@ class Save extends AbstractEntityController
      * @param AttributeSetRepositoryInterface $attributeSetRepository
      * @param DataPersistorInterface $dataPersistor
      * @param DataFilterPool $dataFilterPool
+     * @param AbstractEntityFactory $abstractEntityFactory
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function __construct(
@@ -54,11 +60,13 @@ class Save extends AbstractEntityController
         AbstractEntityRepositoryInterface $abstractEntityRepository,
         AttributeSetRepositoryInterface $attributeSetRepository,
         DataPersistorInterface $dataPersistor,
-        DataFilterPool $dataFilterPool
+        DataFilterPool $dataFilterPool,
+        AbstractEntityFactory $abstractEntityFactory
     ) {
         $this->abstractEntityRepository = $abstractEntityRepository;
         $this->dataPersistor = $dataPersistor;
         $this->dataFilterPool = $dataFilterPool;
+        $this->abstractEntityFactory = $abstractEntityFactory;
         parent::__construct(
             $context,
             $coreRegistry,
@@ -89,7 +97,7 @@ class Save extends AbstractEntityController
                 if ($id) {
                     $model = $this->abstractEntityRepository->getById($id);
                 } else {
-                    $model = $this->_objectManager->create(AbstractEntity::class);
+                    $model = $this->abstractEntityFactory->create();
                 }
 
                 $data = $this->_filterPostData($data);

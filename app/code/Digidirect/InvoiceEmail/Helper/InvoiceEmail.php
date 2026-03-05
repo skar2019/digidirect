@@ -290,7 +290,7 @@ class InvoiceEmail extends AbstractHelper
                         } else if ($paymentCardType === 'MasterCard') {
                             $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/master.png" width="40"/>';
                         } else if ($paymentCardType === 'American Express') {
-                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amex.png" width="40"/>';
+                            $paymentImage = '<img src="' . $store->getBaseUrl('media') . 'wysiwyg/glow-up/emai-template/amexcard.png" width="40"/>';
                         }
 
                         $paymentCardNumber= $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? $additional['cc_number'] ?? null;

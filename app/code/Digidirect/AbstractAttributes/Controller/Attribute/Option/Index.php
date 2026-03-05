@@ -9,6 +9,7 @@ use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Controller\ResultFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Index
@@ -54,6 +55,11 @@ class Index extends \Magento\Framework\App\Action\Action
     private $layerResolver;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * Index constructor.
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -62,6 +68,7 @@ class Index extends \Magento\Framework\App\Action\Action
      * @param Resolver $layerResolver
      * @param CategoryRepositoryInterface $categoryRepository
      * @param OptionRepositoryInterface $optionRepository
+     * @param LoggerInterface $logger
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -70,7 +77,8 @@ class Index extends \Magento\Framework\App\Action\Action
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
-        OptionRepositoryInterface $optionRepository
+        OptionRepositoryInterface $optionRepository,
+        LoggerInterface $logger
     ) {
         parent::__construct($context);
         $this->storeManager = $storeManager;
@@ -79,6 +87,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->layerResolver = $layerResolver;
         $this->categoryRepository = $categoryRepository;
         $this->optionRepository = $optionRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -128,7 +137,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 ['category' => $category, 'controller_action' => $this]
             );
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
+            $this->logger->critical($e);
             return false;
         }
 

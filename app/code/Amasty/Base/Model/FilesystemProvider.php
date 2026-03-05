@@ -12,10 +12,11 @@ namespace Amasty\Base\Model;
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Component\ComponentRegistrarInterface;
 use Magento\Framework\Filesystem;
+use Magento\Framework\FilesystemFactory;
+use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Filesystem\Directory\DenyListPathValidator;
-use Magento\Framework\Filesystem\Directory\WriteFactory;
+use Magento\Framework\Filesystem\Directory\WriteFactoryFactory;
 use Magento\Framework\Filesystem\DirectoryList;
-use Magento\Framework\ObjectManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,9 +25,19 @@ use Psr\Log\LoggerInterface;
 class FilesystemProvider
 {
     /**
-     * @var ObjectManagerInterface
+     * @var FilesystemFactory
      */
-    private $objectManager;
+    private $filesystemFactory;
+
+    /**
+     * @var WriteFactoryFactory
+     */
+    private $writeFactoryFactory;
+
+    /**
+     * @var DriverPool
+     */
+    private $driverPool;
 
     /**
      * @var DirectoryList
@@ -53,14 +64,28 @@ class FilesystemProvider
      */
     private $filesystem;
 
+    /** FilesystemProvider constructor.
+     *
+     * @param FilesystemFactory $filesystemFactory
+     * @param WriteFactoryFactory $writeFactoryFactory
+     * @param DriverPool $driverPool
+     * @param DirectoryList $directoryList
+     * @param ComponentRegistrarInterface $componentRegistrar
+     * @param LoggerInterface $logger
+     * @param array $exceptionPaths
+     */
     public function __construct(
-        ObjectManagerInterface $objectManager,
+        FilesystemFactory $filesystemFactory,
+        WriteFactoryFactory $writeFactoryFactory,
+        DriverPool $driverPool,
         DirectoryList $directoryList,
         ComponentRegistrarInterface $componentRegistrar,
         LoggerInterface $logger,
         array $exceptionPaths = []
     ) {
-        $this->objectManager = $objectManager;
+        $this->filesystemFactory = $filesystemFactory;
+        $this->writeFactoryFactory = $writeFactoryFactory;
+        $this->driverPool = $driverPool;
         $this->directoryList = $directoryList;
         $this->componentRegistrar = $componentRegistrar;
         $this->logger = $logger;
@@ -74,11 +99,11 @@ class FilesystemProvider
                 if (!empty($this->exceptionPaths) && class_exists(DenyListPathValidator::class)) {
                     $this->filesystem = $this->createConfiguredFilesystem();
                 } else {
-                    $this->filesystem = $this->objectManager->create(Filesystem::class);
+                    $this->filesystem = $this->filesystemFactory->create();
                 }
             } catch (\Exception $e) {
                 $this->logger->critical($e);
-                $this->filesystem = $this->objectManager->create(Filesystem::class);
+                $this->filesystem = $this->filesystemFactory->create();
             }
         }
 
@@ -90,8 +115,7 @@ class FilesystemProvider
      */
     private function createConfiguredFilesystem(): Filesystem
     {
-        /** @var DenyListPathValidator $denyListPathValidator */
-        $denyListPathValidator = $this->objectManager->create(DenyListPathValidator::class);
+        $denyListPathValidator = new DenyListPathValidator($this->driverPool->getDriver(DriverPool::FILE));
         $rootDirectory = $this->directoryList->getRoot();
 
         foreach ($this->exceptionPaths as $module => $pathsList) {
@@ -109,11 +133,8 @@ class FilesystemProvider
                 );
             }
         }
-        $writeFactory = $this->objectManager->create(
-            WriteFactory::class,
-            ['denyListPathValidator' => $denyListPathValidator]
-        );
+        $writeFactory = $this->writeFactoryFactory->create(['denyListPathValidator' => $denyListPathValidator]);
 
-        return $this->objectManager->create(Filesystem::class, ['writeFactory' => $writeFactory]);
+        return $this->filesystemFactory->create(['writeFactory' => $writeFactory]);
     }
 }

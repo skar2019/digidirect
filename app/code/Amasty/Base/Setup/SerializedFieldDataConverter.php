@@ -13,9 +13,9 @@ use Magento\Framework\DB\AggregatedFieldDataConverter;
 class SerializedFieldDataConverter
 {
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var AggregatedFieldDataConverter
      */
-    private $objectManager;
+    private $fieldConverter;
 
     /**
      * @var \Magento\Framework\App\ResourceConnection
@@ -23,10 +23,10 @@ class SerializedFieldDataConverter
     private $connectionResource;
 
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager,
+        AggregatedFieldDataConverter $fieldConverter,
         \Magento\Framework\App\ResourceConnection $connectionResource
     ) {
-        $this->objectManager = $objectManager;
+        $this->fieldConverter = $fieldConverter;
         $this->connectionResource = $connectionResource;
     }
 
@@ -40,8 +40,6 @@ class SerializedFieldDataConverter
      */
     public function convertSerializedDataToJson($tableName, $identifierField, $fields)
     {
-        /** @var AggregatedFieldDataConverter $aggregatedFieldConverter */
-        $fieldConverter = $this->objectManager->get(AggregatedFieldDataConverter::class);
         $convertData = [];
 
         if (is_array($fields)) {
@@ -52,7 +50,7 @@ class SerializedFieldDataConverter
             $convertData[] = $this->getConvertedData($tableName, $identifierField, $fields);
         }
 
-        $fieldConverter->convert(
+        $this->fieldConverter->convert(
             $convertData,
             $this->connectionResource->getConnection()
         );

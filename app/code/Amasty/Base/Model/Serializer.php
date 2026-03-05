@@ -7,7 +7,6 @@
 
 namespace Amasty\Base\Model;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Unserialize\Unserialize;
 
@@ -28,13 +27,10 @@ class Serializer
     private $unserialize;
 
     public function __construct(
-        ObjectManagerInterface $objectManager,
-        Unserialize $unserialize
+        Unserialize $unserialize,
+        SerializerInterface $serializer
     ) {
-        if (interface_exists(SerializerInterface::class)) {
-            // For Magento >= 2.2
-            $this->serializer = $objectManager->get(SerializerInterface::class);
-        }
+        $this->serializer = $serializer;
         $this->unserialize = $unserialize;
     }
 
