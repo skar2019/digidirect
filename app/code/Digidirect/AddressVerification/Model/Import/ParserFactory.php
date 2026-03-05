@@ -1,6 +1,8 @@
 <?php
 namespace Digidirect\AddressVerification\Model\Import;
 
+use Magento\Framework\Api\ObjectFactory;
+
 /**
  * Class ParserFactory
  * @package Digidirect\AddressVerification\Model\Import
@@ -10,9 +12,9 @@ class ParserFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectFactory
      */
-    protected $objectManager = null;
+    protected $objectFactory = null;
 
     /**
      * @var array
@@ -21,14 +23,14 @@ class ParserFactory
 
     /**
      * ParserFactory constructor.
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectFactory $objectFactory
      * @param array $types
      */
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager,
+        ObjectFactory $objectFactory,
         array $types = []
     ) {
-        $this->objectManager = $objectManager;
+        $this->objectFactory = $objectFactory;
         $this->types = $types;
     }
 
@@ -45,7 +47,7 @@ class ParserFactory
                 __('File is not supported', $type)
             );
         }
-        $adapter = $this->objectManager->get($this->types[$type]);
+        $adapter = $this->objectFactory->get($this->types[$type]);
         if (!$adapter instanceof SourceAdapterInterface) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Adapter must be an instance of \Digidirect\AddressVerification\Model\Import\SourceAdapterInterface')

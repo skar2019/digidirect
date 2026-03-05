@@ -2,6 +2,8 @@
 
 namespace Digidirect\AbstractGiftCard\Model\Service;
 
+use Magento\Framework\Api\ObjectFactory;
+
 /**
  * Class Factory
  */
@@ -10,18 +12,18 @@ class Factory
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectFactory
      */
-    protected $_objectManager;
+    protected $objectFactory;
 
     /**
      * Construct
      *
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectFactory $objectFactory
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
+    public function __construct(ObjectFactory $objectFactory)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -34,7 +36,7 @@ class Factory
      */
     public function create($className, $data = [])
     {
-        $method = $this->_objectManager->create($className, $data);
+        $method = $this->objectFactory->create($className, $data);
         if (!$method instanceof \Digidirect\AbstractGiftCard\Model\ServiceInterface) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('%1 class doesn\'t implement \Digidirect\AbstractGiftCard\Model\ServiceInterface', $className)

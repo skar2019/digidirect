@@ -5,23 +5,27 @@ namespace Digidirect\Checkout\Plugin\Model;
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Catalog\Model\ProductFactory;
 
 class Shipping {
 
     protected $logger;
     protected $productCache = [];
     protected $scopeConfig;
+    protected $productFactory;
 
     public function __construct(
         GetSourceItemsBySku $getSourceItemsBySku,
         \Digidirect\SellerShipping\Helper\Data $helperData,
         \Psr\Log\LoggerInterface $logger,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        ProductFactory $productFactory
     ) {
         $this->getSourceItemsBySku = $getSourceItemsBySku;
         $this->helperData = $helperData;
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
+        $this->productFactory = $productFactory;
     }
 
     public function aroundCollectCarrierRates(
@@ -86,8 +90,7 @@ class Shipping {
 
                     // Use product cache to avoid reloading same products
                     if (!isset($this->productCache[$prodId])) {
-                        $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                        $this->productCache[$prodId] = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+                        $this->productCache[$prodId] = $this->productFactory->create()->load($prodId);
                     }
 
                     $product = $this->productCache[$prodId];

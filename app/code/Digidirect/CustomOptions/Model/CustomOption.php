@@ -10,19 +10,22 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
     protected $_productRepository;
     protected $_giftCardHelper;
     protected $_productOptionFactory;
+    protected $_productFactory;
  
     public function __construct(
         \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
         \Magento\Catalog\Model\Product $productRepository,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ){
         $this->_productOptions = $productOptions;
         $this->_productRepositoryInterface = $productRepositoryInterface;
         $this->_productRepository = $productRepository;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_productOptionFactory = $productOptionFactory;
+        $this->_productFactory = $productFactory;
     }
  
     public function saveCustomOption(){
@@ -146,13 +149,12 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
     public function deleteCustomOption(){
 
         $x = 0;
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $products = $objectManager->get('\Magento\Catalog\Model\Product')->getCollection();
+        $products = $this->_productCollectionFactory->create();
         $productId = "";
         foreach ($products as $product) {
             $productId = $product->getId();
             //$product = $objectManager->get('\Magento\Catalog\Model\Product')->load($product->getId());
-            $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             if ($product->getOptions()) {
                 echo "<br /> delete - " .$product->getId();
                 foreach ($product->getOptions() as $opt) {

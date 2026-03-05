@@ -8,8 +8,10 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
     protected $_productOptions;
     protected $_productRepositoryInterface;
     protected $_productRepository;
+    protected $_productCollectionFactory;
     protected $_giftCardHelper;
     protected $_productOptionFactory;
+    protected $_productFactory;
     protected $_logger;
 
     public function __construct(
@@ -18,6 +20,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Model\Product $productRepository,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Psr\Log\LoggerInterface $logger
     ){
         $this->_productOptions = $productOptions;
@@ -25,11 +28,12 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $this->_productRepository = $productRepository;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_productOptionFactory = $productOptionFactory;
+        $this->_productFactory = $productFactory;
         $this->_logger = $logger;
     }
 
     public function saveCustomOption(){
-        $this->logger->info('saveCustomOption()');
+        $this->_logger->info('saveCustomOption()');
         $catIds = array(2564,2567,2570,2573,812,308);
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
@@ -89,7 +93,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
-                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 134.95');
+                    $this->_logger->info('SKU: ' . $sku . ', digiProtect: +3 years 134.95');
                 }
                 else if($price > 2000)
                 {
@@ -108,7 +112,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
-                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 284.95');
+                    $this->_logger->info('SKU: ' . $sku . ', digiProtect: +3 years 284.95');
                 }
                 else
                 {
@@ -127,10 +131,8 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                             ]
                         ]
                     ];
-                    $this->logger->info('SKU: ' . $sku . ', digiProtect: +3 years 89.95');
+                    $this->_logger->info('SKU: ' . $sku . ', digiProtect: +3 years 89.95');
                 }
-
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
                 try {
 
@@ -138,14 +140,14 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                     $this->_productRepository->setCanSaveCustomOptions(true);
                     $product = $this->_productRepository;
 
-                    $option = $objectManager->create(\Magento\Catalog\Model\Product\Option::class)
+                    $option = $this->_productOptionFactory->create()
                         ->setProductId($product->getId())
                         ->setStoreId($product->getStoreId())
                         ->addData($optionsArray);
                     $option->save();
                     $product->addOption($option);
 
-                    $objectManager->create('Magento\Catalog\Api\ProductRepositoryInterface')->save($product);
+                    $this->_productRepositoryInterface->save($product);
 
 //                    $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
 //                    $this->_productRepository->setHasOptions(1);
@@ -173,13 +175,12 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
     public function deleteCustomOption(){
 
         $x = 0;
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $products = $objectManager->get('\Magento\Catalog\Model\Product')->getCollection();
+        $products = $this->_productCollectionFactory->create();
         $productId = "";
         foreach ($products as $product) {
             $productId = $product->getId();
             //$product = $objectManager->get('\Magento\Catalog\Model\Product')->load($product->getId());
-            $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             if ($product->getOptions()) {
                 //echo "<br /> delete - " .$product->getId();
                 foreach ($product->getOptions() as $opt) {

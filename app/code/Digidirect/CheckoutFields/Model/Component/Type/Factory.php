@@ -6,7 +6,7 @@
  */
 namespace Digidirect\CheckoutFields\Model\Component\Type;
 
-use \Magento\Framework\ObjectManagerInterface;
+use \Magento\Framework\Api\ObjectFactory;
 use \Digidirect\CheckoutFields\Model\Component\Type\AbstractType;
 use \Magento\Framework\Exception\LocalizedException;
 
@@ -17,20 +17,20 @@ use \Magento\Framework\Exception\LocalizedException;
 class Factory
 {
     /**
-     * Object Manager
+     * Object Factory
      *
-     * @var ObjectManagerInterface
+     * @var ObjectFactory
      */
-    protected $_objectManager;
+    protected $objectFactory;
 
     /**
      * Construct
      *
-     * @param ObjectManagerInterface $objectManager
+     * @param ObjectFactory $objectFactory
      */
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(ObjectFactory $objectFactory)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -43,7 +43,7 @@ class Factory
      */
     public function create($className, array $data = [])
     {
-        $model = $this->_objectManager->create($className, $data);
+        $model = $this->objectFactory->create(ltrim($className, '\\'), $data);
         if (!$model instanceof AbstractType) {
             throw new LocalizedException(
                 __('%1 doesn\'t extends \Digidirect\CheckoutFields\Model\Component\Type\AbstractType', $className)
