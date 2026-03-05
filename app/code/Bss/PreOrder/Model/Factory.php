@@ -22,11 +22,14 @@ class Factory
     protected $stock;
 
     /**
-     * Object Manager
-     *
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku
      */
-    protected $_objectManager;
+    protected $getSalableQuantityDataBySku;
+
+    /**
+     * @var \Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku
+     */
+    protected $getSourceItemsBySku;
 
     /**
      * @var mixed
@@ -41,14 +44,18 @@ class Factory
     /**
      * Construct
      *
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Bss\PreOrder\Model\Stock $stock
+     * @param \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku
+     * @param \Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku $getSourceItemsBySku
      */
     public function __construct(
         \Bss\PreOrder\Model\Stock $stock,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku,
+        \Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku $getSourceItemsBySku
     ) {
         $this->stock = $stock;
-        $this->_objectManager = $objectManager;
+        $this->getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
 
     /**
@@ -58,7 +65,7 @@ class Factory
      */
     public function create()
     {
-        return $this->_objectManager->create(\Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku::class);
+        return $this->getSalableQuantityDataBySku;
     }
 
     /**
@@ -77,7 +84,7 @@ class Factory
      */
     protected function createSourceList()
     {
-        return $this->_objectManager->create(\Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku::class);
+        return $this->getSourceItemsBySku;
     }
 
     /**

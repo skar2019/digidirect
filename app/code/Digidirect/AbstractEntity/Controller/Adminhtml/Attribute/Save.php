@@ -3,6 +3,7 @@ namespace Digidirect\AbstractEntity\Controller\Adminhtml\Attribute;
 
 use Digidirect\AbstractEntity\Controller\Adminhtml\Attribute as AttributeController;
 use Magento\Eav\Model\Entity\Attribute\Source\Table as SourceTable;
+use Magento\Eav\Model\Entity\Attribute\SetFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Registry;
@@ -10,7 +11,6 @@ use Magento\Eav\Model\Config\Proxy as EavConfigProxy;
 use Digidirect\AbstractEntity\Model\ResourceModel\Eav\AttributeFactory as EavAttributeFactory;
 use Magento\CustomAttributeManagement\Helper\Data as AttributeHelper;
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\App\ObjectManager;
 
 /**
  * Class Save
@@ -24,13 +24,19 @@ class Save extends AttributeController
     private $serializer;
 
     /**
+     * @var SetFactory
+     */
+    private $attributeSetFactory;
+
+    /**
      * Save constructor.
      * @param Context $context
      * @param Registry $coreRegistry
      * @param EavConfigProxy $eavConfig
      * @param EavAttributeFactory $eavAttributeFactory
      * @param AttributeHelper $attributeHelper
-     * @param Json|null $serializer
+     * @param Json $serializer
+     * @param SetFactory $attributeSetFactory
      */
     public function __construct(
         Context $context,
@@ -38,10 +44,12 @@ class Save extends AttributeController
         EavConfigProxy $eavConfig,
         EavAttributeFactory $eavAttributeFactory,
         AttributeHelper $attributeHelper,
-        Json $serializer = null
+        Json $serializer,
+        SetFactory $attributeSetFactory
     ) {
         parent::__construct($context, $coreRegistry, $eavConfig, $eavAttributeFactory, $attributeHelper);
-        $this->serializer = $serializer ?: ObjectManager::getInstance()->get(Json::class);
+        $this->serializer = $serializer;
+        $this->attributeSetFactory = $attributeSetFactory;
     }
 
     /**
@@ -124,9 +132,7 @@ class Save extends AttributeController
 
                 // add set and group info
                 $data['attribute_set_id'] = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = $this->_objectManager->create(
-                    \Magento\Eav\Model\Entity\Attribute\Set::class
-                )->getDefaultGroupId(
+                $data['attribute_group_id'] = $this->attributeSetFactory->create()->getDefaultGroupId(
                     $data['attribute_set_id']
                 );
             }

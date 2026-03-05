@@ -10,15 +10,15 @@ declare(strict_types=1);
 namespace Amasty\Base\Utils\Http\Response\Entity;
 
 use Amasty\Base\Model\SimpleDataObject;
+use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\DataObjectHelper;
-use Magento\Framework\ObjectManagerInterface;
 
 class Converter
 {
     /**
-     * @var ObjectManagerInterface
+     * @var ObjectFactory
      */
-    private $objectManager;
+    private $objectFactory;
 
     /**
      * @var DataObjectHelper
@@ -26,10 +26,10 @@ class Converter
     private $dataObjectHelper;
 
     public function __construct(
-        ObjectManagerInterface $objectManager,
+        ObjectFactory $objectFactory,
         DataObjectHelper $dataObjectHelper
     ) {
-        $this->objectManager = $objectManager;
+        $this->objectFactory = $objectFactory;
         $this->dataObjectHelper = $dataObjectHelper;
     }
 
@@ -44,7 +44,7 @@ class Converter
             $row = $entityConfig->getDataProcessor()->process($row);
         }
 
-        $object = $this->objectManager->create($entityConfig->getClassName());
+        $object = $this->objectFactory->create($entityConfig->getClassName(), []);
         $this->dataObjectHelper->populateWithArray(
             $object,
             $row,
