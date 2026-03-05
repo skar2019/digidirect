@@ -2,19 +2,27 @@
 
 namespace Digidirect\DigiSecondsForm\Controller\Index;
 
+use Digidirect\DigiSecondsForm\Model\CformFactory;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class Index extends Action
 {
+    /**
+     * @var CformFactory
+     */
+    private $cformFactory;
+
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
+        TransportBuilder $transportBuilder,
+        CformFactory $cformFactory
         
     ) {
         parent::__construct($context);
         $this->transportBuilder = $transportBuilder;
+        $this->cformFactory = $cformFactory;
     }   
     public function execute()
     {
@@ -30,7 +38,7 @@ class Index extends Action
         $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
         $askingPrice = $this->getRequest()->getParam('askingPrice');
-
+ 
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
@@ -58,8 +66,7 @@ class Index extends Action
         $email->addBcc($bcc);
         $email->send();
         
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\DigiSecondsForm\Model\DigiSecondsForm');
+        $data = $this->cformFactory->create();
         $data->setData($post);
         $data->save();
 //        echo "success";
