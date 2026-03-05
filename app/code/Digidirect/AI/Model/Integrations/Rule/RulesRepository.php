@@ -1,10 +1,15 @@
 <?php
 namespace Digidirect\AI\Model\Integrations\Rule;
 
-use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 class RulesRepository
 {
+    /**
+     * @var ObjectFactory
+     */
+    protected $objectFactory;
+
     /**
      * @var \Digidirect\AI\Model\Integrations\Config\Data
      */
@@ -12,14 +17,14 @@ class RulesRepository
 
     /**
      * RuleRepository constructor.
-     * @param ObjectManagerInterface $objectManager
+     * @param ObjectFactory $objectFactory
      * @param \Digidirect\AI\Model\Integrations\Config\Data $integrationsConfig
      */
     public function __construct(
-        ObjectManagerInterface $objectManager,
+        ObjectFactory $objectFactory,
         \Digidirect\AI\Model\Integrations\Config\Data $integrationsConfig
     ) {
-        $this->_objectManager = $objectManager;
+        $this->objectFactory = $objectFactory;
         $this->_integrationsConfig = $integrationsConfig;
     }
 
@@ -33,10 +38,10 @@ class RulesRepository
         $integration = $this->_integrationsConfig->getIntegrationByName($integrationName);
         foreach ($integration['entity_rules'] as $entityRule) {
             if (isset($entityRule['mapper'])) {
-                $mapperInstance = $entityRuleObject = $this->_objectManager->create($entityRule['mapper']);
+                $mapperInstance = $this->objectFactory->create($entityRule['mapper'], []);
                 $entityRule['mapper'] = $mapperInstance;
             }
-            $entityRuleObject = $this->_objectManager->create($entityRule['class'], $entityRule);
+            $entityRuleObject = $this->objectFactory->create($entityRule['class'], $entityRule);
             if ($entityRuleObject instanceof RuleAbstract) {
                 $rules[] = $entityRuleObject;
             }

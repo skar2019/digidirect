@@ -1,6 +1,9 @@
 <?php
 namespace Digidirect\AI\Model\Lib\Backup;
 
+use Magento\Framework\Api\ObjectFactory;
+use Magento\Framework\Archive\ArchiveInterface;
+
 /**
  * Class BackupFactory
  * @package Digidirect\AI\Model\Lib\Backup
@@ -8,31 +11,25 @@ namespace Digidirect\AI\Model\Lib\Backup;
 class BackupFactory
 {
     /**
-     * Object Manager instance
-     *
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var \Magento\Framework\Api\ObjectFactory
      */
-    protected $_objectManager = null;
+    private $objectFactory;
 
     /**
-     * Instance name to create
-     *
      * @var string
      */
-    protected $_instanceName = null;
+    private $instanceName;
 
     /**
-     * Factory constructor
-     *
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager,
+        ObjectFactory $objectFactory,
         $instanceName = '\\Digidirect\\AI\\Model\\Lib\\Backup\\Backup'
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_instanceName = $instanceName;
+        $this->objectFactory = $objectFactory;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -42,18 +39,36 @@ class BackupFactory
      */
     public function create(array $data = [])
     {
-        if (empty($data['archiveType']['instance'])) {
+        if (empty($data['archiveType']['instance']) && empty($data['archiveType']['instanceObject'])) {
             $data['archiveType']['instance'] = '\Digidirect\AI\Model\Lib\Archive\Tar';
         }
 
-        $archive = $this->_objectManager->create($data['archiveType']['instance']);
-        if (!($archive instanceof \Magento\Framework\Archive\ArchiveInterface)) {
+        $archive = $this->resolveArchive($data['archiveType'] ?? []);
+        $data['archiveType']['instanceObject'] = $archive;
+        $data['archiveType']['instance'] = $archive;
+
+        return $this->objectFactory->create(ltrim($this->instanceName, '\\'), $data);
+    }
+
+    /**
+     * @param array $archiveType
+     * @return \Magento\Framework\Archive\ArchiveInterface
+     * @throws \Exception
+     */
+    private function resolveArchive(array $archiveType): ArchiveInterface
+    {
+        $archive = $archiveType['instanceObject'] ?? ($archiveType['instance'] ?? null);
+
+        if (is_string($archive)) {
+            $archive = $this->objectFactory->create(ltrim($archive, '\\'));
+        }
+
+        if (!($archive instanceof ArchiveInterface)) {
             throw new \Exception(
                 'Wrong archive type, class is not implement Magento\Framework\Archive\Archive Interface'
             );
         }
 
-        $data['archiveType']['instance'] = $archive;
-        return $this->_objectManager->create($this->_instanceName, $data);
+        return $archive;
     }
 }

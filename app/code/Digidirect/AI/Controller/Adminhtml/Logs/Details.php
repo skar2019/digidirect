@@ -112,7 +112,7 @@ class Details extends \Magento\Backend\App\Action
     protected function sendResponse($result)
     {
         return $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
+            json_encode($result)
         );
     }
 }

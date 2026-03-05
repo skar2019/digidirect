@@ -2,6 +2,7 @@
 namespace Digidirect\AI\Controller\Adminhtml\Integration;
 
 use Magento\Backend\App\Action\Context;
+use Digidirect\AI\Model\ResourceModel\Logger\Logger as LoggerResource;
 
 /**
  * Class getLogData
@@ -20,22 +21,30 @@ class RunLogAjaxData extends RunAbstract
     protected $scheduleFactory;
 
     /**
+     * @var LoggerResource
+     */
+    protected $loggerResource;
+
+    /**
      * RunLogAjaxData constructor.
      * @param Context $context
      * @param \Digidirect\AI\Model\Integrations\IntegrationsFactory $integration
      * @param \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Digidirect\AI\Helper\Engine $engineHelper
+     * @param LoggerResource $loggerResource
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Digidirect\AI\Model\Integrations\IntegrationsFactory $integration,
         \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
-        \Digidirect\AI\Helper\Engine $engineHelper
+        \Digidirect\AI\Helper\Engine $engineHelper,
+        LoggerResource $loggerResource
     ) {
         $this->integrationFactory = $integration;
         $this->scheduleFactory = $scheduleFactory;
+        $this->loggerResource = $loggerResource;
 
         $this->result = [
             'global' => [
@@ -120,9 +129,7 @@ class RunLogAjaxData extends RunAbstract
      */
     protected function addLastLogInfo($processCode)
     {
-        /**@var \Digidirect\AI\Model\Logger\Logger * */
-        $log = $this->_objectManager->create(\Digidirect\AI\Model\ResourceModel\Logger\Logger::class)
-            ->getLastLogByProcessCode($processCode);
+        $log = $this->loggerResource->getLastLogByProcessCode($processCode);
 
         $this->result['data']['log_msg'] = isset($log['comment']) ? $log['comment'] : __('N/A');
         $this->result['data']['log_details'] = isset($log['details']) ? $log['details'] : __('N/A');

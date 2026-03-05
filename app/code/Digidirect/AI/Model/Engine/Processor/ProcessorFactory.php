@@ -5,6 +5,7 @@ namespace Digidirect\AI\Model\Engine\Processor;
 use Digidirect\AI\Model\Engine\Exception\EngineException;
 use Digidirect\AI\Model\Engine\Processor\Processor;
 use Digidirect\AI\Model\Engine\Queue\QueueRepository;
+use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\DataObjectFactory;
 
@@ -37,20 +38,28 @@ class ProcessorFactory
     protected $_initParamsObject;
 
     /**
+     * @var ObjectFactory
+     */
+    protected $objectFactory;
+
+    /**
      * ProcessorFactory constructor.
      *
      * @param ObjectManagerInterface $objectManager
      * @param QueueRepository $queueRepository
      * @param DataObjectFactory $dataObject
+     * @param ObjectFactory $objectFactory
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
         QueueRepository $queueRepository,
-        DataObjectFactory $dataObject
+        DataObjectFactory $dataObject,
+        ObjectFactory $objectFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_queueRepository = $queueRepository;
         $this->_initParamsObject = $dataObject->create();
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -69,7 +78,7 @@ class ProcessorFactory
         $this->_initParamsObject->setData($initParams);
 
         /* Processor Factory */
-        $processor = $this->_objectManager->create($processorClass, ['initParams' => $this->_initParamsObject]);
+        $processor = $this->objectFactory->create($processorClass, ['initParams' => $this->_initParamsObject]);
 
         if (!$processor instanceof ProcessorInterface) {
             $message = __('Invalid processor interface');

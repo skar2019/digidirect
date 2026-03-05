@@ -4,7 +4,6 @@ namespace Digidirect\Collect\Model;
 use Digidirect\Collect\Api\ApplyCollectPlaceInterface;
 use Digidirect\Collect\Api\Data\CollectPlaceInterface;
 use Magento\Checkout\Model\Session;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -39,20 +38,19 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
      * @param StorageHandler $storageHandler
      * @param LoggerInterface $logger
      * @param Json $jsonSerializer
-     * @param EventManagerInterface|null $eventManager
+     * @param EventManagerInterface $eventManager
      */
     public function __construct(
         Session $session,
         StorageHandler $storageHandler,
         LoggerInterface $logger,
         Json $jsonSerializer,
-        EventManagerInterface $eventManager = null
+        EventManagerInterface $eventManager
     ) {
         parent::__construct($session, $logger);
         $this->storageHandler = $storageHandler;
         $this->jsonSerializer = $jsonSerializer;
-        $objectManager = ObjectManager::getInstance();
-        $this->eventManager = $eventManager ?: $objectManager->get(EventManagerInterface::class);
+        $this->eventManager = $eventManager;
     }
 
     /**
