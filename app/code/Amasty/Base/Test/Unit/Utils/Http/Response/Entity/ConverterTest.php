@@ -12,8 +12,8 @@ namespace Amasty\Base\Test\Unit\Utils\Http\Response\Entity;
 use Amasty\Base\Model\LicenceService\Request\Data\InstanceInfo;
 use Amasty\Base\Utils\Http\Response\Entity\Config;
 use Amasty\Base\Utils\Http\Response\Entity\Converter;
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\DataObjectHelper;
+use Magento\Framework\ObjectManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class ConverterTest extends TestCase
@@ -24,9 +24,9 @@ class ConverterTest extends TestCase
     private $model;
 
     /**
-     * @var ObjectFactory|\PHPUnit\Framework\MockObject\MockObject
+     * @var ObjectManagerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $objectFactoryMock;
+    private $objectManagerMock;
 
     /**
      * @var DataObjectHelper|\PHPUnit\Framework\MockObject\MockObject
@@ -35,9 +35,12 @@ class ConverterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->objectFactoryMock = $this->createPartialMock(ObjectFactory::class, ['create']);
+        $this->objectManagerMock = $this->createPartialMock(
+            ObjectManagerInterface::class,
+            ['create', 'get', 'configure']
+        );
         $this->dataObjectHelperMock = $this->createPartialMock(DataObjectHelper::class, ['populateWithArray']);
-        $this->model = new Converter($this->objectFactoryMock, $this->dataObjectHelperMock);
+        $this->model = new Converter($this->objectManagerMock, $this->dataObjectHelperMock);
     }
 
     public function testConvertToObject(): void
@@ -53,10 +56,10 @@ class ConverterTest extends TestCase
             ->method('getClassName')
             ->willReturn($entityConfig[Config::CLASS_NAME]);
 
-        $this->objectFactoryMock
+        $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($entityConfig[Config::CLASS_NAME], [])
+            ->with($entityConfig[Config::CLASS_NAME])
             ->willReturn($instanceInfoMock);
         $this->dataObjectHelperMock
             ->expects($this->once())

@@ -15,16 +15,10 @@ class DataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp(): void
+    public function setUp()
     {
-        $context = $this->createMock(\Magento\Framework\App\Helper\Context::class);
-        $store = $this->createMock(\Magento\Store\Api\Data\StoreInterface::class);
-        $store->method('getId')->willReturn(1);
-
-        $storeManager = $this->createMock(\Magento\Store\Model\StoreManagerInterface::class);
-        $storeManager->method('getStore')->willReturn($store);
-
-        $this->helper = new Data($context, $storeManager);
+        $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
+        $this->helper = $objectManager->getObject(Data::class);
     }
 
     /**

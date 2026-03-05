@@ -7,6 +7,8 @@ namespace Amasty\BannerSlider\Test\Unit\Model\Banner\Validation;
 use Amasty\BannerSlider\Api\Data\BannerInterface;
 use Amasty\BannerSlider\Model\Banner\Validation\CompositeValidator;
 use Amasty\BannerSlider\Model\Banner\Validation\ValidatorInterface;
+use Amasty\BannerSlider\Test\Unit\Traits\ObjectManagerTrait;
+use Amasty\BannerSlider\Test\Unit\Traits\ReflectionTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,6 +19,9 @@ use PHPUnit\Framework\TestCase;
  */
 class CompositeValidatorTest extends TestCase
 {
+    use ObjectManagerTrait;
+    use ReflectionTrait;
+
     /**
      * @covers \Amasty\BannerSlider\Model\Banner\Validation\CompositeValidator::validate
      */
@@ -25,7 +30,14 @@ class CompositeValidatorTest extends TestCase
         $banner = $this->getMockForAbstractClass(BannerInterface::class);
         $subValidator = $this->getMockForAbstractClass(ValidatorInterface::class);
         $subValidator->expects($this->once())->method('validate');
-        $validator = new CompositeValidator([$subValidator]);
+        $objectManager = $this->getObjectManager();
+        /** @var CompositeValidator $validator **/
+        $validator = $objectManager->getObject(
+            CompositeValidator::class,
+            [
+                'validators' => [$subValidator]
+            ]
+        );
         $validator->validate($banner);
     }
 }

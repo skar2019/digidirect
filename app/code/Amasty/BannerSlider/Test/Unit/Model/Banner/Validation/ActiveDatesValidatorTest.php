@@ -6,6 +6,8 @@ namespace Amasty\BannerSlider\Test\Unit\Model\Banner\Validation;
 
 use Amasty\BannerSlider\Api\Data\BannerInterface;
 use Amasty\BannerSlider\Model\Banner\Validation\ActiveDatesValidator;
+use Amasty\BannerSlider\Test\Unit\Traits\ObjectManagerTrait;
+use Amasty\BannerSlider\Test\Unit\Traits\ReflectionTrait;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Validation\ValidationException;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +20,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ActiveDatesValidatorTest extends TestCase
 {
+    use ObjectManagerTrait;
+    use ReflectionTrait;
+
     /**
      * @covers \Amasty\BannerSlider\Model\Banner\Validation\ActiveDatesValidator::validate
      * @dataProvider getTestData
@@ -35,7 +40,13 @@ class ActiveDatesValidatorTest extends TestCase
 
             return new \DateTime($date);
         });
-        $validator = new ActiveDatesValidator($timezone);
+        $objectManager = $this->getObjectManager();
+        $validator = $objectManager->getObject(
+            ActiveDatesValidator::class,
+            [
+                'timezone' => $timezone
+            ]
+        );
         $banner = $this->getMockForAbstractClass(BannerInterface::class);
         $banner->expects($this->once())->method('getStartDate')->willReturn($startDate);
         $banner->expects($this->once())->method('getEndDate')->willReturn($endDate);

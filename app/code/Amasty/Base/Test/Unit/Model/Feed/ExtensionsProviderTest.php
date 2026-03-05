@@ -9,7 +9,7 @@
 namespace Amasty\Base\Test\Unit\Model\Feed;
 
 use Amasty\Base\Model\Feed\ExtensionsProvider;
-use Amasty\Base\Model\Feed\FeedTypes\Extensions;
+use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
 class ExtensionsProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,10 +18,13 @@ class ExtensionsProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetFeedModuleData($modules, $expected)
     {
-        $extensionsFeed = $this->createMock(Extensions::class);
-        $extensionsFeed->expects($this->once())->method('execute')->willReturn($modules);
-        $extensionsProvider = new ExtensionsProvider($extensionsFeed);
-
+        $objectManager = new ObjectManager($this);
+        $extensionsProvider = $objectManager->getObject(
+            ExtensionsProvider::class,
+            [
+                'modulesData' => $modules
+            ]
+        );
         $this->assertEquals($expected, $extensionsProvider->getFeedModuleData('test1'));
     }
 
