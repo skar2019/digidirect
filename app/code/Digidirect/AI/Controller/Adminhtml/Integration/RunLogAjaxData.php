@@ -33,6 +33,7 @@ class RunLogAjaxData extends RunAbstract
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Digidirect\AI\Helper\Engine $engineHelper
      * @param LoggerResource $loggerResource
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -40,7 +41,8 @@ class RunLogAjaxData extends RunAbstract
         \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Digidirect\AI\Helper\Engine $engineHelper,
-        LoggerResource $loggerResource
+        LoggerResource $loggerResource,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         $this->integrationFactory = $integration;
         $this->scheduleFactory = $scheduleFactory;
@@ -62,7 +64,7 @@ class RunLogAjaxData extends RunAbstract
                 'process_status' => ''
             ]
         ];
-        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper);
+        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper, $jsonSerializer);
     }
 
     /**
