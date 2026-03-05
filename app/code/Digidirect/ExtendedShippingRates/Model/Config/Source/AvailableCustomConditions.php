@@ -3,7 +3,6 @@
 namespace Digidirect\ExtendedShippingRates\Model\Config\Source;
 
 use Digidirect\ExtendedShippingRates\Api\CustomConditionInterface;
-use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Class AvailableCustomConditions
@@ -12,9 +11,9 @@ use Magento\Framework\Api\ObjectFactory;
 class AvailableCustomConditions implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * @var ObjectFactory
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectFactory;
+    protected $_objectManager;
 
     /**
      * @var array
@@ -22,14 +21,14 @@ class AvailableCustomConditions implements \Magento\Framework\Option\ArrayInterf
     protected $customConditionList;
 
     /**
-     * @param ObjectFactory $objectFactory
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $customConditionList
      */
     public function __construct(
-        ObjectFactory $objectFactory,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         array $customConditionList = []
     ) {
-        $this->objectFactory = $objectFactory;
+        $this->_objectManager = $objectManager;
         $this->customConditionList = $this->prepareConditionList($customConditionList);
     }
 
@@ -57,7 +56,7 @@ class AvailableCustomConditions implements \Magento\Framework\Option\ArrayInterf
         if (!empty($customConditionList)) {
             foreach ($customConditionList as $key => $condition) {
                 if (is_string($condition)) {
-                    $condition = $this->objectFactory->create(ltrim($condition, '\\'), []);
+                    $condition = $this->_objectManager->create($condition);
                 }
 
                 if ($condition instanceof CustomConditionInterface) {

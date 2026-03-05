@@ -2,18 +2,17 @@
 
 namespace Digidirect\AbstractGiftCard\Service\Data;
 
+use Magento\Framework\ObjectManagerInterface;
 use Digidirect\AbstractGiftCard\Model\ServiceInterface;
-use Magento\Checkout\Model\Session;
-use Magento\Framework\Api\ObjectFactory;
 
 class ServiceDataObjectFactory implements ServiceDataObjectFactoryInterface
 {
     /**
      * Object Manager instance
      *
-     * @var ObjectFactory
+     * @var ObjectManagerInterface
      */
-    private $objectFactory;
+    private $_objectManager;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -23,15 +22,15 @@ class ServiceDataObjectFactory implements ServiceDataObjectFactoryInterface
     /**
      * Factory constructor
      *
-     * @param ObjectFactory $objectFactory
+     * @param ObjectManagerInterface $objectManager
      * @param Order\OrderAdapterFactory $orderAdapterFactory
      * @param Quote\QuoteAdapterFactory $quoteAdapterFactory
      */
     public function __construct(
-        ObjectFactory $objectFactory,
-        Session $checkoutSession
+        ObjectManagerInterface $objectManager,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
-        $this->objectFactory = $objectFactory;
+        $this->_objectManager = $objectManager;
         $this->_checkoutSession = $checkoutSession;
     }
 
@@ -51,7 +50,7 @@ class ServiceDataObjectFactory implements ServiceDataObjectFactoryInterface
         }
         $data['service'] = $service;
 
-        return $this->objectFactory->create(
+        return $this->_objectManager->create(
             \Digidirect\AbstractGiftCard\Service\Data\ServiceDataObject::class,
             $data
         );

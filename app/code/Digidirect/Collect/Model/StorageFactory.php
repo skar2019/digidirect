@@ -3,32 +3,24 @@
 namespace Digidirect\Collect\Model;
 
 use Digidirect\Collect\Api\CollectPlaceRepositoryInterface;
-use Magento\Framework\Api\ObjectFactory;
 
 class StorageFactory
 {
     /**
-     * ObjectFactory
+     * ObjectManager
      *
-     * @var ObjectFactory
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectFactory;
-
-    /**
-     * In-memory storage instances cache for get()
-     *
-     * @var array
-     */
-    protected $instances = [];
+    protected $_objectManager;
 
     /**
      * Storage Factory construct
      *
-     * @param ObjectFactory $objectFactory
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectFactory $objectFactory)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
-        $this->objectFactory = $objectFactory;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -39,13 +31,7 @@ class StorageFactory
      */
     public function get($className)
     {
-        $className = ltrim($className, '\\');
-
-        if (!isset($this->instances[$className])) {
-            $this->instances[$className] = $this->objectFactory->create($className);
-        }
-
-        return $this->instances[$className];
+        return $this->_objectManager->get($className);
     }
 
     /**
@@ -58,7 +44,7 @@ class StorageFactory
      */
     public function create($className, array $arguments = [])
     {
-        $object = $this->objectFactory->create(ltrim($className, '\\'), $arguments);
+        $object = $this->_objectManager->create($className, $arguments);
         if ($object instanceof CollectPlaceRepositoryInterface) {
             return $object;
         }

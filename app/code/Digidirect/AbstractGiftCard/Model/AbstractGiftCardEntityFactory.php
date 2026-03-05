@@ -3,7 +3,6 @@
 namespace Digidirect\AbstractGiftCard\Model;
 
 use Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityInterface;
-use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Price model for external catalogs
@@ -11,24 +10,24 @@ use Magento\Framework\Api\ObjectFactory;
 class AbstractGiftCardEntityFactory
 {
     /**
-     * @var ObjectFactory
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    private $objectFactory;
+    protected $_objectManager;
 
     /**
-     * @param ObjectFactory $objectFactory
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(
-        ObjectFactory $objectFactory
-    ) {
-        $this->objectFactory = $objectFactory;
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
+    {
+        $this->_objectManager = $objectManager;
     }
 
     /**
-     * @return AbstractGiftCardEntityInterface
+     * @return \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityInterface
+     * @throws \UnexpectedValueException
      */
     public function create()
     {
-        return $this->objectFactory->create(AbstractGiftCardEntityInterface::class, []);
+        return $this->_objectManager->create(AbstractGiftCardEntityInterface::class);
     }
 }

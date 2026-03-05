@@ -2,7 +2,6 @@
 
 namespace Digidirect\Collect\Model;
 
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\DataObjectFactory;
 use Digidirect\Collect\Api\CollectPlaceStockInterface;
@@ -23,11 +22,6 @@ class SourceProcessor
     protected $_objectManager;
 
     /**
-     * @var ObjectFactory
-     */
-    protected $objectFactory;
-
-    /**
      * DataObject
      *
      * @var \Magento\Framework\DataObject
@@ -38,16 +32,13 @@ class SourceProcessor
      * ProcessorFactory constructor.
      *
      * @param ObjectManagerInterface $objectManager
-     * @param ObjectFactory $objectFactory
      * @param DataObjectFactory $dataObject
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        ObjectFactory $objectFactory,
         DataObjectFactory $dataObject
     ) {
         $this->_objectManager = $objectManager;
-        $this->objectFactory = $objectFactory;
         $this->_initParamsObject = $dataObject->create();
     }
 
@@ -67,7 +58,7 @@ class SourceProcessor
         $this->_initParamsObject->setData($initParams);
 
         /* Processor Factory */
-        $processor = $this->objectFactory->create(ltrim($processorClass, '\\'), ['initParams' => $this->_initParamsObject]);
+        $processor = $this->_objectManager->create($processorClass, ['initParams' => $this->_initParamsObject]);
 
         if (!$processor instanceof CollectPlaceStockInterface) {
             $message = __('Invalid collect place stock interface');

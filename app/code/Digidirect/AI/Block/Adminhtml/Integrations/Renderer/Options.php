@@ -1,8 +1,6 @@
 <?php
 namespace Digidirect\AI\Block\Adminhtml\Integrations\Renderer;
 
-use Magento\Framework\Api\ObjectFactory;
-
 /**
  * Class Options
  * @package Digidirect\AI\Block\Adminhtml\Integrations\Renderer
@@ -10,9 +8,11 @@ use Magento\Framework\Api\ObjectFactory;
 class Options extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var ObjectFactory
+     * Object Manager instance
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectFactory = null;
+    protected $_objectManager = null;
 
     /**
      * @var array
@@ -22,15 +22,15 @@ class Options extends \Magento\Framework\View\Element\Template
     /**
      * Options constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param ObjectFactory $objectFactory
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        ObjectFactory $objectFactory,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         array $data = []
     ) {
-        $this->objectFactory = $objectFactory;
+        $this->_objectManager = $objectManager;
         $this->setTemplate('integrations/renderer/options.phtml');
         parent::__construct($context, $data);
     }
@@ -59,6 +59,6 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     public function getSelectOptions($code)
     {
-        return $this->objectFactory->get($code)->toOptionArray();
+        return $this->_objectManager->get($code)->toOptionArray();
     }
 }
