@@ -2,6 +2,7 @@
 namespace Digidirect\AI\Controller\Adminhtml\Logs;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
@@ -111,8 +112,8 @@ class Details extends \Magento\Backend\App\Action
      */
     protected function sendResponse($result)
     {
-        return $this->getResponse()->representJson(
-            json_encode($result)
-        );
+        return $this->resultFactory
+            ->create(ResultFactory::TYPE_JSON)
+            ->setData($result);
     }
 }
