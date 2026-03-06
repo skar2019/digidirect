@@ -19,8 +19,6 @@ class TestPdp extends \Magento\Framework\View\Element\Template
 
     protected $_sessionManager;
 
-    protected $_objectManager;
-
     protected $_remoteAddressInstance;
 
     protected $_template = 'Digidirect_ParticularAudienceAPI::widget/homepage-optimized.phtml';
@@ -44,7 +42,7 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         CookieManagerInterface $cookieManager,
         CookieMetadataFactory $cookieMetadataFactory,
         SessionManagerInterface $sessionManager,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Variable\Model\Variable $variable,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\Client\Curl $curl,
@@ -57,10 +55,7 @@ class TestPdp extends \Magento\Framework\View\Element\Template
         $this->_cookieManager = $cookieManager;
         $this->_cookieMetadataFactory = $cookieMetadataFactory;
         $this->_sessionManager = $sessionManager;
-        $this->_objectManager = $objectManager;
-        $this->_remoteAddressInstance = $this->_objectManager->get(
-            'Magento\Framework\HTTP\PhpEnvironment\RemoteAddress'
-        );
+        $this->_remoteAddressInstance = $remoteAddress;
         $this->variable = $variable;
         $this->customer = $customerSession;
         $this->curl = $curl;

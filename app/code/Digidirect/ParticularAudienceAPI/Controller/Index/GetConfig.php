@@ -33,8 +33,6 @@ class GetConfig extends Action implements HttpPostActionInterface {
     protected $_cookieMetadataFactory;
 
     protected $_sessionManager;
-
-    protected $_objectManager;
     
     protected $_remoteAddressInstance;
     
@@ -48,7 +46,7 @@ class GetConfig extends Action implements HttpPostActionInterface {
         CookieManagerInterface $cookieManager,
         CookieMetadataFactory $cookieMetadataFactory,
         SessionManagerInterface $sessionManager,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
@@ -58,10 +56,7 @@ class GetConfig extends Action implements HttpPostActionInterface {
         $this->_cookieManager = $cookieManager;
         $this->_cookieMetadataFactory = $cookieMetadataFactory;
         $this->_sessionManager = $sessionManager;
-        $this->_objectManager = $objectManager;
-        $this->_remoteAddressInstance = $this->_objectManager->get(
-            'Magento\Framework\HTTP\PhpEnvironment\RemoteAddress'
-        );
+        $this->_remoteAddressInstance = $remoteAddress;
         parent::__construct($context);
     }
 
