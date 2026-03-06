@@ -62,10 +62,6 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
         $concat = " | Buy at digiDirect";
         $counter = 0;
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        //$storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
-
         foreach ($collection as $key => $product) {
             $productId = $product->getId();
 
