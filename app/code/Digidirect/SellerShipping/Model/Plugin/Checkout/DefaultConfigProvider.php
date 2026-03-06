@@ -12,14 +12,28 @@ class DefaultConfigProvider
     protected $helperData;
     
     protected $logger;
+
+    /**
+     * @var \Magento\Quote\Model\Quote\ItemFactory
+     */
+    private $quoteItemFactory;
+
+    /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    private $productRepository;
     
     
     public function __construct(
         \Digidirect\SellerShipping\Helper\Data $helperData,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Quote\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         $this->helperData = $helperData;
         $this->logger = $logger;
+        $this->quoteItemFactory = $quoteItemFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -42,12 +56,11 @@ class DefaultConfigProvider
         
         $items = $result['totalsData']['items'];
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         for($i=0; $i < count($items); $i++){
             $quoteId = $items[$i]['item_id'];
-            $quote = $objectManager->create('\Magento\Quote\Model\Quote\Item')->load($quoteId);
+            $quote = $this->quoteItemFactory->create()->load($quoteId);
             $productId = $quote->getProductId();
-            $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
+            $product = $this->productRepository->getById($productId);
             $productSeller = $product->getResource()->getAttribute('marketplacer_seller')->getFrontend()->getValue($product);       
             $items[$i]['marketplacer_seller'] = $productSeller;
         }

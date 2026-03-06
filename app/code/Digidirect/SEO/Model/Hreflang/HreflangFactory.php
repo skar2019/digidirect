@@ -2,7 +2,6 @@
 
 namespace Digidirect\SEO\Model\Hreflang;
 
-use Magento\Framework\ObjectManagerInterface;
 use Digidirect\SEO\Model\Hreflang\StoreCodeName;
 
 /**
@@ -16,20 +15,18 @@ class HreflangFactory
     const MAIN_OBJECT_PATH = '\\Digidirect\\SEO\\Model\\Hreflang\\';
 
     /**
-     * Object Manager instance
-     *
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var StoreCodeName
      */
-    protected $objectManager;
+    private $storeCodeName;
 
     /**
      * HreflangFactory constructor.
-     * @param ObjectManagerInterface $objectManager
+     * @param StoreCodeName $storeCodeName
      */
     public function __construct(
-        ObjectManagerInterface $objectManager
+        StoreCodeName $storeCodeName
     ) {
-        $this->objectManager = $objectManager;
+        $this->storeCodeName = $storeCodeName;
     }
 
     /**
@@ -40,8 +37,8 @@ class HreflangFactory
     {
         $className = self::MAIN_OBJECT_PATH.$objectName;
 
-        if (class_exists($className)) {
-            return $this->objectManager->create($className);
+        if ($className === StoreCodeName::class) {
+            return $this->storeCodeName;
         }
 
         return null;

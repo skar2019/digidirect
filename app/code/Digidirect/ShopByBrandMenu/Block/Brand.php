@@ -25,7 +25,6 @@ use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Cms\Model\BlockFactory;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -113,6 +112,7 @@ class Brand extends Template
      * @param AdapterFactory $imageFactory
      * @param BrandHelper $helper
      * @param ResourceConnection $connection
+     * @param MetaRobots $mpRobots
      * @param array $data
      */
     public function __construct(
@@ -125,6 +125,7 @@ class Brand extends Template
         AdapterFactory $imageFactory,
         BrandHelper $helper,
         ResourceConnection $connection,
+        MetaRobots $mpRobots,
         array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -135,6 +136,7 @@ class Brand extends Template
         $this->_imageFactory             = $imageFactory;
         $this->helper                    = $helper;
         $this->_connection               = $connection;
+        $this->mpRobots                  = $mpRobots;
 
         parent::__construct($context, $data);
     }
@@ -146,8 +148,6 @@ class Brand extends Template
      */
     protected function _prepareLayout()
     {
-        $objectManager  = ObjectManager::getInstance();
-        $this->mpRobots = $objectManager->create(MetaRobots::class);
         $action         = $this->getRequest()->getFullActionName();
 
         if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
