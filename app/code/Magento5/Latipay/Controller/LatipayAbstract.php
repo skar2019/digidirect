@@ -120,9 +120,7 @@ abstract class LatipayAbstract extends \Magento\Framework\App\Action\Action
      */
     protected function getOrderById($order_id)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $order = $objectManager->get('Magento\Sales\Model\Order');
-        $order_info = $order->loadByIncrementId($order_id);
+        $order_info = $this->_orderFactory->create()->loadByIncrementId($order_id);
         return $order_info;
     }
 

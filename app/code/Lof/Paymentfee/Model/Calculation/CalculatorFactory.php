@@ -23,9 +23,12 @@
 namespace Lof\Paymentfee\Model\Calculation;
 
 use Magento\Framework\Exception\ConfigurationMismatchException;
-use Magento\Framework\ObjectManagerInterface;
 use Lof\Paymentfee\Helper\Data as FeeHelper;
 use Lof\Paymentfee\Model\Config\Source\PriceType;
+use Lof\Paymentfee\Model\Calculation\Calculator\FixedCalculator;
+use Lof\Paymentfee\Model\Calculation\Calculator\PercentageCalculator;
+use Lof\Paymentfee\Model\Calculation\Calculator\PerRowCalculator;
+use Lof\Paymentfee\Model\Calculation\Calculator\PerItemCalculator;
 
 class CalculatorFactory
 {
@@ -35,20 +38,42 @@ class CalculatorFactory
     protected $helper;
 
     /**
-     * @var ObjectManagerInterface
+     * @var FixedCalculator
      */
-    protected $objectManager;
+    private $fixedCalculator;
 
     /**
-     * CalculationFactory constructor.
+     * @var PercentageCalculator
+     */
+    private $percentageCalculator;
+
+    /**
+     * @var PerRowCalculator
+     */
+    private $perRowCalculator;
+
+    /**
+     * @var PerItemCalculator
+     */
+    private $perItemCalculator;
+
+    /**
+     * CalculatorFactory constructor.
      *
-     * @param ObjectManagerInterface $objectManager
      * @param FeeHelper $helper
      */
-    public function __construct(ObjectManagerInterface $objectManager, FeeHelper $helper)
-    {
+    public function __construct(
+        FeeHelper $helper,
+        FixedCalculator $fixedCalculator,
+        PercentageCalculator $percentageCalculator,
+        PerRowCalculator $perRowCalculator,
+        PerItemCalculator $perItemCalculator
+    ) {
         $this->helper = $helper;
-        $this->objectManager = $objectManager;
+        $this->fixedCalculator = $fixedCalculator;
+        $this->percentageCalculator = $percentageCalculator;
+        $this->perRowCalculator = $perRowCalculator;
+        $this->perItemCalculator = $perItemCalculator;
     }
 
     /**
@@ -59,13 +84,13 @@ class CalculatorFactory
     {
         switch ($this->helper->getPriceType()) {
             case PriceType::TYPE_FIXED:
-                return $this->objectManager->get(Calculator\FixedCalculator::class);
+                return $this->fixedCalculator;
             case PriceType::TYPE_PERCENTAGE:
-                return $this->objectManager->get(Calculator\PercentageCalculator::class);
+                return $this->percentageCalculator;
             case PriceType::TYPE_PER_ROW:
-                return $this->objectManager->get(Calculator\PerRowCalculator::class);
+                return $this->perRowCalculator;
             case PriceType::TYPE_PER_ITEM:
-                return $this->objectManager->get(Calculator\PerItemCalculator::class);
+                return $this->perItemCalculator;
             default:
                 throw new ConfigurationMismatchException(
                     __('Could not find price calculator for type %1', $this->helper->getPriceType())

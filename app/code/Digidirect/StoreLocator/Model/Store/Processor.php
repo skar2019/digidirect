@@ -17,7 +17,6 @@ use Digidirect\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntity\Attribute\Source\VisibleOnFrontend;
 use Digidirect\AbstractEntity\Model\AbstractEntity\Attribute\Source\Status;
 use Magento\Framework\App\Cache;
-use Magento\Framework\App\ObjectManager;
 use \Magento\Framework\App\ResourceConnection;
 use Digidirect\AbstractEntity\Model\AbstractEntity\Media\Config as MediaConfig;
 use Magento\Framework\UrlInterface;
@@ -153,7 +152,7 @@ class Processor implements ProcessorInterface
      * @param Cache $cache
      * @param LocalizationConfig $localizationConfig
      * @param Directory $directory
-     * @param EventManagerInterface|null $eventManager
+     * @param EventManagerInterface $eventManager
      * @param UrlModifier $urlModifier
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -169,9 +168,9 @@ class Processor implements ProcessorInterface
         AttributeSetNameNormalizer $attributeSetNameNormalizer,
         Cache $cache,
         LocalizationConfig $localizationConfig,
-        Directory $directory = null,
-        EventManagerInterface $eventManager = null,
-        UrlModifier $urlModifier = null
+        Directory $directory,
+        EventManagerInterface $eventManager,
+        UrlModifier $urlModifier
     ) {
         $this->cacheManager = $cache;
         $this->attributeSetNormalizer = $attributeSetNameNormalizer;
@@ -184,10 +183,9 @@ class Processor implements ProcessorInterface
         $this->aeHelper = $aeHelper;
         $this->catalogTemplateFilter = $catalogTemplateFilter;
         $this->localizationConfig = $localizationConfig;
-        $this->directoryHelper = $directory ?: ObjectManager::getInstance()->get(Directory::class);
-        $objectManager = ObjectManager::getInstance();
-        $this->eventManager = $eventManager ?: $objectManager->get(EventManagerInterface::class);
-        $this->urlModifier = $urlModifier ?: $objectManager->get(UrlModifier::class);
+        $this->directoryHelper = $directory;
+        $this->eventManager = $eventManager;
+        $this->urlModifier = $urlModifier;
     }
 
     /**

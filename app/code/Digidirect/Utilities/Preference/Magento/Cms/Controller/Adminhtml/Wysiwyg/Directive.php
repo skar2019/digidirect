@@ -25,12 +25,18 @@ class Directive extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive
     protected $xmlImageTypes = [];
 
     /**
+     * @var Filter
+     */
+    private $filter;
+
+    /**
      * Directive constructor.
      * @param Action\Context $context
      * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
      * @param DirectoryList $directoryList
      * @param Mime $mime
+     * @param Filter $filter
      * @param array $xmlImageTypes
      */
     public function __construct(
@@ -39,11 +45,13 @@ class Directive extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
         DirectoryList $directoryList,
         Mime $mime,
+        Filter $filter,
         array $xmlImageTypes = []
     ) {
         parent::__construct($context, $urlDecoder, $resultRawFactory);
         $this->directoryList = $directoryList;
         $this->mime = $mime;
+        $this->filter = $filter;
         $this->xmlImageTypes = $xmlImageTypes;
     }
 
@@ -56,7 +64,7 @@ class Directive extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive
     {
         $directive = $this->getRequest()->getParam('___directive');
         $directive = $this->urlDecoder->decode($directive);
-        $imagePath = $this->_objectManager->create(Filter::class)->filter($directive);
+        $imagePath = $this->filter->filter($directive);
         $file = $this->directoryList->getPath(DirectoryList::PUB) . '/' . $imagePath;
 
         try {

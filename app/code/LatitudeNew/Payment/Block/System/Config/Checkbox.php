@@ -24,6 +24,20 @@ class Checkbox extends \Magento\Config\Block\System\Config\Form\Field
      * Possible values for the checkboxes
      */
     protected $_values = null;
+
+    /**
+     * @var \LatitudeNew\Payment\Model\Config\Source\Term
+     */
+    private $termSource;
+
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \LatitudeNew\Payment\Model\Config\Source\Term $termSource,
+        array $data = []
+    ) {
+        parent::__construct($context, $data);
+        $this->termSource = $termSource;
+    }
    
     /**
      * Retrieve element HTML markup.
@@ -46,9 +60,8 @@ class Checkbox extends \Magento\Config\Block\System\Config\Form\Field
     public function getValues()
     {
         $values = [];
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
-        foreach ($objectManager->create(\LatitudeNew\Payment\Model\Config\Source\Term::class)->toOptionArray() as $value) {
+        foreach ($this->termSource->toOptionArray() as $value) {
             $values[$value['value']] = $value['label'];
         }
 
