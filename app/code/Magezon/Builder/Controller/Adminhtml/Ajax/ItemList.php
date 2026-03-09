@@ -14,6 +14,8 @@
 
 namespace Magezon\Builder\Controller\Adminhtml\Ajax;
 
+use Magento\Framework\Controller\Result\JsonFactory;
+
 class ItemList extends \Magento\Backend\App\Action
 {
     /**
@@ -22,15 +24,22 @@ class ItemList extends \Magento\Backend\App\Action
     protected $sourcesFactory;
 
     /**
+     * @var JsonFactory
+     */
+    protected $resultJsonFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context  $context        
      * @param \Magezon\Builder\Data\SourcesFactory $sourcesFactory 
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magezon\Builder\Data\SourcesFactory $sourcesFactory
+        \Magezon\Builder\Data\SourcesFactory $sourcesFactory,
+        JsonFactory $resultJsonFactory
     ) {
         parent::__construct($context);
         $this->sourcesFactory = $sourcesFactory;
+        $this->resultJsonFactory = $resultJsonFactory;
     }
 
     public function execute()
@@ -52,9 +61,7 @@ class ItemList extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, __('Something went wrong while processing the request.'));
         }
-        $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($data)
-        );
-        return;
+        $resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setData($data);
     }
 }

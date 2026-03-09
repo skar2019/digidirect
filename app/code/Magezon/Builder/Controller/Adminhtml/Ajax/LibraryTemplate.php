@@ -14,6 +14,8 @@
 
 namespace Magezon\Builder\Controller\Adminhtml\Ajax;
 
+use Magento\Framework\Controller\Result\JsonFactory;
+
 class LibraryTemplate extends \Magento\Backend\App\Action
 {
     /**
@@ -22,15 +24,23 @@ class LibraryTemplate extends \Magento\Backend\App\Action
     protected $dataHelper;
 
     /**
+     * @var \Magento\Framework\Controller\Result\JsonFactory
+     */
+    protected $resultJsonFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context    
-     * @param \Magezon\Builder\Helper\Data        $dataHelper 
+     * @param \Magezon\Builder\Helper\Data        $dataHelper
+     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magezon\Builder\Helper\Data $dataHelper
+        \Magezon\Builder\Helper\Data $dataHelper,
+        JsonFactory $resultJsonFactory
     ) {
         parent::__construct($context);
         $this->dataHelper = $dataHelper;
+        $this->resultJsonFactory = $resultJsonFactory;
     }
 
     public function execute()
@@ -40,8 +50,7 @@ class LibraryTemplate extends \Magento\Backend\App\Action
         if (isset($post['url']) && $post['url']) {
             $result = $this->dataHelper->getTemplates($post['url']);
         }
-    	$this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
-        );
+    	$resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setData($result);
     }
 }
