@@ -13,16 +13,23 @@ class Generate extends Action
     protected $resultJsonFactory;
 
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @param Context $context
      * @param JsonFactory $resultJsonFactory
-     * @param Data $helper
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         Context $context,
-        JsonFactory $resultJsonFactory
+        JsonFactory $resultJsonFactory,
+        \Psr\Log\LoggerInterface $logger
     )
     {
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -36,7 +43,7 @@ class Generate extends Action
         try {
             $randomAccesKey = $this->random_str(40);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
+            $this->logger->critical($e);
         }
 
         $result = $this->resultJsonFactory->create();

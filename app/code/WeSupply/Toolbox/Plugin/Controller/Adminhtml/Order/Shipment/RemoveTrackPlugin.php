@@ -8,8 +8,8 @@ namespace WeSupply\Toolbox\Plugin\Controller\Adminhtml\Order\Shipment;
 
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Sales\Model\Order\Shipment\Track;
+use Magento\Sales\Model\Order\Shipment\TrackFactory;
 use Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Shipping\Controller\Adminhtml\Order\Shipment\RemoveTrack;
 use WeSupply\Toolbox\Helper\Data as WeSupplyHelper;
 use WeSupply\Toolbox\Logger\Logger as WeSupplyLogger;
@@ -26,9 +26,9 @@ class RemoveTrackPlugin
     protected $shipmentLoader;
 
     /**
-     * @var ObjectManagerInterface
+     * @var TrackFactory
      */
-    protected $_objectManager;
+    protected $trackFactory;
 
     /**
      * @var ManagerInterface
@@ -48,21 +48,21 @@ class RemoveTrackPlugin
     /**
      * RemoveTrackPlugin constructor.
      * @param ShipmentLoader $shipmentLoader
-     * @param ObjectManagerInterface $objectManager
+     * @param TrackFactory $trackFactory
      * @param ManagerInterface $eventManager
      * @param WeSupplyHelper $helper
      * @param WeSupplyLogger $logger
      */
     public function __construct(
         ShipmentLoader $shipmentLoader,
-        ObjectManagerInterface $objectManager,
+        TrackFactory $trackFactory,
         ManagerInterface $eventManager,
         WeSupplyHelper $helper,
         WeSupplyLogger $logger
     )
     {
         $this->shipmentLoader = $shipmentLoader;
-        $this->_objectManager = $objectManager;
+        $this->trackFactory = $trackFactory;
         $this->eventManager = $eventManager;
         $this->helper = $helper;
         $this->logger = $logger;
@@ -77,7 +77,7 @@ class RemoveTrackPlugin
     {
         /** @var Track $track */
         $trackId = $subject->getRequest()->getParam('track_id');
-        $track = $this->_objectManager->create(Track::class)->load($trackId);
+        $track = $this->trackFactory->create()->load($trackId);
         $origProceed = $proceed();
 
         if (!$track->getId()) {

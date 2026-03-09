@@ -20,7 +20,7 @@ class Giftcard implements GiftcardInterface
 
     private $emailManagement = NULL;
 
-    private $objectManager;
+    private $giftCardAccountFactory;
 
     private $logger;
 
@@ -28,10 +28,15 @@ class Giftcard implements GiftcardInterface
 
 
     public function __construct(
+        \Magento\GiftCardAccount\Api\Data\GiftCardAccountInterfaceFactory $giftCardAccountFactory,
+        \Magento\GiftCardAccount\Api\GiftCardAccountRepositoryInterface $giftCardAccountRepository,
+        \Magento\GiftCardAccount\Model\EmailManagement $emailManagement,
         \WeSupply\Toolbox\Logger\Logger $logger
     )
     {
-       $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+       $this->giftCardAccountFactory = $giftCardAccountFactory;
+       $this->giftCardAccountRepository = $giftCardAccountRepository;
+       $this->emailManagement = $emailManagement;
        $this->logger = $logger;
     }
 
@@ -39,18 +44,8 @@ class Giftcard implements GiftcardInterface
     {
 
         if(is_null($this->giftCardAccountInterface)){
-            $this->giftCardAccountInterface = $this->objectManager->create(\Magento\GiftCardAccount\Api\Data\GiftCardAccountInterface::class);
+            $this->giftCardAccountInterface = $this->giftCardAccountFactory->create();
         }
-
-        if(is_null($this->giftCardAccountRepository))
-        {
-            $this->giftCardAccountRepository = $this->objectManager->create(\Magento\GiftCardAccount\Api\GiftCardAccountRepositoryInterface::class);
-        }
-
-        if(is_null($this->emailManagement)){
-            $this->emailManagement = $this->objectManager->create('Magento\GiftCardAccount\Model\EmailManagement');
-        }
-
     }
 
 

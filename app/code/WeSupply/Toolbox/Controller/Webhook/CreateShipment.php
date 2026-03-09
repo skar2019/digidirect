@@ -7,9 +7,6 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\ObjectManagerInterface;
-use Magento\Sales\Api\Data\OrderItemInterface;
-use Magento\Sales\Model\Order\Item;
 
 class CreateShipment extends Action
 {
@@ -19,26 +16,57 @@ class CreateShipment extends Action
     private $resultJsonFactory;
 
     /**
-     * @var OrderItemInterface
+     * @var \Magento\Sales\Model\OrderFactory
      */
-    private $orderItemRepository;
+    private $orderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ItemFactory
+     */
+    private $orderItemFactory;
+
+    /**
+     * @var \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface
+     */
+    private $getSourceItemsBySku;
+
+    /**
+     * @var \Magento\Sales\Model\Convert\Order
+     */
+    private $convertOrder;
+
+    /**
+     * @var \Magento\Sales\Api\Data\ShipmentTrackInterfaceFactory
+     */
+    private $shipmentTrackFactory;
 
     /**
      * CreateShipment constructor.
      *
-     * @param Context     $context
+     * @param Context $context
      * @param JsonFactory $jsonFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
+     * @param \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $getSourceItemsBySku
+     * @param \Magento\Sales\Model\Convert\Order $convertOrder
+     * @param \Magento\Sales\Api\Data\ShipmentTrackInterfaceFactory $shipmentTrackFactory
      */
     public function __construct(
         Context $context,
         JsonFactory $jsonFactory,
-        ObjectManagerInterface $objectManager,
-        OrderItemInterface $orderItemRepository
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
+        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $getSourceItemsBySku,
+        \Magento\Sales\Model\Convert\Order $convertOrder,
+        \Magento\Sales\Api\Data\ShipmentTrackInterfaceFactory $shipmentTrackFactory
     )
     {
         $this->resultJsonFactory = $jsonFactory;
-        $this->_objectManager = $objectManager;
-        $this->orderItemRepository = $orderItemRepository;
+        $this->orderFactory = $orderFactory;
+        $this->orderItemFactory = $orderItemFactory;
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
+        $this->convertOrder = $convertOrder;
+        $this->shipmentTrackFactory = $shipmentTrackFactory;
 
         parent::__construct($context);
     }
@@ -50,20 +78,19 @@ class CreateShipment extends Action
     {
         $resultJson = $this->resultJsonFactory->create();
 
-        $params = $this->_objectManager->create('Magento\Framework\App\RequestInterface')->getParams();
-        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($params['orderId']);
+        $params = $this->getRequest()->getParams();
+        $order = $this->orderFactory->create()->load($params['orderId']);
 
         if (!$order->canShip()) {
             throw new LocalizedException(__('You can\'t create shipment for this order (already shipped).'));
         }
 
         $qtyToShip = $params['itemQty'];
-        $itemToShip = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($params['itemId']);
+        $itemToShip = $this->orderItemFactory->create()->load($params['itemId']);
 
         $sourceCode = 'default';
         $productSku = $itemToShip->getProduct()->getSku();
-        $inventorySource = $this->_objectManager->create('Magento\InventoryApi\Api\GetSourceItemsBySkuInterface')
-            ->execute($productSku);
+        $inventorySource = $this->getSourceItemsBySku->execute($productSku);
 
         foreach ($inventorySource as $source) {
             if ($source->getQuantity() > 0) {
@@ -71,15 +98,14 @@ class CreateShipment extends Action
             }
         }
 
-        $convertOrder = $this->_objectManager->create('Magento\Sales\Model\Convert\Order');
-        $shipmentItem = $convertOrder->itemToShipmentItem($itemToShip)->setQty($qtyToShip);
+        $shipmentItem = $this->convertOrder->itemToShipmentItem($itemToShip)->setQty($qtyToShip);
 
         // Check if order item has qty to ship or is virtual
         if (!$itemToShip->getQtyToShip() || $itemToShip->getIsVirtual()) {
             throw new LocalizedException(__('You can\'t create shipment for this item (already shipped).'));
         }
 
-        $shipment = $convertOrder->toShipment($order);
+        $shipment = $this->convertOrder->toShipment($order);
         $shipment->addItem($shipmentItem);
 
         // Register shipment
@@ -88,7 +114,7 @@ class CreateShipment extends Action
 
         $shipment->getExtensionAttributes()->setSourceCode($sourceCode);
 
-        $track = $this->_objectManager->create('Magento\Sales\Api\Data\ShipmentTrackInterfaceFactory')->create()
+        $track = $this->shipmentTrackFactory->create()
             ->addData([
                 'carrier_code' => $params['carrierCode'],
                 'title' => $params['carrierTitle'],
