@@ -19,9 +19,9 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class File extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var \Magento\Framework\Filesystem
      */
-    protected $_objectManager;
+    protected $filesystem;
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -29,21 +29,29 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_httpRequest;
 
     /**
-     * @param \Magento\Framework\App\Helper\Context     $context       
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager 
+     * @var \Magento\Framework\File\UploaderFactory
+     */
+    protected $uploaderFactory;
+
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\File\UploaderFactory $uploaderFactory
     ) {
         parent::__construct($context);
-        $this->_objectManager = $objectManager;
+        $this->filesystem = $filesystem;
+        $this->uploaderFactory = $uploaderFactory;
         $this->_httpRequest   = $context->getRequest();
     }
 
     public function uploadImage($type, $data, $mediaFolder, $allowedExtensions = '', $maximumSize = 0)
     {
-        $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(DirectoryList::MEDIA);
+        $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $imagePath = $mediaDirectory->getAbsolutePath();
         if (isset($data[$type]['delete'])) {
             $imagePath .= isset($data[$type]['value']) ? $data[$type]['value'] : $data[$type];
@@ -63,10 +71,7 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
                 throw new \Magento\Framework\Exception\ValidatorException(__('The file is too large. Maximum upload file size: %1MB', $maximumSize/1000000));
             }
             $savePath = $mediaDirectory->getAbsolutePath($mediaFolder);
-            $uploader = $this->_objectManager->create(
-                'Magento\Framework\File\Uploader',
-                array('fileId' => $type)
-                );
+            $uploader = $this->uploaderFactory->create(['fileId' => $type]);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(false);
             if ($allowedExtensions) {

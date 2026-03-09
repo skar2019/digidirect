@@ -20,6 +20,49 @@ use Magento\Newsletter\Model\Subscriber;
 class NewAction extends \Magento\Newsletter\Controller\Subscriber\NewAction
 {
     /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Api\AccountManagementInterface $customerAccountManagement
+     * @param \Magento\Newsletter\Model\SubscriptionManagerInterface $subscriptionManager
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param \Magento\Framework\Validator\EmailAddress|null $emailValidator
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface|null $customerRepository
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Api\AccountManagementInterface $customerAccountManagement,
+        \Magento\Newsletter\Model\SubscriptionManagerInterface $subscriptionManager,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Magento\Framework\Validator\EmailAddress $emailValidator = null,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository = null
+    ) {
+        $this->jsonSerializer = $jsonSerializer;
+        parent::__construct(
+            $context,
+            $subscriberFactory,
+            $customerSession,
+            $storeManager,
+            $customerUrl,
+            $customerAccountManagement,
+            $subscriptionManager,
+            $emailValidator,
+            $customerRepository
+        );
+    }
+
+    /**
      * New subscription action
      *
      * @return \Magento\Framework\Controller\Result\Redirect
@@ -62,7 +105,7 @@ class NewAction extends \Magento\Newsletter\Controller\Subscriber\NewAction
             }
         }
         $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
+            $this->jsonSerializer->serialize($result)
         );
         return;
     }

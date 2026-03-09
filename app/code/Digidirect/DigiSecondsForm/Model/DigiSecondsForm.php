@@ -2,8 +2,10 @@
 
 namespace Digidirect\DigiSecondsForm\Model;
 
-class Cform extends \Magento\Framework\Model\AbstractModel
+class DigiSecondsForm extends \Magento\Framework\Model\AbstractModel
 {
+    public const CONTECT_ID = 'contect_id';
+
     /**
      * Initialize resource model
      *

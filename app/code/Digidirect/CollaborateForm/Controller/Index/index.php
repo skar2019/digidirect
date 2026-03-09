@@ -2,19 +2,27 @@
 
 namespace Digidirect\CollaborateForm\Controller\Index;
 
+use Digidirect\CollaborateForm\Model\CformFactory;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class Index extends Action
 {
+    /**
+     * @var CformFactory
+     */
+    private $cformFactory;
+
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
+        TransportBuilder $transportBuilder,
+        CformFactory $cformFactory
         
     ) {
         parent::__construct($context);
         $this->transportBuilder = $transportBuilder;
+        $this->cformFactory = $cformFactory;
     }   
     public function execute()
     {
@@ -50,8 +58,7 @@ class Index extends Action
         // $email->addBcc($bcc);
         $email->send();
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\CollaborateForm\Model\CollaborateForm');
+        $data = $this->cformFactory->create();
         $data->setData($post);
         $data->save();
 //        echo "success";

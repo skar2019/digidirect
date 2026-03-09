@@ -5,8 +5,7 @@ use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  
 class Collection extends AbstractCollection
 {
- 
-    protected $_idFieldName = \Digidirect\DigiSecondsForm\Model\Cform::CONTECT_ID;
+    protected $_idFieldName = \Digidirect\DigiSecondsForm\Model\DigiSecondsForm::CONTECT_ID;
      
     /**
      * Define resource model

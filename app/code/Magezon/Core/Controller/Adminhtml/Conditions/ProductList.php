@@ -21,7 +21,6 @@ use Magento\Framework\Controller\Result\RawFactory;
 use Magento\Framework\Registry;
 use Magento\Framework\View\LayoutFactory;
 use Magezon\Core\Block\Adminhtml\Conditions\Product;
-use Magento\CatalogRule\Model\Rule;
 
 class ProductList extends Action
 {
@@ -46,23 +45,31 @@ class ProductList extends Action
     protected $gridProduct;
 
     /**
+     * @var \Magento\CatalogRule\Model\RuleFactory
+     */
+    private $ruleFactory;
+
+    /**
      * @param Context $context
      * @param RawFactory $resultRawFactory
      * @param LayoutFactory $layoutFactory
      * @param Registry $registry
+     * @param \Magento\CatalogRule\Model\RuleFactory $ruleFactory
      */
     public function __construct(
         Context $context,
         RawFactory $resultRawFactory,
         LayoutFactory $layoutFactory,
         Registry $registry,
-        Product $gridProduct
+        Product $gridProduct,
+        \Magento\CatalogRule\Model\RuleFactory $ruleFactory
     ) {
         parent::__construct($context);
         $this->resultRawFactory = $resultRawFactory;
         $this->layoutFactory = $layoutFactory;
         $this->_coreRegistry = $registry;
         $this->gridProduct = $gridProduct;
+        $this->ruleFactory = $ruleFactory;
     }
 
     /**
@@ -80,7 +87,7 @@ class ProductList extends Action
         }
         unset($data['conditions_serialized']);
         unset($data['actions_serialized']);
-        $file = $this->_objectManager->create(Rule::class);
+        $file = $this->ruleFactory->create();
         $file->loadPost($data);
         $this->_coreRegistry->unregister('mgz_conditions_model');
         $this->_coreRegistry->register('mgz_conditions_model', $file);

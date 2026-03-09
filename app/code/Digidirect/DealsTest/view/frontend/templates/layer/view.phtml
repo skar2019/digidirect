@@ -13,12 +13,10 @@
     $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
     $filterExclusions = ['cat'];
     
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+    $request = $block->getRequest();
     $_helper = $this->helper('Magento\Catalog\Helper\Output');
 
-    $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
-    $currentUrl = $urlInterface->getCurrentUrl();
+    $currentUrl = $request->getRequestUri();
 
     $isBrandPage = str_contains($currentUrl, 'brands/');
 ?>

@@ -22,16 +22,24 @@ class Index extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
     protected $resultLayoutFactory;
 
     /**
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
+     */
+    private $imagesHelper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $imagesHelper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
+        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
+        \Magento\Cms\Helper\Wysiwyg\Images $imagesHelper
     ) {
         $this->resultLayoutFactory = $resultLayoutFactory;
+        $this->imagesHelper = $imagesHelper;
         parent::__construct($context, $coreRegistry);
     }
 
@@ -45,7 +53,7 @@ class Index extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
         $storeId = (int)$this->getRequest()->getParam('store');
 
         try {
-            $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath();
+            $this->imagesHelper->getCurrentPath();
         } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }

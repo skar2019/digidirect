@@ -24,6 +24,23 @@ class Delete extends \Magento\Backend\App\Action
     const ADMIN_RESOURCE = 'Magezon_PageBuilder::template_delete';
 
     /**
+     * @var \Magezon\PageBuilder\Model\TemplateFactory
+     */
+    private $templateFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magezon\PageBuilder\Model\TemplateFactory $templateFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magezon\PageBuilder\Model\TemplateFactory $templateFactory
+    ) {
+        parent::__construct($context);
+        $this->templateFactory = $templateFactory;
+    }
+
+    /**
      * Delete action
      *
      * @return \Magento\Backend\Model\View\Result\Redirect
@@ -37,7 +54,7 @@ class Delete extends \Magento\Backend\App\Action
         if ($id) {
             try {
                 // init model and delete
-                $model = $this->_objectManager->create(\Magezon\PageBuilder\Model\Template::class);
+                $model = $this->templateFactory->create();
                 $model->load($id);
                 $model->delete();
                 // display success message

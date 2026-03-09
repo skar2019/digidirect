@@ -45,10 +45,10 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
      * @param \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory
-     * @param \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory
-     * @param \Digidirect\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory
      * @param EmailCollectionFactory $emailCollectionFactory
+     * @param \Digidirect\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory
      * @param array $customTemplateVars
+     * @param \Magento\Framework\Mail\MessageInterfaceFactory|null $messageFactory
      */
     public function __construct(
         \Magento\Framework\Mail\Template\FactoryInterface $templateFactory,
@@ -56,10 +56,10 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
         \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory,
+        EmailCollectionFactory $emailCollectionFactory,
+        \Digidirect\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory,
         array $customTemplateVars = [],
-        EmailCollectionFactory $emailCollectionFactory = null,
-        \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory = null,
-        \Digidirect\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory = null
+        \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory = null
     ) {
         parent::__construct(
             $templateFactory,
@@ -69,12 +69,8 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
             $mailTransportFactory,
             $messageFactory
         );
-        $this->messageCreateAttachmentFactory = $messageCreateAttachmentFactory ?: $this->objectManager->create(
-            \Digidirect\Utilities\Model\Mail\MessageFactory::class
-        );
-        $this->emailCollectionFactory = $emailCollectionFactory ?: $this->objectManager->create(
-            EmailCollectionFactory::class
-        );
+        $this->messageCreateAttachmentFactory = $messageCreateAttachmentFactory;
+        $this->emailCollectionFactory = $emailCollectionFactory;
         $this->customTemplateVars = $customTemplateVars;
 
         $this->isMessageCreateAttachmentShouldBeUsed = !is_callable([$this->message, 'createAttachment']);

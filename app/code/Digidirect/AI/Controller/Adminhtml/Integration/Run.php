@@ -56,6 +56,7 @@ class Run extends RunAbstract
      * @param \Digidirect\AI\Helper\Logger $loggerHelper
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Digidirect\AI\Helper\Engine $engineHelper
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -66,7 +67,8 @@ class Run extends RunAbstract
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Digidirect\AI\Helper\Logger $loggerHelper,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
-        \Digidirect\AI\Helper\Engine $engineHelper
+        \Digidirect\AI\Helper\Engine $engineHelper,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         $this->sysLog = $logger;
         $this->engineFactory = $engineFactory;
@@ -88,7 +90,7 @@ class Run extends RunAbstract
                 'schedule_content' => ''
             ]
         ];
-        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper);
+        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper, $jsonSerializer);
     }
 
     /**

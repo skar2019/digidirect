@@ -3,7 +3,6 @@
 namespace Digidirect\Collect\Model;
 
 use Digidirect\Collect\Api\CollectPlaceRepositoryInterface;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
 
@@ -45,19 +44,18 @@ class StorageHandler
      * @param \Digidirect\Collect\Model\StorageFactory $storageFactory
      * @param \Digidirect\Collect\Model\Config\Data $storageConfig
      * @param \Digidirect\Collect\Helper\Storage\Data $storageHelper
-     * @param ManagerInterface|null $eventManager
+     * @param ManagerInterface $eventManager
      */
     public function __construct(
         \Digidirect\Collect\Model\StorageFactory $storageFactory,
         \Digidirect\Collect\Model\Config\Data $storageConfig,
         \Digidirect\Collect\Helper\Storage\Data $storageHelper,
-        ManagerInterface $eventManager = null
+        ManagerInterface $eventManager
     ) {
         $this->_storageFactory = $storageFactory;
         $this->_storageConfig = $storageConfig;
         $this->_storageHelper = $storageHelper;
-        $objectManager = ObjectManager::getInstance();
-        $this->eventManager = $eventManager ?: $objectManager->get(ManagerInterface::class);
+        $this->eventManager = $eventManager;
     }
 
     /**

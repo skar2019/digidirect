@@ -27,6 +27,7 @@ namespace Itoris\Core\Block\System;
 class Installed extends \Magento\Config\Block\System\Config\Form\Fieldset
 {
     protected $_moduleList;
+    protected $resourceConnection;
 
     public function __construct(
         \Magento\Backend\Block\Context $context,
@@ -34,14 +35,14 @@ class Installed extends \Magento\Config\Block\System\Config\Form\Fieldset
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
 		\Magento\Backend\App\ConfigInterface $backendConfig,
-		\Magento\Framework\ObjectManagerInterface $objectManager,
+		\Magento\Framework\App\ResourceConnection $resourceConnection,
 		\Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
 		\Magento\Framework\App\ProductMetadataInterface $productMetadata,
         array $data = []
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);
         $this->_moduleList = $moduleList;
-		$this->_objectManager = $objectManager;
+		$this->resourceConnection = $resourceConnection;
 		$this->_backendConfig = $backendConfig;
 		$this->curlFactory       = $curlFactory;
 		$this->productMetadata   = $productMetadata;
@@ -119,7 +120,7 @@ class Installed extends \Magento\Config\Block\System\Config\Form\Fieldset
 	}
 	
 	private function tryRegister($module, $hash) {
-		$moduleVersion = $this->_objectManager->create('\Magento\Framework\Module\ModuleList')->getOne($module)['setup_version'];
+		$moduleVersion = $this->_moduleList->getOne($module)['setup_version'];
 		$curl = $this->curlFactory->create();
 		$feedUrl = $this->getFeedUrl();
 		$feedUrl .= '&task=register&license='.urlencode($hash).'&module='.urlencode($module).'&version='.urlencode($moduleVersion);
@@ -161,18 +162,16 @@ class Installed extends \Magento\Config\Block\System\Config\Form\Fieldset
 	}
 	
 	private function setConfigValue($path, $value) {
-        $resource = $this->_objectManager->get('Magento\Framework\App\ResourceConnection');
-        $connection = $resource->getConnection('write');
-		$connection->query("update {$resource->getTableName('core_config_data')} set `value`='{$value}' where `path`='{$path}'");
+        $connection = $this->resourceConnection->getConnection('write');
+		$connection->query("update {$this->resourceConnection->getTableName('core_config_data')} set `value`='{$value}' where `path`='{$path}'");
 	}
 	
 	private function getConfigValue($path) {
-        $resource = $this->_objectManager->get('Magento\Framework\App\ResourceConnection');
-        $connection = $resource->getConnection('write');
-		$configData = $connection->fetchRow("select * from {$resource->getTableName('core_config_data')} where `path`='{$path}'");
+        $connection = $this->resourceConnection->getConnection('write');
+		$configData = $connection->fetchRow("select * from {$this->resourceConnection->getTableName('core_config_data')} where `path`='{$path}'");
 		if (isset($configData['config_id']) && (int)$configData['config_id'] && ($configData['scope'] != 'default' || (int)$configData['scope_id'] != 0)) {
-			$connection->query("delete from {$resource->getTableName('core_config_data')} where `path`='{$path}'");
-			$connection->query("insert into {$resource->getTableName('core_config_data')} set `config_id`={$configData['config_id']}, `scope`='default', `scope_id`=0, `path`='{$configData['path']}', `value`='{$configData['value']}'");
+			$connection->query("delete from {$this->resourceConnection->getTableName('core_config_data')} where `path`='{$path}'");
+			$connection->query("insert into {$this->resourceConnection->getTableName('core_config_data')} set `config_id`={$configData['config_id']}, `scope`='default', `scope_id`=0, `path`='{$configData['path']}', `value`='{$configData['value']}'");
 		}
 		return isset($configData['value']) ? $configData['value'] : '';
 	}

@@ -7,16 +7,22 @@
 namespace Digidirect\Qantas\Model;
 
 use \Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
 class ConfigProvider implements ConfigProviderInterface {
 
+    /**
+     * @var CheckoutSession
+     */
+    private $checkoutSession;
+
+    public function __construct(CheckoutSession $checkoutSession)
+    {
+        $this->checkoutSession = $checkoutSession;
+    }
+
     public function getConfig() {
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-
-        $items = $cart->getQuote()->getAllItems();
+        $items = $this->checkoutSession->getQuote()->getAllItems();
 
         $qffPoints = [];
         $config = [];

@@ -1,6 +1,8 @@
 <?php
 namespace Digidirect\AI\Controller\Adminhtml\Integration;
 
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
+
 /**
  * Class RunAbstract
  * @package Digidirect\AI\Controller\Adminhtml\Integration
@@ -28,6 +30,11 @@ abstract class RunAbstract extends \Magento\Backend\App\Action
     protected $engineHelper;
 
     /**
+     * @var JsonSerializer
+     */
+    protected $jsonSerializer;
+
+    /**
      * RunAbstract constructor.
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory
@@ -38,11 +45,13 @@ abstract class RunAbstract extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
-        \Digidirect\AI\Helper\Engine $engineHelper
+        \Digidirect\AI\Helper\Engine $engineHelper,
+        JsonSerializer $jsonSerializer
     ) {
         $this->scheduleFactory = $scheduleFactory;
         $this->layoutFactory = $layoutFactory;
         $this->engineHelper = $engineHelper;
+        $this->jsonSerializer = $jsonSerializer;
         parent::__construct($context);
     }
 
@@ -56,7 +65,7 @@ abstract class RunAbstract extends \Magento\Backend\App\Action
             $result = $this->result;
         }
         return $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
+            $this->jsonSerializer->serialize($result)
         );
     }
 

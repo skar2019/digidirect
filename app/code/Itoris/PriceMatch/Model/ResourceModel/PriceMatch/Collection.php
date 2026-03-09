@@ -32,6 +32,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected $registry;
     protected $configurableProduct;
     protected $productFactory;
+    protected $productMetadata;
+    protected $attributeRepository;
 
     public function __construct
     (
@@ -42,12 +44,16 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         \Magento\Framework\Registry $registry,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProduct,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
+        \Magento\Eav\Api\AttributeRepositoryInterface $attributeRepository,
         \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     )
     {
         $this->productFactory = $productFactory;
         $this->configurableProduct = $configurableProduct;
+        $this->productMetadata = $productMetadata;
+        $this->attributeRepository = $attributeRepository;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
 
         $this->registry = $registry;
@@ -69,12 +75,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     public function addItorisAttr()
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
-        $indexColumn = $productMetadata->getEdition() != 'Community' ? 'row_id' : 'entity_id';
+        $indexColumn = $this->productMetadata->getEdition() != 'Community' ? 'row_id' : 'entity_id';
 
-        $attributeRepository = $objectManager->create('Magento\Eav\Api\AttributeRepositoryInterface');
-        $attrNameId = $attributeRepository->get(\Magento\Catalog\Model\Product::ENTITY, 'name')->getAttributeId();
+        $attrNameId = $this->attributeRepository
+            ->get(\Magento\Catalog\Model\Product::ENTITY, 'name')
+            ->getAttributeId();
 
         $phpTableArray = [];
         $query = $this->getConnection()->select()->from(['cf' => $this->getTable('itoris_pricematch_data')])

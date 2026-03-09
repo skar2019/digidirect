@@ -7,10 +7,14 @@
 
 $helper = $this->helper('Digidirect\AbstractEntityPopup\Helper\Config');
 $cmsHelper = $this->helper(\Digidirect\Utilities\Helper\Cms::class);
+$currentCustomerHelper = $this->helper(\Magento\Customer\Helper\Session\CurrentCustomer::class);
+$isCustomerVisited = null;
 $entityDataList = $helper->getAbstractEntity('CODE');
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$customer = $objectManager->create('Magento\Customer\Model\Session')->getCustomer();
-$isCustomerVisited = $customer->getData('is_visited');
+if ($currentCustomerHelper->getCustomerId()) {
+    $customer = $currentCustomerHelper->getCustomer();
+    $attribute = $customer->getCustomAttribute('is_visited');
+    $isCustomerVisited = $attribute ? $attribute->getValue() : null;
+}
 ?>
 <?php if ($entityDataList): ?>
 
@@ -216,8 +220,8 @@ $isCustomerVisited = $customer->getData('is_visited');
         );
     </script>
     <?php
-    if ($customer->getData('is_visited') == null ) {
-        $customer->setData('is_visited', '1');
+    if ($isCustomerVisited == null ) {
+        $customer->setCustomAttribute('is_visited', '1');
         $helper->saveCustomerAttribute($customer,'is_visited');
     }
     ?>

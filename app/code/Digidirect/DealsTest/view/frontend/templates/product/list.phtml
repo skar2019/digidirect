@@ -210,19 +210,14 @@ $currentPage = $this->getRequest()->getFullActionName();
                     ?>
 
                     <?php
-                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                    $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
-                    $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-                    $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
-                    $storeId = $storeManager->getStore()->getStoreId();
-                    $reviewFactory->getEntitySummary($product, $storeId);
-
-                    $ratingSummary = $product->getRatingSummary()->getRatingSummary();
-                    $reviewCount = $product->getRatingSummary()->getReviewsCount();
+                    $reviewsHtml = $block->getReviewsSummaryHtml($_product, $templateType, true);
+                    $ratingData = $_product->getRatingSummary();
+                    $ratingSummary = $ratingData ? (int)$ratingData->getRatingSummary() : 0;
+                    $reviewCount = $ratingData ? (int)$ratingData->getReviewsCount() : 0;
                     ?>
 
                     <?php if ($reviewCount > 0) : ?>
-                        <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
+                        <div><?php echo $reviewsHtml ?></div>
                     <?php else: ?>
                         <div class="product-reviews-summary short">
                             <div class="rating-summary">

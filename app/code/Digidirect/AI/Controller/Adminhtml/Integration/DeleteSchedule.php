@@ -23,12 +23,14 @@ class DeleteSchedule extends RunAbstract
      * @param \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory
      * @param \Digidirect\AI\Helper\Engine $engineHelper
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory,
         \Digidirect\AI\Helper\Engine $engineHelper,
-        \Magento\Framework\View\LayoutFactory $layoutFactory
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         $this->scheduleFactory = $scheduleFactory;
         $this->result = [
@@ -44,7 +46,7 @@ class DeleteSchedule extends RunAbstract
             ]
         ];
 
-        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper);
+        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper, $jsonSerializer);
     }
 
     /**

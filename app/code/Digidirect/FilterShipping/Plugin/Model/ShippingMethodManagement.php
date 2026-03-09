@@ -1,14 +1,34 @@
 <?php
 namespace Digidirect\FilterShipping\Plugin\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Checkout\Model\Cart;
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 class ShippingMethodManagement {
+   /**
+    * @var GetSourceItemsBySku
+    */
+   private $getSourceItemsBySku;
+
+   /**
+    * @var Cart
+    */
+   private $cart;
+
+   /**
+    * @var ProductRepositoryInterface
+    */
+   private $productRepository;
    
    public function __construct(
-       GetSourceItemsBySku $getSourceItemsBySku
+       GetSourceItemsBySku $getSourceItemsBySku,
+       Cart $cart,
+       ProductRepositoryInterface $productRepository
    ) {
        $this->getSourceItemsBySku = $getSourceItemsBySku;
+       $this->cart = $cart;
+       $this->productRepository = $productRepository;
    }
 
    public function afterEstimateByExtendedAddress($shippingMethodManagement, $output)
@@ -17,11 +37,7 @@ class ShippingMethodManagement {
    }
    private function filterOutput($output)
    {
-       
-       $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-       $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-
-       $items = $cart->getQuote()->getAllItems();
+       $items = $this->cart->getQuote()->getAllItems();
 
        $stockArray = [];
        
@@ -29,8 +45,7 @@ class ShippingMethodManagement {
            
            $qty = 0;
            $prodId = $item->getProductId();
-           $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-           $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+           $product = $this->productRepository->getById($prodId);
 
            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 

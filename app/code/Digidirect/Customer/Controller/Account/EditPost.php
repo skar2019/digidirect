@@ -8,7 +8,6 @@
 
 namespace Digidirect\Customer\Controller\Account;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Filesystem\DirectoryList as dir;
 use Magento\Framework\Filesystem as filesys;
 use Magento\Framework\File\Csv as csv;
@@ -90,9 +89,6 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             $status = false;
             $response = json_decode($initial_response);
 
-
-//            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-//            $path= $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
 
 //            $fileDirectoryPath = $path->getPath('var');
 //

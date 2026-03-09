@@ -4,17 +4,28 @@ namespace Digidirect\DigiSecondsForm\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Mail\Template\TransportBuilder;
-
+use Digidirect\DigiSecondsForm\Model\DigiSecondsFormFactory;
 
 class Index extends Action
 {
+    /** @var TransportBuilder */
+    protected $transportBuilder;
+
+    /** @var DigiSecondsFormFactory */
+    private $digiSecondsFormFactory;
+
+    /* @param Context $context
+     * @param TransportBuilder $transportBuilder
+     * @param DigiSecondsFormFactory $digiSecondsFormFactory
+     */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
-        
+        TransportBuilder $transportBuilder,
+        DigiSecondsFormFactory $digiSecondsFormFactory
     ) {
         parent::__construct($context);
         $this->transportBuilder = $transportBuilder;
+        $this->digiSecondsFormFactory  = $digiSecondsFormFactory;
     }   
     public function execute()
     {
@@ -57,11 +68,19 @@ class Index extends Action
         $email->addTo($to, $nameTo);
         $email->addBcc($bcc);
         $email->send();
-        
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\DigiSecondsForm\Model\DigiSecondsForm');
-        $data->setData($post);
+
+
+        $saveData = [
+            'name' => trim((string)$firstname . ' ' . (string)$lastname),
+            'email' => (string)$email,
+            'telephone' => (string)$phone,
+            'comment' => (string)$notes
+        ];
+
+        $data = $this->digiSecondsFormFactory->create();
+        $data->setData($saveData);
         $data->save();
+
 //        echo "success";
         /* echo "hello";
         exit; */

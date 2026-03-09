@@ -1,4 +1,4 @@
-
+<?php $quoteHelper = $this->helper('Digidirect\Digi\Helper\Quote'); ?>
 <div class="panel wrapper">
     <div class="panel header">
 
@@ -15,11 +15,7 @@
             <div class="header-links-account">
                 <a class="digibusiness-link" href="/b2b" title="digiClub">digiDirect Business</a>
                 <a class="digiclub-link" href="/digiclub" title="digiClub">digiClub</a>
-                <?php
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
-                
-                if ($customerSession->isLoggedIn() == true) { ?>
+                <?php if ($quoteHelper->isCustomerLoggedIn()) { ?>
                     <a class="register-link" href="/customer/account" title="Account">My Account</a>
                     <a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
                 <?php } else { ?>

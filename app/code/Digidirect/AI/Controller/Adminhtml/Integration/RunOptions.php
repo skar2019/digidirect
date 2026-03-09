@@ -32,6 +32,7 @@ class RunOptions extends RunAbstract
      * @param \Digidirect\AI\Helper\Engine $engineHelper
      * @param \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         Context $context,
@@ -39,13 +40,14 @@ class RunOptions extends RunAbstract
         \Digidirect\AI\Model\Integrations\IntegrationsFactory $integration,
         \Digidirect\AI\Helper\Engine $engineHelper,
         \Digidirect\AI\Model\Integrations\ScheduleFactory $scheduleFactory,
-        \Magento\Framework\View\LayoutFactory $layoutFactory
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         $this->sysLog = $logger;
         $this->integrationFactory = $integration;
         $this->scheduleFactory = $scheduleFactory;
         $this->layoutFactory = $layoutFactory;
-        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper);
+        parent::__construct($context, $scheduleFactory, $layoutFactory, $engineHelper, $jsonSerializer);
     }
 
     /**

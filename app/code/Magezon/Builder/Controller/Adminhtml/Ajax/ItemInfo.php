@@ -22,15 +22,23 @@ class ItemInfo extends \Magento\Backend\App\Action
     protected $sourcesFactory;
 
     /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    /**
      * @param \Magento\Backend\App\Action\Context  $context        
-     * @param \Magezon\Builder\Data\SourcesFactory $sourcesFactory 
+     * @param \Magezon\Builder\Data\SourcesFactory $sourcesFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magezon\Builder\Data\SourcesFactory $sourcesFactory
+        \Magezon\Builder\Data\SourcesFactory $sourcesFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         parent::__construct($context);
         $this->sourcesFactory = $sourcesFactory;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     public function execute()
@@ -52,7 +60,7 @@ class ItemInfo extends \Magento\Backend\App\Action
             $this->messageManager->addExceptionMessage($e, __('Something went wrong while processing the request.'));
         }
         $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($data)
+            $this->jsonSerializer->serialize($data)
         );
         return;
     }

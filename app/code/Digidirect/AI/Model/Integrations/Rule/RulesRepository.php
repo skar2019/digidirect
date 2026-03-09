@@ -6,6 +6,11 @@ use Magento\Framework\ObjectManagerInterface;
 class RulesRepository
 {
     /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
+
+    /**
      * @var \Digidirect\AI\Model\Integrations\Config\Data
      */
     protected $_integrationsConfig;

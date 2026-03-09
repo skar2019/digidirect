@@ -4,7 +4,6 @@ namespace Digidirect\AbstractGiftCard\Service\Data;
 
 use Magento\Framework\ObjectManagerInterface;
 use Digidirect\AbstractGiftCard\Model\ServiceInterface;
-use \Magento\Checkout\Model\Session;
 
 class ServiceDataObjectFactory implements ServiceDataObjectFactoryInterface
 {

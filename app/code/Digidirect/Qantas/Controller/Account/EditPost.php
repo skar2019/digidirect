@@ -8,7 +8,6 @@
 
 namespace Digidirect\Qantas\Controller\Account;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Filesystem\DirectoryList as dir;
 use Magento\Framework\Filesystem as filesys;
 use Magento\Framework\File\Csv as csv;
@@ -20,6 +19,43 @@ use Magento\Framework\Filesystem\Directory\WriteInterface;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class EditPost extends \Magento\Customer\Controller\Account\EditPost {
+
+    /**
+     * @var dir
+     */
+    private $directoryList;
+
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
+        \Magento\Customer\Model\CustomerExtractor $customerExtractor,
+        dir $directoryList,
+        ?\Magento\Framework\Escaper $escaper = null,
+        ?\Magento\Customer\Model\AddressRegistry $addressRegistry = null,
+        ?filesys $filesystem = null,
+        ?\Magento\Customer\Api\SessionCleanerInterface $sessionCleaner = null,
+        ?\Magento\Customer\Model\AccountConfirmation $accountConfirmation = null,
+        ?\Magento\Customer\Model\Url $customerUrl = null
+    ) {
+        $this->directoryList = $directoryList;
+        parent::__construct(
+            $context,
+            $customerSession,
+            $accountManagement,
+            $customerRepository,
+            $formKeyValidator,
+            $customerExtractor,
+            $escaper,
+            $addressRegistry,
+            $filesystem,
+            $sessionCleaner,
+            $accountConfirmation,
+            $customerUrl
+        );
+    }
 
     public function execute() {
 
@@ -83,11 +119,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             $status = false;
             $response = json_decode($initial_response);
 
-
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $path = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-
-            $fileDirectoryPath = $path->getPath('var');
+            $fileDirectoryPath = $this->directoryList->getPath('var');
 
 
             $filePath = $fileDirectoryPath . '/ProntoApi/';

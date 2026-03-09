@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Theme\Model\ResourceModel\Theme\Collection as ThemeCollection;
 use \Magento\Catalog\Model\ResourceModel\Product\Image as ProductImage;
 use Magento\Framework\Filesystem;
@@ -43,10 +42,6 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
      */
     private $appState;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
     /**
      * @var ThemeCollection
      */
@@ -89,7 +84,6 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
      * ImagesResizeCommand constructor.
      * @param State $appState
      * @param ImageResize $resize
-     * @param ObjectManagerInterface $objectManager
      * @param ThemeCollection $themeCollection
      * @param Filesystem $filesystem
      * @param ProductImage $productImage
@@ -103,7 +97,6 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
     public function __construct(
         State $appState,
         ImageResize $resize,
-        ObjectManagerInterface $objectManager,
         ThemeCollection $themeCollection,
         Filesystem $filesystem,
         ProductImage $productImage,
@@ -117,7 +110,6 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
         parent::__construct();
         $this->resize = $resize;
         $this->appState = $appState;
-        $this->objectManager = $objectManager;
         $this->themeCollection = $themeCollection;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->productImage = $productImage;
@@ -166,10 +158,7 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
             $generator = $this->resizeFromThemes($imageSizes, !empty($selectedThemes) ? $selectedThemes : null);
 
             /** @var ProgressBar $progress */
-            $progress = $this->objectManager->create(ProgressBar::class, [
-                'output' => $output,
-                'max' => $generator->current()
-            ]);
+            $progress = new ProgressBar($output, $generator->current());
             $progress->setFormat(
                 "%current%/%max% [%bar%] %percent:3s%% %elapsed% %memory:6s% \t| <info>%message%</info>"
             );

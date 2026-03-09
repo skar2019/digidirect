@@ -7,7 +7,7 @@
 namespace Digidirect\AI\Controller\Adminhtml\Logs;
 
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\Controller\ResultFactory;
 use Digidirect\AI\Helper\Logger as LoggerHelper;
 
 /**
@@ -116,12 +116,12 @@ class Sendlogsemail extends \Magento\Backend\App\Action
      * Send json response
      *
      * @param [] $result
-     * @return string
+     * @return \Magento\Framework\Controller\ResultInterface
      */
     protected function sendResponse($result)
     {
-        return $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
-        );
+        return $this->resultFactory
+            ->create(ResultFactory::TYPE_JSON)
+            ->setData($result);
     }
 }

@@ -44,12 +44,8 @@
         }
     }
     
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
-    $customerGroupId = 0;
-    if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
-    }
+    $quoteHelper = $this->helper('Digidirect\Digi\Helper\Quote');
+    $customerGroupId = $quoteHelper->getCustomerGroupId();
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($priceModel->getAmount() < $marketPlacePrice)): ?>
@@ -170,4 +166,3 @@
         </span>
     <?php endif?>
 <?php endif; ?>
-

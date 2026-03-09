@@ -37,6 +37,21 @@ class Feed extends \Magento\AdminNotification\Model\Feed
     const XML_LAST_UPDATE_PATH = 'system/itorisnotification/last_update';
 	
 	private $_installedModules = array();
+
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
+    private $resourceConnection;
+
+    /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    private $moduleList;
+
+    /**
+     * @var \Magento\Framework\Message\ManagerInterface
+     */
+    protected $_messageManager;
 	
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -47,6 +62,9 @@ class Feed extends \Magento\AdminNotification\Model\Feed
         \Magento\Framework\App\DeploymentConfig $deploymentConfig,
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         \Magento\Framework\UrlInterface $urlBuilder,
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -58,6 +76,9 @@ class Feed extends \Magento\AdminNotification\Model\Feed
         $this->_deploymentConfig = $deploymentConfig;
         $this->productMetadata   = $productMetadata;
         $this->urlBuilder        = $urlBuilder;
+        $this->resourceConnection = $resourceConnection;
+        $this->moduleList = $moduleList;
+        $this->_messageManager = $messageManager;
     }
 	
     public function getFeedUrl()
@@ -217,18 +238,16 @@ class Feed extends \Magento\AdminNotification\Model\Feed
 	}
 	
 	private function setConfigValue($path, $value) {
-        $resource = $this->_objectManager->get('Magento\Framework\App\ResourceConnection');
-        $connection = $resource->getConnection('write');
-		$connection->query("update {$resource->getTableName('core_config_data')} set `value`='{$value}' where `path`='{$path}'");
+        $connection = $this->resourceConnection->getConnection('write');
+		$connection->query("update {$this->resourceConnection->getTableName('core_config_data')} set `value`='{$value}' where `path`='{$path}'");
 	}
 	
 	private function getConfigValue($path) {
-        $resource = $this->_objectManager->get('Magento\Framework\App\ResourceConnection');
-        $connection = $resource->getConnection('write');
-		$configData = $connection->fetchRow("select * from {$resource->getTableName('core_config_data')} where `path`='{$path}'");
+        $connection = $this->resourceConnection->getConnection('write');
+		$configData = $connection->fetchRow("select * from {$this->resourceConnection->getTableName('core_config_data')} where `path`='{$path}'");
 		if (isset($configData['config_id']) && ($configData['scope'] != 'default' || (int)$configData['scope_id'] != 0)) {
-			$connection->query("delete from {$resource->getTableName('core_config_data')} where `path`='{$path}'");
-			$connection->query("insert into {$resource->getTableName('core_config_data')} set `config_id`={$configData['config_id']}, `scope`='default', `scope_id`=0, `path`='{$configData['path']}', `value`='{$configData['value']}'");
+			$connection->query("delete from {$this->resourceConnection->getTableName('core_config_data')} where `path`='{$path}'");
+			$connection->query("insert into {$this->resourceConnection->getTableName('core_config_data')} set `config_id`={$configData['config_id']}, `scope`='default', `scope_id`=0, `path`='{$configData['path']}', `value`='{$configData['value']}'");
 		}
 		return isset($configData['value']) ? $configData['value'] : '';
 	}

@@ -1,9 +1,8 @@
 <?php
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $customer = $block->getCustomer();
 
-    if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
+    if ($customer && $customer->getId()) {
+        $customerGroupId = $customer->getGroupId();
         if ($customerGroupId == 10) {
             $isDigiClub = 1;
             $isChecked = "checked";
@@ -16,7 +15,7 @@
         $isChecked = "";
     }
 
-$dobValue = $customerSession->getCustomer()->getData("dob");
+$dobValue = $customer ? $customer->getData("dob") : "";
 $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
 ?>
 
@@ -52,7 +51,7 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
                     <div class="control">
                         <input type="text" id="digiclub-firstname"
                             name="digiclub-firstname"
-                            value="<?= $customerSession->getCustomer()->getData("firstname") ?>"
+                            value="<?= $customer ? $customer->getData("firstname") : "" ?>"
                             title="First Name"
                             class="input-text digiclub-field" required/>
                     </div>
@@ -62,7 +61,7 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
                     <div class="control">
                         <input type="text" id="digiclub-lastname"
                             name="digiclub-lastname"
-                            value="<?= $customerSession->getCustomer()->getData("lastname") ?>"
+                            value="<?= $customer ? $customer->getData("lastname") : "" ?>"
                             title="Last Name"
                             class="input-text digiclub-field required" required/>
                     </div>
@@ -71,7 +70,7 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
                     <label class="label" for="digiclub-email"><span>Email</span></label>
                     <div class="control">
                         <input type="email" name="digiclub-email" id="digiclub-email" autocomplete="email" data-input="change-email"
-                            value="<?= $customerSession->getCustomer()->getEmail() ?>"
+                            value="<?= $customer ? $customer->getEmail() : "" ?>"
                             title="Email"
                             class="input-text digiclub-field"
                             data-validate="{required:true, 'validate-email':true}" required/>
@@ -82,7 +81,7 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
                     <div class="control">
                         <input type="number" id="digiclub-contact-number"
                             name="digiclub-contact-number"
-                            value="<?= $customerSession->getCustomer()->getData("contact_number") ?>"
+                            value="<?= $customer ? $customer->getData("contact_number") : "" ?>"
                             title="Contact Number"
                             class="input-text digiclub-field" required/>
                     </div>
@@ -98,7 +97,7 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
                             value="<?= $dobFormatted ?>"
                             title="Date of Birth"
                             class="input-text digiclub-field"
-                            style="padding: 22px 12px !important;" <?php echo $customerSession->getCustomer()->getData("dob") ? 'disabled' : ''; ?>/>
+                            style="padding: 22px 12px !important;" <?php echo ($customer && $customer->getData("dob")) ? 'disabled' : ''; ?>/>
                     </div>
                 </div>
 
@@ -156,4 +155,3 @@ $dobFormatted = $dobValue ? date("d/m/Y", strtotime($dobValue)) : "";
 
     });
 </script>
-
