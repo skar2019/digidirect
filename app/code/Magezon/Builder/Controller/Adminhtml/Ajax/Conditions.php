@@ -27,18 +27,26 @@ class Conditions extends \Magento\Backend\App\Action
     protected $ruleFactory;
 
     /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    /**
      * @param \Magento\Backend\App\Action\Context      $context       
      * @param \Magento\Framework\View\LayoutFactory    $layoutFactory 
-     * @param \Magento\CatalogWidget\Model\RuleFactory $ruleFactory   
+     * @param \Magento\CatalogWidget\Model\RuleFactory $ruleFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
-        \Magento\CatalogWidget\Model\RuleFactory $ruleFactory
+        \Magento\CatalogWidget\Model\RuleFactory $ruleFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         parent::__construct($context);
         $this->layoutFactory = $layoutFactory;
         $this->ruleFactory   = $ruleFactory;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     public function execute()
@@ -60,7 +68,7 @@ class Conditions extends \Magento\Backend\App\Action
             $result['message'] = __('Something went wrong while process the request.');
             $this->messageManager->addExceptionMessage($e, __('Something went wrong while processing the request.'));
         }
-        $this->getResponse()->setBody($this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result));
+        $this->getResponse()->setBody($this->jsonSerializer->serialize($result));
     }
 
     /**

@@ -32,17 +32,25 @@ class WysiwygConfigProvider
     protected $settings;
 
     /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    private $productMetadata;
+
+    /**
      * @param \Magento\Cms\Model\Wysiwyg\Config        $wysiwygConfig
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param array                                    $settings
      */
     public function __construct(
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         array $settings
     ) {
         $this->wysiwygConfig = $wysiwygConfig;
         $this->assetRepo = $assetRepo;
+        $this->productMetadata = $productMetadata;
         $this->settings = $settings;
     }
 
@@ -64,9 +72,7 @@ class WysiwygConfigProvider
         if (!isset($settings['plugins'])) {
             $settings['plugins'] = [];
         }
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
-        if ($productMetadata->getVersion() >= '2.4.0') {
+        if ($this->productMetadata->getVersion() >= '2.4.0') {
             //fontselect
             $settings['toolbar'] = 'fullscreen | undo redo | formatselect | fontsizeselect | lineheightselect | forecolor backcolor ' .
                 '| bold italic underline strikethrough | alignleft aligncenter alignright | numlist bullist ' .
@@ -105,9 +111,9 @@ class WysiwygConfigProvider
                 $settings = array_replace_recursive($settings, $this->settings);
             }
                       
-            if ($productMetadata->getVersion() >= '2.4.4') {
+            if ($this->productMetadata->getVersion() >= '2.4.4') {
                 $settings['tinymce5'] = true;
-            } else if ($productMetadata->getVersion() > '2.4.0') {
+            } else if ($this->productMetadata->getVersion() > '2.4.0') {
                 $settings['tinymce4'] = true;
             }
         }

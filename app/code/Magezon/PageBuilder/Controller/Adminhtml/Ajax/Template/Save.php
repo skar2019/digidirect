@@ -26,6 +26,26 @@ class Save extends \Magento\Backend\App\Action
     const ADMIN_RESOURCE = 'Magezon_PageBuilder::template_save';
 
     /**
+     * @var \Magezon\PageBuilder\Model\TemplateFactory
+     */
+    private $templateFactory;
+
+    /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magezon\PageBuilder\Model\TemplateFactory $templateFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+    ) {
+        parent::__construct($context);
+        $this->templateFactory = $templateFactory;
+        $this->jsonSerializer = $jsonSerializer;
+    }
+
+    /**
      * Save action
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -37,7 +57,7 @@ class Save extends \Magento\Backend\App\Action
         $data             = $this->getRequest()->getPostValue();
         if ($data) {
             /** @var \Magezon\PageBuilder\Model\Template $model */
-            $model = $this->_objectManager->create(\Magezon\PageBuilder\Model\Template::class);
+            $model = $this->templateFactory->create();
             try {
                 $model->setData($data);
                 $model->save();
@@ -50,7 +70,7 @@ class Save extends \Magento\Backend\App\Action
             }
         }
         $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
+            $this->jsonSerializer->serialize($result)
         );
 
         return $result;

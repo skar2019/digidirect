@@ -37,14 +37,22 @@ class Save extends \Magento\Backend\App\Action
     protected $cacheTypeList;
 
     /**
+     * @var \Magezon\PageBuilder\Model\TemplateFactory
+     */
+    protected $templateFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context                   $context
      * @param \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
+     * @param \Magezon\PageBuilder\Model\TemplateFactory            $templateFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
+        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor,
+        \Magezon\PageBuilder\Model\TemplateFactory $templateFactory
     ) {
-        $this->dataPersistor = $dataPersistor;
+        $this->dataPersistor  = $dataPersistor;
+        $this->templateFactory = $templateFactory;
         parent::__construct($context);
     }
 
@@ -65,7 +73,7 @@ class Save extends \Magento\Backend\App\Action
         }
         if ($data) {
             /** @var \Magezon\PageBuilder\Model\Template $model */
-            $model = $this->_objectManager->create(\Magezon\PageBuilder\Model\Template::class);
+            $model = $this->templateFactory->create();
             $id    = $this->getRequest()->getParam('template_id');
 
             try {
@@ -84,7 +92,7 @@ class Save extends \Magento\Backend\App\Action
                 }
 
                 if ($redirectBack === 'save_and_duplicate') {
-                    $duplicate = $this->_objectManager->create(\Magezon\PageBuilder\Model\Template::class);
+                    $duplicate = $this->templateFactory->create();
                     $duplicate->setData($model->getData());
                     $duplicate->setCreatedAt(null);
                     $duplicate->setUpdatedAt(null);

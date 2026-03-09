@@ -16,6 +16,19 @@ namespace Magezon\Builder\Controller\Adminhtml\Ajax;
 
 class ConditionsValue extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+    ) {
+        parent::__construct($context);
+        $this->jsonSerializer = $jsonSerializer;
+    }
+
     public function execute()
     {
         $result['status'] = false;
@@ -23,7 +36,7 @@ class ConditionsValue extends \Magento\Backend\App\Action
             $post    = $this->getRequest()->getPostValue();
             $options = [];
             parse_str($post['values'], $options);
-            $result['value']  = json_encode($options['parameters']['conditions']);
+            $result['value']  = $this->jsonSerializer->serialize($options['parameters']['conditions']);
             $result['status'] = true;
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $result['message'] = $e->getMessage();
@@ -32,6 +45,6 @@ class ConditionsValue extends \Magento\Backend\App\Action
             $result['message'] = __('Something went wrong while process the request.');
             $this->messageManager->addExceptionMessage($e, __('Something went wrong while processing the request.'));
         }
-        $this->getResponse()->setBody($this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result));
+        $this->getResponse()->setBody($this->jsonSerializer->serialize($result));
     }
 }

@@ -51,15 +51,23 @@ class ImageBuilder
     protected $attributes = [];
 
     /**
+     * @var \Magento\Framework\App\ProductMetadataInterface
+     */
+    private $productMetadata;
+
+    /**
      * @param HelperFactory $helperFactory
      * @param ImageFactory $imageFactory
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      */
     public function __construct(
         HelperFactory $helperFactory,
-        \Magento\Catalog\Block\Product\ImageFactory $imageFactory
+        \Magento\Catalog\Block\Product\ImageFactory $imageFactory,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata
     ) {
         $this->helperFactory = $helperFactory;
         $this->imageFactory = $imageFactory;
+        $this->productMetadata = $productMetadata;
     }
 
     /**
@@ -105,9 +113,7 @@ class ImageBuilder
      */
     protected function getCustomAttributes()
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
-        if ($productMetadata->getVersion() < '2.4.0') {
+        if ($this->productMetadata->getVersion() < '2.4.0') {
             $result = [];
             foreach ($this->attributes as $name => $value) {
                 $result[] = $name . '="' . $value . '"';
@@ -184,7 +190,6 @@ class ImageBuilder
      */
     public function create(?Product $product = null, $imageId = null, ?array $attributes = null)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $attrs = [];
         if ($this->getImageWidth()) {
             $attrs['width'] = $this->getImageWidth();
@@ -229,9 +234,7 @@ class ImageBuilder
             'class'                => 'product-image-photo'
         ];
 
-        $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
-
-        if ($productMetadata->getVersion() < '2.3.0') {
+        if ($this->productMetadata->getVersion() < '2.3.0') {
             return $this->imageFactory->create(['data' => $data]);
         } else {
             $helper = $this->imageFactory->create($this->product, $this->imageId, $attrs);

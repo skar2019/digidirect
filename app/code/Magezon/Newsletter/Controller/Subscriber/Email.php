@@ -22,15 +22,23 @@ class Email extends \Magento\Framework\App\Action\Action
     protected $subscriberFactory;
 
     /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    private $jsonSerializer;
+
+    /**
      * @param \Magento\Framework\App\Action\Context       $context
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) {
         parent::__construct($context);
         $this->subscriberFactory = $subscriberFactory;
+        $this->jsonSerializer = $jsonSerializer;
     }
 
     public function execute()
@@ -55,7 +63,7 @@ class Email extends \Magento\Framework\App\Action\Action
             }
         }
         $this->getResponse()->representJson(
-            $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
+            $this->jsonSerializer->serialize($result)
         );
         return;
     }

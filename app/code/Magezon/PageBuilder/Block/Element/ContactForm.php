@@ -17,6 +17,20 @@ namespace Magezon\PageBuilder\Block\Element;
 class ContactForm extends \Magezon\Builder\Block\Element
 {
     /**
+     * @var \Magento\Contact\ViewModel\UserDataProvider
+     */
+    private $userDataProvider;
+
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Contact\ViewModel\UserDataProvider $userDataProvider,
+        array $data = []
+    ) {
+        parent::__construct($context, $data);
+        $this->userDataProvider = $userDataProvider;
+    }
+
+    /**
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -24,19 +38,18 @@ class ContactForm extends \Magezon\Builder\Block\Element
     {
         $uniqId = uniqid('contactForm', true);
         $sanitizedUniqId = str_replace([',', '.'], ['', ''], $uniqId);
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $viewModel = $objectManager->get(\Magento\Contact\ViewModel\UserDataProvider::class);
         $buttonLockManager = null;
         if (class_exists('\Magento\Framework\View\Element\ButtonLockManager')) {
-            $buttonLockManager = $objectManager->get(\Magento\Framework\View\Element\ButtonLockManager::class);
+            $buttonLockManager = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Magento\Framework\View\Element\ButtonLockManager::class);
         }
+
         $contactForm = $this->getLayout()->createBlock(
             \Magento\Contact\Block\ContactForm::class,
             $sanitizedUniqId,
             [
                 'data' => [
-                    'view_model' => $viewModel,
+                    'view_model' => $this->userDataProvider,
                     'button_lock_manager' => $buttonLockManager
                 ]
             ]

@@ -22,16 +22,32 @@ class OnInsert extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
     protected $resultRawFactory;
 
     /**
+     * @var \Magezon\Core\Helper\Wysiwyg\Images
+     */
+    private $imagesHelper;
+
+    /**
+     * @var \Magento\Catalog\Helper\Data
+     */
+    private $catalogHelper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
+     * @param \Magezon\Core\Helper\Wysiwyg\Images $imagesHelper
+     * @param \Magento\Catalog\Helper\Data $catalogHelper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
+        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
+        \Magezon\Core\Helper\Wysiwyg\Images $imagesHelper,
+        \Magento\Catalog\Helper\Data $catalogHelper
     ) {
         $this->resultRawFactory = $resultRawFactory;
+        $this->imagesHelper = $imagesHelper;
+        $this->catalogHelper = $catalogHelper;
         parent::__construct($context, $coreRegistry);
     }
 
@@ -42,17 +58,16 @@ class OnInsert extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
      */
     public function execute()
     {
-        $helper = $this->_objectManager->get('Magezon\Core\Helper\Wysiwyg\Images');
         $storeId = $this->getRequest()->getParam('store');
 
         $filename = $this->getRequest()->getParam('filename');
-        $filename = $helper->idDecode($filename);
+        $filename = $this->imagesHelper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
 
-        $this->_objectManager->get('Magento\Catalog\Helper\Data')->setStoreId($storeId);
-        $helper->setStoreId($storeId);
+        $this->catalogHelper->setStoreId($storeId);
+        $this->imagesHelper->setStoreId($storeId);
 
-        $image = $helper->getImageHtmlDeclaration($filename, $asIs);
+        $image = $this->imagesHelper->getImageHtmlDeclaration($filename, $asIs);
 
         /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
         $resultRaw = $this->resultRawFactory->create();
