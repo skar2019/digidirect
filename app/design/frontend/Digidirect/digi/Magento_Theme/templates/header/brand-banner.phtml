@@ -1,11 +1,6 @@
 <?php 
 
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
-$_helper = $this->helper('Magento\Catalog\Helper\Output');
-
-$urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
-$currentUrl = $urlInterface->getCurrentUrl();
+$currentUrl = $block->getRequest()->getRequestUri();
 
 $isStoreBrandSmallRig = str_contains($currentUrl, 'smallrig-store');
 $isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');

@@ -1,9 +1,4 @@
 <?php
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->get('Magento\Customer\Model\Session');
-    $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
-    $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
-    $googleConversion = $this->helper('Digidirect\Digi\Helper\GoogleConversion');
     $lastOrder = $block->getRealOrderDetail();
     $items = $lastOrder->getAllItems();
 ?>

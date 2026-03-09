@@ -11,16 +11,12 @@
  * @var $block \Magento\LayeredNavigation\Block\Navigation
  */
 $currentPage = $this->getRequest()->getFullActionName();
+$currentCategory = $block->getLayer()->getCurrentCategory();
 if ($currentPage != "catalogsearch_result_index") {
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
+    $categoryId = $currentCategory->getId();
 }
 
-$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
-$categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
-
-$categoryDigiPrint = $categoryFactory->create()->load(2881);
+$categoryDigiPrint = $currentCategory->getCollection()->addIdFilter(2881)->getFirstItem();
 $allChildrenCategoryIdsDigiPrint = $categoryDigiPrint->getAllChildren(true);
 
 if ($currentPage == "eaa-attribute_option-index") {
