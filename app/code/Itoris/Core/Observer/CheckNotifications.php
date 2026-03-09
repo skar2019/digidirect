@@ -28,37 +28,53 @@ use Magento\Framework\Event\ObserverInterface;
 
 class CheckNotifications implements ObserverInterface
 {
+    /** @var \Magento\Backend\Model\Auth\Session */
+    private $_backendAuthSession;
+
+    /** @var \Itoris\Core\Model\FeedFactory */
+    private $feedFactory;
+
+    /** @var \Magento\Framework\App\RequestInterface */
+    private $request;
+
+    /** @var \Magento\Framework\App\Config\Storage\WriterInterface */
+    private $configWriter;
+
+    /**
+     * CheckNotifications constructor.
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Itoris\Core\Model\FeedFactory $feedFactory
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+     */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-		\Magento\Framework\ObjectManagerInterface $objectManager,
-		\Magento\Framework\Message\ManagerInterface $messageManager
+		\Itoris\Core\Model\FeedFactory $feedFactory,
+		\Magento\Framework\App\RequestInterface $request,
+		\Magento\Framework\App\Config\Storage\WriterInterface $configWriter
     ) {
         $this->_backendAuthSession = $backendAuthSession;
-		$this->_objectManager = $objectManager;
-		$this->messageManager = $messageManager;
+		$this->feedFactory = $feedFactory;
+		$this->request = $request;
+		$this->configWriter = $configWriter;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_backendAuthSession->isLoggedIn()) {
             $this->checkPostHash();
-            $feedModel = $this->_objectManager->create('\Itoris\Core\Model\Feed');
-			$feedModel->moduleList = $this->_objectManager->create('\Magento\Framework\Module\ModuleList');
-			$feedModel->_objectManager = $this->_objectManager;
-			$feedModel->_messageManager = $this->messageManager;
+            $feedModel = $this->feedFactory->create();
             $feedModel->checkUpdate();
 			$feedModel->notify();
         }
     }
     
     public function checkPostHash() {
-        $request = $this->_objectManager->get('Magento\Framework\App\RequestInterface');
-        if ($request->getFullActionName() != 'adminhtml_system_config_save') return;
-        $post = $request->getPost()->toArray();
+        if ($this->request->getFullActionName() != 'adminhtml_system_config_save') return;
+        $post = $this->request->getPost()->toArray();
         if (isset($post['groups']['installed']['fields']) && isset($post['groups']['notifications']) && is_array($post['groups']['installed']['fields'])) {
-            $configWriter = $this->_objectManager->get('Magento\Framework\App\Config\Storage\WriterInterface');
             foreach($post['groups']['installed']['fields'] as $module => $_value) {
-                if (isset($_value['value'])) $configWriter->save('itoris_core/installed/'.$module, $_value['value'], 'default', 0);
+                if (isset($_value['value'])) $this->configWriter->save('itoris_core/installed/'.$module, $_value['value'], 'default', 0);
             }
         }
     }

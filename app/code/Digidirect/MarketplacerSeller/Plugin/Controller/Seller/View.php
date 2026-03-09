@@ -150,7 +150,7 @@ class View extends Action
                 ['category' => $category, 'controller_action' => $this]
             );
         } catch (LocalizedException $e) {
-            $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
+            $this->logger->critical($e);
             return false;
         }
         $this->logger->info('$category->getId(): ' . $category->getId());
