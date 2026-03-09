@@ -1,8 +1,6 @@
 <?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$_product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
-$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
-$addToCartUrl = $listBlock->getAddToCartUrl($_product);
+$_product = $block->getProduct();
+$addToCartUrl = $block->getData('addToCartUrl');
 $seller = $_product->getData('marketplacer_seller');
 ?>
 
