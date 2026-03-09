@@ -110,4 +110,19 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper, $data);
     }
 
+    public function getBrandNewProductBySku($sku)
+    {
+        if (!$sku) {
+            return null;
+        }
+
+        $product = $this->_productCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter('sku', $sku)
+            ->setPageSize(1)
+            ->getFirstItem();
+
+        return $product->getId() ? $product : null;
+    }
+
 }

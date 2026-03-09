@@ -48,6 +48,31 @@ class Search extends Template
     {
         return $this->listProductBlock->getProductPrice($product);
     }
+
+    public function getReviewsSummaryHtml($product, $templateType = false, $displayIfNoReviews = false)
+    {
+        return $this->listProductBlock->getReviewsSummaryHtml($product, $templateType, $displayIfNoReviews);
+    }
+
+    public function getProductDetailsHtml($product)
+    {
+        return $this->listProductBlock->getProductDetailsHtml($product);
+    }
+
+    public function getBrandNewProductBySku($sku)
+    {
+        if (!$sku) {
+            return null;
+        }
+
+        $product = $this->_productCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter('sku', $sku)
+            ->setPageSize(1)
+            ->getFirstItem();
+
+        return $product->getId() ? $product : null;
+    }
     
     public function getProductImage($product)
     {

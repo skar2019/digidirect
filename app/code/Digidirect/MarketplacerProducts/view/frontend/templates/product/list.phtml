@@ -112,8 +112,7 @@ $currentPage = $this->getRequest()->getFullActionName();
                 $d2ItemRating = $_product->getData('item_rating');
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
-                $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
-                $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
+                $brandNewProduct = $block->getBrandNewProductBySku($d2BrandNewProductSKU);
 
                 $categoryIds = $_product->getCategoryIds();
                 $digiSecondsIds = array(2564,2567,2570,2573);
@@ -268,19 +267,12 @@ $currentPage = $this->getRequest()->getFullActionName();
                     ?>
 
                     <?php
-                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                    $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
-                    $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-                    $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
-                    $storeId = $storeManager->getStore()->getStoreId();
-                    $reviewFactory->getEntitySummary($product, $storeId);
-
-                    $ratingSummary = $product->getRatingSummary()->getRatingSummary();
-                    $reviewCount = $product->getRatingSummary()->getReviewsCount();
+                    $reviewsSummaryHtml = $block->getReviewsSummaryHtml($_product, $templateType, true);
+                    $reviewCount = (int) $_product->getReviewsCount();
                     ?>
 
                     <?php if ($reviewCount > 0) : ?>
-                        <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
+                        <div><?php echo $reviewsSummaryHtml ?></div>
                     <?php else: ?>
                         <div class="product-reviews-summary short">
                             <div class="rating-summary">
