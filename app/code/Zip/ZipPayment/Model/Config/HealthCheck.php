@@ -102,10 +102,8 @@ class HealthCheck
         $curlObject = $this->_curlFactory->create();
         // Configure API Credentials
         $apiConfig = \Zip\ZipPayment\MerchantApi\Lib\Configuration::getDefaultConfiguration();
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $storeManager = $objectManager->create(\Magento\Store\Model\StoreManagerInterface::class);
 
-        $storeId = $storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
+        $storeId = $this->_storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
         $publicKey = $publicKey ?? $this->_config->getMerchantPublicKey($storeId);
         $privateKey = $apiKey ?? $this->_config->getMerchantPrivateKey($storeId);
         $environment = $env ?? $this->_config->getEnvironment($storeId);

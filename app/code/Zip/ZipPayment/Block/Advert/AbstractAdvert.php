@@ -4,7 +4,8 @@ namespace Zip\ZipPayment\Block\Advert;
 
 use Zip\ZipPayment\Model\Config;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use \Magento\Framework\Currency;
+use Magento\Framework\Currency;
+use Magento\Framework\Locale\CurrencyInterface as LocaleCurrencyInterface;
 
 /**
  * @category  Zip
@@ -41,6 +42,11 @@ abstract class AbstractAdvert extends \Magento\Framework\View\Element\Template
      * @var PriceCurrencyInterface
      */
     protected $_priceCurrency;
+
+    /**
+     * @var LocaleCurrencyInterface
+     */
+    protected $_localeCurrency;
 
     /**
      * @var string
@@ -81,6 +87,7 @@ abstract class AbstractAdvert extends \Magento\Framework\View\Element\Template
         \Zip\ZipPayment\Helper\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
+        LocaleCurrencyInterface $localeCurrency,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -90,6 +97,7 @@ abstract class AbstractAdvert extends \Magento\Framework\View\Element\Template
         $this->_logger = $logger;
         $this->_checkoutSession = $checkoutSession;
         $this->_priceCurrency = $priceCurrency;
+        $this->_localeCurrency = $localeCurrency;
     }
 
     public function getProductPrice()
@@ -111,9 +119,10 @@ abstract class AbstractAdvert extends \Magento\Framework\View\Element\Template
 
     public function getCurrencyFormat($price)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $currency = $objectManager->get(\Magento\Directory\Model\Currency::class);
-        return $currency->format($price, ['display' => Currency::NO_SYMBOL], false);
+        $currencyCode = $this->_priceCurrency->getCurrency()->getCode();
+        $currency = $this->_localeCurrency->getCurrency($currencyCode);
+
+        return $currency->toCurrency($price, ['display' => Currency::NO_SYMBOL]);
     }
 
     public function getCurrencySymbol()
