@@ -14,7 +14,9 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\ClientFactory;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Module\Manager;
-use Magento\Framework\ObjectManagerInterface;
+use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface as ReCaptchaValidatorInterface;
 use Plumrocket\Newsletterpopup\Block\Popup\Fields\Recaptcha as RecaptchaField;
 use Plumrocket\Newsletterpopup\Helper\Config as ConfigHelper;
 use Plumrocket\Newsletterpopup\Model\Config\Source\ReCaptcha;
@@ -72,8 +74,10 @@ class Validator
      * @param \Magento\Framework\HTTP\ClientFactory $curlClientFactory
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Plumrocket\Newsletterpopup\Helper\Config $configHelper
+     * @param \Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface|null $validationConfigResolver
+     * @param \Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface|null $captchaResponseResolver
+     * @param \Magento\ReCaptchaValidationApi\Api\ValidatorInterface|null $captchaValidator
      */
     public function __construct(
         RequestInterface $request,
@@ -81,13 +85,15 @@ class Validator
         ClientFactory $curlClientFactory,
         RemoteAddress $remoteAddress,
         Manager $moduleManager,
-        ObjectManagerInterface $objectManager,
-        ConfigHelper $configHelper
+        ConfigHelper $configHelper,
+        ValidationConfigResolverInterface $validationConfigResolver = null,
+        CaptchaResponseResolverInterface $captchaResponseResolver = null,
+        ReCaptchaValidatorInterface $captchaValidator = null
     ) {
         if ($moduleManager->isEnabled('Magento_ReCaptchaUi')) {
-            $this->validationConfigResolver = $objectManager->get('Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface');
-            $this->captchaResponseResolver = $objectManager->get('Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface');
-            $this->captchaValidator = $objectManager->get('Magento\ReCaptchaValidationApi\Api\ValidatorInterface');
+            $this->validationConfigResolver = $validationConfigResolver;
+            $this->captchaResponseResolver = $captchaResponseResolver;
+            $this->captchaValidator = $captchaValidator;
         }
 
         $this->request = $request;
@@ -135,6 +141,10 @@ class Validator
      */
     private function validateUiReCaptcha(): bool
     {
+        if (!$this->validationConfigResolver || !$this->captchaResponseResolver || !$this->captchaValidator) {
+            return false;
+        }
+
         try {
             $reCaptchaResponse = $this->captchaResponseResolver->resolve($this->request);
         } catch (\Magento\Framework\Exception\InputException $e) {
